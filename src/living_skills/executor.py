@@ -88,6 +88,8 @@ _SAFE_BUILTINS = {
     "set": set,
     "tuple": tuple,
     "isinstance": isinstance,
+    "hasattr": hasattr,
+    "getattr": getattr,
     "any": any,
     "all": all,
 }
@@ -107,7 +109,7 @@ class _EnvironmentProxy:
         self._steps = 0
         self.observations: list[str] = []
         self.actions: list[str] = []
-        self._last_result: Optional[StepResult] = None
+        self._last_result: Optional[StepResult] = env.last_result
 
     def step(self, action: str) -> StepResult:
         """Execute an action, enforcing the step budget."""
@@ -129,7 +131,14 @@ class _EnvironmentProxy:
         """Get currently admissible commands."""
         if self._last_result is not None:
             return self._last_result.admissible_commands
-        return []
+        return self._env.last_admissible_commands
+
+    @property
+    def facts(self) -> list[str]:
+        """Get currently visible facts."""
+        if self._last_result is not None:
+            return self._last_result.facts
+        return self._env.last_facts
 
     @property
     def step_count(self) -> int:
@@ -194,16 +203,10 @@ class SkillExecutor:
         skill_returned = False
 
         try:
-            # Get initial admissible commands
-            # We need an initial step result for the proxy; do a "look" first
-            initial_result = env.step("look")
-            proxy.observations.append(initial_result.observation)
-            proxy.actions.append("look")
-            proxy._last_result = initial_result
-            proxy._steps = 1
-
+            # Pass current admissible commands to the skill function
+            initial_commands = proxy.admissible_commands
             skill_returned = self._run_in_sandbox(
-                skill.body, proxy, initial_result.admissible_commands
+                skill.body, proxy, initial_commands
             )
         except Exception as e:
             error = f"{type(e).__name__}: {str(e)}"
@@ -282,11 +285,9 @@ class SkillExecutor:
     def _get_current_facts(env: AlfWorldEnv) -> list[str]:
         """
         Get the current PDDL facts from the environment.
-
-        We perform a no-op 'look' action to get fresh facts without
-        changing the state.
         """
-        # The last step's info should contain facts; if not, do a look
+        if env.last_result is not None and env.last_result.facts:
+            return env.last_result.facts
         result = env.step("inventory")
         return result.facts
 
@@ -379,14 +380,12 @@ class EpisodeRunner:
 
         for subgoal in plan.subgoals:
             # Check if the environment is already done
-            # (task might have been completed by a previous subgoal)
-            check = self.env.step("look")
-            if check.won:
+            if self.env.last_result is not None and self.env.last_result.won:
                 break
 
             # Try to retrieve an existing skill
             query = f"{subgoal.action} {subgoal.target}"
-            current_facts = check.facts
+            current_facts = self.env.last_facts
             retrieved_skills = self.skill_library.retrieve(
                 query=query,
                 current_facts=current_facts,
@@ -446,8 +445,7 @@ class EpisodeRunner:
             })
 
         # ── Final check ────────────────────────────────────────────────
-        final_check = self.env.step("look")
-        won = final_check.won
+        won = self.env.last_result.won if self.env.last_result is not None else False
 
         # False-success detection: all subgoals passed but task didn't
         false_success = all_subgoals_succeeded and not won

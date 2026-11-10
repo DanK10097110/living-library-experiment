@@ -100,21 +100,30 @@ class Predicate:
 
         Uses substring matching with stripped numeric IDs to handle
         ALFWorld's numbered entity instances (e.g., "apple 1", "fridge 2").
+        Also handles TextWorld's 'not_' fact prefixes.
         """
         pattern = self.to_pattern().lower()
         pattern_stripped = _strip_numeric_ids(pattern)
 
+        positive_found = False
+        negative_found = False
+
         for fact in facts:
-            fact_lower = fact.lower()
-            fact_stripped = _strip_numeric_ids(fact_lower)
+            fact_lower = fact.lower().strip()
+            is_negated_fact = fact_lower.startswith("not_")
+            cleaned_fact = fact_lower[4:] if is_negated_fact else fact_lower
+            fact_stripped = _strip_numeric_ids(cleaned_fact)
 
-            # Try exact match first, then stripped match
-            if pattern in fact_lower or pattern_stripped in fact_stripped:
-                result = True
-                return not result if self.negated else result
+            if pattern in cleaned_fact or pattern_stripped in fact_stripped:
+                if is_negated_fact:
+                    negative_found = True
+                else:
+                    positive_found = True
 
-        result = False
-        return not result if self.negated else result
+        if self.negated:
+            return (not positive_found) or negative_found
+        else:
+            return positive_found and not negative_found
 
     def __str__(self):
         prefix = "NOT " if self.negated else ""
@@ -345,8 +354,8 @@ def get_subgoal_conditions(
 # ── Utilities ──────────────────────────────────────────────────────────────
 
 def _strip_numeric_ids(s: str) -> str:
-    """Remove trailing numeric IDs from entity names (e.g., 'apple 1' -> 'apple')."""
-    return re.sub(r"\s+\d+", "", s)
+    """Remove numeric IDs from entity names (e.g., 'apple 1' -> 'apple', 'agent1' -> 'agent')."""
+    return " ".join(re.sub(r"\d+", "", s).split())
 
 
 def check_won(facts: list[str]) -> bool:

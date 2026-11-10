@@ -57,151 +57,245 @@ ALLOWED_ACTIONS = [
 #
 # These are deterministic skills that mirror the expert agent's behaviour.
 
-def _make_find_skill(target: str) -> str:
-    """Generate a skill that navigates to a receptacle containing the target."""
+def _make_find_skill(target: str, exclude_recep: str = "") -> str:
+    """Generate a skill that navigates to a location containing target (object or receptacle)."""
     return textwrap.dedent(f'''\
-    def find_{_safe_name(target)}(env, admissible_commands, **kwargs):
-        """Find and go to a location containing: {target}"""
-        # Look for 'go to' commands that reference receptacles
-        # where the target object might be found
-        target = "{target}"
+    def find_{_safe_name(target)}(env, admissible_commands=None, **kwargs):
+        """Find and navigate to target: {target}"""
+        target = "{target}".lower()
+        exclude = "{exclude_recep}".lower()
+        commands = env.admissible_commands if hasattr(env, "admissible_commands") else admissible_commands
 
-        # First, check if target is already visible
-        for cmd in admissible_commands:
-            if "take " + target in cmd.lower() or "use " + target in cmd.lower():
-                return True  # Already at location with target
-
-        # Try going to receptacles to find the target
-        goto_cmds = [c for c in admissible_commands if c.startswith("go to ")]
-        for cmd in goto_cmds:
-            result = env.step(cmd)
-            obs = result.observation.lower()
-            if target in obs:
+        # If target is already accessible right here (takeable or usable)
+        for cmd in commands:
+            cmd_l = cmd.lower()
+            tokens = cmd_l.replace('.', ' ').replace(',', ' ').split()
+            if not cmd_l.startswith("go to ") and target in tokens:
+                if exclude and f"from {{exclude}}" in cmd_l:
+                    continue
                 return True
-            # Check if object is in admissible commands after going there
-            for ac in result.admissible_commands:
-                if target in ac.lower():
+
+        # If target is a receptacle itself (e.g., 'desk', 'shelf', 'microwave', 'fridge', 'sinkbasin')
+        for cmd in commands:
+            cmd_l = cmd.lower()
+            tokens = cmd_l.replace('.', ' ').replace(',', ' ').split()
+            if cmd_l.startswith("go to ") and target in tokens:
+                res = env.step(cmd)
+                return True
+
+        # Otherwise target is an object; search across receptacles
+        goto_cmds = [c for c in commands if c.lower().startswith("go to ")]
+        for cmd in goto_cmds:
+            if exclude and f"go to {{exclude}}" in cmd.lower():
+                continue
+            res = env.step(cmd)
+            obs_l = res.observation.lower()
+            for ac in res.admissible_commands:
+                ac_l = ac.lower()
+                ac_tokens = ac_l.replace('.', ' ').replace(',', ' ').split()
+                if not ac_l.startswith("go to ") and target in ac_tokens:
+                    if exclude and f"from {{exclude}}" in ac_l:
+                        continue
+                    return True
+            if target in obs_l.replace('.', ' ').replace(',', ' ').split():
+                return True
+
+            open_cmds = [c for c in res.admissible_commands if c.lower().startswith("open ")]
+            for o_cmd in open_cmds:
+                o_res = env.step(o_cmd)
+                for ac in o_res.admissible_commands:
+                    ac_l = ac.lower()
+                    ac_tokens = ac_l.replace('.', ' ').replace(',', ' ').split()
+                    if not ac_l.startswith("go to ") and target in ac_tokens:
+                        if exclude and f"from {{exclude}}" in ac_l:
+                            continue
+                        return True
+                if target in o_res.observation.lower().replace('.', ' ').replace(',', ' ').split():
                     return True
 
         return False
     ''')
 
 
-def _make_take_skill(obj: str) -> str:
+def _make_take_skill(obj: str, exclude_recep: str = "") -> str:
     """Generate a skill that picks up an object."""
     return textwrap.dedent(f'''\
-    def take_{_safe_name(obj)}(env, admissible_commands, **kwargs):
+    def take_{_safe_name(obj)}(env, admissible_commands=None, **kwargs):
         """Take the {obj} from its current location."""
-        target = "{obj}"
+        target = "{obj}".lower()
+        exclude = "{exclude_recep}".lower()
+        commands = env.admissible_commands if hasattr(env, "admissible_commands") else admissible_commands
 
-        # Find the 'take' command for this object
-        for cmd in admissible_commands:
-            if cmd.lower().startswith("take ") and target in cmd.lower():
-                result = env.step(cmd)
-                if "pick up" in result.observation.lower() or "you pick" in result.observation.lower():
-                    return True
-                return not ("nothing" in result.observation.lower() or "can\\'t" in result.observation.lower())
+        take_cmd = None
+        for cmd in commands:
+            cmd_l = cmd.lower()
+            tokens = cmd_l.replace('.', ' ').replace(',', ' ').split()
+            if cmd_l.startswith("take ") and target in tokens:
+                if exclude and f"from {{exclude}}" in cmd_l:
+                    continue
+                take_cmd = cmd
+                break
+
+        if not take_cmd:
+            open_cmds = [c for c in commands if c.lower().startswith("open ")]
+            for o_cmd in open_cmds:
+                if exclude and f" {{exclude}}" in o_cmd.lower():
+                    continue
+                res = env.step(o_cmd)
+                for ac in res.admissible_commands:
+                    ac_tokens = ac.lower().replace('.', ' ').replace(',', ' ').split()
+                    if ac.lower().startswith("take ") and target in ac_tokens:
+                        if exclude and f"from {{exclude}}" in ac.lower():
+                            continue
+                        take_cmd = ac
+                        break
+                if take_cmd:
+                    break
+
+        if take_cmd:
+            res = env.step(take_cmd)
+            obs_l = res.observation.lower()
+            if "pick up" in obs_l or "you pick" in obs_l or "take" in obs_l:
+                return True
+            return not ("nothing" in obs_l or "can't" in obs_l)
 
         return False
     ''')
 
 
 def _make_put_skill(obj: str, recep: str) -> str:
-    """Generate a skill that puts an object in/on a receptacle."""
+    """Generate a skill that puts/moves an object in/on a receptacle."""
     return textwrap.dedent(f'''\
-    def put_{_safe_name(obj)}_in_{_safe_name(recep)}(env, admissible_commands, **kwargs):
-        """Put the {obj} in/on the {recep}."""
-        target_obj = "{obj}"
-        target_recep = "{recep}"
+    def put_{_safe_name(obj)}_in_{_safe_name(recep)}(env, admissible_commands=None, **kwargs):
+        """Put/move the {obj} in/on the {recep}."""
+        target_obj = "{obj}".lower()
+        target_recep = "{recep}".lower()
+        commands = env.admissible_commands if hasattr(env, "admissible_commands") else admissible_commands
 
-        # Check if we need to open the receptacle first
-        for cmd in admissible_commands:
-            if cmd.lower().startswith("open ") and target_recep in cmd.lower():
-                env.step(cmd)
+        # Check if we are already at the target receptacle
+        put_cmd = None
+        for cmd in commands:
+            cmd_l = cmd.lower()
+            tokens = cmd_l.replace('.', ' ').replace(',', ' ').split()
+            if (cmd_l.startswith("move ") or cmd_l.startswith("put ")) and target_obj in tokens and target_recep in tokens:
+                put_cmd = cmd
                 break
 
-        # Find the 'put' command
-        for cmd in admissible_commands:
-            if cmd.lower().startswith("put ") and target_obj in cmd.lower():
-                result = env.step(cmd)
-                if "put" in result.observation.lower() or "you put" in result.observation.lower():
-                    return True
-                return not ("nothing" in result.observation.lower() or "can\\'t" in result.observation.lower())
+        # If not at target receptacle, go there
+        if not put_cmd:
+            for cmd in commands:
+                cmd_l = cmd.lower()
+                tokens = cmd_l.replace('.', ' ').replace(',', ' ').split()
+                if cmd_l.startswith("go to ") and target_recep in tokens:
+                    res = env.step(cmd)
+                    commands = res.admissible_commands
+                    break
+
+        # Check if receptacle needs to be opened
+        open_cmds = [c for c in commands if c.lower().startswith("open ") and target_recep in c.lower().replace('.', ' ').replace(',', ' ').split()]
+        for o_cmd in open_cmds:
+            res = env.step(o_cmd)
+            commands = res.admissible_commands
+
+        # Find the put/move command at the target receptacle
+        for cmd in commands:
+            cmd_l = cmd.lower()
+            tokens = cmd_l.replace('.', ' ').replace(',', ' ').split()
+            if (cmd_l.startswith("move ") or cmd_l.startswith("put ")) and target_obj in tokens and target_recep in tokens:
+                put_cmd = cmd
+                break
+
+        # Fallback if target_recep was generic
+        if not put_cmd:
+            for cmd in commands:
+                cmd_l = cmd.lower()
+                tokens = cmd_l.replace('.', ' ').replace(',', ' ').split()
+                if (cmd_l.startswith("move ") or cmd_l.startswith("put ")) and target_obj in tokens:
+                    put_cmd = cmd
+                    break
+
+        if put_cmd:
+            res = env.step(put_cmd)
+            obs_l = res.observation.lower()
+            if "move" in obs_l or "put" in obs_l or "place" in obs_l:
+                return True
+            return not ("nothing" in obs_l or "can't" in obs_l)
 
         return False
     ''')
 
 
 def _make_heat_skill(obj: str) -> str:
-    """Generate a skill that heats an object in the microwave."""
+    """Generate a skill that heats an object using the microwave."""
     return textwrap.dedent(f'''\
-    def heat_{_safe_name(obj)}(env, admissible_commands, **kwargs):
+    def heat_{_safe_name(obj)}(env, admissible_commands=None, **kwargs):
         """Heat the {obj} using the microwave."""
-        target = "{obj}"
+        target = "{obj}".lower()
+        commands = env.admissible_commands if hasattr(env, "admissible_commands") else admissible_commands
 
-        # Open microwave if needed
-        for cmd in admissible_commands:
-            if "open" in cmd.lower() and "microwave" in cmd.lower():
-                env.step(cmd)
+        for cmd in commands:
+            cmd_l = cmd.lower()
+            if cmd_l.startswith("go to ") and "microwave" in cmd_l:
+                res = env.step(cmd)
+                commands = res.admissible_commands
                 break
 
-        # Put object in microwave if we're holding it
-        for cmd in admissible_commands:
-            if cmd.lower().startswith("put ") and target in cmd.lower() and "microwave" in cmd.lower():
-                env.step(cmd)
-                break
-
-        # Heat the object
-        for cmd in admissible_commands:
-            if cmd.lower().startswith("heat ") and target in cmd.lower():
-                result = env.step(cmd)
-                return "heat" in result.observation.lower() or "you heat" in result.observation.lower()
+        for cmd in commands:
+            cmd_l = cmd.lower()
+            tokens = cmd_l.replace('.', ' ').replace(',', ' ').split()
+            if cmd_l.startswith("heat ") and target in tokens:
+                res = env.step(cmd)
+                return True
 
         return False
     ''')
 
 
 def _make_cool_skill(obj: str) -> str:
-    """Generate a skill that cools an object in the fridge."""
+    """Generate a skill that cools an object using the fridge."""
     return textwrap.dedent(f'''\
-    def cool_{_safe_name(obj)}(env, admissible_commands, **kwargs):
+    def cool_{_safe_name(obj)}(env, admissible_commands=None, **kwargs):
         """Cool the {obj} using the fridge."""
-        target = "{obj}"
+        target = "{obj}".lower()
+        commands = env.admissible_commands if hasattr(env, "admissible_commands") else admissible_commands
 
-        # Open fridge if needed
-        for cmd in admissible_commands:
-            if "open" in cmd.lower() and "fridge" in cmd.lower():
-                env.step(cmd)
+        for cmd in commands:
+            cmd_l = cmd.lower()
+            if cmd_l.startswith("go to ") and "fridge" in cmd_l:
+                res = env.step(cmd)
+                commands = res.admissible_commands
                 break
 
-        # Put object in fridge if we're holding it
-        for cmd in admissible_commands:
-            if cmd.lower().startswith("put ") and target in cmd.lower() and "fridge" in cmd.lower():
-                env.step(cmd)
-                break
-
-        # Cool the object
-        for cmd in admissible_commands:
-            if cmd.lower().startswith("cool ") and target in cmd.lower():
-                result = env.step(cmd)
-                return "cool" in result.observation.lower() or "you cool" in result.observation.lower()
+        for cmd in commands:
+            cmd_l = cmd.lower()
+            tokens = cmd_l.replace('.', ' ').replace(',', ' ').split()
+            if cmd_l.startswith("cool ") and target in tokens:
+                res = env.step(cmd)
+                return True
 
         return False
     ''')
 
 
 def _make_clean_skill(obj: str) -> str:
-    """Generate a skill that cleans an object in the sink."""
+    """Generate a skill that cleans an object using the sink."""
     return textwrap.dedent(f'''\
-    def clean_{_safe_name(obj)}(env, admissible_commands, **kwargs):
+    def clean_{_safe_name(obj)}(env, admissible_commands=None, **kwargs):
         """Clean the {obj} using the sink."""
-        target = "{obj}"
+        target = "{obj}".lower()
+        commands = env.admissible_commands if hasattr(env, "admissible_commands") else admissible_commands
 
-        # Clean the object
-        for cmd in admissible_commands:
+        for cmd in commands:
+            cmd_l = cmd.lower()
+            if cmd_l.startswith("go to ") and ("sink" in cmd_l or "basin" in cmd_l):
+                res = env.step(cmd)
+                commands = res.admissible_commands
+                break
+
+        for cmd in commands:
             if cmd.lower().startswith("clean ") and target in cmd.lower():
-                result = env.step(cmd)
-                return "clean" in result.observation.lower() or "you clean" in result.observation.lower()
+                res = env.step(cmd)
+                return True
 
         return False
     ''')
@@ -210,16 +304,23 @@ def _make_clean_skill(obj: str) -> str:
 def _make_toggle_skill(obj: str) -> str:
     """Generate a skill that toggles an object (e.g., turns on a lamp)."""
     return textwrap.dedent(f'''\
-    def toggle_{_safe_name(obj)}(env, admissible_commands, **kwargs):
+    def toggle_{_safe_name(obj)}(env, admissible_commands=None, **kwargs):
         """Turn on/toggle the {obj}."""
-        target = "{obj}"
+        target = "{obj}".lower()
+        commands = env.admissible_commands if hasattr(env, "admissible_commands") else admissible_commands
 
-        for cmd in admissible_commands:
+        for cmd in commands:
             if cmd.lower().startswith("use ") and target in cmd.lower():
-                result = env.step(cmd)
-                if "turn" in result.observation.lower() or "you turn" in result.observation.lower():
+                res = env.step(cmd)
+                return True
+
+        goto_cmds = [c for c in commands if c.lower().startswith("go to ")]
+        for cmd in goto_cmds:
+            res = env.step(cmd)
+            for ac in res.admissible_commands:
+                if ac.lower().startswith("use ") and target in ac.lower():
+                    res2 = env.step(ac)
                     return True
-                return not ("nothing" in result.observation.lower() or "can\\'t" in result.observation.lower())
 
         return False
     ''')
@@ -228,22 +329,23 @@ def _make_toggle_skill(obj: str) -> str:
 def _make_open_skill(recep: str) -> str:
     """Generate a skill that opens a receptacle."""
     return textwrap.dedent(f'''\
-    def open_{_safe_name(recep)}(env, admissible_commands, **kwargs):
+    def open_{_safe_name(recep)}(env, admissible_commands=None, **kwargs):
         """Open the {recep}."""
-        target = "{recep}"
+        target = "{recep}".lower()
+        commands = env.admissible_commands if hasattr(env, "admissible_commands") else admissible_commands
 
-        for cmd in admissible_commands:
+        for cmd in commands:
             if cmd.lower().startswith("open ") and target in cmd.lower():
-                result = env.step(cmd)
-                return "open" in result.observation.lower() or "you open" in result.observation.lower()
+                res = env.step(cmd)
+                return True
 
         return False
     ''')
 
 
 _SKILL_GENERATORS = {
-    "find": lambda sg: _make_find_skill(sg.target),
-    "take": lambda sg: _make_take_skill(sg.target),
+    "find": lambda sg: _make_find_skill(sg.target, sg.secondary),
+    "take": lambda sg: _make_take_skill(sg.target, sg.secondary),
     "put": lambda sg: _make_put_skill(sg.target, sg.secondary),
     "heat": lambda sg: _make_heat_skill(sg.target),
     "cool": lambda sg: _make_cool_skill(sg.target),

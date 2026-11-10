@@ -143,9 +143,9 @@ _TASK_SUBGOALS = {
         Subgoal("put", p["object_target"], p["parent_target"],
                 description=f"Put the first {p['object_target']} in/on the {p['parent_target']}"),
         # Second object
-        Subgoal("find", p["object_target"],
+        Subgoal("find", p["object_target"], secondary=p["parent_target"],
                 description=f"Find the second {p['object_target']}"),
-        Subgoal("take", p["object_target"],
+        Subgoal("take", p["object_target"], secondary=p["parent_target"],
                 description=f"Take the second {p['object_target']}"),
         Subgoal("find", p["parent_target"],
                 description=f"Find the {p['parent_target']} again"),

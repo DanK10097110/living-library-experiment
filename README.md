@@ -19,7 +19,8 @@ living-library-experiment/
 │       └── metrics.py          # Episode logging + pilot metrics
 ├── scripts/
 │   ├── smoke_test.py           # Basic ALFWorld connectivity test
-│   └── integration_test.py     # Full M1-M5 pipeline test
+│   ├── integration_test.py     # Full M1-M5 pipeline test
+│   └── run_pilot.py            # M7: 300-episode pilot runner (C vs E-)
 ├── tests/
 ├── results/
 ├── requirements.txt
@@ -43,6 +44,18 @@ living-library-experiment/
 4. **Run integration test**:
    ```bash
    python scripts/integration_test.py
+   ```
+
+5. **Run pilot experiments**:
+   ```bash
+   # Quick dry-run (5 episodes for C and E-)
+   python scripts/run_pilot.py --condition both --dry-run
+
+   # Run full 300 practice episodes for System E-
+   python scripts/run_pilot.py --condition E- --episodes 300
+
+   # Run 140 evaluation episodes on valid_seen for System C
+   python scripts/run_pilot.py --condition C --split valid_seen --episodes 140
    ```
 
 ## Phase 1 — Pilot (Weeks 1–2)

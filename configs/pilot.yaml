@@ -1,5 +1,10 @@
-# Pilot configuration — frozen at end of week 2
-# Do NOT modify after the freeze commit
+# Pilot configuration — FROZEN after M9 commit (Phase 1 Week 2)
+# Freeze timestamp: 2026-11-10
+# Branch: topic/atharv/pilot
+#
+# IMPORTANT: Do NOT modify this file after the freeze commit.
+# All 300-episode practice runs and 140-episode valid_seen evaluations
+# use the values below. Changing them invalidates the pilot results.
 
 # ── Environment ─────────────────────────────────────────────
 environment:

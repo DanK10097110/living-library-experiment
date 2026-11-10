@@ -28,3 +28,4 @@ Thumbs.db
 *.bin
 *.gguf
 Living_Skill_Library_Revised.txt
+/.venv-linux

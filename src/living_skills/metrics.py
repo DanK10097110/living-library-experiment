@@ -142,6 +142,46 @@ class MetricsLogger:
         )
 
         # ── Decision rules ─────────────────────────────────────────────
+        pilot_decisions = {
+            "success_above_85pct": {
+                "value": round(success_rate, 4),
+                "threshold": 0.85,
+                "triggered": success_rate > 0.85,
+                "action": "Switch to ScienceWorld" if success_rate > 0.85
+                          else "ALFWorld is suitable",
+            },
+            "false_success_rate": {
+                "value": round(false_success_rate, 4),
+                "threshold": 0.10,
+                "triggered": false_success_rate > 0.10,
+                "action": "Tighten verification" if false_success_rate > 0.10
+                          else "Verification is adequate",
+            },
+            "l2_crash_rate": {
+                "value": round(crash_rate, 4),
+                "threshold": 0.40,
+                "triggered": crash_rate > 0.40,
+                "action": "Improve skill generation" if crash_rate > 0.40
+                          else "Skill generation is adequate",
+            },
+        }
+
+        if library is not None:
+            pilot_decisions["skills_reused_5plus"] = {
+                "value": skills_5plus,
+                "threshold": 10,
+                "triggered": skills_5plus < 10,
+                "action": "Switch to ScienceWorld" if skills_5plus < 10
+                          else "Sufficient skill reuse",
+            }
+        else:
+            pilot_decisions["skills_reused_5plus"] = {
+                "value": "N/A",
+                "threshold": 10,
+                "triggered": False,
+                "action": "Not applicable to System C (no memory)",
+            }
+
         metrics = {
             "total_episodes": total,
             "successes": successes,
@@ -151,36 +191,7 @@ class MetricsLogger:
             "by_task_type": self._by_task_type(),
 
             # Pilot decision rules
-            "pilot_decisions": {
-                "success_above_85pct": {
-                    "value": round(success_rate, 4),
-                    "threshold": 0.85,
-                    "triggered": success_rate > 0.85,
-                    "action": "Switch to ScienceWorld" if success_rate > 0.85
-                              else "ALFWorld is suitable",
-                },
-                "skills_reused_5plus": {
-                    "value": skills_5plus,
-                    "threshold": 10,
-                    "triggered": skills_5plus < 10,
-                    "action": "Switch to ScienceWorld" if skills_5plus < 10
-                              else "Sufficient skill reuse",
-                },
-                "false_success_rate": {
-                    "value": round(false_success_rate, 4),
-                    "threshold": 0.10,
-                    "triggered": false_success_rate > 0.10,
-                    "action": "Tighten verification" if false_success_rate > 0.10
-                              else "Verification is adequate",
-                },
-                "l2_crash_rate": {
-                    "value": round(crash_rate, 4),
-                    "threshold": 0.40,
-                    "triggered": crash_rate > 0.40,
-                    "action": "Improve skill generation" if crash_rate > 0.40
-                              else "Skill generation is adequate",
-                },
-            },
+            "pilot_decisions": pilot_decisions,
 
             # Additional stats
             "avg_steps_per_episode": round(

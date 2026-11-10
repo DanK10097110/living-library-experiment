@@ -207,8 +207,8 @@ class AlfWorldEnv:
 
         obs, info = self._env.reset()
         self._step_count = 0
-
-        return self._make_result(obs, reward=0.0, done=False, info=info)
+        self._last_result = self._make_result(obs, reward=0.0, done=False, info=info)
+        return self._last_result
 
     def step(self, action: str) -> StepResult:
         """Execute an action and return the result."""
@@ -217,8 +217,27 @@ class AlfWorldEnv:
 
         obs, reward, done, info = self._env.step(action)
         self._step_count += 1
+        self._last_result = self._make_result(obs, reward, done, info)
+        return self._last_result
 
-        return self._make_result(obs, reward, done, info)
+    @property
+    def last_result(self) -> Optional[StepResult]:
+        """Return the most recent StepResult."""
+        return self._last_result
+
+    @property
+    def last_facts(self) -> list[str]:
+        """Return the PDDL facts from the most recent step."""
+        if self._last_result is not None:
+            return self._last_result.facts
+        return []
+
+    @property
+    def last_admissible_commands(self) -> list[str]:
+        """Return admissible commands from the most recent step."""
+        if self._last_result is not None:
+            return self._last_result.admissible_commands
+        return []
 
     def close(self) -> None:
         """Close the environment and free resources."""
