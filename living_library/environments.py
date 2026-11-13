@@ -76,7 +76,7 @@ def normalize_alfworld(raw):
                 if a.type in {"object", "receptacle"}}
     mapped = set()
     unary = {"opened": "is_open", "ishot": "is_hot", "iscool": "is_cold",
-             "isclean": "is_clean", "ison": "is_on"}
+             "isclean": "is_clean", "ison": "is_on", "istoggled": "is_toggled"}
     for fact in facts:
         name, *args = fact
         if name in unary and len(args) == 1:
@@ -111,11 +111,13 @@ class ALFWorld:
         # Explicit files avoid implicit shuffled Gym resets and accidental split leakage.
         self.env = textworld.start(str(path), request_infos=infos,
                                    wrappers=[AlfredDemangler(shuffle=False)])
-        self.state = normalize_alfworld(self.env.reset())
+        self.raw_state = self.env.reset()
+        self.state = normalize_alfworld(self.raw_state)
         return self.state
 
     def step(self, command):
         raw, _, done = self.env.step(command)
+        self.raw_state = raw
         self.actions.append(command)
         self.state = normalize_alfworld(raw)
         self.state.done = self.state.done or done

@@ -6,7 +6,7 @@ from typing import Protocol
 
 ARITY = {"exists": 1, "findable": 1, "holding": 1, "located": 2, "at": 1,
          "is_open": 1, "is_hot": 1, "is_cold": 1, "is_clean": 1,
-         "is_on": 1, "task_won": 0}
+         "is_on": 1, "is_toggled": 1, "task_won": 0}
 
 
 @dataclass(frozen=True)
