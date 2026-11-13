@@ -1,0 +1,642 @@
+Living Skill Library for Hierarchical Embodied Planning: Lean Proof of Concept (Revised)
+
+
+
+
+  Living Skill Library for Hierarchical
+  Embodied Planning: Lean Proof of Concept
+  (Revised)
+     Oct 20, 2026          · ​@dan
+
+
+  What it tests
+  This is a controlled comparison and small-model replication, not a new system. Verified
+  code skills, outcome-driven updates and ALFWorld results are now well covered by 2026
+  work. What this study adds is a faithful test of whether those findings hold with small
+  local open models, against a strong trajectory-memory baseline, with every setting frozen
+  in advance.
+
+  The claim under test: a small open-source LLM agent that stores verified skills as code,
+  and updates them from its successes and failures, becomes more reliable and cheaper
+  over a stream of tasks than the same agent without that memory. Everything runs free on
+  local open models, in about 10 weeks for one person.
+
+  The bar to beat is not "no memory" but "memory of raw past attempts" given the same
+  practice budget, because more experience helping is unsurprising.
+
+
+     ID          Hypothesis                                 Comparison                 Primary metric         Wrong if
+
+     H1          A verified skill library                   E vs C and                 Task success rate      E does not beat D
+                 raises success on                          D
+                 unseen tasks
+
+     H2          Cost per task falls                        E vs D                     GPU-seconds per        E never breaks even
+                 below the baselines,                                                  task, practice         with D within the
+                 even counting                                                         amortized              evaluation stream
+                 practice
+
+     H3          Updating skills from                       E vs E−                    Skill-invocation       No difference
+                 outcomes beats an                                                     success
+                 append-only library                                                   (postcondition held)
+
+
+
+
+                                                                                                                              Page 1 of 14
+Living Skill Library for Hierarchical Embodied Planning: Lean Proof of Concept (Revised)
+
+
+
+
+     ID          Hypothesis                                 Comparison                 Primary metric              Wrong if
+
+     H4          Executable code                            E vs E-text                Task success rate           E-text matches or
+                 skills beat the same                                                                              beats E
+                 skills given as text
+
+
+  One exploratory question, with no prediction: does a flat agent with the same library (B)
+  do as well as the hierarchy (E)? If so, the memory matters more than the hierarchy.
+
+  Merging similar skills into general ones (consolidation) and Dyna-style imagined practice
+  are optional extensions, attempted only if the core study finishes with time to spare.
+
+
+  What prior work predicts
+  Each comparison gets a written expectation from published work before anything runs.
+  Published numbers use larger API models and different protocols, so they are sanity
+  checks, not targets.
+
+
+     Comparison                           Expectation                                                      Based on
+
+     E vs C                               Memory beats no memory                                           Memp, MACLA, SkillGLoW,
+                                                                                                           SkillOS
+
+     E vs E-text                          Code skills beat the same skills as text                         Agent Skill Induction
+
+     (E vs E−) vs (E vs                   Gains from updating are smaller than                             SkillSmith
+     C)                                   gains from creating skills
+
+     E vs D                               No confident prediction; trajectory                              Agent Workflow Memory,
+                                          memory is a strong baseline                                      ExpeL
+
+     C vs A                               Hierarchy helps a small model                                    ADaPT
+                                          somewhat
+
+
+  Sanity rule: if the C-to-E gap is near zero, suspect the implementation before the idea.
+  Check retrieval, skill execution and postcondition checks on logged episodes before
+  writing up a null result.
+
+
+
+
+                                                                                                                                   Page 2 of 14
+Living Skill Library for Hierarchical Embodied Planning: Lean Proof of Concept (Revised)
+
+
+
+
+  Pilot first (weeks 1–2)
+  The pilot builds only the hierarchy and an append-only library (essentially E−) in
+  ALFWorld, runs 300 practice episodes, and answers five questions before anything else is
+  written. Each has a rule set in advance, so the answer can't be argued away later.
+
+  Splits, used the same way throughout:
+
+        Practice: ALFWorld training games (about 3,550).
+        Development: the seen validation split (140 games). Used for all pilot measurements.
+        Evaluation: the unseen validation split (134 games). Not touched until week 6.
+
+
+     Question                                         Measure                              Rule
+
+     Is the baseline too                              Success of the no-memory             Above 85%: switch to
+     strong?                                          hierarchy (C) on development         ScienceWorld
+
+     Is there headroom                                Success of the pilot library         Above 85%: switch to
+     above the system?                                (E−) on development after            ScienceWorld
+                                                      300 episodes
+
+     Will updates have                                Skills with at least 5 uses          Fewer than 10: switch to
+     enough to act on?                                across the 300 episodes              ScienceWorld. A small library is
+                                                                                           not a failure in itself; updates
+                                                                                           need repeated use
+
+     Can subgoal success be                           False-success rate: every            Above 10%: tighten the
+     trusted?                                         subgoal passed but the task          predicate list, then remeasure
+                                                      failed
+
+     Can the small model                              Share of L2 programs rejected        Above 40%: add few-shot
+     write working skills?                            or crashing                          skills, constrain decoding to
+                                                                                           allowed calls, or use a larger
+                                                                                           model
+
+
+  At the end of week 2, write down and commit every setting, and don't change them after:
+
+        Retrieval top-k and the Beta reliability prior and percentile.
+        Repair and version thresholds, activation rule, step budget.
+        The rule for rendering code skills as text in E-text.
+        One primary metric per hypothesis, and the success criterion.
+
+  Switching to ScienceWorld costs about a week, which the buffer covers.
+
+
+
+                                                                                                                        Page 3 of 14
+Living Skill Library for Hierarchical Embodied Planning: Lean Proof of Concept (Revised)
+
+
+
+
+  System
+  Two local LLMs and a text simulator. Every check is free because it reads simulator state,
+  and a failure goes up one level only when the level below can't fix it.
+
+
+
+
+  system · 2 LLM levels, 3 checks, 1 library with an update gate
+
+  Plans flow down the middle; failures climb the checks on the right. L1 sees only skill names
+  and signatures; L2 sees full skill code and failure notes for the subgoal at hand. Every
+  change to a skill, whether an in-episode repair or a new version, enters the library only
+  through the update gate.
+
+
+  The skill record, retrieval and updates
+  Each skill is executable code with a typed contract, outcome counts, failure notes and
+  regression tests:
+
+
+
+
+                                                                                           Page 4 of 14
+Living Skill Library for Hierarchical Embodied Planning: Lean Proof of Concept (Revised)
+
+
+
+
+     {
+       "id": "heat_and_place@v2",
+       "parent": "heat_and_place@v1",
+       "signature": "heat_and_place(obj, target)",
+       "description": "Heat an object in the microwave, then put it in or on
+     target.",
+       "preconditions": ["findable(obj)", "exists(microwave)"],
+       "postconditions": ["is_hot(obj)", "located(obj, target)"],
+       "body": "python source calling simulator actions and other skills",
+       "successes": 12,
+       "failures": 3,
+       "failure_notes": ["Open the microwave before putting the object in."],
+       "tests": ["game_0193 start state", "game_0507 start state"],
+       "embedding": "384 floats"
+     }
+
+
+  Pre- and postconditions come only from a fixed list of predicates the simulator can check,
+  so the planner can't grade itself with vague conditions.
+
+  Retrieval drops skills whose preconditions can't hold in the current state. It ranks the rest
+  by description similarity plus a reliability score: a low percentile (10th, fixed at the freeze)
+  of the Beta(1 + successes, 1 + failures) posterior. Unlike "success rate minus one standard
+  deviation", this behaves sensibly after only 1–3 uses.
+
+
+     Outcome                                                                               Update
+
+     Postcondition holds                                                                   Success +1; save the start state as a test
+                                                                                           (up to 10)
+
+     Fails, preconditions held                                                             Failure +1; L2 writes a one-line failure note
+
+     Fails, preconditions didn't hold                                                      No change to the skill; logged as a retrieval
+                                                                                           error
+
+     Posterior mean below 0.6 after 5 uses, or 3                                           L2 writes a new version
+     failures in a row
+
+
+  One gate for every change. SkillOps reports that external maintenance can conflict with
+  agents repairing their own skills. Here, both in-episode repairs and scheduled new
+  versions go through the same gate:
+
+    1. A repair can be used immediately to finish the current episode, but is saved only as a
+       candidate version.
+
+
+                                                                                                                                      Page 5 of 14
+Living Skill Library for Hierarchical Embodied Planning: Lean Proof of Concept (Revised)
+
+
+
+
+    2. A candidate becomes active only if it passes every stored test of the version it
+         replaces.
+    3. The old version stays as a fallback. If the candidate's posterior mean falls below the old
+         version's reliability score after 5 uses, the old version is restored.
+
+  The append-only ablation (E−) skips every row except saving new skills. The text
+  simulator re-runs tests in milliseconds, which makes the gate affordable.
+
+
+  Conditions and metrics
+  Seven runs. Every condition that builds memory gets the same 500 practice episodes on
+  training games, and practice cost counts against it, so no condition wins by seeing more.
+
+
+     ID             Condition                                                              Practice   Seeds   Answers
+
+     A              Flat ReAct agent (7B), no memory                                       None       1       Floor
+
+     B              Flat agent + skill library with updates                                500        1       Exploratory
+
+     C              Hierarchy, no memory                                                   None       3       H1 baseline
+
+     D              Hierarchy + retrieval of successful                                    500        3       H1, H2: the real
+                    practice trajectories as examples                                                         bar
+
+     E              Hierarchy + skill library with updates (full                           500        3       H1–H4
+                    system)
+
+     E−             E without updates (append-only)                                        500        3       H3
+
+     E-             E's library given as text instructions                                 Shares     3       H4
+     text           instead of code                                                        E's
+
+
+  How E-text stays a fair comparison. E runs first and logs its library before each evaluation
+  task. E-text then runs the same seed and task order, and before each task it sees exactly
+  the library E had at that point. Each skill is rendered as text by a rule fixed at the freeze:
+  description, conditions, the body as numbered steps, and failure notes. The L2 model acts
+  step by step from that text. E-text's own outcomes update nothing, so the content is
+  identical and no extra practice is needed.
+
+  Evaluation runs on the 134 unseen games in a fixed order, with libraries still updating, so
+  each run gives a learning curve. Seeds vary task order and sampling.
+
+
+
+
+                                                                                                                            Page 6 of 14
+Living Skill Library for Hierarchical Embodied Planning: Lean Proof of Concept (Revised)
+
+
+
+
+  H3 uses skill invocations rather than tasks as its primary unit. Each task calls several skills,
+  so this gives hundreds of observations instead of 134, and it exists in both E and E−. Task
+  success is still reported for H3, with the expectation that it will be underpowered.
+
+  Secondary metrics:
+
+        Task success for H3; tokens per task weighted input 1 : output 4, for comparison with
+        EvoLib.
+        Break-even task count: the evaluation task at which E's cumulative cost drops below
+        D's, reported as SkillSmith does.
+        Skill reuse rate, library size over time, false-success rate.
+        How often each condition retrieves a skill below the reliability threshold (E vs E−).
+        Descriptive, E only: per-skill success before and after repair; share of candidate
+        versions that fail a regression test.
+
+  GPU-seconds is primary for H2 because it is the real cost on local hardware. Weighted
+  tokens reflect API pricing, and with prefix caching input tokens are much cheaper locally.
+
+  Statistics: paired bootstrap 95% confidence intervals over the 134 tasks, averaging seeds
+  per task. The invocation metric is bootstrapped by task, since invocations within a task
+  are not independent. Holm correction across the four primary tests. Differences under
+  roughly 10 points in task success won't be distinguishable, so say so instead of over-
+  reading small gaps.
+
+  Success criterion (fixed at the end of the pilot): E beats D by at least 10 points in task
+  success, or matches it within the confidence interval at 30% lower amortized GPU-
+  seconds; and E beats E− on skill-invocation success. H4 is reported but not part of the
+  criterion. A negative result gets written up too.
+
+
+  Free compute
+  About 4,900 episodes in total, all local, all open-licensed, no API calls. That is roughly a day
+  or two of GPU time on a 24 GB card, or 1 to 2 weeks of free Kaggle quota. Measure real
+  throughput in the pilot before trusting this estimate.
+
+
+     Piece                            Choice                                               Notes
+
+     L1 planner                       Qwen3-14B, 4-bit (Apache 2.0)                        About 10 GB
+
+
+
+
+                                                                                                         Page 7 of 14
+Living Skill Library for Hierarchical Embodied Planning: Lean Proof of Concept (Revised)
+
+
+
+
+     Piece                            Choice                                                  Notes
+
+     L2 and flat                      Qwen2.5-Coder-7B, 4-bit (Apache                         About 5 GB; on an 8 to 12 GB GPU
+     agents                           2.0)                                                    use Qwen3-8B for every role
+
+     Serving                          vLLM, or llama.cpp on smaller                           Run 16 or more episodes at once;
+                                      hardware                                                cache every response
+
+     Embeddings                       bge-small-en-v1.5 (MIT)                                 CPU is fine
+
+     Simulators                       ALFWorld and TextWorld (MIT);                           CPU only
+                                      ScienceWorld as fallback
+
+     Hardware                         Your own 16 to 24 GB GPU, or free                       On Kaggle, save progress often;
+                                      Kaggle notebooks (T4)                                   sessions end after 12 hours
+
+
+  Licenses and model names are from memory; confirm both before starting. Newer open
+  models, such as the Qwen3.6 family used in SkillSmith, may be better choices.
+
+
+     Run block                                                                             Episodes
+
+     Pilot: 300 practice, plus C and E− on the 140                                         About 600
+     development games
+
+     Practice: B, D, E, E− × 500                                                           2,000
+
+     Evaluation: C, D, E, E−, E-text × 134 × 3 seeds; A, B ×                               About 2,280
+     134 × 1
+
+     Total                                                                                 About 4,900
+
+
+
+
+  Roadmap
+  Eight weeks of work plus a two-week buffer. The pilot gate is the one that matters: it
+  decides the domain before most of the code exists.
+
+
+
+
+                                                                                                                            Page 8 of 14
+Living Skill Library for Hierarchical Embodied Planning: Lean Proof of Concept (Revised)
+
+
+
+
+  roadmap · 5 phases, 2 gates, 10 weeks
+
+  If the schedule slips, cut in this order: condition B, then condition A, then E-text, then
+  seeds from 3 to 2. Never cut D, since it is the baseline that makes the result credible.
+
+
+  Possible extension: imagined practice (Dyna-style)
+  This is optional, attempted only if the core study finishes with time to spare; nothing in
+  the main design depends on it. The question: can skills drafted in imagined rollouts
+  replace some real practice?
+
+  Learning executable action rules from trajectories is not new. WALL-E and WALL-E 2.0 do
+  this on ALFWorld, combined with an LLM. What this extension adds is two constraints: a
+  capped real-practice budget, and the rule that imagined successes never count until
+  verified for real.
+
+
+
+                                                                                           Page 9 of 14
+Living Skill Library for Hierarchical Embodied Planning: Lean Proof of Concept (Revised)
+
+
+
+
+  The text simulator is already free, so imagining saves nothing unless real interaction is
+  made scarce on purpose. The extension treats ALFWorld as the "real robot" with a capped
+  practice budget and compares conditions at an equal number of real episodes.
+
+    1. Learn a world model from logs. From every real step, record which predicates changed
+       after each action type and what had to hold beforehand. ALFWorld is deterministic, so
+       this table settles quickly into learned planning rules. Use the table rather than an LLM
+        to track state.
+    2. Imagine scenarios. Recombine objects and receptacles seen in real games into new
+       start states and goals. Run L1 plans and L2 skills inside the learned model; each
+       imagined success yields a draft skill.
+    3. Distill. Group drafts that share postconditions and action-type sequences, keep the
+       shortest per group, and merge versions differing in one argument into a parameterized
+       skill.
+    4. Verify before trusting. A distilled skill enters the library only after passing in the real
+       simulator on at least two real scenarios. Imagined successes never count toward
+       reliability.
+
+  When a verified skill later fails for real, the action rule that misled it is corrected in the
+  learned model, closing the Dyna loop.
+
+
+     Comparison                                                                            Question
+
+     E with 250 real episodes plus imagined practice, vs                                   Does imagination add anything?
+     E with 250 real
+
+     The same, vs E with 500 real (the main condition)                                     How much real practice can it
+                                                                                           replace?
+
+
+  The extension fails if imagined practice doesn't beat the 250-real condition, or if more
+  than half of distilled skills fail real verification. Capping imagination at about 1,000 L2
+  drafts keeps it near the cost of 250 real episodes; check that estimate before committing.
+
+
+
+  Risks and what's out of scope
+  Most risks are caught by the pilot rules; the rest are handled by keeping the scope small.
+
+
+
+
+                                                                                                                            Page 10 of 14
+Living Skill Library for Hierarchical Embodied Planning: Lean Proof of Concept (Revised)
+
+
+
+
+     Risk                                                                                  Handled by
+
+     Benchmark too easy to show differences                                                Baseline and headroom rules; ScienceWorld
+                                                                                           fallback
+
+     Too few repeated skills for updates to matter                                         Growth rule on skills with at least 5 uses
+
+     False successes inflate skill reliability                                             Fixed predicate list; false-success rate
+                                                                                           tracked in every run
+
+     Small model writes broken skills                                                      Pilot code rule
+
+     Self-repair and versioning conflict (as                                               One gate for every change, with regression
+     SkillOps reports)                                                                     tests and rollback
+
+     An implementation bug hides a real effect                                             Pre-registered predictions and the sanity
+                                                                                           rule
+
+     The text rendering biases E-text                                                      Rendering rule fixed at the freeze and
+                                                                                           released
+
+     H3 underpowered on task success                                                       Invocation-level primary metric,
+                                                                                           bootstrapped by task
+
+     Porting to ScienceWorld eats the schedule                                             Buffer weeks; the cut order
+
+
+  Deliberately out of scope: any novelty claim for the system itself; vision and video
+  memory; a robot foundation-model executor; a knowledge graph or GNN; using an LLM as
+  the simulator; forgetting and archiving; plan templates; transfer across task types or
+  domains. Each is a follow-up worth doing only if this study shows a real effect.
+
+
+  Closest prior work
+  The core idea is no longer open territory; this study is positioned as a controlled small-
+  model comparison. SkillSmith, SkillOps and the EvoLib README were read in full; the rest
+  only as abstracts and snippets. Venues for LLM-Planner, ADaPT and Reflexion were not
+  re-verified. Check every detail and number below before citing.
+
+
+
+
+                                                                                                                                      Page 11 of 14
+Living Skill Library for Hierarchical Embodied Planning: Lean Proof of Concept (Revised)
+
+
+
+
+     Work                                            Venue                    What it does              Relation to this design
+
+     Voyager (Wang et al.)                           TMLR                     Code skill library with   The origin; E− is roughly
+                                                     2024                     self-verification, in     Voyager
+                                                                              Minecraft
+
+     Agent Skill Induction                           2025                     Python skills, each       Closest design; source
+     (Wang et al.)                                                            verified against test     of the code-vs-text
+                                                                              trajectories before       claim tested by E-text
+                                                                              admission; +11.3 points
+                                                                              over text skills on
+                                                                              WebArena
+
+     SkillOps (Song et al.)                          May 2026                 Typed skill contracts     Reports conflict
+                                                                              with preconditions,       between external
+                                                                              validators and failure    maintenance and self-
+                                                                              modes; merge, repair      repair, which shaped
+                                                                              and retire actions;       the single update gate
+                                                                              79.5% on ALFWorld
+                                                                              with GPT-4o-mini, a
+                                                                              half-synthetic library
+                                                                              and an offline plan
+                                                                              grader
+
+     Memp (Fang et al.)                              ACL                      Build, retrieve and       Nearest relative of E vs
+                                                     Findings                 update strategies for     E−
+                                                     2026                     procedural memory on
+                                                                              ALFWorld and
+                                                                              TravelPlanner, with
+                                                                              validation filtering
+
+     MACLA (Forouzandeh                              AAMAS                    Hierarchical procedures   Source of the Beta
+     et al.)                                         2026                     with Beta-posterior       reliability score
+                                                                              reliability; 90.3% on
+                                                                              unseen ALFWorld with
+                                                                              a frozen LLM; 2,851
+                                                                              trajectories
+                                                                              compressed to 187
+                                                                              procedures
+
+
+
+
+                                                                                                                             Page 12 of 14
+Living Skill Library for Hierarchical Embodied Planning: Lean Proof of Concept (Revised)
+
+
+
+
+     Work                                            Venue                    What it does                Relation to this design
+
+     SkillX, SkillRL, SkillOS                        2026                     Hierarchical or learned-    Small-model reference
+                                                                              curation variants;          point
+                                                                              SkillOS reports Qwen3-
+                                                                              8B rising from 47.9% to
+                                                                              61.2% on ALFWorld
+
+     SkillGLoW                                       Sep 2026                 Merges text skills into     Consolidation
+                                                                              procedural families         extension
+                                                                              behind a gate requiring
+                                                                              no real-execution
+                                                                              degradation; unseen
+                                                                              ALFWorld 73.9% to
+                                                                              83.9%
+
+     EvoLib (Microsoft                               May 2026                 Merges similar skills and   Source of the 1 : 4 token
+     Research)                                                                insights; ScienceWorld      weighting
+                                                                              runs via AgentBoard;
+                                                                              cost curves in weighted
+                                                                              tokens
+
+     SkillSmith                                      2026                     Cloud-built skills for a    Source of the H2 break-
+                                                                              local Qwen3.6-27B           even framing
+                                                                              agent on AppWorld and
+                                                                              WorkBench; reports a
+                                                                              cost break-even point
+
+     Agent Workflow                                  ICML 2025                Induces reusable            Better comparator for
+     Memory                                                                   workflows from              D than LLM-Planner
+                                                                              trajectories
+
+     ExpeL                                           AAAI 2024                Insights and retrieved      Comparator for D
+                                                                              experiences on
+                                                                              ALFWorld
+
+     Reflexion; ADaPT                                Not re-                  Learning from failure       Failure notes; failure-
+                                                     verified                 notes; decomposing          driven hierarchy
+                                                                              only on failure, on
+                                                                              ALFWorld
+
+
+
+
+                                                                                                                               Page 13 of 14
+Living Skill Library for Hierarchical Embodied Planning: Lean Proof of Concept (Revised)
+
+
+
+
+     Work                                            Venue                    What it does                Relation to this design
+
+     WALL-E, WALL-E 2.0                              NeurIPS                  Executable action rules     Step 1 of the imagined-
+                                                     2025                     learned from                practice extension
+                                                                              trajectories on
+                                                                              ALFWorld, combined
+                                                                              with an LLM; 98% after
+                                                                              four iterations
+
+     DynaWeb, Dyna-Mind,                             2025–2026                Imagined rollouts in        Imagined-practice
+     KALM                                                                     other settings              extension
+
+     CaSKG; Graph-of-Skills                          2026                     Skill retrieval evaluated   Retrieval baselines
+                                                                              on ALFWorld and
+                                                                              ScienceWorld
+
+     ALFWorld (Shridhar et                           2021; 2022               The two candidate           Domains
+     al.); ScienceWorld                                                       benchmarks
+     (Wang et al.)
+
+
+  Surveys: the SoK on agentic skills, and the Agent Skills survey. Do a fresh search in week 1,
+  since newer work may overlap further.
+
+
+  Release and reuse
+  Release the code, all frozen settings, the pre-registered predictions, every episode log
+  and each condition's library snapshots. Most work in this area uses API models, so a
+  faithful small-model replication is useful even if H3 comes out null.
+
+
+
+
+                                                                                                                                Page 14 of 14
+

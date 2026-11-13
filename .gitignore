@@ -6,3 +6,9 @@ build/
 dist/
 runs/
 .cache/
+/.venv-linux
+/.idea
+/results
+/scripts
+/src/living_skills/__pycache__
+/src/__pycache__
