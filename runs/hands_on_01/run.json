@@ -1,0 +1,9 @@
+{
+  "environment": "mini",
+  "identity": {
+    "manifest": "91f8a8e07fe574ee8b58a5bee1655126864809cd6710c9a3cd85e744cf6af82e",
+    "settings": "608a48d95c29dc12e9ed1ec0325164915607d11057dbf206fad643091b6d76a9",
+    "source": "f7bdc4390e83aae0106d2c8ef12cb59cf6eaf3d9e53492a973d681c26e65e3aa"
+  },
+  "toy": true
+}

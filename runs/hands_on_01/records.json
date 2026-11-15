@@ -1,0 +1,167 @@
+[
+  {
+    "candidate_attempts": 0,
+    "candidate_rejections": 0,
+    "condition": "C",
+    "gpu_seconds": null,
+    "input_tokens": 0,
+    "invocations": [],
+    "library_size": 0,
+    "low_reliability_retrievals": 0,
+    "model_calls": 2,
+    "model_wall_seconds": 0.0,
+    "output_tokens": 0,
+    "phase": "evaluation",
+    "position": 0,
+    "program_attempts": 1,
+    "program_errors": [],
+    "program_failures": 0,
+    "retrievals": 0,
+    "retrieved_skill_count": 0,
+    "reused_skills": 0,
+    "revision_gate_count": 0,
+    "seed": 11,
+    "subgoal_count": 1,
+    "subgoals_passed": true,
+    "success": true,
+    "task_id": "evaluation-0",
+    "toy": true,
+    "trace": [
+      {
+        "action": "take apple 1 from table 1",
+        "after": "Task: put apple 1 in cabinet 1. At table 1. apple 1 is at inventory. cabinet 1 is closed.",
+        "before": "Task: put apple 1 in cabinet 1. At table 1. apple 1 is at table 1. cabinet 1 is closed.",
+        "valid": true
+      },
+      {
+        "action": "go to cabinet 1",
+        "after": "Task: put apple 1 in cabinet 1. At cabinet 1. apple 1 is at inventory. cabinet 1 is closed.",
+        "before": "Task: put apple 1 in cabinet 1. At table 1. apple 1 is at inventory. cabinet 1 is closed.",
+        "valid": true
+      },
+      {
+        "action": "open cabinet 1",
+        "after": "Task: put apple 1 in cabinet 1. At cabinet 1. apple 1 is at inventory. cabinet 1 is open.",
+        "before": "Task: put apple 1 in cabinet 1. At cabinet 1. apple 1 is at inventory. cabinet 1 is closed.",
+        "valid": true
+      },
+      {
+        "action": "move apple 1 to cabinet 1",
+        "after": "Task: put apple 1 in cabinet 1. At cabinet 1. apple 1 is at cabinet 1. cabinet 1 is open.",
+        "before": "Task: put apple 1 in cabinet 1. At cabinet 1. apple 1 is at inventory. cabinet 1 is open.",
+        "valid": true
+      }
+    ],
+    "wall_seconds": 0.0007130749999646468
+  },
+  {
+    "candidate_attempts": 0,
+    "candidate_rejections": 0,
+    "condition": "C",
+    "gpu_seconds": null,
+    "input_tokens": 0,
+    "invocations": [],
+    "library_size": 0,
+    "low_reliability_retrievals": 0,
+    "model_calls": 2,
+    "model_wall_seconds": 0.0,
+    "output_tokens": 0,
+    "phase": "evaluation",
+    "position": 0,
+    "program_attempts": 1,
+    "program_errors": [],
+    "program_failures": 0,
+    "retrievals": 0,
+    "retrieved_skill_count": 0,
+    "reused_skills": 0,
+    "revision_gate_count": 0,
+    "seed": 22,
+    "subgoal_count": 1,
+    "subgoals_passed": true,
+    "success": true,
+    "task_id": "evaluation-0",
+    "toy": true,
+    "trace": [
+      {
+        "action": "take apple 1 from table 1",
+        "after": "Task: put apple 1 in cabinet 1. At table 1. apple 1 is at inventory. cabinet 1 is closed.",
+        "before": "Task: put apple 1 in cabinet 1. At table 1. apple 1 is at table 1. cabinet 1 is closed.",
+        "valid": true
+      },
+      {
+        "action": "go to cabinet 1",
+        "after": "Task: put apple 1 in cabinet 1. At cabinet 1. apple 1 is at inventory. cabinet 1 is closed.",
+        "before": "Task: put apple 1 in cabinet 1. At table 1. apple 1 is at inventory. cabinet 1 is closed.",
+        "valid": true
+      },
+      {
+        "action": "open cabinet 1",
+        "after": "Task: put apple 1 in cabinet 1. At cabinet 1. apple 1 is at inventory. cabinet 1 is open.",
+        "before": "Task: put apple 1 in cabinet 1. At cabinet 1. apple 1 is at inventory. cabinet 1 is closed.",
+        "valid": true
+      },
+      {
+        "action": "move apple 1 to cabinet 1",
+        "after": "Task: put apple 1 in cabinet 1. At cabinet 1. apple 1 is at cabinet 1. cabinet 1 is open.",
+        "before": "Task: put apple 1 in cabinet 1. At cabinet 1. apple 1 is at inventory. cabinet 1 is open.",
+        "valid": true
+      }
+    ],
+    "wall_seconds": 0.0005324670000277365
+  },
+  {
+    "candidate_attempts": 0,
+    "candidate_rejections": 0,
+    "condition": "C",
+    "gpu_seconds": null,
+    "input_tokens": 0,
+    "invocations": [],
+    "library_size": 0,
+    "low_reliability_retrievals": 0,
+    "model_calls": 2,
+    "model_wall_seconds": 0.0,
+    "output_tokens": 0,
+    "phase": "evaluation",
+    "position": 0,
+    "program_attempts": 1,
+    "program_errors": [],
+    "program_failures": 0,
+    "retrievals": 0,
+    "retrieved_skill_count": 0,
+    "reused_skills": 0,
+    "revision_gate_count": 0,
+    "seed": 33,
+    "subgoal_count": 1,
+    "subgoals_passed": true,
+    "success": true,
+    "task_id": "evaluation-0",
+    "toy": true,
+    "trace": [
+      {
+        "action": "take apple 1 from table 1",
+        "after": "Task: put apple 1 in cabinet 1. At table 1. apple 1 is at inventory. cabinet 1 is closed.",
+        "before": "Task: put apple 1 in cabinet 1. At table 1. apple 1 is at table 1. cabinet 1 is closed.",
+        "valid": true
+      },
+      {
+        "action": "go to cabinet 1",
+        "after": "Task: put apple 1 in cabinet 1. At cabinet 1. apple 1 is at inventory. cabinet 1 is closed.",
+        "before": "Task: put apple 1 in cabinet 1. At table 1. apple 1 is at inventory. cabinet 1 is closed.",
+        "valid": true
+      },
+      {
+        "action": "open cabinet 1",
+        "after": "Task: put apple 1 in cabinet 1. At cabinet 1. apple 1 is at inventory. cabinet 1 is open.",
+        "before": "Task: put apple 1 in cabinet 1. At cabinet 1. apple 1 is at inventory. cabinet 1 is closed.",
+        "valid": true
+      },
+      {
+        "action": "move apple 1 to cabinet 1",
+        "after": "Task: put apple 1 in cabinet 1. At cabinet 1. apple 1 is at cabinet 1. cabinet 1 is open.",
+        "before": "Task: put apple 1 in cabinet 1. At cabinet 1. apple 1 is at inventory. cabinet 1 is open.",
+        "valid": true
+      }
+    ],
+    "wall_seconds": 0.0004405499999506901
+  }
+]

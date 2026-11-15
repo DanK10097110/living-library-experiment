@@ -1,0 +1,73 @@
+{
+  "memory": {
+    "library": {
+      "active": {},
+      "skills": []
+    },
+    "trajectories": []
+  },
+  "memory_hash": "57fff283208d5f8df8b63cb923ba01ccfd9dc84eea236a93ee0aeae6157533af",
+  "pre_library": {
+    "active": {},
+    "skills": []
+  },
+  "pre_library_hash": "755213e1afd097b2c68913287bb29aa9a470845e79b941dbb2c9ce1226d54858",
+  "previous_hash": null,
+  "record": {
+    "candidate_attempts": 0,
+    "candidate_rejections": 0,
+    "condition": "C",
+    "gpu_seconds": null,
+    "input_tokens": 0,
+    "invocations": [],
+    "library_size": 0,
+    "low_reliability_retrievals": 0,
+    "model_calls": 2,
+    "model_wall_seconds": 0.0,
+    "output_tokens": 0,
+    "phase": "evaluation",
+    "position": 0,
+    "program_attempts": 1,
+    "program_errors": [],
+    "program_failures": 0,
+    "retrievals": 0,
+    "retrieved_skill_count": 0,
+    "reused_skills": 0,
+    "revision_gate_count": 0,
+    "seed": 33,
+    "subgoal_count": 1,
+    "subgoals_passed": true,
+    "success": true,
+    "task_id": "evaluation-0",
+    "toy": true,
+    "trace": [
+      {
+        "action": "take apple 1 from table 1",
+        "after": "Task: put apple 1 in cabinet 1. At table 1. apple 1 is at inventory. cabinet 1 is closed.",
+        "before": "Task: put apple 1 in cabinet 1. At table 1. apple 1 is at table 1. cabinet 1 is closed.",
+        "valid": true
+      },
+      {
+        "action": "go to cabinet 1",
+        "after": "Task: put apple 1 in cabinet 1. At cabinet 1. apple 1 is at inventory. cabinet 1 is closed.",
+        "before": "Task: put apple 1 in cabinet 1. At table 1. apple 1 is at inventory. cabinet 1 is closed.",
+        "valid": true
+      },
+      {
+        "action": "open cabinet 1",
+        "after": "Task: put apple 1 in cabinet 1. At cabinet 1. apple 1 is at inventory. cabinet 1 is open.",
+        "before": "Task: put apple 1 in cabinet 1. At cabinet 1. apple 1 is at inventory. cabinet 1 is closed.",
+        "valid": true
+      },
+      {
+        "action": "move apple 1 to cabinet 1",
+        "after": "Task: put apple 1 in cabinet 1. At cabinet 1. apple 1 is at cabinet 1. cabinet 1 is open.",
+        "before": "Task: put apple 1 in cabinet 1. At cabinet 1. apple 1 is at inventory. cabinet 1 is open.",
+        "valid": true
+      }
+    ],
+    "wall_seconds": 0.0004405499999506901
+  },
+  "record_hash": "79846f5109dbba390d02c94dec7eb7fd883a622d0f7de41f824aab5073aa57b5",
+  "stream_identity": "4176d0aeeaa958bf7a69d08803acee6fd53b48db96f715d9d48cf90d8b7386e0"
+}

@@ -1,0 +1,55 @@
+{
+  "amortized_gpu_cost_ratio_E_D": null,
+  "criterion": "H1 >=10pp OR zero in H1 CI with >=30% lower amortized GPU cost; AND H3 positive and Holm p<=.05.",
+  "expected_evaluation_tasks": 1,
+  "method": "Paired task-cluster percentile bootstrap; equal seed task-success/cost means; pooled eligible invocation ratio resampling task clusters; centered two-sided bootstrap p; Holm family of four.",
+  "primary": {
+    "H1": {
+      "reason": "missing condition",
+      "status": "unavailable"
+    },
+    "H2": {
+      "reason": "missing condition",
+      "status": "unavailable"
+    },
+    "H3": {
+      "reason": "missing condition",
+      "status": "unavailable"
+    },
+    "H4": {
+      "reason": "missing condition",
+      "status": "unavailable"
+    }
+  },
+  "secondary": {
+    "E_minus_C": {
+      "reason": "missing condition",
+      "status": "unavailable"
+    },
+    "E_minus_Eminus_task_success": {
+      "reason": "missing condition",
+      "status": "unavailable"
+    },
+    "break_even": null,
+    "conditions": {
+      "C": {
+        "candidate_rejection_rate": null,
+        "episodes": 3,
+        "false_success": 0.0,
+        "library_size": [
+          0,
+          0,
+          0
+        ],
+        "low_reliability_retrieval_rate": null,
+        "retrieval_errors": 0,
+        "reuse_rate": null,
+        "skill_versions": {},
+        "success": 1.0,
+        "weighted_tokens_per_task": 0.0
+      }
+    }
+  },
+  "study_success": null,
+  "toy": true
+}

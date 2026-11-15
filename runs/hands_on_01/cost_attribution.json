@@ -1,0 +1,8 @@
+{
+  "E-text": {
+    "charge_full_E_practice_cost": true,
+    "practice_source": "E"
+  },
+  "practice_seed": 0,
+  "practice_shared_across_evaluation_seeds": true
+}
