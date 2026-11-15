@@ -47,6 +47,21 @@ class Agent:
         if self.condition in {'A', 'B'}:
             return [{'description': 'complete task', 'bindings': self._task_bindings(), 'postconditions': ['task_won()']}]
         data = self._ask('planner', {'state': state.public(),
+            'history': self.episode.trace,
+            'previous_errors': self.result['program_errors'][-5:],
+            'instructions': (
+                'Plan for the ALFWorld text simulator, not real-world household actions. '
+                'Bindings must use exact numbered entity names observed in public text, '
+                'such as desk 1; never use an object type such as alarmclock as an entity. '
+                'If the requested object has not been observed, first plan exploration '
+                'of a visible receptacle with bindings {} and postcondition at(receptacle). '
+                'Do not invent the hidden object instance or its location. '
+                'Use at(desk 1) for agent location, located(object, receptacle) for '
+                'object placement, and holding(object) for inventory. '
+                'exists/findable are entity-existence checks, not evidence of discovery. '
+                'Each predicate must have the arity specified in allowed_predicates. '
+                'Return a short executable plan based on current knowledge; replanning '
+                'can follow exploration. Correct previous_errors rather than repeating them.'),
             'catalog': self.library.catalog() if self.memory else [],
             'allowed_predicates': self._predicates(),
             'response_schema': {'subgoals': [{'description': 'string', 'bindings': {'parameter': 'entity string'}, 'postconditions': ['predicate(arguments)']}]}})
@@ -237,7 +252,7 @@ class Agent:
                 data = self._ask('executor', {'state': self.episode.env.state.public(), 'goal': goal,
                     'skills': [s.text() if text else self._skill_payload(s) for s in skills], 'trajectories': examples,
                     'catalog': self.library.catalog() if flat and self.memory else [],
-                    'flat': flat, 'history': self.episode.trace if flat else [],
+                    'flat': flat, 'history': self.episode.trace[-20:],
                     'text_only': text, 'errors': errors, 'allowed_predicates': self._predicates(),
                     'instructions': ('Return one primitive action or one retrieved skill call. Optionally return only bindings to retrieve applicable skills. Use current observation/history; do not emit a plan or code.' if flat else 'Return only primitive admissible commands. Numbered library steps are reference text. Never call a skill or emit code.' if text else 'Use act(command), check(predicate), call(exact_version_id, named=entity). No imports. Repair the previous failure using the CURRENT observation.'),
                     'response_schema': ({'one_of': [{'action': 'one admissible command', 'bindings': 'optional entity mapping'}, {'skill_id': 'retrieved immutable version id', 'bindings': 'exact argument mapping'}, {'bindings': 'entity mapping to enable retrieval before acting'}]} if flat else {'actions': ['admissible command']}) if text or flat else {'program': 'safe Python subset', 'bindings': 'optional entity argument mapping for flat execution'}})

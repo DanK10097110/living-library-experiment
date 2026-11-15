@@ -1,0 +1,14 @@
+# ALFWorld and TextWorld (install alfworld which pulls textworld)
+alfworld>=0.4.0
+
+# LLM serving / inference
+# Install ONE of the following depending on your hardware:
+# vllm               # GPU with CUDA — preferred for batch inference
+# llama-cpp-python   # CPU or smaller GPU
+
+# Embeddings for skill retrieval
+sentence-transformers>=2.2.0
+
+# Utilities
+pyyaml>=6.0
+numpy>=1.24

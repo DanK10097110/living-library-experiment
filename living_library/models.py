@@ -10,6 +10,32 @@ from urllib.parse import urlparse
 from .config import digest
 
 
+INTERFACE_PROMPT = '''You control an ALFWorld text game. Return one JSON object matching response_schema.
+Use only public observations, admissible commands, and history. Examples below illustrate syntax;
+their entity names are NOT evidence about this game. Never invent objects or locations.
+PLANNER: Return achievable subgoals, not commands. All postconditions of ONE subgoal
+must hold simultaneously: never put at(two different places) in the same subgoal.
+Use exact observed numbered entities, never bare object types. Use bindings {} when
+no parameters are needed. If the desired object is unseen, return ONLY one exploration
+subgoal for a location not yet searched in history, then let the next planning call
+use the new observation. For example, if shelf 1 is visible and unsearched:
+{"subgoals":[{"description":"Inspect shelf 1","bindings":{},"postconditions":["at(shelf 1)"]}]}
+If at a closed receptacle, use is_open(receptacle) to inspect its contents.
+After observing an object, use holding(object) to pick it up, then located(object, target)
+to place it. at takes ONE argument; located takes TWO. Do not use findable/exists to
+represent searching: they do not mean the agent has discovered an object.
+EXECUTOR: When response_schema asks for program, return executable Python as a JSON
+string. Example: {"program":"act(\\"go to shelf 1\\")"}.
+Another example: {"program":"act(\\"take mug 2 from shelf 1\\")"}.
+Use a command from the current admissible list. act("command") performs an action;
+check("holding(mug 2)") only tests a fact and does not change the world.
+Never write bare commands like go to shelf 1 or check(at(shelf 1)).
+No imports, functions, attributes, observation variables, or unbounded loops.
+For flat or text-only responses, obey their action schema instead of returning program.
+Use errors and previous_errors to correct your response. Do not repeat invalid syntax.
+'''
+
+
 @dataclass
 class ModelResponse:
     data: dict
@@ -18,6 +44,27 @@ class ModelResponse:
     wall_seconds: float = 0.0
     gpu_seconds: float | None = None
     cached: bool = False
+
+
+EXECUTOR_PROMPT = '''You are the code executor for an ALFWorld text game.
+Return a JSON object with exactly one key, program, whose value is Python source.
+Your objective is payload.goal; state.admissible_commands is the list of actions
+available NOW. Copy action strings exactly from that list into act("...").
+Never invent or paraphrase commands. Predicates describe outcomes, not commands:
+located(object, target) is achieved by a move command, never by locate.
+If the desired placement command is available, execute it instead of navigating.
+If it is not available, take an admissible prerequisite action toward the goal.
+Use history to track what was picked up and which locations were already visited.
+Example ONLY (names are not facts about this game): if goal is located(book 2, desk 3)
+and admissible_commands contains "move book 2 to desk 3", return
+{"program":"act(\\"move book 2 to desk 3\\")"}.
+For holding(book 2), choose the available take command for book 2.
+For at(desk 3), choose the available go to desk 3 command.
+For is_open(drawer 2), choose the available open drawer 2 command.
+Use act(string), check(string), and call(exact retrieved skill ID, keyword arguments).
+check only tests facts; it cannot accomplish an action. No imports, functions,
+attributes, unbounded loops, or invented observation variables. Correct errors.
+'''
 
 
 class HTTPModel:
@@ -40,7 +87,9 @@ class HTTPModel:
         planner = role == 'planner'
         url = (self.cfg.planner_url if planner else self.cfg.executor_url).rstrip('/') + '/chat/completions'
         request = {'model': self.cfg.planner_model if planner else self.cfg.executor_model,
-                   'messages': [{'role': 'system', 'content': 'Return only one JSON object matching the supplied response_schema. Use only public observations and allowed predicates. Never invent environment facts.'},
+                   'messages': [{'role': 'system', 'content': (
+                       EXECUTOR_PROMPT if role == 'executor' and not payload.get('flat')
+                       and not payload.get('text_only') else INTERFACE_PROMPT)},
                                 {'role': 'user', 'content': json.dumps({'role': role, 'context': context, **payload}, sort_keys=True)}],
                    'temperature': self.cfg.temperature, 'max_tokens': self.cfg.max_tokens,
                    'seed': seed, 'response_format': {'type': 'json_object'}}
