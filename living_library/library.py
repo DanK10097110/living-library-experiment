@@ -2,7 +2,6 @@ from dataclasses import asdict, dataclass, field
 import copy
 import math
 import re
-from scipy.stats import beta
 
 from .config import Settings
 from .domain import Predicate
@@ -54,6 +53,7 @@ class Skill:
         return (cfg.beta_alpha + self.successes) / (cfg.beta_alpha + cfg.beta_beta + self.uses)
 
     def reliability(self, cfg):
+        from scipy.stats import beta
         return float(beta.ppf(cfg.reliability_percentile, cfg.beta_alpha + self.successes,
                               cfg.beta_beta + self.failures))
 

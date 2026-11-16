@@ -67,6 +67,31 @@ attributes, unbounded loops, or invented observation variables. Correct errors.
 '''
 
 
+# Simulator mechanics shared by planning and execution; no game-specific locations.
+SIMULATOR_RULES = '''
+ALFWORLD MECHANICS:
+at(x) means the agent is at a receptacle, never at a portable object or lamp.
+Navigate to the receptacle containing an object or lamp, not to the object itself.
+You can carry only one object. For two-object tasks, pick up and deliver the first
+object before picking up and delivering the second distinct object.
+To clean, heat, or cool an object, first hold it, navigate to the appropriate
+sinkbasin, microwave, or fridge, then copy the available clean/heat/cool command.
+To place a held object, first navigate to the destination and open it if required,
+then use the available move command. Never assume navigation happened.
+For look-at-object-in-light tasks, hold the requested object and use the appropriate
+lamp at its containing receptacle. Examining the object alone does not win.
+Use holding(object), at(receptacle), and finally task_won() as light-task goals.
+Do not use at(object), at(lamp), or is_on(lamp) for this task.
+If an object is absent from the current take commands, do not invent a take command.
+Consult observed history for its location or search unopened/unsearched receptacles.
+Every act command must be copied exactly from CURRENT admissible_commands.
+Take prerequisite actions when the desired action is unavailable; never repeat
+an unavailable command in an unchanged state.
+'''
+INTERFACE_PROMPT += SIMULATOR_RULES
+EXECUTOR_PROMPT += SIMULATOR_RULES
+
+
 class HTTPModel:
     """OpenAI-compatible local server with durable, request-addressed replay.
 

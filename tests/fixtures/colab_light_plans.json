@@ -1,0 +1,737 @@
+[
+  {
+    "call_index": 0,
+    "state": {
+      "observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see a bed 1, a desk 1, a drawer 17, a drawer 16, a drawer 15, a drawer 14, a drawer 13, a drawer 12, a drawer 11, a drawer 10, a drawer 9, a drawer 8, a drawer 7, a drawer 6, a drawer 5, a drawer 4, a drawer 3, a drawer 2, a drawer 1, a dresser 1, a garbagecan 1, a shelf 6, a shelf 5, a shelf 4, a shelf 3, a shelf 2, and a shelf 1.\n\nYour task is to: look at alarmclock under the desklamp.",
+      "admissible_commands": [
+        "go to bed 1",
+        "go to desk 1",
+        "go to drawer 1",
+        "go to drawer 10",
+        "go to drawer 11",
+        "go to drawer 12",
+        "go to drawer 13",
+        "go to drawer 14",
+        "go to drawer 15",
+        "go to drawer 16",
+        "go to drawer 17",
+        "go to drawer 2",
+        "go to drawer 3",
+        "go to drawer 4",
+        "go to drawer 5",
+        "go to drawer 6",
+        "go to drawer 7",
+        "go to drawer 8",
+        "go to drawer 9",
+        "go to dresser 1",
+        "go to garbagecan 1",
+        "go to shelf 1",
+        "go to shelf 2",
+        "go to shelf 3",
+        "go to shelf 4",
+        "go to shelf 5",
+        "go to shelf 6",
+        "help",
+        "inventory",
+        "look"
+      ]
+    },
+    "current_location": null,
+    "response": {
+      "subgoals": [
+        {
+          "description": "Go to desk 1",
+          "bindings": {},
+          "postconditions": [
+            "at(desk 1)"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "call_index": 2,
+    "state": {
+      "observation": "You arrive at desk 1. On the desk 1, you see a alarmclock 1, a bowl 1, a cd 2, a cd 1, a mug 2, a mug 1, and a pencil 1.",
+      "admissible_commands": [
+        "examine desk 1",
+        "go to bed 1",
+        "go to drawer 1",
+        "go to drawer 10",
+        "go to drawer 11",
+        "go to drawer 12",
+        "go to drawer 13",
+        "go to drawer 14",
+        "go to drawer 15",
+        "go to drawer 16",
+        "go to drawer 17",
+        "go to drawer 2",
+        "go to drawer 3",
+        "go to drawer 4",
+        "go to drawer 5",
+        "go to drawer 6",
+        "go to drawer 7",
+        "go to drawer 8",
+        "go to drawer 9",
+        "go to dresser 1",
+        "go to garbagecan 1",
+        "go to shelf 1",
+        "go to shelf 2",
+        "go to shelf 3",
+        "go to shelf 4",
+        "go to shelf 5",
+        "go to shelf 6",
+        "help",
+        "inventory",
+        "look",
+        "take alarmclock 1 from desk 1",
+        "take bowl 1 from desk 1",
+        "take cd 1 from desk 1",
+        "take cd 2 from desk 1",
+        "take mug 1 from desk 1",
+        "take mug 2 from desk 1",
+        "take pencil 1 from desk 1"
+      ]
+    },
+    "current_location": "desk 1",
+    "response": {
+      "subgoals": [
+        {
+          "description": "Take alarmclock 1 from desk 1",
+          "bindings": {},
+          "postconditions": [
+            "holding(alarmclock 1)"
+          ]
+        },
+        {
+          "description": "Go to shelf 1",
+          "bindings": {},
+          "postconditions": [
+            "at(shelf 1)"
+          ]
+        },
+        {
+          "description": "Look at alarmclock 1",
+          "bindings": {
+            "entity string": "alarmclock 1"
+          },
+          "postconditions": [
+            "task_won()"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "call_index": 8,
+    "state": {
+      "observation": "You arrive at desk 1. On the desk 1, you see a bowl 1, a cd 2, a cd 1, a mug 2, a mug 1, and a pencil 1.",
+      "admissible_commands": [
+        "examine alarmclock 1",
+        "examine desk 1",
+        "go to bed 1",
+        "go to drawer 1",
+        "go to drawer 10",
+        "go to drawer 11",
+        "go to drawer 12",
+        "go to drawer 13",
+        "go to drawer 14",
+        "go to drawer 15",
+        "go to drawer 16",
+        "go to drawer 17",
+        "go to drawer 2",
+        "go to drawer 3",
+        "go to drawer 4",
+        "go to drawer 5",
+        "go to drawer 6",
+        "go to drawer 7",
+        "go to drawer 8",
+        "go to drawer 9",
+        "go to dresser 1",
+        "go to garbagecan 1",
+        "go to shelf 1",
+        "go to shelf 2",
+        "go to shelf 3",
+        "go to shelf 4",
+        "go to shelf 5",
+        "go to shelf 6",
+        "help",
+        "inventory",
+        "look",
+        "move alarmclock 1 to desk 1"
+      ]
+    },
+    "current_location": "desk 1",
+    "response": {
+      "subgoals": [
+        {
+          "description": "Locate desklamp",
+          "bindings": {},
+          "postconditions": [
+            "at(desklamp)"
+          ]
+        },
+        {
+          "description": "Hold alarmclock 1",
+          "bindings": {},
+          "postconditions": [
+            "holding(alarmclock 1)"
+          ]
+        },
+        {
+          "description": "Look at alarmclock 1 under desklamp",
+          "bindings": {},
+          "postconditions": [
+            "task_won()"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "call_index": 9,
+    "state": {
+      "observation": "You arrive at desk 1. On the desk 1, you see a bowl 1, a cd 2, a cd 1, a mug 2, a mug 1, and a pencil 1.",
+      "admissible_commands": [
+        "examine alarmclock 1",
+        "examine desk 1",
+        "go to bed 1",
+        "go to drawer 1",
+        "go to drawer 10",
+        "go to drawer 11",
+        "go to drawer 12",
+        "go to drawer 13",
+        "go to drawer 14",
+        "go to drawer 15",
+        "go to drawer 16",
+        "go to drawer 17",
+        "go to drawer 2",
+        "go to drawer 3",
+        "go to drawer 4",
+        "go to drawer 5",
+        "go to drawer 6",
+        "go to drawer 7",
+        "go to drawer 8",
+        "go to drawer 9",
+        "go to dresser 1",
+        "go to garbagecan 1",
+        "go to shelf 1",
+        "go to shelf 2",
+        "go to shelf 3",
+        "go to shelf 4",
+        "go to shelf 5",
+        "go to shelf 6",
+        "help",
+        "inventory",
+        "look",
+        "move alarmclock 1 to desk 1"
+      ]
+    },
+    "current_location": "desk 1",
+    "response": {
+      "subgoals": [
+        {
+          "description": "Navigate to desklamp 1",
+          "bindings": {},
+          "postconditions": [
+            "at(desklamp 1)"
+          ]
+        },
+        {
+          "description": "Hold alarmclock 1",
+          "bindings": {
+            "parameter": "alarmclock 1"
+          },
+          "postconditions": [
+            "holding(alarmclock 1)"
+          ]
+        },
+        {
+          "description": "Look at alarmclock 1 under desklamp 1",
+          "bindings": {
+            "parameter": "alarmclock 1"
+          },
+          "postconditions": [
+            "task_won()"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "call_index": 13,
+    "state": {
+      "observation": "You arrive at desk 1. On the desk 1, you see a bowl 1, a cd 2, a cd 1, a mug 2, a mug 1, and a pencil 1.",
+      "admissible_commands": [
+        "examine alarmclock 1",
+        "examine desk 1",
+        "go to bed 1",
+        "go to drawer 1",
+        "go to drawer 10",
+        "go to drawer 11",
+        "go to drawer 12",
+        "go to drawer 13",
+        "go to drawer 14",
+        "go to drawer 15",
+        "go to drawer 16",
+        "go to drawer 17",
+        "go to drawer 2",
+        "go to drawer 3",
+        "go to drawer 4",
+        "go to drawer 5",
+        "go to drawer 6",
+        "go to drawer 7",
+        "go to drawer 8",
+        "go to drawer 9",
+        "go to dresser 1",
+        "go to garbagecan 1",
+        "go to shelf 1",
+        "go to shelf 2",
+        "go to shelf 3",
+        "go to shelf 4",
+        "go to shelf 5",
+        "go to shelf 6",
+        "help",
+        "inventory",
+        "look",
+        "move alarmclock 1 to desk 1"
+      ]
+    },
+    "current_location": "desk 1",
+    "response": {
+      "subgoals": [
+        {
+          "description": "Hold alarmclock 1",
+          "bindings": {
+            "parameter": "alarmclock 1"
+          },
+          "postconditions": [
+            "holding(alarmclock 1)"
+          ]
+        },
+        {
+          "description": "Navigate to desklamp 1",
+          "bindings": {
+            "parameter": "desklamp 1"
+          },
+          "postconditions": [
+            "at(desklamp 1)"
+          ]
+        },
+        {
+          "description": "Look at alarmclock 1 under desklamp 1",
+          "bindings": {
+            "parameter": "alarmclock 1"
+          },
+          "postconditions": [
+            "task_won()"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "call_index": 17,
+    "state": {
+      "observation": "You arrive at desk 1. On the desk 1, you see a bowl 1, a cd 2, a cd 1, a mug 2, a mug 1, and a pencil 1.",
+      "admissible_commands": [
+        "examine alarmclock 1",
+        "examine desk 1",
+        "go to bed 1",
+        "go to drawer 1",
+        "go to drawer 10",
+        "go to drawer 11",
+        "go to drawer 12",
+        "go to drawer 13",
+        "go to drawer 14",
+        "go to drawer 15",
+        "go to drawer 16",
+        "go to drawer 17",
+        "go to drawer 2",
+        "go to drawer 3",
+        "go to drawer 4",
+        "go to drawer 5",
+        "go to drawer 6",
+        "go to drawer 7",
+        "go to drawer 8",
+        "go to drawer 9",
+        "go to dresser 1",
+        "go to garbagecan 1",
+        "go to shelf 1",
+        "go to shelf 2",
+        "go to shelf 3",
+        "go to shelf 4",
+        "go to shelf 5",
+        "go to shelf 6",
+        "help",
+        "inventory",
+        "look",
+        "move alarmclock 1 to desk 1"
+      ]
+    },
+    "current_location": "desk 1",
+    "response": {
+      "subgoals": [
+        {
+          "description": "Hold alarmclock 1",
+          "bindings": {},
+          "postconditions": [
+            "holding(alarmclock 1)"
+          ]
+        },
+        {
+          "description": "Navigate to desklamp 1",
+          "bindings": {},
+          "postconditions": [
+            "at(desklamp 1)"
+          ]
+        },
+        {
+          "description": "Look at alarmclock 1 under desklamp 1",
+          "bindings": {},
+          "postconditions": [
+            "task_won()"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "call_index": 21,
+    "state": {
+      "observation": "You arrive at desk 1. On the desk 1, you see a bowl 1, a cd 2, a cd 1, a mug 2, a mug 1, and a pencil 1.",
+      "admissible_commands": [
+        "examine alarmclock 1",
+        "examine desk 1",
+        "go to bed 1",
+        "go to drawer 1",
+        "go to drawer 10",
+        "go to drawer 11",
+        "go to drawer 12",
+        "go to drawer 13",
+        "go to drawer 14",
+        "go to drawer 15",
+        "go to drawer 16",
+        "go to drawer 17",
+        "go to drawer 2",
+        "go to drawer 3",
+        "go to drawer 4",
+        "go to drawer 5",
+        "go to drawer 6",
+        "go to drawer 7",
+        "go to drawer 8",
+        "go to drawer 9",
+        "go to dresser 1",
+        "go to garbagecan 1",
+        "go to shelf 1",
+        "go to shelf 2",
+        "go to shelf 3",
+        "go to shelf 4",
+        "go to shelf 5",
+        "go to shelf 6",
+        "help",
+        "inventory",
+        "look",
+        "move alarmclock 1 to desk 1"
+      ]
+    },
+    "current_location": "desk 1",
+    "response": {
+      "subgoals": [
+        {
+          "description": "Hold alarmclock 1",
+          "bindings": {
+            "parameter": "alarmclock 1"
+          },
+          "postconditions": [
+            "holding(alarmclock 1)"
+          ]
+        },
+        {
+          "description": "Navigate to desklamp 1",
+          "bindings": {
+            "parameter": "desklamp 1"
+          },
+          "postconditions": [
+            "at(desklamp 1)"
+          ]
+        },
+        {
+          "description": "Look at alarmclock 1 under desklamp 1",
+          "bindings": {
+            "parameter": "alarmclock 1"
+          },
+          "postconditions": [
+            "task_won()"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "call_index": 25,
+    "state": {
+      "observation": "You arrive at desk 1. On the desk 1, you see a bowl 1, a cd 2, a cd 1, a mug 2, a mug 1, and a pencil 1.",
+      "admissible_commands": [
+        "examine alarmclock 1",
+        "examine desk 1",
+        "go to bed 1",
+        "go to drawer 1",
+        "go to drawer 10",
+        "go to drawer 11",
+        "go to drawer 12",
+        "go to drawer 13",
+        "go to drawer 14",
+        "go to drawer 15",
+        "go to drawer 16",
+        "go to drawer 17",
+        "go to drawer 2",
+        "go to drawer 3",
+        "go to drawer 4",
+        "go to drawer 5",
+        "go to drawer 6",
+        "go to drawer 7",
+        "go to drawer 8",
+        "go to drawer 9",
+        "go to dresser 1",
+        "go to garbagecan 1",
+        "go to shelf 1",
+        "go to shelf 2",
+        "go to shelf 3",
+        "go to shelf 4",
+        "go to shelf 5",
+        "go to shelf 6",
+        "help",
+        "inventory",
+        "look",
+        "move alarmclock 1 to desk 1"
+      ]
+    },
+    "current_location": "desk 1",
+    "response": {
+      "subgoals": [
+        {
+          "description": "Hold alarmclock 1",
+          "bindings": {},
+          "postconditions": [
+            "holding(alarmclock 1)"
+          ]
+        },
+        {
+          "description": "Navigate to desklamp 1",
+          "bindings": {},
+          "postconditions": [
+            "at(desklamp 1)"
+          ]
+        },
+        {
+          "description": "Look at alarmclock 1 under desklamp 1",
+          "bindings": {},
+          "postconditions": [
+            "task_won()"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "call_index": 29,
+    "state": {
+      "observation": "You arrive at desk 1. On the desk 1, you see a bowl 1, a cd 2, a cd 1, a mug 2, a mug 1, and a pencil 1.",
+      "admissible_commands": [
+        "examine alarmclock 1",
+        "examine desk 1",
+        "go to bed 1",
+        "go to drawer 1",
+        "go to drawer 10",
+        "go to drawer 11",
+        "go to drawer 12",
+        "go to drawer 13",
+        "go to drawer 14",
+        "go to drawer 15",
+        "go to drawer 16",
+        "go to drawer 17",
+        "go to drawer 2",
+        "go to drawer 3",
+        "go to drawer 4",
+        "go to drawer 5",
+        "go to drawer 6",
+        "go to drawer 7",
+        "go to drawer 8",
+        "go to drawer 9",
+        "go to dresser 1",
+        "go to garbagecan 1",
+        "go to shelf 1",
+        "go to shelf 2",
+        "go to shelf 3",
+        "go to shelf 4",
+        "go to shelf 5",
+        "go to shelf 6",
+        "help",
+        "inventory",
+        "look",
+        "move alarmclock 1 to desk 1"
+      ]
+    },
+    "current_location": "desk 1",
+    "response": {
+      "subgoals": [
+        {
+          "description": "Hold alarmclock 1",
+          "bindings": {},
+          "postconditions": [
+            "holding(alarmclock 1)"
+          ]
+        },
+        {
+          "description": "Navigate to desklamp 1",
+          "bindings": {},
+          "postconditions": [
+            "at(desklamp 1)"
+          ]
+        },
+        {
+          "description": "Look at alarmclock 1 under desklamp 1",
+          "bindings": {},
+          "postconditions": [
+            "task_won()"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "call_index": 33,
+    "state": {
+      "observation": "You arrive at desk 1. On the desk 1, you see a bowl 1, a cd 2, a cd 1, a mug 2, a mug 1, and a pencil 1.",
+      "admissible_commands": [
+        "examine alarmclock 1",
+        "examine desk 1",
+        "go to bed 1",
+        "go to drawer 1",
+        "go to drawer 10",
+        "go to drawer 11",
+        "go to drawer 12",
+        "go to drawer 13",
+        "go to drawer 14",
+        "go to drawer 15",
+        "go to drawer 16",
+        "go to drawer 17",
+        "go to drawer 2",
+        "go to drawer 3",
+        "go to drawer 4",
+        "go to drawer 5",
+        "go to drawer 6",
+        "go to drawer 7",
+        "go to drawer 8",
+        "go to drawer 9",
+        "go to dresser 1",
+        "go to garbagecan 1",
+        "go to shelf 1",
+        "go to shelf 2",
+        "go to shelf 3",
+        "go to shelf 4",
+        "go to shelf 5",
+        "go to shelf 6",
+        "help",
+        "inventory",
+        "look",
+        "move alarmclock 1 to desk 1"
+      ]
+    },
+    "current_location": "desk 1",
+    "response": {
+      "subgoals": [
+        {
+          "description": "Go to desklamp 1",
+          "bindings": {},
+          "postconditions": [
+            "at(desklamp 1)"
+          ]
+        },
+        {
+          "description": "Place alarmclock 1 under desklamp 1",
+          "bindings": {},
+          "postconditions": [
+            "located(alarmclock 1, desklamp 1)",
+            "holding(alarmclock 1)"
+          ]
+        },
+        {
+          "description": "Look at alarmclock 1",
+          "bindings": {},
+          "postconditions": [
+            "task_won()"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "call_index": 37,
+    "state": {
+      "observation": "You arrive at desk 1. On the desk 1, you see a bowl 1, a cd 2, a cd 1, a mug 2, a mug 1, and a pencil 1.",
+      "admissible_commands": [
+        "examine alarmclock 1",
+        "examine desk 1",
+        "go to bed 1",
+        "go to drawer 1",
+        "go to drawer 10",
+        "go to drawer 11",
+        "go to drawer 12",
+        "go to drawer 13",
+        "go to drawer 14",
+        "go to drawer 15",
+        "go to drawer 16",
+        "go to drawer 17",
+        "go to drawer 2",
+        "go to drawer 3",
+        "go to drawer 4",
+        "go to drawer 5",
+        "go to drawer 6",
+        "go to drawer 7",
+        "go to drawer 8",
+        "go to drawer 9",
+        "go to dresser 1",
+        "go to garbagecan 1",
+        "go to shelf 1",
+        "go to shelf 2",
+        "go to shelf 3",
+        "go to shelf 4",
+        "go to shelf 5",
+        "go to shelf 6",
+        "help",
+        "inventory",
+        "look",
+        "move alarmclock 1 to desk 1"
+      ]
+    },
+    "current_location": "desk 1",
+    "response": {
+      "subgoals": [
+        {
+          "description": "Go to desklamp 1",
+          "bindings": {},
+          "postconditions": [
+            "at(desklamp 1)"
+          ]
+        },
+        {
+          "description": "Place alarmclock 1 under desklamp 1",
+          "bindings": {},
+          "postconditions": [
+            "located(alarmclock 1, desklamp 1)",
+            "holding(alarmclock 1)"
+          ]
+        },
+        {
+          "description": "Look at alarmclock 1",
+          "bindings": {},
+          "postconditions": [
+            "task_won()"
+          ]
+        }
+      ]
+    }
+  }
+]

@@ -1,5 +1,6 @@
 """Bounded flat/hierarchical execution and isolated skill admission."""
 import copy
+import json
 import time
 
 from .config import CONDITIONS
@@ -24,7 +25,8 @@ class Agent:
         ordinal = self.result['model_calls']
         self.result['model_calls'] += 1
         try:
-            response = self.model.complete(role, {'task': self.task, **payload}, self.seed,
+            response = self.model.complete(role, {'task': self.task,
+                                           'initial_observation': self.initial_observation, **payload}, self.seed,
                                            {**self.context, 'call_index': ordinal})
         except Exception:
             # A missing response is unknown cost, never a zero-cost inference.
@@ -48,7 +50,7 @@ class Agent:
             return [{'description': 'complete task', 'bindings': self._task_bindings(), 'postconditions': ['task_won()']}]
         data = self._ask('planner', {'state': state.public(),
             'history': self.episode.trace,
-            'previous_errors': self.result['program_errors'][-5:],
+            'previous_errors': list(dict.fromkeys(self.result['program_errors']))[-5:],
             'instructions': (
                 'Plan for the ALFWorld text simulator, not real-world household actions. '
                 'Bindings must use exact numbered entity names observed in public text, '
@@ -67,11 +69,28 @@ class Agent:
             'response_schema': {'subgoals': [{'description': 'string', 'bindings': {'parameter': 'entity string'}, 'postconditions': ['predicate(arguments)']}]}})
         if set(data) != {'subgoals'} or not isinstance(data['subgoals'], list) or not 1 <= len(data['subgoals']) <= self.cfg.max_subgoals:
             raise ValueError('invalid bounded subgoal list')
+        # Ignore description wording when detecting repeated contracts. Only public
+        # state is used: this is a retry guard, not a source of hidden knowledge.
+        contracts = []
         for goal in data['subgoals']:
             if set(goal) != {'description', 'bindings', 'postconditions'} or not isinstance(goal['description'], str) or not goal['description']:
                 raise ValueError('invalid subgoal')
-            self._validate_bindings(goal['bindings'], state)
+            if not isinstance(goal['bindings'], dict):
+                raise ValueError('bindings must be an object')
             self._validate_conditions(goal['postconditions'])
+            contracts.append(sorted(str(Predicate.parse(p).bind(goal['bindings']))
+                                    for p in goal['postconditions']))
+        public_state = json.dumps(state.public(), sort_keys=True)
+        if public_state != self.last_plan_state:
+            self.plan_stalls.clear()
+            self.last_plan_state = public_state
+        signature = json.dumps(contracts, sort_keys=True)
+        self.plan_stalls[signature] = self.plan_stalls.get(signature, 0) + 1
+        if self.plan_stalls[signature] >= 3:
+            raise BudgetExceeded('stopped: same plan returned three times in unchanged public state')
+        for goal in data['subgoals']:
+            self._validate_bindings(goal['bindings'], state)
+            self._validate_conditions(goal['postconditions'], state, goal['bindings'])
         return data['subgoals']
 
     @staticmethod
@@ -80,13 +99,31 @@ class Agent:
         return ARITY
 
     @staticmethod
-    def _validate_conditions(conditions):
+    def _validate_conditions(conditions, state=None, bindings=None):
         if not isinstance(conditions, list) or not 1 <= len(conditions) <= 20:
             raise ValueError('nonempty bounded postcondition list required')
         for condition in conditions:
             if not isinstance(condition, str):
                 raise ValueError('predicates must be strings')
-            Predicate.parse(condition)
+            predicate = Predicate.parse(condition).bind(bindings or {})
+            if state is not None:
+                if predicate.name == 'at':
+                    destinations = {c[6:] for c in state.admissible if c.startswith('go to ')}
+                    destinations.update(f[1] for f in state.facts if f[0] == 'at')
+                    if predicate.args[0] not in destinations:
+                        raise ValueError(
+                            f'Invalid navigation goal: {predicate}. at() requires a '
+                            'receptacle from go to commands or the current location. '
+                            'Objects and lamps are not navigation destinations. '
+                            'If the lamp location is unknown, explore an unsearched '
+                            'receptacle; do not guess its location.')
+                for entity in predicate.args:
+                    if entity not in state.entities:
+                        raise ValueError(
+                            f'Invalid postcondition entity: {entity!r}. Use exact observed '
+                            'entity names, including their numbers. If the target object '
+                            'has not been observed, explore an unvisited visible receptacle '
+                            'with at(receptacle) before planning object manipulation.')
 
     @staticmethod
     def _validate_bindings(bindings, state):
@@ -314,6 +351,8 @@ class Agent:
         self.gpu, self.gpu_known, self.invocation_steps = 0.0, True, 0
         self.revision_due = set()
         self.repair_tests = {}
+        self.plan_stalls = {}
+        self.last_plan_state = None
         self.result = {'success': False, 'invocations': [], 'trace': [], 'subgoals_passed': False,
             'program_attempts': 0, 'program_failures': 0, 'program_errors': [], 'candidate_attempts': 0, 'candidate_rejections': 0,
             'input_tokens': 0, 'output_tokens': 0, 'wall_seconds': 0.0, 'model_wall_seconds': 0.0,
@@ -324,6 +363,7 @@ class Agent:
         self.episode = Episode(env, self.cfg.step_budget)
         try:
             env.reset(task)
+            self.initial_observation = env.state.observation
             for replan in range(self.cfg.replans + 1):
                 try:
                     goals = self._goals(env.state)
