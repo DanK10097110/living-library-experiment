@@ -45,14 +45,19 @@ class RuntimeTests(unittest.TestCase):
         self.agent('E', library).run(TASK, 1, {})
         sid = library.current()[0].id
         class InvalidCall(FixtureModel):
+            # Leave the table first, then call the skill whose precondition is being at the table.
             def complete(self, role, payload, seed, context):
-                if role == 'executor':
-                    return ModelResponse({'program': f'act("go to cabinet 1")\ncall({sid!r}, object="apple 1", target="cabinet 1")'})
+                offered = [a for a in payload.get('skills', []) if a.startswith(f'use skill {sid}')]
+                if role == 'actor' and offered:
+                    if 'At table 1.' in payload['prompt'].split('current observation is: ')[-1]:
+                        return ModelResponse({'text': '<action>go to cabinet 1</action>'})
+                    return ModelResponse({'text': f'<action>{offered[0]}</action>'})
                 return super().complete(role, payload, seed, context)
         before = library.snapshot()
         result = self.agent('E-minus', library, InvalidCall(), Settings(repairs=0, replans=0)).run(TASK, 1, {})
-        self.assertFalse(result['success'])
-        self.assertTrue(result['invocations'][0]['retrieval_error'])
+        # Away from the table the skill's precondition fails, so it is not offered: the call is an
+        # invalid action, never an invocation (precondition misses are covered in test_core).
+        self.assertEqual(result['invocations'], [])
         self.assertEqual(before, library.snapshot())
 
     def test_environment_closed_on_model_error(self):
@@ -86,12 +91,13 @@ class RuntimeTests(unittest.TestCase):
                 response = super().complete(role, payload, seed, context)
                 if role == 'planner':
                     response.data['subgoals'][0]['postconditions'] = ['located(object, target)']
-                if payload.get('flat'):
-                    self.flat_observations.append(payload['state']['observation'])
+                if role == 'actor' and context.get('flat'):
+                    # The flat actor must see the CURRENT observation at every step.
+                    self.flat_observations.append(payload['prompt'].split('current observation is: ')[1])
                 return response
         model = Symbolic()
         self.assertTrue(self.agent('C', model=model).run(TASK, 1, {})['success'])
-        self.assertTrue(self.agent('A', model=model).run(TASK, 1, {})['success'])
+        self.assertTrue(self.agent('A', model=model).run(TASK, 1, {'flat': True})['success'])
         self.assertEqual(len(model.flat_observations), 4)
         self.assertEqual(len(set(model.flat_observations)), 4)
 
@@ -110,19 +116,67 @@ class RuntimeTests(unittest.TestCase):
         self.assertGreaterEqual(result['candidate_attempts'], 1)
         self.assertEqual(result['program_failures'], 1)
 
-    def test_weak_candidate_contract_is_rejected(self):
-        class Weak(FixtureModel):
+    def test_failed_skill_is_refined_with_the_execution_error(self):
+        seen = []
+
+        class FirstTryBroken(FixtureModel):
             def complete(self, role, payload, seed, context):
                 response = super().complete(role, payload, seed, context)
                 if role == 'librarian':
-                    response.data['candidate']['postconditions'] = ['exists(object)']
-                    response.data['candidate']['body'] = 'act("look")'
+                    seen.append(payload)
+                    if 'error' not in payload:               # first round: code that does nothing
+                        response.data['candidate']['body'] = 'act("look")\nact("look")'
                 return response
         library = Library()
-        result = self.agent('E', library, Weak()).run(TASK, 1, {})
+        result = self.agent('E', library, FirstTryBroken()).run(TASK, 1, {})
         self.assertTrue(result['success'])
+        self.assertEqual(result['candidate_rejections'], 0)
+        self.assertEqual(result['candidate_refinements'], 1)
+        self.assertEqual(len(seen), 2)
+        self.assertIn('replay', seen[1]['error'])             # the writer saw why it failed
+        self.assertEqual(seen[1]['previous_attempt']['body'], 'act("look")\nact("look")')
+        self.assertEqual(len(library.current()), 1)
+
+    def test_skill_that_never_verifies_is_dropped_after_all_rounds(self):
+        rounds = []
+
+        class Hopeless(FixtureModel):
+            def complete(self, role, payload, seed, context):
+                response = super().complete(role, payload, seed, context)
+                if role == 'librarian':
+                    rounds.append(payload)
+                    response.data['candidate']['postconditions'] = ['is_hot(object)']   # never achieved
+                return response
+        cfg = Settings()
+        library = Library()
+        result = self.agent('E', library, Hopeless(), cfg).run(TASK, 1, {})
+        self.assertEqual(len(rounds), cfg.repairs + 1)
         self.assertEqual(result['candidate_rejections'], 1)
         self.assertEqual(library.current(), [])
+
+    def test_runaway_actor_reply_gets_one_followup(self):
+        class Rambler(FixtureModel):
+            def __init__(self):
+                self.followups = []
+            def complete(self, role, payload, seed, context):
+                if role == 'actor' and 'partial' not in payload and context.get('call_index') == 1:
+                    return ModelResponse({'text': 'Let me think about this at great length...'}, 10, 512)
+                if role == 'actor' and 'partial' in payload:
+                    self.followups.append(payload)
+                return super().complete(role, payload, seed, context)
+        model = Rambler()
+        result = self.agent('C', model=model).run(TASK, 1, {})
+        self.assertTrue(result['success'], result['program_errors'])
+        self.assertEqual(result['actor_followups'], 1)
+        self.assertEqual(model.followups[0]['partial'], 'Let me think about this at great length...')
+        # The follow-up is a three-turn chat with a short token cap.
+        with tempfile.TemporaryDirectory() as directory:
+            http = HTTPModel(Settings(), directory + '/c.sqlite')
+            request = http.request('actor', {'prompt': 'P', 'partial': 'thinking', 'followup': 'act now',
+                                             'followup_tokens': 64}, 1)
+            http.close()
+        self.assertEqual([m['role'] for m in request['messages']], ['user', 'assistant', 'user'])
+        self.assertEqual(request['max_tokens'], 64)
 
     def test_malformed_http_response_is_cached_with_cost(self):
         class Response:
@@ -135,14 +189,16 @@ class RuntimeTests(unittest.TestCase):
                                    'usage': {'prompt_tokens': 12, 'completion_tokens': 3}}).encode()
         with tempfile.TemporaryDirectory() as directory:
             with patch('living_library.models.urlopen', return_value=Response()) as request:
-                model = HTTPModel(Settings(replans=0, repairs=0), directory + '/cache.sqlite')
-                agent = self.agent('A', model=model, cfg=Settings(replans=0, repairs=0))
-                result = agent.run(TASK, 1, {})
-                self.assertEqual(result['input_tokens'], 12)
-                self.assertEqual(result['output_tokens'], 3)
-                self.assertEqual(result['program_failures'], 1)
-                agent.run(TASK, 1, {})
+                model = HTTPModel(Settings(), directory + '/cache.sqlite')
+                first = model.complete('planner', {'task': TASK}, 1, {'n': 1})
+                self.assertIn('_response_error', first.data)
+                self.assertEqual((first.input_tokens, first.output_tokens), (12, 3))
+                again = model.complete('planner', {'task': TASK}, 1, {'n': 1})
+                self.assertTrue(again.cached)
+                self.assertEqual(again.input_tokens, 12)
                 self.assertEqual(request.call_count, 1)
+                # The plain-text actor role keeps the raw text; it is parsed for an <action> tag.
+                self.assertEqual(model.complete('actor', {'prompt': 'p'}, 1, {'n': 2}).data, {'text': 'not JSON'})
                 model.close()
 
     def test_http_durable_cache_has_seed_and_context(self):

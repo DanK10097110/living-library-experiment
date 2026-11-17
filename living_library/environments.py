@@ -1,6 +1,7 @@
 """Deterministic replay for regression tests and explicit split manifests."""
 import copy
 import json
+import re
 from pathlib import Path
 
 from .config import digest
@@ -113,6 +114,9 @@ class ALFWorld:
                                    wrappers=[AlfredDemangler(shuffle=False)])
         self.raw_state = self.env.reset()
         self.state = normalize_alfworld(self.raw_state)
+        match = re.search(r"Your task is to: (.+?)\s*$", self.raw_state["feedback"], re.MULTILINE)
+        # Only the opening observation states the goal; keep it for every later prompt.
+        self.goal = match.group(1).strip() if match else ""
         return self.state
 
     def step(self, command):

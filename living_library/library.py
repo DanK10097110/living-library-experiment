@@ -95,16 +95,36 @@ class SentenceEmbedding:
 
 
 class Library:
-    def __init__(self, cfg=None, skills=None, active=None):
+    def __init__(self, cfg=None, skills=None, active=None, meta=None):
         self.cfg = cfg or Settings()
         self.skills = {s["id"]: Skill(**copy.deepcopy(s)) for s in (skills or [])}
         self.active = dict(active or {})
+        # Consolidation bookkeeping (E-plus only); omitted from snapshots while empty.
+        self.meta = copy.deepcopy(meta or {})
         for name, sid in self.active.items():
             if sid not in self.skills or self.skills[sid].name != name:
                 raise ValueError("corrupt active skill index")
 
     def snapshot(self):
-        return copy.deepcopy({"skills": [asdict(s) for s in self.skills.values()], "active": self.active})
+        data = {"skills": [asdict(s) for s in self.skills.values()], "active": self.active}
+        if self.meta:
+            data["meta"] = self.meta
+        return copy.deepcopy(data)
+
+    def retire(self, sid, reason):
+        """Consolidation only: stop offering a skill. It stays stored for audit."""
+        skill = self.skills[sid]
+        if self.active.get(skill.name) != sid:
+            raise ValueError("only an active skill can be retired")
+        skill.status = "retired"
+        del self.active[skill.name]
+        self.meta.setdefault("retired", {})[sid] = reason
+
+    def unretire(self, sid):
+        skill = self.skills[sid]
+        skill.status = "active"
+        self.active[skill.name] = sid
+        self.meta.get("retired", {}).pop(sid, None)
 
     @classmethod
     def restore(cls, data, cfg):
@@ -122,9 +142,16 @@ class Library:
         return f"{name}@v{max(versions, default=0) + 1}"
 
     def retrieve(self, query, bindings, state, embedder):
-        eligible = [s for s in self.current() if set(s.parameters) <= set(bindings)
-                    and all(bindings[p] in state.entities for p in s.parameters)
-                    and state.check(s.preconditions, bindings)]
+        # Arguments the subgoal does not bind are chosen by the actor at call time; preconditions
+        # that mention them are checked by the invocation itself.
+        def applicable(s):
+            known = {p: bindings[p] for p in s.parameters if p in bindings}
+            if not all(state.resolves(v) for v in known.values()):
+                return False
+            checkable = [c for c in s.preconditions
+                         if not set(Predicate.parse(c).args) & (set(s.parameters) - set(known))]
+            return state.check(checkable, known)
+        eligible = [s for s in self.current() if applicable(s)]
         scores = embedder.similarity(query, [s.description for s in eligible])
         ranked = sorted(zip(eligible, scores), key=lambda pair: (
             -(self.cfg.similarity_weight * pair[1] + self.cfg.reliability_weight * pair[0].reliability(self.cfg)),

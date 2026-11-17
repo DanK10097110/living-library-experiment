@@ -35,17 +35,30 @@ The experimental conditions are:
 | ID | Agent and memory | Practice | Evaluation seeds |
 | --- | --- | --- | --- |
 | A | Flat ReAct, no memory | None | 1 |
-| B | Flat agent, updating code library | 500 | 1 |
-| C | Hierarchy, no memory | None | 3 |
-| D | Hierarchy, successful practice trajectories | 500 | 3 |
-| E | Hierarchy, updating code library | 500 | 3 |
-| E-minus | Hierarchy, append-only code library | 500 | 3 |
-| E-text | Hierarchy, E's exact pre-task library rendered as steps | Shares E's | 3 |
+| B | Flat agent, updating code library (dropped in the lean design) | - | - |
+| C | Hierarchy, no memory | None | 2 |
+| D | Hierarchy, successful practice trajectories | 300 | 2 |
+| E | Hierarchy, updating code library | 300 | 2 |
+| E-minus | Hierarchy, append-only code library | 300 | 2 |
+| E-text | Hierarchy, E's exact pre-task library rendered as steps | Shares E's | 2 |
+| E-plus | E + periodic library consolidation (extension arm) | 300 | 2 |
+
+Lean design (amended 2026-11-14 for local compute, following the proposal's own cut order;
+see `REAL_DESIGN` in `experiment.py` and `protocol.py`): condition B dropped, 300 practice
+episodes per memory condition instead of 500, 70 of the 140 development games in the pilot,
+and 2 evaluation seeds instead of 3. D is kept and all 134 evaluation games are run, for
+about 2,300 episodes instead of about 4,900.
+
+Held-out data: out-of-distribution = the 134 unseen-room games (primary); in-distribution =
+the 70 seen-room games the pilot never touches (secondary). The pilot is a short development
+gate (100 practice episodes for E-minus and E-plus, then 70 seen-room games against C). For the
+practice-length curve, E and E-plus libraries after 50/100/200/300 practice episodes are frozen
+and tested on fixed 40-game ID and OOD subsets. See `protocol.py` for every amendment.
 
 Practice uses one fixed seed per condition. Each evaluation seed starts from an
 independent copy of that practice memory, then updates over its own task stream.
-This resolves the proposal's practice-budget ambiguity in favor of its 2,000
-practice-episode total. D stores only successful **practice** trajectories.
+The study's E-minus practice is the pilot's E-minus practice (same seed, order and
+settings) and replays from the pilot's response cache. D stores only successful **practice** trajectories.
 E-text receives the same seed, task order, and library content as E before each
 task; its own outcomes cannot change that content.
 

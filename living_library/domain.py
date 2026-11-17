@@ -43,12 +43,36 @@ class State:
     won: bool = False
     done: bool = False
 
+    # Arguments may name an instance ("mug 1") or, before any instance is observed, a type ("mug"),
+    # which matches every instance of that type. ALFWorld goals name types, not instances.
+    def instances(self, value):
+        if value in self.entities:
+            return [value]
+        return sorted(e for e in self.entities
+                      if e.rsplit(" ", 1)[0] == value and e.rsplit(" ", 1)[-1].isdigit())
+
+    def resolves(self, value):
+        return bool(self.instances(value))
+
+    def ground(self, value):
+        """A concrete instance for a type: the one held, else one in view, else the first."""
+        candidates = self.instances(value)
+        if len(candidates) <= 1:
+            return candidates[0] if candidates else value
+        held = [e for e in candidates if ("holding", e) in self.facts]
+        seen = [e for e in candidates if re.search(rf"\b{re.escape(e)}\b", self.observation)]
+        return (held or seen or candidates)[0]
+
     def holds(self, predicate):
         if predicate.name == "task_won":
             return self.won
         if predicate.name in {"exists", "findable"}:
-            return predicate.args[0] in self.entities
-        return (predicate.name, *predicate.args) in self.facts
+            return self.resolves(predicate.args[0])
+        if (predicate.name, *predicate.args) in self.facts:
+            return True
+        options = [self.instances(a) or [a] for a in predicate.args]
+        return any(f[0] == predicate.name and len(f) == len(options) + 1
+                   and all(x in o for x, o in zip(f[1:], options)) for f in self.facts)
 
     def check(self, conditions, bindings=None):
         return all(self.holds(Predicate.parse(p).bind(bindings or {})) for p in conditions)

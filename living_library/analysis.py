@@ -1,4 +1,8 @@
-"""Preregistered, task-clustered statistics. No wall time substitutes for GPU time.
+"""Preregistered, task-clustered statistics. Wall time never substitutes for compute cost.
+
+Cost (H2) is weighted tokens per task, input + 4 x output, amortized over practice
+(amendment 2026-11-14): the local server batches many streams at once, so per-request GPU
+time is not observable, and replayed (cached) episodes must cost the same as live ones.
 
 Each task is one bootstrap cluster. Seeds receive equal weight within tasks.
 Invocation success pools eligible invocation numerators/denominators, resampling
@@ -12,8 +16,19 @@ import math
 import numpy as np
 
 
+COST_METRIC = 'weighted_tokens'
+
+
+def weighted_tokens(row):
+    i, o = row.get('input_tokens'), row.get('output_tokens')
+    ok = all(isinstance(v, (int, float)) and not isinstance(v, bool) and math.isfinite(v) and v >= 0 for v in (i, o))
+    return i + 4 * o if ok else None
+
+
 def _row(row):
     result = dict(asdict(row) if is_dataclass(row) else row)
+    if 'weighted_tokens' not in result:
+        result['weighted_tokens'] = weighted_tokens(result)
     aliases = {'all_subgoals_passed': 'subgoals_passed', 'l2_programs': 'program_attempts',
                'rejected_programs': 'program_failures', 'candidate_versions': 'candidate_attempts',
                'candidate_rejections': 'rejections', 'reused_invocations': 'reused_skills'}
@@ -177,7 +192,7 @@ def _cost(practice_costs, condition, seed):
     costs = practice_costs.get('E' if condition == 'E-text' else condition, {})
     value = costs.get(seed, costs.get(str(seed)))
     if isinstance(value, dict):
-        value = value.get('gpu_seconds')
+        value = value.get(COST_METRIC)
     return float(value) if isinstance(value, (int, float)) and math.isfinite(value) and value >= 0 else None
 
 
@@ -205,11 +220,11 @@ def _comparison(groups, left, right, metric, cfg, practice_costs):
             for condition, indexed in ((left, a), (right, b)):
                 row = indexed[task, seed]
                 value = _number(row, metric)
-                if metric == 'gpu_seconds':
+                if metric == COST_METRIC:
                     practice = _cost(practice_costs, condition, seed)
                     value = None if value is None or practice is None else value + practice/len(tasks)
-                if value is None or (metric == 'gpu_seconds' and value < 0):
-                    return {'status': 'unavailable', 'reason': f'missing or invalid {metric} or practice GPU accounting'}
+                if value is None or (metric == COST_METRIC and value < 0):
+                    return {'status': 'unavailable', 'reason': f'missing or invalid {metric} or practice cost accounting'}
                 pair.append(value)
             vals.append(pair[0]-pair[1])
         differences.append(sum(vals)/len(vals))
@@ -239,7 +254,7 @@ def _break_even(groups, cfg, practice_costs):
             dr = b[r['task_id'], seed]
             if r.get('position', r.get('index')) != dr.get('position', dr.get('index')):
                 raise ValueError('break-even comparison requires identical task order')
-            eg, dg = _number(r, 'gpu_seconds'), _number(dr, 'gpu_seconds')
+            eg, dg = _number(r, COST_METRIC), _number(dr, COST_METRIC)
             if None in (ec, dc, eg, dg) or min(ec, dc, eg, dg) < 0:
                 ec = dc = None
                 break
@@ -256,9 +271,9 @@ def analyze(records, cfg, practice_costs=None):
     """Analyze evaluation records; missing pairs raise, missing measures are unknown.
 
     practice_costs maps condition -> seed -> total measured GPU seconds (or a
-    dict containing gpu_seconds). E-text shares E's practice charge.
+    dict containing weighted_tokens). E-text shares E's practice charge.
     Study success requires the H1 point difference >=10pp OR zero inside H1's
-    95% interval with >=30% lower point amortized cost; AND H3 >0 with its
+    95% interval with >=30% lower point amortized cost (weighted tokens); AND H3 >0 with its
     Holm-adjusted two-sided test significant at .05. H4 is reported separately.
     """
     rows = [_row(r) for r in records if _row(r).get('phase') == 'evaluation']
@@ -266,11 +281,15 @@ def analyze(records, cfg, practice_costs=None):
     for row in rows:
         groups[row['condition']].append(row)
     primary = {name: _comparison(groups, 'E', other, metric, cfg, practice_costs)
-               for name, other, metric in [('H1', 'D', 'success'), ('H2', 'D', 'gpu_seconds'),
+               for name, other, metric in [('H1', 'D', 'success'), ('H2', 'D', COST_METRIC),
                                             ('H3', 'E-minus', 'invocation_success'), ('H4', 'E-text', 'success')]}
     _holm(primary)
     secondary = {'E_minus_C': _comparison(groups, 'E', 'C', 'success', cfg, practice_costs),
                  'E_minus_Eminus_task_success': _comparison(groups, 'E', 'E-minus', 'success', cfg, practice_costs),
+                 # Extension arm (outside the Holm family): does consolidation help E?
+                 'Eplus_minus_E': _comparison(groups, 'E-plus', 'E', 'success', cfg, practice_costs),
+                 'Eplus_minus_E_invocations': _comparison(groups, 'E-plus', 'E', 'invocation_success', cfg, practice_costs),
+                 'Eplus_minus_E_cost': _comparison(groups, 'E-plus', 'E', COST_METRIC, cfg, practice_costs),
                  'break_even': _break_even(groups, cfg, practice_costs), 'conditions': {}}
     for condition, rs in sorted(groups.items()):
         token_values = [None if _number(r, 'input_tokens') is None or _number(r, 'output_tokens') is None
@@ -298,8 +317,8 @@ def analyze(records, cfg, practice_costs=None):
     h1, h2, h3 = (primary[k] for k in ('H1', 'H2', 'H3'))
     cost_ratio = None
     if h2['status'] == 'available':
-        dt = sum(r['gpu_seconds'] for r in groups['D']) + sum(_cost(practice_costs, 'D', s) for s in cfg.seeds)
-        et = sum(r['gpu_seconds'] for r in groups['E']) + sum(_cost(practice_costs, 'E', s) for s in cfg.seeds)
+        dt = sum(r[COST_METRIC] for r in groups['D']) + sum(_cost(practice_costs, 'D', s) for s in cfg.seeds)
+        et = sum(r[COST_METRIC] for r in groups['E']) + sum(_cost(practice_costs, 'E', s) for s in cfg.seeds)
         cost_ratio = _ratio(et, dt)
     benefit = None
     if h1['status'] == 'available':
@@ -309,7 +328,8 @@ def analyze(records, cfg, practice_costs=None):
     updating = (h3['estimate'] > 0 and h3['reject_holm_05']) if h3['status'] == 'available' else None
     criterion = False if benefit is False or updating is False else (True if benefit and updating else None)
     return {'primary': primary, 'secondary': secondary, 'study_success': criterion,
-            'amortized_gpu_cost_ratio_E_D': cost_ratio,
+            'amortized_cost_ratio_E_D': cost_ratio, 'cost_metric': 'weighted tokens (input + 4 x output)',
+            'gpu_seconds_measured': all(r.get('gpu_seconds') is not None for r in rows),
             'method': 'Paired task-cluster percentile bootstrap; equal seed task-success/cost means; pooled eligible invocation ratio resampling task clusters; centered two-sided bootstrap p; Holm family of four.',
-            'criterion': 'H1 >=10pp OR zero in H1 CI with >=30% lower amortized GPU cost; AND H3 positive and Holm p<=.05.',
+            'criterion': 'H1 >=10pp OR zero in H1 CI with >=30% lower amortized weighted-token cost; AND H3 positive and Holm p<=.05.',
             'expected_evaluation_tasks': cfg.evaluation_games, 'toy': any(r.get('toy', False) for r in rows)}

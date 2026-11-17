@@ -174,3 +174,31 @@ class CoreTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class LiftedPredicateTests(unittest.TestCase):
+    def test_types_match_any_instance_and_ground_to_held_or_seen(self):
+        from living_library.domain import State, Predicate
+        state = State('On the countertop 1, you see a mug 2.', [], {'mug 1', 'mug 2', 'countertop 1', 'sinkbasin 1'},
+                      {('located', 'mug 2', 'countertop 1')})
+        self.assertTrue(state.holds(Predicate.parse('located(mug, countertop 1)')))
+        self.assertFalse(state.holds(Predicate.parse('located(mug, sinkbasin)')))
+        self.assertTrue(state.resolves('mug') and not state.resolves('kettle'))
+        self.assertEqual(state.ground('mug'), 'mug 2')        # in view
+        state.facts.add(('holding', 'mug 1'))
+        self.assertEqual(state.ground('mug'), 'mug 1')        # held wins
+        self.assertEqual(state.ground('sinkbasin 1'), 'sinkbasin 1')
+
+
+class SkillArgumentTests(unittest.TestCase):
+    def test_actor_fills_unbound_arguments_and_types_ground(self):
+        from living_library.agents import Agent
+        from living_library.domain import State
+        from living_library.library import Skill
+        skill = Skill('take_object@v1', 'take obj from place', {'obj': 'entity', 'place': 'entity'},
+                      [], ['holding(obj)'], 'act(f"take {obj} from {place}")', status='active')
+        goal = {'bindings': {'obj': 'mug'}}
+        self.assertEqual(Agent._skill_action(skill, goal), 'use skill take_object@v1 obj=mug, place=<place>')
+        state = State('On the countertop 1, you see a mug 2.', [], {'mug 1', 'mug 2', 'countertop 1'}, set())
+        args = Agent._skill_arguments('use skill take_object@v1 obj=mug, place=countertop 1', skill, goal, state)
+        self.assertEqual(args, {'obj': 'mug 2', 'place': 'countertop 1'})

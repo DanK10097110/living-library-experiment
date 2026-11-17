@@ -1,0 +1,30 @@
+"""Expectations fixed from the proposal, not empirical claims about this run."""
+
+PREREGISTRATION = {
+    "hypotheses": {
+        "H1": {"comparison": "E - D", "primary_metric": "task_success",
+               "secondary_comparison": "E - C", "expectation": "no confident prediction against D"},
+        "H2": {"comparison": "E - D", "primary_metric": "amortized_weighted_tokens_per_task",
+               "expectation": "E eventually costs less including practice"},
+        "H3": {"comparison": "E - E-minus", "primary_metric": "skill_invocation_success",
+               "expectation": "updates help; smaller gains than adding memory"},
+        "H4": {"comparison": "E - E-text", "primary_metric": "task_success",
+               "expectation": "executable skills outperform the same content rendered as text"},
+    },
+    "exploratory": "B versus E: no prediction about the contribution of hierarchy",
+    "other_expectations": {"E_vs_C": "memory helps", "C_vs_A": "hierarchy helps somewhat"},
+    "success_criterion": "E-D success >=10 percentage points, OR zero within its 95% CI and >=30% lower amortized GPU cost; AND positive E-E-minus invocation effect with Holm p<=.05. Cost = weighted tokens (amendment). H4 is reported separately.",
+    "statistics": "Paired bootstrap 95% intervals clustering by task; average seeds for task success/cost; pooled invocation counts with tasks resampled as clusters; Holm correction across H1-H4.",
+    "practice_allocation": "300 episodes per memory-building condition (lean amendment; proposal: 500), one fixed practice seed; clone that memory into each independent evaluation seed. E-text shares E's practice charge.",
+    "cost_amendment_2026_11_14": "H2 cost is weighted tokens (input + 4 x output) per task including amortized practice, instead of GPU-seconds: the local server batches many episodes at once, so per-request GPU time is not observable, and cached replays must cost the same as live calls. Model wall-seconds are reported descriptively.",
+    "extension_E_plus_2026_11_15": "E-plus = E + library consolidation every 25 episodes (consolidation.py): evidence-based retirement (ignored when offered, unreliable when chosen, never chosen; never by length), back-to-back skill pairs composed into meta-skills, near-duplicates merged and too-specific skills generalized by a curator role using the same model. Every new skill passes the replay gate on the tests of the skills it replaces. Reported against E outside the H1-H4 family.",
+    "held_out_data_2026_11_15": "Out-of-distribution test = the 134 unseen-room games (whole split held back; primary, H1-H4). In-distribution test = the 70 seen-room games the pilot never touched (secondary, same analysis). Practice uses only the train split.",
+    "practice_length_curve_2026_11_15": "Libraries of E and E-plus after 50/100/200/300 practice episodes are frozen (read-only) and tested on fixed 40-game ID and OOD subsets (first evaluation seed); C on the same games is the 0 point. Answers whether more practice keeps paying off, separately for ID and OOD.",
+    "frozen_evaluation_2026_11_15": "Every test (pilot development, study ID and OOD evaluation, snapshot replays) reads the practice memory frozen: nothing is learned at test time, so test episodes are independent and run in parallel. E-text reads E's frozen practice library rendered as text. Practice stays sequential. Seeds: one (11) everywhere; condition A dropped. The practice-length curve replays the library at 150 episodes; its final point is the main evaluation (300) and its 0 point is C.",
+    "batched_practice_2026_11_15": "Practice runs in batches of 4 games for every memory condition: the games of a batch start from the same memory and are merged in fixed position order afterwards (batching.py); each game remains its own episode and every admitted skill passed its replay gate. E-plus writes skills only at the end of games it won, seeing the whole game; failed games feed the reflector, whose lessons (and the skills written from the now-won simulated game) are kept only if the simulation fixes the failure without breaking a won game.",
+    "batch8_2026_11_15": "Practice batches of 8 games (each game still writes its own skills from its own trace; merged one game at a time). E-plus library management runs at the end of every batch (consolidation_interval 8) with at most 2 merges and 1 simulation-checked lesson per round.",
+    "pilot_2026_11_15": "Development gate only: 100 practice episodes for E-minus and E-plus, each then tested on 70 seen-room games against C. Gates are computed for E-minus; E-plus is reported.",
+    "design_amendment_2026_11_14": "For local compute, following the proposal's cut order: condition B dropped; seeds 3 -> 2; practice 500 -> 300 (equal for every memory condition); pilot development 140 -> 70 games. D is kept; all 134 evaluation games are run. Total about 2,300 episodes instead of about 4,900.",
+    "sanity_rule": "If E-C is near zero, inspect retrieval, execution and predicate logs before interpreting a null result.",
+    "optional_extensions": "Excluded from the seven-condition core study and its success criterion.",
+}
