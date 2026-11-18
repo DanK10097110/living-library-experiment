@@ -120,7 +120,8 @@ RULE_FORM = (
     'A rule is ONE short, general sentence, "If/When <condition>, <action>.", at most 25 words, e.g. '
     '"If a container is closed, open it before putting things in it." It must help in other games too: '
     'say "the object", "the target", "a container" instead of this game\'s objects and places, never name '
-    'numbered objects ("drawer 3"), never narrate a game ("the agent took ..."), do not start with the rule '
+    'numbered objects ("drawer 3"), never name a specific portable object (plate, tomato, fork, mug) or a '
+    'room (a game is one room); write for the whole task type; never narrate a game ("the agent took ..."), do not start with the rule '
     'type. Only a Success Process may list steps: at most 5 short steps (at most 40 words) for a kind '
     'of task that carry what the games showed and is not obvious: which appliance or place does the job '
     'and the exact command form, where the object was found (places to search first), what must be '
@@ -247,10 +248,40 @@ def recipe_shaped(text):
                                 or text.count(',') >= 3)
 
 
-def checked(kind, text):
-    """Tidied rule text, or ValueError naming its problems."""
+def specific_terms(text):
+    """Words that tie a rule to one object or to rooms: an ALFWorld object (or its plural) or "room(s)".
+    Appliances and receptacles (avoid.PLACES) are fine."""
+    found = set()
+    for word in re.findall(r'[a-z]+', text.lower()):
+        if word in avoid.OBJECTS or re.fullmatch(r'rooms?', word) or any(
+                word in (o + 's', o + 'es') for o in avoid.OBJECTS):
+            found.add(word)
+    return sorted(found)
+
+
+def generalize(kind, text, ask):
+    """Text with no specific objects/rooms: as given, or one Builder rewrite; ValueError if still specific."""
+    bad = specific_terms(text)
+    if not bad:
+        return text
+    data = ask('builder', {'instructions': (
+        'Rewrite this rule of a household-game manual so it is general for the whole task type: replace '
+        'specific objects with "the object" / "the target", never name a room (a game is one room), keep '
+        'it at most 25 words and keep its meaning. Output {"rule": "..."}.'),
+        'rule': text, 'offending_words': bad, 'response_schema': {'rule': 'string'}})
+    new = tidy(data['rule']) if isinstance(data, dict) and isinstance(data.get('rule'), str) else ''
+    if not new or specific_terms(new) or rule_problems(kind, new):
+        raise ValueError(f"rejected {kind} text, names specific objects or rooms ({', '.join(bad)}): {text[:80]}")
+    return new
+
+
+def checked(kind, text, ask=None):
+    """Tidied rule text, or ValueError naming its problems. With `ask` (a model call), text naming
+    specific objects or rooms gets one general rewrite, or is rejected."""
     text = tidy(text)
     problems = rule_problems(kind, text)
+    if ask is not None and not problems:
+        text = generalize(kind, text, ask)
     if problems:
         raise ValueError(f"rejected {kind} text, {'; '.join(problems)}: {text[:80]}")
     return text
@@ -421,7 +452,7 @@ def _game(result, task_goal, max_steps=40):
 
 
 def apply(rules, operations, case, append_only, next_id, log, task_type=None, visible=None, similarity=None,
-          goal=None):
+          goal=None, ask=None):
     """Apply Builder operations under the case limits; returns the applied operations (for batching).
     `visible`: ids the Builder was shown (it may only change those); default all. `goal`: the game's
     task, stored on written rules (and merged ones) as task-keyed retrieval evidence.
@@ -453,7 +484,7 @@ def apply(rules, operations, case, append_only, next_id, log, task_type=None, vi
                     raise ValueError(f"a {case} may not write a {op['type']} rule")
                 if writes >= MAX_WRITES[case]:
                     raise ValueError(f'a {case} may write at most {MAX_WRITES[case]} rule(s)')
-                text = checked(op['type'], op['rule'])
+                text = checked(op['type'], op['rule'], ask)
                 if any(tidy(r['rule']).lower() == text.lower() for r in rules):
                     raise ValueError('duplicate rule')
                 if op['type'] == 'Success Process':
@@ -519,7 +550,7 @@ def apply(rules, operations, case, append_only, next_id, log, task_type=None, vi
                     if not changes:
                         continue
                 if 'rule' in changes:
-                    changes['rule'] = checked(changes.get('type', rule['type']), changes['rule'])
+                    changes['rule'] = checked(changes.get('type', rule['type']), changes['rule'], ask)
                 if 'example' in changes:
                     changes['example'] = ' '.join(changes['example'].split())[:MAX_EXAMPLE]
                 if 'validation' in changes:   # keep the last few notes, as AutoManual does
@@ -640,7 +671,7 @@ def refine(agent, rules, candidates, report):
             text = data.get('rule')
             if not isinstance(text, str) or not text.strip():
                 raise ValueError('refiner gave no rule')
-            text = checked(rule['type'], text)    # a concise rewrite; nothing is appended
+            text = checked(rule['type'], text, agent._ask)    # a concise rewrite; nothing is appended
             op = {'op': 'refine', 'id': rule['id'], 'rule': text, 'refined_at': observed(rule)}
             _refine(rules, op)
             report['operations'].append(op)
@@ -790,7 +821,7 @@ def build(agent):
         report['diagnosis'] = data.get('diagnosis')
         report['operations'] += apply(rules, data.get('operations'), report['case'], append_only, next_id,
                                       report['errors'], agent.task.get('task_type'), [r['id'] for r in shown],
-                                      agent.embedder.similarity, agent.public_task.get('goal', ''))
+                                      agent.embedder.similarity, agent.public_task.get('goal', ''), agent._ask)
     except (ValueError, RuntimeError, KeyError, TypeError) as exc:
         report['errors'].append(f'builder: {exc}'[:200])
     report['operations'] += avoid_update(agent, rules, report, summary, append_only, next_id)

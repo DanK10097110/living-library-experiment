@@ -205,5 +205,43 @@ class GameAndBatchTests(unittest.TestCase):
         self.assertEqual((rules[0]['alpha'], rules[0]['beta']), (1, 1))
 
 
+class GeneralRuleTests(unittest.TestCase):
+    def test_specific_terms_finds_objects_plurals_and_rooms_but_not_appliances(self):
+        self.assertEqual(manual.specific_terms('When cooling a tomato, use the fridge and a cabinet.'), ['tomato'])
+        self.assertEqual(manual.specific_terms('Check plates and Mugs on the countertops.'), ['mugs', 'plates'])
+        self.assertEqual(manual.specific_terms('Search all rooms, then the room.'), ['room', 'rooms'])
+        self.assertEqual(manual.specific_terms('Heat it in the microwave; clean it in the sinkbasin under the desklamp.'), [])
+
+    def write(self, text, answer):
+        calls = []
+
+        def ask(role, payload):
+            calls.append((role, payload))
+            return {'rule': answer}
+        rules, log = [], []
+        manual.apply(rules, [{'op': 'write_rule', 'type': 'Special Phenomenon', 'rule': text}], 'direct success',
+                     False, lambda: 'rule_1', log, 'pick', ask=ask)
+        return rules, log, calls
+
+    def test_specific_rule_is_rewritten_once_and_accepted(self):
+        rules, log, calls = self.write('When a fork must be cleaned, search all cabinets first.',
+                                       'When the object must be cleaned, search all cabinets first.')
+        self.assertEqual([r['rule'] for r in rules], ['When the object must be cleaned, search all cabinets first.'])
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(calls[0][0], 'builder')
+        self.assertEqual(calls[0][1]['offending_words'], ['fork'])
+
+    def test_rewrite_that_is_still_specific_is_rejected_and_logged(self):
+        rules, log, calls = self.write('Search all rooms for the plate.', 'Search the room for the plate.')
+        self.assertEqual(rules, [])
+        self.assertIn('specific objects or rooms', log[0])
+        self.assertEqual(len(calls), 1)
+
+    def test_general_rule_makes_no_model_call(self):
+        rules, log, calls = self.write('When heating, use the microwave.', 'unused')
+        self.assertEqual(len(rules), 1)
+        self.assertEqual(calls, [])
+
+
 if __name__ == '__main__':
     unittest.main()
