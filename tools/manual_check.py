@@ -15,6 +15,21 @@ from living_library.config import Settings  # noqa: E402
 from living_library.experiment import Runner, load_json, paired_comparison, stream_spec  # noqa: E402
 
 
+def load_rules(path):
+    """(rules, message): rules.json is stripped of per-rule 'contexts' (the won tasks/plans/steps that task-keyed
+    and plan retrieval use), so prefer the sibling rules-full.json when the given file has none."""
+    path = Path(path)
+    rules = json.loads(path.read_text())
+    if any(r.get('contexts') for r in rules):
+        return rules, None
+    full = path.with_name('rules-full.json')
+    if full != path and full.exists():
+        fuller = json.loads(full.read_text())
+        if any(r.get('contexts') for r in fuller):
+            return fuller, f'note: {path.name} has no contexts; using {full} instead'
+    return rules, 'WARNING: rules have no contexts: task-keyed/plan retrieval fall back to rule text'
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument('rules')
@@ -32,7 +47,9 @@ def main():
     cfg = Settings.load('configs/pilot.json')
     runner = Runner(cfg, load_json('/root/ll-runs/manifest.json'), a.output)
     games = runner.pilot_development()[:a.games]
-    rules = json.loads(Path(a.rules).read_text())
+    rules, message = load_rules(a.rules)
+    if message:
+        print(message, flush=True)
     # A one-episode "practice" stream that only holds the manual, read frozen by the test stream.
     holder = stream_spec('E', 'practice', 0, games[:1])
     holder_dir = Path(a.output) / 'checkpoints' / holder['key']

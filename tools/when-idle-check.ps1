@@ -32,7 +32,7 @@ try {
     $cmd = "cd '/mnt/c/Git Repos/living-library-experiment' && rm -rf /root/ll-runs/mini-macla /root/ll-runs/manual-check && " +
            "PYTHONUNBUFFERED=1 /root/venvs/living/bin/python tools/mini_practice.py --games $Games --output /root/ll-runs/mini-macla 2>&1 | grep -v 'Loading weights' > /root/ll-runs/mini-macla-report.txt; " +
            "echo; echo '=== 30-game check (manual vs C) ===' >> /root/ll-runs/mini-macla-report.txt; " +
-           "PYTHONUNBUFFERED=1 /root/venvs/living/bin/python tools/manual_check.py /root/ll-runs/mini-macla/rules.json /root/ll-runs/old-pilot-9b-v1 --games 30 2>&1 | grep -v 'Loading weights' | tail -5 >> /root/ll-runs/mini-macla-report.txt; " +
+           "PYTHONUNBUFFERED=1 /root/venvs/living/bin/python tools/manual_check.py /root/ll-runs/mini-macla/rules-full.json /root/ll-runs/old-pilot-9b-v1 --games 30 2>&1 | grep -v 'Loading weights' | tail -5 >> /root/ll-runs/mini-macla-report.txt; " +
            "cp /root/ll-runs/mini-macla-report.txt /root/ll-runs/mini-macla/report.txt"
     wsl.exe -d Ubuntu-24.04 -u root -- bash -lc $cmd
     Log "done (exit $LASTEXITCODE)"
