@@ -435,6 +435,25 @@ def new_rule(rule_id, kind, text, example, task_type, verified=True, sources=())
             'verified': bool(verified), 'sources': [dict(s) for s in sources]}
 
 
+KIND_SPECIFIC = re.compile(r'\b(cool(?:ed|ing)?|fridge|refrigerator|heat(?:ed|ing)?|microwave|clean(?:ed|ing)?|'
+                           r'sinkbasin|sink|desklamp|floorlamp|lamp|light|two objects|both|each object|'
+                           r'multiple objects|two|second object)\b', re.IGNORECASE)
+
+
+def kind_specific(text):
+    """Rule text that names an action or appliance of one kind of task cannot hold in every task."""
+    return bool(KIND_SPECIFIC.search(text))
+
+
+def narrowed(rule, task_type, log):
+    """An 'all' rule whose text is kind-specific is limited to this game's kind of task (True if changed)."""
+    if rule.get('task_type') == 'all' and task_type and kind_specific(rule['rule']):
+        rule['task_type'] = task_type
+        log.append(f"{rule['id']} narrowed from all tasks to {task_type} (its text names a task-specific action)")
+        return True
+    return False
+
+
 def add_source(rule, source):
     if source and source not in rule.setdefault('sources', []):
         rule['sources'] = (rule['sources'] + [dict(source)])[-MAX_SOURCES:]
@@ -495,12 +514,16 @@ def apply(rules, operations, case, append_only, next_id, log, task_type=None, vi
                         raise ValueError(f"a Success Process for this kind of task exists ({existing['id']}): "
                                          'update it instead')
                 scope = 'all' if op.get('scope') == 'all' and op['type'] != 'Success Process' else task_type
+                if scope == 'all' and task_type and kind_specific(text):
+                    scope = task_type
+                    log.append(f'a general rule was limited to {task_type} (its text names a task-specific action)')
                 twin = None if append_only or similarity is None else near_duplicate(
                     rules, op['type'], scope, text, similarity, task_type)
                 if twin is not None:
                     # MACLA: merge into the existing rule instead of adding a near-copy (counts as agreement).
                     # Its scope never changes; this game's task is kept as extra retrieval evidence.
                     add_source(twin, source)
+                    narrowed(twin, task_type, log)
                     merged = {'op': 'merge_rule', 'id': twin['id'], 'task_type': twin.get('task_type'),
                               **({'source': source} if source else {}), **confirm(twin)}
                     vote(rules, by_id, twin['id'], 1)
@@ -558,6 +581,8 @@ def apply(rules, operations, case, append_only, next_id, log, task_type=None, vi
                                                        + [changes['validation']]).split(' | ')[-3:]
                     changes['validation'] = ' | '.join(changes['validation'])
                 rule.update(changes)
+                if narrowed(rule, task_type, log):
+                    changes['task_type'] = rule['task_type']
                 changes.update(confirm(rule))
                 vote(rules, by_id, rule['id'], 1)            # ExpeL: EDIT also counts as agreement
                 applied.append({'op': 'update_rule', 'id': rule['id'], **changes})
@@ -882,11 +907,13 @@ def replay(live, operations, log):
             vote(rules, by_id, op['id'], 1 if op['op'] == 'upvote_rule' else -1)
         elif op['op'] == 'merge_rule':        # scope never changes on a merge
             add_source(by_id[op['id']], op.get('source'))
+            if by_id[op['id']].get('task_type') == 'all' and op.get('task_type') not in (None, 'all'):
+                by_id[op['id']]['task_type'] = op['task_type']
             if op.get('verified'):
                 by_id[op['id']]['verified'] = True
             vote(rules, by_id, op['id'], 1)
         else:
             by_id[op['id']].update({k: v for k, v in op.items()
-                                    if k in ('rule', 'example', 'validation', 'type', 'verified')})
+                                    if k in ('rule', 'example', 'validation', 'type', 'verified', 'task_type')})
             vote(rules, by_id, op['id'], 1)
     return rules

@@ -45,6 +45,31 @@ class RuleOperationTests(unittest.TestCase):
         self.assertTrue(any('may not write a Success Process' in e for e in log))
         self.assertTrue(any('at most 1' in e for e in log))
 
+    def test_general_scope_is_refused_for_kind_specific_text(self):
+        text = 'When an object must be cooled and placed, search kitchen areas first, cool with fridge if closed.'
+        rules, log = [], []
+        manual.apply(rules, [{'op': 'write_rule', 'type': 'Corrected Error', 'rule': text, 'scope': 'all'}],
+                     'indirect success', False, ids(), log, task_type='pick_cool_then_place_in_recep')
+        self.assertEqual(rules[0]['task_type'], 'pick_cool_then_place_in_recep')
+        self.assertTrue(any('limited to' in e for e in log))
+        rules, log = [], []
+        manual.apply(rules, [{'op': 'write_rule', 'type': 'Corrected Error',
+                              'rule': 'When a door is closed, open it first.', 'scope': 'all'}],
+                     'indirect success', False, ids(), log, task_type='heat')
+        self.assertEqual(rules[0]['task_type'], 'all')
+
+    def test_update_and_merge_narrow_kind_specific_general_rules(self):
+        rule = {'id': 'rule_1', 'type': 'Corrected Error', 'rule': 'When a door is closed, open it first.',
+                'example': '', 'validation': '', 'task_type': 'all', 'verified': True}
+        applied = manual.apply([rule], [{'op': 'update_rule', 'id': 'rule_1',
+                                         'rule': 'When an item is hot, heat it in the microwave.'}],
+                               'indirect success', False, ids(), [], task_type='heat')
+        self.assertEqual(rule['task_type'], 'heat')
+        self.assertEqual(applied[0]['task_type'], 'heat')
+        twin = {'id': 'rule_2', 'type': 'Corrected Error', 'rule': 'Use the fridge.', 'task_type': 'all'}
+        self.assertTrue(manual.narrowed(twin, 'cool', []))
+        self.assertEqual(twin['task_type'], 'cool')
+
     def test_append_only_cannot_change_rules_and_validation_keeps_three_notes(self):
         rules = [{'id': 'rule_1', 'type': 'Success Process', 'rule': 'When x, do y.', 'example': '', 'validation': ''}]
         log = []
