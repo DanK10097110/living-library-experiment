@@ -58,6 +58,37 @@ class RuleOperationTests(unittest.TestCase):
         self.assertEqual(rules[0]['validation'], 'b | c | d')
         self.assertNotIn('b | c | d', ' '.join(manual.render(rules)))          # never shown to the agent
 
+    def test_rule_text_must_be_short_and_general(self):
+        long = 'When the task is to put two objects in a container, ' + 'pick up the object and move it, ' * 6
+        rules, log = [], []
+        manual.apply(rules, [{'op': 'write_rule', 'type': 'Corrected Error', 'rule': long},
+                             {'op': 'write_rule', 'type': 'Special Phenomenon',
+                              'rule': 'When at drawer 3, open drawer 3 first.'}], 'indirect success', False, ids(), log)
+        self.assertEqual(rules, [])
+        self.assertIn('too long', log[0])
+        self.assertIn("numbered object ('drawer 3')", log[1])
+        # a short general rule passes; a type label and repeated words are tidied away
+        manual.apply(rules, [{'op': 'write_rule', 'type': 'Special Phenomenon',
+                              'rule': 'Special Phenomenon: When when a container is closed, open it first.',
+                              'example': 'open drawer 3; ' * 40}], 'direct success', False, ids(), log)
+        self.assertEqual(rules[0]['rule'], 'When a container is closed, open it first.')
+        self.assertLessEqual(len(rules[0]['example']), manual.MAX_EXAMPLE)    # examples may quote real steps
+        # list numbering in a recipe is not a numbered object; updates are checked too
+        self.assertEqual(manual.rule_problems('Success Process', 'When placing: 1. take it, 2. go there, 3. put it.'), [])
+        log = []
+        manual.apply(rules, [{'op': 'update_rule', 'id': 'rule_1', 'rule': long}], 'direct success', False, ids(), log)
+        self.assertEqual(rules[0]['rule'], 'When a container is closed, open it first.')
+        self.assertIn('too long', log[0])
+
+    def test_builder_is_told_its_types_and_the_existing_recipe(self):
+        recipe = {'id': 'rule_4', 'type': 'Success Process', 'rule': 'r', 'task_type': 'pick'}
+        guide = manual.builder_guide('failure', False, 'pick', [recipe])
+        self.assertIn('only these types here: Unresolved Error, Special Phenomenon', guide)
+        self.assertNotIn('already has a Success Process', guide)              # it may not write one anyway
+        guide = manual.builder_guide('direct success', False, 'pick', [recipe])
+        self.assertIn('already has a Success Process (rule_4)', guide)
+        self.assertIn('at most 25 words', guide)
+
     def test_one_success_process_per_task_type(self):
         rules, log = [], []
         recipe = {'op': 'write_rule', 'type': 'Success Process', 'rule': 'When putting, take then move.'}
@@ -117,11 +148,11 @@ class ManualInGamesTests(unittest.TestCase):
         result = agent.run(TASK, 1, {'phase': 'practice'})
         self.assertTrue(result['success'])
         self.assertEqual(result['manual']['case'], 'direct success')
-        self.assertEqual([r['type'] for r in rules], ['Success Process'])
+        self.assertEqual([r['type'] for r in rules if r['type'] != 'Failure Pool'], ['Success Process'])
         Agent(Settings(), 'E', Spy(), Library(), LexicalEmbedding(), MiniWorld, rules=rules).run(
             TASK, 1, {'phase': 'practice'})
         self.assertIn('Rules learned from earlier practice', seen[-1])
-        self.assertEqual(len(rules), 1)                                     # duplicate not written twice
+        self.assertEqual(len([r for r in rules if r['type'] != 'Failure Pool']), 1)                                     # duplicate not written twice
 
     def test_tests_and_etext_only_read_rules(self):
         rules = [{'id': 'rule_1', 'type': 'Success Process', 'rule': 'When x, do y.', 'example': '', 'validation': ''}]
@@ -141,7 +172,7 @@ class ManualInGamesTests(unittest.TestCase):
             specs = runner.study_specs(demo_count=4)
             self.assertTrue(runner.execute(specs, workers=4, log=quiet))
             final = json.loads((Path(tmp) / 'checkpoints' / 'practice-E-0' / '00003.json').read_text())['memory']
-            self.assertEqual([r['type'] for r in final['rules']], ['Success Process'])
+            self.assertEqual([r['type'] for r in final['rules'] if r['type'] != 'Failure Pool'], ['Success Process'])
             text = json.loads((Path(tmp) / 'checkpoints' / 'evaluation-E-text-11' / '00000.json').read_text())
             self.assertEqual(text['memory']['rules'], final['rules'])
 

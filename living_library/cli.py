@@ -1,4 +1,5 @@
-"""Explicit commands: fixture smoke test, manifest, pilot, freeze, study, analysis."""
+"""Explicit commands: fixture smoke test, manifest, study (with its early gate), analysis.
+`pilot` and `freeze` remain for the model bake-off (tools/run.ps1 bakeoff); the study no longer needs them."""
 import argparse
 import json
 from pathlib import Path
@@ -6,7 +7,7 @@ import sys
 
 from .config import CONDITIONS, Settings, write_json
 from .environments import build_manifest, demo_manifest
-from .experiment import Runner, freeze, load_json, verify_freeze
+from .experiment import Runner, freeze, load_json, restart_library
 
 
 def session(command, workers):
@@ -37,11 +38,19 @@ def parser():
         if name == 'freeze':
             command.add_argument('--pilot-dir', required=True)
         if name == 'study':
-            command.add_argument('--freeze', required=True)
             command.add_argument('--conditions', nargs='+', choices=CONDITIONS,
                                  help='default: the conditions in the config')
-            command.add_argument('--reuse-pilot', metavar='PILOT_DIR',
-                                 help="replay the pilot's E-minus practice model responses")
+            command.add_argument('--gate-at', type=int, default=75,
+                                 help='early gate after this many library practice games (0: no gate)')
+            command.add_argument('--gate-games', type=int, default=30,
+                                 help='paired development games for the early gate')
+            command.add_argument('--gate-margin', type=int, default=0,
+                                 help='gate passes when E wins - C wins >= this')
+            command.add_argument('--past-gate', action='store_true',
+                                 help='continue from the checkpoint although the early gate failed')
+            command.add_argument('--restart-library', action='store_true',
+                                 help="discard E/E-minus/E-text practice and everything built on it "
+                                      "(keeps C and D), then run")
         if name != 'freeze':
             session(command, workers=8)
     status = commands.add_parser('status', help='progress of a pilot or study output directory')
@@ -99,6 +108,11 @@ def print_status(output):
         filled = round(20 * done / n)
         rate = f"  success {wins[key]}/{seen[key]}" if seen.get(key) else ''
         print(f"  {key:28} {'#' * filled}{'.' * (20 - filled)} {done:4}/{n}{rate}")
+    if (output / 'gate.json').exists():
+        g = load_json(output / 'gate.json')
+        verdict = 'passed' if g['passed'] else ('FAILED, continued' if g.get('continued') else 'FAILED, stopped')
+        print(f"  early gate at {g['checkpoint']}: E {g['E_wins']} vs C {g['C_wins']} of {g['paired_games']} "
+              f"paired games, {g['rule_count']} rules, {g['builder_errors']} builder errors -> {verdict}")
 
 
 def main(argv=None):
@@ -135,11 +149,17 @@ def main(argv=None):
                     return 0
                 print(json.dumps(evidence['gate'], indent=2))
             else:
-                verify_freeze(cfg, manifest, args.freeze)
+                if args.restart_library:
+                    restart_library(cfg, manifest, args.output)
                 runner = Runner(cfg, manifest, args.output)
-                records = runner.study(args.conditions, freeze_path=args.freeze, workers=args.workers,
+                records = runner.study(args.conditions, workers=args.workers,
                                        max_episodes=args.max_episodes, max_hours=args.max_hours,
-                                       reuse_pilot=args.reuse_pilot)
+                                       gate_at=args.gate_at, gate_games=args.gate_games,
+                                       gate_margin=args.gate_margin, past_gate=args.past_gate)
+                gate = runner.gate
+                if gate is not None and not (gate['passed'] or gate.get('continued')):
+                    print(f'study stopped at the early gate: {Path(args.output) / "gate.json"}')
+                    return 3
                 if not runner.complete:
                     print(f'study paused: {args.output}')
                     return 0

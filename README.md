@@ -1,6 +1,6 @@
 # Living skill library experiment
 
-A Python implementation of the revised proposal in this repository: a pilot-first
+A Python implementation of the revised proposal in this repository: a gated
 comparison of local agents with executable skill memory, trajectory memory, and
 no memory. The implementation includes all seven core conditions. It does **not**
 include benchmark results: only deterministic CPU fixtures have been run.
@@ -26,7 +26,7 @@ The core is in `living_library/`:
 | `program.py` | Bounded interpreter for generated Python skills |
 | `library.py` | Contracts, Beta reliability, retrieval, admission, fallback and rollback |
 | `models.py`, `agents.py` | Local inference/cache, flat and hierarchical execution, repair and replanning |
-| `experiment.py`, `protocol.py` | Split guards, pilot gates, freezing, checkpoints and pre-registered expectations |
+| `experiment.py`, `protocol.py` | Split guards, the early gate and library restart, checkpoints and pre-registered expectations |
 | `analysis.py` | Paired task-cluster bootstrap, Holm correction and secondary metrics |
 | `extensions.py` | Optional conservative consolidation, separate from core runs |
 
@@ -50,19 +50,18 @@ and 2 evaluation seeds instead of 3. D is kept and all 134 evaluation games are 
 about 2,300 episodes instead of about 4,900.
 
 Held-out data: out-of-distribution = the 134 unseen-room games (primary); in-distribution =
-the 70 seen-room games the pilot never touches (secondary). The pilot is a short development
-gate (100 practice episodes for E-minus and E-plus, then 70 seen-room games against C). For the
+the 70 seen-room games the development gate never touches (secondary). There is no separate
+pilot any more (amended 2026-11-17): the study has an early gate instead (see below). For the
 practice-length curve, E and E-plus libraries after 50/100/200/300 practice episodes are frozen
 and tested on fixed 40-game ID and OOD subsets. See `protocol.py` for every amendment.
 
 Practice uses one fixed seed per condition. Each evaluation seed starts from an
 independent copy of that practice memory, then updates over its own task stream.
-The study's E-minus practice is the pilot's E-minus practice (same seed, order and
-settings) and replays from the pilot's response cache. D stores only successful **practice** trajectories.
+D stores only successful **practice** trajectories.
 E-text receives the same seed, task order, and library content as E before each
 task; its own outcomes cannot change that content.
 
-To prepare a real pilot, install the optional dependencies in an environment
+To prepare a real run, install the optional dependencies in an environment
 appropriate for ALFWorld:
 
 ```bash
@@ -78,8 +77,8 @@ supporting `/v1/chat/completions`, JSON output, and token usage, such as a
 The default endpoints are ports 8000 and 8001. The program does not launch servers
 or choose/download a quantized model for you.
 
-`configs/pilot.json` is a **draft**, not frozen experimental settings. Before the
-pilot, record actual model revisions, embedding revision, quantization and
+`configs/pilot.json` holds the study settings (the name is historical). Before the
+study, record actual model revisions, embedding revision, quantization and
 hardware there. Use immutable model commit IDs or local artifact checksums and
 the actual served model names. The proposal's
 [Qwen3-14B](https://huggingface.co/Qwen/Qwen3-14B) and
@@ -91,32 +90,42 @@ this client cannot attest those weights remotely.
 
 The following commands opt into the real workload. They have not been run:
 
+On this machine use `tools\run.ps1 study` (see its header); the equivalent command is:
+
 ```bash
-python3 -m living_library pilot --config configs/pilot.json \
-  --manifest runs/manifest.json --output runs/pilot
-python3 -m living_library freeze --config configs/pilot.json \
-  --manifest runs/manifest.json --pilot-dir runs/pilot --output runs/frozen.json
 python3 -m living_library study --config configs/pilot.json \
-  --manifest runs/manifest.json --freeze runs/frozen.json --output runs/study
+  --manifest runs/manifest.json --output runs/study        # rerun to resume
+python3 -m living_library study ... --past-gate            # continue past a failed gate
+python3 -m living_library study ... --restart-library      # redo library practice, keep C and D
+python3 -m living_library status --output runs/study
 ```
 
-The pilot runs 300 E-minus training episodes and C/E-minus on the 140 seen
-development games. It does not execute unseen evaluation games. Freezing requires
-complete, matching real pilot evidence and every gate to pass: neither development
-success rate above 85%, at least ten skills used five times, false-success rate at
-most 10%, and rejected/crashing program rate at most 40%. Missing measurements
-cannot pass. Failed headroom or reuse gates recommend ScienceWorld; a
-ScienceWorld adapter is not implemented, so this outcome stops the study until
-the domain is ported and validated. Predicate/program failures require another
-pilot after correction.
+**Early gate** (replaces the pilot, amended 2026-11-17). The study first runs the
+library conditions' practice to `--gate-at` games (default 75), then plays E with its
+rules frozen at that checkpoint and C on the first `--gate-games` (30) development
+games. `gate.json` in the run folder reports wins each, paired wins/losses, the rule
+count and builder errors. If E wins − C wins < `--gate-margin` (default 0) the study
+stops with exit code 3. `--past-gate` continues from the checkpoint (no practice
+game is replayed). `--restart-library` discards E, E-minus, E-text and everything
+built on them, keeps C's and D's games, and starts library practice again; it is
+refused if settings or the manifest changed, or if any source other than
+`manual.py`, `library.py` or `consolidation.py` changed (C and D would no longer be
+comparable). `agents.py`, `experiment.py` and `protocol.py` may also have changed, but only if the
+C/D behaviour probe (every model request and record of a fixture C and D study under
+the run's settings) equals the one stored in `probe.json` for the run's recorded
+sources. Restarts are logged in `restarts.json`.
 
-The freeze records settings, source and dataset fingerprints, pilot evidence, and
-the pre-registration. Changed settings, code or manifest require a new pilot and
-freeze. Commit the resulting freeze artifact before starting unseen evaluation.
-The full study runs the 134 unseen games per evaluation stream. To run a subset,
+**Practice retries** (ExpeL/Reflexion, amended 2026-11-17). A lost practice game of E
+or E-minus is replayed with a short reflection, up to `manual.RETRIES` (3) times; the
+Builder contrasts the failed and the won attempt into a Corrected Error rule. Success
+counts the first attempt; retry cost is in the game's totals and under `retries`.
+
+Real runs require verified model/embedding revisions in the settings. Changed
+settings, code or manifest otherwise require a new output directory. The full
+study runs the 134 unseen games per evaluation stream. To run a subset,
 use `--conditions C D E E-minus`; requesting E-text also runs E. Extending a run
-preserves existing condition records. Use separate output directories for pilot
-and study; never run two writers against one output directory.
+preserves existing condition records. Never run two writers against one output
+directory. The old `pilot`/`freeze` commands remain only for the model bake-off.
 
 Each episode checkpoint includes the pre-task library, resulting memory,
 trajectory, invocation outcomes, cost metrics and integrity hashes. `records.json`

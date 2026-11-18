@@ -87,10 +87,25 @@ class RefinePruneMergeTests(unittest.TestCase):
         manual.refine(agent(rules, model), rules, rules, report)
         self.assertEqual(len(model.calls), 1)
         self.assertEqual(len(model.calls[0]['won_games']), 3)
-        self.assertEqual(rules[0]['rule'], 'When x and the cabinet is closed, open it first. Do not use it when x is held.')
+        # a concise rewrite: nothing is appended (no "Do not use it when When ...")
+        self.assertEqual(rules[0]['rule'], 'When x and the cabinet is closed, open it first.')
+        self.assertNotIn('not_when', model.calls[0]['response_schema'])
         self.assertEqual(rules[0]['refined_at'], [3, 3])
         manual.refine(agent(rules, model), rules, rules, report)
         self.assertEqual(len(model.calls), 1)                            # not again until 3 more of each
+
+    def test_a_long_or_specific_refinement_is_rejected_and_reported(self):
+        rules = [rule(1, 'When x, do y.')]
+        for won in (True, False) * 3:
+            manual.observe(rules, ['rule_1'], won, context(won), 0)
+
+        class Wordy(FixtureModel):
+            def complete(self, role, payload, seed, context):
+                return ModelResponse({'rule': 'When the task is to put a cd in safe 1, take cd 2 and move it.'})
+        report = {'operations': [], 'errors': []}
+        manual.refine(agent(rules, Wordy()), rules, rules, report)
+        self.assertEqual(rules[0]['rule'], 'When x, do y.')
+        self.assertIn('numbered object', report['errors'][0])
 
     def test_near_duplicate_is_merged_not_added(self):
         rules = [rule(1, 'when the drawer is closed open it before putting things in')]
@@ -106,8 +121,40 @@ class RefinePruneMergeTests(unittest.TestCase):
                                'indirect success', False, lambda: 'rule_2', log, 'pick',
                                similarity=lambda q, texts: [0.9 for _ in texts])
         self.assertEqual(len(rules), 1)
-        self.assertEqual(applied, [{'op': 'upvote_rule', 'id': 'rule_1'}])
+        self.assertEqual(applied, [{'op': 'merge_rule', 'id': 'rule_1', 'task_type': 'pick'}])
         self.assertEqual(rules[0]['importance'], manual.NEW_IMPORTANCE + 1)
+        # another kind of task's rule is never merged into (no scope widening): a new rule is written
+        applied = manual.apply(rules, [{'op': 'write_rule', 'type': 'Corrected Error',
+                                        'rule': 'when a drawer is closed open it before putting anything in'}],
+                               'indirect success', False, lambda: 'rule_2', [], 'heat',
+                               similarity=lambda q, texts: [0.9 for _ in texts])
+        self.assertEqual([op['op'] for op in applied], ['write_rule'])
+        self.assertEqual([r['task_type'] for r in rules], ['pick', 'heat'])
+        rules.pop()
+        # a general rule is merged into from any kind of task, stays general and keeps the task as evidence
+        rules[0]['task_type'] = 'all'
+        applied = manual.apply(rules, [{'op': 'write_rule', 'type': 'Corrected Error',
+                                        'rule': 'when a drawer is closed open it before putting anything in'}],
+                               'indirect success', False, lambda: 'rule_2', [], 'heat',
+                               similarity=lambda q, texts: [0.9 for _ in texts], goal='heat some egg')
+        source = {'task': 'heat some egg', 'task_type': 'heat'}
+        self.assertEqual(applied, [{'op': 'merge_rule', 'id': 'rule_1', 'task_type': 'all', 'source': source}])
+        self.assertEqual((len(rules), rules[0]['task_type'], rules[0]['sources']), (1, 'all', [source]))
+        replayed = manual.replay([rule(1, 'when the drawer is closed open it before putting things in',
+                                       task_type='all')], applied, [])
+        self.assertEqual((replayed[0]['task_type'], replayed[0]['importance'], replayed[0]['sources']),
+                         ('all', manual.NEW_IMPORTANCE + 1, [source]))
+        # a new general rule written in a pick game may merge into a pick rule; the pick rule stays pick
+        rules[0]['task_type'] = 'pick'
+        manual.apply(rules, [{'op': 'write_rule', 'type': 'Corrected Error', 'scope': 'all',
+                              'rule': 'when a drawer is closed open it before putting anything in'}],
+                     'indirect success', False, lambda: 'rule_2', [], 'pick',
+                     similarity=lambda q, texts: [0.9 for _ in texts])
+        self.assertEqual((len(rules), rules[0]['task_type']), (1, 'pick'))
+        # Success Processes stay one per kind of task: never merged across kinds
+        recipes = [rule(5, 'When x: a, b.', kind='Success Process', task_type='pick')]
+        self.assertIsNone(manual.near_duplicate(recipes, 'Success Process', 'heat', 'When x: a, b.',
+                                                lambda q, texts: [0.99 for _ in texts]))
         # append-only never merges
         manual.apply(rules, [{'op': 'write_rule', 'type': 'Unresolved Error', 'rule': 'When z, w.'}],
                      'failure', True, lambda: 'rule_3', [], 'pick', similarity=lambda q, texts: [0.99 for _ in texts])
@@ -136,6 +183,19 @@ class GameAndBatchTests(unittest.TestCase):
         self.assertEqual(rules[0]['alpha'], 2)                            # the won game counted
         # Batching: replaying the game's operations on the live manual gives the same manual.
         self.assertEqual(manual.replay(live, ops, []), rules)
+
+    def test_builder_sees_the_game_steps(self):
+        seen = []
+
+        class Capture(FixtureModel):
+            def complete(self, role, payload, seed, context):
+                if role == 'builder':
+                    seen.append(payload)
+                return super().complete(role, payload, seed, context)
+        a = Agent(Settings(), 'E', Capture(), Library(), LexicalEmbedding(), MiniWorld, rules=[])
+        a.run(TASK, 1, {'phase': 'practice', 'position': 0})
+        self.assertTrue(seen)
+        self.assertIn('"action"', str(seen[0]).replace("'", '"'))
 
     def test_append_only_records_no_outcomes(self):
         rules = [rule(1, 'When putting an apple, open the cabinet first.', task_type='pick')]

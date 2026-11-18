@@ -1,5 +1,6 @@
 """Bounded flat/hierarchical execution and isolated skill admission."""
 import copy
+import os
 import re
 import time
 
@@ -57,14 +58,21 @@ REFINE_NOTE = (
 
 class Agent:
     def __init__(self, cfg, condition, model, library, embedder, env_factory, trajectories=None, frozen=False,
-                 lessons=None, simulation=False, rules=None):
+                 lessons=None, simulation=False, rules=None, reflections=None, retrieval=None):
         if condition not in CONDITIONS:
             raise ValueError('unknown experimental condition')
+        # How rules are chosen (manual.MODES); env LL_RETRIEVAL reaches worker processes. Never changes writing.
+        self.retrieval = retrieval or os.environ.get('LL_RETRIEVAL') or 'task'
+        if self.retrieval not in manual.MODES:
+            raise ValueError(f'unknown retrieval mode {self.retrieval!r}')
+        self.plan_text = ''
         self.cfg, self.condition, self.model = cfg, condition, model
         self.library, self.embedder, self.env_factory = library, embedder, env_factory
         self.trajectories = trajectories if trajectories is not None else []
         # AutoManual-style rule manual (manual.py): E and E-minus build it in practice; E-text reads E's.
         self.rules = rules if rules is not None else []
+        # Reflexion retry of a lost practice game (manual.retry): reflections on the earlier attempts.
+        self.reflections = list(reflections or [])
         self.uses_rules = condition in {'E', 'E-minus', 'E-text'}
         self.memory = condition in {'B', 'E', 'E-minus', 'E-text', 'E-plus'}
         # frozen: read the memory as it is (snapshot evaluations); learn nothing, change nothing.
@@ -119,6 +127,7 @@ class Agent:
         data = self._ask('planner', {'instructions': PLANNER_GUIDE, 'state': state.public(),
             'catalog': self.library.catalog() if self.memory else [],
             **({'rules': manual.render(self.shown_rules)} if self.shown_rules else {}),
+            **({'reflections': self.reflections} if self.reflections else {}),
             'allowed_predicates': self._predicates(),
             'response_schema': {'subgoals': [{'description': 'string', 'bindings': {'parameter': 'entity string'}, 'postconditions': ['predicate(arguments)']}]}})
         if set(data) != {'subgoals'} or not isinstance(data['subgoals'], list) or not 1 <= len(data['subgoals']) <= self.cfg.max_subgoals:
@@ -412,7 +421,7 @@ class Agent:
                 subgoal=None if flat else goal['description'],
                 skills=[(self._skill_action(s, goal), s.description) for s in callable_skills.values()],
                 skill_texts=[s.text() for s in skills] if text else (), examples=examples,
-                lessons=self.lessons_shown or manual.render(self.shown_rules),
+                lessons=(self.lessons_shown or manual.render(self.shown_rules)) + self._reflection_notes(),
                 brief=self.cfg.actor_brief)
             data = self._ask('actor', {'prompt': prompt, 'admissible': list(self.episode.env.state.admissible),
                                        'skills': [self._skill_action(s, goal) for s in callable_skills.values()]})
@@ -441,6 +450,31 @@ class Agent:
                 # An invalid command already appears in the trace and reads "Nothing happens."
                 self.result['program_errors'].append(str(exc))
             self._process_revisions(goal, snapshot)
+
+    def _select(self, mode, probe=''):
+        """Choose the rules shown from now on; rules_shown collects every rule shown in the game (all are
+        credited by the Beta update)."""
+        if not (self.uses_rules and self.rules):
+            return
+        self.shown_rules = manual.for_agent(self.rules, self.task.get('task_type'), manual.SHOWN,
+                                            self.result['goal'], self.embedder.similarity, mode, probe)
+        self.rules_shown += [r['id'] for r in self.shown_rules if r['id'] not in self.rules_shown]
+        self.result['rules_shown'] = list(self.rules_shown)
+
+    def _after_plan(self, goals):
+        """Remember the plan (stored with the win record of rules shown) and, in plan/steps modes, choose
+        the actor's rules by it. Skipped when the planner fell back to the whole task."""
+        if not self.uses_rules or goals[0]['postconditions'] == ['task_won()']:
+            return
+        self.plan_text = ' ; '.join(g['description'] for g in goals)
+        self.result['plan'] = self.plan_text
+        if self.retrieval in ('plan', 'steps'):
+            self._select('plan', self.plan_text)
+
+    def _reflection_notes(self):
+        """Reflexion memory for a retried practice game (empty otherwise)."""
+        return [f'Your attempt {i} at this same task failed. Your reflection on it: {text}'
+                for i, text in enumerate(self.reflections, 1)]
 
     def _history(self):
         # Each step's 'before' equals the previous step's 'after'; send it once.
@@ -480,11 +514,10 @@ class Agent:
             self.public_task = self._public_task(self.task, env)
             self.result['goal'] = self.public_task.get('goal', '')
             # The rules this game sees, chosen once (MACLA expected utility; rules do not change mid-game).
-            self.shown_rules = (manual.relevant(self.rules, self.task.get('task_type'), manual.SHOWN,
-                                                self.result['goal'], self.embedder.similarity)
-                                if self.uses_rules and self.rules else [])
-            self.rules_shown = [r['id'] for r in self.shown_rules]
-            self.result['rules_shown'] = list(self.rules_shown)
+            # The planner sees the goal-keyed rules (plan modes cannot key on a plan not made yet).
+            self.shown_rules, self.rules_shown, self.plan_text = [], [], ''
+            self.result['rules_shown'] = []
+            self._select('placeholder' if self.retrieval == 'placeholder' else 'task')
             if self.condition == 'E-plus':
                 self.lessons_shown = (list(self.forced_lessons) if self.forced_lessons is not None
                                       else consolidation.lessons_for(self.library, self.task.get('task_type')))
@@ -493,8 +526,12 @@ class Agent:
                 try:
                     goals = self._goals(env.state)
                     self.result['subgoal_count'] += len(goals) if self.condition not in {'A', 'B'} else 0
+                    self._after_plan(goals)
                     passed = True
                     for goal in goals:
+                        if self.retrieval == 'steps' and self.plan_text:   # per-subgoal actor rules
+                            recent = [t['action'] for t in self.episode.trace if t['valid']][-4:]
+                            self._select('steps', goal['description'] + '. ' + ' ; '.join(recent))
                         flat = self.condition in {'A', 'B'} or goal['postconditions'] == ['task_won()']
                         cap = self.cfg.step_budget if flat else self.cfg.subgoal_step_budget
                         if not self._execute(goal, cap):
@@ -508,6 +545,8 @@ class Agent:
                     if isinstance(exc, BudgetExceeded):
                         break
             self.result['success'] = bool(env.state.won)
+            # The Builder, deferred skills and consolidation read the trace: fill it before them.
+            self.result['trace'] = copy.deepcopy(self.episode.trace)
             position = self.context.get('position')
             if self.deferred and self.result['success']:
                 # End of a won E-plus game: write skills for its subgoals with the whole game in view.

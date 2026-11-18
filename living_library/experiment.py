@@ -11,14 +11,23 @@ from .library import Library, LexicalEmbedding, SentenceEmbedding
 from .protocol import PREREGISTRATION
 
 
-def source_fingerprint():
+def source_files():
     root = Path(__file__).resolve().parent.parent
     paths = sorted((root / 'living_library').glob('*.py'))
     # Vendored prompts are part of the agent and of the frozen settings.
     paths += sorted(p for p in (root / 'living_library' / 'prompts').glob('*') if p.suffix in {'.py', '.json'})
     if (root / 'pyproject.toml').exists():
         paths.append(root / 'pyproject.toml')
-    return digest({p.relative_to(root).as_posix(): p.read_text() for p in paths})
+    return {p.relative_to(root).as_posix(): p.read_text() for p in paths}
+
+
+def source_fingerprint():
+    return digest(source_files())
+
+
+def source_hashes():
+    """Per-file digests, so a library restart can tell which files changed."""
+    return {path: digest(text) for path, text in source_files().items()}
 
 
 def identity(cfg, manifest):
@@ -51,6 +60,43 @@ REAL_DESIGN = {'pilot_practice': 100, 'practice_episodes': 300, 'development_gam
                'evaluation_games': 134, 'seeds': 1,
                'conditions': ['C', 'D', 'E', 'E-minus', 'E-text']}
 PILOT_CONDITIONS = ('E-minus', 'E')   # memory arms the pilot builds and checks (amended 2026-11-15)
+# Conditions built on the library code: a library restart discards their streams and everything
+# derived from them, keeping C's and D's games (amended 2026-11-17, early gate).
+LIBRARY_CONDITIONS = ('E', 'E-minus', 'E-text', 'E-plus')
+# Source files only the library conditions use; a change anywhere else invalidates C and D too.
+LIBRARY_SOURCES = ('living_library/manual.py', 'living_library/avoid.py', 'living_library/library.py',
+                   'living_library/consolidation.py')
+# Shared files a restart may also accept changed (amended 2026-11-17, practice retries; protocol.py holds
+# only the pre-registration text): only when the baseline probe (every model request and every record of
+# a fixture C and D study) is identical to the probe taken with the run's recorded sources (probe.json).
+# Any other changed file still refuses.
+PROBED_SOURCES = ('living_library/agents.py', 'living_library/experiment.py', 'living_library/protocol.py')
+
+
+def baseline_probe(cfg, games=4):
+    """Digest of C's and D's behaviour under `cfg` on the fixture world (practice D, evaluation C and
+    D, batched as configured): every request sent to the model and every record (timings removed).
+    The fixture model ignores most of a prompt, so the requests are what catch prompt changes."""
+    import tempfile
+    from .models import FixtureModel
+    requests = []
+
+    class Recorder:
+        def __init__(self):
+            self.inner = FixtureModel()
+
+        def complete(self, role, payload, seed, context):
+            requests.append(digest([role, payload, seed, context]))
+            return self.inner.complete(role, payload, seed, context)
+
+        def close(self):
+            pass
+    with tempfile.TemporaryDirectory() as tmp:
+        runner = Runner(cfg, demo_manifest(), tmp, model=Recorder(), embedder=LexicalEmbedding(), probe=False)
+        records = runner.study(('C', 'D'), demo_count=games, log=lambda *a, **k: None)
+    timing = {'wall_seconds', 'model_wall_seconds', 'gpu_seconds'}
+    return digest({'requests': requests,
+                   'records': [{k: v for k, v in r.items() if k not in timing} for r in records]})
 
 
 def validate_real_design(cfg, manifest):
@@ -94,7 +140,7 @@ class Runner:
     hour budget, a STOP file in the output directory, Ctrl-C, a server outage) and resume later.
     Interrupted episodes replay their model calls from the per-stream response cache.
     """
-    def __init__(self, cfg, manifest, output, model=None, embedder=None, worker=False):
+    def __init__(self, cfg, manifest, output, model=None, embedder=None, worker=False, probe=True):
         validate_manifest(manifest)
         self.cfg, self.manifest, self.output = cfg, manifest, Path(output)
         self.toy = manifest['environment'] == 'mini'
@@ -108,10 +154,17 @@ class Runner:
             self.output.mkdir(parents=True, exist_ok=True)
             write_json(marker, expected)
             write_json(self.output / 'settings.json', cfg.to_dict())
+            sources = source_hashes()
+            write_json(self.output / 'sources.json', sources)
+            path = self.output / 'probe.json'
+            if probe and (not path.exists() or load_json(path).get('sources') != digest(sources)):
+                write_json(path, {'sources': digest(sources), 'probe': baseline_probe(cfg)})
         self.fixed_model = model
         self._embedder = embedder
         self.records = []
         self.complete = False
+        self.gate = None
+        self._caps = {}
 
     @property
     def embedder(self):
@@ -367,22 +420,32 @@ class Runner:
         write_json(path, plan)
         return {s['key']: s for s in plan}
 
+    def _cap(self, key, specs):
+        """Positions this session may reach (execute's `caps` stop practice at the early gate)."""
+        n = len(specs[key]['tasks'])
+        return min(n, self._caps.get(key, n))
+
     def ready(self, spec, specs):
         """Episodes this stream can run right now (0 if finished or blocked)."""
         done = self.count(spec['key'])
-        if done >= len(spec['tasks']):
+        cap = self._cap(spec['key'], specs)
+        if done >= cap:
             return 0
         if spec['init'] is not None and self.count(spec['init']) < (
                 spec.get('init_position') or len(specs[spec['init']]['tasks'])):
             return 0
         if spec['source'] is not None:
-            return max(0, min(len(spec['tasks']), self.count(spec['source'])) - done)
-        return len(spec['tasks']) - done
+            return max(0, min(cap, self.count(spec['source'])) - done)
+        return cap - done
 
-    def execute(self, specs, workers=1, max_episodes=None, max_hours=None, log=print):
-        """Run streams until done or a budget/STOP file ends this session. True if all done."""
+    def execute(self, specs, workers=1, max_episodes=None, max_hours=None, log=print, caps=None):
+        """Run streams until done or a budget/STOP file ends this session. True if all done.
+        `caps` ({key: n}) stops those streams after n episodes (they count as done there) and
+        limits the session to the given streams; without caps every stream of the plan runs."""
+        given = [s['key'] for s in specs]
         specs = self._plan(specs)
-        order = list(specs)
+        order = given if caps is not None else list(specs)
+        self._caps = dict(caps or {})
         stop_file = self.output / 'STOP'
         if stop_file.exists():
             stop_file.unlink()
@@ -412,8 +475,10 @@ class Runner:
                 runnable = [k for k in order if self.ready(specs[k], specs)]
                 if not runnable:
                     break
-                remaining = None if max_episodes is None else max_episodes - state['new']
                 key = runnable[0]
+                remaining = self._cap(key, specs) - self.count(key)
+                if max_episodes is not None:
+                    remaining = min(remaining, max_episodes - state['new'])
                 report(key, self.advance(specs[key], specs, remaining, stopping))
         else:
             import multiprocessing
@@ -427,7 +492,7 @@ class Runner:
 
             def limit(key):
                 """Positions dispatchable now: a memoryless stream all; a batched one its round."""
-                n = len(specs[key]['tasks'])
+                n = self._cap(key, specs)
                 if key not in batched:
                     return n
                 k = self.cfg.practice_batch
@@ -497,16 +562,17 @@ class Runner:
                     raise
         if state['error'] is not None:
             raise state['error']
-        complete = all(self.count(k) >= len(specs[k]['tasks']) for k in order)
+        complete = all(self.count(k) >= self._cap(k, specs) for k in order)
         if complete:
             self.records = [r for key in order for r in self.verify(specs[key], specs)]
         else:
             self.records = [r for key in order for r in self._records(key)]
         write_json(self.output / 'records.json', self.records)
         log(f"session: {state['new']} new episodes in {(time.monotonic() - started) / 60:.1f} min; "
-            f"{sum(min(self.count(k), len(specs[k]['tasks'])) for k in order)}/"
-            f"{sum(len(specs[k]['tasks']) for k in order)} episodes done"
+            f"{sum(min(self.count(k), self._cap(k, specs)) for k in order)}/"
+            f"{sum(self._cap(k, specs) for k in order)} episodes done"
             + ('' if complete else ' (run the same command again to continue)'))
+        self._caps = {}
         return complete
 
     def _records(self, key):
@@ -583,36 +649,100 @@ class Runner:
         assert not used & {t['id'] for t in pool}
         return pool
 
-    def study(self, conditions=None, demo_count=None, freeze_path=None, workers=1,
-              max_episodes=None, max_hours=None, reuse_pilot=None, log=print):
+    def study(self, conditions=None, demo_count=None, workers=1, max_episodes=None, max_hours=None,
+              gate_at=None, gate_games=30, gate_margin=0, past_gate=False, log=print):
+        """The study. With `gate_at`, the library practice first stops after that many games and
+        E's rules are checked against C on `gate_games` development games (early_gate); the
+        study stops there unless E is ahead (or `past_gate` continues anyway)."""
         if not self.toy:
-            if freeze_path is None:
-                raise ValueError("real study requires --freeze from a passing real pilot")
-            verify_freeze(self.cfg, self.manifest, freeze_path)
+            validate_real_design(self.cfg, self.manifest)
+            check_revisions(self.cfg)
         self.workflow('study')
         if not self.toy and demo_count is not None:
             raise ValueError('sample count overrides are available only in demo')
         specs = self.study_specs(conditions, demo_count)
-        if reuse_pilot is not None:
-            self._reuse_pilot_cache(Path(reuse_pilot), log)
         write_json(self.output / 'cost_attribution.json', {
             'E-text': {'practice_source': 'E', 'charge_full_E_practice_cost': True},
             'practice_shared_across_evaluation_seeds': True, 'practice_seed': self.cfg.practice_seed})
+        self.complete = False
+        if gate_at and any(s['key'] == f'practice-E-{self.cfg.practice_seed}' for s in specs):
+            started, before = time.monotonic(), self._committed()
+            self.gate = self.early_gate(specs, gate_at, gate_games, gate_margin, past_gate,
+                                        workers, max_episodes, max_hours, log)
+            if self.gate is None or not (self.gate['passed'] or self.gate.get('continued')):
+                return self.records
+            if max_episodes is not None:
+                max_episodes = max(0, max_episodes - (self._committed() - before))
+            if max_hours is not None:
+                max_hours = max(0.0, max_hours - (time.monotonic() - started) / 3600)
         self.complete = self.execute(specs, workers, max_episodes, max_hours, log)
         return self.records
 
-    def _reuse_pilot_cache(self, pilot_dir, log):
-        """Study E-minus / E-plus practice begins with the pilot's practice episodes (same seed,
-        order, settings and code), so their model responses replay from the pilot's cache."""
-        import shutil
-        for condition in PILOT_CONDITIONS:
-            key = f'practice-{condition}-{self.cfg.practice_seed}'
-            source = pilot_dir / 'model-cache' / f'{key}.sqlite'
-            target = self.output / 'model-cache' / f'{key}.sqlite'
-            if source.exists() and not target.exists():
-                target.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copyfile(source, target)
-                log(f'reusing pilot model responses for {key}')
+    def _committed(self):
+        root = self.output / 'checkpoints'
+        return sum(1 for _ in root.glob('*/*.json')) if root.exists() else 0
+
+    # -- early gate (replaces the pilot, amended 2026-11-17) -----------------------------
+    def gate_specs(self, gate_at, games):
+        """C and E (rules frozen after `gate_at` practice games) on the first `games` development
+        games: the same seen-room games the pilot used, disjoint from the ID evaluation pool."""
+        seed, pseed = self.cfg.seeds[0], self.cfg.practice_seed
+        dev = self.pilot_development()[:games]
+        return [stream_spec('C', 'gate', seed, dev),
+                stream_spec('E', f'gate-{gate_at}', seed, dev, init=f'practice-E-{pseed}',
+                            init_position=gate_at, frozen=True)]
+
+    def early_gate(self, specs, gate_at, games, margin, past_gate, workers, max_episodes, max_hours, log):
+        """Library practice up to `gate_at` games plus the gate games, then the gate report
+        (gate.json). Returns None while unfinished; the decision is kept, so later sessions
+        skip straight to the rest of the study."""
+        path = self.output / 'gate.json'
+        if path.exists():
+            gate = load_json(path)
+            if gate['checkpoint'] != gate_at:
+                log(f"gate already decided at {gate['checkpoint']} practice games; ignoring --gate-at {gate_at}")
+        else:
+            pseed = self.cfg.practice_seed
+            practice = [s for s in specs if s['phase'] == 'practice' and s['condition'] in LIBRARY_CONDITIONS]
+            if gate_at > len(practice[0]['tasks']):
+                raise ValueError(f'gate checkpoint {gate_at} is beyond the practice length')
+            phase = practice + self.gate_specs(gate_at, games)
+            if not self.execute(phase, workers, max_episodes, max_hours, log,
+                                caps={s['key']: gate_at for s in practice}):
+                return None
+            seed = self.cfg.seeds[0]
+            e_key, c_key, p_key = f'gate-{gate_at}-E-{seed}', f'gate-C-{seed}', f'practice-E-{pseed}'
+            rules = load_json(self._checkpoint(p_key, gate_at - 1))['memory'].get('rules', [])
+            gate = {'checkpoint': gate_at, **gate_decision(
+                self._records(e_key), self._records(c_key), rules,
+                self._records(p_key)[:gate_at], margin)}
+            write_json(path, gate)
+            log(f"early gate at {gate_at} practice games: E won {gate['E_wins']}/{gate['paired_games']}, "
+                f"C won {gate['C_wins']}/{gate['paired_games']} -> {'PASSED' if gate['passed'] else 'FAILED'}")
+        if not gate['passed'] and not gate.get('continued'):
+            if past_gate:
+                gate['continued'] = True
+                write_json(path, gate)
+                log('continuing past the failed early gate (--past-gate)')
+            else:
+                log(f"STOP: E is not ahead of C at the early gate (E {gate['E_wins']} vs C {gate['C_wins']} "
+                    f"of {gate['paired_games']} paired games; needs E - C >= {gate['margin']}). Report: {path}\n"
+                    f"  continue anyway from the checkpoint: rerun with --past-gate (run.ps1 study -PastGate)\n"
+                    f"  or fix the library and restart its practice, keeping C and D: --restart-library "
+                    f"(run.ps1 study -RestartLibrary)")
+        return gate
+
+    def restamp(self, spec, specs):
+        """Re-sign a kept stream's checkpoints after a library restart changed the run identity."""
+        if not self.count(spec['key']):
+            return
+        sid = self._stream_identity(spec, self._initial(spec, specs))
+        for position in range(self.count(spec['key'])):
+            path = self._checkpoint(spec['key'], position)
+            saved = load_json(path)
+            self._check(saved, saved['stream_identity'], path)    # integrity hashes still hold
+            saved['stream_identity'] = sid
+            write_json(path, saved)
 
     def pilot_specs(self):
         pseed, seed = self.cfg.practice_seed, self.cfg.seeds[0]
@@ -679,13 +809,103 @@ def pilot_gate(records, cfg):
             'extension_E_plus': extension}
 
 
-def freeze(cfg, manifest, pilot_dir, destination):
-    validate_manifest(manifest)
-    validate_real_design(cfg, manifest)
+def paired_comparison(records, baseline):
+    """Wins of `records` vs `baseline` on the games both played (paired by task id)."""
+    mine = {r['task_id']: bool(r['success']) for r in records}
+    base = {r['task_id']: bool(r['success']) for r in baseline}
+    paired = [t for t in mine if t in base]
+    return {'games': len(paired), 'wins': sum(mine[t] for t in paired),
+            'baseline_wins': sum(base[t] for t in paired),
+            'won_where_baseline_lost': sum(mine[t] and not base[t] for t in paired),
+            'lost_where_baseline_won': sum(base[t] and not mine[t] for t in paired)}
+
+
+def gate_decision(e_records, c_records, rules, practice_records, margin=0):
+    """Early gate: E (frozen rules at the checkpoint) vs C on paired development games.
+    Passes when E wins - C wins >= margin (default: E at least ties C)."""
+    pair = paired_comparison(e_records, c_records)
+    errors = [e for r in practice_records for e in r.get('manual', {}).get('errors', [])]
+    return {'paired_games': pair['games'], 'E_wins': pair['wins'], 'C_wins': pair['baseline_wins'],
+            'E_won_C_lost': pair['won_where_baseline_lost'], 'C_won_E_lost': pair['lost_where_baseline_won'],
+            'rule_count': len(rules), 'builder_errors': sum(e.startswith('builder') for e in errors),
+            'manual_errors': len(errors), 'margin': margin,
+            'passed': pair['games'] > 0 and pair['wins'] - pair['baseline_wins'] >= margin}
+
+
+def restart_library(cfg, manifest, output, log=print):
+    """Discard the library conditions' streams (and anything initialised from or reading them)
+    and the gate decision; keep C's and D's games. If sources changed since the run started, only
+    LIBRARY_SOURCES may differ: the kept checkpoints are then re-signed with the new identity."""
+    import shutil
+    output = Path(output)
+    marker = output / 'run.json'
+    if not marker.exists():
+        raise ValueError(f'{output} has no run to restart')
+    run = load_json(marker)
+    old, new = run['identity'], identity(cfg, manifest)
+    if old['settings'] != new['settings'] or old['manifest'] != new['manifest']:
+        raise ValueError('settings or manifest changed since this run started; C and D cannot be kept '
+                         '(use a new output directory)')
+    changed = []
+    if old['source'] != new['source']:
+        if not (output / 'sources.json').exists():
+            raise ValueError('run has no sources.json; cannot tell which files changed (use a new output directory)')
+        before, now = load_json(output / 'sources.json'), source_hashes()
+        changed = sorted(p for p in set(before) | set(now) if before.get(p) != now.get(p))
+        outside = [p for p in changed if p not in LIBRARY_SOURCES and p not in PROBED_SOURCES]
+        if outside:
+            raise ValueError(f'files outside the library code changed ({", ".join(outside)}); '
+                             'C and D cannot be kept (use a new output directory)')
+        probed = [p for p in changed if p in PROBED_SOURCES]
+        if probed:
+            saved = load_json(output / 'probe.json') if (output / 'probe.json').exists() else {}
+            if saved.get('sources') != digest(before):
+                raise ValueError(f'{", ".join(probed)} changed and the run has no C/D probe for its recorded '
+                                 'sources; C and D cannot be kept (use a new output directory)')
+            if saved['probe'] != baseline_probe(cfg):
+                raise ValueError(f'{", ".join(probed)} changed C\'s or D\'s behaviour (baseline probe differs); '
+                                 'C and D cannot be kept (use a new output directory)')
+    plan = load_json(output / 'plan.json') if (output / 'plan.json').exists() else []
+    dropped = {s['key'] for s in plan if s['condition'] in LIBRARY_CONDITIONS}
+    grew = True
+    while grew:
+        extra = {s['key'] for s in plan if s['init'] in dropped or s['source'] in dropped} - dropped
+        dropped |= extra
+        grew = bool(extra)
+    for key in sorted(dropped):
+        shutil.rmtree(output / 'checkpoints' / key, ignore_errors=True)
+        for cache in (output / 'model-cache').glob(f'{key}.sqlite*'):
+            cache.unlink()
+    kept = [s for s in plan if s['key'] not in dropped]
+    write_json(output / 'plan.json', kept)
+    gate = load_json(output / 'gate.json') if (output / 'gate.json').exists() else None
+    for name in ('gate.json', 'records.json'):
+        (output / name).unlink(missing_ok=True)
+    write_json(marker, {**run, 'identity': new})
+    runner = Runner(cfg, manifest, output)          # identity matches again; writes sources.json
+    specs = {s['key']: s for s in kept}
+    for spec in kept:
+        runner.restamp(spec, specs)
+    history = load_json(output / 'restarts.json') if (output / 'restarts.json').exists() else []
+    history.append({'time': time.strftime('%Y-%m-%d %H:%M:%S'), 'discarded': sorted(dropped),
+                    'kept': [s['key'] for s in kept], 'changed_sources': changed, 'previous_gate': gate})
+    write_json(output / 'restarts.json', history)
+    log(f"library restart: discarded {len(dropped)} streams ({', '.join(sorted(dropped)) or 'none'}); "
+        f"kept {len(kept)} ({', '.join(s['key'] for s in kept) or 'none'})")
+    return runner
+
+
+def check_revisions(cfg):
     for field in ('embedding_revision', 'planner_revision', 'executor_revision', 'quantization', 'hardware'):
         value = getattr(cfg, field, '')
         if not value or value in {'main', 'unverified', '4-bit-unverified', 'unrecorded'}:
-            raise ValueError(f'freeze requires an explicit verified {field}; update settings and rerun pilot')
+            raise ValueError(f'real runs require an explicit verified {field}; update settings')
+
+
+def freeze(cfg, manifest, pilot_dir, destination):
+    validate_manifest(manifest)
+    validate_real_design(cfg, manifest)
+    check_revisions(cfg)
     evidence = load_json(Path(pilot_dir) / 'pilot-evidence.json')
     records = load_json(Path(pilot_dir) / 'records.json')
     current = identity(cfg, manifest)

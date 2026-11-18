@@ -5,12 +5,14 @@ usage: python tools/manual_check.py RULES.json REFERENCE_RUN [--games 30] [--wor
 """
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from living_library import manual  # noqa: E402
 from living_library.config import Settings  # noqa: E402
-from living_library.experiment import Runner, load_json, stream_spec  # noqa: E402
+from living_library.experiment import Runner, load_json, paired_comparison, stream_spec  # noqa: E402
 
 
 def main():
@@ -19,8 +21,14 @@ def main():
     p.add_argument('reference')
     p.add_argument('--games', type=int, default=30)
     p.add_argument('--workers', type=int, default=16)
-    p.add_argument('--output', default='/root/ll-runs/manual-check')
+    p.add_argument('--retrieval', choices=manual.MODES, default='task',
+                   help='how rules are chosen (never how they are written)')
+    p.add_argument('--output', help='default /root/ll-runs/manual-check, with -MODE for other modes '
+                                    '(resumable runs: one directory per variant)')
+    p.add_argument('--json', help='per-game results (default OUTPUT/games.json)')
     a = p.parse_args()
+    os.environ['LL_RETRIEVAL'] = a.retrieval     # inherited by worker processes
+    a.output = a.output or '/root/ll-runs/manual-check' + ('' if a.retrieval == 'task' else '-' + a.retrieval)
     cfg = Settings.load('configs/pilot.json')
     runner = Runner(cfg, load_json('/root/ll-runs/manifest.json'), a.output)
     games = runner.pilot_development()[:a.games]
@@ -42,15 +50,27 @@ def main():
     runner.execute([holder, test], workers=a.workers, log=lambda *x: None)
     with_manual = {load_json(runner._checkpoint(test['key'], i))['record']['task_id']:
                    load_json(runner._checkpoint(test['key'], i))['record'] for i in range(runner.count(test['key']))}
+    with_plans, visible = manual.plan_coverage(rules)
+    out = Path(a.json or Path(a.output) / 'games.json')
+    out.write_text(json.dumps({
+        'retrieval': a.retrieval, 'rules_file': str(a.rules), 'rules_with_plans': with_plans, 'rules_visible': visible,
+        'games': [{'id': t, 'win': bool(r['success']), 'rules_shown': r.get('rules_shown', [])}
+                  for t, r in with_manual.items()]}, indent=1))
+    print(f"retrieval={a.retrieval}: {with_plans} of {visible} visible rules have a stored won-game plan"
+          f"{' (the others fall back to task)' if a.retrieval in ('plan', 'steps') else ''}; per-game results: {out}")
+    reference = Path(a.reference) / 'checkpoints'
+    ref_dir = next((d for d in (reference / 'development-C-11', reference / 'gate-C-11') if d.exists()),
+                   reference / 'development-C-11')    # a pilot run or a study run (early gate)
     ref = {}
-    for f in sorted((Path(a.reference) / 'checkpoints' / 'development-C-11').glob('*.json')):
+    for f in sorted(ref_dir.glob('*.json')):
         r = load_json(f)['record']
-        ref[r['task_id']] = r['success']
+        ref[r['task_id']] = r
+    pair = paired_comparison(list(with_manual.values()), list(ref.values()))
+    n = pair['games']
+    print(f"{n} paired games: with manual {pair['wins']}/{n}, without (C) {pair['baseline_wins']}/{n}")
+    print(f"  manual won where C lost: {pair['won_where_baseline_lost']}; "
+          f"lost where C won: {pair['lost_where_baseline_won']}")
     paired = [t for t in with_manual if t in ref]
-    m, c = sum(with_manual[t]['success'] for t in paired), sum(ref[t] for t in paired)
-    print(f'{len(paired)} paired games: with manual {m}/{len(paired)}, without (C) {c}/{len(paired)}')
-    print(f"  manual won where C lost: {sum(with_manual[t]['success'] and not ref[t] for t in paired)}; "
-          f"lost where C won: {sum(ref[t] and not with_manual[t]['success'] for t in paired)}")
     print(f"  mean model calls per game with manual: "
           f"{sum(with_manual[t]['model_calls'] for t in paired) / max(1, len(paired)):.1f}")
 

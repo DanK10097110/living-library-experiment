@@ -1,24 +1,33 @@
 # Runs one chunk of the experiment. Rerun the same command to continue where it stopped.
 #
-#   tools\run.ps1 pilot -MaxHours 3            # run the pilot for up to 3 hours
-#   tools\run.ps1 pilot -MaxEpisodes 50        # or a fixed number of episodes
-#   tools\run.ps1 status pilot                 # progress
-#   tools\run.ps1 study -MaxHours 8            # after freezing (tools\run.ps1 freeze)
-#   tools\run.ps1 prepractice -Workers 16      # study practice (D, E) alongside the pilot
+#   tools\run.ps1 study -MaxHours 8            # the study; first stops at the early gate (below)
+#   tools\run.ps1 study -MaxEpisodes 50        # or a fixed number of episodes
+#   tools\run.ps1 status                       # progress (and the early gate verdict)
+#   tools\run.ps1 study -PastGate              # gate failed: continue from the checkpoint anyway
+#   tools\run.ps1 study -RestartLibrary        # gate failed, library fixed: redo E/E-minus/E-text
+#                                              #   practice from scratch, keeping C's and D's games
 #   tools\speed-test.ps1                       # throughput sweep over server slot counts
-#   tools\run.ps1 plots                        # figures + report.html (pilot and study so far)
+#   tools\run.ps1 plots                        # figures + report.html (study so far)
 #   tools\serve-model.ps1                      # optional: one shared server for parallel jobs
+#
+# Early gate (replaces the pilot, amended 2026-11-17): library practice stops after -GateAt games
+# (default 75), then E's rules play 30 development games against C. The report is written to
+# <run>\gate.json; the study stops unless E wins - C wins >= -GateMargin (default 0).
 #
 # Stop early at any time: Ctrl-C, or create the file STOP in the run folder
 # (\\wsl$\Ubuntu-24.04\root\ll-runs\<phase>\STOP); finished episodes are always kept.
 param(
-    [Parameter(Position = 0, Mandatory)][ValidateSet('pilot', 'study', 'freeze', 'status', 'bakeoff', 'prepractice', 'plots')]
+    [Parameter(Position = 0, Mandatory)][ValidateSet('study', 'status', 'bakeoff', 'plots')]
     [string]$Command,
-    [Parameter(Position = 1)][string]$Phase = 'pilot',
+    [Parameter(Position = 1)][string]$Phase = 'study',
     [int]$Workers = 16,               # parallel episodes (memoryless streams run many at once)
     [int]$Slots = 24,                 # server slots if this command starts the server (measured best for the 9B)
     [int]$MaxEpisodes = 0,
     [double]$MaxHours = 0,
+    [int]$GateAt = 75,                # early gate after this many library practice games (0 = none)
+    [int]$GateMargin = 0,             # gate passes when E wins - C wins >= this
+    [switch]$PastGate,
+    [switch]$RestartLibrary,
     [string]$Model = 'qwen3.5-9b',      # default since 2026-11-15 (see tools/serve-model.ps1)
     [switch]$KeepServer
 )
@@ -30,6 +39,10 @@ $distro = 'Ubuntu-24.04'
 
 function Invoke-Linux([string]$cmd) {
     wsl.exe -d $distro -u root --cd $repo -- bash -lc $cmd
+    if ($LASTEXITCODE -eq 3) {
+        Write-Host 'stopped at the early gate (see the message above): rerun with -PastGate to continue, or fix the library and rerun with -RestartLibrary'
+        return
+    }
     if ($LASTEXITCODE -ne 0) { throw "linux command failed ($LASTEXITCODE)" }
 }
 
@@ -38,14 +51,9 @@ if ($Command -eq 'status') {
     return
 }
 if ($Command -eq 'plots') {
-    # Figures + report.html from whatever has run so far (pilot and study), no GPU needed.
-    Invoke-Linux "$py tools/plots.py $(if ($Phase -eq 'pilot') { "$runs/pilot $runs/study" } else { "$runs/$Phase" }) --out $runs/figures"
+    # Figures + report.html from whatever has run so far, no GPU needed.
+    Invoke-Linux "$py tools/plots.py $runs/$Phase --out $runs/figures"
     Write-Host "open \\wsl$\Ubuntu-24.04\root\ll-runs\figures\report.html"
-    return
-}
-if ($Command -eq 'freeze') {
-    Invoke-Linux "$py -m living_library freeze --manifest $runs/manifest.json --pilot-dir $runs/pilot --output $runs/frozen.json && cp $runs/frozen.json configs/frozen.json"
-    Write-Host 'freeze written to configs\frozen.json - commit it before running the study'
     return
 }
 
@@ -81,10 +89,12 @@ try {
     if ($MaxHours -gt 0) { $budget += " --max-hours $MaxHours" }
     $entry = '-m living_library'
     switch ($Command) {
-        'pilot' { $cliArgs = "pilot --manifest $runs/manifest.json --output $runs/pilot" }
-        'prepractice' { $entry = 'tools/prepractice.py'; $cliArgs = "--manifest $runs/manifest.json --output $runs/study" }
         'bakeoff' { $cliArgs = "pilot --config configs/bakeoff-$Model.json --manifest $runs/manifest.json --output $runs/bakeoff-$Model" }
-        'study' { $cliArgs = "study --manifest $runs/manifest.json --freeze $runs/frozen.json --output $runs/study --reuse-pilot $runs/pilot" }
+        'study' {
+            $cliArgs = "study --manifest $runs/manifest.json --output $runs/study --gate-at $GateAt --gate-margin $GateMargin"
+            if ($PastGate) { $cliArgs += ' --past-gate' }
+            if ($RestartLibrary) { $cliArgs += ' --restart-library' }
+        }
     }
     $log = "$runs/$(if ($Command -eq 'bakeoff') { "bakeoff-$Model" } else { $Command }).log"
     Invoke-Linux "mkdir -p $runs && PYTHONUNBUFFERED=1 $py $entry $cliArgs --workers $Workers$budget 2>&1 | tee -a $log; exit \`${PIPESTATUS[0]}"
