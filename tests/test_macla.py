@@ -237,6 +237,37 @@ class GeneralRuleTests(unittest.TestCase):
         self.assertIn('specific objects or rooms', log[0])
         self.assertEqual(len(calls), 1)
 
+    def kind_write(self, task_type, text, answer):
+        calls = []
+
+        def ask(role, payload):
+            calls.append(payload)
+            return {'rule': answer}
+        rules, log = [], []
+        manual.apply(rules, [{'op': 'write_rule', 'type': 'Success Process', 'rule': text}], 'direct success',
+                     True, lambda: 'rule_1', log, task_type, ask=ask)
+        return rules, log, calls
+
+    def test_foreign_kind_step_is_rewritten_or_rejected(self):
+        bad = ('When an object must be cooled and placed: search stoves first, take the object, clean it with '
+               'sinkbasin, cool it with fridge, close fridge, move it to the target.')
+        good = 'When an object must be cooled and placed: take the object, cool it with fridge, move it to the target.'
+        rules, log, calls = self.kind_write('pick_cool_then_place_in_recep', bad, good)
+        self.assertEqual([r['rule'] for r in rules], [good])
+        self.assertEqual(calls[0]['offending_words'], ['clean'])
+        rules, log, calls = self.kind_write('pick_cool_then_place_in_recep', bad, bad)
+        self.assertEqual(rules, [])
+        self.assertIn('another kind of task', log[0])
+
+    def test_own_kind_actions_and_appliance_places_pass(self):
+        for task_type, text in [
+                ('pick_clean_then_place_in_recep', 'Search the fridge first, take the object, clean it in the sinkbasin, then move it to the target.'),
+                ('pick_heat_then_place_in_recep', 'Take the object, heat it with the microwave, then move it to the target.'),
+                ('look_at_obj_in_light', 'Take the object, use the desklamp, then examine it under the light.')]:
+            rules, log, calls = self.kind_write(task_type, text, 'unused')
+            self.assertEqual(len(rules), 1, log)
+            self.assertEqual(calls, [])
+
     def test_general_rule_makes_no_model_call(self):
         rules, log, calls = self.write('When heating, use the microwave.', 'unused')
         self.assertEqual(len(rules), 1)

@@ -275,13 +275,52 @@ def generalize(kind, text, ask):
     return new
 
 
-def checked(kind, text, ask=None):
+# Action words of each kind of task (a won game may contain steps of another kind; the appliance nouns
+# alone, e.g. "search the fridge", are not actions).
+KIND_ACTIONS = {
+    'clean': r'clean(?:s|ed|ing)?', 'cool': r'cool(?:s|ed|ing)?', 'heat': r'heat(?:s|ed|ing)?',
+    'look': r'(?:turn(?:ed|ing)? on|use|using)\b[^.;:]*?\blamp|desklamp|floorlamp',
+    'two': r'two objects|both|each object|second object'}
+
+
+def foreign_actions(task_type, text):
+    """Action words in `text` that belong to a different ALFWorld task kind than `task_type`."""
+    own = next((k for k in KIND_ACTIONS if f'pick_{k}_' in str(task_type) or str(task_type).startswith(
+        {'look': 'look_at_obj', 'two': 'pick_two_obj'}.get(k, '\0'))), None)
+    if own is None:
+        return []
+    found = []
+    for k, pattern in KIND_ACTIONS.items():
+        if k != own:
+            found += [m.group(0).lower() for m in re.finditer(rf'\b(?:{pattern})\b', text, re.IGNORECASE)]
+    return sorted(set(found))
+
+
+def drop_foreign(kind, text, task_type, ask):
+    """Text without steps of another kind of task: as given, or one Builder rewrite; ValueError if still."""
+    bad = foreign_actions(task_type, text)
+    if not bad:
+        return text
+    data = ask('builder', {'instructions': (
+        f'This rule is for {task_type} tasks only. Rewrite it: remove steps that belong to another kind of '
+        f'task: {", ".join(bad)}. Keep it at most 25 words. Output {{"rule": "..."}}.'),
+        'rule': text, 'offending_words': bad, 'response_schema': {'rule': 'string'}})
+    new = tidy(data['rule']) if isinstance(data, dict) and isinstance(data.get('rule'), str) else ''
+    if not new or foreign_actions(task_type, new) or rule_problems(kind, new):
+        raise ValueError(f"rejected {kind} text, has steps of another kind of task ({', '.join(bad)}): {text[:80]}")
+    return new
+
+
+def checked(kind, text, ask=None, task_type=None):
     """Tidied rule text, or ValueError naming its problems. With `ask` (a model call), text naming
-    specific objects or rooms gets one general rewrite, or is rejected."""
+    specific objects or rooms gets one general rewrite, or is rejected; so does text (for a rule scoped
+    to `task_type`) with an action of another kind of task."""
     text = tidy(text)
     problems = rule_problems(kind, text)
     if ask is not None and not problems:
         text = generalize(kind, text, ask)
+        if task_type:
+            text = drop_foreign(kind, text, task_type, ask)
     if problems:
         raise ValueError(f"rejected {kind} text, {'; '.join(problems)}: {text[:80]}")
     return text
@@ -503,7 +542,8 @@ def apply(rules, operations, case, append_only, next_id, log, task_type=None, vi
                     raise ValueError(f"a {case} may not write a {op['type']} rule")
                 if writes >= MAX_WRITES[case]:
                     raise ValueError(f'a {case} may write at most {MAX_WRITES[case]} rule(s)')
-                text = checked(op['type'], op['rule'], ask)
+                text = checked(op['type'], op['rule'], ask,
+                               task_type if op['type'] == 'Success Process' or op.get('scope') != 'all' else None)
                 if any(tidy(r['rule']).lower() == text.lower() for r in rules):
                     raise ValueError('duplicate rule')
                 if op['type'] == 'Success Process':
@@ -573,7 +613,8 @@ def apply(rules, operations, case, append_only, next_id, log, task_type=None, vi
                     if not changes:
                         continue
                 if 'rule' in changes:
-                    changes['rule'] = checked(changes.get('type', rule['type']), changes['rule'], ask)
+                    changes['rule'] = checked(changes.get('type', rule['type']), changes['rule'], ask,
+                                              rule.get('task_type'))
                 if 'example' in changes:
                     changes['example'] = ' '.join(changes['example'].split())[:MAX_EXAMPLE]
                 if 'validation' in changes:   # keep the last few notes, as AutoManual does
@@ -696,7 +737,7 @@ def refine(agent, rules, candidates, report):
             text = data.get('rule')
             if not isinstance(text, str) or not text.strip():
                 raise ValueError('refiner gave no rule')
-            text = checked(rule['type'], text, agent._ask)    # a concise rewrite; nothing is appended
+            text = checked(rule['type'], text, agent._ask, rule.get('task_type'))    # a concise rewrite; nothing is appended
             op = {'op': 'refine', 'id': rule['id'], 'rule': text, 'refined_at': observed(rule)}
             _refine(rules, op)
             report['operations'].append(op)
