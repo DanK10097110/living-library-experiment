@@ -168,3 +168,30 @@ _Reconstructed on 2026-11-19 from git history, archive/, results/, the proposal,
   unchanged.
 - **Risk to watch:** a Builder that under-reports "followed" starves good rules of credit. Checked on a
   live practice (practice-f) before the study's E library is restarted.
+
+### 2026-11-19 — Tree-structured library dropped
+- **Decision:** the hierarchical (tree) library idea is dropped for good; it was never implemented.
+- **Why:** the current flat retrieval holds at long-run size (lab benchmark at 200-270 rules) and on a real
+  71-rule union library (50/70 vs C 39/70). A tree would add model routing calls and routing errors with no
+  measured benefit. The owner agreed to drop it if retrieval was good enough.
+
+### 2026-11-19 — Periodic consolidation of underused rules (fold into well-used rules)
+- **Decision:** every 25 practice games, if at least 3 underused rules exist, fold each underused rule into
+  the most similar well-used rule of the same task type and rule type. The model rewrites the absorbing
+  rule to also cover it, still at most 25 words and passing all live text checks. A quick model check
+  skips rules that give conflicting advice. Recipes and Anti-Patterns are never merged. Underused means few
+  credited games but decent reliability. Merging underused rules only with each other (variant A) was
+  rejected.
+- **Why:** the owner's idea. Narrow but correct rules rarely fire; folding them into a rule that already
+  fires makes it more complete. In a review of real merges, B kept concrete commands ("search countertops
+  first, then use the fridge instead of the sinkbasin") and absorbed junk. A produced vague text ("cool it
+  with the appliance"). B once merged two contradictory rules, hence the conflict check. The effect is small
+  (about 3-5% of rules), so it adds little complexity. Judged by reading the merges, not by 70-game runs (the
+  owner's call: start the study soon).
+
+### 2026-11-19 — "Followed" is judged blind to the game outcome
+- **Decision:** which shown rules were followed is decided by a separate model call that sees the goal, the
+  rules and the actions, but not the outcome. The Builder no longer decides it.
+- **Why:** in practice-f the Builder (which knows the outcome) said "not followed" in lost games where the
+  agent clearly did what the rule said, and "followed" in won games. Rules would then collect only wins and
+  never be retired, which is worse than crediting all shown rules.

@@ -112,3 +112,9 @@ noise about ±4).
 - Tools: `tools/lab_bench.py`, `tools/lab_summary.py`, `tools/lab_growth.py`, `tools/lab_union.py`.
 - Tests: `tests/test_lab_bench.py` (155 tests pass).
 - Data: `results/lab/data/`.
+
+## 8. Phase 3 result (real games, 2026-11-19)
+Union library (71 visible real rules, about 20% junk), frozen, on the 70 dev games: **50/70 vs C 39/70** (17 won
+where C lost, 6 lost where C won). Small libraries scored 47-54/70 on the same games. A 3-5x larger real
+library does not hurt with the current retrieval. By type: look 3/4, simple 18/22, clean 7/11, cool 9/12,
+heat 4/9, two 9/12.

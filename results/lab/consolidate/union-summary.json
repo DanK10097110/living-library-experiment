@@ -1,0 +1,319 @@
+{
+ "C0": {
+  "rules": 71,
+  "visible": 71,
+  "merges": 0,
+  "rules_absorbed": 0,
+  "rejected": 0,
+  "info": {},
+  "union": {
+   "3": {
+    "recall": 0.8095,
+    "precision": 0.8095,
+    "useful": 2.4286,
+    "ndcg": 0.9023,
+    "dup": 0.0,
+    "junk": 0.0623,
+    "wrong": 0.0476,
+    "shown": 3.0
+   },
+   "5": {
+    "recall": 0.6176,
+    "precision": 0.6176,
+    "useful": 3.0879,
+    "ndcg": 0.784,
+    "dup": 0.0,
+    "junk": 0.1385,
+    "wrong": 0.1495,
+    "shown": 5.0
+   },
+   "8": {
+    "recall": 0.706,
+    "precision": 0.6923,
+    "useful": 5.5385,
+    "ndcg": 0.796,
+    "dup": 0.0,
+    "junk": 0.1401,
+    "wrong": 0.1085,
+    "shown": 8.0
+   }
+  },
+  "strict": {
+   "3": {
+    "recall": 0.8095,
+    "precision": 0.8095,
+    "useful": 2.4286,
+    "ndcg": 0.9023,
+    "dup": 0.0,
+    "junk": 0.0623,
+    "wrong": 0.0476,
+    "shown": 3.0
+   },
+   "5": {
+    "recall": 0.6176,
+    "precision": 0.6176,
+    "useful": 3.0879,
+    "ndcg": 0.784,
+    "dup": 0.0,
+    "junk": 0.1385,
+    "wrong": 0.1495,
+    "shown": 5.0
+   },
+   "8": {
+    "recall": 0.706,
+    "precision": 0.6923,
+    "useful": 5.5385,
+    "ndcg": 0.796,
+    "dup": 0.0,
+    "junk": 0.1401,
+    "wrong": 0.1085,
+    "shown": 8.0
+   }
+  },
+  "merge_list": [],
+  "rejected_list": []
+ },
+ "A": {
+  "rules": 68,
+  "visible": 68,
+  "merges": 2,
+  "rules_absorbed": 3,
+  "rejected": 0,
+  "info": {
+   "pool": 63,
+   "shown_p40": 3.0,
+   "shown_median": 4.0,
+   "underused": 9,
+   "clusters": 2
+  },
+  "union": {
+   "3": {
+    "recall": 0.8095,
+    "precision": 0.8095,
+    "useful": 2.4286,
+    "ndcg": 0.9023,
+    "dup": 0.0,
+    "junk": 0.0623,
+    "wrong": 0.0476,
+    "shown": 3.0
+   },
+   "5": {
+    "recall": 0.6346,
+    "precision": 0.6264,
+    "useful": 3.1319,
+    "ndcg": 0.7932,
+    "dup": 0.0,
+    "junk": 0.1231,
+    "wrong": 0.156,
+    "shown": 5.0
+   },
+   "8": {
+    "recall": 0.706,
+    "precision": 0.6877,
+    "useful": 5.4286,
+    "ndcg": 0.7972,
+    "dup": 0.0,
+    "junk": 0.1401,
+    "wrong": 0.1131,
+    "shown": 7.8901
+   }
+  },
+  "strict": {
+   "3": {
+    "recall": 0.8095,
+    "precision": 0.8095,
+    "useful": 2.4286,
+    "ndcg": 0.9023,
+    "dup": 0.0,
+    "junk": 0.0623,
+    "wrong": 0.0476,
+    "shown": 3.0
+   },
+   "5": {
+    "recall": 0.6346,
+    "precision": 0.6264,
+    "useful": 3.1319,
+    "ndcg": 0.7932,
+    "dup": 0.0,
+    "junk": 0.1231,
+    "wrong": 0.156,
+    "shown": 5.0
+   },
+   "8": {
+    "recall": 0.706,
+    "precision": 0.6877,
+    "useful": 5.4286,
+    "ndcg": 0.7972,
+    "dup": 0.0,
+    "junk": 0.1401,
+    "wrong": 0.1131,
+    "shown": 7.8901
+   }
+  },
+  "merge_list": [
+   {
+    "variant": "A",
+    "kept_id": "rule_15",
+    "task_type": "look_at_obj_in_light",
+    "type": "Corrected Error",
+    "sources": [
+     "rule_15",
+     "rule_33",
+     "rule_42"
+    ],
+    "source_rules": [
+     "When examining an object with a desklamp, turn on the desklamp before examining the object.",
+     "When an object must be examined with a light source and the source is not visible on the target surface, examine the target and check other locations (drawers, dressers) for the light source.",
+     "When an object must be looked at under a light, first locate the light source, then move the object directly under it before attempting to look."
+    ],
+    "new_rule": "When an object must be examined under light, locate the source, open containers if needed, turn on the light, then examine the object."
+   },
+   {
+    "variant": "A",
+    "kept_id": "rule_22",
+    "task_type": "pick_clean_then_place_in_recep",
+    "type": "Corrected Error",
+    "sources": [
+     "rule_22",
+     "rule_37"
+    ],
+    "source_rules": [
+     "When an object must be cleaned and placed, do not waste time opening empty containers before checking countertops for the object.",
+     "When the target object must be found, never open cabinets or drawers first; scan the bathtubbasin and countertops first."
+    ],
+    "new_rule": "When an object must be cleaned and placed, scan countertops and basins first, then clean with the appliance and place it."
+   }
+  ],
+  "rejected_list": []
+ },
+ "B": {
+  "rules": 67,
+  "visible": 67,
+  "merges": 3,
+  "rules_absorbed": 4,
+  "rejected": 0,
+  "info": {
+   "pool": 63,
+   "shown_p40": 3.0,
+   "shown_median": 4.0,
+   "underused": 9,
+   "well_used": 35,
+   "absorbers": 3,
+   "unmatched": 5
+  },
+  "union": {
+   "3": {
+    "recall": 0.8022,
+    "precision": 0.8022,
+    "useful": 2.4066,
+    "ndcg": 0.8988,
+    "dup": 0.0,
+    "junk": 0.0696,
+    "wrong": 0.0476,
+    "shown": 3.0
+   },
+   "5": {
+    "recall": 0.622,
+    "precision": 0.622,
+    "useful": 3.1099,
+    "ndcg": 0.7864,
+    "dup": 0.0,
+    "junk": 0.1319,
+    "wrong": 0.1516,
+    "shown": 5.0
+   },
+   "8": {
+    "recall": 0.7253,
+    "precision": 0.7115,
+    "useful": 5.6923,
+    "ndcg": 0.8068,
+    "dup": 0.0,
+    "junk": 0.1209,
+    "wrong": 0.1085,
+    "shown": 8.0
+   }
+  },
+  "strict": {
+   "3": {
+    "recall": 0.8022,
+    "precision": 0.8022,
+    "useful": 2.4066,
+    "ndcg": 0.8988,
+    "dup": 0.0,
+    "junk": 0.0696,
+    "wrong": 0.0476,
+    "shown": 3.0
+   },
+   "5": {
+    "recall": 0.622,
+    "precision": 0.622,
+    "useful": 3.1099,
+    "ndcg": 0.7864,
+    "dup": 0.0,
+    "junk": 0.1319,
+    "wrong": 0.1516,
+    "shown": 5.0
+   },
+   "8": {
+    "recall": 0.7253,
+    "precision": 0.7115,
+    "useful": 5.6923,
+    "ndcg": 0.8068,
+    "dup": 0.0,
+    "junk": 0.1209,
+    "wrong": 0.1085,
+    "shown": 8.0
+   }
+  },
+  "merge_list": [
+   {
+    "variant": "B",
+    "kept_id": "rule_16",
+    "task_type": "pick_two_obj_and_place",
+    "type": "Corrected Error",
+    "sources": [
+     "rule_16",
+     "rule_8"
+    ],
+    "source_rules": [
+     "When two objects must be retrieved and placed, search visible surfaces first before opening closed containers.",
+     "When multiple objects must be collected and placed, examine surfaces for them before opening storage, and re-examine surfaces after taking objects."
+    ],
+    "new_rule": "When retrieving multiple objects to place, search surfaces first, re-check after collection, then open containers if needed."
+   },
+   {
+    "variant": "B",
+    "kept_id": "rule_9",
+    "task_type": "pick_clean_then_place_in_recep",
+    "type": "Corrected Error",
+    "sources": [
+     "rule_9",
+     "rule_22",
+     "rule_37"
+    ],
+    "source_rules": [
+     "When a task requires a clean object, clean it at sinkbasin before placing it in the target.",
+     "When an object must be cleaned and placed, do not waste time opening empty containers before checking countertops for the object.",
+     "When the target object must be found, never open cabinets or drawers first; scan the bathtubbasin and countertops first."
+    ],
+    "new_rule": "When an object must be cleaned and placed, search countertops and basins first, clean with sinkbasin, then place in target."
+   },
+   {
+    "variant": "B",
+    "kept_id": "rule_20",
+    "task_type": "pick_clean_then_place_in_recep",
+    "type": "Special Phenomenon",
+    "sources": [
+     "rule_20",
+     "rule_66"
+    ],
+    "source_rules": [
+     "When the target is a countertop, search cabinets first to find the object if not visible there.",
+     "When a cabinet is closed, go to a drawer or countertop to find the object instead of opening the cabinet."
+    ],
+    "new_rule": "If a container is closed, check drawers or countertops before opening it to find the object."
+   }
+  ],
+  "rejected_list": []
+ }
+}

@@ -1,0 +1,272 @@
+{
+ "C0": {
+  "rules": 28,
+  "visible": 16,
+  "merges": 0,
+  "rules_absorbed": 0,
+  "rejected": 0,
+  "info": {},
+  "union": {
+   "3": {
+    "recall": 1.0,
+    "precision": 1.0,
+    "useful": 2.7692,
+    "ndcg": 1.0,
+    "dup": 0.0,
+    "junk": 0.0,
+    "wrong": 0.0,
+    "shown": 2.7692
+   },
+   "5": {
+    "recall": 0.9824,
+    "precision": 0.9824,
+    "useful": 3.3516,
+    "ndcg": 0.9914,
+    "dup": 0.0,
+    "junk": 0.0176,
+    "wrong": 0.0,
+    "shown": 3.4396
+   },
+   "8": {
+    "recall": 1.0,
+    "precision": 0.9689,
+    "useful": 3.4396,
+    "ndcg": 0.9993,
+    "dup": 0.0,
+    "junk": 0.0311,
+    "wrong": 0.0,
+    "shown": 3.6264
+   }
+  },
+  "strict": {
+   "3": {
+    "recall": 1.0,
+    "precision": 1.0,
+    "useful": 2.7692,
+    "ndcg": 1.0,
+    "dup": 0.0,
+    "junk": 0.0,
+    "wrong": 0.0,
+    "shown": 2.7692
+   },
+   "5": {
+    "recall": 0.9824,
+    "precision": 0.9824,
+    "useful": 3.3516,
+    "ndcg": 0.9914,
+    "dup": 0.0,
+    "junk": 0.0176,
+    "wrong": 0.0,
+    "shown": 3.4396
+   },
+   "8": {
+    "recall": 1.0,
+    "precision": 0.9689,
+    "useful": 3.4396,
+    "ndcg": 0.9993,
+    "dup": 0.0,
+    "junk": 0.0311,
+    "wrong": 0.0,
+    "shown": 3.6264
+   }
+  },
+  "merge_list": [],
+  "rejected_list": []
+ },
+ "A": {
+  "rules": 27,
+  "visible": 15,
+  "merges": 1,
+  "rules_absorbed": 1,
+  "rejected": 0,
+  "info": {
+   "pool": 11,
+   "shown_p40": 3.0,
+   "shown_median": 4.0,
+   "underused": 4,
+   "clusters": 1
+  },
+  "union": {
+   "3": {
+    "recall": 1.0,
+    "precision": 1.0,
+    "useful": 2.7692,
+    "ndcg": 1.0,
+    "dup": 0.0,
+    "junk": 0.0,
+    "wrong": 0.0,
+    "shown": 2.7692
+   },
+   "5": {
+    "recall": 1.0,
+    "precision": 1.0,
+    "useful": 3.4396,
+    "ndcg": 1.0,
+    "dup": 0.0,
+    "junk": 0.0,
+    "wrong": 0.0,
+    "shown": 3.4396
+   },
+   "8": {
+    "recall": 1.0,
+    "precision": 1.0,
+    "useful": 3.4396,
+    "ndcg": 1.0,
+    "dup": 0.0,
+    "junk": 0.0,
+    "wrong": 0.0,
+    "shown": 3.4396
+   }
+  },
+  "strict": {
+   "3": {
+    "recall": 1.0,
+    "precision": 1.0,
+    "useful": 2.7692,
+    "ndcg": 1.0,
+    "dup": 0.0,
+    "junk": 0.0,
+    "wrong": 0.0,
+    "shown": 2.7692
+   },
+   "5": {
+    "recall": 1.0,
+    "precision": 1.0,
+    "useful": 3.4396,
+    "ndcg": 1.0,
+    "dup": 0.0,
+    "junk": 0.0,
+    "wrong": 0.0,
+    "shown": 3.4396
+   },
+   "8": {
+    "recall": 1.0,
+    "precision": 1.0,
+    "useful": 3.4396,
+    "ndcg": 1.0,
+    "dup": 0.0,
+    "junk": 0.0,
+    "wrong": 0.0,
+    "shown": 3.4396
+   }
+  },
+  "merge_list": [
+   {
+    "variant": "A",
+    "kept_id": "rule_17",
+    "task_type": "pick_cool_then_place_in_recep",
+    "type": "Corrected Error",
+    "sources": [
+     "rule_17",
+     "rule_19"
+    ],
+    "source_rules": [
+     "When cooling the object, first scan all countertops for the object before attempting to cool or store it.",
+     "When cooling an object, place it on a safe surface first before attempting to move it to a container."
+    ],
+    "new_rule": "When an object must be cooled and placed, search countertops first, cool it with the appliance, then place it in the target."
+   }
+  ],
+  "rejected_list": []
+ },
+ "B": {
+  "rules": 26,
+  "visible": 14,
+  "merges": 1,
+  "rules_absorbed": 2,
+  "rejected": 0,
+  "info": {
+   "pool": 11,
+   "shown_p40": 3.0,
+   "shown_median": 4.0,
+   "underused": 4,
+   "well_used": 6,
+   "absorbers": 1,
+   "unmatched": 2
+  },
+  "union": {
+   "3": {
+    "recall": 1.0,
+    "precision": 1.0,
+    "useful": 2.7692,
+    "ndcg": 1.0,
+    "dup": 0.0,
+    "junk": 0.0,
+    "wrong": 0.0,
+    "shown": 2.7692
+   },
+   "5": {
+    "recall": 1.0,
+    "precision": 1.0,
+    "useful": 3.2527,
+    "ndcg": 1.0,
+    "dup": 0.0,
+    "junk": 0.0,
+    "wrong": 0.0,
+    "shown": 3.2527
+   },
+   "8": {
+    "recall": 1.0,
+    "precision": 1.0,
+    "useful": 3.2527,
+    "ndcg": 1.0,
+    "dup": 0.0,
+    "junk": 0.0,
+    "wrong": 0.0,
+    "shown": 3.2527
+   }
+  },
+  "strict": {
+   "3": {
+    "recall": 1.0,
+    "precision": 1.0,
+    "useful": 2.7692,
+    "ndcg": 1.0,
+    "dup": 0.0,
+    "junk": 0.0,
+    "wrong": 0.0,
+    "shown": 2.7692
+   },
+   "5": {
+    "recall": 1.0,
+    "precision": 1.0,
+    "useful": 3.2527,
+    "ndcg": 1.0,
+    "dup": 0.0,
+    "junk": 0.0,
+    "wrong": 0.0,
+    "shown": 3.2527
+   },
+   "8": {
+    "recall": 1.0,
+    "precision": 1.0,
+    "useful": 3.2527,
+    "ndcg": 1.0,
+    "dup": 0.0,
+    "junk": 0.0,
+    "wrong": 0.0,
+    "shown": 3.2527
+   }
+  },
+  "merge_list": [
+   {
+    "variant": "B",
+    "kept_id": "rule_20",
+    "task_type": "pick_cool_then_place_in_recep",
+    "type": "Corrected Error",
+    "sources": [
+     "rule_20",
+     "rule_19",
+     "rule_17"
+    ],
+    "source_rules": [
+     "When cooling an object, use the fridge instead of the sinkbasin.",
+     "When cooling an object, place it on a safe surface first before attempting to move it to a container.",
+     "When cooling the object, first scan all countertops for the object before attempting to cool or store it."
+    ],
+    "new_rule": "When cooling an object, search countertops first, then use the fridge instead of the sinkbasin."
+   }
+  ],
+  "rejected_list": []
+ }
+}

@@ -1,0 +1,5970 @@
+[
+ {
+  "alpha": 10,
+  "base": [
+   11,
+   12
+  ],
+  "beta": 2,
+  "contexts": [
+   {
+    "plan": "go to dresser 1 ; search for cellphone in visible areas ; take cellphone from its location ; put cellphone in dresser 1",
+    "steps": [
+     "go to dresser 1",
+     "go to drawer 1",
+     "open drawer 1",
+     "examine drawer 1",
+     "go to bed 1",
+     "take cellphone 1 from bed 1",
+     "go to dresser 1",
+     "move cellphone 1 to dresser 1"
+    ],
+    "task": "put a cellphone in dresser.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "find the statue in the environment ; go to coffeetable 1 ; put the statue in coffeetable 1",
+    "steps": [
+     "go to coffeetable 1",
+     "go to drawer 1",
+     "open drawer 1",
+     "go to tvstand 1",
+     "take statue 1 from tvstand 1",
+     "go to coffeetable 1",
+     "move statue 1 to coffeetable 1"
+    ],
+    "task": "put a statue in coffeetable.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "go to desk 1 ; find a keychain in visible areas ; take the keychain from its location ; put the keychain in desk 1",
+    "steps": [
+     "go to cabinet 2",
+     "go to desk 1",
+     "go to cabinet 3",
+     "go to desk 1",
+     "go to cabinet 4",
+     "go to cabinet 1",
+     "go to drawer 1",
+     "go to bed 1",
+     "go to sidetable 1",
+     "take keychain 1 from sidetable 1",
+     "go to desk 1",
+     "move keychain 1 to desk 1"
+    ],
+    "task": "put a keychain in desk.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "search all visible areas for a spraybottle ; take the spraybottle from its location ; put the spraybottle in the garbagecan",
+    "steps": [
+     "go to countertop 1",
+     "take spraybottle 1 from countertop 1",
+     "go to garbagecan 1",
+     "move spraybottle 1 to garbagecan 1"
+    ],
+    "task": "put a spraybottle in garbagecan.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "find the spraybottle in the room ; go to the toilet ; put the spraybottle on the toilet",
+    "steps": [
+     "go to cabinet 1",
+     "take spraybottle 1 from cabinet 1",
+     "go to toilet 1",
+     "move spraybottle 1 to toilet 1"
+    ],
+    "task": "put some spraybottle on toilet.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "find a handtowel in the environment ; go to the location where the handtowel is located ; take the handtowel from its current location ; go to a cabinet to store the handtowel ; put the handtowel in the cabinet",
+    "steps": [
+     "go to handtowelholder 1",
+     "take handtowel 1 from handtowelholder 1",
+     "go to cabinet 1",
+     "open cabinet 1",
+     "move handtowel 1 to cabinet 1"
+    ],
+    "task": "put a handtowel in cabinet.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "find a pen in the room ; go to a drawer location ; take the pen from its location ; put the pen on the drawer",
+    "steps": [
+     "go to drawer 1",
+     "open drawer 1",
+     "go to desk 1",
+     "go to drawer 2",
+     "open drawer 2",
+     "go to drawer 3",
+     "open drawer 3",
+     "go to desk 1",
+     "go to dresser 1",
+     "take pen 3 from dresser 1",
+     "go to drawer 1",
+     "move pen 3 to drawer 1"
+    ],
+    "task": "put some pen on drawer.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "go to desk 1 ; find laptop in desk 1 ; take laptop from desk 1 ; put laptop in desk 1",
+    "steps": [
+     "go to desk 1",
+     "examine desk 1",
+     "examine desk 1",
+     "go to drawer 1",
+     "open drawer 1",
+     "go to shelf 1",
+     "go to laundryhamper 1",
+     "go to bed 1",
+     "take laptop 1 from bed 1",
+     "go to desk 1",
+     "move laptop 1 to desk 1"
+    ],
+    "task": "put a laptop in desk.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "find the watch in the current room ; take the watch from its location ; put the watch on the coffeetable",
+    "steps": [
+     "go to drawer 1",
+     "open drawer 1",
+     "take watch 1 from drawer 1",
+     "go to coffeetable 1",
+     "move watch 1 to coffeetable 1"
+    ],
+    "task": "put a watch in coffeetable.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "go to dresser 1 ; find cellphone in the area ; take cellphone from its location ; put cellphone on dresser",
+    "steps": [
+     "examine dresser 1",
+     "examine dresser 1",
+     "examine dresser 1",
+     "examine dresser 1",
+     "examine dresser 1",
+     "examine dresser 1",
+     "examine dresser 1",
+     "examine dresser 1",
+     "go to drawer 1",
+     "open drawer 1",
+     "go to drawer 2",
+     "go to drawer 3"
+    ],
+    "task": "put some cellphone on dresser.",
+    "task_type": "pick_and_place_simple",
+    "won": false
+   }
+  ],
+  "example": "search drawer 1; open drawer 1; take watch 1 from drawer 1; go to coffeetable 1; move watch 1 to coffeetable 1.",
+  "id": "rule_1",
+  "importance": 11,
+  "last_used": 46,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When an object must be picked up and placed: search all visible areas first, take the object from its location, open the target container if closed, go to the target location, then move the object to the target location.",
+  "sources": [
+   {
+    "task": "put a cloth in drawer.",
+    "task_type": "pick_and_place_simple"
+   }
+  ],
+  "task_type": "pick_and_place_simple",
+  "type": "Success Process",
+  "validation": "This game confirmed that the target container must be opened before moving the object to it. | This game confirmed that the target desk does not need to be opened before moving the laptop to it. | This game confirmed that the target location (coffeetable) must be visited before moving the object to it.",
+  "verified": true
+ },
+ {
+  "alpha": 2,
+  "base": [
+   1,
+   1
+  ],
+  "beta": 1,
+  "contexts": [
+   {
+    "plan": "go to desk 1 ; look at pencil under the desklamp",
+    "steps": [
+     "go to desk 1",
+     "go to shelf 1",
+     "take pencil 1 from shelf 1",
+     "go to desk 1",
+     "go to shelf 1",
+     "go to desk 1",
+     "go to shelf 1",
+     "go to desk 1",
+     "go to shelf 1",
+     "go to shelf 2",
+     "use desklamp 1"
+    ],
+    "task": "look at pencil under the desklamp.",
+    "task_type": "look_at_obj_in_light",
+    "won": true
+   }
+  ],
+  "example": "The agent took pencil 1 from shelf 1, searched shelf 2 for desklamp 1, turned it on, then examined the pencil.",
+  "id": "rule_2",
+  "importance": 3,
+  "last_used": 40,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When an object must be examined with a light: search locations where the object was seen, take the object, search for the light source, turn it on, then examine the object.",
+  "sources": [
+   {
+    "task": "examine the pen with the desklamp.",
+    "task_type": "look_at_obj_in_light"
+   }
+  ],
+  "task_type": "look_at_obj_in_light",
+  "type": "Success Process",
+  "validation": "This game confirmed the rule: the agent took the pencil from shelf 1, searched shelf 2 for the desklamp, turned it on, and examined the pencil.",
+  "verified": true
+ },
+ {
+  "alpha": 8,
+  "base": [
+   8,
+   9
+  ],
+  "beta": 1,
+  "contexts": [
+   {
+    "plan": "go to countertop 1 ; search countertop 1 for butterknife ; take butterknife from countertop 1 ; go to sinkbasin 1 ; clean butterknife at sinkbasin 1 ; go to countertop 1 ; put clean butterknife on countertop 1",
+    "steps": [
+     "open cabinet 6",
+     "go to cabinet 7",
+     "open cabinet 7",
+     "go to cabinet 8",
+     "go to cabinet 9",
+     "open cabinet 9",
+     "go to countertop 1",
+     "take butterknife 1 from countertop 1",
+     "go to sinkbasin 1",
+     "clean butterknife 1 with sinkbasin 1",
+     "go to countertop 1",
+     "move butterknife 1 to countertop 1"
+    ],
+    "task": "put a clean butterknife in countertop.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "search cabinets for cloth ; search cabinets for cloth ; search cabinets for cloth ; search cabinets for cloth ; take cloth from cabinet ; go to sinkbasin 1 ; clean cloth at sinkbasin 1 ; go to countertop 1 ; put cloth in countertop 1",
+    "steps": [
+     "go to cabinet 1",
+     "open cabinet 1",
+     "take cloth 3 from cabinet 1",
+     "go to sinkbasin 1",
+     "clean cloth 3 with sinkbasin 1",
+     "go to countertop 1",
+     "move cloth 3 to countertop 1"
+    ],
+    "task": "clean some cloth and put it in countertop.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "go to cabinet 1 to search for butterknife 1 ; take butterknife 1 from cabinet 1 ; go to sinkbasin 1 to clean butterknife 1 ; clean butterknife 1 with sinkbasin 1 ; go to sidetable 1 to place the clean butterknife ; put butterknife 1 in sidetable 1",
+    "steps": [
+     "go to cabinet 2",
+     "open cabinet 2",
+     "go to cabinet 3",
+     "open cabinet 3",
+     "go to cabinet 4",
+     "open cabinet 4",
+     "go to countertop 1",
+     "take butterknife 1 from countertop 1",
+     "go to sinkbasin 1",
+     "clean butterknife 1 with sinkbasin 1",
+     "go to sidetable 1",
+     "move butterknife 1 to sidetable 1"
+    ],
+    "task": "put a clean butterknife in sidetable.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "steps": [
+     "open fridge 1",
+     "go to cabinet 1",
+     "open cabinet 1",
+     "go to drawer 1",
+     "open drawer 1",
+     "go to countertop 1",
+     "go to countertop 2",
+     "take fork 1 from countertop 2",
+     "go to sinkbasin 1",
+     "clean fork 1 with sinkbasin 1",
+     "go to drawer 1",
+     "move fork 1 to drawer 1"
+    ],
+    "task": "clean some fork and put it in drawer.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "search remaining cabinets for a pan ; go to sinkbasin 1 ; clean the pan at the sink ; go to stoveburner 1 ; put the clean pan on the stoveburner",
+    "steps": [
+     "open fridge 1",
+     "close fridge 1",
+     "go to stoveburner 1",
+     "go to cabinet 1",
+     "go to drawer 1",
+     "open drawer 1",
+     "close drawer 1",
+     "go to garbagecan 1",
+     "go to countertop 1",
+     "take pan 1 from countertop 1",
+     "go to sinkbasin 1",
+     "clean pan 1 with sinkbasin 1"
+    ],
+    "task": "put a clean pan in stoveburner.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "search cabinets to find a plate ; go to sinkbasin 1 to clean the plate ; go to shelf to place the clean plate",
+    "steps": [
+     "go to cabinet 4",
+     "go to cabinet 5",
+     "open cabinet 5",
+     "go to cabinet 6",
+     "open cabinet 6",
+     "go to cabinet 7",
+     "open cabinet 7",
+     "take plate 4 from cabinet 7",
+     "go to sinkbasin 1",
+     "clean plate 4 with sinkbasin 1",
+     "go to shelf 1",
+     "move plate 4 to shelf 1"
+    ],
+    "task": "clean some plate and put it in shelf.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a cloth in the room ; take the cloth from its location ; go to the sinkbasin to clean the cloth ; clean the cloth at the sinkbasin ; go to the toilet to place the cloth ; put the clean cloth in the toilet",
+    "steps": [
+     "go to drawer 1",
+     "open drawer 1",
+     "go to drawer 2",
+     "open drawer 2",
+     "take cloth 3 from drawer 2",
+     "go to sinkbasin 1",
+     "clean cloth 3 with sinkbasin 1",
+     "go to toilet 1",
+     "move cloth 3 to toilet 1"
+    ],
+    "task": "clean some cloth and put it in toilet.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   }
+  ],
+  "example": "go to drawer 2, take cloth 3 from drawer 2, go to sinkbasin 1, clean cloth 3 with sinkbasin 1, go to toilet 1, move cloth 3 to toilet 1",
+  "id": "rule_3",
+  "importance": 9,
+  "last_used": 47,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When an object must be cleaned and placed: search cabinets first, take the object, go to the sink, clean it with the sink, go to the target, move it there.",
+  "sources": [
+   {
+    "task": "clean some fork and put it in drawer.",
+    "task_type": "pick_clean_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_clean_then_place_in_recep",
+  "type": "Success Process",
+  "validation": "This game confirms searching cabinets first and moving the object to the target after cleaning. | This game confirms searching cabinets first and moving the object to the target after cleaning. | This game confirms searching cabinets first and moving the object to the target after cleaning.",
+  "verified": true
+ },
+ {
+  "alpha": 4,
+  "base": [
+   3,
+   3
+  ],
+  "beta": 1,
+  "contexts": [
+   {
+    "plan": "find a mug in the environment ; heat the mug to make it hot ; put the hot mug in a cabinet",
+    "steps": [
+     "go to cabinet 1",
+     "go to fridge 1",
+     "open fridge 1",
+     "go to countertop 1",
+     "take mug 1 from countertop 1",
+     "go to microwave 1",
+     "heat mug 1 with microwave 1",
+     "go to cabinet 1",
+     "open cabinet 1",
+     "move mug 1 to cabinet 1"
+    ],
+    "task": "put a hot mug in cabinet.",
+    "task_type": "pick_heat_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a cup in the environment ; take the cup from its location ; heat the cup using the microwave ; go to the diningtable ; put the hot cup on the diningtable",
+    "steps": [
+     "go to microwave 1",
+     "heat mug 1 with microwave 1",
+     "go to diningtable 1",
+     "move mug 1 to diningtable 1",
+     "examine diningtable 1",
+     "go to fridge 1",
+     "open fridge 1",
+     "take cup 3 from fridge 1",
+     "go to microwave 1",
+     "heat cup 3 with microwave 1",
+     "go to diningtable 1",
+     "move cup 3 to diningtable 1"
+    ],
+    "task": "heat some cup and put it in diningtable.",
+    "task_type": "pick_heat_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a cup in the environment ; take the cup from its current location ; heat the cup to make it hot ; go to the countertop ; put the hot cup on the countertop",
+    "steps": [
+     "go to cabinet 1",
+     "go to fridge 1",
+     "open fridge 1",
+     "take cup 2 from fridge 1",
+     "go to microwave 1",
+     "heat cup 2 with microwave 1",
+     "go to countertop 1",
+     "move cup 2 to countertop 1"
+    ],
+    "task": "put a hot cup in countertop.",
+    "task_type": "pick_heat_then_place_in_recep",
+    "won": true
+   }
+  ],
+  "example": "The agent took cup 2 from fridge 1, heated it with microwave 1, then moved it to countertop 1.",
+  "id": "rule_4",
+  "importance": 5,
+  "last_used": 44,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When a hot cup must be placed on a countertop: search fridge first, take the cup, go to microwave, heat cup with microwave, go to countertop, move cup to countertop.",
+  "sources": [
+   {
+    "task": "put a hot potato in diningtable.",
+    "task_type": "pick_heat_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_heat_then_place_in_recep",
+  "type": "Success Process",
+  "validation": "This game confirmed the rule: the agent found the cup in the fridge, heated it in the microwave, and placed it on the countertop.",
+  "verified": true
+ },
+ {
+  "alpha": 5,
+  "base": [
+   4,
+   7
+  ],
+  "beta": 4,
+  "contexts": [
+   {
+    "plan": "go to countertop 1 to find the pan ; find and take the pan from countertop 1 ; go to fridge 1 to cool the pan ; cool the pan in the fridge ; go to cabinet 1 to store the pan ; put the cold pan in cabinet 1",
+    "steps": [
+     "open cabinet 1",
+     "go to countertop 1",
+     "go to stoveburner 1",
+     "go to countertop 1",
+     "examine countertop 1",
+     "go to countertop 2",
+     "take pan 1 from countertop 2",
+     "go to fridge 1",
+     "open fridge 1",
+     "cool pan 1 with fridge 1",
+     "go to cabinet 1",
+     "move pan 1 to cabinet 1"
+    ],
+    "task": "cool some pan and put it in cabinet.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "go to countertop 1 to search for tomato ; find and take a tomato from countertop 1 ; go to fridge 1 to cool the tomato ; cool the tomato in the fridge ; go to microwave 1 ; put the cold tomato in the microwave",
+    "steps": [
+     "go to countertop 1",
+     "go to countertop 2",
+     "take tomato 1 from countertop 2",
+     "go to fridge 1",
+     "open fridge 1",
+     "cool tomato 1 with fridge 1",
+     "go to microwave 1",
+     "open microwave 1",
+     "move tomato 1 to microwave 1"
+    ],
+    "task": "cool some tomato and put it in microwave.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "search cabinets and countertops for bread ; take the bread from its location ; cool the bread in the fridge ; go to a countertop ; put the cooled bread on the countertop",
+    "steps": [
+     "go to cabinet 1",
+     "open cabinet 1",
+     "go to countertop 1",
+     "take bread 1 from countertop 1",
+     "go to fridge 1",
+     "open fridge 1",
+     "cool bread 1 with fridge 1",
+     "go to countertop 1",
+     "move bread 1 to countertop 1"
+    ],
+    "task": "cool some bread and put it in countertop.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "search cabinets and countertops for a pan ; take the pan from its location ; cool the pan in the fridge ; go to the diningtable ; put the cool pan on the diningtable",
+    "steps": [
+     "go to cabinet 1",
+     "go to cabinet 2",
+     "go to cabinet 3",
+     "open cabinet 3",
+     "go to countertop 1",
+     "go to cabinet 4",
+     "go to countertop 2",
+     "take pan 1 from countertop 2",
+     "go to fridge 1",
+     "cool pan 1 with fridge 1",
+     "go to diningtable 1",
+     "move pan 1 to diningtable 1"
+    ],
+    "task": "put a cool pan in diningtable.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "go to diningtable 1 to search for a pan ; find a pan on diningtable 1 or countertop 1 ; take the pan from its location ; go to fridge 1 to cool the pan ; put the pan in the fridge to cool it ; go to diningtable 1 and put the cooled pan there",
+    "steps": [
+     "go to stoveburner 1",
+     "go to countertop 1",
+     "go to countertop 2",
+     "go to cabinet 1",
+     "go to drawer 1",
+     "go to stoveburner 1",
+     "go to cabinet 1",
+     "go to countertop 1",
+     "go to stoveburner 1",
+     "go to cabinet 2",
+     "go to diningtable 1",
+     "go to cabinet 3"
+    ],
+    "task": "put a cool pan in diningtable.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": false
+   },
+   {
+    "plan": "go to countertop 3 to find a plate ; take a plate from countertop 3 ; go to fridge 1 to cool the plate ; put the plate in fridge 1 to cool it ; go to cabinet 1 to store the plate ; put the cooled plate in cabinet 1",
+    "steps": [
+     "go to countertop 3",
+     "go to countertop 1",
+     "go to countertop 3",
+     "go to countertop 2",
+     "go to countertop 3",
+     "go to countertop 1",
+     "go to countertop 2",
+     "go to countertop 1",
+     "go to drawer 1",
+     "go to countertop 3",
+     "go to countertop 1",
+     "go to drawer 1"
+    ],
+    "task": "cool some plate and put it in cabinet.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": false
+   },
+   {
+    "plan": "go to countertop 1 to search for a bowl ; find and take a bowl from countertop 1 ; cool the bowl in the fridge ; go to microwave 1 ; put the cooled bowl in the microwave",
+    "steps": [
+     "go to countertop 1",
+     "go to cabinet 4",
+     "go to cabinet 5",
+     "go to countertop 1",
+     "go to cabinet 6",
+     "open cabinet 6",
+     "go to countertop 1",
+     "go to cabinet 1",
+     "go to cabinet 2",
+     "go to drawer 1",
+     "go to drawer 2",
+     "open drawer 2"
+    ],
+    "task": "cool some bowl and put it in microwave.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": false
+   }
+  ],
+  "example": "search cabinet 4 and countertop 2, take pan 1, cool pan 1 with fridge 1, go to diningtable 1, move pan 1 to diningtable 1",
+  "id": "rule_5",
+  "importance": 9,
+  "last_used": 37,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When the object must be cooled and placed in the target: search cabinets and countertops first, take the object, cool it with the fridge, open the target if closed, move the object there.",
+  "sources": [
+   {
+    "task": "put a cool bowl in cabinet.",
+    "task_type": "pick_cool_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_cool_then_place_in_recep",
+  "type": "Success Process",
+  "validation": "confirmed | confirmed: agent found bowl in cabinet 5 after checking multiple cabinets, then cooled and moved it correctly. | confirmed: agent found pan on countertop 2 after checking multiple cabinets, cooled it with fridge 1, and moved it to diningtable 1.",
+  "verified": true
+ },
+ {
+  "alpha": 5,
+  "base": [
+   4,
+   7
+  ],
+  "beta": 3,
+  "example": "take laptop 1 from coffeetable 1, move laptop 1 to ottoman 1, take laptop 2 from sofa 1, move laptop 2 to ottoman 1.",
+  "id": "rule_6",
+  "importance": 8,
+  "last_used": 45,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When two objects must be placed in a target: search all furniture surfaces first, take each object, move each object to target.",
+  "task_type": "pick_two_obj_and_place",
+  "type": "Success Process",
+  "validation": "The agent found the second cellphone on dresser 1 after searching armchair 1, confirming the need to search all surfaces. | The agent found the second peppershaker in cabinet 2 after searching cabinet 1, confirming the need to search all furniture surfaces. | The agent successfully placed both laptops after examining the second one, confirming the need to search all surfaces and use 'move' for placement.",
+  "evidence": {
+   "won": 4,
+   "lost": 2
+  }
+ },
+ {
+  "alpha": 9,
+  "base": [
+   10,
+   12
+  ],
+  "beta": 3,
+  "contexts": [
+   {
+    "plan": "find the statue in the environment ; go to the coffeetable ; put the statue in the coffeetable",
+    "steps": [
+     "go to coffeetable 1",
+     "go to drawer 1",
+     "open drawer 1",
+     "go to garbagecan 1",
+     "go to drawer 2",
+     "open drawer 2",
+     "go to tvstand 1",
+     "take statue 1 from tvstand 1",
+     "go to coffeetable 1",
+     "move statue 1 to coffeetable 1"
+    ],
+    "task": "put a statue in coffeetable.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "search all rooms to find a keychain ; go to the room containing the keychain ; take the keychain from its location ; go to desk 1 ; put the keychain in desk 1",
+    "steps": [
+     "go to drawer 2",
+     "open drawer 2",
+     "go to desk 1",
+     "go to cabinet 1",
+     "go to desk 1",
+     "go to bed 1",
+     "go to shelf 1",
+     "go to garbagecan 1",
+     "go to sidetable 1",
+     "take keychain 1 from sidetable 1",
+     "go to desk 1",
+     "move keychain 1 to desk 1"
+    ],
+    "task": "put a keychain in desk.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "find the spraybottle in the environment ; go to the garbagecan ; put the spraybottle in the garbagecan",
+    "steps": [
+     "go to garbagecan 1",
+     "go to countertop 1",
+     "take spraybottle 1 from countertop 1",
+     "go to garbagecan 1",
+     "move spraybottle 1 to garbagecan 1"
+    ],
+    "task": "put a spraybottle in garbagecan.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "go to dresser 1 ; examine dresser 1 to find cellphone ; take cellphone from dresser 1 ; put cellphone on dresser 1",
+    "steps": [
+     "go to drawer 4",
+     "open drawer 4",
+     "go to drawer 5",
+     "go to shelf 1",
+     "go to dresser 1",
+     "inventory",
+     "examine drawer 6",
+     "go to drawer 1",
+     "go to bed 1",
+     "take cellphone 1 from bed 1",
+     "go to dresser 1",
+     "move cellphone 1 to dresser 1"
+    ],
+    "task": "put some cellphone on dresser.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "search all rooms to find a spraybottle ; take the spraybottle from its location ; go to the toilet ; put the spraybottle on the toilet",
+    "steps": [
+     "go to cabinet 1",
+     "take spraybottle 1 from cabinet 1",
+     "go to toilet 1",
+     "move spraybottle 1 to toilet 1"
+    ],
+    "task": "put some spraybottle on toilet.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "go to handtowelholder 1 to find the handtowel ; take the handtowel from handtowelholder 1 ; go to cabinet 1 to store the handtowel ; open cabinet 1 before placing the handtowel inside ; put the handtowel in cabinet 1",
+    "steps": [
+     "go to handtowelholder 1",
+     "take handtowel 1 from handtowelholder 1",
+     "go to cabinet 1",
+     "open cabinet 1",
+     "move handtowel 1 to cabinet 1"
+    ],
+    "task": "put a handtowel in cabinet.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "go to desk 1 ; find a laptop in the environment ; take the laptop from its location ; put the laptop in desk 1",
+    "steps": [
+     "open drawer 5",
+     "go to desk 1",
+     "inventory",
+     "go to drawer 1",
+     "go to desk 1",
+     "go to drawer 1",
+     "go to garbagecan 1",
+     "go to laundryhamper 1",
+     "go to bed 1",
+     "take laptop 1 from bed 1",
+     "go to desk 1",
+     "move laptop 1 to desk 1"
+    ],
+    "task": "put a laptop in desk.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "steps": [
+     "inventory",
+     "go to drawer 1",
+     "open drawer 1",
+     "take watch 1 from drawer 1",
+     "go to coffeetable 1",
+     "move watch 1 to coffeetable 1"
+    ],
+    "task": "put a watch in coffeetable.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "find a cellphone in the environment ; go to dresser 1 ; put the cellphone in dresser 1",
+    "steps": [
+     "inventory",
+     "go to drawer 1",
+     "go to drawer 2",
+     "go to drawer 3",
+     "go to drawer 5",
+     "go to laundryhamper 1",
+     "go to safe 1",
+     "open safe 1",
+     "go to drawer 1",
+     "go to garbagecan 1",
+     "go to dresser 1",
+     "go to drawer 1"
+    ],
+    "task": "put a cellphone in dresser.",
+    "task_type": "pick_and_place_simple",
+    "won": false
+   },
+   {
+    "plan": "go to drawer 1 ; put pencil 1 on drawer 1",
+    "steps": [
+     "go to drawer 1",
+     "go to desk 1",
+     "go to drawer 1",
+     "go to desk 1",
+     "go to drawer 1",
+     "inventory",
+     "inventory",
+     "go to desk 1",
+     "take pencil 1 from desk 1",
+     "go to drawer 1",
+     "open drawer 1",
+     "move pencil 1 to drawer 1"
+    ],
+    "task": "put some pen on drawer.",
+    "task_type": "pick_and_place_simple",
+    "won": false
+   }
+  ],
+  "example": "open cabinet 1 before move cloth 1 to cabinet 1",
+  "id": "rule_7",
+  "importance": 3,
+  "last_used": 46,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When a container is closed, open it before moving objects into it.",
+  "sources": [
+   {
+    "task": "put a cloth in drawer.",
+    "task_type": "pick_and_place_simple"
+   }
+  ],
+  "task_type": "pick_and_place_simple",
+  "type": "Special Phenomenon",
+  "validation": "Confirmed by game behavior.",
+  "verified": true
+ },
+ {
+  "alpha": 1,
+  "base": [
+   4,
+   8
+  ],
+  "beta": 1,
+  "contexts": [],
+  "example": "Agent failed by wasting time on empty drawers instead of checking armchair surfaces systematically.",
+  "id": "rule_8",
+  "importance": 5,
+  "last_used": null,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When multiple objects must be collected and placed, examine surfaces for them before opening storage, and re-examine surfaces after taking objects.",
+  "sources": [
+   {
+    "task": "put two spatula in drawer.",
+    "task_type": "pick_two_obj_and_place"
+   }
+  ],
+  "task_type": "pick_two_obj_and_place",
+  "type": "Corrected Error",
+  "validation": "The agent failed because it did not re-examine the armchair after taking the first cellphone, missing the second one that was there. | Agent corrected by searching armchair and coffeetable surfaces before opening any drawers.",
+  "verified": true
+ },
+ {
+  "alpha": 6,
+  "base": [
+   5,
+   7
+  ],
+  "beta": 3,
+  "contexts": [
+   {
+    "plan": "find the butterknife in the environment ; take the butterknife from its current location ; go to sinkbasin 1 to clean the butterknife ; go to countertop 1 to place the clean butterknife",
+    "steps": [
+     "open cabinet 6",
+     "go to drawer 3",
+     "go to fridge 1",
+     "go to cabinet 1",
+     "open cabinet 1",
+     "go to drawer 1",
+     "go to countertop 1",
+     "take butterknife 1 from countertop 1",
+     "go to sinkbasin 1",
+     "clean butterknife 1 with sinkbasin 1",
+     "go to countertop 1",
+     "move butterknife 1 to countertop 1"
+    ],
+    "task": "put a clean butterknife in countertop.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a cloth in the environment ; go to a sinkbasin to clean the cloth ; clean the cloth at the sinkbasin ; go to the countertop to place the cloth ; put the clean cloth on the countertop",
+    "steps": [
+     "go to cabinet 1",
+     "go to sinkbasin 1",
+     "go to cabinet 1",
+     "open cabinet 1",
+     "take cloth 3 from cabinet 1",
+     "go to sinkbasin 1",
+     "clean cloth 3 with sinkbasin 1",
+     "go to countertop 1",
+     "move cloth 3 to countertop 1"
+    ],
+    "task": "clean some cloth and put it in countertop.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a butterknife in the environment ; go to the location where the butterknife is found ; take the butterknife from its current location ; go to the sinkbasin to clean the butterknife ; clean the butterknife at the sinkbasin ; go to the sidetable to place the clean butterknife ; put the clean butterknife on the sidetable",
+    "steps": [
+     "go to cabinet 1",
+     "go to countertop 1",
+     "take butterknife 1 from countertop 1",
+     "go to sinkbasin 1",
+     "clean butterknife 1 with sinkbasin 1",
+     "go to sidetable 1",
+     "move butterknife 1 to sidetable 1"
+    ],
+    "task": "put a clean butterknife in sidetable.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a pan in the environment ; take the pan from its current location ; clean the pan at the sinkbasin ; put the clean pan on the stoveburner",
+    "steps": [
+     "go to drawer 1",
+     "open drawer 1",
+     "go to cabinet 1",
+     "examine cabinet 1",
+     "open cabinet 1",
+     "go to countertop 1",
+     "take pan 1 from countertop 1",
+     "go to sinkbasin 1",
+     "clean pan 1 with sinkbasin 1"
+    ],
+    "task": "put a clean pan in stoveburner.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a plate in the environment ; go to the sinkbasin to clean the plate ; clean the plate at the sinkbasin ; go to a shelf to place the plate ; put the clean plate on the shelf",
+    "steps": [
+     "go to countertop 1",
+     "go to fridge 1",
+     "go to cabinet 1",
+     "open cabinet 1",
+     "go to countertop 1",
+     "go to countertop 2",
+     "go to countertop 3",
+     "take plate 2 from countertop 3",
+     "go to sinkbasin 1",
+     "clean plate 2 with sinkbasin 1",
+     "go to shelf 1",
+     "move plate 2 to shelf 1"
+    ],
+    "task": "clean some plate and put it in shelf.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a fork in the environment ; take the fork from its current location ; go to the sinkbasin to clean the fork ; clean the fork at the sinkbasin ; go to the drawer to store the fork ; put the clean fork in the drawer",
+    "steps": [
+     "go to countertop 1",
+     "go to cabinet 4",
+     "open cabinet 4",
+     "go to fridge 1",
+     "go to cabinet 1",
+     "go to fridge 1",
+     "go to cabinet 1",
+     "go to fridge 1",
+     "go to countertop 1",
+     "go to cabinet 1",
+     "go to fridge 1",
+     "go to countertop 1"
+    ],
+    "task": "clean some fork and put it in drawer.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": false
+   },
+   {
+    "plan": "find a cloth in the environment ; go to the sinkbasin to clean the cloth ; clean the cloth at the sinkbasin ; go to the toilet to place the clean cloth ; put the clean cloth in the toilet",
+    "steps": [
+     "go to towelholder 1",
+     "take towel 1 from towelholder 1",
+     "go to sinkbasin 1",
+     "examine sinkbasin 1",
+     "examine towel 1",
+     "go to toilet 1",
+     "go to sinkbasin 1",
+     "examine towel 1",
+     "examine sinkbasin 1",
+     "examine towel 1",
+     "examine towel 1",
+     "examine sinkbasin 1"
+    ],
+    "task": "clean some cloth and put it in toilet.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": false
+   }
+  ],
+  "example": "clean soapbar 3 with sinkbasin 1 before moving to toilet 1",
+  "id": "rule_9",
+  "importance": 2,
+  "last_used": 47,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When a task requires a clean object, clean it at sinkbasin before placing it in the target.",
+  "sources": [
+   {
+    "task": "put a clean soapbar in toilet.",
+    "task_type": "pick_clean_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_clean_then_place_in_recep",
+  "type": "Corrected Error",
+  "validation": "",
+  "verified": true
+ },
+ {
+  "alpha": 4,
+  "base": [
+   3,
+   7
+  ],
+  "beta": 4,
+  "contexts": [
+   {
+    "plan": "go to drawer 1 ; take a pencil from desk 1 ; put pencil 1 in drawer 1 ; go to desk 1 ; take a pencil from desk 1 ; put pencil 2 in drawer 1",
+    "steps": [
+     "go to drawer 1",
+     "go to desk 1",
+     "take pencil 1 from desk 1",
+     "go to drawer 1",
+     "move pencil 1 to drawer 1",
+     "go to desk 1",
+     "take pencil 2 from desk 1",
+     "go to drawer 1",
+     "move pencil 2 to drawer 1"
+    ],
+    "task": "put two pencil in drawer.",
+    "task_type": "pick_two_obj_and_place",
+    "won": true
+   },
+   {
+    "plan": "go to dresser 1 ; take pen 2 from coffeetable 1 ; put pen 2 in dresser 1 ; go to coffeetable 1 to find the second pen ; take the second pen from coffeetable 1 ; go to dresser 1 and put the second pen in it",
+    "steps": [
+     "go to drawer 4",
+     "open drawer 4",
+     "go to dresser 1",
+     "go to coffeetable 1",
+     "take pen 1 from coffeetable 1",
+     "go to dresser 1",
+     "move pen 1 to dresser 1",
+     "examine dresser 1",
+     "go to coffeetable 1",
+     "take pen 2 from coffeetable 1",
+     "go to dresser 1",
+     "move pen 2 to dresser 1"
+    ],
+    "task": "put two pen in dresser.",
+    "task_type": "pick_two_obj_and_place",
+    "won": true
+   },
+   {
+    "plan": "go to diningtable 2 ; take peppershaker 1 from diningtable 2 ; take peppershaker 2 from diningtable 2 ; put peppershaker 1 on diningtable 2 ; put peppershaker 2 on diningtable 2",
+    "steps": [
+     "open cabinet 1",
+     "take peppershaker 1 from cabinet 1",
+     "go to diningtable 2",
+     "move peppershaker 1 to diningtable 2",
+     "go to diningtable 3",
+     "go to cabinet 1",
+     "go to countertop 1",
+     "go to cabinet 2",
+     "open cabinet 2",
+     "take peppershaker 2 from cabinet 2",
+     "go to diningtable 2",
+     "move peppershaker 2 to diningtable 2"
+    ],
+    "task": "put two peppershaker in diningtable.",
+    "task_type": "pick_two_obj_and_place",
+    "won": true
+   },
+   {
+    "plan": "take the first keychain from drawer 1 ; put the first keychain in drawer 1 ; take the second keychain from drawer 1 ; put the second keychain in drawer 1",
+    "steps": [
+     "go to desk 1",
+     "go to drawer 1",
+     "take keychain 3 from drawer 1",
+     "move keychain 3 to drawer 1",
+     "close drawer 1",
+     "go to desk 1",
+     "go to drawer 2",
+     "open drawer 3",
+     "go to drawer 1",
+     "open drawer 1",
+     "take keychain 3 from drawer 1",
+     "move keychain 3 to drawer 1"
+    ],
+    "task": "put two keychain in drawer.",
+    "task_type": "pick_two_obj_and_place",
+    "won": false
+   },
+   {
+    "plan": "go to bed 1 ; find first cellphone ; take first cellphone ; put first cellphone in bed ; find second cellphone ; take second cellphone ; put second cellphone in bed",
+    "steps": [
+     "go to bed 1",
+     "move cellphone 2 to bed 1",
+     "go to cabinet 4",
+     "go to drawer 1",
+     "go to drawer 2",
+     "go to drawer 3",
+     "go to drawer 4",
+     "go to armchair 1",
+     "go to sidetable 1",
+     "go to armchair 1",
+     "go to drawer 1",
+     "go to drawer 2"
+    ],
+    "task": "find two cellphone and put them in bed.",
+    "task_type": "pick_two_obj_and_place",
+    "won": false
+   },
+   {
+    "plan": "go to ottoman 1 ; search for first laptop ; take first laptop ; go to ottoman 1 ; put first laptop in ottoman ; search for second laptop ; take second laptop ; go to ottoman 1 ; put second laptop in ottoman",
+    "steps": [
+     "go to ottoman 1",
+     "go to drawer 1",
+     "go to drawer 2",
+     "go to drawer 3",
+     "go to drawer 4",
+     "go to drawer 5",
+     "open drawer 5",
+     "go to armchair 1",
+     "go to drawer 1",
+     "go to drawer 2",
+     "go to drawer 3",
+     "go to drawer 4"
+    ],
+    "task": "find two laptop and put them in ottoman.",
+    "task_type": "pick_two_obj_and_place",
+    "won": false
+   }
+  ],
+  "example": "move alarmclock 1 to shelf 1 failed, then go to shelf 1, then move alarmclock 1 to shelf 1",
+  "id": "rule_10",
+  "importance": 2,
+  "last_used": 45,
+  "refined_at": [
+   3,
+   3
+  ],
+  "rule": "When two objects must be placed in a target, search drawers first, take each object, then move to the target and place it there.",
+  "sources": [
+   {
+    "task": "put two alarmclock in shelf.",
+    "task_type": "pick_two_obj_and_place"
+   }
+  ],
+  "task_type": "pick_two_obj_and_place",
+  "type": "Corrected Error",
+  "validation": "",
+  "verified": true
+ },
+ {
+  "alpha": 6,
+  "base": [
+   8,
+   9
+  ],
+  "beta": 2,
+  "contexts": [
+   {
+    "plan": "go to dresser 1 ; examine dresser 1 to find cellphone ; take cellphone from dresser 1 ; put cellphone on dresser 1",
+    "steps": [
+     "go to drawer 4",
+     "open drawer 4",
+     "go to drawer 5",
+     "go to shelf 1",
+     "go to dresser 1",
+     "inventory",
+     "examine drawer 6",
+     "go to drawer 1",
+     "go to bed 1",
+     "take cellphone 1 from bed 1",
+     "go to dresser 1",
+     "move cellphone 1 to dresser 1"
+    ],
+    "task": "put some cellphone on dresser.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "search all rooms to find a spraybottle ; take the spraybottle from its location ; go to the toilet ; put the spraybottle on the toilet",
+    "steps": [
+     "go to cabinet 1",
+     "take spraybottle 1 from cabinet 1",
+     "go to toilet 1",
+     "move spraybottle 1 to toilet 1"
+    ],
+    "task": "put some spraybottle on toilet.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "go to handtowelholder 1 to find the handtowel ; take the handtowel from handtowelholder 1 ; go to cabinet 1 to store the handtowel ; open cabinet 1 before placing the handtowel inside ; put the handtowel in cabinet 1",
+    "steps": [
+     "go to handtowelholder 1",
+     "take handtowel 1 from handtowelholder 1",
+     "go to cabinet 1",
+     "open cabinet 1",
+     "move handtowel 1 to cabinet 1"
+    ],
+    "task": "put a handtowel in cabinet.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "go to desk 1 ; find a laptop in the environment ; take the laptop from its location ; put the laptop in desk 1",
+    "steps": [
+     "open drawer 5",
+     "go to desk 1",
+     "inventory",
+     "go to drawer 1",
+     "go to desk 1",
+     "go to drawer 1",
+     "go to garbagecan 1",
+     "go to laundryhamper 1",
+     "go to bed 1",
+     "take laptop 1 from bed 1",
+     "go to desk 1",
+     "move laptop 1 to desk 1"
+    ],
+    "task": "put a laptop in desk.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "steps": [
+     "inventory",
+     "go to drawer 1",
+     "open drawer 1",
+     "take watch 1 from drawer 1",
+     "go to coffeetable 1",
+     "move watch 1 to coffeetable 1"
+    ],
+    "task": "put a watch in coffeetable.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "go to drawer 1 ; put pencil 1 on drawer 1",
+    "steps": [
+     "go to drawer 1",
+     "go to desk 1",
+     "go to drawer 1",
+     "go to desk 1",
+     "go to drawer 1",
+     "inventory",
+     "inventory",
+     "go to desk 1",
+     "take pencil 1 from desk 1",
+     "go to drawer 1",
+     "open drawer 1",
+     "move pencil 1 to drawer 1"
+    ],
+    "task": "put some pen on drawer.",
+    "task_type": "pick_and_place_simple",
+    "won": false
+   }
+  ],
+  "example": "inventory before searching drawers",
+  "id": "rule_11",
+  "importance": 4,
+  "last_used": 46,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When an object must be picked up and placed: use inventory to check if carrying the object before searching locations.",
+  "sources": [
+   {
+    "task": "put a cellphone in dresser.",
+    "task_type": "pick_and_place_simple"
+   }
+  ],
+  "task_type": "pick_and_place_simple",
+  "type": "Corrected Error",
+  "validation": "Confirmed: agent failed when trying to move object without taking it first.",
+  "verified": true
+ },
+ {
+  "alpha": 4,
+  "base": [
+   3,
+   8
+  ],
+  "beta": 2,
+  "contexts": [
+   {
+    "plan": "cool the bowl 2 using the fridge 1 ; put the cooled bowl 2 in the microwave 1",
+    "steps": [
+     "open cabinet 2",
+     "go to cabinet 3",
+     "open cabinet 3",
+     "go to cabinet 4",
+     "go to cabinet 5",
+     "open cabinet 5",
+     "take bowl 2 from cabinet 5",
+     "go to fridge 1",
+     "cool bowl 2 with fridge 1",
+     "go to microwave 1",
+     "open microwave 1",
+     "move bowl 2 to microwave 1"
+    ],
+    "task": "cool some bowl and put it in microwave.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "search countertops for bread ; search countertops for bread ; search countertops for bread ; take bread from countertop ; cool bread in fridge ; put cooled bread on countertop",
+    "steps": [
+     "go to countertop 1",
+     "take bread 1 from countertop 1",
+     "go to fridge 1",
+     "cool bread 1 with fridge 1",
+     "go to countertop 1",
+     "move bread 1 to countertop 1"
+    ],
+    "task": "cool some bread and put it in countertop.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "search countertops and cabinets for a pan ; cool the pan in the fridge ; place the cooled pan on the diningtable",
+    "steps": [
+     "go to countertop 1",
+     "go to countertop 2",
+     "take pan 1 from countertop 2",
+     "go to fridge 1",
+     "cool pan 1 with fridge 1",
+     "go to diningtable 1",
+     "move pan 1 to diningtable 1"
+    ],
+    "task": "put a cool pan in diningtable.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "go to countertop 1 to search for a cup ; take a cup from countertop 1 ; cool the cup using fridge 1 ; put the cooled cup in microwave 1",
+    "steps": [
+     "go to cabinet 2",
+     "go to cabinet 4",
+     "go to cabinet 5",
+     "open cabinet 5",
+     "go to cabinet 6",
+     "open cabinet 6",
+     "go to countertop 1",
+     "go to countertop 2",
+     "go to drawer 1",
+     "go to drawer 2",
+     "go to drawer 3",
+     "go to drawer 4"
+    ],
+    "task": "cool some cup and put it in microwave.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": false
+   }
+  ],
+  "example": "The agent failed because it searched cabinets and drawers for storage without locating the required plate object on countertops.",
+  "id": "rule_12",
+  "importance": 4,
+  "last_used": 41,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When searching for a cool plate to place in a cabinet, systematically check all countertops first before attempting to retrieve it from the fridge.",
+  "sources": [
+   {
+    "task": "put a cool bowl in cabinet.",
+    "task_type": "pick_cool_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_cool_then_place_in_recep",
+  "type": "Corrected Error",
+  "validation": "The agent failed because it never found or cooled a plate, only searching cabinets and drawers for storage without locating the required plate object.",
+  "verified": true
+ },
+ {
+  "alpha": 3,
+  "base": [
+   2,
+   3
+  ],
+  "beta": 2,
+  "contexts": [
+   {
+    "plan": "find a mug on a countertop ; take the mug from the countertop ; heat the mug in the microwave ; put the hot mug in a cabinet",
+    "steps": [
+     "go to countertop 1",
+     "take mug 1 from countertop 1",
+     "go to microwave 1",
+     "open microwave 1",
+     "heat mug 1 with microwave 1",
+     "close microwave 1",
+     "go to cabinet 1",
+     "open cabinet 1",
+     "move mug 1 to cabinet 1"
+    ],
+    "task": "put a hot mug in cabinet.",
+    "task_type": "pick_heat_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "go to microwave 1 ; take cup 3 from fridge 1 ; open microwave 1 ; put cup 3 in microwave 1 ; heat cup 3 with microwave 1 ; go to diningtable 1 ; put cup 3 on diningtable 1",
+    "steps": [
+     "open microwave 1",
+     "heat mug 1 with microwave 1",
+     "go to diningtable 1",
+     "move mug 1 to diningtable 1",
+     "examine diningtable 1",
+     "go to fridge 1",
+     "open fridge 1",
+     "take cup 1 from fridge 1",
+     "go to microwave 1",
+     "heat cup 1 with microwave 1",
+     "go to diningtable 1",
+     "move cup 1 to diningtable 1"
+    ],
+    "task": "heat some cup and put it in diningtable.",
+    "task_type": "pick_heat_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "go to countertop 1 ; take cup 2 from countertop 1 ; go to microwave 1 ; open microwave 1 ; heat cup 2 with microwave 1 ; go to countertop 1 ; put cup 2 on countertop 1",
+    "steps": [
+     "move cup 2 to microwave 1",
+     "close microwave 1",
+     "open microwave 1",
+     "take cup 2 from microwave 1",
+     "go to countertop 1",
+     "move cup 2 to countertop 1",
+     "examine countertop 1",
+     "take cup 2 from countertop 1",
+     "go to microwave 1",
+     "move cup 2 to microwave 1",
+     "close microwave 1",
+     "open microwave 1"
+    ],
+    "task": "put a hot cup in countertop.",
+    "task_type": "pick_heat_then_place_in_recep",
+    "won": false
+   }
+  ],
+  "example": "The agent failed by trying to cook on stoveburner 1 which showed nothing, then succeeded by heating the potato in microwave 1.",
+  "id": "rule_13",
+  "importance": 2,
+  "last_used": 44,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When a task requires heating an object before placing it, use the correct heating appliance (e.g., microwave) instead of attempting to cook on a stoveburner that shows nothing.",
+  "sources": [
+   {
+    "task": "put a hot potato in diningtable.",
+    "task_type": "pick_heat_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_heat_then_place_in_recep",
+  "type": "Corrected Error",
+  "validation": "",
+  "verified": true
+ },
+ {
+  "alpha": 4,
+  "base": [
+   3,
+   4
+  ],
+  "beta": 2,
+  "contexts": [
+   {
+    "plan": "cool the bowl 2 using the fridge 1 ; put the cooled bowl 2 in the microwave 1",
+    "steps": [
+     "open cabinet 2",
+     "go to cabinet 3",
+     "open cabinet 3",
+     "go to cabinet 4",
+     "go to cabinet 5",
+     "open cabinet 5",
+     "take bowl 2 from cabinet 5",
+     "go to fridge 1",
+     "cool bowl 2 with fridge 1",
+     "go to microwave 1",
+     "open microwave 1",
+     "move bowl 2 to microwave 1"
+    ],
+    "task": "cool some bowl and put it in microwave.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "search countertops for bread ; search countertops for bread ; search countertops for bread ; take bread from countertop ; cool bread in fridge ; put cooled bread on countertop",
+    "steps": [
+     "go to countertop 1",
+     "take bread 1 from countertop 1",
+     "go to fridge 1",
+     "cool bread 1 with fridge 1",
+     "go to countertop 1",
+     "move bread 1 to countertop 1"
+    ],
+    "task": "cool some bread and put it in countertop.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "search countertops and cabinets for a pan ; cool the pan in the fridge ; place the cooled pan on the diningtable",
+    "steps": [
+     "go to countertop 1",
+     "go to countertop 2",
+     "take pan 1 from countertop 2",
+     "go to fridge 1",
+     "cool pan 1 with fridge 1",
+     "go to diningtable 1",
+     "move pan 1 to diningtable 1"
+    ],
+    "task": "put a cool pan in diningtable.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "go to countertop 1 to search for a cup ; take a cup from countertop 1 ; cool the cup using fridge 1 ; put the cooled cup in microwave 1",
+    "steps": [
+     "go to cabinet 2",
+     "go to cabinet 4",
+     "go to cabinet 5",
+     "open cabinet 5",
+     "go to cabinet 6",
+     "open cabinet 6",
+     "go to countertop 1",
+     "go to countertop 2",
+     "go to drawer 1",
+     "go to drawer 2",
+     "go to drawer 3",
+     "go to drawer 4"
+    ],
+    "task": "cool some cup and put it in microwave.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": false
+   }
+  ],
+  "example": "In a lost attempt, the agent searched all cabinets and drawers without checking the countertop or fridge thoroughly, failing to locate the tomato. In a successful retry, the agent checked countertop 2",
+  "id": "rule_14",
+  "importance": 2,
+  "last_used": 41,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When searching for a tomato to cool, check countertops and fridge contents first before exhaustively opening cabinets and drawers.",
+  "sources": [
+   {
+    "task": "cool some tomato and put it in microwave.",
+    "task_type": "pick_cool_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_cool_then_place_in_recep",
+  "type": "Corrected Error",
+  "validation": "",
+  "verified": true
+ },
+ {
+  "alpha": 1,
+  "base": [
+   0,
+   1
+  ],
+  "beta": 3,
+  "contexts": [
+   {
+    "plan": "go to desk 1 ; take pencil 1 from desk 1 ; go to desk 1 ; turn on desklamp 1 ; examine pencil 1",
+    "steps": [
+     "go to desk 2",
+     "go to desk 1",
+     "go to desk 2",
+     "go to desk 1",
+     "go to desk 2",
+     "go to shelf 1",
+     "go to desk 1",
+     "go to shelf 1",
+     "go to desk 1",
+     "go to desk 2",
+     "go to desk 1",
+     "go to desk 2"
+    ],
+    "task": "look at pencil under the desklamp.",
+    "task_type": "look_at_obj_in_light",
+    "won": false
+   },
+   {
+    "plan": "go to desk 2 ; look at desk 2 to find the pencil and desklamp ; look at pencil under the desklamp",
+    "steps": [
+     "go to desk 1",
+     "go to desk 2",
+     "take pencil 1 from desk 2",
+     "go to desk 1",
+     "move pencil 1 to desk 1",
+     "go to desk 2",
+     "go to desk 1",
+     "examine desk 1",
+     "go to desk 2",
+     "examine desk 2",
+     "go to desk 1",
+     "go to desk 2"
+    ],
+    "task": "look at pencil under the desklamp.",
+    "task_type": "look_at_obj_in_light",
+    "won": false
+   }
+  ],
+  "example": "In the lost attempt, the agent examined pen 2 before turning on desklamp 1, causing the examine command to fail. In the successful retry, the agent turned on desklamp 1 first.",
+  "id": "rule_15",
+  "importance": 3,
+  "last_used": 40,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When an object must be examined under light, locate the source, open containers if needed, turn on the light, then examine the object.",
+  "sources": [
+   {
+    "task": "examine the pen with the desklamp.",
+    "task_type": "look_at_obj_in_light"
+   },
+   {
+    "task": "look at pencil under the desklamp.",
+    "task_type": "look_at_obj_in_light"
+   }
+  ],
+  "task_type": "look_at_obj_in_light",
+  "type": "Corrected Error",
+  "validation": "The agent failed because it did not turn on the desklamp before examining the pencil, instead moving aimlessly between desks and shelves.",
+  "verified": true
+ },
+ {
+  "alpha": 4,
+  "base": [
+   3,
+   8
+  ],
+  "beta": 4,
+  "contexts": [
+   {
+    "plan": "find the first pencil in the room ; take the first pencil from its location ; find the second pencil in the room ; take the second pencil from its location ; put the first pencil in the drawer ; put the second pencil in the drawer",
+    "steps": [
+     "go to desk 1",
+     "take pencil 1 from desk 1",
+     "examine desk 1",
+     "move pencil 1 to desk 1",
+     "take pencil 2 from desk 1",
+     "go to drawer 1",
+     "move pencil 2 to drawer 1",
+     "go to desk 1",
+     "take pencil 1 from desk 1",
+     "go to drawer 1",
+     "move pencil 1 to drawer 1"
+    ],
+    "task": "put two pencil in drawer.",
+    "task_type": "pick_two_obj_and_place",
+    "won": true
+   },
+   {
+    "plan": "find the first pen ; find the second pen ; take the first pen from its location ; take the second pen from its location ; put the first pen in the dresser ; put the second pen in the dresser",
+    "steps": [
+     "go to coffeetable 1",
+     "take pen 1 from coffeetable 1",
+     "go to dresser 1",
+     "move pen 1 to dresser 1",
+     "go to sidetable 1",
+     "go to coffeetable 1",
+     "take pen 2 from coffeetable 1",
+     "go to dresser 1",
+     "move pen 2 to dresser 1"
+    ],
+    "task": "put two pen in dresser.",
+    "task_type": "pick_two_obj_and_place",
+    "won": true
+   },
+   {
+    "plan": "go to diningtable 3 to find the second peppershaker ; take peppershaker 2 from diningtable 3 ; put peppershaker 2 on diningtable 3 ; put peppershaker 1 on diningtable 3",
+    "steps": [
+     "go to diningtable 2",
+     "go to countertop 1",
+     "go to cabinet 2",
+     "open cabinet 2",
+     "go to diningtable 3",
+     "move peppershaker 1 to diningtable 3",
+     "go to cabinet 1",
+     "go to cabinet 2",
+     "take peppershaker 2 from cabinet 2",
+     "look",
+     "go to diningtable 3",
+     "move peppershaker 2 to diningtable 3"
+    ],
+    "task": "put two peppershaker in diningtable.",
+    "task_type": "pick_two_obj_and_place",
+    "won": true
+   },
+   {
+    "plan": "go to desk 1 to find keychain 3 ; take keychain 3 from desk 1 ; go to drawer 1 ; put keychain 3 in drawer 1 ; go to desk 1 to find another keychain ; take the second keychain from desk 1 and put it in drawer 1",
+    "steps": [
+     "examine desk 1",
+     "go to drawer 1",
+     "move keychain 3 to drawer 1",
+     "examine drawer 1",
+     "go to desk 1",
+     "examine desk 1",
+     "examine desk 1",
+     "examine desk 1",
+     "examine desk 1",
+     "examine desk 1",
+     "examine desk 1",
+     "examine desk 1"
+    ],
+    "task": "put two keychain in drawer.",
+    "task_type": "pick_two_obj_and_place",
+    "won": false
+   },
+   {
+    "plan": "find the first cellphone ; take the first cellphone from its location ; find the second cellphone ; take the second cellphone from its location ; go to bed 1 ; put both cellphones in bed 1",
+    "steps": [
+     "go to drawer 5",
+     "go to drawer 1",
+     "go to armchair 1",
+     "go to bed 1",
+     "go to drawer 1",
+     "go to cabinet 1",
+     "go to drawer 2",
+     "go to armchair 1",
+     "go to dresser 1",
+     "go to drawer 1",
+     "go to drawer 2",
+     "go to drawer 3"
+    ],
+    "task": "find two cellphone and put them in bed.",
+    "task_type": "pick_two_obj_and_place",
+    "won": false
+   },
+   {
+    "plan": "find the first laptop in the room ; put the first laptop in the ottoman ; find the second laptop in the room ; put the second laptop in the ottoman",
+    "steps": [
+     "go to drawer 6",
+     "open drawer 6",
+     "go to ottoman 1",
+     "go to drawer 1",
+     "go to drawer 2",
+     "go to drawer 3",
+     "go to drawer 4",
+     "go to drawer 7",
+     "open drawer 7",
+     "go to armchair 1",
+     "go to coffeetable 1",
+     "go to drawer 5"
+    ],
+    "task": "find two laptop and put them in ottoman.",
+    "task_type": "pick_two_obj_and_place",
+    "won": false
+   }
+  ],
+  "example": "The agent failed by exhaustively checking empty cabinets and drawers without noticing the second laptop was already on sofa 1.",
+  "id": "rule_16",
+  "importance": 8,
+  "last_used": 45,
+  "refined_at": [
+   3,
+   3
+  ],
+  "rule": "When two objects must be retrieved and placed, search visible surfaces first before opening closed containers.",
+  "sources": [
+   {
+    "task": "put two spatula in drawer.",
+    "task_type": "pick_two_obj_and_place"
+   },
+   {
+    "task": "put two keychain in drawer.",
+    "task_type": "pick_two_obj_and_place"
+   }
+  ],
+  "task_type": "pick_two_obj_and_place",
+  "type": "Corrected Error",
+  "validation": "This game confirmed the rule: the agent failed because it never located or picked up the two cellphones, only opening drawers and observing existing items without searching for the target objects. | This game confirmed the rule: the agent failed because it never checked visible surfaces like dresser 1 before opening closed containers. | This game confirmed the rule: the agent failed because it never located or picked up the two laptops, only opening drawers and observing existing items without searching for the target objects.",
+  "verified": true
+ },
+ {
+  "alpha": 4,
+  "base": [
+   3,
+   4
+  ],
+  "beta": 2,
+  "contexts": [
+   {
+    "plan": "find a mug in the environment ; heat the mug to make it hot ; put the hot mug in a cabinet",
+    "steps": [
+     "go to cabinet 1",
+     "go to fridge 1",
+     "open fridge 1",
+     "go to countertop 1",
+     "take mug 1 from countertop 1",
+     "go to microwave 1",
+     "heat mug 1 with microwave 1",
+     "go to cabinet 1",
+     "open cabinet 1",
+     "move mug 1 to cabinet 1"
+    ],
+    "task": "put a hot mug in cabinet.",
+    "task_type": "pick_heat_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a cup in the environment ; take the cup from its location ; heat the cup using the microwave ; go to the diningtable ; put the hot cup on the diningtable",
+    "steps": [
+     "go to microwave 1",
+     "heat mug 1 with microwave 1",
+     "go to diningtable 1",
+     "move mug 1 to diningtable 1",
+     "examine diningtable 1",
+     "go to fridge 1",
+     "open fridge 1",
+     "take cup 3 from fridge 1",
+     "go to microwave 1",
+     "heat cup 3 with microwave 1",
+     "go to diningtable 1",
+     "move cup 3 to diningtable 1"
+    ],
+    "task": "heat some cup and put it in diningtable.",
+    "task_type": "pick_heat_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a cup in the environment ; take the cup from its current location ; heat the cup to make it hot ; go to the countertop ; put the hot cup on the countertop",
+    "steps": [
+     "go to cabinet 1",
+     "go to fridge 1",
+     "open fridge 1",
+     "take cup 2 from fridge 1",
+     "go to microwave 1",
+     "heat cup 2 with microwave 1",
+     "go to countertop 1",
+     "move cup 2 to countertop 1"
+    ],
+    "task": "put a hot cup in countertop.",
+    "task_type": "pick_heat_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a potato in the environment ; take the potato from its location ; heat the potato to make it hot ; go to diningtable 1 ; put the hot potato on diningtable 1",
+    "steps": [
+     "close microwave 1",
+     "open microwave 1",
+     "take potato 1 from microwave 1",
+     "move potato 1 to microwave 1",
+     "close microwave 1",
+     "go to stoveburner 1",
+     "go to microwave 1",
+     "go to sinkbasin 1",
+     "go to diningtable 1",
+     "take potato 2 from diningtable 1",
+     "go to microwave 1",
+     "open microwave 1"
+    ],
+    "task": "put a hot potato in diningtable.",
+    "task_type": "pick_heat_then_place_in_recep",
+    "won": false
+   }
+  ],
+  "example": "The agent tried to place the mug on stoveburner 1 but failed because a kettle was already there. The agent then used the microwave to heat the mug successfully.",
+  "id": "rule_17",
+  "importance": 2,
+  "last_used": 44,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When a stoveburner already has a kettle on it, never place a mug on the stoveburner to heat it; use the microwave instead.",
+  "sources": [
+   {
+    "task": "put a hot mug in coffeemachine.",
+    "task_type": "pick_heat_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_heat_then_place_in_recep",
+  "type": "Corrected Error",
+  "validation": "",
+  "verified": true
+ },
+ {
+  "alpha": 8,
+  "base": [
+   7,
+   7
+  ],
+  "beta": 1,
+  "contexts": [
+   {
+    "plan": "go to countertop 1 ; search countertop 1 for butterknife ; take butterknife from countertop 1 ; go to sinkbasin 1 ; clean butterknife at sinkbasin 1 ; go to countertop 1 ; put clean butterknife on countertop 1",
+    "steps": [
+     "open cabinet 6",
+     "go to cabinet 7",
+     "open cabinet 7",
+     "go to cabinet 8",
+     "go to cabinet 9",
+     "open cabinet 9",
+     "go to countertop 1",
+     "take butterknife 1 from countertop 1",
+     "go to sinkbasin 1",
+     "clean butterknife 1 with sinkbasin 1",
+     "go to countertop 1",
+     "move butterknife 1 to countertop 1"
+    ],
+    "task": "put a clean butterknife in countertop.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "search cabinets for cloth ; search cabinets for cloth ; search cabinets for cloth ; search cabinets for cloth ; take cloth from cabinet ; go to sinkbasin 1 ; clean cloth at sinkbasin 1 ; go to countertop 1 ; put cloth in countertop 1",
+    "steps": [
+     "go to cabinet 1",
+     "open cabinet 1",
+     "take cloth 3 from cabinet 1",
+     "go to sinkbasin 1",
+     "clean cloth 3 with sinkbasin 1",
+     "go to countertop 1",
+     "move cloth 3 to countertop 1"
+    ],
+    "task": "clean some cloth and put it in countertop.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "go to cabinet 1 to search for butterknife 1 ; take butterknife 1 from cabinet 1 ; go to sinkbasin 1 to clean butterknife 1 ; clean butterknife 1 with sinkbasin 1 ; go to sidetable 1 to place the clean butterknife ; put butterknife 1 in sidetable 1",
+    "steps": [
+     "go to cabinet 2",
+     "open cabinet 2",
+     "go to cabinet 3",
+     "open cabinet 3",
+     "go to cabinet 4",
+     "open cabinet 4",
+     "go to countertop 1",
+     "take butterknife 1 from countertop 1",
+     "go to sinkbasin 1",
+     "clean butterknife 1 with sinkbasin 1",
+     "go to sidetable 1",
+     "move butterknife 1 to sidetable 1"
+    ],
+    "task": "put a clean butterknife in sidetable.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "steps": [
+     "open fridge 1",
+     "go to cabinet 1",
+     "open cabinet 1",
+     "go to drawer 1",
+     "open drawer 1",
+     "go to countertop 1",
+     "go to countertop 2",
+     "take fork 1 from countertop 2",
+     "go to sinkbasin 1",
+     "clean fork 1 with sinkbasin 1",
+     "go to drawer 1",
+     "move fork 1 to drawer 1"
+    ],
+    "task": "clean some fork and put it in drawer.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "search remaining cabinets for a pan ; go to sinkbasin 1 ; clean the pan at the sink ; go to stoveburner 1 ; put the clean pan on the stoveburner",
+    "steps": [
+     "open fridge 1",
+     "close fridge 1",
+     "go to stoveburner 1",
+     "go to cabinet 1",
+     "go to drawer 1",
+     "open drawer 1",
+     "close drawer 1",
+     "go to garbagecan 1",
+     "go to countertop 1",
+     "take pan 1 from countertop 1",
+     "go to sinkbasin 1",
+     "clean pan 1 with sinkbasin 1"
+    ],
+    "task": "put a clean pan in stoveburner.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "search cabinets to find a plate ; go to sinkbasin 1 to clean the plate ; go to shelf to place the clean plate",
+    "steps": [
+     "go to cabinet 4",
+     "go to cabinet 5",
+     "open cabinet 5",
+     "go to cabinet 6",
+     "open cabinet 6",
+     "go to cabinet 7",
+     "open cabinet 7",
+     "take plate 4 from cabinet 7",
+     "go to sinkbasin 1",
+     "clean plate 4 with sinkbasin 1",
+     "go to shelf 1",
+     "move plate 4 to shelf 1"
+    ],
+    "task": "clean some plate and put it in shelf.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a cloth in the room ; take the cloth from its location ; go to the sinkbasin to clean the cloth ; clean the cloth at the sinkbasin ; go to the toilet to place the cloth ; put the clean cloth in the toilet",
+    "steps": [
+     "go to drawer 1",
+     "open drawer 1",
+     "go to drawer 2",
+     "open drawer 2",
+     "take cloth 3 from drawer 2",
+     "go to sinkbasin 1",
+     "clean cloth 3 with sinkbasin 1",
+     "go to toilet 1",
+     "move cloth 3 to toilet 1"
+    ],
+    "task": "clean some cloth and put it in toilet.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   }
+  ],
+  "example": "open cabinet 1 before searching inside",
+  "id": "rule_18",
+  "importance": 3,
+  "last_used": 47,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When a container is closed, open it before searching inside.",
+  "sources": [
+   {
+    "task": "put a clean soapbar in toilet.",
+    "task_type": "pick_clean_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_clean_then_place_in_recep",
+  "type": "Special Phenomenon",
+  "validation": "",
+  "verified": true
+ },
+ {
+  "alpha": 24,
+  "base": [
+   25,
+   35
+  ],
+  "beta": 10,
+  "contexts": [
+   {
+    "steps": [
+     "open fridge 1",
+     "go to cabinet 1",
+     "open cabinet 1",
+     "go to drawer 1",
+     "open drawer 1",
+     "go to countertop 1",
+     "go to countertop 2",
+     "take fork 1 from countertop 2",
+     "go to sinkbasin 1",
+     "clean fork 1 with sinkbasin 1",
+     "go to drawer 1",
+     "move fork 1 to drawer 1"
+    ],
+    "task": "clean some fork and put it in drawer.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find bread in the environment ; take the bread from its location ; go to the fridge ; open the fridge ; put the bread in the fridge to cool it ; go to the countertop ; put the cooled bread on the countertop",
+    "steps": [
+     "go to cabinet 1",
+     "open cabinet 1",
+     "go to countertop 1",
+     "take bread 1 from countertop 1",
+     "go to fridge 1",
+     "open fridge 1",
+     "cool bread 1 with fridge 1",
+     "close fridge 1",
+     "open fridge 1",
+     "close fridge 1",
+     "go to countertop 1",
+     "move bread 1 to countertop 1"
+    ],
+    "task": "cool some bread and put it in countertop.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "search remaining cabinets for a pan ; go to sinkbasin 1 ; clean the pan at the sink ; go to stoveburner 1 ; put the clean pan on the stoveburner",
+    "steps": [
+     "open fridge 1",
+     "close fridge 1",
+     "go to stoveburner 1",
+     "go to cabinet 1",
+     "go to drawer 1",
+     "open drawer 1",
+     "close drawer 1",
+     "go to garbagecan 1",
+     "go to countertop 1",
+     "take pan 1 from countertop 1",
+     "go to sinkbasin 1",
+     "clean pan 1 with sinkbasin 1"
+    ],
+    "task": "put a clean pan in stoveburner.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "go to desk 1 ; find laptop in desk 1 ; take laptop from desk 1 ; put laptop in desk 1",
+    "steps": [
+     "go to desk 1",
+     "examine desk 1",
+     "examine desk 1",
+     "go to drawer 1",
+     "open drawer 1",
+     "go to shelf 1",
+     "go to laundryhamper 1",
+     "go to bed 1",
+     "take laptop 1 from bed 1",
+     "go to desk 1",
+     "move laptop 1 to desk 1"
+    ],
+    "task": "put a laptop in desk.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "find the first pen ; find the second pen ; take the first pen from its location ; take the second pen from its location ; put the first pen in the dresser ; put the second pen in the dresser",
+    "steps": [
+     "go to coffeetable 1",
+     "take pen 1 from coffeetable 1",
+     "go to dresser 1",
+     "move pen 1 to dresser 1",
+     "go to sidetable 1",
+     "go to coffeetable 1",
+     "take pen 2 from coffeetable 1",
+     "go to dresser 1",
+     "move pen 2 to dresser 1"
+    ],
+    "task": "put two pen in dresser.",
+    "task_type": "pick_two_obj_and_place",
+    "won": true
+   },
+   {
+    "plan": "search cabinets to find a plate ; go to sinkbasin 1 to clean the plate ; go to shelf to place the clean plate",
+    "steps": [
+     "go to cabinet 4",
+     "go to cabinet 5",
+     "open cabinet 5",
+     "go to cabinet 6",
+     "open cabinet 6",
+     "go to cabinet 7",
+     "open cabinet 7",
+     "take plate 4 from cabinet 7",
+     "go to sinkbasin 1",
+     "clean plate 4 with sinkbasin 1",
+     "go to shelf 1",
+     "move plate 4 to shelf 1"
+    ],
+    "task": "clean some plate and put it in shelf.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "steps": [
+     "go to stoveburner 1",
+     "take pan 1 from stoveburner 1",
+     "go to fridge 1",
+     "open fridge 1",
+     "close fridge 1",
+     "cool pan 1 with fridge 1",
+     "go to diningtable 1",
+     "move pan 1 to diningtable 1"
+    ],
+    "task": "put a cool pan in diningtable.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "go to desk 1 to find the pen and desklamp ; find the pen on desk 1 ; find the desklamp on desk 1 ; take the pen from desk 1 ; take the desklamp from desk 1 ; examine the pen with the desklamp",
+    "steps": [
+     "go to desk 1",
+     "take pen 2 from desk 1",
+     "examine desk 1",
+     "go to drawer 1",
+     "go to desk 1",
+     "go to drawer 1",
+     "go to desk 1",
+     "go to dresser 1",
+     "use desklamp 1"
+    ],
+    "task": "examine the pen with the desklamp.",
+    "task_type": "look_at_obj_in_light",
+    "won": true
+   },
+   {
+    "plan": "go to diningtable 3 to find the second peppershaker ; take peppershaker 2 from diningtable 3 ; put peppershaker 2 on diningtable 3 ; put peppershaker 1 on diningtable 3",
+    "steps": [
+     "go to diningtable 2",
+     "go to countertop 1",
+     "go to cabinet 2",
+     "open cabinet 2",
+     "go to diningtable 3",
+     "move peppershaker 1 to diningtable 3",
+     "go to cabinet 1",
+     "go to cabinet 2",
+     "take peppershaker 2 from cabinet 2",
+     "look",
+     "go to diningtable 3",
+     "move peppershaker 2 to diningtable 3"
+    ],
+    "task": "put two peppershaker in diningtable.",
+    "task_type": "pick_two_obj_and_place",
+    "won": true
+   },
+   {
+    "plan": "go to desk 1 ; look at pencil under the desklamp",
+    "steps": [
+     "go to desk 1",
+     "go to shelf 1",
+     "take pencil 1 from shelf 1",
+     "go to desk 1",
+     "go to shelf 1",
+     "go to desk 1",
+     "go to shelf 1",
+     "go to desk 1",
+     "go to shelf 1",
+     "go to shelf 2",
+     "use desklamp 1"
+    ],
+    "task": "look at pencil under the desklamp.",
+    "task_type": "look_at_obj_in_light",
+    "won": true
+   },
+   {
+    "plan": "find a mug in the environment ; heat the mug to make it hot ; put the hot mug in a cabinet",
+    "steps": [
+     "go to cabinet 1",
+     "go to fridge 1",
+     "open fridge 1",
+     "go to countertop 1",
+     "take mug 1 from countertop 1",
+     "go to microwave 1",
+     "heat mug 1 with microwave 1",
+     "go to cabinet 1",
+     "open cabinet 1",
+     "move mug 1 to cabinet 1"
+    ],
+    "task": "put a hot mug in cabinet.",
+    "task_type": "pick_heat_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a cup in the environment ; take the cup from its location ; heat the cup using the microwave ; go to the diningtable ; put the hot cup on the diningtable",
+    "steps": [
+     "go to microwave 1",
+     "heat mug 1 with microwave 1",
+     "go to diningtable 1",
+     "move mug 1 to diningtable 1",
+     "examine diningtable 1",
+     "go to fridge 1",
+     "open fridge 1",
+     "take cup 3 from fridge 1",
+     "go to microwave 1",
+     "heat cup 3 with microwave 1",
+     "go to diningtable 1",
+     "move cup 3 to diningtable 1"
+    ],
+    "task": "heat some cup and put it in diningtable.",
+    "task_type": "pick_heat_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a cup in the environment ; take the cup from its current location ; heat the cup to make it hot ; go to the countertop ; put the hot cup on the countertop",
+    "steps": [
+     "go to cabinet 1",
+     "go to fridge 1",
+     "open fridge 1",
+     "take cup 2 from fridge 1",
+     "go to microwave 1",
+     "heat cup 2 with microwave 1",
+     "go to countertop 1",
+     "move cup 2 to countertop 1"
+    ],
+    "task": "put a hot cup in countertop.",
+    "task_type": "pick_heat_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find the watch in the current room ; take the watch from its location ; put the watch on the coffeetable",
+    "steps": [
+     "go to drawer 1",
+     "open drawer 1",
+     "take watch 1 from drawer 1",
+     "go to coffeetable 1",
+     "move watch 1 to coffeetable 1"
+    ],
+    "task": "put a watch in coffeetable.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "find a cloth in the room ; take the cloth from its location ; go to the sinkbasin to clean the cloth ; clean the cloth at the sinkbasin ; go to the toilet to place the cloth ; put the clean cloth in the toilet",
+    "steps": [
+     "go to drawer 1",
+     "open drawer 1",
+     "go to drawer 2",
+     "open drawer 2",
+     "take cloth 3 from drawer 2",
+     "go to sinkbasin 1",
+     "clean cloth 3 with sinkbasin 1",
+     "go to toilet 1",
+     "move cloth 3 to toilet 1"
+    ],
+    "task": "clean some cloth and put it in toilet.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "go to diningtable 1 to find the pan ; find and take the pan from diningtable 1 ; cool the pan using fridge 1 ; go to diningtable 1 to place the cooled pan ; put the cooled pan on diningtable 1",
+    "steps": [
+     "open cabinet 3",
+     "go to cabinet 4",
+     "open cabinet 4",
+     "go to cabinet 5",
+     "open cabinet 5",
+     "go to cabinet 6",
+     "open cabinet 6",
+     "go to stoveburner 1",
+     "go to stoveburner 3",
+     "examine stoveburner 4",
+     "take pan 1 from stoveburner 4",
+     "go to fridge 1"
+    ],
+    "task": "put a cool pan in diningtable.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": false
+   },
+   {
+    "plan": "go to dresser 1 ; find cellphone in the area ; take cellphone from its location ; put cellphone on dresser",
+    "steps": [
+     "examine dresser 1",
+     "examine dresser 1",
+     "examine dresser 1",
+     "examine dresser 1",
+     "examine dresser 1",
+     "examine dresser 1",
+     "examine dresser 1",
+     "examine dresser 1",
+     "go to drawer 1",
+     "open drawer 1",
+     "go to drawer 2",
+     "go to drawer 3"
+    ],
+    "task": "put some cellphone on dresser.",
+    "task_type": "pick_and_place_simple",
+    "won": false
+   },
+   {
+    "plan": "find a plate in the room ; go to the location where the plate is found ; take the plate from its location ; cool the plate at the fridge ; put the cooled plate in a cabinet",
+    "steps": [
+     "go to countertop 2",
+     "go to countertop 1",
+     "go to cabinet 1",
+     "go to countertop 1",
+     "go to cabinet 2",
+     "go to cabinet 3",
+     "go to cabinet 4",
+     "go to drawer 1",
+     "go to cabinet 5",
+     "go to countertop 1",
+     "go to cabinet 6",
+     "open cabinet 6"
+    ],
+    "task": "cool some plate and put it in cabinet.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": false
+   },
+   {
+    "plan": "find a potato in the environment ; take the potato from its location ; heat the potato to make it hot ; go to diningtable 1 ; put the hot potato on diningtable 1",
+    "steps": [
+     "close microwave 1",
+     "open microwave 1",
+     "take potato 1 from microwave 1",
+     "move potato 1 to microwave 1",
+     "close microwave 1",
+     "go to stoveburner 1",
+     "go to microwave 1",
+     "go to sinkbasin 1",
+     "go to diningtable 1",
+     "take potato 2 from diningtable 1",
+     "go to microwave 1",
+     "open microwave 1"
+    ],
+    "task": "put a hot potato in diningtable.",
+    "task_type": "pick_heat_then_place_in_recep",
+    "won": false
+   },
+   {
+    "plan": "go to desk 1 to find keychain 3 ; take keychain 3 from desk 1 ; go to drawer 1 ; put keychain 3 in drawer 1 ; go to desk 1 to find another keychain ; take the second keychain from desk 1 and put it in drawer 1",
+    "steps": [
+     "examine desk 1",
+     "go to drawer 1",
+     "move keychain 3 to drawer 1",
+     "examine drawer 1",
+     "go to desk 1",
+     "examine desk 1",
+     "examine desk 1",
+     "examine desk 1",
+     "examine desk 1",
+     "examine desk 1",
+     "examine desk 1",
+     "examine desk 1"
+    ],
+    "task": "put two keychain in drawer.",
+    "task_type": "pick_two_obj_and_place",
+    "won": false
+   },
+   {
+    "plan": "find a bowl in the kitchen area ; take the bowl from its location ; go to the fridge ; open the fridge if it is closed ; cool the bowl in the fridge ; go to the microwave ; put the cooled bowl in the microwave",
+    "steps": [
+     "open drawer 4",
+     "close drawer 4",
+     "go to cabinet 1",
+     "go to cabinet 2",
+     "go to cabinet 3",
+     "go to cabinet 4",
+     "go to countertop 1",
+     "go to cabinet 5",
+     "open cabinet 5",
+     "take bowl 2 from cabinet 5",
+     "go to fridge 1",
+     "open fridge 1"
+    ],
+    "task": "cool some bowl and put it in microwave.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": false
+   },
+   {
+    "plan": "find the first cellphone ; take the first cellphone from its location ; find the second cellphone ; take the second cellphone from its location ; go to bed 1 ; put both cellphones in bed 1",
+    "steps": [
+     "go to drawer 5",
+     "go to drawer 1",
+     "go to armchair 1",
+     "go to bed 1",
+     "go to drawer 1",
+     "go to cabinet 1",
+     "go to drawer 2",
+     "go to armchair 1",
+     "go to dresser 1",
+     "go to drawer 1",
+     "go to drawer 2",
+     "go to drawer 3"
+    ],
+    "task": "find two cellphone and put them in bed.",
+    "task_type": "pick_two_obj_and_place",
+    "won": false
+   },
+   {
+    "plan": "find a cup in the kitchen area ; take the cup from its location ; cool the cup in the fridge ; put the cooled cup in the microwave",
+    "steps": [
+     "go to countertop 1",
+     "go to cabinet 1",
+     "go to cabinet 2",
+     "examine cabinet 2",
+     "examine cabinet 2",
+     "go to cabinet 1",
+     "go to countertop 1",
+     "go to cabinet 1",
+     "go to drawer 1",
+     "go to cabinet 2",
+     "go to drawer 1",
+     "go to cabinet 3"
+    ],
+    "task": "cool some cup and put it in microwave.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": false
+   },
+   {
+    "plan": "find the first laptop in the room ; put the first laptop in the ottoman ; find the second laptop in the room ; put the second laptop in the ottoman",
+    "steps": [
+     "go to drawer 6",
+     "open drawer 6",
+     "go to ottoman 1",
+     "go to drawer 1",
+     "go to drawer 2",
+     "go to drawer 3",
+     "go to drawer 4",
+     "go to drawer 7",
+     "open drawer 7",
+     "go to armchair 1",
+     "go to coffeetable 1",
+     "go to drawer 5"
+    ],
+    "task": "find two laptop and put them in ottoman.",
+    "task_type": "pick_two_obj_and_place",
+    "won": false
+   }
+  ],
+  "example": "The agent failed by checking empty cabinets first; it should have scanned stoveburner 4 to find the pan before opening cabinets.",
+  "id": "rule_19",
+  "importance": 6,
+  "last_used": 47,
+  "refined_at": [
+   17,
+   8
+  ],
+  "rule": "When an object must be cooled and placed, search kitchen areas first, cool with fridge if closed, then move to target.",
+  "sources": [
+   {
+    "task": "put a cool bowl in cabinet.",
+    "task_type": "pick_cool_then_place_in_recep"
+   }
+  ],
+  "task_type": "all",
+  "type": "Corrected Error",
+  "validation": "This game confirmed the rule: the agent failed because it never found or cooled a plate, instead spending all time opening cabinets and drawers without checking countertops. | This game confirmed the rule: the agent failed because it never found or cooled a bowl, instead spending all time opening cabinets and drawers without checking where the bowl was.",
+  "verified": true
+ },
+ {
+  "alpha": 7,
+  "base": [
+   6,
+   6
+  ],
+  "beta": 1,
+  "contexts": [
+   {
+    "plan": "search cabinets for cloth ; search cabinets for cloth ; search cabinets for cloth ; search cabinets for cloth ; take cloth from cabinet ; go to sinkbasin 1 ; clean cloth at sinkbasin 1 ; go to countertop 1 ; put cloth in countertop 1",
+    "steps": [
+     "go to cabinet 1",
+     "open cabinet 1",
+     "take cloth 3 from cabinet 1",
+     "go to sinkbasin 1",
+     "clean cloth 3 with sinkbasin 1",
+     "go to countertop 1",
+     "move cloth 3 to countertop 1"
+    ],
+    "task": "clean some cloth and put it in countertop.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "go to cabinet 1 to search for butterknife 1 ; take butterknife 1 from cabinet 1 ; go to sinkbasin 1 to clean butterknife 1 ; clean butterknife 1 with sinkbasin 1 ; go to sidetable 1 to place the clean butterknife ; put butterknife 1 in sidetable 1",
+    "steps": [
+     "go to cabinet 2",
+     "open cabinet 2",
+     "go to cabinet 3",
+     "open cabinet 3",
+     "go to cabinet 4",
+     "open cabinet 4",
+     "go to countertop 1",
+     "take butterknife 1 from countertop 1",
+     "go to sinkbasin 1",
+     "clean butterknife 1 with sinkbasin 1",
+     "go to sidetable 1",
+     "move butterknife 1 to sidetable 1"
+    ],
+    "task": "put a clean butterknife in sidetable.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "steps": [
+     "open fridge 1",
+     "go to cabinet 1",
+     "open cabinet 1",
+     "go to drawer 1",
+     "open drawer 1",
+     "go to countertop 1",
+     "go to countertop 2",
+     "take fork 1 from countertop 2",
+     "go to sinkbasin 1",
+     "clean fork 1 with sinkbasin 1",
+     "go to drawer 1",
+     "move fork 1 to drawer 1"
+    ],
+    "task": "clean some fork and put it in drawer.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "search remaining cabinets for a pan ; go to sinkbasin 1 ; clean the pan at the sink ; go to stoveburner 1 ; put the clean pan on the stoveburner",
+    "steps": [
+     "open fridge 1",
+     "close fridge 1",
+     "go to stoveburner 1",
+     "go to cabinet 1",
+     "go to drawer 1",
+     "open drawer 1",
+     "close drawer 1",
+     "go to garbagecan 1",
+     "go to countertop 1",
+     "take pan 1 from countertop 1",
+     "go to sinkbasin 1",
+     "clean pan 1 with sinkbasin 1"
+    ],
+    "task": "put a clean pan in stoveburner.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "search cabinets to find a plate ; go to sinkbasin 1 to clean the plate ; go to shelf to place the clean plate",
+    "steps": [
+     "go to cabinet 4",
+     "go to cabinet 5",
+     "open cabinet 5",
+     "go to cabinet 6",
+     "open cabinet 6",
+     "go to cabinet 7",
+     "open cabinet 7",
+     "take plate 4 from cabinet 7",
+     "go to sinkbasin 1",
+     "clean plate 4 with sinkbasin 1",
+     "go to shelf 1",
+     "move plate 4 to shelf 1"
+    ],
+    "task": "clean some plate and put it in shelf.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a cloth in the room ; take the cloth from its location ; go to the sinkbasin to clean the cloth ; clean the cloth at the sinkbasin ; go to the toilet to place the cloth ; put the clean cloth in the toilet",
+    "steps": [
+     "go to drawer 1",
+     "open drawer 1",
+     "go to drawer 2",
+     "open drawer 2",
+     "take cloth 3 from drawer 2",
+     "go to sinkbasin 1",
+     "clean cloth 3 with sinkbasin 1",
+     "go to toilet 1",
+     "move cloth 3 to toilet 1"
+    ],
+    "task": "clean some cloth and put it in toilet.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   }
+  ],
+  "example": "search cabinet 6, cabinet 7, cabinet 8, cabinet 9 before going to countertop 1",
+  "id": "rule_20",
+  "importance": 3,
+  "last_used": 47,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When the target is a countertop, search cabinets first to find the object if not visible there.",
+  "sources": [
+   {
+    "task": "put a clean butterknife in countertop.",
+    "task_type": "pick_clean_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_clean_then_place_in_recep",
+  "type": "Special Phenomenon",
+  "validation": "",
+  "verified": true
+ },
+ {
+  "alpha": 4,
+  "base": [
+   3,
+   3
+  ],
+  "beta": 1,
+  "contexts": [
+   {
+    "plan": "find a mug in the environment ; heat the mug to make it hot ; put the hot mug in a cabinet",
+    "steps": [
+     "go to cabinet 1",
+     "go to fridge 1",
+     "open fridge 1",
+     "go to countertop 1",
+     "take mug 1 from countertop 1",
+     "go to microwave 1",
+     "heat mug 1 with microwave 1",
+     "go to cabinet 1",
+     "open cabinet 1",
+     "move mug 1 to cabinet 1"
+    ],
+    "task": "put a hot mug in cabinet.",
+    "task_type": "pick_heat_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a cup in the environment ; take the cup from its location ; heat the cup using the microwave ; go to the diningtable ; put the hot cup on the diningtable",
+    "steps": [
+     "go to microwave 1",
+     "heat mug 1 with microwave 1",
+     "go to diningtable 1",
+     "move mug 1 to diningtable 1",
+     "examine diningtable 1",
+     "go to fridge 1",
+     "open fridge 1",
+     "take cup 3 from fridge 1",
+     "go to microwave 1",
+     "heat cup 3 with microwave 1",
+     "go to diningtable 1",
+     "move cup 3 to diningtable 1"
+    ],
+    "task": "heat some cup and put it in diningtable.",
+    "task_type": "pick_heat_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a cup in the environment ; take the cup from its current location ; heat the cup to make it hot ; go to the countertop ; put the hot cup on the countertop",
+    "steps": [
+     "go to cabinet 1",
+     "go to fridge 1",
+     "open fridge 1",
+     "take cup 2 from fridge 1",
+     "go to microwave 1",
+     "heat cup 2 with microwave 1",
+     "go to countertop 1",
+     "move cup 2 to countertop 1"
+    ],
+    "task": "put a hot cup in countertop.",
+    "task_type": "pick_heat_then_place_in_recep",
+    "won": true
+   }
+  ],
+  "example": "The agent failed by moving the potato to the microwave; it should have used heat potato 1 with microwave 1.",
+  "id": "rule_21",
+  "importance": 2,
+  "last_used": 44,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When heating an object in a microwave, use the heat command instead of move to place it inside.",
+  "sources": [
+   {
+    "task": "put a hot potato in diningtable.",
+    "task_type": "pick_heat_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_heat_then_place_in_recep",
+  "type": "Corrected Error",
+  "validation": "",
+  "verified": true
+ },
+ {
+  "alpha": 2,
+  "base": [
+   5,
+   8
+  ],
+  "beta": 1,
+  "contexts": [
+   {
+    "plan": "find a cloth in the room ; take the cloth from its location ; go to the sinkbasin to clean the cloth ; clean the cloth at the sinkbasin ; go to the toilet to place the cloth ; put the clean cloth in the toilet",
+    "steps": [
+     "go to drawer 1",
+     "open drawer 1",
+     "go to drawer 2",
+     "open drawer 2",
+     "take cloth 3 from drawer 2",
+     "go to sinkbasin 1",
+     "clean cloth 3 with sinkbasin 1",
+     "go to toilet 1",
+     "move cloth 3 to toilet 1"
+    ],
+    "task": "clean some cloth and put it in toilet.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   }
+  ],
+  "example": "The agent opened many empty cabinets and drawers before finding the pan on the countertop.",
+  "id": "rule_22",
+  "importance": 2,
+  "last_used": 47,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When an object must be cleaned and placed, scan countertops and basins first, then clean with the appliance and place it.",
+  "sources": [
+   {
+    "task": "put a clean pan in stoveburner.",
+    "task_type": "pick_clean_then_place_in_recep"
+   },
+   {
+    "task": "clean some plate and put it in microwave.",
+    "task_type": "pick_clean_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_clean_then_place_in_recep",
+  "type": "Corrected Error",
+  "validation": "",
+  "verified": true
+ },
+ {
+  "alpha": 1,
+  "base": [
+   0,
+   0
+  ],
+  "beta": 1,
+  "contexts": [],
+  "example": "\"done\" answers \"Nothing happens.\"",
+  "id": "rule_23",
+  "importance": 2,
+  "last_used": null,
+  "pattern": {
+   "attempts": 4,
+   "example": "done",
+   "games": 2,
+   "kind": "invalid",
+   "of_attempts": 12,
+   "of_games": 3,
+   "sig": [
+    "invalid",
+    "done"
+   ],
+   "wins_checked": 6
+  },
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When cooling an object, do not use the command \"done\".",
+  "sources": [
+   {
+    "task": "cool some cup and put it in microwave.",
+    "task_type": "pick_cool_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_cool_then_place_in_recep",
+  "type": "Anti-Pattern",
+  "validation": "",
+  "verified": true
+ },
+ {
+  "alpha": 5,
+  "base": [
+   5,
+   9
+  ],
+  "beta": 4,
+  "contexts": [
+   {
+    "plan": "find a butterknife in the environment ; go to the sinkbasin to clean the butterknife ; clean the butterknife at the sinkbasin ; go to the countertop to place the clean butterknife ; put the clean butterknife on the countertop",
+    "steps": [
+     "go to drawer 1",
+     "go to countertop 1",
+     "take butterknife 1 from countertop 1",
+     "go to sinkbasin 1",
+     "clean butterknife 1 with sinkbasin 1",
+     "go to countertop 1",
+     "move butterknife 1 to countertop 1"
+    ],
+    "task": "put a clean butterknife in countertop.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "search for butterknife in current location ; take butterknife from sidetable ; go to sinkbasin to clean butterknife ; clean butterknife at sinkbasin ; go to sidetable to place clean butterknife ; put clean butterknife on sidetable",
+    "steps": [
+     "go to countertop 1",
+     "take butterknife 1 from countertop 1",
+     "go to sinkbasin 1",
+     "clean butterknife 1 with sinkbasin 1",
+     "go to sidetable 1",
+     "move butterknife 1 to sidetable 1"
+    ],
+    "task": "put a clean butterknife in sidetable.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "search for a fork in the environment ; go to a countertop to find the fork ; go to the sinkbasin to clean the fork ; go to a drawer to put the fork",
+    "steps": [
+     "go to countertop 1",
+     "go to countertop 2",
+     "take fork 1 from countertop 2",
+     "go to sinkbasin 1",
+     "clean fork 1 with sinkbasin 1",
+     "go to drawer 1",
+     "open drawer 1",
+     "move fork 1 to drawer 1"
+    ],
+    "task": "clean some fork and put it in drawer.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a pan in the environment ; go to the sinkbasin to clean the pan ; clean the pan at the sinkbasin ; go to a stoveburner to place the pan ; put the clean pan on the stoveburner",
+    "steps": [
+     "go to stoveburner 1",
+     "go to countertop 1",
+     "take pan 1 from countertop 1",
+     "go to sinkbasin 1",
+     "clean pan 1 with sinkbasin 1"
+    ],
+    "task": "put a clean pan in stoveburner.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "go to sinkbasin 1 to clean the towel ; clean the towel 1 using sinkbasin 1 ; go to countertop 1 to place the towel ; put the towel 1 in countertop 1",
+    "steps": [
+     "examine sinkbasin 1",
+     "go to countertop 1",
+     "go to sinkbasin 1",
+     "go to sinkbasin 2",
+     "go to countertop 1",
+     "go to sinkbasin 1",
+     "go to countertop 1",
+     "inventory",
+     "go to sinkbasin 1",
+     "go to sinkbasin 2",
+     "go to sinkbasin 1",
+     "examine towel 1"
+    ],
+    "task": "clean some cloth and put it in countertop.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": false
+   },
+   {
+    "plan": "go to a location where a plate might be found ; search for a plate at the current location ; take the plate from the countertop ; go to the sinkbasin to clean the plate ; clean the plate at the sinkbasin ; go to the shelf to place the plate ; put the clean plate in the shelf",
+    "steps": [
+     "go to countertop 1",
+     "go to fridge 1",
+     "go to countertop 1",
+     "go to fridge 1",
+     "go to countertop 1",
+     "go to fridge 1",
+     "go to countertop 1",
+     "go to fridge 1",
+     "open fridge 1",
+     "take plate 3 from fridge 1",
+     "go to sinkbasin 1",
+     "clean plate 3 with sinkbasin 1"
+    ],
+    "task": "clean some plate and put it in shelf.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": false
+   },
+   {
+    "plan": "go to toilet 1 ; search toilet 1 for cloth ; go to sinkbasin 1 ; clean cloth with sinkbasin 1 ; put cloth in toilet 1",
+    "steps": [
+     "go to toilet 1",
+     "go to sinkbasin 1",
+     "go to toilet 1",
+     "go to sinkbasin 1",
+     "inventory",
+     "examine towel 1",
+     "go to toilet 1",
+     "examine toilet 1",
+     "inventory",
+     "inventory",
+     "go to sinkbasin 1",
+     "go to garbagecan 1"
+    ],
+    "task": "clean some cloth and put it in toilet.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": false
+   }
+  ],
+  "example": "move plate 3 to shelf 1",
+  "id": "rule_24",
+  "importance": 6,
+  "last_used": 47,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When placing an object in a location, use the move command with the target location name.",
+  "sources": [
+   {
+    "task": "clean some fork and put it in drawer.",
+    "task_type": "pick_clean_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_clean_then_place_in_recep",
+  "type": "Special Phenomenon",
+  "validation": "Confirmed: move command works for countertop placement. | Confirmed: move command works for drawer placement. | Confirmed: move command works for shelf placement.",
+  "verified": true
+ },
+ {
+  "alpha": 5,
+  "base": [
+   4,
+   7
+  ],
+  "beta": 4,
+  "contexts": [
+   {
+    "plan": "find a butterknife in the environment ; go to the sinkbasin to clean the butterknife ; clean the butterknife at the sinkbasin ; go to the countertop to place the clean butterknife ; put the clean butterknife on the countertop",
+    "steps": [
+     "go to drawer 1",
+     "go to countertop 1",
+     "take butterknife 1 from countertop 1",
+     "go to sinkbasin 1",
+     "clean butterknife 1 with sinkbasin 1",
+     "go to countertop 1",
+     "move butterknife 1 to countertop 1"
+    ],
+    "task": "put a clean butterknife in countertop.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "search for butterknife in current location ; take butterknife from sidetable ; go to sinkbasin to clean butterknife ; clean butterknife at sinkbasin ; go to sidetable to place clean butterknife ; put clean butterknife on sidetable",
+    "steps": [
+     "go to countertop 1",
+     "take butterknife 1 from countertop 1",
+     "go to sinkbasin 1",
+     "clean butterknife 1 with sinkbasin 1",
+     "go to sidetable 1",
+     "move butterknife 1 to sidetable 1"
+    ],
+    "task": "put a clean butterknife in sidetable.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "search for a fork in the environment ; go to a countertop to find the fork ; go to the sinkbasin to clean the fork ; go to a drawer to put the fork",
+    "steps": [
+     "go to countertop 1",
+     "go to countertop 2",
+     "take fork 1 from countertop 2",
+     "go to sinkbasin 1",
+     "clean fork 1 with sinkbasin 1",
+     "go to drawer 1",
+     "open drawer 1",
+     "move fork 1 to drawer 1"
+    ],
+    "task": "clean some fork and put it in drawer.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a pan in the environment ; go to the sinkbasin to clean the pan ; clean the pan at the sinkbasin ; go to a stoveburner to place the pan ; put the clean pan on the stoveburner",
+    "steps": [
+     "go to stoveburner 1",
+     "go to countertop 1",
+     "take pan 1 from countertop 1",
+     "go to sinkbasin 1",
+     "clean pan 1 with sinkbasin 1"
+    ],
+    "task": "put a clean pan in stoveburner.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "go to sinkbasin 1 to clean the towel ; clean the towel 1 using sinkbasin 1 ; go to countertop 1 to place the towel ; put the towel 1 in countertop 1",
+    "steps": [
+     "examine sinkbasin 1",
+     "go to countertop 1",
+     "go to sinkbasin 1",
+     "go to sinkbasin 2",
+     "go to countertop 1",
+     "go to sinkbasin 1",
+     "go to countertop 1",
+     "inventory",
+     "go to sinkbasin 1",
+     "go to sinkbasin 2",
+     "go to sinkbasin 1",
+     "examine towel 1"
+    ],
+    "task": "clean some cloth and put it in countertop.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": false
+   },
+   {
+    "plan": "go to a location where a plate might be found ; search for a plate at the current location ; take the plate from the countertop ; go to the sinkbasin to clean the plate ; clean the plate at the sinkbasin ; go to the shelf to place the plate ; put the clean plate in the shelf",
+    "steps": [
+     "go to countertop 1",
+     "go to fridge 1",
+     "go to countertop 1",
+     "go to fridge 1",
+     "go to countertop 1",
+     "go to fridge 1",
+     "go to countertop 1",
+     "go to fridge 1",
+     "open fridge 1",
+     "take plate 3 from fridge 1",
+     "go to sinkbasin 1",
+     "clean plate 3 with sinkbasin 1"
+    ],
+    "task": "clean some plate and put it in shelf.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": false
+   },
+   {
+    "plan": "go to toilet 1 ; search toilet 1 for cloth ; go to sinkbasin 1 ; clean cloth with sinkbasin 1 ; put cloth in toilet 1",
+    "steps": [
+     "go to toilet 1",
+     "go to sinkbasin 1",
+     "go to toilet 1",
+     "go to sinkbasin 1",
+     "inventory",
+     "examine towel 1",
+     "go to toilet 1",
+     "examine toilet 1",
+     "inventory",
+     "inventory",
+     "go to sinkbasin 1",
+     "go to garbagecan 1"
+    ],
+    "task": "clean some cloth and put it in toilet.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": false
+   }
+  ],
+  "example": "open fridge 1 before taking plate 3 from fridge 1",
+  "id": "rule_25",
+  "importance": 4,
+  "last_used": 47,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When a container is closed, open it before taking objects from it.",
+  "sources": [
+   {
+    "task": "put a clean soapbar in toilet.",
+    "task_type": "pick_clean_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_clean_then_place_in_recep",
+  "type": "Special Phenomenon",
+  "validation": "Confirmed: agent successfully opened closed drawer before moving object inside. | Confirmed: agent failed to open closed fridge before taking plate.",
+  "verified": true
+ },
+ {
+  "alpha": 5,
+  "base": [
+   7,
+   9
+  ],
+  "beta": 3,
+  "contexts": [
+   {
+    "plan": "find a spraybottle on any surface ; take the spraybottle from the surface ; go to the toilet ; put the spraybottle on the toilet",
+    "steps": [
+     "go to cabinet 1",
+     "take spraybottle 1 from cabinet 1",
+     "go to toilet 1",
+     "move spraybottle 1 to toilet 1"
+    ],
+    "task": "put some spraybottle on toilet.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "search for a pen in the room ; take the pen from where it is found ; go to a drawer to place the pen ; put the pen on the drawer",
+    "steps": [
+     "open drawer 1",
+     "go to desk 1",
+     "go to drawer 2",
+     "open drawer 2",
+     "go to drawer 3",
+     "open drawer 3",
+     "go to drawer 4",
+     "go to desk 1",
+     "go to dresser 1",
+     "take pen 3 from dresser 1",
+     "go to drawer 1",
+     "move pen 3 to drawer 1"
+    ],
+    "task": "put some pen on drawer.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "search for laptop in the room ; go to desk 1 ; put laptop in desk 1",
+    "steps": [
+     "go to desk 1",
+     "go to drawer 1",
+     "go to shelf 1",
+     "go to drawer 2",
+     "open drawer 2",
+     "go to drawer 3",
+     "go to shelf 1",
+     "go to laundryhamper 1",
+     "go to bed 1",
+     "take laptop 1 from bed 1",
+     "go to desk 1",
+     "move laptop 1 to desk 1"
+    ],
+    "task": "put a laptop in desk.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "take the watch from the drawer ; go to the coffeetable ; put the watch on the coffeetable",
+    "steps": [
+     "go to sidetable 2",
+     "go to diningtable 1",
+     "go to tvstand 1",
+     "go to garbagecan 1",
+     "go to diningtable 1",
+     "go to coffeetable 1",
+     "go to armchair 1",
+     "go to drawer 1",
+     "open drawer 1",
+     "take watch 1 from drawer 1",
+     "go to coffeetable 1",
+     "move watch 1 to coffeetable 1"
+    ],
+    "task": "put a watch in coffeetable.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "go to dresser 1 ; search dresser 1 for cellphone ; take cellphone from dresser 1 ; put cellphone on dresser 1",
+    "steps": [
+     "go to drawer 2",
+     "open drawer 2",
+     "go to drawer 10",
+     "open drawer 10",
+     "go to drawer 11",
+     "open drawer 11",
+     "go to dresser 1",
+     "go to armchair 1",
+     "go to sidetable 1",
+     "go to armchair 1",
+     "go to drawer 12",
+     "open drawer 12"
+    ],
+    "task": "put some cellphone on dresser.",
+    "task_type": "pick_and_place_simple",
+    "won": false
+   },
+   {
+    "plan": "go to cabinet 1 ; put towel 1 in cabinet 1",
+    "steps": [
+     "take towel 1 from towelholder 1",
+     "go to cabinet 1",
+     "open cabinet 1",
+     "examine cabinet 2",
+     "open cabinet 2",
+     "go to towelholder 1",
+     "inventory",
+     "go to cabinet 1",
+     "close cabinet 1",
+     "examine cabinet 1",
+     "open cabinet 1",
+     "inventory"
+    ],
+    "task": "put a handtowel in cabinet.",
+    "task_type": "pick_and_place_simple",
+    "won": false
+   }
+  ],
+  "example": "open cabinet 1 before moving handtowel 1 to cabinet 1",
+  "id": "rule_26",
+  "importance": 3,
+  "last_used": 46,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When placing an object into a container, open the container if closed before attempting the move.",
+  "sources": [
+   {
+    "task": "put a cellphone in dresser.",
+    "task_type": "pick_and_place_simple"
+   }
+  ],
+  "task_type": "pick_and_place_simple",
+  "type": "Corrected Error",
+  "validation": "This game confirmed failing to move while the container was closed, succeeding only after opening it.",
+  "verified": true
+ },
+ {
+  "alpha": 2,
+  "base": [
+   2,
+   7
+  ],
+  "beta": 4,
+  "contexts": [
+   {
+    "plan": "go to microwave 1 ; put bowl 2 in microwave 1",
+    "steps": [
+     "go to cabinet 3",
+     "open cabinet 3",
+     "go to cabinet 4",
+     "go to cabinet 5",
+     "open cabinet 5",
+     "take bowl 2 from cabinet 5",
+     "go to fridge 1",
+     "open fridge 1",
+     "cool bowl 2 with fridge 1",
+     "go to microwave 1",
+     "open microwave 1",
+     "move bowl 2 to microwave 1"
+    ],
+    "task": "cool some bowl and put it in microwave.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "search cabinet 8 for bread ; take bread from cabinet 8 ; go to fridge 1 ; open fridge 1 ; cool bread with fridge 1 ; go to countertop 1 ; put bread on countertop 1",
+    "steps": [
+     "open cabinet 9",
+     "go to cabinet 8",
+     "go to drawer 1",
+     "go to cabinet 1",
+     "go to cabinet 10",
+     "open cabinet 10",
+     "close cabinet 10",
+     "go to drawer 1",
+     "go to cabinet 1",
+     "go to cabinet 2",
+     "go to cabinet 8",
+     "go to drawer 1"
+    ],
+    "task": "cool some bread and put it in countertop.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": false
+   },
+   {
+    "plan": "search for a pan in the environment ; take the pan from its current location ; go to the fridge to cool the pan ; open the fridge if it is closed ; cool the pan with the fridge ; go to the diningtable ; put the cool pan on the diningtable",
+    "steps": [
+     "open cabinet 11",
+     "go to cabinet 12",
+     "open cabinet 12",
+     "go to cabinet 1",
+     "go to cabinet 2",
+     "go to cabinet 3",
+     "go to cabinet 4",
+     "go to cabinet 5",
+     "go to cabinet 6",
+     "go to cabinet 7",
+     "go to cabinet 8",
+     "go to cabinet 9"
+    ],
+    "task": "put a cool pan in diningtable.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": false
+   },
+   {
+    "plan": "search countertop 1 for a cup ; take the cup from countertop 1 ; go to fridge 1 to cool the cup ; open fridge 1 if closed ; cool the cup with fridge 1 ; go to microwave 1 and put the cup in it",
+    "steps": [
+     "go to countertop 1",
+     "go to cabinet 1",
+     "go to drawer 1",
+     "go to drawer 2",
+     "go to cabinet 2",
+     "go to countertop 1",
+     "go to cabinet 1",
+     "go to cabinet 4",
+     "go to drawer 1",
+     "go to cabinet 5",
+     "open cabinet 5",
+     "close cabinet 5"
+    ],
+    "task": "cool some cup and put it in microwave.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": false
+   }
+  ],
+  "example": "After move pan 1 to diningtable 1 succeeded, do not take pan 1 from diningtable 1 and move it again.",
+  "id": "rule_27",
+  "importance": 2,
+  "last_used": 41,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When the object is already at the target, stop immediately instead of picking it up and moving it again.",
+  "sources": [
+   {
+    "task": "put a cool pan in diningtable.",
+    "task_type": "pick_cool_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_cool_then_place_in_recep",
+  "type": "Corrected Error",
+  "validation": "",
+  "verified": true
+ },
+ {
+  "alpha": 1,
+  "base": [
+   2,
+   6
+  ],
+  "beta": 2,
+  "contexts": [
+   {
+    "plan": "search countertop 1 for a cup ; take the cup from countertop 1 ; go to fridge 1 to cool the cup ; open fridge 1 if closed ; cool the cup with fridge 1 ; go to microwave 1 and put the cup in it",
+    "steps": [
+     "go to countertop 1",
+     "go to cabinet 1",
+     "go to drawer 1",
+     "go to drawer 2",
+     "go to cabinet 2",
+     "go to countertop 1",
+     "go to cabinet 1",
+     "go to cabinet 4",
+     "go to drawer 1",
+     "go to cabinet 5",
+     "open cabinet 5",
+     "close cabinet 5"
+    ],
+    "task": "cool some cup and put it in microwave.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": false
+   }
+  ],
+  "example": "The agent repeatedly moved between countertops and cabinets without ever locating or picking up a plate to cool.",
+  "id": "rule_28",
+  "importance": 3,
+  "last_used": 41,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When cooling the object, first scan all countertops for the object before attempting to cool or store it.",
+  "sources": [
+   {
+    "task": "cool some plate and put it in cabinet.",
+    "task_type": "pick_cool_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_cool_then_place_in_recep",
+  "type": "Corrected Error",
+  "validation": "This game showed the agent finding bread on countertop 1 after searching cabinets and drawers, confirming the need to scan countertops first.",
+  "verified": true
+ },
+ {
+  "alpha": 4,
+  "base": [
+   3,
+   3
+  ],
+  "beta": 1,
+  "contexts": [
+   {
+    "plan": "find a mug ; take the mug ; heat the mug in microwave ; put the hot mug in a cabinet",
+    "steps": [
+     "go to countertop 1",
+     "take mug 1 from countertop 1",
+     "go to microwave 1",
+     "open microwave 1",
+     "heat mug 1 with microwave 1",
+     "go to cabinet 1",
+     "open cabinet 1",
+     "move mug 1 to cabinet 1"
+    ],
+    "task": "put a hot mug in cabinet.",
+    "task_type": "pick_heat_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a cup in the environment ; take the cup from its current location ; heat the cup using the microwave ; put the heated cup on the diningtable",
+    "steps": [
+     "go to fridge 1",
+     "open fridge 1",
+     "take cup 1 from fridge 1",
+     "go to microwave 1",
+     "open microwave 1",
+     "heat cup 1 with microwave 1",
+     "go to diningtable 1",
+     "move cup 1 to diningtable 1"
+    ],
+    "task": "heat some cup and put it in diningtable.",
+    "task_type": "pick_heat_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a cup in the environment ; take the cup from its current location ; heat the cup using the microwave ; put the hot cup on the countertop",
+    "steps": [
+     "go to fridge 1",
+     "open fridge 1",
+     "take cup 2 from fridge 1",
+     "go to microwave 1",
+     "open microwave 1",
+     "heat cup 2 with microwave 1",
+     "go to countertop 1",
+     "move cup 2 to countertop 1"
+    ],
+    "task": "put a hot cup in countertop.",
+    "task_type": "pick_heat_then_place_in_recep",
+    "won": true
+   }
+  ],
+  "example": "heat potato with microwave 1",
+  "id": "rule_29",
+  "importance": 2,
+  "last_used": 44,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When the object must be heated, use the microwave instead of the stoveburner.",
+  "sources": [
+   {
+    "task": "put a hot potato in diningtable.",
+    "task_type": "pick_heat_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_heat_then_place_in_recep",
+  "type": "Corrected Error",
+  "validation": "",
+  "verified": true
+ },
+ {
+  "alpha": 1,
+  "base": [
+   2,
+   5
+  ],
+  "beta": 2,
+  "contexts": [
+   {
+    "plan": "search countertop 1 for a cup ; take the cup from countertop 1 ; go to fridge 1 to cool the cup ; open fridge 1 if closed ; cool the cup with fridge 1 ; go to microwave 1 and put the cup in it",
+    "steps": [
+     "go to countertop 1",
+     "go to cabinet 1",
+     "go to drawer 1",
+     "go to drawer 2",
+     "go to cabinet 2",
+     "go to countertop 1",
+     "go to cabinet 1",
+     "go to cabinet 4",
+     "go to drawer 1",
+     "go to cabinet 5",
+     "open cabinet 5",
+     "close cabinet 5"
+    ],
+    "task": "cool some cup and put it in microwave.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": false
+   }
+  ],
+  "example": "The agent failed because it moved the bread directly to the cabinet without cooling it on a countertop first.",
+  "id": "rule_30",
+  "importance": 3,
+  "last_used": 41,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When cooling an object, place it on a safe surface first before attempting to move it to a container.",
+  "sources": [
+   {
+    "task": "cool some pan and put it in cabinet.",
+    "task_type": "pick_cool_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_cool_then_place_in_recep",
+  "type": "Corrected Error",
+  "validation": "This game showed the agent finding bread on countertop 1, taking it, cooling it, then moving it back to countertop 1, confirming the need to cool before moving to a container.",
+  "verified": true
+ },
+ {
+  "alpha": 2,
+  "base": [
+   1,
+   4
+  ],
+  "beta": 4,
+  "contexts": [
+   {
+    "plan": "go to microwave 1 ; put bowl 2 in microwave 1",
+    "steps": [
+     "go to cabinet 3",
+     "open cabinet 3",
+     "go to cabinet 4",
+     "go to cabinet 5",
+     "open cabinet 5",
+     "take bowl 2 from cabinet 5",
+     "go to fridge 1",
+     "open fridge 1",
+     "cool bowl 2 with fridge 1",
+     "go to microwave 1",
+     "open microwave 1",
+     "move bowl 2 to microwave 1"
+    ],
+    "task": "cool some bowl and put it in microwave.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "search cabinet 8 for bread ; take bread from cabinet 8 ; go to fridge 1 ; open fridge 1 ; cool bread with fridge 1 ; go to countertop 1 ; put bread on countertop 1",
+    "steps": [
+     "open cabinet 9",
+     "go to cabinet 8",
+     "go to drawer 1",
+     "go to cabinet 1",
+     "go to cabinet 10",
+     "open cabinet 10",
+     "close cabinet 10",
+     "go to drawer 1",
+     "go to cabinet 1",
+     "go to cabinet 2",
+     "go to cabinet 8",
+     "go to drawer 1"
+    ],
+    "task": "cool some bread and put it in countertop.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": false
+   },
+   {
+    "plan": "search for a pan in the environment ; take the pan from its current location ; go to the fridge to cool the pan ; open the fridge if it is closed ; cool the pan with the fridge ; go to the diningtable ; put the cool pan on the diningtable",
+    "steps": [
+     "open cabinet 11",
+     "go to cabinet 12",
+     "open cabinet 12",
+     "go to cabinet 1",
+     "go to cabinet 2",
+     "go to cabinet 3",
+     "go to cabinet 4",
+     "go to cabinet 5",
+     "go to cabinet 6",
+     "go to cabinet 7",
+     "go to cabinet 8",
+     "go to cabinet 9"
+    ],
+    "task": "put a cool pan in diningtable.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": false
+   },
+   {
+    "plan": "search countertop 1 for a cup ; take the cup from countertop 1 ; go to fridge 1 to cool the cup ; open fridge 1 if closed ; cool the cup with fridge 1 ; go to microwave 1 and put the cup in it",
+    "steps": [
+     "go to countertop 1",
+     "go to cabinet 1",
+     "go to drawer 1",
+     "go to drawer 2",
+     "go to cabinet 2",
+     "go to countertop 1",
+     "go to cabinet 1",
+     "go to cabinet 4",
+     "go to drawer 1",
+     "go to cabinet 5",
+     "open cabinet 5",
+     "close cabinet 5"
+    ],
+    "task": "cool some cup and put it in microwave.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": false
+   }
+  ],
+  "example": "cool tomato 1 with fridge 1 (not sinkbasin 1).",
+  "id": "rule_31",
+  "importance": 2,
+  "last_used": 41,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When cooling an object, use the fridge instead of the sinkbasin.",
+  "sources": [
+   {
+    "task": "cool some tomato and put it in microwave.",
+    "task_type": "pick_cool_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_cool_then_place_in_recep",
+  "type": "Corrected Error",
+  "validation": "",
+  "verified": true
+ },
+ {
+  "alpha": 8,
+  "base": [
+   7,
+   16
+  ],
+  "beta": 10,
+  "contexts": [
+   {
+    "plan": "find a pan in the environment ; go to the sinkbasin to clean the pan ; clean the pan at the sinkbasin ; go to a stoveburner to place the pan ; put the clean pan on the stoveburner",
+    "steps": [
+     "go to stoveburner 1",
+     "go to countertop 1",
+     "take pan 1 from countertop 1",
+     "go to sinkbasin 1",
+     "clean pan 1 with sinkbasin 1"
+    ],
+    "task": "put a clean pan in stoveburner.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "search for laptop in the room ; go to desk 1 ; put laptop in desk 1",
+    "steps": [
+     "go to desk 1",
+     "go to drawer 1",
+     "go to shelf 1",
+     "go to drawer 2",
+     "open drawer 2",
+     "go to drawer 3",
+     "go to shelf 1",
+     "go to laundryhamper 1",
+     "go to bed 1",
+     "take laptop 1 from bed 1",
+     "go to desk 1",
+     "move laptop 1 to desk 1"
+    ],
+    "task": "put a laptop in desk.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "go to dresser 1 ; open drawer 1 ; put pen 2 in drawer 1 ; go to coffeetable 1 ; take pen 1 from coffeetable 1 ; go to drawer 1 and put pen 1 in drawer 1",
+    "steps": [
+     "take pen 1 from coffeetable 1",
+     "go to dresser 1",
+     "move pen 1 to dresser 1",
+     "go to drawer 1",
+     "go to coffeetable 1",
+     "take pen 2 from coffeetable 1",
+     "go to dresser 1",
+     "go to drawer 1",
+     "move pen 2 to drawer 1",
+     "take pen 2 from drawer 1",
+     "go to dresser 1",
+     "move pen 2 to dresser 1"
+    ],
+    "task": "put two pen in dresser.",
+    "task_type": "pick_two_obj_and_place",
+    "won": true
+   },
+   {
+    "plan": "find a mug ; take the mug ; heat the mug in microwave ; put the hot mug in a cabinet",
+    "steps": [
+     "go to countertop 1",
+     "take mug 1 from countertop 1",
+     "go to microwave 1",
+     "open microwave 1",
+     "heat mug 1 with microwave 1",
+     "go to cabinet 1",
+     "open cabinet 1",
+     "move mug 1 to cabinet 1"
+    ],
+    "task": "put a hot mug in cabinet.",
+    "task_type": "pick_heat_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a cup in the environment ; take the cup from its current location ; heat the cup using the microwave ; put the heated cup on the diningtable",
+    "steps": [
+     "go to fridge 1",
+     "open fridge 1",
+     "take cup 1 from fridge 1",
+     "go to microwave 1",
+     "open microwave 1",
+     "heat cup 1 with microwave 1",
+     "go to diningtable 1",
+     "move cup 1 to diningtable 1"
+    ],
+    "task": "heat some cup and put it in diningtable.",
+    "task_type": "pick_heat_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a cup in the environment ; take the cup from its current location ; heat the cup using the microwave ; put the hot cup on the countertop",
+    "steps": [
+     "go to fridge 1",
+     "open fridge 1",
+     "take cup 2 from fridge 1",
+     "go to microwave 1",
+     "open microwave 1",
+     "heat cup 2 with microwave 1",
+     "go to countertop 1",
+     "move cup 2 to countertop 1"
+    ],
+    "task": "put a hot cup in countertop.",
+    "task_type": "pick_heat_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "take the watch from the drawer ; go to the coffeetable ; put the watch on the coffeetable",
+    "steps": [
+     "go to sidetable 2",
+     "go to diningtable 1",
+     "go to tvstand 1",
+     "go to garbagecan 1",
+     "go to diningtable 1",
+     "go to coffeetable 1",
+     "go to armchair 1",
+     "go to drawer 1",
+     "open drawer 1",
+     "take watch 1 from drawer 1",
+     "go to coffeetable 1",
+     "move watch 1 to coffeetable 1"
+    ],
+    "task": "put a watch in coffeetable.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "search cabinet 8 for bread ; take bread from cabinet 8 ; go to fridge 1 ; open fridge 1 ; cool bread with fridge 1 ; go to countertop 1 ; put bread on countertop 1",
+    "steps": [
+     "open cabinet 9",
+     "go to cabinet 8",
+     "go to drawer 1",
+     "go to cabinet 1",
+     "go to cabinet 10",
+     "open cabinet 10",
+     "close cabinet 10",
+     "go to drawer 1",
+     "go to cabinet 1",
+     "go to cabinet 2",
+     "go to cabinet 8",
+     "go to drawer 1"
+    ],
+    "task": "cool some bread and put it in countertop.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": false
+   },
+   {
+    "plan": "go to a location where a plate might be found ; search for a plate at the current location ; take the plate from the countertop ; go to the sinkbasin to clean the plate ; clean the plate at the sinkbasin ; go to the shelf to place the plate ; put the clean plate in the shelf",
+    "steps": [
+     "go to countertop 1",
+     "go to fridge 1",
+     "go to countertop 1",
+     "go to fridge 1",
+     "go to countertop 1",
+     "go to fridge 1",
+     "go to countertop 1",
+     "go to fridge 1",
+     "open fridge 1",
+     "take plate 3 from fridge 1",
+     "go to sinkbasin 1",
+     "clean plate 3 with sinkbasin 1"
+    ],
+    "task": "clean some plate and put it in shelf.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": false
+   },
+   {
+    "plan": "search for a pan in the environment ; take the pan from its current location ; go to the fridge to cool the pan ; open the fridge if it is closed ; cool the pan with the fridge ; go to the diningtable ; put the cool pan on the diningtable",
+    "steps": [
+     "open cabinet 11",
+     "go to cabinet 12",
+     "open cabinet 12",
+     "go to cabinet 1",
+     "go to cabinet 2",
+     "go to cabinet 3",
+     "go to cabinet 4",
+     "go to cabinet 5",
+     "go to cabinet 6",
+     "go to cabinet 7",
+     "go to cabinet 8",
+     "go to cabinet 9"
+    ],
+    "task": "put a cool pan in diningtable.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": false
+   },
+   {
+    "plan": "go to desk 1 ; examine the pen with the desklamp",
+    "steps": [
+     "move pen 2 to desk 1",
+     "look",
+     "examine desk 1",
+     "take pen 2 from desk 1",
+     "examine pen 2",
+     "move pen 2 to desk 1",
+     "look",
+     "inventory",
+     "take pen 2 from desk 1",
+     "move pen 2 to desk 1",
+     "look",
+     "go to shelf 1"
+    ],
+    "task": "examine the pen with the desklamp.",
+    "task_type": "look_at_obj_in_light",
+    "won": false
+   },
+   {
+    "plan": "search for peppershaker objects in the environment ; take the first peppershaker from its location ; take the second peppershaker from its location ; put the first peppershaker on diningtable 1 ; put the second peppershaker on diningtable 1",
+    "steps": [
+     "close fridge 1",
+     "go to drawer 1",
+     "open drawer 1",
+     "close drawer 1",
+     "go to cabinet 1",
+     "open cabinet 1",
+     "take peppershaker 1 from cabinet 1",
+     "go to cabinet 2",
+     "open cabinet 2",
+     "go to diningtable 1",
+     "examine diningtable 1",
+     "examine diningtable 1"
+    ],
+    "task": "put two peppershaker in diningtable.",
+    "task_type": "pick_two_obj_and_place",
+    "won": false
+   },
+   {
+    "plan": "go to desk 2 ; look at desk 2 to find the pencil and desklamp ; look at pencil under the desklamp",
+    "steps": [
+     "go to desk 1",
+     "go to desk 2",
+     "take pencil 1 from desk 2",
+     "go to desk 1",
+     "move pencil 1 to desk 1",
+     "go to desk 2",
+     "go to desk 1",
+     "examine desk 1",
+     "go to desk 2",
+     "examine desk 2",
+     "go to desk 1",
+     "go to desk 2"
+    ],
+    "task": "look at pencil under the desklamp.",
+    "task_type": "look_at_obj_in_light",
+    "won": false
+   },
+   {
+    "plan": "search countertop 1 for a cup ; take the cup from countertop 1 ; go to fridge 1 to cool the cup ; open fridge 1 if closed ; cool the cup with fridge 1 ; go to microwave 1 and put the cup in it",
+    "steps": [
+     "go to countertop 1",
+     "go to cabinet 1",
+     "go to drawer 1",
+     "go to drawer 2",
+     "go to cabinet 2",
+     "go to countertop 1",
+     "go to cabinet 1",
+     "go to cabinet 4",
+     "go to drawer 1",
+     "go to cabinet 5",
+     "open cabinet 5",
+     "close cabinet 5"
+    ],
+    "task": "cool some cup and put it in microwave.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": false
+   },
+   {
+    "plan": "search for laptop 1 in the environment ; search for a second laptop in the environment ; go to ottoman 1 ; take laptop 1 from its location ; take laptop 2 from its location ; put laptop 1 on ottoman 1 ; put laptop 2 on ottoman 1",
+    "steps": [
+     "go to drawer 3",
+     "go to drawer 4",
+     "go to drawer 5",
+     "go to drawer 6",
+     "go to diningtable 1",
+     "go to coffeetable 1",
+     "go to drawer 1",
+     "go to armchair 1",
+     "go to garbagecan 1",
+     "go to armchair 1",
+     "examine armchair 1",
+     "go to ottoman 1"
+    ],
+    "task": "find two laptop and put them in ottoman.",
+    "task_type": "pick_two_obj_and_place",
+    "won": false
+   },
+   {
+    "plan": "go to toilet 1 ; search toilet 1 for cloth ; go to sinkbasin 1 ; clean cloth with sinkbasin 1 ; put cloth in toilet 1",
+    "steps": [
+     "go to toilet 1",
+     "go to sinkbasin 1",
+     "go to toilet 1",
+     "go to sinkbasin 1",
+     "inventory",
+     "examine towel 1",
+     "go to toilet 1",
+     "examine toilet 1",
+     "inventory",
+     "inventory",
+     "go to sinkbasin 1",
+     "go to garbagecan 1"
+    ],
+    "task": "clean some cloth and put it in toilet.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": false
+   }
+  ],
+  "example": "take cellphone from armchair, go to bed, move cellphone to bed",
+  "id": "rule_32",
+  "importance": 1,
+  "last_used": 47,
+  "refined_at": [
+   4,
+   5
+  ],
+  "rule": "When placing an object on a target, use 'move <object> to <target>' after taking it, not 'go to <target>' then 'take' again.",
+  "sources": [
+   {
+    "task": "find two cellphone and put them in bed.",
+    "task_type": "pick_two_obj_and_place"
+   }
+  ],
+  "task_type": "all",
+  "type": "Corrected Error",
+  "validation": "",
+  "verified": true
+ },
+ {
+  "alpha": 1,
+  "base": [
+   1,
+   1
+  ],
+  "beta": 1,
+  "contexts": [],
+  "example": "go to diningtable 1, move cup 1 to diningtable 1",
+  "id": "rule_34",
+  "importance": 2,
+  "last_used": null,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When placing an object on a table, go to the table first, then use 'move <object> to <table>' instead of trying to move directly from current location.",
+  "sources": [
+   {
+    "task": "heat some cup and put it in diningtable.",
+    "task_type": "pick_heat_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_heat_then_place_in_recep",
+  "type": "Corrected Error",
+  "validation": "",
+  "verified": true
+ },
+ {
+  "alpha": 6,
+  "base": [
+   5,
+   9
+  ],
+  "beta": 3,
+  "contexts": [
+   {
+    "plan": "find a butterknife in the environment ; go to the sinkbasin to clean the butterknife ; clean the butterknife at the sinkbasin ; go to a countertop to place the clean butterknife ; put the clean butterknife on the countertop",
+    "steps": [
+     "go to cabinet 1",
+     "go to fridge 1",
+     "go to cabinet 1",
+     "go to fridge 1",
+     "go to cabinet 1",
+     "go to sinkbasin 1",
+     "go to countertop 1",
+     "take butterknife 1 from countertop 1",
+     "go to sinkbasin 1",
+     "clean butterknife 1 with sinkbasin 1",
+     "go to countertop 1",
+     "move butterknife 1 to countertop 1"
+    ],
+    "task": "put a clean butterknife in countertop.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "go to countertop 1 to find butterknife ; take butterknife from countertop 1 ; go to sinkbasin 1 to clean butterknife ; clean butterknife with sinkbasin 1 ; go to sidetable 1 ; put clean butterknife in sidetable 1",
+    "steps": [
+     "go to countertop 1",
+     "take butterknife 1 from countertop 1",
+     "go to sinkbasin 1",
+     "clean butterknife 1 with sinkbasin 1",
+     "go to sidetable 1",
+     "move butterknife 1 to sidetable 1"
+    ],
+    "task": "put a clean butterknife in sidetable.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a fork in the environment ; go to the sinkbasin to clean the fork ; clean the fork at the sinkbasin ; go to a drawer to place the fork ; open the drawer before placing the fork inside ; put the clean fork into the drawer",
+    "steps": [
+     "open drawer 1",
+     "go to countertop 1",
+     "go to fridge 1",
+     "go to garbagecan 1",
+     "go to cabinet 1",
+     "go to countertop 1",
+     "go to countertop 2",
+     "take fork 1 from countertop 2",
+     "go to sinkbasin 1",
+     "clean fork 1 with sinkbasin 1",
+     "go to drawer 1",
+     "move fork 1 to drawer 1"
+    ],
+    "task": "clean some fork and put it in drawer.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a pan in the environment ; go to the sinkbasin to clean the pan ; clean the pan at the sinkbasin ; go to a stoveburner to place the pan ; put the clean pan on the stoveburner",
+    "steps": [
+     "go to cabinet 1",
+     "open cabinet 1",
+     "go to countertop 1",
+     "take pan 1 from countertop 1",
+     "go to sinkbasin 1",
+     "clean pan 1 with sinkbasin 1"
+    ],
+    "task": "put a clean pan in stoveburner.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a plate in the environment ; go to sinkbasin 1 to clean the plate ; clean the plate with sinkbasin 1 ; go to shelf 1 to store the plate ; put the clean plate in shelf 1",
+    "steps": [
+     "go to cabinet 2",
+     "open cabinet 2",
+     "go to countertop 1",
+     "go to drawer 1",
+     "go to countertop 1",
+     "go to fridge 1",
+     "open fridge 1",
+     "take plate 3 from fridge 1",
+     "go to sinkbasin 1",
+     "clean plate 3 with sinkbasin 1",
+     "go to shelf 1",
+     "move plate 3 to shelf 1"
+    ],
+    "task": "clean some plate and put it in shelf.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "go to sinkbasin 1 ; take cloth from countertop 1 ; clean cloth at sinkbasin 1 ; go to countertop 1 ; put cloth in countertop 1",
+    "steps": [
+     "go to towelholder 1",
+     "go to countertop 1",
+     "inventory",
+     "examine towel 1",
+     "go to sinkbasin 2",
+     "go to sinkbasin 1",
+     "go to countertop 1",
+     "inventory",
+     "inventory",
+     "examine countertop 1",
+     "go to cabinet 1",
+     "open cabinet 1"
+    ],
+    "task": "clean some cloth and put it in countertop.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": false
+   },
+   {
+    "plan": "find the cloth in the environment ; go to the sinkbasin to clean the cloth ; clean the cloth at the sinkbasin ; go to the toilet to place the cloth ; put the clean cloth in the toilet",
+    "steps": [
+     "take towel 1 from towelholder 1",
+     "go to sinkbasin 1",
+     "examine towel 1",
+     "examine towel 1",
+     "go to towelholder 1",
+     "go to sinkbasin 1",
+     "examine sinkbasin 1",
+     "examine towel 1",
+     "examine sinkbasin 1",
+     "go to toilet 1",
+     "go to sinkbasin 1",
+     "inventory"
+    ],
+    "task": "clean some cloth and put it in toilet.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": false
+   }
+  ],
+  "example": "go to cabinet 1, open cabinet 1, move winebottle 2 to cabinet 1",
+  "id": "rule_35",
+  "importance": 4,
+  "last_used": 47,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When placing an object in a container, the container must be opened before moving the object inside.",
+  "sources": [
+   {
+    "task": "clean some fork and put it in drawer.",
+    "task_type": "pick_clean_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_clean_then_place_in_recep",
+  "type": "Special Phenomenon",
+  "validation": "This game confirmed the cabinet must be opened before moving items into it.",
+  "verified": true
+ },
+ {
+  "alpha": 3,
+  "base": [
+   3,
+   8
+  ],
+  "beta": 2,
+  "contexts": [
+   {
+    "steps": [
+     "go to coffeetable 1",
+     "take pen 1 from coffeetable 1",
+     "go to dresser 1",
+     "move pen 1 to dresser 1",
+     "go to sidetable 1",
+     "go to sidetable 2",
+     "take pen 4 from sidetable 2",
+     "go to dresser 1",
+     "move pen 4 to dresser 1"
+    ],
+    "task": "put two pen in dresser.",
+    "task_type": "pick_two_obj_and_place",
+    "won": true
+   },
+   {
+    "steps": [
+     "go to countertop 1",
+     "go to cabinet 1",
+     "go to cabinet 2",
+     "open cabinet 2",
+     "take peppershaker 2 from cabinet 2",
+     "go to diningtable 1",
+     "move peppershaker 2 to diningtable 1",
+     "go to cabinet 3",
+     "open cabinet 3",
+     "take peppershaker 3 from cabinet 3",
+     "go to diningtable 1",
+     "move peppershaker 3 to diningtable 1"
+    ],
+    "task": "put two peppershaker in diningtable.",
+    "task_type": "pick_two_obj_and_place",
+    "won": true
+   },
+   {
+    "plan": "search furniture surfaces for laptops ; go to ottoman 1 ; take first laptop from location ; put first laptop in ottoman ; go to ottoman 1 ; take second laptop from location ; put second laptop in ottoman",
+    "steps": [
+     "go to coffeetable 1",
+     "go to diningtable 1",
+     "go to ottoman 1",
+     "examine ottoman 1",
+     "go to diningtable 1",
+     "go to drawer 1",
+     "go to drawer 2",
+     "open drawer 2",
+     "go to drawer 3",
+     "go to drawer 4",
+     "open drawer 4",
+     "go to ottoman 1"
+    ],
+    "task": "find two laptop and put them in ottoman.",
+    "task_type": "pick_two_obj_and_place",
+    "won": false
+   }
+  ],
+  "example": "Agent searched countertop 1 before opening cabinet 2 and cabinet 3.",
+  "id": "rule_36",
+  "importance": 5,
+  "last_used": 45,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When searching for the object, search furniture surfaces first before opening any drawers or cabinets.",
+  "sources": [
+   {
+    "task": "put two spatula in drawer.",
+    "task_type": "pick_two_obj_and_place"
+   }
+  ],
+  "task_type": "pick_two_obj_and_place",
+  "type": "Special Phenomenon",
+  "validation": "Agent wasted time opening empty drawers/cabinets before finding the second cellphone on armchair 2.",
+  "verified": true
+ },
+ {
+  "alpha": 4,
+  "base": [
+   3,
+   7
+  ],
+  "beta": 4,
+  "contexts": [
+   {
+    "plan": "go to drawer 2 ; take pencil 2 from drawer 2 ; go to drawer 1 ; put pencil 2 in drawer 1 ; go to drawer 2 ; take pencil 2 from drawer 2 ; go to drawer 1 ; put pencil 2 in drawer 1",
+    "steps": [
+     "move pencil 2 to drawer 2",
+     "inventory",
+     "inventory",
+     "go to desk 1",
+     "examine desk 1",
+     "examine desk 1",
+     "examine desk 1",
+     "take pencil 3 from desk 1",
+     "examine desk 1",
+     "go to drawer 2",
+     "examine drawer 2",
+     "move pencil 3 to drawer 2"
+    ],
+    "task": "put two pencil in drawer.",
+    "task_type": "pick_two_obj_and_place",
+    "won": true
+   },
+   {
+    "steps": [
+     "go to coffeetable 1",
+     "take pen 1 from coffeetable 1",
+     "go to dresser 1",
+     "move pen 1 to dresser 1",
+     "go to sidetable 1",
+     "go to sidetable 2",
+     "take pen 4 from sidetable 2",
+     "go to dresser 1",
+     "move pen 4 to dresser 1"
+    ],
+    "task": "put two pen in dresser.",
+    "task_type": "pick_two_obj_and_place",
+    "won": true
+   },
+   {
+    "steps": [
+     "go to countertop 1",
+     "go to cabinet 1",
+     "go to cabinet 2",
+     "open cabinet 2",
+     "take peppershaker 2 from cabinet 2",
+     "go to diningtable 1",
+     "move peppershaker 2 to diningtable 1",
+     "go to cabinet 3",
+     "open cabinet 3",
+     "take peppershaker 3 from cabinet 3",
+     "go to diningtable 1",
+     "move peppershaker 3 to diningtable 1"
+    ],
+    "task": "put two peppershaker in diningtable.",
+    "task_type": "pick_two_obj_and_place",
+    "won": true
+   },
+   {
+    "plan": "go to drawer 2 ; take keychain 3 from drawer 2 ; go to drawer 1 ; put keychain 3 in drawer 1 ; go to drawer 2 ; take keychain 3 from drawer 2 ; go to drawer 1 ; put keychain 3 in drawer 1 ; task_won()",
+    "steps": [
+     "take keychain 3 from drawer 1",
+     "go to drawer 3",
+     "open drawer 2",
+     "move keychain 3 to drawer 2",
+     "go to drawer 1",
+     "go to drawer 3",
+     "examine drawer 2",
+     "go to desk 1",
+     "go to drawer 1",
+     "go to drawer 2",
+     "take keychain 3 from drawer 2",
+     "move keychain 3 to drawer 2"
+    ],
+    "task": "put two keychain in drawer.",
+    "task_type": "pick_two_obj_and_place",
+    "won": false
+   },
+   {
+    "plan": "go to bed 1 ; find first cellphone in the room ; take cellphone 1 ; put cellphone 1 in bed 1 ; find second cellphone in the room ; take cellphone 2 ; put cellphone 2 in bed 1",
+    "steps": [
+     "go to drawer 1",
+     "go to drawer 2",
+     "open drawer 2",
+     "go to drawer 3",
+     "open drawer 3",
+     "go to drawer 4",
+     "open drawer 4",
+     "go to armchair 1",
+     "go to bed 1",
+     "take cellphone 2 from bed 1",
+     "move cellphone 2 to bed 1",
+     "go to drawer 1"
+    ],
+    "task": "find two cellphone and put them in bed.",
+    "task_type": "pick_two_obj_and_place",
+    "won": false
+   },
+   {
+    "plan": "search furniture surfaces for laptops ; go to ottoman 1 ; take first laptop from location ; put first laptop in ottoman ; go to ottoman 1 ; take second laptop from location ; put second laptop in ottoman",
+    "steps": [
+     "go to coffeetable 1",
+     "go to diningtable 1",
+     "go to ottoman 1",
+     "examine ottoman 1",
+     "go to diningtable 1",
+     "go to drawer 1",
+     "go to drawer 2",
+     "open drawer 2",
+     "go to drawer 3",
+     "go to drawer 4",
+     "open drawer 4",
+     "go to ottoman 1"
+    ],
+    "task": "find two laptop and put them in ottoman.",
+    "task_type": "pick_two_obj_and_place",
+    "won": false
+   }
+  ],
+  "example": "In the failed attempt, moving while holding the object failed; in the successful retry, the agent went to shelf 1 before moving.",
+  "id": "rule_38",
+  "importance": 5,
+  "last_used": 45,
+  "refined_at": [
+   3,
+   3
+  ],
+  "rule": "When two objects must be placed in a target: search furniture surfaces first, take each object, move it to the target.",
+  "sources": [
+   {
+    "task": "put two alarmclock in shelf.",
+    "task_type": "pick_two_obj_and_place"
+   }
+  ],
+  "task_type": "pick_two_obj_and_place",
+  "type": "Corrected Error",
+  "validation": "Confirmed by this game: agent moved pencil 2 to drawer 2 after navigating to drawer 2, but failed when trying to move pencil 3 without navigating first (though it succeeded later after navigating).",
+  "verified": true
+ },
+ {
+  "alpha": 1,
+  "base": [
+   3,
+   8
+  ],
+  "beta": 2,
+  "contexts": [
+   {
+    "plan": "go to the fridge to cool the glassbottle ; cool the glassbottle in the fridge ; go to the microwave ; put the cooled glassbottle in the microwave",
+    "steps": [
+     "go to fridge 1",
+     "open fridge 1",
+     "move glassbottle 1 to fridge 1",
+     "close fridge 1",
+     "go to microwave 1",
+     "open microwave 1",
+     "go to countertop 1",
+     "go to microwave 1",
+     "close microwave 1",
+     "go to countertop 1",
+     "examine countertop 1",
+     "go to cabinet 1"
+    ],
+    "task": "cool some cup and put it in microwave.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": false
+   }
+  ],
+  "example": "The agent found pan 1 on stoveburner 1 instead of opening every cabinet sequentially.",
+  "id": "rule_39",
+  "importance": 4,
+  "last_used": 41,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When an object must be picked up and placed, search for the object specifically before systematically checking all cabinets and drawers.",
+  "sources": [
+   {
+    "task": "put a cool bowl in cabinet.",
+    "task_type": "pick_cool_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_cool_then_place_in_recep",
+  "type": "Corrected Error",
+  "validation": "Agent failed to locate tomato because it only checked the fridge and returned repeatedly instead of systematically searching all cabinets and drawers.",
+  "verified": true
+ },
+ {
+  "alpha": 3,
+  "base": [
+   2,
+   3
+  ],
+  "beta": 2,
+  "contexts": [
+   {
+    "plan": "take the cup from the microwave ; heat the cup using the microwave ; put the heated cup on the diningtable",
+    "steps": [
+     "close microwave 1",
+     "open microwave 1",
+     "close microwave 1",
+     "open microwave 1",
+     "close microwave 1",
+     "open microwave 1",
+     "close microwave 1",
+     "open microwave 1",
+     "take cup 3 from microwave 1",
+     "heat cup 3 with microwave 1",
+     "go to diningtable 1",
+     "move cup 3 to diningtable 1"
+    ],
+    "task": "heat some cup and put it in diningtable.",
+    "task_type": "pick_heat_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a cup in the environment ; take the cup from its location ; heat the cup using the microwave ; go to the countertop ; put the hot cup on the countertop",
+    "steps": [
+     "go to cabinet 1",
+     "go to fridge 1",
+     "go to countertop 1",
+     "go to fridge 1",
+     "open fridge 1",
+     "take cup 2 from fridge 1",
+     "go to microwave 1",
+     "open microwave 1",
+     "heat cup 2 with microwave 1",
+     "go to countertop 1",
+     "move cup 2 to countertop 1"
+    ],
+    "task": "put a hot cup in countertop.",
+    "task_type": "pick_heat_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "go to the cabinet ; put the hot mug in the cabinet",
+    "steps": [
+     "close microwave 1",
+     "open microwave 1",
+     "close microwave 1",
+     "open microwave 1",
+     "close microwave 1",
+     "go to cabinet 1",
+     "open cabinet 1",
+     "go to microwave 1",
+     "open microwave 1",
+     "take mug 1 from microwave 1",
+     "go to cabinet 1",
+     "move mug 1 to cabinet 1"
+    ],
+    "task": "put a hot mug in cabinet.",
+    "task_type": "pick_heat_then_place_in_recep",
+    "won": false
+   }
+  ],
+  "example": "The agent failed by placing the potato on stoveburner 1 and stoveburner 2, then succeeded by moving it to diningtable 1 after heating it with the microwave.",
+  "id": "rule_40",
+  "importance": 2,
+  "last_used": 44,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When the object must be heated and placed in a receptacle, go to the target receptacle after heating instead of trying to place it on a stoveburner.",
+  "sources": [
+   {
+    "task": "put a hot potato in diningtable.",
+    "task_type": "pick_heat_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_heat_then_place_in_recep",
+  "type": "Corrected Error",
+  "validation": "",
+  "verified": true
+ },
+ {
+  "alpha": 3,
+  "base": [
+   2,
+   2
+  ],
+  "beta": 1,
+  "contexts": [
+   {
+    "steps": [
+     "go to drawer 1",
+     "go to desk 1",
+     "go to drawer 1",
+     "open drawer 1",
+     "go to drawer 2",
+     "open drawer 2",
+     "go to shelf 1",
+     "go to bed 1",
+     "take laptop 1 from bed 1",
+     "go to desk 1",
+     "move laptop 1 to desk 1"
+    ],
+    "task": "put a laptop in desk.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "steps": [
+     "go to sidetable 2",
+     "go to diningtable 1",
+     "go to diningtable 2",
+     "go to garbagecan 1",
+     "go to coffeetable 1",
+     "go to armchair 1",
+     "go to sofa 1",
+     "go to drawer 1",
+     "open drawer 1",
+     "take watch 1 from drawer 1",
+     "go to coffeetable 1",
+     "move watch 1 to coffeetable 1"
+    ],
+    "task": "put a watch in coffeetable.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   }
+  ],
+  "example": "\"examine desk\", again and again",
+  "id": "rule_41",
+  "importance": 2,
+  "last_used": 46,
+  "pattern": {
+   "attempts": 7,
+   "example": "",
+   "games": 2,
+   "kind": "repeat",
+   "of_attempts": 12,
+   "of_games": 3,
+   "sig": [
+    "repeat",
+    "examine desk"
+   ],
+   "wins_checked": 7
+  },
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When examining an appliance, do not issue the same \"examine\" command again and again.",
+  "sources": [
+   {
+    "task": "put some pen on drawer.",
+    "task_type": "pick_and_place_simple"
+   }
+  ],
+  "task_type": "pick_and_place_simple",
+  "type": "Anti-Pattern",
+  "validation": "",
+  "verified": true
+ },
+ {
+  "alpha": 4,
+  "beta": 4,
+  "contexts": [
+   {
+    "steps": [],
+    "task": "put two pencil in drawer.",
+    "task_type": "pick_two_obj_and_place",
+    "won": true
+   },
+   {
+    "steps": [],
+    "task": "put two pen in dresser.",
+    "task_type": "pick_two_obj_and_place",
+    "won": true
+   },
+   {
+    "steps": [],
+    "task": "put two peppershaker in diningtable.",
+    "task_type": "pick_two_obj_and_place",
+    "won": true
+   },
+   {
+    "steps": [],
+    "task": "put two keychain in drawer.",
+    "task_type": "pick_two_obj_and_place",
+    "won": false
+   },
+   {
+    "steps": [],
+    "task": "find two cellphone and put them in bed.",
+    "task_type": "pick_two_obj_and_place",
+    "won": false
+   },
+   {
+    "steps": [],
+    "task": "find two laptop and put them in ottoman.",
+    "task_type": "pick_two_obj_and_place",
+    "won": false
+   }
+  ],
+  "example": "pick up alarmclock, place alarmclock, pick up alarmclock, place alarmclock",
+  "id": "rule_43",
+  "importance": 3,
+  "last_used": 45,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When the task is to put two alarmclocks in a shelf, the game does not require explicit movement commands between steps if the agent is already at the shelf.",
+  "task_type": "pick_two_obj_and_place",
+  "type": "Special Phenomenon",
+  "validation": ""
+ },
+ {
+  "alpha": 3,
+  "beta": 2,
+  "contexts": [
+   {
+    "steps": [],
+    "task": "put two pen in dresser.",
+    "task_type": "pick_two_obj_and_place",
+    "won": true
+   },
+   {
+    "steps": [],
+    "task": "put two peppershaker in diningtable.",
+    "task_type": "pick_two_obj_and_place",
+    "won": true
+   },
+   {
+    "steps": [],
+    "task": "find two laptop and put them in ottoman.",
+    "task_type": "pick_two_obj_and_place",
+    "won": false
+   }
+  ],
+  "example": "pick up keychain, place keychain, pick up keychain, place keychain",
+  "id": "rule_44",
+  "importance": 4,
+  "last_used": 45,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When the task is to put two keychains in a drawer, the game does not require explicit movement commands between steps if the agent is already at the drawer.",
+  "task_type": "pick_two_obj_and_place",
+  "type": "Special Phenomenon",
+  "validation": ""
+ },
+ {
+  "alpha": 3,
+  "beta": 2,
+  "contexts": [
+   {
+    "steps": [],
+    "task": "put two pen in dresser.",
+    "task_type": "pick_two_obj_and_place",
+    "won": true
+   },
+   {
+    "steps": [],
+    "task": "put two peppershaker in diningtable.",
+    "task_type": "pick_two_obj_and_place",
+    "won": true
+   },
+   {
+    "steps": [],
+    "task": "find two laptop and put them in ottoman.",
+    "task_type": "pick_two_obj_and_place",
+    "won": false
+   }
+  ],
+  "example": "pick up pencil, place pencil, pick up pencil, place pencil",
+  "id": "rule_45",
+  "importance": 3,
+  "last_used": 45,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When the task is to put two pencils in a drawer, the game does not require explicit movement commands between steps if the agent is already at the drawer.",
+  "task_type": "pick_two_obj_and_place",
+  "type": "Special Phenomenon",
+  "validation": ""
+ },
+ {
+  "alpha": 1,
+  "beta": 2,
+  "contexts": [
+   {
+    "steps": [],
+    "task": "cool some cup and put it in microwave.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": false
+   }
+  ],
+  "example": "Task: cool some bread and put it in countertop. Won: true. Steps: [].",
+  "id": "rule_46",
+  "importance": 2,
+  "last_used": 41,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When the task is to cool an object and put it in countertop, the game may win without steps recorded.",
+  "task_type": "pick_cool_then_place_in_recep",
+  "type": "Special Phenomenon",
+  "validation": ""
+ },
+ {
+  "alpha": 1,
+  "beta": 2,
+  "contexts": [
+   {
+    "steps": [],
+    "task": "cool some cup and put it in microwave.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": false
+   }
+  ],
+  "example": "Task: put a cool pan in diningtable. Won: true. Steps: [].",
+  "id": "rule_47",
+  "importance": 2,
+  "last_used": 41,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When the task is to put a cool pan in diningtable, the game may be won without recorded steps.",
+  "task_type": "pick_cool_then_place_in_recep",
+  "type": "Special Phenomenon",
+  "validation": ""
+ },
+ {
+  "alpha": 1,
+  "beta": 1,
+  "contexts": [],
+  "example": "The agent must be at the desk to look at the pencil under the desklamp.",
+  "id": "rule_48",
+  "importance": 2,
+  "last_used": null,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When the task involves looking at an object under a light, the agent must be at the location of the light source to complete the task.",
+  "task_type": "look_at_obj_in_light",
+  "type": "Special Phenomenon",
+  "validation": ""
+ },
+ {
+  "alpha": 8,
+  "base": [
+   8,
+   11
+  ],
+  "beta": 4,
+  "example": "open garbagecan 1 before moving spraybottle 1 to garbagecan 1",
+  "id": "rule_49",
+  "importance": 7,
+  "last_used": 46,
+  "refined_at": [
+   6,
+   3
+  ],
+  "rule": "When the target container is closed, open it before moving objects into it.",
+  "task_type": "pick_and_place_simple",
+  "type": "Special Phenomenon",
+  "validation": "The garbagecan was open when the spraybottle was moved into it, so opening it was not required.",
+  "evidence": {
+   "won": 7,
+   "lost": 3
+  }
+ },
+ {
+  "alpha": 1,
+  "base": [
+   0,
+   4
+  ],
+  "beta": 5,
+  "example": "turn_on_stoveburner 1, wait for heating, examine kettle 2",
+  "id": "rule_50",
+  "importance": 3,
+  "last_used": 44,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When heating a container on a stoveburner, turn on the stoveburner first, wait for heating, then examine the container to verify it is hot.",
+  "task_type": "pick_heat_then_place_in_recep",
+  "type": "Special Phenomenon",
+  "validation": "The agent failed because it never turned on the stoveburner to heat the kettle, leaving the cup cold.",
+  "evidence": {
+   "won": 0,
+   "lost": 4
+  }
+ },
+ {
+  "alpha": 6,
+  "base": [
+   5,
+   7
+  ],
+  "beta": 3,
+  "example": "go to countertop 2, take soapbar 3 from countertop 2",
+  "id": "rule_51",
+  "importance": 2,
+  "last_used": 47,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When searching for a soapbar, check countertops first before checking drawers or cabinets.",
+  "task_type": "pick_clean_then_place_in_recep",
+  "type": "Special Phenomenon",
+  "validation": "",
+  "evidence": {
+   "won": 5,
+   "lost": 2
+  }
+ },
+ {
+  "alpha": 6,
+  "base": [
+   6,
+   7
+  ],
+  "beta": 2,
+  "example": "go to cabinet 2, then open cabinet 2 before interacting with it",
+  "id": "rule_52",
+  "importance": 4,
+  "last_used": 46,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When attempting to go to a cabinet, ensure it is open first; otherwise the action may fail or open a different container.",
+  "task_type": "pick_and_place_simple",
+  "type": "Special Phenomenon",
+  "validation": "",
+  "evidence": {
+   "won": 5,
+   "lost": 1
+  }
+ },
+ {
+  "alpha": 20,
+  "base": [
+   20,
+   31
+  ],
+  "beta": 10,
+  "example": "The agent failed by attempting to clean cloth 2 at sinkbasin 1 without first moving it there.",
+  "id": "rule_53",
+  "importance": 10,
+  "last_used": 47,
+  "refined_at": [
+   18,
+   3
+  ],
+  "rule": "When an object must be cleaned and placed: search countertop and sinkbasin first, clean it with sinkbasin if closed open it, move it to target.",
+  "task_type": "all",
+  "type": "Corrected Error",
+  "validation": "The agent found the second cellphone on dresser 1 after searching multiple locations, confirming the need to search surfaces first. | The agent found the second peppershaker on cabinet 2 after searching multiple locations, confirming the need to search surfaces first. | The agent failed when attempting to clean cloth 2 at sinkbasin 1 without moving it there first, then succeeded after moving it.",
+  "evidence": {
+   "won": 15,
+   "lost": 9
+  }
+ },
+ {
+  "alpha": 4,
+  "base": [
+   5,
+   6
+  ],
+  "beta": 2,
+  "example": "The agent failed by exploring cabinets without first locating the plate on sinkbasin 1, then succeeded by finding it there, cooling it with fridge 1, and moving it to cabinet 1.",
+  "id": "rule_54",
+  "importance": 2,
+  "last_used": 41,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When an object must be cooled and placed, search all surfaces and containers for the object, pick it up, cool it with a fridge, then place it in an open cabinet.",
+  "task_type": "pick_cool_then_place_in_recep",
+  "type": "Corrected Error",
+  "validation": "",
+  "evidence": {
+   "won": 3,
+   "lost": 1
+  }
+ },
+ {
+  "alpha": 5,
+  "base": [
+   5,
+   9
+  ],
+  "beta": 4,
+  "example": "clean fork 1 with sinkbasin 1",
+  "id": "rule_55",
+  "importance": 3,
+  "last_used": 47,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "Clean objects using the sinkbasin command 'clean <object> with sinkbasin'.",
+  "sources": [
+   {
+    "task": "clean some fork and put it in drawer.",
+    "task_type": "pick_clean_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_clean_then_place_in_recep",
+  "type": "Special Phenomenon",
+  "validation": "",
+  "verified": true,
+  "evidence": {
+   "won": 4,
+   "lost": 3
+  }
+ },
+ {
+  "alpha": 3,
+  "base": [
+   4,
+   8
+  ],
+  "beta": 2,
+  "example": "Agent found one cellphone on armchair 1, then searched all drawers and cabinets before finding the second on dresser 1.",
+  "id": "rule_56",
+  "importance": 6,
+  "last_used": 45,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When a task requires placing multiple identical objects and only one is found, systematically search all drawers and cabinets before searching other furniture.",
+  "sources": [
+   {
+    "task": "put two spatula in drawer.",
+    "task_type": "pick_two_obj_and_place"
+   },
+   {
+    "task": "put two cellphone in dresser.",
+    "task_type": "pick_two_obj_and_place"
+   }
+  ],
+  "task_type": "pick_two_obj_and_place",
+  "type": "Corrected Error",
+  "validation": "Confirmed: failed attempt did not check sidetables; successful retry did. | Confirmed: failed attempt did not check sidetables; successful retry did.",
+  "verified": true,
+  "evidence": {
+   "won": 2,
+   "lost": 1
+  }
+ },
+ {
+  "alpha": 1,
+  "base": [
+   0,
+   4
+  ],
+  "beta": 5,
+  "example": "In the failed attempt, the agent placed the mug on the stoveburner without heating water in the kettle. In the successful retry, the agent used the microwave to heat the mug.",
+  "id": "rule_57",
+  "importance": 2,
+  "last_used": 44,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When heating a mug for a task, examine the kettle first; if it does not contain hot water, use the microwave to heat the mug instead of placing it on the stoveburner.",
+  "sources": [
+   {
+    "task": "put a hot mug in coffeemachine.",
+    "task_type": "pick_heat_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_heat_then_place_in_recep",
+  "type": "Corrected Error",
+  "validation": "",
+  "verified": true,
+  "evidence": {
+   "won": 0,
+   "lost": 4
+  }
+ },
+ {
+  "alpha": 5,
+  "base": [
+   4,
+   7
+  ],
+  "beta": 4,
+  "example": "open cabinet 2, open cabinet 3",
+  "id": "rule_58",
+  "importance": 3,
+  "last_used": 47,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When a container is closed, open it before searching inside for objects.",
+  "sources": [
+   {
+    "task": "put a clean soapbar in toilet.",
+    "task_type": "pick_clean_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_clean_then_place_in_recep",
+  "type": "Special Phenomenon",
+  "validation": "",
+  "verified": true,
+  "evidence": {
+   "won": 4,
+   "lost": 3
+  }
+ },
+ {
+  "alpha": 4,
+  "base": [
+   3,
+   7
+  ],
+  "beta": 4,
+  "example": "Agent tried to move peppershaker 3 to diningtable 1 while holding it but was at cabinet 3; the move failed until the agent went to diningtable 1 first.",
+  "id": "rule_59",
+  "importance": 3,
+  "last_used": 45,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When moving an object to a target, go to the target first if the move command fails or returns immediately.",
+  "sources": [
+   {
+    "task": "put two alarmclock in shelf.",
+    "task_type": "pick_two_obj_and_place"
+   }
+  ],
+  "task_type": "pick_two_obj_and_place",
+  "type": "Corrected Error",
+  "validation": "Confirmed: peppershaker 3 move failed because agent was at cabinet 3, not diningtable 1.",
+  "verified": true,
+  "evidence": {
+   "won": 3,
+   "lost": 3
+  }
+ },
+ {
+  "alpha": 3,
+  "base": [
+   2,
+   8
+  ],
+  "beta": 3,
+  "example": "The agent opened the microwave instead of placing the tomato inside. It should have used 'move tomato 1 to microwave 1'.",
+  "id": "rule_60",
+  "importance": 6,
+  "last_used": 41,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When placing a cooled object in a container, use the move command instead of opening the container.",
+  "sources": [
+   {
+    "task": "put a cool bowl in cabinet.",
+    "task_type": "pick_cool_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_cool_then_place_in_recep",
+  "type": "Corrected Error",
+  "validation": "The agent failed to place the tomato in the microwave by opening it instead of using the move command.",
+  "verified": true,
+  "evidence": {
+   "won": 2,
+   "lost": 2
+  }
+ },
+ {
+  "alpha": 1,
+  "base": [
+   0,
+   3
+  ],
+  "beta": 4,
+  "example": "In the failed attempt, the agent opened and closed the microwave repeatedly before heating. In the successful retry, the agent opened once and heated immediately.",
+  "id": "rule_61",
+  "importance": 5,
+  "last_used": 44,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When heating an object with a microwave, do not repeatedly open and close it; open once, heat, then close once.",
+  "sources": [
+   {
+    "task": "put a hot potato in diningtable.",
+    "task_type": "pick_heat_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_heat_then_place_in_recep",
+  "type": "Corrected Error",
+  "validation": "The agent failed by cycling the microwave door repeatedly before heating; the retry succeeded by heating immediately after opening.",
+  "verified": true,
+  "evidence": {
+   "won": 0,
+   "lost": 3
+  }
+ },
+ {
+  "alpha": 2,
+  "base": [
+   1,
+   3
+  ],
+  "beta": 3,
+  "example": "take cloth 1 from bathtubbasin 1, then clean cloth 1 with sinkbasin 1",
+  "id": "rule_62",
+  "importance": 5,
+  "last_used": 47,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When an object must be cleaned and placed, take the object before attempting to clean it.",
+  "sources": [
+   {
+    "task": "clean some fork and put it in drawer.",
+    "task_type": "pick_clean_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_clean_then_place_in_recep",
+  "type": "Corrected Error",
+  "validation": "confirmed | confirmed",
+  "verified": true,
+  "evidence": {
+   "won": 1,
+   "lost": 2
+  }
+ },
+ {
+  "alpha": 3,
+  "base": [
+   2,
+   3
+  ],
+  "beta": 2,
+  "example": "The agent searched cabinets first and failed. In the retry, it checked countertop and sink first.",
+  "id": "rule_63",
+  "importance": 2,
+  "last_used": 41,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When searching for a bowl, check countertop and sink areas before opening cabinets.",
+  "sources": [
+   {
+    "task": "cool some bowl and put it in microwave.",
+    "task_type": "pick_cool_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_cool_then_place_in_recep",
+  "type": "Corrected Error",
+  "validation": "",
+  "verified": true,
+  "evidence": {
+   "won": 2,
+   "lost": 1
+  }
+ },
+ {
+  "alpha": 1,
+  "base": [
+   0,
+   1
+  ],
+  "beta": 2,
+  "example": "go to sinkbasin 1, check it is empty, then clean cloth 1 with sinkbasin 1",
+  "id": "rule_64",
+  "importance": 3,
+  "last_used": 47,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When a sinkbasin is empty, check it before attempting to clean an object.",
+  "sources": [
+   {
+    "task": "clean some plate and put it in shelf.",
+    "task_type": "pick_clean_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_clean_then_place_in_recep",
+  "type": "Special Phenomenon",
+  "validation": "confirmed",
+  "verified": true,
+  "evidence": {
+   "won": 0,
+   "lost": 1
+  }
+ },
+ {
+  "alpha": 1,
+  "beta": 2,
+  "example": "The agent picked up pen 1 from drawer 1 again after the move failed, then successfully moved it to dresser 1.",
+  "id": "rule_65",
+  "importance": 2,
+  "last_used": 45,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "If moving an object fails, pick it up again from its current location before moving.",
+  "task_type": "pick_two_obj_and_place",
+  "type": "Corrected Error",
+  "validation": "",
+  "evidence": {
+   "won": 0,
+   "lost": 1
+  }
+ },
+ {
+  "alpha": 2,
+  "base": [
+   1,
+   1
+  ],
+  "beta": 1,
+  "contexts": [
+   {
+    "plan": "find a butterknife in the environment ; go to the sinkbasin to clean the butterknife ; clean the butterknife at the sinkbasin ; go to the countertop to place the clean butterknife ; put the clean butterknife on the countertop",
+    "steps": [
+     "go to drawer 1",
+     "go to countertop 1",
+     "take butterknife 1 from countertop 1",
+     "go to sinkbasin 1",
+     "clean butterknife 1 with sinkbasin 1",
+     "go to countertop 1",
+     "move butterknife 1 to countertop 1"
+    ],
+    "task": "put a clean butterknife in countertop.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   }
+  ],
+  "example": "cabinet 1 is closed, go to drawer 1",
+  "id": "rule_66",
+  "importance": 2,
+  "last_used": 15,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When a cabinet is closed, go to a drawer or countertop to find the object instead of opening the cabinet.",
+  "sources": [
+   {
+    "task": "put a clean soapbar in toilet.",
+    "task_type": "pick_clean_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_clean_then_place_in_recep",
+  "type": "Special Phenomenon",
+  "validation": "",
+  "verified": true
+ },
+ {
+  "alpha": 1,
+  "base": [
+   3,
+   4
+  ],
+  "beta": 2,
+  "contexts": [
+   {
+    "plan": "go to dresser 1 ; search dresser 1 for cellphone ; take cellphone from dresser 1 ; put cellphone on dresser 1",
+    "steps": [
+     "go to drawer 2",
+     "open drawer 2",
+     "go to drawer 10",
+     "open drawer 10",
+     "go to drawer 11",
+     "open drawer 11",
+     "go to dresser 1",
+     "go to armchair 1",
+     "go to sidetable 1",
+     "go to armchair 1",
+     "go to drawer 12",
+     "open drawer 12"
+    ],
+    "task": "put some cellphone on dresser.",
+    "task_type": "pick_and_place_simple",
+    "won": false
+   }
+  ],
+  "example": "open drawer 1 before moving cellphone 1 to dresser 1",
+  "id": "rule_67",
+  "importance": 2,
+  "last_used": 17,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When placing an object into a container, open the container if closed before attempting to move the object there.",
+  "sources": [
+   {
+    "task": "put a cellphone in dresser.",
+    "task_type": "pick_and_place_simple"
+   }
+  ],
+  "task_type": "pick_and_place_simple",
+  "type": "Corrected Error",
+  "validation": "",
+  "verified": true
+ },
+ {
+  "alpha": 4,
+  "base": [
+   8,
+   11
+  ],
+  "beta": 3,
+  "contexts": [
+   {
+    "plan": "search for a spraybottle in the environment ; go to the toilet ; put the spraybottle on the toilet",
+    "steps": [
+     "go to toilet 1",
+     "go to cabinet 1",
+     "take spraybottle 1 from cabinet 1",
+     "go to toilet 1",
+     "move spraybottle 1 to toilet 1"
+    ],
+    "task": "put some spraybottle on toilet.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "go to handtowelholder 1 ; take the handtowel from handtowelholder 1 ; go to cabinet 1 ; put the handtowel in cabinet 1",
+    "steps": [
+     "go to handtowelholder 1",
+     "take handtowel 1 from handtowelholder 1",
+     "go to cabinet 1",
+     "open cabinet 1",
+     "move handtowel 1 to cabinet 1"
+    ],
+    "task": "put a handtowel in cabinet.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "go to desk 1 ; put laptop in desk 1",
+    "steps": [
+     "go to desk 1",
+     "go to drawer 1",
+     "open drawer 1",
+     "go to drawer 2",
+     "open drawer 2",
+     "go to shelf 1",
+     "go to laundryhamper 1",
+     "go to bed 1",
+     "take laptop 1 from bed 1",
+     "go to desk 1",
+     "move laptop 1 to desk 1"
+    ],
+    "task": "put a laptop in desk.",
+    "task_type": "pick_and_place_simple",
+    "won": true
+   },
+   {
+    "plan": "go to dresser 1 ; search drawers for cellphone ; take the cellphone ; put the cellphone on dresser 1",
+    "steps": [
+     "open drawer 8",
+     "go to drawer 9",
+     "open drawer 9",
+     "go to drawer 10",
+     "open drawer 10",
+     "go to drawer 11",
+     "open drawer 11",
+     "go to drawer 12",
+     "open drawer 12",
+     "go to dresser 1",
+     "go to drawer 1",
+     "go to drawer 14"
+    ],
+    "task": "put some cellphone on dresser.",
+    "task_type": "pick_and_place_simple",
+    "won": false
+   },
+   {
+    "plan": "go to drawer 1 ; put pencil 1 on drawer 1",
+    "steps": [
+     "go to desk 1",
+     "go to drawer 1",
+     "go to desk 1",
+     "go to drawer 1",
+     "go to drawer 2",
+     "open drawer 2",
+     "go to desk 1",
+     "go to drawer 1",
+     "go to desk 1",
+     "take pencil 1 from desk 1",
+     "go to drawer 1",
+     "move pencil 1 to drawer 1"
+    ],
+    "task": "put some pen on drawer.",
+    "task_type": "pick_and_place_simple",
+    "won": false
+   }
+  ],
+  "example": "open drawer 1 before putting towel 1 in it; move laptop 1 to desk 1 without opening desk 1",
+  "id": "rule_68",
+  "importance": 9,
+  "last_used": 34,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When placing an object on a surface, no need to open the surface; when placing in a container, ensure the container is open before attempting to place.",
+  "sources": [
+   {
+    "task": "put a cloth in drawer.",
+    "task_type": "pick_and_place_simple"
+   }
+  ],
+  "task_type": "pick_and_place_simple",
+  "type": "Special Phenomenon",
+  "validation": "This game confirms placing on a toilet does not require opening the toilet. | This game confirms placing in a drawer requires opening the drawer first. | This game confirms placing on a desk does not require opening the desk, but placing in a drawer requires opening it first.",
+  "verified": true
+ },
+ {
+  "alpha": 5,
+  "base": [
+   4,
+   6
+  ],
+  "beta": 3,
+  "contexts": [
+   {
+    "plan": "find a butterknife in the environment ; go to the sinkbasin to clean the butterknife ; clean the butterknife using the sinkbasin ; go to the countertop to place the clean butterknife ; put the clean butterknife on the countertop",
+    "steps": [
+     "go to drawer 1",
+     "open drawer 1",
+     "go to cabinet 1",
+     "open cabinet 1",
+     "go to countertop 1",
+     "take butterknife 1 from countertop 1",
+     "go to sinkbasin 1",
+     "clean butterknife 1 with sinkbasin 1",
+     "go to countertop 1",
+     "move butterknife 1 to countertop 1"
+    ],
+    "task": "put a clean butterknife in countertop.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "go to countertop 1 to locate cloth ; find cloth on countertop 1 ; go to sinkbasin 1 to clean cloth ; clean cloth with sinkbasin 1 ; go back to countertop 1 ; put clean cloth on countertop 1",
+    "steps": [
+     "go to cabinet 1",
+     "open cabinet 1",
+     "take cloth 3 from cabinet 1",
+     "go to sinkbasin 1",
+     "clean cloth 3 with sinkbasin 1",
+     "go to countertop 1",
+     "move cloth 3 to countertop 1"
+    ],
+    "task": "clean some cloth and put it in countertop.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "go to sidetable 1 to locate the butterknife ; find and take a butterknife from sidetable 1 ; go to sinkbasin 1 to clean the butterknife ; clean the butterknife at the sink ; go to sidetable 1 to place the clean butterknife ; put the clean butterknife on sidetable 1",
+    "steps": [
+     "go to countertop 1",
+     "take butterknife 1 from countertop 1",
+     "go to sinkbasin 1",
+     "clean butterknife 1 with sinkbasin 1",
+     "go to sidetable 1",
+     "move butterknife 1 to sidetable 1"
+    ],
+    "task": "put a clean butterknife in sidetable.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a pan in the environment ; go to the sinkbasin to clean the pan ; clean the pan at the sink ; go to a stoveburner to place the pan ; put the clean pan on the stoveburner",
+    "steps": [
+     "go to drawer 1",
+     "go to countertop 1",
+     "take pan 1 from countertop 1",
+     "go to sinkbasin 1",
+     "clean pan 1 with sinkbasin 1"
+    ],
+    "task": "put a clean pan in stoveburner.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "find a fork in the environment ; go to the sink to clean the fork ; clean the fork at the sink ; go to the drawer to store the fork ; put the clean fork in the drawer",
+    "steps": [
+     "go to countertop 1",
+     "go to cabinet 1",
+     "go to countertop 1",
+     "go to cabinet 1",
+     "go to countertop 1",
+     "go to cabinet 1",
+     "go to fridge 1",
+     "open fridge 1",
+     "close fridge 1",
+     "go to countertop 1",
+     "go to cabinet 1",
+     "go to countertop 1"
+    ],
+    "task": "clean some fork and put it in drawer.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": false
+   },
+   {
+    "plan": "go to shelf 1 ; find a plate on shelf 1 ; take the plate from shelf 1 ; go to sinkbasin 1 ; clean the plate at sinkbasin 1 ; put the clean plate on shelf 1",
+    "steps": [
+     "go to countertop 1",
+     "go to shelf 1",
+     "go to fridge 1",
+     "go to countertop 1",
+     "go to shelf 1",
+     "go to fridge 1",
+     "go to shelf 1",
+     "go to fridge 1",
+     "go to countertop 1",
+     "go to shelf 2",
+     "go to shelf 1",
+     "go to countertop 1"
+    ],
+    "task": "clean some plate and put it in shelf.",
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": false
+   }
+  ],
+  "example": "do not open cabinet 2 while at cabinet 1",
+  "id": "rule_69",
+  "importance": 3,
+  "last_used": 36,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When opening a container, do not attempt to open a different container first; open the one you are currently at.",
+  "sources": [
+   {
+    "task": "put a clean soapbar in toilet.",
+    "task_type": "pick_clean_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_clean_then_place_in_recep",
+  "type": "Corrected Error",
+  "validation": "The agent opened the fridge 1 while at fridge 1, which was correct.",
+  "verified": true
+ },
+ {
+  "alpha": 3,
+  "base": [
+   2,
+   6
+  ],
+  "beta": 4,
+  "contexts": [
+   {
+    "plan": "go to desk 1 to find pencils ; take pencil 1 from desk 1 ; move pencil 1 to drawer 1 ; go to desk 1 to find second pencil ; take second pencil from desk 1 ; move second pencil to drawer 1",
+    "steps": [
+     "go to desk 1",
+     "take pencil 1 from desk 1",
+     "go to drawer 1",
+     "go to desk 1",
+     "go to drawer 1",
+     "go to desk 1",
+     "go to drawer 1",
+     "move pencil 1 to drawer 1",
+     "go to desk 1",
+     "take pencil 2 from desk 1",
+     "go to drawer 1",
+     "move pencil 2 to drawer 1"
+    ],
+    "task": "put two pencil in drawer.",
+    "task_type": "pick_two_obj_and_place",
+    "won": true
+   },
+   {
+    "plan": "go to diningtable 1 ; take a peppershaker from diningtable 1 ; put the peppershaker on diningtable 1 ; take another peppershaker from diningtable 1 ; put the peppershaker on diningtable 1 ; task completed",
+    "steps": [
+     "go to cabinet 1",
+     "go to countertop 1",
+     "go to cabinet 1",
+     "open cabinet 1",
+     "take peppershaker 1 from cabinet 1",
+     "go to diningtable 1",
+     "move peppershaker 1 to diningtable 1",
+     "go to cabinet 2",
+     "open cabinet 2",
+     "take peppershaker 2 from cabinet 2",
+     "go to diningtable 1",
+     "move peppershaker 2 to diningtable 1"
+    ],
+    "task": "put two peppershaker in diningtable.",
+    "task_type": "pick_two_obj_and_place",
+    "won": true
+   },
+   {
+    "plan": "go to desk 1 ; take keychain 3 from desk 1 ; go to drawer 1 ; put keychain 3 in drawer 1 ; go to desk 1 ; take keychain 3 from desk 1 ; go to drawer 1 ; put keychain 3 in drawer 1",
+    "steps": [
+     "move keychain 3 to drawer 1",
+     "go to desk 1",
+     "go to drawer 2",
+     "go to desk 1",
+     "go to drawer 2",
+     "open drawer 2",
+     "go to drawer 1",
+     "take keychain 3 from drawer 1",
+     "move keychain 3 to drawer 1",
+     "go to desk 1",
+     "go to drawer 1",
+     "go to desk 1"
+    ],
+    "task": "put two keychain in drawer.",
+    "task_type": "pick_two_obj_and_place",
+    "won": false
+   },
+   {
+    "plan": "go to bed 1 ; find and take the first cellphone ; put the first cellphone in bed 1 ; find and take the second cellphone ; put the second cellphone in bed 1",
+    "steps": [
+     "move cellphone 2 to bed 1",
+     "go to armchair 1",
+     "go to drawer 1",
+     "go to drawer 2",
+     "go to drawer 3",
+     "go to drawer 5",
+     "go to drawer 4",
+     "go to drawer 6",
+     "go to cabinet 1",
+     "go to armchair 1",
+     "go to cabinet 1",
+     "go to drawer 1"
+    ],
+    "task": "find two cellphone and put them in bed.",
+    "task_type": "pick_two_obj_and_place",
+    "won": false
+   },
+   {
+    "plan": "go to dresser 1 ; take pen 1 from dresser 1 ; put pen 1 in drawer 1 ; take pen 2 from dresser 1 ; put pen 2 in drawer 1 ; close drawer 1",
+    "steps": [
+     "go to dresser 1",
+     "go to drawer 4",
+     "open drawer 4",
+     "go to dresser 1",
+     "go to sidetable 1",
+     "go to armchair 1",
+     "go to coffeetable 1",
+     "take pen 1 from coffeetable 1",
+     "go to drawer 1",
+     "move pen 1 to drawer 1",
+     "go to coffeetable 1",
+     "take pen 2 from coffeetable 1"
+    ],
+    "task": "put two pen in dresser.",
+    "task_type": "pick_two_obj_and_place",
+    "won": false
+   }
+  ],
+  "example": "After move pencil 2 to drawer 1 failed, agent went to drawer 1 then moved successfully.",
+  "id": "rule_70",
+  "importance": 4,
+  "last_used": 39,
+  "refined_at": [
+   0,
+   0
+  ],
+  "rule": "When move command fails, go to target container first before retrying move.",
+  "sources": [
+   {
+    "task": "put two alarmclock in shelf.",
+    "task_type": "pick_two_obj_and_place"
+   }
+  ],
+  "task_type": "pick_two_obj_and_place",
+  "type": "Corrected Error",
+  "validation": "Confirmed: agent must be at container location to execute move command.",
+  "verified": true
+ },
+ {
+  "alpha": 5,
+  "base": [
+   4,
+   7
+  ],
+  "beta": 4,
+  "contexts": [
+   {
+    "plan": "go to countertop 1 to find the pan ; find and take the pan from countertop 1 ; go to fridge 1 to cool the pan ; cool the pan in the fridge ; go to cabinet 1 to store the pan ; put the cold pan in cabinet 1",
+    "steps": [
+     "open cabinet 1",
+     "go to countertop 1",
+     "go to stoveburner 1",
+     "go to countertop 1",
+     "examine countertop 1",
+     "go to countertop 2",
+     "take pan 1 from countertop 2",
+     "go to fridge 1",
+     "open fridge 1",
+     "cool pan 1 with fridge 1",
+     "go to cabinet 1",
+     "move pan 1 to cabinet 1"
+    ],
+    "task": "cool some pan and put it in cabinet.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "go to countertop 1 to search for tomato ; find and take a tomato from countertop 1 ; go to fridge 1 to cool the tomato ; cool the tomato in the fridge ; go to microwave 1 ; put the cold tomato in the microwave",
+    "steps": [
+     "go to countertop 1",
+     "go to countertop 2",
+     "take tomato 1 from countertop 2",
+     "go to fridge 1",
+     "open fridge 1",
+     "cool tomato 1 with fridge 1",
+     "go to microwave 1",
+     "open microwave 1",
+     "move tomato 1 to microwave 1"
+    ],
+    "task": "cool some tomato and put it in microwave.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "search cabinets and countertops for bread ; take the bread from its location ; cool the bread in the fridge ; go to a countertop ; put the cooled bread on the countertop",
+    "steps": [
+     "go to cabinet 1",
+     "open cabinet 1",
+     "go to countertop 1",
+     "take bread 1 from countertop 1",
+     "go to fridge 1",
+     "open fridge 1",
+     "cool bread 1 with fridge 1",
+     "go to countertop 1",
+     "move bread 1 to countertop 1"
+    ],
+    "task": "cool some bread and put it in countertop.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "search cabinets and countertops for a pan ; take the pan from its location ; cool the pan in the fridge ; go to the diningtable ; put the cool pan on the diningtable",
+    "steps": [
+     "go to cabinet 1",
+     "go to cabinet 2",
+     "go to cabinet 3",
+     "open cabinet 3",
+     "go to countertop 1",
+     "go to cabinet 4",
+     "go to countertop 2",
+     "take pan 1 from countertop 2",
+     "go to fridge 1",
+     "cool pan 1 with fridge 1",
+     "go to diningtable 1",
+     "move pan 1 to diningtable 1"
+    ],
+    "task": "put a cool pan in diningtable.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": true
+   },
+   {
+    "plan": "go to diningtable 1 to search for a pan ; find a pan on diningtable 1 or countertop 1 ; take the pan from its location ; go to fridge 1 to cool the pan ; put the pan in the fridge to cool it ; go to diningtable 1 and put the cooled pan there",
+    "steps": [
+     "go to stoveburner 1",
+     "go to countertop 1",
+     "go to countertop 2",
+     "go to cabinet 1",
+     "go to drawer 1",
+     "go to stoveburner 1",
+     "go to cabinet 1",
+     "go to countertop 1",
+     "go to stoveburner 1",
+     "go to cabinet 2",
+     "go to diningtable 1",
+     "go to cabinet 3"
+    ],
+    "task": "put a cool pan in diningtable.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": false
+   },
+   {
+    "plan": "go to countertop 3 to find a plate ; take a plate from countertop 3 ; go to fridge 1 to cool the plate ; put the plate in fridge 1 to cool it ; go to cabinet 1 to store the plate ; put the cooled plate in cabinet 1",
+    "steps": [
+     "go to countertop 3",
+     "go to countertop 1",
+     "go to countertop 3",
+     "go to countertop 2",
+     "go to countertop 3",
+     "go to countertop 1",
+     "go to countertop 2",
+     "go to countertop 1",
+     "go to drawer 1",
+     "go to countertop 3",
+     "go to countertop 1",
+     "go to drawer 1"
+    ],
+    "task": "cool some plate and put it in cabinet.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": false
+   },
+   {
+    "plan": "go to countertop 1 to search for a bowl ; find and take a bowl from countertop 1 ; cool the bowl in the fridge ; go to microwave 1 ; put the cooled bowl in the microwave",
+    "steps": [
+     "go to countertop 1",
+     "go to cabinet 4",
+     "go to cabinet 5",
+     "go to countertop 1",
+     "go to cabinet 6",
+     "open cabinet 6",
+     "go to countertop 1",
+     "go to cabinet 1",
+     "go to cabinet 2",
+     "go to drawer 1",
+     "go to drawer 2",
+     "open drawer 2"
+    ],
+    "task": "cool some bowl and put it in microwave.",
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": false
+   }
+  ],
+  "example": "search cabinets and countertops first instead of opening drawers.",
+  "id": "rule_71",
+  "importance": 5,
+  "last_used": 37,
+  "refined_at": [
+   3,
+   3
+  ],
+  "rule": "When an object must be found and cooled, search countertops first, then cabinets, before opening drawers.",
+  "sources": [
+   {
+    "task": "put a cool bowl in cabinet.",
+    "task_type": "pick_cool_then_place_in_recep"
+   }
+  ],
+  "task_type": "pick_cool_then_place_in_recep",
+  "type": "Corrected Error",
+  "validation": "confirmed: agent failed by only checking cabinets/drawers, succeeded by searching stoveburners/countertops. | confirmed: agent failed by checking drawers before cabinets, succeeded by checking cabinets first.",
+  "verified": true
+ }
+]
