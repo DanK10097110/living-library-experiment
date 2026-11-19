@@ -29,15 +29,16 @@ class Reporting(FixtureModel):
 
     def complete(self, role, payload, seed, context):
         if role == 'builder':
-            data = {'diagnosis': 'imperfect agent', 'operations': []}
-            if self.followed is not None:
-                data['followed'] = self.followed
-            return ModelResponse(data)
+            if 'followed' in payload.get('response_schema', {}):     # the separate outcome-blind judge
+                self.judge_payloads = getattr(self, 'judge_payloads', []) + [payload]
+                return ModelResponse({} if self.followed is None else {'followed': self.followed})
+            return ModelResponse({'diagnosis': 'imperfect agent', 'operations': []})
         return super().complete(role, payload, seed, context)
 
 
-def play(followed, rules):
-    agent = Agent(Settings(), 'E', Reporting(followed), Library(), LexicalEmbedding(), MiniWorld, rules=rules)
+def play(followed, rules, model=None):
+    agent = Agent(Settings(), 'E', model or Reporting(followed), Library(), LexicalEmbedding(), MiniWorld,
+                  rules=rules)
     return agent.run(TASK, 1, {'phase': 'practice', 'position': 4})
 
 
@@ -61,6 +62,33 @@ class UsageCreditTests(unittest.TestCase):
         result = play(None, rules)
         self.assertEqual([r['alpha'] for r in rules[:2]], [2, 2])
         self.assertTrue(any('no followed list' in e for e in result['manual']['errors']))
+
+    def test_judge_is_outcome_blind_and_a_followed_loss_counts_as_a_loss(self):
+        model = Reporting(['rule_1'])
+        rules = self.two_rules()
+        result = play(None, rules, model)
+        payload = model.judge_payloads[0]
+        self.assertEqual(set(payload), {'instructions', 'goal', 'shown_rules', 'steps', 'response_schema', 'task'})
+        self.assertNotIn('success', repr(payload['task']))
+        self.assertTrue(all(set(s) <= {'action', 'observation'} for s in payload['steps']))
+        self.assertNotIn('observation', payload['steps'][-1])       # the final message would reveal the win
+        self.assertEqual({r['id'] for r in payload['shown_rules']}, {'rule_1', 'rule_2'})
+        # the same judge answer in a lost game: followed rule gets beta + 1, the other only unused
+        lost = [rule(1, 'a'), rule(2, 'b')]
+        manual.observe(lost, ['rule_1', 'rule_2'], False, context(), 0, followed=['rule_1'])
+        self.assertEqual((lost[0]['beta'], lost[1].get('beta', 1), lost[1]['unused']), (2, 1, 1))
+        self.assertIn(result['success'], (True, False))
+
+    def test_judge_failure_credits_all_shown_rules(self):
+        class Broken(Reporting):
+            def complete(self, role, payload, seed, context):
+                if 'followed' in payload.get('response_schema', {}):
+                    raise RuntimeError('down')
+                return super().complete(role, payload, seed, context)
+        rules = self.two_rules()
+        result = play(None, rules, Broken(None))
+        self.assertEqual([r['alpha'] + r['beta'] for r in rules[:2]], [3, 3])
+        self.assertTrue(any('followed judge' in e for e in result['manual']['errors']))
 
     def test_recipe_is_credited_even_when_not_listed_as_followed(self):
         recipe, other = rule(1, 'Take, go, put.', kind='Success Process'), rule(2, 'x')

@@ -189,9 +189,7 @@ BUILDER_GUIDE = (
     'even in other words, update or upvote that rule; never restate it as a new rule. Use "validation" to note when a later game confirmed or contradicted a '
     'rule, in one short sentence. A rule with "confirmed": false is an unconfirmed guess from a lost game, '
     'not shown to the agent: upvote or update it when this game confirms it. '
-    'Also list "followed": the ids from "shown_in_game" (the rules the agent was shown) that its actions '
-    'clearly followed in this game; a rule counts only if some action clearly did what it says. '
-    'Output {"diagnosis": "...", "operations": [...], "followed": [...]}; an empty list is fine.')
+    'Output {"diagnosis": "...", "operations": [...]}.')
 CASE_NOTES = {
     'direct success': ' This game was won without mistakes: you may write or update a Success Process '
                       'and Special Phenomenon rules only.',
@@ -810,6 +808,252 @@ def vote(rules, by_id, rule_id, delta):
     return False
 
 
+JUDGE_GUIDE = ('Which of these rules did the agent\'s actions follow (did what the rule says, whether or not it '
+               'helped)? A rule counts only if some action clearly did what it says. You are not told how the game '
+               'ended; do not guess. Return {"followed": ["rule ids"]}; an empty list is fine.')
+JUDGE_OBSERVATION = 100     # characters of each observation shown to the judge
+
+
+def judge_payload(agent, rules):
+    """Outcome-blind input for the `followed` judge: goal, shown rules, the first attempt's valid actions with
+    short observations; no success flag, no reward, and the final observation (which reveals a win) is left out."""
+    shown = set(agent.rules_shown)
+    trace = [t for t in agent.result['trace'] if t['valid']]
+    steps = [{'action': t['action'], 'observation': t['after'][:JUDGE_OBSERVATION]} for t in trace[-40:]]
+    if steps:
+        steps[-1].pop('observation')
+    return {'instructions': JUDGE_GUIDE, 'goal': agent.public_task.get('goal', ''),
+            'shown_rules': [{'id': r['id'], 'rule': r['rule']} for r in rules if r['id'] in shown],
+            'steps': steps, 'response_schema': {'followed': ['rule ids']}}
+
+
+def judge_followed(agent, rules, errors):
+    """Ids of the shown rules whose advice the actions followed, from a separate outcome-blind model call.
+    None (credit every shown rule) when nothing was shown is not needed; None also on failure, logged."""
+    if not agent.rules_shown:
+        return None
+    try:
+        data = agent._ask('builder', judge_payload(agent, rules))
+        if not isinstance(data.get('followed'), list):
+            raise ValueError('no followed list')
+        return [i for i in data['followed'] if i in set(agent.rules_shown)]
+    except (ValueError, RuntimeError, KeyError, TypeError) as exc:
+        errors.append(f'followed judge: {exc}; all shown rules credited'[:200])
+        return None
+
+
+CONSOLIDATE_EVERY = 25      # practice games between consolidations of underused rules
+CONSOLIDATE_MIN = 3         # underused rules needed to consolidate
+CONSOLIDATE_SHARE = 0.4     # underused: credited games below this percentile of the visible pool
+FOLD_SIM = 0.6              # minimum similarity of an underused rule to its absorber
+MAX_FOLD = 3                # underused rules folded into one absorber
+FOLD_WORDS = 25
+FOLD_FORM = re.compile(r'^(if|when)\b', re.IGNORECASE)
+FOLD_SYSTEM = ('You edit the rule manual of a household text-game agent (ALFWorld: go to, take, move X to Y, open, '
+               'close, clean/heat/cool X with Y, use desklamp). Return only one JSON object.')
+
+
+def credited(rule):
+    """Games the rule was credited in (alpha + beta - 2)."""
+    return rule.get('alpha', 1) + rule.get('beta', 1) - 2
+
+
+def _visible(rule):
+    return shown_to_agent(rule) and rule['type'] != avoid.POOL
+
+
+def percentile(values, share):
+    """Linear-interpolated percentile (numpy's default)."""
+    v = sorted(values)
+    if not v:
+        return 0.0
+    pos = share * (len(v) - 1)
+    lo = int(pos)
+    hi = min(lo + 1, len(v) - 1)
+    return v[lo] + (v[hi] - v[lo]) * (pos - lo)
+
+
+def base_rates(rules):
+    """Pooled win rate of the visible rules per task type (wins / credited games), None if none credited."""
+    won, games = {}, {}
+    for r in rules:
+        if _visible(r):
+            t = r.get('task_type')
+            won[t] = won.get(t, 0) + r.get('alpha', 1) - 1
+            games[t] = games.get(t, 0) + credited(r)
+    return {t: (won[t] / games[t] if games[t] else None) for t in games}
+
+
+def underused(rules):
+    """(underused ids, well-used ids, info). Pool: visible rules that are not recipes or Anti-Patterns.
+    Underused: credited games below the pool's 40th percentile and either no losses or a Beta mean at or
+    above the base rate of its task type. Well-used: not underused and credited games >= the pool median."""
+    pool = [r for r in rules if _visible(r) and r['type'] not in ('Success Process', avoid.TYPE)]
+    counts = [credited(r) for r in pool]
+    cut, median = percentile(counts, CONSOLIDATE_SHARE), percentile(counts, 0.5)
+    rates = base_rates(rules)
+    under, well = [], []
+    for r in pool:
+        a, b = r.get('alpha', 1), r.get('beta', 1)
+        rate = rates.get(r.get('task_type'))
+        decent = b == 1 or (rate is not None and a / (a + b) >= rate)
+        if credited(r) < cut and decent:
+            under.append(r['id'])
+        elif credited(r) >= median and credited(r) >= cut:
+            well.append(r['id'])
+    return under, well, {'pool': len(pool), 'credited_p40': cut, 'credited_median': median, 'base_rates': rates}
+
+
+def fold_problems(kind, text, task_type):
+    """Live checks on a model-written rule; [] when it passes."""
+    out = []
+    if not FOLD_FORM.match(text):
+        out.append('not in If/When form')
+    if len(text.split()) > FOLD_WORDS:
+        out.append(f'too long ({len(text.split())} words)')
+    try:
+        checked(kind, text)
+    except ValueError as e:
+        out.append(str(e))
+    bad = specific_terms(text)
+    if bad:
+        out.append('names specific objects or rooms: ' + ', '.join(bad))
+    foreign = foreign_actions(task_type, text)
+    if foreign:
+        out.append('has steps of another kind of task: ' + ', '.join(foreign))
+    out += [p for p in rule_problems(kind, text) if p not in out]
+    return out
+
+
+def ask_folded(ask, user, kind, task_type):
+    """`ask(user_text, attempt)` returns the model's JSON. (text, []) or (None, problems) after at most two tries."""
+    note = ''
+    for attempt in range(2):
+        reply = ask(user + note, attempt)
+        text = tidy(reply.get('rule') or '') if isinstance(reply.get('rule'), str) else ''
+        if reply.get('covers_all') is False or not text:
+            return None, ['model could not cover all rules in one rule']
+        found = fold_problems(kind, text, task_type)
+        if not found:
+            return text, []
+        note = '\n\nYour previous answer was rejected: ' + '; '.join(found) + '. Fix this and answer again.'
+    return None, found
+
+
+def fold_prompt(task, kind, absorber, extras):
+    listed = '\n'.join(f'{i + 1}. {r["rule"]}' for i, r in enumerate(extras))
+    return (f'A well-used rule of the manual (type "{kind}", task type {task}):\n{absorber["rule"]}\n\n'
+            f'Narrower rules that are rarely shown:\n{listed}\n\n'
+            'Rewrite the well-used rule so it ALSO covers the narrower rule(s), keeping everything the original '
+            'says that is correct. ' + RULE_FORM + ' Use "If/When <condition>, <action>." and at most '
+            f'{FOLD_WORDS} words. If it cannot cover them without losing meaning or becoming vague, set '
+            '"covers_all" to false.\nReturn JSON {"rule": "<the rewritten rule>", "covers_all": true|false}.')
+
+
+def merged_record(keeper, others, text):
+    """The absorbing rule `keeper` rewritten to `text`, with the evidence of `others` folded in."""
+    group = [keeper, *others]
+    new = copy.deepcopy(keeper)
+    new['rule'] = text
+    new['alpha'] = sum(r.get('alpha', 1) for r in group) - len(others)
+    new['beta'] = sum(r.get('beta', 1) for r in group) - len(others)
+    seen, contexts = set(), []
+    for r in group:
+        for c in r.get('contexts', []):
+            key = (c.get('task'), c.get('won'), c.get('plan'))
+            if key not in seen:
+                seen.add(key)
+                contexts.append(copy.deepcopy(c))
+    new['contexts'] = contexts
+    sources = []
+    for r in group:
+        for s in r.get('sources', []):
+            if s not in sources:
+                sources.append(copy.deepcopy(s))
+    new['sources'] = sources[-MAX_SOURCES:]
+    new['importance'] = max(r.get('importance', 0) for r in group)
+    last = [r['last_used'] for r in group if r.get('last_used') is not None]
+    new['last_used'] = max(last) if last else keeper.get('last_used')
+    new['base'] = list(max((r.get('base', [0, 0]) for r in group), key=lambda b: b[1]))
+    if any('unused' in r for r in group):
+        new['unused'] = sum(r.get('unused', 0) for r in group)
+    return new
+
+
+def fold_plans(rules, similarity):
+    """[(absorber, [underused rules to fold in])]: each underused rule goes to the most similar well-used rule
+    of the same task type and rule type (similarity >= FOLD_SIM); at most MAX_FOLD per absorber."""
+    under, well, _ = underused(rules)
+    by_id = {r['id']: r for r in rules}
+    assigned = {}
+    for uid in under:
+        u = by_id[uid]
+        cands = [by_id[w] for w in well if by_id[w].get('task_type') == u.get('task_type')
+                 and by_id[w]['type'] == u['type']]
+        if not cands:
+            continue
+        sims = [float(s) for s in similarity(u['rule'], [c['rule'] for c in cands])]
+        k = max(range(len(cands)), key=lambda i: sims[i])
+        if sims[k] >= FOLD_SIM:
+            assigned.setdefault(cands[k]['id'], []).append((sims[k], u))
+    return [(by_id[aid], [u for _, u in sorted(v, key=lambda x: -x[0])[:MAX_FOLD]]) for aid, v in assigned.items()]
+
+
+def conflicting(ask, absorber, extras):
+    """Contradiction guard: True when the model says the rules give conflicting advice."""
+    data = ask('builder', {'instructions': 'Do any of these rules of the same kind of task give conflicting or '
+                           'contradictory advice (one says to do what another says not to, or they require '
+                           'incompatible steps)? Answer yes or no.',
+                           'rules': [absorber['rule']] + [r['rule'] for r in extras],
+                           'response_schema': {'conflict': 'yes|no'}})
+    answer = data.get('conflict')
+    return answer is True or str(answer).strip().lower() in ('yes', 'true')
+
+
+def _consolidate(rules, op):
+    """Fold the rules `op['absorbed']` into `op['id']` (text `op['rule']`); missing rules are skipped."""
+    by_id = {r['id']: r for r in rules}
+    if op['id'] not in by_id:
+        return
+    extras = [by_id[i] for i in op['absorbed'] if i in by_id and i != op['id']]
+    merged = merged_record(by_id[op['id']], extras, op['rule'])
+    rules[rules.index(by_id[op['id']])] = merged
+    for r in extras:
+        rules.remove(r)
+
+
+def consolidate(agent, rules, report):
+    """Periodic step: fold underused rules into similar well-used ones (see underused). One contradiction check
+    and at most two rewrite tries per absorber; on any failure the originals stay. Logged as 'consolidate' ops."""
+    if len(underused(rules)[0]) < CONSOLIDATE_MIN:
+        return
+    for absorber, extras in fold_plans(rules, agent.embedder.similarity):
+        try:
+            if conflicting(agent._ask, absorber, extras):
+                report['errors'].append(f"consolidate: {absorber['id']} skipped (conflicting rules)")
+                continue
+            text, why = None, []
+            while extras:                      # on failure retry with the least similar one dropped
+                text, why = ask_folded(
+                    lambda user, attempt: agent._ask('builder', {
+                        'instructions': FOLD_SYSTEM + '\n' + user,
+                        'response_schema': {'rule': 'string', 'covers_all': 'true|false'}}),
+                    fold_prompt(absorber.get('task_type'), absorber['type'], absorber, extras),
+                    absorber['type'], absorber.get('task_type'))
+                if text is not None:
+                    break
+                extras = extras[:-1]
+            if text is None:
+                report['errors'].append(f"consolidate: {absorber['id']} kept ({'; '.join(why)})"[:200])
+                continue
+            op = {'op': 'consolidate', 'id': absorber['id'], 'absorbed': [r['id'] for r in extras], 'rule': text,
+                  'old_rule': absorber['rule'], 'absorbed_rules': [r['rule'] for r in extras]}
+            _consolidate(rules, op)
+            report['operations'].append(op)
+        except (ValueError, RuntimeError, KeyError, TypeError) as exc:
+            report['errors'].append(f'consolidate: {exc}'[:200])
+
+
 COSTS = ('model_calls', 'input_tokens', 'output_tokens', 'model_wall_seconds')
 
 
@@ -897,14 +1141,11 @@ def build(agent):
     guide = builder_guide(report['case'], append_only, agent.task.get('task_type'), shown)
     if 'failed_retries' in extra:
         guide += RETRY_NOTE
-    followed = None
     try:
         data = agent._ask('builder', {
             'instructions': guide,
             'game': _game(agent.result, agent.public_task.get('goal', '')), **extra,
             'task_type': agent.task.get('task_type'),
-            **({'shown_in_game': [{'id': r['id'], 'rule': r['rule']} for r in rules if r['id'] in set(agent.rules_shown)]}
-               if not append_only else {}),
             'rules': [{k: r.get(k, NEW_IMPORTANCE if k == 'importance' else '')
                        for k in ('id', 'type', 'rule', 'example', 'validation', 'importance')}
                       | ({} if r.get('verified', True) else {'confirmed': False}) for r in shown],
@@ -912,20 +1153,16 @@ def build(agent):
                                 'operations': [{'op': 'write_rule | update_rule | upvote_rule | downvote_rule', 'id': 'rule_N',
                                                 'type': '|'.join(CASE_TYPES[report['case']]), 'rule': 'string', 'example': 'string',
                                                 'validation': 'string'}],
-                                **({'followed': ['rule ids from shown_in_game that the actions clearly followed']}
-                                   if not append_only else {})}})
+                                }})
         report['diagnosis'] = data.get('diagnosis')
-        if isinstance(data.get('followed'), list):
-            followed = [i for i in data['followed'] if i in set(agent.rules_shown)]
-        report['followed'] = followed
         report['operations'] += apply(rules, data.get('operations'), report['case'], append_only, next_id,
                                       report['errors'], agent.task.get('task_type'), [r['id'] for r in shown],
                                       agent.embedder.similarity, agent.public_task.get('goal', ''), agent._ask)
     except (ValueError, RuntimeError, KeyError, TypeError) as exc:
         report['errors'].append(f'builder: {exc}'[:200])
     if not append_only:   # every game: Beta updates of the followed rules and the base rates
-        if followed is None and agent.rules_shown:
-            report['errors'].append('builder gave no followed list: all shown rules credited')
+        followed = judge_followed(agent, rules, report['errors'])
+        report['followed'] = followed
         report['operations'].append(observe(rules, agent.rules_shown, agent.result['success'],
                                             {'task': agent.public_task.get('goal', ''),
                                              'task_type': agent.task.get('task_type'),
@@ -942,6 +1179,8 @@ def build(agent):
         prune(rules, position, report['errors'])
         for gone in before - {r['id'] for r in rules}:
             report['operations'].append({'op': 'prune', 'id': gone})
+        if (position + 1) % CONSOLIDATE_EVERY == 0:
+            consolidate(agent, rules, report)
     return report
 
 
@@ -965,6 +1204,11 @@ def replay(live, operations, log):
             continue
         if op['op'] == 'refine':
             _refine(rules, op)
+            continue
+        if op['op'] == 'consolidate':
+            _consolidate(rules, op)
+            by_id.clear()
+            by_id.update({r['id']: r for r in rules})
             continue
         if op['op'] in ('prune', 'retire'):
             if op['id'] in by_id:
