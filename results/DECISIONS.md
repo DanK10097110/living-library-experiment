@@ -133,3 +133,24 @@ _Reconstructed on 2026-11-19 from git history, archive/, results/, the proposal,
   library a cooling recipe said "clean it with sinkbasin, cool it with fridge". The game won
   anyway, so Beta reliability can never catch such a wrong step, and it would teach a wrong recipe.
   The E library of the study was restarted after this fix (C/D games kept).
+
+### 2026-11-19 — No full study until long-run library management is verified
+- **Decision:** the study may run only up to its 75-game early gate. It continues past the gate only after
+  the current retrieval/management has been tested at the library size of a long run (3000+ episodes,
+  about 200-300+ rules). The current method stays if it holds up; extra structure (a tree, merging) comes
+  only if it clearly degrades.
+- **Why:** the real libraries so far are small (15-30 rules), where retrieval choices make no
+  difference. A long run grows the library about 10x, and a management problem found late would waste
+  the whole run. Owner's preference: keep it simple unless the evidence demands more.
+
+### 2026-11-19 — Keep flat task-keyed retrieval for long runs (no tree, merging or MMR)
+- **Decision:** keep `for_agent` in 'task' mode (SHOWN 8, CAPACITY 200) for the long study. The owner's tree
+  idea, merging and MMR were not built.
+- **Why:** lab benchmark (`results/lab/REPORT.md`): a long run reaches about 150-200 rules (growth 0.2-0.3
+  rules per game, capped at 200). At 200-270 rules the current retrieval has P@8 0.80-0.82 and nDCG@8
+  0.87-0.88, the same as at 50 rules, with about 0 duplicates and 3-5% wrong-kind rules, at 20-40 ms per
+  query with no model calls. The owner asked to keep it simple when it is good enough.
+- **Open issue found:** junk accumulation, not size, is the long-run risk. Retrieval screens junk out
+  only if its win/loss counts are worse. But every rule shown in a game gets the same credit, and no real
+  run has retired a rule yet. So credit assignment and retirement are the next things to fix before the
+  full study.
