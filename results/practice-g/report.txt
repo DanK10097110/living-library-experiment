@@ -1,0 +1,228 @@
+16:27:38 practice-E-0 1/48 WIN  calls=20 | session 1 eps, 11/h
+16:41:05 practice-E-0 2/48 fail calls=149 | session 2 eps, 6/h
+16:43:18 practice-E-0 3/48 fail calls=151 | session 8 eps, 23/h
+16:43:18 practice-E-0 4/48 WIN  calls=25 | session 8 eps, 23/h
+16:43:18 practice-E-0 5/48 fail calls=74 | session 8 eps, 23/h
+16:43:18 practice-E-0 6/48 WIN  calls=18 | session 8 eps, 23/h
+16:43:18 practice-E-0 7/48 fail calls=146 | session 8 eps, 23/h
+16:43:18 practice-E-0 8/48 fail calls=45 | session 8 eps, 23/h
+16:46:42 practice-E-0 9/48 WIN  calls=20 | session 9 eps, 22/h
+16:56:17 practice-E-0 10/48 fail calls=90 | session 11 eps, 20/h
+16:56:17 practice-E-0 11/48 WIN  calls=14 | session 11 eps, 20/h
+17:01:44 practice-E-0 12/48 fail calls=145 | session 16 eps, 24/h
+17:01:44 practice-E-0 13/48 fail calls=116 | session 16 eps, 24/h
+17:01:44 practice-E-0 14/48 WIN  calls=18 | session 16 eps, 24/h
+17:01:44 practice-E-0 15/48 fail calls=139 | session 16 eps, 24/h
+17:01:44 practice-E-0 16/48 WIN  calls=40 | session 16 eps, 24/h
+17:10:26 practice-E-0 17/48 fail calls=65 | session 17 eps, 21/h
+17:12:27 practice-E-0 18/48 fail calls=100 | session 19 eps, 23/h
+17:12:27 practice-E-0 19/48 fail calls=52 | session 19 eps, 23/h
+17:18:14 practice-E-0 20/48 fail calls=145 | session 24 eps, 26/h
+17:18:14 practice-E-0 21/48 WIN  calls=22 | session 24 eps, 26/h
+17:18:14 practice-E-0 22/48 WIN  calls=19 | session 24 eps, 26/h
+17:18:14 practice-E-0 23/48 WIN  calls=29 | session 24 eps, 26/h
+17:18:14 practice-E-0 24/48 WIN  calls=24 | session 24 eps, 26/h
+17:26:12 practice-E-0 25/48 fail calls=57 | session 25 eps, 24/h
+17:26:43 practice-E-0 26/48 fail calls=56 | session 29 eps, 27/h
+17:26:43 practice-E-0 27/48 WIN  calls=15 | session 29 eps, 27/h
+17:26:43 practice-E-0 28/48 WIN  calls=16 | session 29 eps, 27/h
+17:26:43 practice-E-0 29/48 WIN  calls=10 | session 29 eps, 27/h
+17:29:49 practice-E-0 30/48 fail calls=92 | session 32 eps, 29/h
+17:29:49 practice-E-0 31/48 WIN  calls=53 | session 32 eps, 29/h
+17:29:49 practice-E-0 32/48 fail calls=61 | session 32 eps, 29/h
+17:34:47 practice-E-0 33/48 WIN  calls=25 | session 34 eps, 28/h
+17:34:47 practice-E-0 34/48 WIN  calls=11 | session 34 eps, 28/h
+17:39:16 practice-E-0 35/48 fail calls=95 | session 40 eps, 32/h
+17:39:16 practice-E-0 36/48 fail calls=58 | session 40 eps, 32/h
+17:39:16 practice-E-0 37/48 WIN  calls=24 | session 40 eps, 32/h
+17:39:16 practice-E-0 38/48 WIN  calls=17 | session 40 eps, 32/h
+17:39:16 practice-E-0 39/48 fail calls=48 | session 40 eps, 32/h
+17:39:16 practice-E-0 40/48 WIN  calls=35 | session 40 eps, 32/h
+17:42:44 practice-E-0 41/48 WIN  calls=26 | session 41 eps, 31/h
+17:54:21 practice-E-0 42/48 fail calls=150 | session 48 eps, 32/h
+17:54:21 practice-E-0 43/48 WIN  calls=19 | session 48 eps, 32/h
+17:54:21 practice-E-0 44/48 WIN  calls=23 | session 48 eps, 32/h
+17:54:21 practice-E-0 45/48 fail calls=119 | session 48 eps, 32/h
+17:54:21 practice-E-0 46/48 fail calls=48 | session 48 eps, 32/h
+17:54:21 practice-E-0 47/48 WIN  calls=13 | session 48 eps, 32/h
+17:54:21 practice-E-0 48/48 WIN  calls=19 | session 48 eps, 32/h
+session: 48 new episodes in 91.1 min; 48/48 episodes done
+
+48 games, won 25 (first attempts)
+#  0 WIN  direct success    shown=0 ops={'write_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 rejected=[]
+       write_rule: Success Process When an object must be cleaned and placed: search the object's current location first, clean it with the sinkbasin, then move it to the target contain
+#  1 fail failure           shown=0 ops={'write_rule': 1, 'outcome': 1, 'pool_game': 1} merged=0 retries=3 lost rejected=[]
+       reflection 1: I repeatedly navigated between locations without successfully picking up the towel before attempting to move it, and I tried 'move towel 1 to drawer 1
+       reflection 2: I failed because I repeatedly navigated between locations without successfully picking up the towel before attempting to move it, and I tried 'move to
+       reflection 3: I failed because I repeatedly navigated between locations without successfully picking up the towel before attempting to move it, and I tried 'move to
+       rule_1 is a hidden Builder note until a won game confirms it
+       write_rule: Special Phenomenon When carrying an object to a container, use 'put <object> in <container>' instead of 'move <object> to <container>'.
+       pooled never-won game of pick_and_place_simple (4 attempts)
+#  2 fail failure           shown=0 ops={'write_rule': 1, 'outcome': 1, 'pool_game': 1} merged=0 retries=3 lost rejected=[]
+       reflection 1: I successfully moved one spatula to drawer 1 but failed to locate and move the second spatula because I repeatedly checked cabinets and drawers withou
+       reflection 2: I successfully moved one spatula to drawer 1 but failed to locate and move the second spatula because I repeatedly checked cabinets and drawers withou
+       reflection 3: I failed because I moved one spatula to drawer 1 but never searched countertop 1 again for the second spatula, instead repeatedly checking empty cabin
+       write_rule: Unresolved Error When moving multiple objects to a target, search the original location again after moving the first object to find remaining items.
+       pooled never-won game of pick_two_obj_and_place (4 attempts)
+#  3 WIN  indirect success  shown=0 ops={'write_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 rejected=[]
+       write_rule: Success Process When an object must be picked up and placed in a target container: search drawers first, open the target if closed, take the object, then move it to t
+#  4 fail corrected failure shown=0 ops={'write_rule': 2, 'outcome': 1, 'pool_won': 1} merged=0 retries=1 WON rejected=[]
+       reflection 1: I failed because I tried to place the mug directly on the stoveburner, which was invalid, and then wasted time examining the stove and kettle repeated
+       write_rule: Corrected Error When heating an object, never place it directly on a stoveburner if the command fails; instead, search for a microwave and use heat <object> with micr
+       write_rule: Success Process When the object must be heated and placed in the target: search for the object, heat it if needed, then place it in the target.
+#  5 WIN  indirect success  shown=0 ops={'write_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 rejected=[]
+       write_rule: Success Process When an object must be picked up and placed: search shelves first, take the object, go to the target, move the object to the target.
+#  6 fail failure           shown=0 ops={'outcome': 1, 'pool_game': 1} merged=0 retries=3 lost rejected=['rejected Unresolved Error text, names specific objects or rooms (plate): When cleaning a plate and placing it in microwave, search diningtable and counte']
+       reflection 1: I wasted time searching through multiple cabinets and drawers that were empty, and I never actually found a plate to clean. Instead of randomly explor
+       reflection 2: I failed because I wasted time searching through multiple empty cabinets and repeatedly visiting locations without confirming the presence of a plate.
+       reflection 3: I failed because I wasted time searching through multiple empty cabinets and repeatedly visiting locations without confirming the presence of a plate.
+       pooled never-won game of pick_clean_then_place_in_recep (4 attempts)
+#  7 fail corrected failure shown=0 ops={'write_rule': 2, 'outcome': 1, 'pool_won': 1} merged=0 retries=1 WON rejected=[]
+       reflection 1: I failed because I attempted to clean the soapbar at sinkbasin 1 without water, which was invalid; I should have first checked if the sinkbasin had wa
+       write_rule: Corrected Error When cleaning an object at a sink, ensure the sink has water before attempting to clean.
+       write_rule: Success Process When a clean object must be placed in a receptacle: search the receptacle for the object, take it, go to a sink, clean it with the sink, return to the
+#  8 WIN  direct success    shown=0 ops={'update_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 rejected=['rule_5 keeps its type Unresolved Error (only a retry success turns a note into a Corrected Error)']
+       rule_5 confirmed by a won game (now shown to the agent)
+#  9 fail corrected failure shown=1 ops={'update_rule': 1, 'downvote_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 retries=2 WON rejected=[]
+       reflection 1: I repeatedly navigated between dresser 1 and drawers without first locating the cellphone, wasting steps on closed drawers and failed attempts to open
+       reflection 2: I failed because I navigated between drawers and the dresser without first locating the cellphone, wasting steps on closed drawers and failed attempts
+# 10 WIN  direct success    shown=1 ops={'update_rule': 1, 'downvote_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 rejected=[]
+# 11 fail failure           shown=1 ops={'outcome': 1, 'pool_game': 1} merged=0 retries=3 lost rejected=['rejected Unresolved Error text, lists steps (only a Success Process may): When an object must be picked up and placed in a target container: search all co']
+       reflection 1: I failed because I never located the keychain, repeatedly checking desks, drawers, cabinets, and shelves without finding it, and then attempted to tak
+       reflection 2: I failed because I never located the keychain, repeatedly checking desks, drawers, cabinets, and shelves without finding it, and then attempted to tak
+       reflection 3: I failed because I never located the keychain, repeatedly checking desks, drawers, cabinets, and shelves without finding it, and then attempted to tak
+       pooled never-won game of pick_and_place_simple (4 attempts)
+# 12 fail corrected failure shown=0 ops={'write_rule': 2, 'outcome': 1, 'pool_won': 1} merged=0 retries=3 WON rejected=[]
+       reflection 1: I spent too much time checking empty cabinets without first locating the cool bowl on countertop 1 where it was visible; I should have picked up the b
+       reflection 2: I wasted time repeatedly checking empty cabinets and drawers without first locating the cool bowl on countertop 1 where it was visible; I should have 
+       reflection 3: I failed because I repeatedly visited empty cabinets and drawers without first locating the cool bowl on countertop 1 where it was visible; I should h
+       write_rule: Corrected Error When an object must be cooled and placed, locate the object first before attempting to cool or move it.
+       write_rule: Success Process When an object must be cooled and placed: search all surfaces (countertops, diningtables) first, take the object, go to a fridge, cool the object with
+# 13 WIN  direct success    shown=1 ops={'update_rule': 1, 'downvote_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 rejected=[]
+# 14 fail failure           shown=0 ops={'write_rule': 1, 'update_rule': 1, 'outcome': 1, 'pool_game': 1} merged=0 retries=3 lost rejected=[]
+       reflection 1: I failed because I never located or picked up the two cellphones; I only opened drawers and moved between locations without checking for phones on des
+       reflection 2: I failed because I never located or picked up the two cellphones; I only opened drawers and moved between locations without checking for phones on des
+       reflection 3: I failed because I spent excessive time opening drawers without first locating the cellphones on visible surfaces like the bed. I should have immediat
+       rule_12 is a hidden Builder note until a won game confirms it
+       write_rule: Special Phenomenon When searching for multiple objects, examine all visible surfaces before opening containers.
+       pooled never-won game of pick_two_obj_and_place (4 attempts)
+# 15 WIN  indirect success  shown=2 ops={'update_rule': 1, 'write_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 rejected=[]
+       write_rule: Corrected Error When moving an object to a location, ensure you are at the target location before issuing the move command.
+# 16 fail corrected failure shown=2 ops={'update_rule': 2, 'outcome': 1, 'pool_won': 1} merged=0 retries=1 WON rejected=[]
+       reflection 1: I failed to find the cool pan because I only checked stoveburner 1 and stoveburner 2 without examining stoveburner 3, where pans are typically stored.
+# 17 fail corrected failure shown=1 ops={'update_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 retries=2 WON rejected=[]
+       reflection 1: I wasted time opening drawers 1-16 and checking dresser 1 without first locating the cellphone, which I never found in any drawer. Instead, I should h
+       reflection 2: I failed because I spent excessive time opening drawers and checking dresser 1 without first locating the cellphone, which I never found in any drawer
+# 18 fail corrected failure shown=3 ops={'update_rule': 2, 'outcome': 1, 'pool_won': 1} merged=0 retries=1 WON rejected=[]
+       reflection 1: I failed because I tried to clean the cloth with the sinkbasin when it was empty and never successfully picked up the cloth from the bathtubbasin. Ins
+# 19 fail failure           shown=2 ops={'update_rule': 1, 'outcome': 1, 'pool_game': 1} merged=0 retries=3 lost rejected=[]
+       reflection 1: I failed because I never identified or picked up a plate to cool, instead only exploring cabinets and countertops without locating the required object
+       reflection 2: I failed because I never identified or picked up a plate to cool, instead only exploring cabinets and countertops without locating the required object
+       reflection 3: I failed because I never identified or picked up a plate to cool, instead only exploring cabinets and countertops without locating the required object
+       rule_13 keeps its text (a lost game may not rewrite a rule the agent sees)
+       rule_12 keeps its text (a lost game may not rewrite a rule the agent sees)
+       pooled never-won game of pick_cool_then_place_in_recep (4 attempts)
+# 20 WIN  direct success    shown=2 ops={'update_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 rejected=[]
+# 21 WIN  direct success    shown=1 ops={'update_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 rejected=[]
+# 22 WIN  indirect success  shown=2 ops={'update_rule': 1, 'upvote_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 rejected=[]
+# 23 WIN  direct success    shown=2 ops={'update_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 rejected=[]
+# 24 fail corrected failure shown=0 ops={'update_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 retries=1 WON rejected=['rule_15 keeps its type Special Phenomenon (only a retry success turns a note into a Corrected Error)', 'rejected Special Phenomenon text, too long (42 words > 35); lists steps (only a Success Process may): When putting two objects in a container: search visible surfaces first, take the']
+       reflection 1: I successfully moved one keychain to drawer 1 but failed to find the second keychain because I repeatedly attempted to take keychain 3 from desk 1 aft
+       update_rule: Corrected Error When moving multiple objects to a target, examine the original location after moving the first object to find remaining items.
+# 25 fail corrected failure shown=0 ops={'update_rule': 1, 'write_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 retries=1 WON rejected=[]
+       reflection 1: I initially attempted to place pencils in drawer 1, but the task requires drawer 2. I also wasted time trying to open drawer 1 multiple times when it 
+       rule_15 confirmed by a won game (now shown to the agent)
+       write_rule: Corrected Error When moving multiple objects to a target, open the target once and move objects directly without returning to the source.
+# 26 WIN  direct success    shown=1 ops={'update_rule': 1, 'outcome': 1, 'pool_won': 1, 'refine': 1} merged=0 rejected=[]
+       refine:  When an object must be picked up and placed in a target: search the object first, open the target if closed, take the object, then move it to the targ
+# 27 WIN  direct success    shown=1 ops={'update_rule': 1, 'outcome': 1, 'pool_won': 1, 'refine': 1} merged=0 rejected=[]
+       refine:  When an object must be picked up and placed in a target: search drawers first, open the target if closed, take the object, then move it to the target.
+# 28 WIN  direct success    shown=3 ops={'update_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 rejected=[]
+# 29 fail corrected failure shown=3 ops={'update_rule': 1, 'write_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 retries=2 WON rejected=[]
+       reflection 1: I failed because I never located or cleaned a fork, instead repeatedly checking cabinets and countertops that contained only spoons, plates, and other
+       reflection 2: I failed because I never located or cleaned a fork, instead repeatedly checking cabinets and countertops that contained only spoons, plates, and other
+       write_rule: Special Phenomenon When searching for an object, check all visible surfaces before opening any containers.
+# 30 WIN  indirect success  shown=2 ops={'update_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 rejected=[]
+# 31 fail corrected failure shown=0 ops={'update_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 retries=1 WON rejected=['duplicate rule']
+       reflection 1: I wasted time opening all drawers and cabinets that were empty before checking the armchair where I found the first cellphone. Instead of systematical
+       rule_15 confirmed by a won game (now shown to the agent)
+# 32 WIN  direct success    shown=2 ops={'update_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 rejected=[]
+# 33 WIN  direct success    shown=4 ops={'update_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 rejected=[]
+# 34 fail corrected failure shown=1 ops={'update_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 retries=2 WON rejected=[]
+       reflection 1: I failed because I repeatedly tried to open desk 1 without first checking if it was actually a drawer, and I wasted many steps cycling between desk 1 
+       reflection 2: I failed because I wasted many steps cycling between desk 1 and multiple empty drawers (1-5) without locating the laptop, and I repeatedly tried to op
+# 35 fail corrected failure shown=3 ops={'update_rule': 3, 'outcome': 1, 'pool_won': 1} merged=0 retries=1 WON rejected=[]
+       reflection 1: I failed because I tried to take pen 2 from the coffeetable but the action was invalid, likely because I needed to take pen 3 instead or the action fa
+# 36 WIN  direct success    shown=4 ops={'update_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 rejected=[]
+# 37 WIN  direct success    shown=2 ops={'update_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 rejected=[]
+# 38 fail corrected failure shown=0 ops={'write_rule': 2, 'outcome': 1, 'pool_won': 1} merged=0 retries=1 WON rejected=[]
+       reflection 1: I repeatedly turned on the desklamp and moved between locations without holding the pen while examining it; instead, I should have picked up pen 2, tu
+       write_rule: Corrected Error When examining an object with a light source, pick up the object first, then activate the light source, and examine while holding the object.
+       write_rule: Success Process When an object must be examined with a light source: search the object's location first, take the object, go to the light source, use the light source
+# 39 WIN  indirect success  shown=3 ops={'update_rule': 2, 'outcome': 1, 'pool_won': 1} merged=0 rejected=[]
+# 40 WIN  indirect success  shown=2 ops={'update_rule': 1, 'upvote_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 rejected=[]
+# 41 fail failure           shown=2 ops={'update_rule': 1, 'outcome': 1, 'pool_game': 1, 'refine': 1} merged=0 retries=3 lost rejected=[]
+       reflection 1: I failed because I moved the mug to the fridge but never removed it before trying to place it in the microwave. Instead, I should have taken the mug o
+       reflection 2: I failed because I moved the mug to the fridge but never removed it before trying to place it in the microwave. Instead, I should have taken the mug o
+       reflection 3: I failed because I moved the mug to the fridge but never removed it before trying to place it in the microwave. Instead, I should have taken the mug o
+       rule_13 keeps its text (a lost game may not rewrite a rule the agent sees)
+       pooled never-won game of pick_cool_then_place_in_recep (4 attempts)
+       refine:  When an object must be cooled and placed: search surfaces first, take the object, go to a fridge, cool the object with the fridge, go to the target co
+# 42 WIN  direct success    shown=2 ops={'update_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 rejected=[]
+# 43 WIN  direct success    shown=2 ops={'update_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 rejected=[]
+# 44 fail corrected failure shown=2 ops={'update_rule': 2, 'outcome': 1, 'pool_won': 1} merged=0 retries=3 WON rejected=[]
+       reflection 1: I wasted time repeatedly opening and closing the microwave without heating the cup, and I attempted to move the cup to countertop 2 while holding it i
+       reflection 2: I wasted time repeatedly opening and closing the microwave without heating the cup, and I attempted to move the cup to countertop 2 while holding it i
+       reflection 3: I failed because I repeatedly opened and closed the microwave without successfully heating the mug, and I attempted to move the mug to countertop 2 wh
+# 45 fail corrected failure shown=3 ops={'update_rule': 2, 'downvote_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 retries=1 WON rejected=[]
+       reflection 1: I found the first laptop on the coffeetable and moved it to the ottoman, but then I wasted time repeatedly checking empty drawers and the armchair ins
+# 46 WIN  direct success    shown=1 ops={'update_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 rejected=[]
+# 47 WIN  indirect success  shown=4 ops={'update_rule': 1, 'outcome': 1, 'pool_won': 1} merged=0 rejected=[]
+
+totals: {'write_rule': 17, 'outcome': 48, 'pool_won': 41, 'merged': 0, 'hidden guesses': 2, 'confirmed guesses': 3, 'rejected or failed': 6, 'pool_game': 7, 'retried games': 23, 'retries': 45, 'retry successes': 16, 'retry calls': 1260, 'retry tokens': 3322418, 'update_rule': 44, 'downvote_rule': 4, 'upvote_rule': 2, 'refine': 3}
+
+CONTRASTIVE RULES from retry successes (6):
+  - When heating an object, never place it directly on a stoveburner if the command fails; instead, search for a microwave and use heat <object> with microwave.
+  - When cleaning an object at a sink, ensure the sink has water before attempting to clean.
+  - When an object must be cooled and placed, locate the object first before attempting to cool or move it.
+  - When moving multiple objects to a target, examine the original location after moving the first object to find remaining items.
+  - When moving multiple objects to a target, open the target once and move objects directly without returning to the source.
+  - When examining an object with a light source, pick up the object first, then activate the light source, and examine while holding the object.
+
+ANTI-PATTERNS written and kept (0); retired or contradicted: 0
+  pool pick_clean_then_place_in_recep: 1 never-won games, 9 won attempts, 0 retired patterns, declined {}
+  pool pick_and_place_simple: 2 never-won games, 11 won attempts, 0 retired patterns, declined {}
+  pool pick_two_obj_and_place: 2 never-won games, 7 won attempts, 0 retired patterns, declined {}
+  pool pick_heat_then_place_in_recep: 0 never-won games, 5 won attempts, 0 retired patterns, declined {}
+  pool pick_cool_then_place_in_recep: 2 never-won games, 7 won attempts, 0 retired patterns, declined {}
+  pool look_at_obj_in_light: 0 never-won games, 2 won attempts, 0 retired patterns, declined {}
+
+FINAL MANUAL (14 rules): {'rules': 14, 'types': {'Success Process': 5, 'Corrected Error': 7, 'Special Phenomenon': 2}, 'mean_words': 22.6, 'max_words': 37, 'visible': 14, 'instance_specific': 0.0}
+rule_16  [Corrected Error] pick_clean_then_place_in_recep importance=2 Beta(4,1) mean=0.80 base=[5, 7] words=19 VISIBLE
+    When moving an object to a location, ensure you are at the target location before issuing the move command.
+rule_8   [Corrected Error] pick_heat_then_place_in_recep importance=3 Beta(3,1) mean=0.75 base=[3, 5] words=26 VISIBLE
+    When heating an object, never place it directly on a stoveburner if the command fails; instead, search for a microwave and use heat <object> with microwave.
+rule_5   [Corrected Error] pick_two_obj_and_place importance=8 Beta(2,1) mean=0.67 base=[2, 9] words=15 VISIBLE
+    When moving multiple objects to a target, examine all remaining visible surfaces before searching containers.
+rule_11  [Corrected Error] pick_clean_then_place_in_recep importance=3 Beta(2,1) mean=0.67 base=[5, 8] words=16 VISIBLE
+    When cleaning an object at a sink, ensure the sink has water before attempting to clean.
+rule_12  [Corrected Error] pick_cool_then_place_in_recep importance=4 Beta(3,3) mean=0.50 base=[5, 9] words=19 VISIBLE
+    When an object must be cooled and placed, examine all stoveburners systematically before searching cabinets, drawers, or other surfaces.
+rule_19  [Corrected Error] look_at_obj_in_light importance=3 Beta(1,1) mean=0.50 base=[1, 2] words=24 VISIBLE
+    When examining an object with a light source, pick up the object first, then activate the light source, and examine while holding the object.
+rule_17  [Corrected Error] pick_two_obj_and_place importance=3 Beta(1,2) mean=0.33 base=[1, 5] words=20 VISIBLE
+    When moving multiple objects to a target, open the target once and move objects directly without returning to the source.
+rule_18  [Special Phenomenon] pick_clean_then_place_in_recep importance=2 Beta(1,1) mean=0.50 base=[3, 4] words=13 VISIBLE
+    When searching for an object, check all visible surfaces before opening any containers.
+rule_15  [Special Phenomenon] pick_two_obj_and_place importance=6 Beta(1,2) mean=0.33 base=[1, 7] words=12 VISIBLE
+    When searching for multiple objects, examine all visible surfaces before opening containers.
+rule_1   [Success Process] pick_clean_then_place_in_recep importance=9 Beta(6,3) mean=0.67 base=[6, 10] words=27 VISIBLE
+    When an object must be cleaned and placed: search visible surfaces first, take the object, clean it with the sinkbasin, then move it to the target location.
+rule_9   [Success Process] pick_heat_then_place_in_recep importance=6 Beta(4,2) mean=0.67 base=[3, 5] words=24 VISIBLE
+    When an object must be heated and placed: search for the object, heat it with microwave if needed, then place it in the target.
+rule_20  [Success Process] look_at_obj_in_light importance=3 Beta(2,1) mean=0.67 base=[1, 2] words=34 VISIBLE
+    When an object must be examined with a light source: search the object's location first, take the object, go to the light source, use the light source, then examine the object while holding it.
+rule_13  [Success Process] pick_cool_then_place_in_recep importance=10 Beta(6,4) mean=0.60 base=[5, 9] words=37 VISIBLE
+    When an object must be cooled and placed: search surfaces first, take the object, go to a fridge, cool the object with the fridge, go to the target container, open it if closed, move the object there.
+rule_7   [Success Process] pick_and_place_simple importance=11 Beta(7,5) mean=0.58 base=[8, 12] words=31 VISIBLE
+    When an object must be picked up and placed in a target: search drawers and shelves first, open the target if closed, take the object, then move it to the target.

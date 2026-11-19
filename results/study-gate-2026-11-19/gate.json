@@ -1,0 +1,13 @@
+{
+  "C_wins": 21,
+  "C_won_E_lost": 0,
+  "E_wins": 25,
+  "E_won_C_lost": 4,
+  "builder_errors": 0,
+  "checkpoint": 75,
+  "manual_errors": 38,
+  "margin": 0,
+  "paired_games": 30,
+  "passed": true,
+  "rule_count": 26
+}

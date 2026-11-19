@@ -195,3 +195,12 @@ _Reconstructed on 2026-11-19 from git history, archive/, results/, the proposal,
 - **Why:** in practice-f the Builder (which knows the outcome) said "not followed" in lost games where the
   agent clearly did what the rule said, and "followed" in won games. Rules would then collect only wins and
   never be retired, which is worse than crediting all shown rules.
+
+### 2026-11-19 — Study continues past the 75-game gate
+- **Decision:** let the study continue past its passed gate (E 25/30 vs C 21/30, 4 games won where C lost, 0 the
+  reverse) with the current library management.
+- **Why:** long-run management is in place and verified live. Retrieval holds at long-run size, credit is
+  outcome-blind, and retirement and consolidation fire (8 retirements, 1 fold in 76 games). The remaining
+  wrong rules ("take the lamp", "leave it on the surface to cool") survive only because the wrong step is
+  harmless in won games. Fixing them by hand would inject ALFWorld knowledge into a learning condition, and
+  a new mechanism would add complexity near the model's ceiling.
