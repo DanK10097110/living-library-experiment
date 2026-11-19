@@ -1,0 +1,351 @@
+{
+ "id": "pair-pick-place-watch-sidetable",
+ "title": "Pick and place a watch: C searches 30 steps, E finds it on the coffeetable",
+ "goal": "put some watch on sidetable.",
+ "task_kind": "pick and place",
+ "game_id": "valid_seen/pick_and_place_simple-Watch-None-SideTable-222/trial_T20190909_051813_197569",
+ "result": "C lost, E won",
+ "shows": "E opens drawer 1, then goes to armchair, sofa, coffeetable and finds the watch; 8 steps. C opens drawer after drawer and revisits receptacles.",
+ "why_interesting": "A different library (check-d) with a \"search surfaces first, then containers\" recipe produces the same behaviour change.",
+ "notes": [
+  "Library: check-d (practice-d), not check-e."
+ ],
+ "C": {
+  "id": "pair-pick-place-watch-sidetable-C",
+  "title": "Pick and place a watch: C searches 30 steps, E finds it on the coffeetable (C)",
+  "condition": "C",
+  "source": {
+   "run": "old-pilot-9b-v1",
+   "stream": "development-C-11",
+   "position": 1
+  },
+  "goal": "put some watch on sidetable.",
+  "task_type": "pick_and_place_simple",
+  "task_kind": "pick and place",
+  "game_id": "valid_seen/pick_and_place_simple-Watch-None-SideTable-222/trial_T20190909_051813_197569",
+  "success": false,
+  "steps": 30,
+  "invalid_actions": 4,
+  "model_calls": 33,
+  "input_tokens": 57467,
+  "output_tokens": 2543,
+  "wall_seconds": 314.6,
+  "step_budget": 30,
+  "initial_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see a armchair 1, a coffeetable 1, a drawer 7, a drawer 6, a drawer 5, a drawer 4, a drawer 3, a drawer 2, a drawer 1, a garbagecan 1, a sidetable 3, a sidetable 2, a sidetable 1, a sofa 2, a sofa 1, and a tvstand 1.\n\nYour task is to: put some watch on sidetable.",
+  "trace": [
+   {
+    "step": 1,
+    "action": "inventory",
+    "observation": "You are not carrying anything.",
+    "valid": true
+   },
+   {
+    "step": 2,
+    "action": "go to drawer 1",
+    "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 3,
+    "action": "go to sidetable 1",
+    "observation": "You arrive at sidetable 1. On the sidetable 1, you see a newspaper 1.",
+    "valid": true
+   },
+   {
+    "step": 4,
+    "action": "go to drawer 1",
+    "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 5,
+    "action": "open drawer 1",
+    "observation": "You open the drawer 1. The drawer 1 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 6,
+    "action": "go to drawer 2",
+    "observation": "You arrive at drawer 2. The drawer 2 is closed.",
+    "valid": true
+   },
+   {
+    "step": 7,
+    "action": "open drawer 2",
+    "observation": "You open the drawer 2. The drawer 2 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 8,
+    "action": "go to drawer 3",
+    "observation": "You arrive at drawer 3. The drawer 3 is closed.",
+    "valid": true
+   },
+   {
+    "step": 9,
+    "action": "open drawer 3",
+    "observation": "You open the drawer 3. The drawer 3 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 10,
+    "action": "open drawer 4",
+    "observation": "You open the drawer 4. The drawer 4 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 11,
+    "action": "open drawer 5",
+    "observation": "You open the drawer 4. The drawer 4 is open. In it, you see nothing.",
+    "valid": false
+   },
+   {
+    "step": 12,
+    "action": "go to drawer 6",
+    "observation": "You arrive at drawer 6. The drawer 6 is closed.",
+    "valid": true
+   },
+   {
+    "step": 13,
+    "action": "open drawer 7",
+    "observation": "You arrive at drawer 6. The drawer 6 is closed.",
+    "valid": false
+   },
+   {
+    "step": 14,
+    "action": "open drawer 7",
+    "observation": "You arrive at drawer 6. The drawer 6 is closed.",
+    "valid": false
+   },
+   {
+    "step": 15,
+    "action": "inventory",
+    "observation": "You are not carrying anything.",
+    "valid": true
+   },
+   {
+    "step": 16,
+    "action": "go to sidetable 1",
+    "observation": "You arrive at sidetable 1. On the sidetable 1, you see a newspaper 1.",
+    "valid": true
+   },
+   {
+    "step": 17,
+    "action": "go to drawer 1",
+    "observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 18,
+    "action": "go to garbagecan 1",
+    "observation": "You arrive at garbagecan 1. On the garbagecan 1, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 19,
+    "action": "go to drawer 2",
+    "observation": "You arrive at drawer 2. The drawer 2 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 20,
+    "action": "go to drawer 3",
+    "observation": "You arrive at drawer 3. The drawer 3 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 21,
+    "action": "go to drawer 5",
+    "observation": "You arrive at drawer 5. The drawer 5 is closed.",
+    "valid": true
+   },
+   {
+    "step": 22,
+    "action": "open drawer 5",
+    "observation": "You open the drawer 5. The drawer 5 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 23,
+    "action": "go to drawer 4",
+    "observation": "You arrive at drawer 4. The drawer 4 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 24,
+    "action": "go to drawer 6",
+    "observation": "You arrive at drawer 6. The drawer 6 is closed.",
+    "valid": true
+   },
+   {
+    "step": 25,
+    "action": "open drawer 6",
+    "observation": "You open the drawer 6. The drawer 6 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 26,
+    "action": "go to garbagecan 1",
+    "observation": "You arrive at garbagecan 1. On the garbagecan 1, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 27,
+    "action": "go to cabinet 1",
+    "observation": "You arrive at garbagecan 1. On the garbagecan 1, you see nothing.",
+    "valid": false
+   },
+   {
+    "step": 28,
+    "action": "go to sidetable 1",
+    "observation": "You arrive at sidetable 1. On the sidetable 1, you see a newspaper 1.",
+    "valid": true
+   },
+   {
+    "step": 29,
+    "action": "examine sidetable 1",
+    "observation": "On the sidetable 1, you see a newspaper 1.",
+    "valid": true
+   },
+   {
+    "step": 30,
+    "action": "go to drawer 1",
+    "observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see nothing.",
+    "valid": true
+   }
+  ]
+ },
+ "E": {
+  "id": "pair-pick-place-watch-sidetable-E",
+  "title": "Pick and place a watch: C searches 30 steps, E finds it on the coffeetable (E)",
+  "condition": "E",
+  "source": {
+   "run": "check-d",
+   "stream": "development-E-11",
+   "position": 1,
+   "library": "check-d practice library, frozen (28 entries)"
+  },
+  "goal": "put some watch on sidetable.",
+  "task_type": "pick_and_place_simple",
+  "task_kind": "pick and place",
+  "game_id": "valid_seen/pick_and_place_simple-Watch-None-SideTable-222/trial_T20190909_051813_197569",
+  "success": true,
+  "steps": 8,
+  "invalid_actions": 0,
+  "model_calls": 9,
+  "input_tokens": 16492,
+  "output_tokens": 650,
+  "wall_seconds": 158.3,
+  "step_budget": 30,
+  "initial_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see a armchair 1, a coffeetable 1, a drawer 7, a drawer 6, a drawer 5, a drawer 4, a drawer 3, a drawer 2, a drawer 1, a garbagecan 1, a sidetable 3, a sidetable 2, a sidetable 1, a sofa 2, a sofa 1, and a tvstand 1.\n\nYour task is to: put some watch on sidetable.",
+  "plan": [
+   "search surfaces for a watch",
+   "search containers for a watch",
+   "go to sidetable 1",
+   "move watch to sidetable 1"
+  ],
+  "rules_shown": [
+   {
+    "id": "rule_10",
+    "type": "Success Process",
+    "task_type": "pick_and_place_simple",
+    "alpha": 9,
+    "beta": 3,
+    "mean": 0.75,
+    "visible_to_agent": true,
+    "rule": "When an object must be picked up and placed: search surfaces first, then containers, take the object, go to the target, open the target if closed, move the object to the target.",
+    "example": "search armchair 1, drawer 1, take watch 1, go to coffeetable 1, move watch 1 to coffeetable 1",
+    "validation": "This game confirmed opening the target container before moving the object is required. | This game confirmed searching bed 1 (surface) works for pickup and direct move to desk works for placement. | This game confirmed searching drawers (containers) is necessary when the object is not on surfaces.",
+    "rendered_for_agent": "[Success Process] When an object must be picked up and placed: search surfaces first, then containers, take the object, go to the target, open the target if closed, move the object to the target. Example: search armchair 1, drawer 1, take watch 1, go to coffeetable 1, move watch 1 to coffeetable 1",
+    "evidence": {
+     "won": 8,
+     "lost": 2
+    }
+   },
+   {
+    "id": "rule_12",
+    "type": "Corrected Error",
+    "task_type": "pick_and_place_simple",
+    "alpha": 5,
+    "beta": 3,
+    "mean": 0.62,
+    "visible_to_agent": true,
+    "rule": "When placing an object into a container, open the container if closed before attempting the move.",
+    "example": "open cabinet 1 before moving handtowel 1 to cabinet 1",
+    "validation": "This game confirmed failing to move while the container was closed, succeeding only after opening it.",
+    "rendered_for_agent": "[Corrected Error] When placing an object into a container, open the container if closed before attempting the move. Example: open cabinet 1 before moving handtowel 1 to cabinet 1",
+    "evidence": {
+     "won": 4,
+     "lost": 2
+    }
+   },
+   {
+    "id": "rule_22",
+    "type": "Corrected Error",
+    "task_type": "all",
+    "alpha": 8,
+    "beta": 10,
+    "mean": 0.44,
+    "visible_to_agent": true,
+    "rule": "When placing an object on a target, use 'move <object> to <target>' after taking it, not 'go to <target>' then 'take' again.",
+    "example": "take cellphone from armchair, go to bed, move cellphone to bed",
+    "rendered_for_agent": "[Corrected Error] When placing an object on a target, use 'move <object> to <target>' after taking it, not 'go to <target>' then 'take' again. Example: take cellphone from armchair, go to bed, move cellphone to bed",
+    "evidence": {
+     "won": 7,
+     "lost": 9
+    }
+   }
+  ],
+  "rules_shown_to": "planner (as the \"rules\" field of its prompt, before it writes subgoals) and actor (as the block \"Rules learned from earlier practice (follow them)\" in every step prompt); one set chosen once from the goal",
+  "trace": [
+   {
+    "step": 1,
+    "action": "go to drawer 1",
+    "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 2,
+    "action": "open drawer 1",
+    "observation": "You open the drawer 1. The drawer 1 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 3,
+    "action": "go to armchair 1",
+    "observation": "You arrive at armchair 1. On the armchair 1, you see a creditcard 2, and a newspaper 2.",
+    "valid": true
+   },
+   {
+    "step": 4,
+    "action": "go to sofa 1",
+    "observation": "You arrive at sofa 1. On the sofa 1, you see a box 1, a keychain 1, and a remotecontrol 1.",
+    "valid": true
+   },
+   {
+    "step": 5,
+    "action": "go to coffeetable 1",
+    "observation": "You arrive at coffeetable 1. On the coffeetable 1, you see a laptop 1, a watch 2, and a watch 1.",
+    "valid": true
+   },
+   {
+    "step": 6,
+    "action": "take watch 1 from coffeetable 1",
+    "observation": "You pick up the watch 1 from the coffeetable 1.",
+    "valid": true
+   },
+   {
+    "step": 7,
+    "action": "go to sidetable 1",
+    "observation": "You arrive at sidetable 1. On the sidetable 1, you see a newspaper 1.",
+    "valid": true
+   },
+   {
+    "step": 8,
+    "action": "move watch 1 to sidetable 1",
+    "observation": "You move the watch 1 to the sidetable 1.",
+    "valid": true
+   }
+  ]
+ }
+}

@@ -1,0 +1,604 @@
+{
+ "id": "bx-12-reject-note-that-lists-steps",
+ "title": "Rejected: an Unresolved Error that lists steps",
+ "source": {
+  "run": "practice-d",
+  "stream": "practice-E-0",
+  "position": 6
+ },
+ "shows": "Only a Success Process may list steps; the Builder wrote an Unresolved Error with a step list and code rejects it (\"lists steps (only a Success Process may)\").",
+ "why_interesting": "Keeps the manual from filling with duplicate step lists.",
+ "notes": [],
+ "practice_game": {
+  "goal": "clean some plate and put it in microwave.",
+  "task_type": "pick_clean_then_place_in_recep",
+  "task_kind": "clean then place",
+  "game_id": "train/pick_clean_then_place_in_recep-Plate-None-Microwave-7/trial_T20190907_170142_415879",
+  "success": false,
+  "steps": 30,
+  "invalid_actions": 1,
+  "model_calls": 143
+ },
+ "rules_shown_in_first_attempt": [],
+ "first_attempt_trace": [
+  {
+   "step": 1,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a cup 1.",
+   "valid": true
+  },
+  {
+   "step": 2,
+   "action": "go to diningtable 1",
+   "observation": "You arrive at diningtable 1. On the diningtable 1, you see a bread 1, a butterknife 1, a cup 3, a fork 2, a houseplant 1, a knife 3, a knife 2, a mug 2, a mug 1, a potato 2, a spoon 2, a spoon 1, a statue 2, a tomato 2, and a winebottle 1.",
+   "valid": true
+  },
+  {
+   "step": 3,
+   "action": "go to cabinet 1",
+   "observation": "You arrive at cabinet 1. The cabinet 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 4,
+   "action": "open cabinet 1",
+   "observation": "You open the cabinet 1. The cabinet 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 5,
+   "action": "go to fridge 1",
+   "observation": "You arrive at fridge 1. The fridge 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 6,
+   "action": "open fridge 1",
+   "observation": "You open the fridge 1. The fridge 1 is open. In it, you see a apple 2, a bowl 1, a bread 2, a egg 1, a mug 3, a potato 1, and a tomato 1.",
+   "valid": true
+  },
+  {
+   "step": 7,
+   "action": "go to cabinet 1",
+   "observation": "You arrive at cabinet 1. The cabinet 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 8,
+   "action": "go to diningtable 1",
+   "observation": "You arrive at diningtable 1. On the diningtable 1, you see a bread 1, a butterknife 1, a cup 3, a fork 2, a houseplant 1, a knife 3, a knife 2, a mug 2, a mug 1, a potato 2, a spoon 2, a spoon 1, a statue 2, a tomato 2, and a winebottle 1.",
+   "valid": true
+  },
+  {
+   "step": 9,
+   "action": "go to cabinet 2",
+   "observation": "You arrive at cabinet 2. The cabinet 2 is closed.",
+   "valid": true
+  },
+  {
+   "step": 10,
+   "action": "open cabinet 2",
+   "observation": "You open the cabinet 2. The cabinet 2 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 11,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 12,
+   "action": "open drawer 1",
+   "observation": "You open the drawer 1. The drawer 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 13,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a cup 1.",
+   "valid": true
+  },
+  {
+   "step": 14,
+   "action": "go to sinkbasin 1",
+   "observation": "You arrive at sinkbasin 1. On the sinkbasin 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 15,
+   "action": "go to diningtable 1",
+   "observation": "You arrive at diningtable 1. On the diningtable 1, you see a bread 1, a butterknife 1, a cup 3, a fork 2, a houseplant 1, a knife 3, a knife 2, a mug 2, a mug 1, a potato 2, a spoon 2, a spoon 1, a statue 2, a tomato 2, and a winebottle 1.",
+   "valid": true
+  },
+  {
+   "step": 16,
+   "action": "go to fridge 1",
+   "observation": "You arrive at fridge 1. The fridge 1 is open. In it, you see a apple 2, a bowl 1, a bread 2, a egg 1, a mug 3, a potato 1, and a tomato 1.",
+   "valid": true
+  },
+  {
+   "step": 17,
+   "action": "go to garbagecan 1",
+   "observation": "You arrive at garbagecan 1. On the garbagecan 1, you see a winebottle 2.",
+   "valid": true
+  },
+  {
+   "step": 18,
+   "action": "go to diningtable 1",
+   "observation": "You arrive at diningtable 1. On the diningtable 1, you see a bread 1, a butterknife 1, a cup 3, a fork 2, a houseplant 1, a knife 3, a knife 2, a mug 2, a mug 1, a potato 2, a spoon 2, a spoon 1, a statue 2, a tomato 2, and a winebottle 1.",
+   "valid": true
+  },
+  {
+   "step": 19,
+   "action": "go to cabinet 1",
+   "observation": "You arrive at cabinet 1. The cabinet 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 20,
+   "action": "go to microwave 1",
+   "observation": "You arrive at microwave 1. The microwave 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 21,
+   "action": "go to cabinet 1",
+   "observation": "You arrive at cabinet 1. The cabinet 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 22,
+   "action": "go to fridge 1",
+   "observation": "You arrive at fridge 1. The fridge 1 is open. In it, you see a apple 2, a bowl 1, a bread 2, a egg 1, a mug 3, a potato 1, and a tomato 1.",
+   "valid": true
+  },
+  {
+   "step": 23,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a cup 1.",
+   "valid": true
+  },
+  {
+   "step": 24,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a cup 1.",
+   "valid": false
+  },
+  {
+   "step": 25,
+   "action": "go to cabinet 1",
+   "observation": "You arrive at cabinet 1. The cabinet 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 26,
+   "action": "go to fridge 1",
+   "observation": "You arrive at fridge 1. The fridge 1 is open. In it, you see a apple 2, a bowl 1, a bread 2, a egg 1, a mug 3, a potato 1, and a tomato 1.",
+   "valid": true
+  },
+  {
+   "step": 27,
+   "action": "go to garbagecan 1",
+   "observation": "You arrive at garbagecan 1. On the garbagecan 1, you see a winebottle 2.",
+   "valid": true
+  },
+  {
+   "step": 28,
+   "action": "go to diningtable 1",
+   "observation": "You arrive at diningtable 1. On the diningtable 1, you see a bread 1, a butterknife 1, a cup 3, a fork 2, a houseplant 1, a knife 3, a knife 2, a mug 2, a mug 1, a potato 2, a spoon 2, a spoon 1, a statue 2, a tomato 2, and a winebottle 1.",
+   "valid": true
+  },
+  {
+   "step": 29,
+   "action": "go to sinkbasin 1",
+   "observation": "You arrive at sinkbasin 1. On the sinkbasin 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 30,
+   "action": "go to diningtable 1",
+   "observation": "You arrive at diningtable 1. On the diningtable 1, you see a bread 1, a butterknife 1, a cup 3, a fork 2, a houseplant 1, a knife 3, a knife 2, a mug 2, a mug 1, a potato 2, a spoon 2, a spoon 1, a statue 2, a tomato 2, and a winebottle 1.",
+   "valid": true
+  }
+ ],
+ "retries": [
+  {
+   "attempt": 1,
+   "reflection": "I failed because I never located or cleaned a plate, instead repeatedly checking cabinets, drawers, and the fridge without finding a plate to clean. I should have systematically searched the diningtable and countertop for a plate, cleaned it at the sinkbasin, and then placed it in the microwave 1.",
+   "won": false,
+   "steps": 30,
+   "actions": [
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "open fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "open cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "open drawer 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 2",
+     "valid": true
+    },
+    {
+     "action": "open drawer 2",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to sinkbasin 1",
+     "valid": true
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "take bowl 1 from fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 2",
+     "valid": true
+    },
+    {
+     "action": "open cabinet 2",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 3",
+     "valid": true
+    },
+    {
+     "action": "open cabinet 3",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    }
+   ]
+  },
+  {
+   "attempt": 2,
+   "reflection": "I failed because I never located or cleaned a plate, instead repeatedly checking cabinets, drawers, and the fridge without finding a plate to clean. I should have systematically searched the diningtable and countertop for a plate, cleaned it at the sinkbasin, and then placed it in the microwave 1.",
+   "won": false,
+   "steps": 30,
+   "actions": [
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "open cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "go to sinkbasin 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to garbagecan 1",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "open fridge 1",
+     "valid": true
+    },
+    {
+     "action": "close fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "go to sinkbasin 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 2",
+     "valid": true
+    },
+    {
+     "action": "open cabinet 2",
+     "valid": true
+    },
+    {
+     "action": "close cabinet 2",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "open drawer 1",
+     "valid": true
+    },
+    {
+     "action": "close drawer 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "open fridge 1",
+     "valid": true
+    },
+    {
+     "action": "close fridge 1",
+     "valid": true
+    }
+   ]
+  },
+  {
+   "attempt": 3,
+   "reflection": "I failed because I repeatedly checked cabinets, drawers, and the fridge without finding a plate, and never attempted to clean anything at the sinkbasin. I should have immediately searched the diningtable and countertop for a plate, then cleaned it at the sinkbasin before placing it in the microwave 1.",
+   "won": false,
+   "steps": 30,
+   "actions": [
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "open fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "open cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "open drawer 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 2",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to garbagecan 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 2",
+     "valid": true
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "go to sinkbasin 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to sinkbasin 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    }
+   ]
+  }
+ ],
+ "builder_report": {
+  "case": "failure",
+  "diagnosis": "imperfect rules",
+  "operations": [],
+  "bookkeeping_operations": [
+   "outcome",
+   "pool_game"
+  ],
+  "log_lines": [
+   "rejected Unresolved Error text, lists steps (only a Success Process may): When a plate must be cleaned and placed in a microwave, search the diningtable a"
+  ]
+ },
+ "rules_changed": []
+}

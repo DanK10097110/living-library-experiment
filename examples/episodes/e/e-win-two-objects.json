@@ -1,0 +1,132 @@
+{
+ "id": "e-win-two-objects",
+ "title": "E: two-object task in 6 steps (C needed 13)",
+ "condition": "E",
+ "source": {
+  "run": "check-e",
+  "stream": "development-E-11",
+  "position": 46,
+  "library": "check-e practice library, frozen (22 entries)"
+ },
+ "goal": "put two cd in drawer.",
+ "task_type": "pick_two_obj_and_place",
+ "task_kind": "two objects",
+ "game_id": "valid_seen/pick_two_obj_and_place-CD-None-Drawer-304/trial_T20190907_230232_832893",
+ "success": true,
+ "steps": 6,
+ "invalid_actions": 1,
+ "model_calls": 8,
+ "input_tokens": 14684,
+ "output_tokens": 1044,
+ "wall_seconds": 136.0,
+ "step_budget": 30,
+ "initial_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see a bed 2, a bed 1, a desk 1, a drawer 3, a drawer 2, a drawer 1, a garbagecan 1, a laundryhamper 1, and a shelf 1.\n\nYour task is to: put two cd in drawer.",
+ "plan": [
+  "find cd 2 on furniture surfaces",
+  "go to desk 1 where cd 2 is located",
+  "take cd 2 from desk 1",
+  "go to drawer 1",
+  "put cd 2 in drawer 1",
+  "go to desk 1 to find cd 1",
+  "put cd 1 in drawer 1"
+ ],
+ "rules_shown": [
+  {
+   "id": "rule_17",
+   "type": "Success Process",
+   "task_type": "pick_two_obj_and_place",
+   "alpha": 3,
+   "beta": 2,
+   "mean": 0.6,
+   "visible_to_agent": true,
+   "rule": "When placing multiple objects in a target, search all furniture surfaces first, then navigate to the target before each move command.",
+   "example": "Search countertop 1 for peppershaker 2, go to diningtable 1, move peppershaker 2 to diningtable 1, search countertop 1 for peppershaker 3, go to diningtable 1, move peppershaker 3 to diningtable 1.",
+   "validation": "Confirmed by this game: agent searched countertop 1, then navigated to diningtable 1 before each move command. | Confirmed by this game: agent found second laptop on ottoman 1 after placing first one, completing task efficiently.",
+   "rendered_for_agent": "[Success Process] When placing multiple objects in a target, search all furniture surfaces first, then navigate to the target before each move command. Example: Search countertop 1 for peppershaker 2, go to diningtable 1, move peppershaker 2 to diningtable 1, search countertop 1 for peppershaker 3, go to diningtable 1, move peppershaker 3 to diningtable 1.",
+   "evidence": {
+    "won": 2,
+    "lost": 1
+   }
+  },
+  {
+   "id": "rule_6",
+   "type": "Special Phenomenon",
+   "task_type": "pick_two_obj_and_place",
+   "alpha": 3,
+   "beta": 2,
+   "mean": 0.6,
+   "visible_to_agent": true,
+   "rule": "When searching for the object, search furniture surfaces first before opening any drawers or cabinets.",
+   "example": "Agent searched countertop 1 before opening cabinet 2 and cabinet 3.",
+   "validation": "Agent wasted time opening empty drawers/cabinets before finding the second cellphone on armchair 2.",
+   "rendered_for_agent": "[Special Phenomenon] When searching for the object, search furniture surfaces first before opening any drawers or cabinets. Example: Agent searched countertop 1 before opening cabinet 2 and cabinet 3.",
+   "evidence": {
+    "won": 2,
+    "lost": 1
+   }
+  },
+  {
+   "id": "rule_11",
+   "type": "Corrected Error",
+   "task_type": "pick_two_obj_and_place",
+   "alpha": 4,
+   "beta": 4,
+   "mean": 0.5,
+   "visible_to_agent": true,
+   "rule": "When two objects must be placed in a target: search furniture surfaces first, take each object, move it to the target.",
+   "example": "In the failed attempt, moving while holding the object failed; in the successful retry, the agent went to shelf 1 before moving.",
+   "validation": "Confirmed by this game: agent moved pencil 2 to drawer 2 after navigating to drawer 2, but failed when trying to move pencil 3 without navigating first (though it succeeded later after navigating).",
+   "rendered_for_agent": "[Corrected Error] When two objects must be placed in a target: search furniture surfaces first, take each object, move it to the target. Example: In the failed attempt, moving while holding the object failed; in the successful retry, the agent went to shelf 1 before moving.",
+   "evidence": {
+    "won": 3,
+    "lost": 3
+   }
+  }
+ ],
+ "rules_shown_to": "planner (as the \"rules\" field of its prompt, before it writes subgoals) and actor (as the block \"Rules learned from earlier practice (follow them)\" in every step prompt); one set chosen once from the goal",
+ "shows": "Rules: a recipe plus a special-phenomenon note (\"search furniture surfaces first before opening drawers\"). The agent finds both CDs on the desk, with one invalid `go to drawer 1` (the drawer was already reachable).",
+ "why_interesting": "The recipe tells the planner to take each object and move it before the second; the plan lists the second CD as its own subgoal.",
+ "trace": [
+  {
+   "step": 1,
+   "action": "go to desk 1",
+   "observation": "You arrive at desk 1. On the desk 1, you see a alarmclock 1, a bowl 1, a cd 2, a cd 1, a cellphone 2, a cellphone 1, a mug 1, a pen 3, and a pencil 1.",
+   "valid": true
+  },
+  {
+   "step": 2,
+   "action": "take cd 1 from desk 1",
+   "observation": "You pick up the cd 1 from the desk 1.",
+   "valid": true
+  },
+  {
+   "step": 3,
+   "action": "go to drawer 1",
+   "observation": "You pick up the cd 1 from the desk 1.",
+   "valid": false
+  },
+  {
+   "step": 4,
+   "action": "move cd 1 to drawer 1",
+   "observation": "You move the cd 1 to the drawer 1.",
+   "valid": true
+  },
+  {
+   "step": 5,
+   "action": "take cd 2 from desk 1",
+   "observation": "You pick up the cd 2 from the desk 1.",
+   "valid": true
+  },
+  {
+   "step": 6,
+   "action": "move cd 2 to drawer 1",
+   "observation": "You move the cd 2 to the drawer 1.",
+   "valid": true
+  }
+ ],
+ "same_game_in_C": {
+  "success": true,
+  "steps": 13,
+  "run": "old-pilot-9b-v1"
+ }
+}

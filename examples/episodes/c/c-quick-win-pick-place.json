@@ -1,0 +1,57 @@
+{
+ "id": "c-quick-win-pick-place",
+ "title": "C: quick win, a simple pick and place in 5 steps",
+ "condition": "C",
+ "source": {
+  "run": "old-pilot-9b-v1",
+  "stream": "development-C-11",
+  "position": 14
+ },
+ "goal": "put some creditcard on armchair.",
+ "task_type": "pick_and_place_simple",
+ "task_kind": "pick and place",
+ "game_id": "valid_seen/pick_and_place_simple-CreditCard-None-ArmChair-201/trial_T20190908_124340_258012",
+ "success": true,
+ "steps": 5,
+ "invalid_actions": 0,
+ "model_calls": 6,
+ "input_tokens": 8862,
+ "output_tokens": 479,
+ "wall_seconds": 75.5,
+ "step_budget": 30,
+ "initial_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see a armchair 2, a armchair 1, a coffeetable 1, a diningtable 2, a diningtable 1, a drawer 2, a drawer 1, a garbagecan 1, a sidetable 2, a sidetable 1, a sofa 1, and a tvstand 1.\n\nYour task is to: put some creditcard on armchair.",
+ "shows": "The no-memory hierarchy agent (planner + actor) solving the easiest kind of task: it opens a drawer, finds the credit card, walks to the armchair and places it.",
+ "why_interesting": "Baseline for \"what the agent can already do alone\": 5 steps, no invalid action. Pick-and-place is where C is strongest (17 of 22 dev games won).",
+ "trace": [
+  {
+   "step": 1,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 2,
+   "action": "open drawer 1",
+   "observation": "You open the drawer 1. The drawer 1 is open. In it, you see a creditcard 2.",
+   "valid": true
+  },
+  {
+   "step": 3,
+   "action": "take creditcard 2 from drawer 1",
+   "observation": "You pick up the creditcard 2 from the drawer 1.",
+   "valid": true
+  },
+  {
+   "step": 4,
+   "action": "go to armchair 1",
+   "observation": "You arrive at armchair 1. On the armchair 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 5,
+   "action": "move creditcard 2 to armchair 1",
+   "observation": "You move the creditcard 2 to the armchair 1.",
+   "valid": true
+  }
+ ]
+}

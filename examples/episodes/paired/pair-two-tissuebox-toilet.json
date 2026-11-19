@@ -1,0 +1,352 @@
+{
+ "id": "pair-two-tissuebox-toilet",
+ "title": "Two tissueboxes: C opens drawers for 30 steps, E checks the countertop first",
+ "goal": "find two tissuebox and put them in toilet.",
+ "task_kind": "two objects",
+ "game_id": "valid_seen/pick_two_obj_and_place-TissueBox-None-Toilet-426/trial_T20190909_044602_338962",
+ "result": "C lost, E won",
+ "shows": "The rule \"search furniture surfaces first before opening drawers\" sends E to countertop 1 where both tissueboxes are; 8 steps. C opens drawer after drawer, finds only one and runs out of steps.",
+ "why_interesting": "Shows the most common useful rule of the manual: surfaces before containers.",
+ "notes": [],
+ "C": {
+  "id": "pair-two-tissuebox-toilet-C",
+  "title": "Two tissueboxes: C opens drawers for 30 steps, E checks the countertop first (C)",
+  "condition": "C",
+  "source": {
+   "run": "old-pilot-9b-v1",
+   "stream": "development-C-11",
+   "position": 6
+  },
+  "goal": "find two tissuebox and put them in toilet.",
+  "task_type": "pick_two_obj_and_place",
+  "task_kind": "two objects",
+  "game_id": "valid_seen/pick_two_obj_and_place-TissueBox-None-Toilet-426/trial_T20190909_044602_338962",
+  "success": false,
+  "steps": 30,
+  "invalid_actions": 5,
+  "model_calls": 34,
+  "input_tokens": 71252,
+  "output_tokens": 3209,
+  "wall_seconds": 438.2,
+  "step_budget": 30,
+  "initial_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see a bathtubbasin 1, a countertop 1, a drawer 8, a drawer 7, a drawer 6, a drawer 5, a drawer 4, a drawer 3, a drawer 2, a drawer 1, a garbagecan 1, a handtowelholder 1, a sinkbasin 1, a toilet 1, a toiletpaperhanger 1, a towelholder 2, and a towelholder 1.\n\nYour task is to: find two tissuebox and put them in toilet.",
+  "trace": [
+   {
+    "step": 1,
+    "action": "go to drawer 1",
+    "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 2,
+    "action": "open drawer 1",
+    "observation": "You open the drawer 1. The drawer 1 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 3,
+    "action": "go to drawer 2",
+    "observation": "You arrive at drawer 2. The drawer 2 is closed.",
+    "valid": true
+   },
+   {
+    "step": 4,
+    "action": "open drawer 2",
+    "observation": "You open the drawer 2. The drawer 2 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 5,
+    "action": "go to drawer 3",
+    "observation": "You arrive at drawer 3. The drawer 3 is closed.",
+    "valid": true
+   },
+   {
+    "step": 6,
+    "action": "open drawer 3",
+    "observation": "You open the drawer 3. The drawer 3 is open. In it, you see a candle 2.",
+    "valid": true
+   },
+   {
+    "step": 7,
+    "action": "go to drawer 4",
+    "observation": "You arrive at drawer 4. On the drawer 4, you see a toiletpaper 2.",
+    "valid": true
+   },
+   {
+    "step": 8,
+    "action": "go to drawer 5",
+    "observation": "You arrive at drawer 5. The drawer 5 is closed.",
+    "valid": true
+   },
+   {
+    "step": 9,
+    "action": "open drawer 5",
+    "observation": "You open the drawer 5. The drawer 5 is open. In it, you see a tissuebox 4.",
+    "valid": true
+   },
+   {
+    "step": 10,
+    "action": "take tissuebox 4 from drawer 5",
+    "observation": "You pick up the tissuebox 4 from the drawer 5.",
+    "valid": true
+   },
+   {
+    "step": 11,
+    "action": "go to toilet 1",
+    "observation": "You arrive at toilet 1. On the toilet 1, you see a candle 1, and a toiletpaper 1.",
+    "valid": true
+   },
+   {
+    "step": 12,
+    "action": "move tissuebox 4 to toilet 1",
+    "observation": "You move the tissuebox 4 to the toilet 1.",
+    "valid": true
+   },
+   {
+    "step": 13,
+    "action": "go to drawer 6",
+    "observation": "You arrive at drawer 6. The drawer 6 is closed.",
+    "valid": true
+   },
+   {
+    "step": 14,
+    "action": "open drawer 6",
+    "observation": "You open the drawer 6. The drawer 6 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 15,
+    "action": "go to drawer 1",
+    "observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 16,
+    "action": "go to drawer 2",
+    "observation": "You arrive at drawer 2. The drawer 2 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 17,
+    "action": "go to drawer 7",
+    "observation": "You arrive at drawer 7. The drawer 7 is closed.",
+    "valid": true
+   },
+   {
+    "step": 18,
+    "action": "open drawer 7",
+    "observation": "You open the drawer 7. The drawer 7 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 19,
+    "action": "go to drawer 3",
+    "observation": "You arrive at drawer 3. The drawer 3 is open. In it, you see a candle 2.",
+    "valid": true
+   },
+   {
+    "step": 20,
+    "action": "go to drawer 4",
+    "observation": "You arrive at drawer 4. On the drawer 4, you see a toiletpaper 2.",
+    "valid": true
+   },
+   {
+    "step": 21,
+    "action": "go to drawer 5",
+    "observation": "You arrive at drawer 5. The drawer 5 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 22,
+    "action": "go to countertop 1",
+    "observation": "You arrive at countertop 1. On the countertop 1, you see a soapbottle 1, a spraybottle 2, a spraybottle 1, a tissuebox 3, a tissuebox 2, and a tissuebox 1.",
+    "valid": true
+   },
+   {
+    "step": 23,
+    "action": "take tissuebox 1 from countertop 1",
+    "observation": "You pick up the tissuebox 1 from the countertop 1.",
+    "valid": true
+   },
+   {
+    "step": 24,
+    "action": "move tissuebox 1 to toilet 1",
+    "observation": "You pick up the tissuebox 1 from the countertop 1.",
+    "valid": false
+   },
+   {
+    "step": 25,
+    "action": "I have successfully moved the first tissuebox to toilet 1. Now I need to find the second tissuebox. Since I previously saw tissuebox 2 and 3 on countertop 1, I should go back there to retrieve the second one. However, my current subgoal is to go to toilet",
+    "observation": "You pick up the tissuebox 1 from the countertop 1.",
+    "valid": false
+   },
+   {
+    "step": 26,
+    "action": "go to countertop 1",
+    "observation": "You pick up the tissuebox 1 from the countertop 1.",
+    "valid": false
+   },
+   {
+    "step": 27,
+    "action": "go to toilet 1",
+    "observation": "You arrive at toilet 1. On the toilet 1, you see a candle 1, a tissuebox 4, and a toiletpaper 1.",
+    "valid": true
+   },
+   {
+    "step": 28,
+    "action": "go to countertop 1",
+    "observation": "You arrive at countertop 1. On the countertop 1, you see a soapbottle 1, a spraybottle 2, a spraybottle 1, a tissuebox 3, and a tissuebox 2.",
+    "valid": true
+   },
+   {
+    "step": 29,
+    "action": "take tissuebox 2 from countertop 1",
+    "observation": "You arrive at countertop 1. On the countertop 1, you see a soapbottle 1, a spraybottle 2, a spraybottle 1, a tissuebox 3, and a tissuebox 2.",
+    "valid": false
+   },
+   {
+    "step": 30,
+    "action": "move tissuebox 2 to toilet 1",
+    "observation": "You arrive at countertop 1. On the countertop 1, you see a soapbottle 1, a spraybottle 2, a spraybottle 1, a tissuebox 3, and a tissuebox 2.",
+    "valid": false
+   }
+  ]
+ },
+ "E": {
+  "id": "pair-two-tissuebox-toilet-E",
+  "title": "Two tissueboxes: C opens drawers for 30 steps, E checks the countertop first (E)",
+  "condition": "E",
+  "source": {
+   "run": "check-e",
+   "stream": "development-E-11",
+   "position": 6,
+   "library": "check-e practice library, frozen (22 entries)"
+  },
+  "goal": "find two tissuebox and put them in toilet.",
+  "task_type": "pick_two_obj_and_place",
+  "task_kind": "two objects",
+  "game_id": "valid_seen/pick_two_obj_and_place-TissueBox-None-Toilet-426/trial_T20190909_044602_338962",
+  "success": true,
+  "steps": 8,
+  "invalid_actions": 0,
+  "model_calls": 9,
+  "input_tokens": 19529,
+  "output_tokens": 855,
+  "wall_seconds": 135.6,
+  "step_budget": 30,
+  "initial_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see a bathtubbasin 1, a countertop 1, a drawer 8, a drawer 7, a drawer 6, a drawer 5, a drawer 4, a drawer 3, a drawer 2, a drawer 1, a garbagecan 1, a handtowelholder 1, a sinkbasin 1, a toilet 1, a toiletpaperhanger 1, a towelholder 2, and a towelholder 1.\n\nYour task is to: find two tissuebox and put them in toilet.",
+  "plan": [
+   "search countertop 1 for tissuebox",
+   "go to countertop 1 and take first tissuebox",
+   "go to toilet 1 and put tissuebox 1 in toilet",
+   "search countertop 1 for second tissuebox",
+   "go to countertop 1 and take second tissuebox",
+   "go to toilet 1 and put tissuebox 2 in toilet"
+  ],
+  "rules_shown": [
+   {
+    "id": "rule_17",
+    "type": "Success Process",
+    "task_type": "pick_two_obj_and_place",
+    "alpha": 3,
+    "beta": 2,
+    "mean": 0.6,
+    "visible_to_agent": true,
+    "rule": "When placing multiple objects in a target, search all furniture surfaces first, then navigate to the target before each move command.",
+    "example": "Search countertop 1 for peppershaker 2, go to diningtable 1, move peppershaker 2 to diningtable 1, search countertop 1 for peppershaker 3, go to diningtable 1, move peppershaker 3 to diningtable 1.",
+    "validation": "Confirmed by this game: agent searched countertop 1, then navigated to diningtable 1 before each move command. | Confirmed by this game: agent found second laptop on ottoman 1 after placing first one, completing task efficiently.",
+    "rendered_for_agent": "[Success Process] When placing multiple objects in a target, search all furniture surfaces first, then navigate to the target before each move command. Example: Search countertop 1 for peppershaker 2, go to diningtable 1, move peppershaker 2 to diningtable 1, search countertop 1 for peppershaker 3, go to diningtable 1, move peppershaker 3 to diningtable 1.",
+    "evidence": {
+     "won": 2,
+     "lost": 1
+    }
+   },
+   {
+    "id": "rule_6",
+    "type": "Special Phenomenon",
+    "task_type": "pick_two_obj_and_place",
+    "alpha": 3,
+    "beta": 2,
+    "mean": 0.6,
+    "visible_to_agent": true,
+    "rule": "When searching for the object, search furniture surfaces first before opening any drawers or cabinets.",
+    "example": "Agent searched countertop 1 before opening cabinet 2 and cabinet 3.",
+    "validation": "Agent wasted time opening empty drawers/cabinets before finding the second cellphone on armchair 2.",
+    "rendered_for_agent": "[Special Phenomenon] When searching for the object, search furniture surfaces first before opening any drawers or cabinets. Example: Agent searched countertop 1 before opening cabinet 2 and cabinet 3.",
+    "evidence": {
+     "won": 2,
+     "lost": 1
+    }
+   },
+   {
+    "id": "rule_11",
+    "type": "Corrected Error",
+    "task_type": "pick_two_obj_and_place",
+    "alpha": 4,
+    "beta": 4,
+    "mean": 0.5,
+    "visible_to_agent": true,
+    "rule": "When two objects must be placed in a target: search furniture surfaces first, take each object, move it to the target.",
+    "example": "In the failed attempt, moving while holding the object failed; in the successful retry, the agent went to shelf 1 before moving.",
+    "validation": "Confirmed by this game: agent moved pencil 2 to drawer 2 after navigating to drawer 2, but failed when trying to move pencil 3 without navigating first (though it succeeded later after navigating).",
+    "rendered_for_agent": "[Corrected Error] When two objects must be placed in a target: search furniture surfaces first, take each object, move it to the target. Example: In the failed attempt, moving while holding the object failed; in the successful retry, the agent went to shelf 1 before moving.",
+    "evidence": {
+     "won": 3,
+     "lost": 3
+    }
+   }
+  ],
+  "rules_shown_to": "planner (as the \"rules\" field of its prompt, before it writes subgoals) and actor (as the block \"Rules learned from earlier practice (follow them)\" in every step prompt); one set chosen once from the goal",
+  "trace": [
+   {
+    "step": 1,
+    "action": "go to countertop 1",
+    "observation": "You arrive at countertop 1. On the countertop 1, you see a soapbottle 1, a spraybottle 2, a spraybottle 1, a tissuebox 3, a tissuebox 2, and a tissuebox 1.",
+    "valid": true
+   },
+   {
+    "step": 2,
+    "action": "take tissuebox 1 from countertop 1",
+    "observation": "You pick up the tissuebox 1 from the countertop 1.",
+    "valid": true
+   },
+   {
+    "step": 3,
+    "action": "go to toilet 1",
+    "observation": "You arrive at toilet 1. On the toilet 1, you see a candle 1, and a toiletpaper 1.",
+    "valid": true
+   },
+   {
+    "step": 4,
+    "action": "move tissuebox 1 to toilet 1",
+    "observation": "You move the tissuebox 1 to the toilet 1.",
+    "valid": true
+   },
+   {
+    "step": 5,
+    "action": "go to countertop 1",
+    "observation": "You arrive at countertop 1. On the countertop 1, you see a soapbottle 1, a spraybottle 2, a spraybottle 1, a tissuebox 3, and a tissuebox 2.",
+    "valid": true
+   },
+   {
+    "step": 6,
+    "action": "take tissuebox 2 from countertop 1",
+    "observation": "You pick up the tissuebox 2 from the countertop 1.",
+    "valid": true
+   },
+   {
+    "step": 7,
+    "action": "go to toilet 1",
+    "observation": "You arrive at toilet 1. On the toilet 1, you see a candle 1, a tissuebox 1, and a toiletpaper 1.",
+    "valid": true
+   },
+   {
+    "step": 8,
+    "action": "move tissuebox 2 to toilet 1",
+    "observation": "You move the tissuebox 2 to the toilet 1.",
+    "valid": true
+   }
+  ]
+ }
+}

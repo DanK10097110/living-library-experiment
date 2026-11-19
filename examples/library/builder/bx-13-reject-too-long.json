@@ -1,0 +1,370 @@
+{
+ "id": "bx-13-reject-too-long",
+ "title": "Rejected: a Success Process that is too long",
+ "source": {
+  "run": "practice-d",
+  "stream": "practice-E-0",
+  "position": 38
+ },
+ "shows": "A Success Process of 46 words (limit 45) is rejected.",
+ "why_interesting": "Rules are kept short so up to 8 of them fit in the planner and actor prompts.",
+ "notes": [],
+ "practice_game": {
+  "goal": "examine the pen with the desklamp.",
+  "task_type": "look_at_obj_in_light",
+  "task_kind": "look at object under a lamp",
+  "game_id": "train/look_at_obj_in_light-Pen-None-DeskLamp-305/trial_T20190907_115838_075745",
+  "success": false,
+  "steps": 30,
+  "invalid_actions": 16,
+  "model_calls": 66
+ },
+ "rules_shown_in_first_attempt": [
+  {
+   "id": "rule_22",
+   "type": "Corrected Error",
+   "task_type": "all",
+   "alpha": 4,
+   "beta": 4,
+   "mean": 0.5,
+   "visible_to_agent": true,
+   "rule": "When placing an object on a bed, use 'move <object> to bed' after taking it, not 'go to bed' then 'take' again.",
+   "example": "take cellphone from armchair, go to bed, move cellphone to bed",
+   "rendered_for_agent": "[Corrected Error] When placing an object on a bed, use 'move <object> to bed' after taking it, not 'go to bed' then 'take' again. Example: take cellphone from armchair, go to bed, move cellphone to bed",
+   "evidence": {
+    "won": 3,
+    "lost": 3
+   }
+  }
+ ],
+ "first_attempt_trace": [
+  {
+   "step": 1,
+   "action": "go to desk 1",
+   "observation": "You arrive at desk 1. On the desk 1, you see a alarmclock 3, a alarmclock 2, a bowl 1, a cd 1, a keychain 3, a keychain 1, a laptop 1, a mug 1, and a pen 2.",
+   "valid": true
+  },
+  {
+   "step": 2,
+   "action": "go to desk 1",
+   "observation": "You arrive at desk 1. On the desk 1, you see a alarmclock 3, a alarmclock 2, a bowl 1, a cd 1, a keychain 3, a keychain 1, a laptop 1, a mug 1, and a pen 2.",
+   "valid": false
+  },
+  {
+   "step": 3,
+   "action": "take pen 2 from desk 1",
+   "observation": "You pick up the pen 2 from the desk 1.",
+   "valid": true
+  },
+  {
+   "step": 4,
+   "action": "go to desk 1",
+   "observation": "You pick up the pen 2 from the desk 1.",
+   "valid": false
+  },
+  {
+   "step": 5,
+   "action": "move pen 2 to desk 1",
+   "observation": "You move the pen 2 to the desk 1.",
+   "valid": true
+  },
+  {
+   "step": 6,
+   "action": "take desklamp from desk 1",
+   "observation": "You move the pen 2 to the desk 1.",
+   "valid": false
+  },
+  {
+   "step": 7,
+   "action": "look",
+   "observation": "You are facing the desk 1. Next to it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 8,
+   "action": "take desklamp from desk 1",
+   "observation": "You are facing the desk 1. Next to it, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 9,
+   "action": "take desklamp from desk 1",
+   "observation": "You are facing the desk 1. Next to it, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 10,
+   "action": "take desklamp from desk 1",
+   "observation": "You are facing the desk 1. Next to it, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 11,
+   "action": "take desklamp from desk 1",
+   "observation": "You are facing the desk 1. Next to it, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 12,
+   "action": "take desklamp from desk 1",
+   "observation": "You are facing the desk 1. Next to it, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 13,
+   "action": "examine desk 1",
+   "observation": "On the desk 1, you see a alarmclock 3, a alarmclock 2, a bowl 1, a cd 1, a keychain 3, a keychain 1, a laptop 1, a mug 1, and a pen 2.",
+   "valid": true
+  },
+  {
+   "step": 14,
+   "action": "take desklamp from desk 1",
+   "observation": "On the desk 1, you see a alarmclock 3, a alarmclock 2, a bowl 1, a cd 1, a keychain 3, a keychain 1, a laptop 1, a mug 1, and a pen 2.",
+   "valid": false
+  },
+  {
+   "step": 15,
+   "action": "drop pen 2",
+   "observation": "On the desk 1, you see a alarmclock 3, a alarmclock 2, a bowl 1, a cd 1, a keychain 3, a keychain 1, a laptop 1, a mug 1, and a pen 2.",
+   "valid": false
+  },
+  {
+   "step": 16,
+   "action": "take desklamp from desk 1",
+   "observation": "On the desk 1, you see a alarmclock 3, a alarmclock 2, a bowl 1, a cd 1, a keychain 3, a keychain 1, a laptop 1, a mug 1, and a pen 2.",
+   "valid": false
+  },
+  {
+   "step": 17,
+   "action": "take desklamp from desk 1",
+   "observation": "On the desk 1, you see a alarmclock 3, a alarmclock 2, a bowl 1, a cd 1, a keychain 3, a keychain 1, a laptop 1, a mug 1, and a pen 2.",
+   "valid": false
+  },
+  {
+   "step": 18,
+   "action": "take desklamp from desk 1",
+   "observation": "On the desk 1, you see a alarmclock 3, a alarmclock 2, a bowl 1, a cd 1, a keychain 3, a keychain 1, a laptop 1, a mug 1, and a pen 2.",
+   "valid": false
+  },
+  {
+   "step": 19,
+   "action": "take pen 2 from desk 1",
+   "observation": "You pick up the pen 2 from the desk 1.",
+   "valid": true
+  },
+  {
+   "step": 20,
+   "action": "The reasoning concluded that the agent has the pen and needs to examine it with the desklamp. The available actions include 'examine pen 2'. Given the previous failures to take the desklamp and the current state of holding the",
+   "observation": "You pick up the pen 2 from the desk 1.",
+   "valid": false
+  },
+  {
+   "step": 21,
+   "action": "examine pen 2",
+   "observation": "There's nothing special about pen 2.",
+   "valid": true
+  },
+  {
+   "step": 22,
+   "action": "move pen 2 to desk 1",
+   "observation": "You move the pen 2 to the desk 1.",
+   "valid": true
+  },
+  {
+   "step": 23,
+   "action": "look",
+   "observation": "You are facing the desk 1. Next to it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 24,
+   "action": "inventory",
+   "observation": "You are not carrying anything.",
+   "valid": true
+  },
+  {
+   "step": 25,
+   "action": "take pen 2 from desk 1",
+   "observation": "You pick up the pen 2 from the desk 1.",
+   "valid": true
+  },
+  {
+   "step": 26,
+   "action": "move pen 2 to desk 1",
+   "observation": "You move the pen 2 to the desk 1.",
+   "valid": true
+  },
+  {
+   "step": 27,
+   "action": "look",
+   "observation": "You are facing the desk 1. Next to it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 28,
+   "action": "go to desk 1",
+   "observation": "You are facing the desk 1. Next to it, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 29,
+   "action": "go to desk 1",
+   "observation": "You are facing the desk 1. Next to it, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 30,
+   "action": "go to shelf 1",
+   "observation": "You arrive at shelf 1. On the shelf 1, you see a alarmclock 1, a cellphone 1, a keychain 2, and a pen 1.",
+   "valid": true
+  }
+ ],
+ "retries": [
+  {
+   "attempt": 1,
+   "reflection": "I repeatedly failed to take the desklamp because it was not visible on desk 1 despite multiple attempts; I should have examined the desk more thoroughly or checked other locations for the desklamp before trying to take it. I also unnecessarily moved the pen back and forth instead of directly examining it with the desklamp once both were located. A better approach would be to first locate and take ",
+   "won": true,
+   "steps": 13,
+   "actions": [
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "go to desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "take pen 2 from desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "go to desk 1",
+     "valid": false
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "open drawer 1",
+     "valid": true
+    },
+    {
+     "action": "go to desk 1",
+     "valid": true
+    },
+    {
+     "action": "go to dresser 1",
+     "valid": true
+    },
+    {
+     "action": "use desklamp 1",
+     "valid": true
+    }
+   ]
+  }
+ ],
+ "builder_report": {
+  "case": "corrected failure",
+  "diagnosis": "imperfect rules",
+  "operations": [
+   {
+    "example": "examine desk, check drawer/dresser for desklamp, use desklamp",
+    "op": "write_rule",
+    "rule": "When an object must be examined with a light source and the source is not visible on the target surface, examine the target and check other locations (drawers, dressers) for the light source.",
+    "sources": [
+     {
+      "task": "examine the pen with the desklamp.",
+      "task_type": "look_at_obj_in_light"
+     }
+    ],
+    "task_type": "look_at_obj_in_light",
+    "type": "Corrected Error",
+    "verified": true
+   }
+  ],
+  "bookkeeping_operations": [
+   "outcome",
+   "pool_won"
+  ],
+  "log_lines": [
+   "rejected Success Process text, too long (46 words > 45): When an object must be examined with a light source: examine the target surface "
+  ]
+ },
+ "rules_changed": [
+  {
+   "id": "rule_22",
+   "before": {
+    "id": "rule_22",
+    "type": "Corrected Error",
+    "task_type": "all",
+    "alpha": 4,
+    "beta": 4,
+    "mean": 0.5,
+    "visible_to_agent": true,
+    "rule": "When placing an object on a bed, use 'move <object> to bed' after taking it, not 'go to bed' then 'take' again.",
+    "example": "take cellphone from armchair, go to bed, move cellphone to bed",
+    "rendered_for_agent": "[Corrected Error] When placing an object on a bed, use 'move <object> to bed' after taking it, not 'go to bed' then 'take' again. Example: take cellphone from armchair, go to bed, move cellphone to bed",
+    "evidence": {
+     "won": 3,
+     "lost": 3
+    }
+   },
+   "after": {
+    "id": "rule_22",
+    "type": "Corrected Error",
+    "task_type": "all",
+    "alpha": 4,
+    "beta": 5,
+    "mean": 0.44,
+    "visible_to_agent": true,
+    "rule": "When placing an object on a bed, use 'move <object> to bed' after taking it, not 'go to bed' then 'take' again.",
+    "example": "take cellphone from armchair, go to bed, move cellphone to bed",
+    "rendered_for_agent": "[Corrected Error] When placing an object on a bed, use 'move <object> to bed' after taking it, not 'go to bed' then 'take' again. Example: take cellphone from armchair, go to bed, move cellphone to bed",
+    "evidence": {
+     "won": 3,
+     "lost": 4
+    }
+   },
+   "change": "beta"
+  },
+  {
+   "id": "rule_23",
+   "before": null,
+   "after": {
+    "id": "rule_23",
+    "type": "Corrected Error",
+    "task_type": "look_at_obj_in_light",
+    "alpha": 1,
+    "beta": 1,
+    "mean": 0.5,
+    "visible_to_agent": true,
+    "rule": "When an object must be examined with a light source and the source is not visible on the target surface, examine the target and check other locations (drawers, dressers) for the light source.",
+    "example": "examine desk, check drawer/dresser for desklamp, use desklamp",
+    "rendered_for_agent": "[Corrected Error] When an object must be examined with a light source and the source is not visible on the target surface, examine the target and check other locations (drawers, dressers) for the light source. Example: examine desk, check drawer/dresser for desklamp, use desklamp",
+    "evidence": {
+     "won": 0,
+     "lost": 0
+    }
+   },
+   "change": "NEW"
+  }
+ ]
+}

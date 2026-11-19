@@ -1,0 +1,156 @@
+{
+ "id": "d-win-one-near-example",
+ "title": "D: a win with a partly relevant example",
+ "condition": "D",
+ "source": {
+  "run": "old-study-9b-v1",
+  "stream": "practice-D-0",
+  "position": 10,
+  "memory_before": "5 stored successful practice trajectories"
+ },
+ "goal": "put a statue in coffeetable.",
+ "task_type": "pick_and_place_simple",
+ "task_kind": "pick and place",
+ "game_id": "train/pick_and_place_simple-Statue-None-CoffeeTable-201/trial_T20190908_124733_145874",
+ "success": true,
+ "steps": 13,
+ "invalid_actions": 0,
+ "model_calls": 14,
+ "input_tokens": 27757,
+ "output_tokens": 1054,
+ "wall_seconds": 170.4,
+ "step_budget": 30,
+ "initial_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see a armchair 2, a armchair 1, a coffeetable 1, a diningtable 2, a diningtable 1, a drawer 2, a drawer 1, a garbagecan 1, a sidetable 2, a sidetable 1, a sofa 1, and a tvstand 1.\n\nYour task is to: put a statue in coffeetable.",
+ "memory_shown": [
+  {
+   "goal": "put a statue in sidetable.",
+   "similarity": 0.78,
+   "practice_position": 2,
+   "actions": [
+    "go to sidetable 1",
+    "go to shelf 1",
+    "go to shelf 2",
+    "take statue 3 from shelf 2",
+    "go to sidetable 1",
+    "move statue 3 to sidetable 1"
+   ]
+  },
+  {
+   "goal": "clean some fork and put it in drawer.",
+   "similarity": 0.59,
+   "practice_position": 0,
+   "actions": [
+    "go to diningtable 1",
+    "go to sinkbasin 1",
+    "go to diningtable 1",
+    "take fork 1 from diningtable 1",
+    "go to sinkbasin 1",
+    "clean fork 1 with sinkbasin 1",
+    "go to drawer 1",
+    "move fork 1 to drawer 1"
+   ]
+  },
+  {
+   "goal": "put a cd in safe.",
+   "similarity": 0.58,
+   "practice_position": 1,
+   "actions": [
+    "go to safe 1",
+    "open safe 1",
+    "go to drawer 1",
+    "open drawer 1",
+    "go to drawer 2",
+    "open drawer 2",
+    "go to drawer 3",
+    "open drawer 3",
+    "open drawer 4",
+    "take cd 2 from drawer 4",
+    "go to safe 1",
+    "move cd 2 to safe 1"
+   ]
+  }
+ ],
+ "memory_note": "D shows the actor the 3 stored trajectories most similar to goal + current subgoal; here ranked with the same embedder by goal only (the recorded run does not store the exact per-subgoal selection), so treat the list as the typical retrieval, not a log.",
+ "shows": "Goal \"put a statue in coffeetable\" with an earlier statue game in memory. The agent still searches 10 steps (the statue is on the tvstand), so the memory did not tell it where the object is, only how the task is done.",
+ "why_interesting": "Trajectory memory transfers the procedure, not the layout: the earlier solution came from another room.",
+ "trace": [
+  {
+   "step": 1,
+   "action": "go to coffeetable 1",
+   "observation": "You arrive at coffeetable 1. On the coffeetable 1, you see a bowl 1, a newspaper 1, and a pencil 2.",
+   "valid": true
+  },
+  {
+   "step": 2,
+   "action": "go to diningtable 1",
+   "observation": "You arrive at diningtable 1. On the diningtable 1, you see a houseplant 1.",
+   "valid": true
+  },
+  {
+   "step": 3,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 4,
+   "action": "open drawer 1",
+   "observation": "You open the drawer 1. The drawer 1 is open. In it, you see a pencil 3.",
+   "valid": true
+  },
+  {
+   "step": 5,
+   "action": "go to diningtable 1",
+   "observation": "You arrive at diningtable 1. On the diningtable 1, you see a houseplant 1.",
+   "valid": true
+  },
+  {
+   "step": 6,
+   "action": "go to drawer 2",
+   "observation": "You arrive at drawer 2. The drawer 2 is closed.",
+   "valid": true
+  },
+  {
+   "step": 7,
+   "action": "open drawer 2",
+   "observation": "You open the drawer 2. The drawer 2 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 8,
+   "action": "go to diningtable 1",
+   "observation": "You arrive at diningtable 1. On the diningtable 1, you see a houseplant 1.",
+   "valid": true
+  },
+  {
+   "step": 9,
+   "action": "go to armchair 1",
+   "observation": "You arrive at armchair 1. On the armchair 1, you see a keychain 2, a keychain 1, and a remotecontrol 1.",
+   "valid": true
+  },
+  {
+   "step": 10,
+   "action": "go to tvstand 1",
+   "observation": "You arrive at tvstand 1. On the tvstand 1, you see a creditcard 2, a keychain 3, a statue 1, a television 1, a tissuebox 1, and a watch 2.",
+   "valid": true
+  },
+  {
+   "step": 11,
+   "action": "take statue 1 from tvstand 1",
+   "observation": "You pick up the statue 1 from the tvstand 1.",
+   "valid": true
+  },
+  {
+   "step": 12,
+   "action": "go to coffeetable 1",
+   "observation": "You arrive at coffeetable 1. On the coffeetable 1, you see a bowl 1, a newspaper 1, and a pencil 2.",
+   "valid": true
+  },
+  {
+   "step": 13,
+   "action": "move statue 1 to coffeetable 1",
+   "observation": "You move the statue 1 to the coffeetable 1.",
+   "valid": true
+  }
+ ]
+}

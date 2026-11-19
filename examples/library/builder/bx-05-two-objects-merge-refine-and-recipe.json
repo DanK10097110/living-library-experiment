@@ -1,0 +1,506 @@
+{
+ "id": "bx-05-two-objects-merge-refine-and-recipe",
+ "title": "Merge a near-duplicate and refine another rule in the same game",
+ "source": {
+  "run": "practice-b",
+  "stream": "practice-E-0",
+  "position": 24
+ },
+ "shows": "Two-object task, retry 1 wins. The Builder writes a rule that is a near-duplicate of rule_5 and it is merged into it (counted as agreement). A new Success Process is written, and the contrastive refiner rewrites rule_10 from its won and lost games.",
+ "why_interesting": "Shows merge + refine together, which are the MACLA-style rule management operations (E only; E-minus cannot do either).",
+ "notes": [],
+ "practice_game": {
+  "goal": "put two keychain in drawer.",
+  "task_type": "pick_two_obj_and_place",
+  "task_kind": "two objects",
+  "game_id": "train/pick_two_obj_and_place-KeyChain-None-Drawer-307/trial_T20190919_014613_455486",
+  "success": false,
+  "steps": 30,
+  "invalid_actions": 2,
+  "model_calls": 76
+ },
+ "rules_shown_in_first_attempt": [
+  {
+   "id": "rule_5",
+   "type": "Corrected Error",
+   "task_type": "pick_two_obj_and_place",
+   "alpha": 1,
+   "beta": 1,
+   "mean": 0.5,
+   "visible_to_agent": true,
+   "rule": "When objects must be retrieved and placed, search all possible locations systematically before attempting to complete the task.",
+   "example": "The agent failed because it never searched for the two cellphones, only opened drawers and observed existing items.",
+   "validation": "This game confirmed the rule: the agent failed because it never located or picked up the two cellphones, only opening drawers and observing existing items without searching for the target objects.",
+   "rendered_for_agent": "[Corrected Error] When objects must be retrieved and placed, search all possible locations systematically before attempting to complete the task. Example: The agent failed because it never searched for the two cellphones, only opened drawers and observed existing items.",
+   "evidence": {
+    "won": 0,
+    "lost": 0
+   }
+  },
+  {
+   "id": "rule_10",
+   "type": "Corrected Error",
+   "task_type": "all",
+   "alpha": 5,
+   "beta": 5,
+   "mean": 0.5,
+   "visible_to_agent": true,
+   "rule": "When the goal requires cooling an object, locate and take the object from a surface before attempting to open any cabinets.",
+   "example": "The agent failed by checking empty cabinets first; it should have scanned stoveburner 4 to find the pan before opening cabinets.",
+   "validation": "This game confirmed the rule: the agent failed because it never found or cooled a plate, instead spending all time opening cabinets and drawers without checking countertops.",
+   "rendered_for_agent": "[Corrected Error] When the goal requires cooling an object, locate and take the object from a surface before attempting to open any cabinets. Example: The agent failed by checking empty cabinets first; it should have scanned stoveburner 4 to find the pan before opening cabinets.",
+   "evidence": {
+    "won": 4,
+    "lost": 4
+   }
+  }
+ ],
+ "first_attempt_trace": [
+  {
+   "step": 1,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 2,
+   "action": "open drawer 1",
+   "observation": "You open the drawer 1. The drawer 1 is open. In it, you see a pencil 1.",
+   "valid": true
+  },
+  {
+   "step": 3,
+   "action": "go to desk 1",
+   "observation": "You arrive at desk 1. On the desk 1, you see a alarmclock 2, a book 1, a bowl 2, a bowl 1, a cellphone 2, a creditcard 2, a keychain 3, and a remotecontrol 1.",
+   "valid": true
+  },
+  {
+   "step": 4,
+   "action": "take keychain 3 from desk 1",
+   "observation": "You pick up the keychain 3 from the desk 1.",
+   "valid": true
+  },
+  {
+   "step": 5,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see a pencil 1.",
+   "valid": true
+  },
+  {
+   "step": 6,
+   "action": "go to desk 1",
+   "observation": "You arrive at desk 1. On the desk 1, you see a alarmclock 2, a book 1, a bowl 2, a bowl 1, a cellphone 2, a creditcard 2, and a remotecontrol 1.",
+   "valid": true
+  },
+  {
+   "step": 7,
+   "action": "examine desk 1",
+   "observation": "On the desk 1, you see a alarmclock 2, a book 1, a bowl 2, a bowl 1, a cellphone 2, a creditcard 2, and a remotecontrol 1.",
+   "valid": true
+  },
+  {
+   "step": 8,
+   "action": "go to drawer 2",
+   "observation": "You arrive at drawer 2. The drawer 2 is closed.",
+   "valid": true
+  },
+  {
+   "step": 9,
+   "action": "open drawer 2",
+   "observation": "You open the drawer 2. The drawer 2 is open. In it, you see a cellphone 1, and a creditcard 1.",
+   "valid": true
+  },
+  {
+   "step": 10,
+   "action": "go to desk 1",
+   "observation": "You arrive at desk 1. On the desk 1, you see a alarmclock 2, a book 1, a bowl 2, a bowl 1, a cellphone 2, a creditcard 2, and a remotecontrol 1.",
+   "valid": true
+  },
+  {
+   "step": 11,
+   "action": "go to drawer 2",
+   "observation": "You arrive at drawer 2. The drawer 2 is open. In it, you see a cellphone 1, and a creditcard 1.",
+   "valid": true
+  },
+  {
+   "step": 12,
+   "action": "open drawer 3",
+   "observation": "You open the drawer 3. The drawer 3 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 13,
+   "action": "move keychain 3 to drawer 1",
+   "observation": "You open the drawer 3. The drawer 3 is open. In it, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 14,
+   "action": "go to desk 1",
+   "observation": "You arrive at desk 1. On the desk 1, you see a alarmclock 2, a book 1, a bowl 2, a bowl 1, a cellphone 2, a creditcard 2, and a remotecontrol 1.",
+   "valid": true
+  },
+  {
+   "step": 15,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see a pencil 1.",
+   "valid": true
+  },
+  {
+   "step": 16,
+   "action": "examine desk 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see a pencil 1.",
+   "valid": false
+  },
+  {
+   "step": 17,
+   "action": "go to bed 1",
+   "observation": "You arrive at bed 1. On the bed 1, you see a cellphone 3, a laptop 2, a laptop 1, and a pillow 1.",
+   "valid": true
+  },
+  {
+   "step": 18,
+   "action": "go to desk 1",
+   "observation": "You arrive at desk 1. On the desk 1, you see a alarmclock 2, a book 1, a bowl 2, a bowl 1, a cellphone 2, a creditcard 2, and a remotecontrol 1.",
+   "valid": true
+  },
+  {
+   "step": 19,
+   "action": "examine desk 1",
+   "observation": "On the desk 1, you see a alarmclock 2, a book 1, a bowl 2, a bowl 1, a cellphone 2, a creditcard 2, and a remotecontrol 1.",
+   "valid": true
+  },
+  {
+   "step": 20,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see a pencil 1.",
+   "valid": true
+  },
+  {
+   "step": 21,
+   "action": "move keychain 3 to drawer 1",
+   "observation": "You move the keychain 3 to the drawer 1.",
+   "valid": true
+  },
+  {
+   "step": 22,
+   "action": "examine drawer 1",
+   "observation": "The drawer 1 is open. In it, you see a keychain 3, and a pencil 1.",
+   "valid": true
+  },
+  {
+   "step": 23,
+   "action": "go to desk 1",
+   "observation": "You arrive at desk 1. On the desk 1, you see a alarmclock 2, a book 1, a bowl 2, a bowl 1, a cellphone 2, a creditcard 2, and a remotecontrol 1.",
+   "valid": true
+  },
+  {
+   "step": 24,
+   "action": "examine desk 1",
+   "observation": "On the desk 1, you see a alarmclock 2, a book 1, a bowl 2, a bowl 1, a cellphone 2, a creditcard 2, and a remotecontrol 1.",
+   "valid": true
+  },
+  {
+   "step": 25,
+   "action": "examine desk 1",
+   "observation": "On the desk 1, you see a alarmclock 2, a book 1, a bowl 2, a bowl 1, a cellphone 2, a creditcard 2, and a remotecontrol 1.",
+   "valid": true
+  },
+  {
+   "step": 26,
+   "action": "examine desk 1",
+   "observation": "On the desk 1, you see a alarmclock 2, a book 1, a bowl 2, a bowl 1, a cellphone 2, a creditcard 2, and a remotecontrol 1.",
+   "valid": true
+  },
+  {
+   "step": 27,
+   "action": "examine desk 1",
+   "observation": "On the desk 1, you see a alarmclock 2, a book 1, a bowl 2, a bowl 1, a cellphone 2, a creditcard 2, and a remotecontrol 1.",
+   "valid": true
+  },
+  {
+   "step": 28,
+   "action": "examine desk 1",
+   "observation": "On the desk 1, you see a alarmclock 2, a book 1, a bowl 2, a bowl 1, a cellphone 2, a creditcard 2, and a remotecontrol 1.",
+   "valid": true
+  },
+  {
+   "step": 29,
+   "action": "examine desk 1",
+   "observation": "On the desk 1, you see a alarmclock 2, a book 1, a bowl 2, a bowl 1, a cellphone 2, a creditcard 2, and a remotecontrol 1.",
+   "valid": true
+  },
+  {
+   "step": 30,
+   "action": "examine desk 1",
+   "observation": "On the desk 1, you see a alarmclock 2, a book 1, a bowl 2, a bowl 1, a cellphone 2, a creditcard 2, and a remotecontrol 1.",
+   "valid": true
+  }
+ ],
+ "retries": [
+  {
+   "attempt": 1,
+   "reflection": "I only found and moved one keychain (keychain 3) from desk 1 to drawer 1, but the goal requires two keychains. I should have examined the desk more thoroughly or checked other locations for a second keychain before giving up, as the desk initially showed multiple items that might have included another keychain or I missed it during my initial scan.",
+   "won": true,
+   "steps": 28,
+   "actions": [
+    {
+     "action": "go to desk 1",
+     "valid": true
+    },
+    {
+     "action": "go to desk 1",
+     "valid": false
+    },
+    {
+     "action": "take keychain 3 from desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "open drawer 1",
+     "valid": true
+    },
+    {
+     "action": "move keychain 3 to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 2",
+     "valid": true
+    },
+    {
+     "action": "open drawer 2",
+     "valid": true
+    },
+    {
+     "action": "go to desk 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 3",
+     "valid": true
+    },
+    {
+     "action": "go to desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 3",
+     "valid": true
+    },
+    {
+     "action": "open drawer 3",
+     "valid": true
+    },
+    {
+     "action": "go to sidetable 1",
+     "valid": true
+    },
+    {
+     "action": "take keychain 1 from sidetable 1",
+     "valid": true
+    },
+    {
+     "action": "move keychain 1 to drawer 1",
+     "valid": false
+    },
+    {
+     "action": "go to sidetable 1",
+     "valid": false
+    },
+    {
+     "action": "go to sidetable 1",
+     "valid": false
+    },
+    {
+     "action": "go to desk 1",
+     "valid": true
+    },
+    {
+     "action": "go to sidetable 1",
+     "valid": true
+    },
+    {
+     "action": "take keychain 2 from sidetable 1",
+     "valid": false
+    },
+    {
+     "action": "move keychain 2 to drawer 1",
+     "valid": false
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "examine drawer 1",
+     "valid": true
+    },
+    {
+     "action": "move keychain 1 to drawer 1",
+     "valid": true
+    }
+   ]
+  }
+ ],
+ "builder_report": {
+  "case": "corrected failure",
+  "diagnosis": "imperfect rules",
+  "operations": [
+   {
+    "id": "rule_5",
+    "op": "merge_rule",
+    "source": {
+     "task": "put two keychain in drawer.",
+     "task_type": "pick_two_obj_and_place"
+    },
+    "task_type": "pick_two_obj_and_place"
+   },
+   {
+    "example": "Search desk 1 and sidetable 1, take keychains, open drawer 1, move keychains to drawer 1.",
+    "op": "write_rule",
+    "rule": "When two keychains must be placed in a drawer: search desk and sidetable first, take keychains from surfaces, open the target drawer if closed, move each keychain to the drawer.",
+    "sources": [
+     {
+      "task": "put two keychain in drawer.",
+      "task_type": "pick_two_obj_and_place"
+     }
+    ],
+    "task_type": "pick_two_obj_and_place",
+    "type": "Success Process",
+    "verified": true
+   },
+   {
+    "id": "rule_10",
+    "op": "refine",
+    "refined_at": [
+     4,
+     5
+    ],
+    "rule": "When an object must be placed in a container and multiple objects are needed, search the room for all objects first before opening the container."
+   }
+  ],
+  "bookkeeping_operations": [
+   "outcome",
+   "pool_won"
+  ],
+  "log_lines": [
+   "merged a new rule into rule_5"
+  ]
+ },
+ "rules_changed": [
+  {
+   "id": "rule_5",
+   "before": {
+    "id": "rule_5",
+    "type": "Corrected Error",
+    "task_type": "pick_two_obj_and_place",
+    "alpha": 1,
+    "beta": 1,
+    "mean": 0.5,
+    "visible_to_agent": true,
+    "rule": "When objects must be retrieved and placed, search all possible locations systematically before attempting to complete the task.",
+    "example": "The agent failed because it never searched for the two cellphones, only opened drawers and observed existing items.",
+    "validation": "This game confirmed the rule: the agent failed because it never located or picked up the two cellphones, only opening drawers and observing existing items without searching for the target objects.",
+    "rendered_for_agent": "[Corrected Error] When objects must be retrieved and placed, search all possible locations systematically before attempting to complete the task. Example: The agent failed because it never searched for the two cellphones, only opened drawers and observed existing items.",
+    "evidence": {
+     "won": 0,
+     "lost": 0
+    }
+   },
+   "after": {
+    "id": "rule_5",
+    "type": "Corrected Error",
+    "task_type": "pick_two_obj_and_place",
+    "alpha": 1,
+    "beta": 2,
+    "mean": 0.33,
+    "visible_to_agent": true,
+    "rule": "When objects must be retrieved and placed, search all possible locations systematically before attempting to complete the task.",
+    "example": "The agent failed because it never searched for the two cellphones, only opened drawers and observed existing items.",
+    "validation": "This game confirmed the rule: the agent failed because it never located or picked up the two cellphones, only opening drawers and observing existing items without searching for the target objects.",
+    "rendered_for_agent": "[Corrected Error] When objects must be retrieved and placed, search all possible locations systematically before attempting to complete the task. Example: The agent failed because it never searched for the two cellphones, only opened drawers and observed existing items.",
+    "evidence": {
+     "won": 0,
+     "lost": 1
+    }
+   },
+   "change": "beta"
+  },
+  {
+   "id": "rule_10",
+   "before": {
+    "id": "rule_10",
+    "type": "Corrected Error",
+    "task_type": "all",
+    "alpha": 5,
+    "beta": 5,
+    "mean": 0.5,
+    "visible_to_agent": true,
+    "rule": "When the goal requires cooling an object, locate and take the object from a surface before attempting to open any cabinets.",
+    "example": "The agent failed by checking empty cabinets first; it should have scanned stoveburner 4 to find the pan before opening cabinets.",
+    "validation": "This game confirmed the rule: the agent failed because it never found or cooled a plate, instead spending all time opening cabinets and drawers without checking countertops.",
+    "rendered_for_agent": "[Corrected Error] When the goal requires cooling an object, locate and take the object from a surface before attempting to open any cabinets. Example: The agent failed by checking empty cabinets first; it should have scanned stoveburner 4 to find the pan before opening cabinets.",
+    "evidence": {
+     "won": 4,
+     "lost": 4
+    }
+   },
+   "after": {
+    "id": "rule_10",
+    "type": "Corrected Error",
+    "task_type": "all",
+    "alpha": 5,
+    "beta": 6,
+    "mean": 0.45,
+    "visible_to_agent": true,
+    "rule": "When an object must be placed in a container and multiple objects are needed, search the room for all objects first before opening the container.",
+    "example": "The agent failed by checking empty cabinets first; it should have scanned stoveburner 4 to find the pan before opening cabinets.",
+    "validation": "This game confirmed the rule: the agent failed because it never found or cooled a plate, instead spending all time opening cabinets and drawers without checking countertops.",
+    "rendered_for_agent": "[Corrected Error] When an object must be placed in a container and multiple objects are needed, search the room for all objects first before opening the container. Example: The agent failed by checking empty cabinets first; it should have scanned stoveburner 4 to find the pan before opening cabinets.",
+    "evidence": {
+     "won": 4,
+     "lost": 5
+    }
+   },
+   "change": "rule, beta"
+  },
+  {
+   "id": "rule_17",
+   "before": null,
+   "after": {
+    "id": "rule_17",
+    "type": "Success Process",
+    "task_type": "pick_two_obj_and_place",
+    "alpha": 1,
+    "beta": 1,
+    "mean": 0.5,
+    "visible_to_agent": true,
+    "rule": "When two keychains must be placed in a drawer: search desk and sidetable first, take keychains from surfaces, open the target drawer if closed, move each keychain to the drawer.",
+    "example": "Search desk 1 and sidetable 1, take keychains, open drawer 1, move keychains to drawer 1.",
+    "rendered_for_agent": "[Success Process] When two keychains must be placed in a drawer: search desk and sidetable first, take keychains from surfaces, open the target drawer if closed, move each keychain to the drawer. Example: Search desk 1 and sidetable 1, take keychains, open drawer 1, move keychains to drawer 1.",
+    "evidence": {
+     "won": 0,
+     "lost": 0
+    }
+   },
+   "change": "NEW"
+  }
+ ]
+}

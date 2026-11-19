@@ -1,0 +1,425 @@
+{
+ "id": "bx-09-reject-numbered-object",
+ "title": "Rejected: a recipe that names a numbered object",
+ "source": {
+  "run": "practice-b",
+  "stream": "practice-E-0",
+  "position": 12
+ },
+ "shows": "A cool task: the Builder's Success Process text mentions \"fridge 1\", so code rejects it and logs \"names a numbered object\". The rule is not added.",
+ "why_interesting": "Numbered objects are instance specific (\"fridge 1\" exists in one room only), so they are rejected deterministically.",
+ "notes": [],
+ "practice_game": {
+  "goal": "put a cool bowl in cabinet.",
+  "task_type": "pick_cool_then_place_in_recep",
+  "task_kind": "cool then place",
+  "game_id": "train/pick_cool_then_place_in_recep-Bowl-None-Cabinet-19/trial_T20190908_043325_612655",
+  "success": false,
+  "steps": 30,
+  "invalid_actions": 2,
+  "model_calls": 83
+ },
+ "rules_shown_in_first_attempt": [],
+ "first_attempt_trace": [
+  {
+   "step": 1,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a apple 1, a bread 2, a butterknife 3, a butterknife 2, a lettuce 1, a pan 1, a peppershaker 2, a soapbottle 1, and a spatula 1.",
+   "valid": true
+  },
+  {
+   "step": 2,
+   "action": "go to cabinet 1",
+   "observation": "You arrive at cabinet 1. On the cabinet 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 3,
+   "action": "go to cabinet 2",
+   "observation": "You arrive at cabinet 1. On the cabinet 1, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 4,
+   "action": "go to cabinet 3",
+   "observation": "You arrive at cabinet 3. The cabinet 3 is closed.",
+   "valid": true
+  },
+  {
+   "step": 5,
+   "action": "open cabinet 3",
+   "observation": "You open the cabinet 3. The cabinet 3 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 6,
+   "action": "go to cabinet 4",
+   "observation": "You arrive at cabinet 4. The cabinet 4 is closed.",
+   "valid": true
+  },
+  {
+   "step": 7,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. On the drawer 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 8,
+   "action": "go to cabinet 5",
+   "observation": "You arrive at cabinet 5. On the cabinet 5, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 9,
+   "action": "go to countertop 2",
+   "observation": "You arrive at countertop 2. On the countertop 2, you see a fork 2, a spatula 3, and a spoon 1.",
+   "valid": true
+  },
+  {
+   "step": 10,
+   "action": "go to cabinet 6",
+   "observation": "You arrive at cabinet 6. The cabinet 6 is closed.",
+   "valid": true
+  },
+  {
+   "step": 11,
+   "action": "open cabinet 6",
+   "observation": "You open the cabinet 6. The cabinet 6 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 12,
+   "action": "go to cabinet 7",
+   "observation": "You arrive at cabinet 7. The cabinet 7 is closed.",
+   "valid": true
+  },
+  {
+   "step": 13,
+   "action": "open cabinet 7",
+   "observation": "You open the cabinet 7. The cabinet 7 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 14,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. On the drawer 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 15,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a apple 1, a bread 2, a butterknife 3, a butterknife 2, a lettuce 1, a pan 1, a peppershaker 2, a soapbottle 1, and a spatula 1.",
+   "valid": true
+  },
+  {
+   "step": 16,
+   "action": "go to drawer 2",
+   "observation": "You arrive at drawer 2. On the drawer 2, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 17,
+   "action": "go to cabinet 1",
+   "observation": "You arrive at cabinet 1. On the cabinet 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 18,
+   "action": "go to cabinet 2",
+   "observation": "You arrive at cabinet 1. On the cabinet 1, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 19,
+   "action": "go to cabinet 3",
+   "observation": "You arrive at cabinet 3. The cabinet 3 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 20,
+   "action": "go to cabinet 4",
+   "observation": "You arrive at cabinet 4. The cabinet 4 is closed.",
+   "valid": true
+  },
+  {
+   "step": 21,
+   "action": "open cabinet 4",
+   "observation": "You open the cabinet 4. The cabinet 4 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 22,
+   "action": "go to cabinet 5",
+   "observation": "You arrive at cabinet 5. On the cabinet 5, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 23,
+   "action": "go to cabinet 6",
+   "observation": "You arrive at cabinet 6. The cabinet 6 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 24,
+   "action": "go to cabinet 7",
+   "observation": "You arrive at cabinet 7. The cabinet 7 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 25,
+   "action": "go to cabinet 8",
+   "observation": "You arrive at cabinet 8. The cabinet 8 is closed.",
+   "valid": true
+  },
+  {
+   "step": 26,
+   "action": "open cabinet 8",
+   "observation": "You open the cabinet 8. The cabinet 8 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 27,
+   "action": "go to cabinet 9",
+   "observation": "You arrive at cabinet 9. The cabinet 9 is closed.",
+   "valid": true
+  },
+  {
+   "step": 28,
+   "action": "open cabinet 9",
+   "observation": "You open the cabinet 9. The cabinet 9 is open. In it, you see a plate 3.",
+   "valid": true
+  },
+  {
+   "step": 29,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. On the drawer 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 30,
+   "action": "go to drawer 2",
+   "observation": "You arrive at drawer 2. On the drawer 2, you see nothing.",
+   "valid": true
+  }
+ ],
+ "retries": [
+  {
+   "attempt": 1,
+   "reflection": "I failed because I spent too much time checking empty cabinets and drawers without first locating the cool bowl on any countertop. I should have started by scanning countertop 1 and countertop 2 for the bowl before attempting to open any cabinets. Once I find the bowl, I can then place it in an open cabinet like cabinet 3, 4, 6, 7, 8, or 9.",
+   "won": false,
+   "steps": 30,
+   "actions": [
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 2",
+     "valid": false
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "examine countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 2",
+     "valid": false
+    },
+    {
+     "action": "go to cabinet 3",
+     "valid": true
+    },
+    {
+     "action": "open cabinet 3",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 4",
+     "valid": true
+    },
+    {
+     "action": "open cabinet 4",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 5",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "examine countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    }
+   ]
+  },
+  {
+   "attempt": 2,
+   "reflection": "I failed because I repeatedly moved between locations and checked empty cabinets without first identifying where the cool bowl was located. I should have immediately scanned countertop 1 and countertop 2 to find the bowl before attempting to open any cabinets. Once I locate the bowl on a countertop, I can pick it up and place it directly into an open cabinet like cabinet 3 or cabinet 4.",
+   "won": true,
+   "steps": 8,
+   "actions": [
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "take bowl 1 from diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "cool bowl 1 with fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "move bowl 1 to cabinet 1",
+     "valid": true
+    }
+   ]
+  }
+ ],
+ "builder_report": {
+  "case": "corrected failure",
+  "diagnosis": "imperfect rules",
+  "operations": [
+   {
+    "example": "The agent failed by checking empty cabinets first; it should have scanned diningtable 1 and countertop 1/2 to find the bowl before opening cabinets.",
+    "op": "write_rule",
+    "rule": "When the goal requires cooling an object, locate and take the object from a surface before attempting to open any cabinets.",
+    "sources": [
+     {
+      "task": "put a cool bowl in cabinet.",
+      "task_type": "pick_cool_then_place_in_recep"
+     }
+    ],
+    "task_type": "all",
+    "type": "Corrected Error",
+    "verified": true
+   }
+  ],
+  "bookkeeping_operations": [
+   "outcome",
+   "pool_won"
+  ],
+  "log_lines": [
+   "rejected Success Process text, names a numbered object ('fridge 1'): When an object must be cooled and placed in a cabinet: search diningtable and co"
+  ]
+ },
+ "rules_changed": [
+  {
+   "id": "rule_10",
+   "before": null,
+   "after": {
+    "id": "rule_10",
+    "type": "Corrected Error",
+    "task_type": "all",
+    "alpha": 1,
+    "beta": 1,
+    "mean": 0.5,
+    "visible_to_agent": true,
+    "rule": "When the goal requires cooling an object, locate and take the object from a surface before attempting to open any cabinets.",
+    "example": "The agent failed by checking empty cabinets first; it should have scanned diningtable 1 and countertop 1/2 to find the bowl before opening cabinets.",
+    "rendered_for_agent": "[Corrected Error] When the goal requires cooling an object, locate and take the object from a surface before attempting to open any cabinets. Example: The agent failed by checking empty cabinets first; it should have scanned diningtable 1 and countertop 1/2 to find the bowl before opening cabinets.",
+    "evidence": {
+     "won": 0,
+     "lost": 0
+    }
+   },
+   "change": "NEW"
+  }
+ ]
+}

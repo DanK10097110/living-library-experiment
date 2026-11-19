@@ -1,0 +1,78 @@
+{
+ "checks": [
+  {
+   "label": "practice-e game 4 (rejected, still specific after the rewrite)",
+   "task_type": "pick_heat_then_place_in_recep",
+   "text": "When heating a container to make it hot, never place the target directly on the kettle ...",
+   "specific_terms": [
+    "kettle"
+   ],
+   "foreign_actions": []
+  },
+  {
+   "label": "check-avoid70 rule_19 (written before the check existed)",
+   "task_type": "pick_cool_then_place_in_recep",
+   "text": "When searching for a tomato to cool, check countertops and fridge contents first before exhaustively opening cabinets and drawers.",
+   "specific_terms": [
+    "tomato"
+   ],
+   "foreign_actions": []
+  },
+  {
+   "label": "check-avoid70 rule_14 (before the check)",
+   "task_type": "pick_cool_then_place_in_recep",
+   "text": "When searching for a cool plate to place in a cabinet, systematically check all countertops first before attempting to retrieve it from the fridge.",
+   "specific_terms": [
+    "plate"
+   ],
+   "foreign_actions": []
+  },
+  {
+   "label": "practice-e game 38 (rejected: names \"room\")",
+   "task_type": "look_at_obj_in_light",
+   "text": "When an object must be examined with a light: search the current room for the object ...",
+   "specific_terms": [
+    "room"
+   ],
+   "foreign_actions": []
+  },
+  {
+   "label": "check-e rule_1 (accepted)",
+   "task_type": "pick_clean_then_place_in_recep",
+   "text": "When an object must be cleaned and placed: search the object's current location first, clean it with the sinkbasin, then move it to the target location.",
+   "specific_terms": [],
+   "foreign_actions": []
+  },
+  {
+   "label": "study incident 2026-11-19 (quoted from results/LOG.md: a cooling recipe that copied a step from the winning game)",
+   "task_type": "pick_cool_then_place_in_recep",
+   "text": "When an object must be cooled and placed: find and take it, clean it with sinkbasin, cool it with fridge, go to the target, put it there.",
+   "specific_terms": [],
+   "foreign_actions": [
+    "clean"
+   ]
+  },
+  {
+   "label": "same recipe, appliance only as a place to search (allowed)",
+   "task_type": "pick_cool_then_place_in_recep",
+   "text": "When an object must be cooled and placed: search the fridge and countertops, take it, cool it with the fridge, put it in the target.",
+   "specific_terms": [],
+   "foreign_actions": []
+  },
+  {
+   "label": "heat recipe that cools (foreign action)",
+   "task_type": "pick_heat_then_place_in_recep",
+   "text": "When an object must be heated: take it, cool it first, heat it with the microwave, then put it in the target.",
+   "specific_terms": [],
+   "foreign_actions": [
+    "cool"
+   ]
+  }
+ ],
+ "model_rewrite_responses": [
+  "When the object must be cooled and placed in the target: search countertops and dining tables first, take the object, cool it with the fridge, open the target cabinet if closed, move the object there.",
+  "When an object must be picked up and placed: search drawers and containers first, take the object, go to the target, open the target if closed, move the object there.",
+  "When an object must be cooled and placed, search countertops and cabinets first, then cool with the fridge, open the target if closed, and put it there.",
+  "When an object must be found and cooled, search countertops first, then cabinets, before opening drawers."
+ ]
+}

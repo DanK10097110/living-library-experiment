@@ -1,0 +1,881 @@
+{
+ "run": "study",
+ "stream": "practice-E-0",
+ "timeline": [
+  {
+   "after_game": 0,
+   "goal": "clean some fork and put it in drawer.",
+   "first_attempt_won": true,
+   "rules": 2,
+   "visible": 1,
+   "by_type": {
+    "Success Process": 1,
+    "Failure Pool": 1
+   },
+   "added": [
+    "rule_1",
+    "rule_2"
+   ],
+   "changed": []
+  },
+  {
+   "after_game": 1,
+   "goal": "put a cloth in drawer.",
+   "first_attempt_won": false,
+   "rules": 4,
+   "visible": 1,
+   "by_type": {
+    "Success Process": 1,
+    "Failure Pool": 2,
+    "Special Phenomenon": 1
+   },
+   "added": [
+    "rule_3",
+    "rule_4"
+   ],
+   "changed": []
+  },
+  {
+   "after_game": 2,
+   "goal": "put two spatula in drawer.",
+   "first_attempt_won": false,
+   "rules": 6,
+   "visible": 1,
+   "by_type": {
+    "Success Process": 1,
+    "Failure Pool": 3,
+    "Special Phenomenon": 1,
+    "Unresolved Error": 1
+   },
+   "added": [
+    "rule_5",
+    "rule_6"
+   ],
+   "changed": []
+  },
+  {
+   "after_game": 3,
+   "goal": "put a cd in safe.",
+   "first_attempt_won": true,
+   "rules": 7,
+   "visible": 2,
+   "by_type": {
+    "Success Process": 2,
+    "Failure Pool": 3,
+    "Special Phenomenon": 1,
+    "Unresolved Error": 1
+   },
+   "added": [
+    "rule_7"
+   ],
+   "changed": []
+  },
+  {
+   "after_game": 4,
+   "goal": "put a hot mug in coffeemachine.",
+   "first_attempt_won": false,
+   "rules": 8,
+   "visible": 2,
+   "by_type": {
+    "Success Process": 2,
+    "Failure Pool": 4,
+    "Special Phenomenon": 1,
+    "Unresolved Error": 1
+   },
+   "added": [
+    "rule_8"
+   ],
+   "changed": []
+  },
+  {
+   "after_game": 5,
+   "goal": "put a statue in sidetable.",
+   "first_attempt_won": true,
+   "rules": 8,
+   "visible": 2,
+   "by_type": {
+    "Success Process": 2,
+    "Failure Pool": 4,
+    "Special Phenomenon": 1,
+    "Unresolved Error": 1
+   },
+   "added": [],
+   "changed": []
+  },
+  {
+   "after_game": 6,
+   "goal": "clean some plate and put it in microwave.",
+   "first_attempt_won": false,
+   "rules": 8,
+   "visible": 2,
+   "by_type": {
+    "Success Process": 2,
+    "Failure Pool": 4,
+    "Special Phenomenon": 1,
+    "Unresolved Error": 1
+   },
+   "added": [],
+   "changed": []
+  },
+  {
+   "after_game": 7,
+   "goal": "put a clean soapbar in toilet.",
+   "first_attempt_won": true,
+   "rules": 9,
+   "visible": 3,
+   "by_type": {
+    "Success Process": 2,
+    "Failure Pool": 4,
+    "Special Phenomenon": 1,
+    "Unresolved Error": 1,
+    "Corrected Error": 1
+   },
+   "added": [
+    "rule_9"
+   ],
+   "changed": []
+  },
+  {
+   "after_game": 8,
+   "goal": "put two alarmclock in shelf.",
+   "first_attempt_won": true,
+   "rules": 11,
+   "visible": 5,
+   "by_type": {
+    "Success Process": 3,
+    "Failure Pool": 4,
+    "Special Phenomenon": 1,
+    "Unresolved Error": 1,
+    "Corrected Error": 2
+   },
+   "added": [
+    "rule_10",
+    "rule_11"
+   ],
+   "changed": []
+  },
+  {
+   "after_game": 9,
+   "goal": "put a cellphone in dresser.",
+   "first_attempt_won": false,
+   "rules": 11,
+   "visible": 6,
+   "by_type": {
+    "Success Process": 3,
+    "Failure Pool": 4,
+    "Special Phenomenon": 1,
+    "Unresolved Error": 1,
+    "Corrected Error": 2
+   },
+   "added": [],
+   "changed": [
+    "rule_3",
+    "rule_7"
+   ]
+  },
+  {
+   "after_game": 10,
+   "goal": "put a statue in coffeetable.",
+   "first_attempt_won": true,
+   "rules": 11,
+   "visible": 6,
+   "by_type": {
+    "Success Process": 3,
+    "Failure Pool": 4,
+    "Special Phenomenon": 1,
+    "Unresolved Error": 1,
+    "Corrected Error": 2
+   },
+   "added": [],
+   "changed": [
+    "rule_7"
+   ]
+  },
+  {
+   "after_game": 11,
+   "goal": "put a keychain in desk.",
+   "first_attempt_won": true,
+   "rules": 11,
+   "visible": 6,
+   "by_type": {
+    "Success Process": 3,
+    "Failure Pool": 4,
+    "Special Phenomenon": 1,
+    "Unresolved Error": 1,
+    "Corrected Error": 2
+   },
+   "added": [],
+   "changed": [
+    "rule_7"
+   ]
+  },
+  {
+   "after_game": 12,
+   "goal": "put a cool bowl in cabinet.",
+   "first_attempt_won": false,
+   "rules": 14,
+   "visible": 8,
+   "by_type": {
+    "Success Process": 4,
+    "Failure Pool": 5,
+    "Special Phenomenon": 1,
+    "Unresolved Error": 1,
+    "Corrected Error": 3
+   },
+   "added": [
+    "rule_12",
+    "rule_13",
+    "rule_14"
+   ],
+   "changed": []
+  },
+  {
+   "after_game": 13,
+   "goal": "put a spraybottle in garbagecan.",
+   "first_attempt_won": true,
+   "rules": 14,
+   "visible": 8,
+   "by_type": {
+    "Success Process": 4,
+    "Failure Pool": 5,
+    "Special Phenomenon": 1,
+    "Unresolved Error": 1,
+    "Corrected Error": 3
+   },
+   "added": [],
+   "changed": [
+    "rule_7"
+   ]
+  },
+  {
+   "after_game": 14,
+   "goal": "put two cellphone in dresser.",
+   "first_attempt_won": false,
+   "rules": 14,
+   "visible": 8,
+   "by_type": {
+    "Success Process": 4,
+    "Failure Pool": 5,
+    "Special Phenomenon": 1,
+    "Unresolved Error": 1,
+    "Corrected Error": 3
+   },
+   "added": [],
+   "changed": []
+  },
+  {
+   "after_game": 15,
+   "goal": "put a clean butterknife in countertop.",
+   "first_attempt_won": true,
+   "rules": 14,
+   "visible": 8,
+   "by_type": {
+    "Success Process": 4,
+    "Failure Pool": 5,
+    "Special Phenomenon": 1,
+    "Unresolved Error": 1,
+    "Corrected Error": 3
+   },
+   "added": [],
+   "changed": [
+    "rule_1",
+    "rule_9"
+   ]
+  },
+  {
+   "after_game": 16,
+   "goal": "put a cool pan in diningtable.",
+   "first_attempt_won": false,
+   "rules": 14,
+   "visible": 8,
+   "by_type": {
+    "Success Process": 4,
+    "Failure Pool": 5,
+    "Special Phenomenon": 1,
+    "Unresolved Error": 1,
+    "Corrected Error": 3
+   },
+   "added": [],
+   "changed": [
+    "rule_12",
+    "rule_13"
+   ]
+  },
+  {
+   "after_game": 17,
+   "goal": "put some cellphone on dresser.",
+   "first_attempt_won": false,
+   "rules": 14,
+   "visible": 8,
+   "by_type": {
+    "Success Process": 4,
+    "Failure Pool": 5,
+    "Special Phenomenon": 1,
+    "Unresolved Error": 1,
+    "Corrected Error": 3
+   },
+   "added": [],
+   "changed": [
+    "rule_3",
+    "rule_7"
+   ]
+  },
+  {
+   "after_game": 18,
+   "goal": "clean some cloth and put it in countertop.",
+   "first_attempt_won": true,
+   "rules": 14,
+   "visible": 8,
+   "by_type": {
+    "Success Process": 4,
+    "Failure Pool": 5,
+    "Special Phenomenon": 1,
+    "Unresolved Error": 1,
+    "Corrected Error": 3
+   },
+   "added": [],
+   "changed": [
+    "rule_1",
+    "rule_9"
+   ]
+  },
+  {
+   "after_game": 19,
+   "goal": "cool some plate and put it in cabinet.",
+   "first_attempt_won": false,
+   "rules": 14,
+   "visible": 8,
+   "by_type": {
+    "Success Process": 4,
+    "Failure Pool": 5,
+    "Special Phenomenon": 1,
+    "Unresolved Error": 1,
+    "Corrected Error": 3
+   },
+   "added": [],
+   "changed": [
+    "rule_12",
+    "rule_13"
+   ]
+  },
+  {
+   "after_game": 20,
+   "goal": "put a hot potato in diningtable.",
+   "first_attempt_won": false,
+   "rules": 16,
+   "visible": 9,
+   "by_type": {
+    "Success Process": 4,
+    "Failure Pool": 5,
+    "Special Phenomenon": 2,
+    "Unresolved Error": 1,
+    "Corrected Error": 3,
+    "Anti-Pattern": 1
+   },
+   "added": [
+    "rule_15",
+    "rule_16"
+   ],
+   "changed": []
+  },
+  {
+   "after_game": 21,
+   "goal": "put some spraybottle on toilet.",
+   "first_attempt_won": true,
+   "rules": 16,
+   "visible": 9,
+   "by_type": {
+    "Success Process": 4,
+    "Failure Pool": 5,
+    "Special Phenomenon": 2,
+    "Unresolved Error": 1,
+    "Corrected Error": 3,
+    "Anti-Pattern": 1
+   },
+   "added": [],
+   "changed": [
+    "rule_3",
+    "rule_7"
+   ]
+  },
+  {
+   "after_game": 22,
+   "goal": "cool some pan and put it in cabinet.",
+   "first_attempt_won": true,
+   "rules": 16,
+   "visible": 9,
+   "by_type": {
+    "Success Process": 4,
+    "Failure Pool": 5,
+    "Special Phenomenon": 2,
+    "Unresolved Error": 1,
+    "Corrected Error": 3,
+    "Anti-Pattern": 1
+   },
+   "added": [],
+   "changed": [
+    "rule_12",
+    "rule_13"
+   ]
+  },
+  {
+   "after_game": 23,
+   "goal": "cool some tomato and put it in microwave.",
+   "first_attempt_won": true,
+   "rules": 16,
+   "visible": 9,
+   "by_type": {
+    "Success Process": 4,
+    "Failure Pool": 5,
+    "Special Phenomenon": 2,
+    "Unresolved Error": 1,
+    "Corrected Error": 3,
+    "Anti-Pattern": 1
+   },
+   "added": [],
+   "changed": [
+    "rule_12",
+    "rule_13"
+   ]
+  },
+  {
+   "after_game": 24,
+   "goal": "put two keychain in drawer.",
+   "first_attempt_won": false,
+   "rules": 16,
+   "visible": 9,
+   "by_type": {
+    "Success Process": 4,
+    "Failure Pool": 5,
+    "Special Phenomenon": 2,
+    "Unresolved Error": 1,
+    "Corrected Error": 3,
+    "Anti-Pattern": 1
+   },
+   "added": [],
+   "changed": [
+    "rule_10",
+    "rule_11"
+   ]
+  },
+  {
+   "after_game": 25,
+   "goal": "put two pencil in drawer.",
+   "first_attempt_won": true,
+   "rules": 16,
+   "visible": 9,
+   "by_type": {
+    "Success Process": 4,
+    "Failure Pool": 5,
+    "Special Phenomenon": 2,
+    "Unresolved Error": 1,
+    "Corrected Error": 3,
+    "Anti-Pattern": 1
+   },
+   "added": [],
+   "changed": [
+    "rule_10",
+    "rule_11"
+   ]
+  },
+  {
+   "after_game": 26,
+   "goal": "put a handtowel in cabinet.",
+   "first_attempt_won": true,
+   "rules": 16,
+   "visible": 9,
+   "by_type": {
+    "Success Process": 4,
+    "Failure Pool": 5,
+    "Special Phenomenon": 2,
+    "Unresolved Error": 1,
+    "Corrected Error": 3,
+    "Anti-Pattern": 1
+   },
+   "added": [],
+   "changed": [
+    "rule_3",
+    "rule_7"
+   ]
+  },
+  {
+   "after_game": 27,
+   "goal": "put some pen on drawer.",
+   "first_attempt_won": false,
+   "rules": 16,
+   "visible": 9,
+   "by_type": {
+    "Success Process": 4,
+    "Failure Pool": 5,
+    "Special Phenomenon": 2,
+    "Unresolved Error": 1,
+    "Corrected Error": 3,
+    "Anti-Pattern": 1
+   },
+   "added": [],
+   "changed": [
+    "rule_3",
+    "rule_7"
+   ]
+  },
+  {
+   "after_game": 28,
+   "goal": "put a clean butterknife in sidetable.",
+   "first_attempt_won": true,
+   "rules": 16,
+   "visible": 9,
+   "by_type": {
+    "Success Process": 4,
+    "Failure Pool": 5,
+    "Special Phenomenon": 2,
+    "Unresolved Error": 1,
+    "Corrected Error": 3,
+    "Anti-Pattern": 1
+   },
+   "added": [],
+   "changed": [
+    "rule_1",
+    "rule_9"
+   ]
+  },
+  {
+   "after_game": 29,
+   "goal": "clean some fork and put it in drawer.",
+   "first_attempt_won": false,
+   "rules": 16,
+   "visible": 9,
+   "by_type": {
+    "Success Process": 4,
+    "Failure Pool": 5,
+    "Special Phenomenon": 2,
+    "Unresolved Error": 1,
+    "Corrected Error": 3,
+    "Anti-Pattern": 1
+   },
+   "added": [],
+   "changed": [
+    "rule_1",
+    "rule_9"
+   ]
+  },
+  {
+   "after_game": 30,
+   "goal": "cool some bowl and put it in microwave.",
+   "first_attempt_won": false,
+   "rules": 16,
+   "visible": 9,
+   "by_type": {
+    "Success Process": 4,
+    "Failure Pool": 5,
+    "Special Phenomenon": 2,
+    "Unresolved Error": 1,
+    "Corrected Error": 3,
+    "Anti-Pattern": 1
+   },
+   "added": [],
+   "changed": [
+    "rule_12",
+    "rule_13"
+   ]
+  },
+  {
+   "after_game": 31,
+   "goal": "find two cellphone and put them in bed.",
+   "first_attempt_won": false,
+   "rules": 16,
+   "visible": 9,
+   "by_type": {
+    "Success Process": 4,
+    "Failure Pool": 5,
+    "Special Phenomenon": 2,
+    "Unresolved Error": 1,
+    "Corrected Error": 3,
+    "Anti-Pattern": 1
+   },
+   "added": [],
+   "changed": [
+    "rule_5",
+    "rule_10",
+    "rule_11"
+   ]
+  },
+  {
+   "after_game": 32,
+   "goal": "cool some bread and put it in countertop.",
+   "first_attempt_won": true,
+   "rules": 16,
+   "visible": 9,
+   "by_type": {
+    "Success Process": 4,
+    "Failure Pool": 5,
+    "Special Phenomenon": 2,
+    "Unresolved Error": 1,
+    "Corrected Error": 3,
+    "Anti-Pattern": 1
+   },
+   "added": [],
+   "changed": [
+    "rule_12",
+    "rule_13"
+   ]
+  },
+  {
+   "after_game": 33,
+   "goal": "put a clean pan in stoveburner.",
+   "first_attempt_won": true,
+   "rules": 16,
+   "visible": 9,
+   "by_type": {
+    "Success Process": 4,
+    "Failure Pool": 5,
+    "Special Phenomenon": 2,
+    "Unresolved Error": 1,
+    "Corrected Error": 3,
+    "Anti-Pattern": 1
+   },
+   "added": [],
+   "changed": [
+    "rule_1",
+    "rule_9"
+   ]
+  },
+  {
+   "after_game": 34,
+   "goal": "put a laptop in desk.",
+   "first_attempt_won": true,
+   "rules": 16,
+   "visible": 9,
+   "by_type": {
+    "Success Process": 4,
+    "Failure Pool": 5,
+    "Special Phenomenon": 2,
+    "Unresolved Error": 1,
+    "Corrected Error": 3,
+    "Anti-Pattern": 1
+   },
+   "added": [],
+   "changed": [
+    "rule_3",
+    "rule_7"
+   ]
+  }
+ ],
+ "rule_histories": {
+  "rule_3": [
+   {
+    "position": 1,
+    "type": "Special Phenomenon",
+    "rule": "When placing an object in a container, ensure the container is open before attempting to place.",
+    "visible": false,
+    "alpha": 1,
+    "beta": 1
+   },
+   {
+    "position": 9,
+    "type": "Special Phenomenon",
+    "rule": "When placing an object in a container, ensure the container is open before attempting to place.",
+    "visible": true,
+    "alpha": 1,
+    "beta": 1
+   },
+   {
+    "position": 17,
+    "type": "Special Phenomenon",
+    "rule": "When placing an object in a container, ensure the container is open before attempting to place.",
+    "visible": true,
+    "alpha": 1,
+    "beta": 2
+   },
+   {
+    "position": 21,
+    "type": "Special Phenomenon",
+    "rule": "When placing an object on a surface, ensure the surface is open before attempting to place.",
+    "visible": true,
+    "alpha": 2,
+    "beta": 2
+   },
+   {
+    "position": 26,
+    "type": "Special Phenomenon",
+    "rule": "When placing an object on a surface, ensure the surface is open before attempting to place.",
+    "visible": true,
+    "alpha": 3,
+    "beta": 2
+   },
+   {
+    "position": 27,
+    "type": "Special Phenomenon",
+    "rule": "When placing an object in a container, ensure the container is open before attempting to place.",
+    "visible": true,
+    "alpha": 3,
+    "beta": 3
+   },
+   {
+    "position": 34,
+    "type": "Special Phenomenon",
+    "rule": "When placing an object on a surface, no need to open the surface; when placing in a container, ensure the container is open before attempting to place.",
+    "visible": true,
+    "alpha": 4,
+    "beta": 3
+   }
+  ],
+  "rule_7": [
+   {
+    "position": 3,
+    "type": "Success Process",
+    "rule": "When an object must be picked up and placed: search drawers first, open the target container if closed, take the object, go to the target container, move the object there.",
+    "visible": true,
+    "alpha": 1,
+    "beta": 1
+   },
+   {
+    "position": 9,
+    "type": "Success Process",
+    "rule": "When an object must be picked up and placed: search the target surface first, open the target container if closed, take the object from the surface, go to the target container, move the object there.",
+    "visible": true,
+    "alpha": 1,
+    "beta": 2
+   },
+   {
+    "position": 10,
+    "type": "Success Process",
+    "rule": "When an object must be picked up and placed: search drawers first, open the target container if closed, take the object, go to the target container, move the object there.",
+    "visible": true,
+    "alpha": 2,
+    "beta": 2
+   },
+   {
+    "position": 11,
+    "type": "Success Process",
+    "rule": "When an object must be picked up and placed: search drawers first, open the target container if closed, take the object, go to the target container, move the object there.",
+    "visible": true,
+    "alpha": 3,
+    "beta": 2
+   },
+   {
+    "position": 13,
+    "type": "Success Process",
+    "rule": "When an object must be picked up and placed: search drawers first, take the object, go to the target container, move the object there.",
+    "visible": true,
+    "alpha": 4,
+    "beta": 2
+   },
+   {
+    "position": 17,
+    "type": "Success Process",
+    "rule": "When an object must be picked up and placed: search drawers first, take the object, go to the target container, move the object there.",
+    "visible": true,
+    "alpha": 4,
+    "beta": 3
+   },
+   {
+    "position": 21,
+    "type": "Success Process",
+    "rule": "When an object must be picked up and placed: search cabinets first, take the object, go to the target, move the object there.",
+    "visible": true,
+    "alpha": 5,
+    "beta": 3
+   },
+   {
+    "position": 26,
+    "type": "Success Process",
+    "rule": "When an object must be picked up and placed: search cabinets first, take the object, go to the target, open the target if closed, move the object there.",
+    "visible": true,
+    "alpha": 6,
+    "beta": 3
+   },
+   {
+    "position": 27,
+    "type": "Success Process",
+    "rule": "When an object must be picked up and placed: search drawers and containers first, take the object, go to the target, open the target if closed, move the object there.",
+    "visible": true,
+    "alpha": 6,
+    "beta": 4
+   },
+   {
+    "position": 34,
+    "type": "Success Process",
+    "rule": "When an object must be picked up and placed: search drawers and containers first, take the object, go to the target, move the object there if the target is open or a surface.",
+    "visible": true,
+    "alpha": 7,
+    "beta": 4
+   }
+  ],
+  "rule_13": [
+   {
+    "position": 12,
+    "type": "Success Process",
+    "rule": "When the object must be cooled and placed in the target: search countertops and dining tables first, take the object, cool it with the fridge, open the target cabinet if closed, move the object there.",
+    "visible": true,
+    "alpha": 1,
+    "beta": 1
+   },
+   {
+    "position": 16,
+    "type": "Success Process",
+    "rule": "When the object must be cooled and placed in the target: search stoveburners and countertops first, take the object, cool it with the fridge, open the target cabinet if closed, move the object there.",
+    "visible": true,
+    "alpha": 1,
+    "beta": 2
+   },
+   {
+    "position": 19,
+    "type": "Success Process",
+    "rule": "When the object must be cooled and placed in the target: search stoveburners and countertops first, take the object, cool it with the fridge, open the target cabinet if closed, move the object there.",
+    "visible": true,
+    "alpha": 1,
+    "beta": 3
+   },
+   {
+    "position": 22,
+    "type": "Success Process",
+    "rule": "When the object must be cooled and placed in the target: search stoveburners and countertops first, take the object, cool it with the fridge, open the target cabinet if closed, move the object there.",
+    "visible": true,
+    "alpha": 2,
+    "beta": 3
+   },
+   {
+    "position": 23,
+    "type": "Success Process",
+    "rule": "When the object must be cooled and placed in the target: search countertops first, take the object, cool it with the fridge, open the target cabinet if closed, move the object there.",
+    "visible": true,
+    "alpha": 3,
+    "beta": 3
+   },
+   {
+    "position": 30,
+    "type": "Success Process",
+    "rule": "When the object must be cooled and placed in the target: search cabinets and countertops first, take the object, cool it with the fridge, open the target cabinet if closed, move the object there.",
+    "visible": true,
+    "alpha": 3,
+    "beta": 4
+   },
+   {
+    "position": 32,
+    "type": "Success Process",
+    "rule": "When an object must be cooled and placed in the target: search cabinets and countertops first, take the object, cool it with the fridge, open the target if closed, move the object there.",
+    "visible": true,
+    "alpha": 4,
+    "beta": 4
+   }
+  ],
+  "rule_5": [
+   {
+    "position": 2,
+    "type": "Unresolved Error",
+    "rule": "When placing multiple objects in a container, search all possible locations for the objects before opening any containers.",
+    "visible": false,
+    "alpha": 1,
+    "beta": 1
+   },
+   {
+    "position": 31,
+    "type": "Unresolved Error",
+    "rule": "When placing multiple objects in a container, search all possible furniture surfaces before opening any containers.",
+    "visible": false,
+    "alpha": 1,
+    "beta": 1
+   }
+  ]
+ }
+}

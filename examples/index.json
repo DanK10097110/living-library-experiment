@@ -1,0 +1,623 @@
+[
+ {
+  "slug": "c-quick-win-pick-place",
+  "kind": "pick and place",
+  "path": "episodes/c/c-quick-win-pick-place",
+  "cond": "C",
+  "title": "C: quick win, a simple pick and place in 5 steps",
+  "success": true,
+  "steps": 5,
+  "goal": "put some creditcard on armchair."
+ },
+ {
+  "slug": "c-typical-win-clean",
+  "kind": "clean then place",
+  "path": "episodes/c/c-typical-win-clean",
+  "cond": "C",
+  "title": "C: typical clean-then-place win, with a few invalid commands on the way",
+  "success": true,
+  "steps": 14,
+  "goal": "put a clean lettuce in countertop."
+ },
+ {
+  "slug": "c-typical-win-cool",
+  "kind": "cool then place",
+  "path": "episodes/c/c-typical-win-cool",
+  "cond": "C",
+  "title": "C: typical cool-then-place win (8 steps)",
+  "success": true,
+  "steps": 8,
+  "goal": "put a cool tomato in microwave."
+ },
+ {
+  "slug": "c-typical-win-look",
+  "kind": "look at object under a lamp",
+  "path": "episodes/c/c-typical-win-look",
+  "cond": "C",
+  "title": "C: a look-at-object win that looks accidental",
+  "success": true,
+  "steps": 14,
+  "goal": "examine the bowl with the desklamp."
+ },
+ {
+  "slug": "c-typical-win-two-objects",
+  "kind": "two objects",
+  "path": "episodes/c/c-typical-win-two-objects",
+  "cond": "C",
+  "title": "C: typical two-object win (19 steps)",
+  "success": true,
+  "steps": 19,
+  "goal": "find two book and put them in desk."
+ },
+ {
+  "slug": "c-loop-failure-pick-place",
+  "kind": "pick and place",
+  "path": "episodes/c/c-loop-failure-pick-place",
+  "cond": "C",
+  "title": "C: long failure by looping between receptacles",
+  "success": false,
+  "steps": 30,
+  "goal": "put some creditcard on drawer."
+ },
+ {
+  "slug": "c-search-failure-pick-place",
+  "kind": "pick and place",
+  "path": "episodes/c/c-search-failure-pick-place",
+  "cond": "C",
+  "title": "C: long failure while searching a big room",
+  "success": false,
+  "steps": 30,
+  "goal": "put some box on dresser."
+ },
+ {
+  "slug": "c-heat-failure-typical",
+  "kind": "heat then place",
+  "path": "episodes/c/c-heat-failure-typical",
+  "cond": "C",
+  "title": "C: the typical heat task, never solved by C",
+  "success": false,
+  "steps": 30,
+  "goal": "heat some apple and put it in diningtable."
+ },
+ {
+  "slug": "e-win-clean-fast",
+  "kind": "clean then place",
+  "path": "episodes/e/e-win-clean-fast",
+  "cond": "E",
+  "title": "E: clean task won in 6 steps (C needed 18)",
+  "success": true,
+  "steps": 6,
+  "goal": "put a clean butterknife in diningtable."
+ },
+ {
+  "slug": "e-win-cool-fast",
+  "kind": "cool then place",
+  "path": "episodes/e/e-win-cool-fast",
+  "cond": "E",
+  "title": "E: cool task won in 7 steps (C needed 26)",
+  "success": true,
+  "steps": 7,
+  "goal": "cool some plate and put it in countertop."
+ },
+ {
+  "slug": "e-win-look-3-steps",
+  "kind": "look at object under a lamp",
+  "path": "episodes/e/e-win-look-3-steps",
+  "cond": "E",
+  "title": "E: look-at-object solved in 3 steps (C needed 14)",
+  "success": true,
+  "steps": 3,
+  "goal": "examine the bowl with the desklamp."
+ },
+ {
+  "slug": "e-win-two-objects",
+  "kind": "two objects",
+  "path": "episodes/e/e-win-two-objects",
+  "cond": "E",
+  "title": "E: two-object task in 6 steps (C needed 13)",
+  "success": true,
+  "steps": 6,
+  "goal": "put two cd in drawer."
+ },
+ {
+  "slug": "e-win-pick-place-with-antipattern",
+  "kind": "pick and place",
+  "path": "episodes/e/e-win-pick-place-with-antipattern",
+  "cond": "E",
+  "title": "E: simple task won in 4 steps with an Anti-Pattern rule on screen",
+  "success": true,
+  "steps": 4,
+  "goal": "put some candle on toilet."
+ },
+ {
+  "slug": "e-win-but-slower-than-c",
+  "kind": "clean then place",
+  "path": "episodes/e/e-win-but-slower-than-c",
+  "cond": "E",
+  "title": "E: a win that is slower than C (28 steps vs 10)",
+  "success": true,
+  "steps": 28,
+  "goal": "clean some tomato and put it in countertop."
+ },
+ {
+  "slug": "pair-heat-mug-cabinet",
+  "kind": "heat then place",
+  "path": "episodes/paired/pair-heat-mug-cabinet",
+  "cond": "C vs E",
+  "title": "Heat a mug: C stuck at the stoveburner, E uses the microwave",
+  "success": true,
+  "steps": "C 30 / E 8",
+  "goal": "put a hot mug in cabinet.",
+  "result": "C lost, E won"
+ },
+ {
+  "slug": "pair-clean-cloth-cabinet",
+  "kind": "clean then place",
+  "path": "episodes/paired/pair-clean-cloth-cabinet",
+  "cond": "C vs E",
+  "title": "Clean a cloth: C grabs a towel and never recovers, E finds the cloth",
+  "success": true,
+  "steps": "C 30 / E 7",
+  "goal": "put a clean cloth in cabinet.",
+  "result": "C lost, E won"
+ },
+ {
+  "slug": "pair-two-tissuebox-toilet",
+  "kind": "two objects",
+  "path": "episodes/paired/pair-two-tissuebox-toilet",
+  "cond": "C vs E",
+  "title": "Two tissueboxes: C opens drawers for 30 steps, E checks the countertop first",
+  "success": true,
+  "steps": "C 30 / E 8",
+  "goal": "find two tissuebox and put them in toilet.",
+  "result": "C lost, E won"
+ },
+ {
+  "slug": "pair-cool-lettuce-countertop",
+  "kind": "cool then place",
+  "path": "episodes/paired/pair-cool-lettuce-countertop",
+  "cond": "C vs E",
+  "title": "Cool a lettuce: C searches cabinets, E searches surfaces",
+  "success": true,
+  "steps": "C 30 / E 8",
+  "goal": "put a cool lettuce in countertop.",
+  "result": "C lost, E won"
+ },
+ {
+  "slug": "pair-look-cd-desklamp",
+  "kind": "look at object under a lamp",
+  "path": "episodes/paired/pair-look-cd-desklamp",
+  "cond": "C vs E",
+  "title": "Look at a CD under the desklamp: C loops, E wins after a slow start",
+  "success": true,
+  "steps": "C 30 / E 17",
+  "goal": "look at cd under the desklamp.",
+  "result": "C lost, E won"
+ },
+ {
+  "slug": "pair-cool-mug-coffeemachine",
+  "kind": "cool then place",
+  "path": "episodes/paired/pair-cool-mug-coffeemachine",
+  "cond": "C vs E",
+  "title": "Cool a mug: E finishes in 6 steps, C searches cabinets for 30",
+  "success": true,
+  "steps": "C 30 / E 6",
+  "goal": "put a cool mug in coffeemachine.",
+  "result": "C lost, E won"
+ },
+ {
+  "slug": "pair-heat-tomato-diningtable",
+  "kind": "heat then place",
+  "path": "episodes/paired/pair-heat-tomato-diningtable",
+  "cond": "C vs E",
+  "title": "Heat a tomato: E wins after a long microwave open/close loop",
+  "success": true,
+  "steps": "C 30 / E 23",
+  "goal": "heat some tomato and put it in diningtable.",
+  "result": "C lost, E won"
+ },
+ {
+  "slug": "pair-pick-place-watch-sidetable",
+  "kind": "pick and place",
+  "path": "episodes/paired/pair-pick-place-watch-sidetable",
+  "cond": "C vs E",
+  "title": "Pick and place a watch: C searches 30 steps, E finds it on the coffeetable",
+  "success": true,
+  "steps": "C 30 / E 8",
+  "goal": "put some watch on sidetable.",
+  "result": "C lost, E won"
+ },
+ {
+  "slug": "pair-LOST-pick-place-mug-dresser",
+  "kind": "pick and place",
+  "path": "episodes/paired/pair-LOST-pick-place-mug-dresser",
+  "cond": "C vs E",
+  "title": "HONEST LOSS: C won in 11 steps, E lost with an Anti-Pattern in the prompt",
+  "success": false,
+  "steps": "C 11 / E 30",
+  "goal": "put some mug on dresser.",
+  "result": "C won, E lost"
+ },
+ {
+  "slug": "pair-LOST-clean-ladle-diningtable",
+  "kind": "clean then place",
+  "path": "episodes/paired/pair-LOST-clean-ladle-diningtable",
+  "cond": "C vs E",
+  "title": "HONEST LOSS: C won in 8 steps, E searched everything but the dining table",
+  "success": false,
+  "steps": "C 8 / E 30",
+  "goal": "put a clean ladle in diningtable.",
+  "result": "C won, E lost"
+ },
+ {
+  "slug": "pair-LOST-two-creditcard-safe",
+  "kind": "two objects",
+  "path": "episodes/paired/pair-LOST-two-creditcard-safe",
+  "cond": "C vs E",
+  "title": "HONEST LOSS: both agents find the cards, E mis-sequences the two-object task",
+  "success": false,
+  "steps": "C 25 / E 30",
+  "goal": "put two creditcard in safe.",
+  "result": "C won, E lost"
+ },
+ {
+  "slug": "d-win-reuses-neighbour",
+  "kind": "clean then place",
+  "path": "episodes/d/d-win-reuses-neighbour",
+  "cond": "D",
+  "title": "D: a win helped by a near-identical stored solution",
+  "success": true,
+  "steps": 6,
+  "goal": "put a clean butterknife in sidetable."
+ },
+ {
+  "slug": "d-win-one-near-example",
+  "kind": "pick and place",
+  "path": "episodes/d/d-win-one-near-example",
+  "cond": "D",
+  "title": "D: a win with a partly relevant example",
+  "success": true,
+  "steps": 13,
+  "goal": "put a statue in coffeetable."
+ },
+ {
+  "slug": "d-win-two-objects",
+  "kind": "two objects",
+  "path": "episodes/d/d-win-two-objects",
+  "cond": "D",
+  "title": "D: a two-object win that is messy but succeeds",
+  "success": true,
+  "steps": 17,
+  "goal": "put two alarmclock in shelf."
+ },
+ {
+  "slug": "d-lost-despite-example-heat",
+  "kind": "heat then place",
+  "path": "episodes/d/d-lost-despite-example-heat",
+  "cond": "D",
+  "title": "D: a loss despite stored heat examples",
+  "success": false,
+  "steps": 30,
+  "goal": "put a hot cup in countertop."
+ },
+ {
+  "slug": "d-lost-two-objects",
+  "kind": "two objects",
+  "path": "episodes/d/d-lost-two-objects",
+  "cond": "D",
+  "title": "D: a loss on a two-object task",
+  "success": false,
+  "steps": 30,
+  "goal": "put two saltshaker in drawer."
+ },
+ {
+  "slug": "bx-01-first-win-writes-recipe",
+  "kind": "clean then place",
+  "path": "library/builder/bx-01-first-win-writes-recipe",
+  "cond": "E",
+  "title": "Builder after the first win: write the Success Process (recipe)",
+  "success": true,
+  "steps": 6,
+  "goal": "clean some fork and put it in drawer."
+ },
+ {
+  "slug": "bx-02-retry-win-writes-recipe",
+  "kind": "pick and place",
+  "path": "library/builder/bx-02-retry-win-writes-recipe",
+  "cond": "E",
+  "title": "ExpeL retry: loss -> reflection -> retry win -> recipe",
+  "success": false,
+  "steps": 30,
+  "goal": "put a cloth in drawer."
+ },
+ {
+  "slug": "bx-03-retry-corrected-error-and-rejected-recipe",
+  "kind": "heat then place",
+  "path": "library/builder/bx-03-retry-corrected-error-and-rejected-recipe",
+  "cond": "E",
+  "title": "Retry win writes a Corrected Error; a recipe naming a numbered object is rejected",
+  "success": false,
+  "steps": 30,
+  "goal": "put a hot mug in coffeemachine."
+ },
+ {
+  "slug": "bx-04-three-retries-win-on-third",
+  "kind": "heat then place",
+  "path": "library/builder/bx-04-three-retries-win-on-third",
+  "cond": "E",
+  "title": "Three retries, win on the third: the reflection repeats itself",
+  "success": false,
+  "steps": 30,
+  "goal": "put a hot potato in diningtable."
+ },
+ {
+  "slug": "bx-05-two-objects-merge-refine-and-recipe",
+  "kind": "two objects",
+  "path": "library/builder/bx-05-two-objects-merge-refine-and-recipe",
+  "cond": "E",
+  "title": "Merge a near-duplicate and refine another rule in the same game",
+  "success": false,
+  "steps": 30,
+  "goal": "put two keychain in drawer."
+ },
+ {
+  "slug": "bx-06-lost-game-writes-hidden-note",
+  "kind": "pick and place",
+  "path": "library/builder/bx-06-lost-game-writes-hidden-note",
+  "cond": "E",
+  "title": "A lost game: any rule written is a hidden, unconfirmed note",
+  "success": false,
+  "steps": 30,
+  "goal": "put a cloth in drawer."
+ },
+ {
+  "slug": "bx-07-hidden-note-confirmed-by-retry-win",
+  "kind": "pick and place",
+  "path": "library/builder/bx-07-hidden-note-confirmed-by-retry-win",
+  "cond": "E",
+  "title": "The hidden note becomes visible: confirmed by a later retry win",
+  "success": false,
+  "steps": 30,
+  "goal": "put a cellphone in dresser."
+ },
+ {
+  "slug": "bx-08-lost-game-cannot-rewrite-visible-rule",
+  "kind": "cool then place",
+  "path": "library/builder/bx-08-lost-game-cannot-rewrite-visible-rule",
+  "cond": "E",
+  "title": "A lost game cannot rewrite a rule the agent sees",
+  "success": false,
+  "steps": 30,
+  "goal": "cool some plate and put it in cabinet."
+ },
+ {
+  "slug": "bx-09-reject-numbered-object",
+  "kind": "cool then place",
+  "path": "library/builder/bx-09-reject-numbered-object",
+  "cond": "E",
+  "title": "Rejected: a recipe that names a numbered object",
+  "success": false,
+  "steps": 30,
+  "goal": "put a cool bowl in cabinet."
+ },
+ {
+  "slug": "bx-10-reject-specific-object-names",
+  "kind": "heat then place",
+  "path": "library/builder/bx-10-reject-specific-object-names",
+  "cond": "E",
+  "title": "Rejected: rule names specific objects after one rewrite attempt",
+  "success": false,
+  "steps": 30,
+  "goal": "put a hot mug in coffeemachine."
+ },
+ {
+  "slug": "bx-11-reject-room-name",
+  "kind": "look at object under a lamp",
+  "path": "library/builder/bx-11-reject-room-name",
+  "cond": "E",
+  "title": "Rejected: a recipe that tells the agent to search \"the room\"",
+  "success": true,
+  "steps": 4,
+  "goal": "examine the pen with the desklamp."
+ },
+ {
+  "slug": "bx-12-reject-note-that-lists-steps",
+  "kind": "clean then place",
+  "path": "library/builder/bx-12-reject-note-that-lists-steps",
+  "cond": "E",
+  "title": "Rejected: an Unresolved Error that lists steps",
+  "success": false,
+  "steps": 30,
+  "goal": "clean some plate and put it in microwave."
+ },
+ {
+  "slug": "bx-13-reject-too-long",
+  "kind": "look at object under a lamp",
+  "path": "library/builder/bx-13-reject-too-long",
+  "cond": "E",
+  "title": "Rejected: a Success Process that is too long",
+  "success": false,
+  "steps": 30,
+  "goal": "examine the pen with the desklamp."
+ },
+ {
+  "slug": "bx-14-anti-pattern-written",
+  "kind": "cool then place",
+  "path": "library/builder/bx-14-anti-pattern-written",
+  "cond": "E",
+  "title": "Anti-Pattern written: \"do not use the command done\"",
+  "success": false,
+  "steps": 30,
+  "goal": "cool some cup and put it in microwave."
+ },
+ {
+  "slug": "bx-15-anti-pattern-wording-rejected",
+  "kind": "heat then place",
+  "path": "library/builder/bx-15-anti-pattern-wording-rejected",
+  "cond": "E",
+  "title": "Anti-Pattern: model wording rejected twice, then accepted",
+  "success": false,
+  "steps": 30,
+  "goal": "put a hot potato in diningtable."
+ },
+ {
+  "slug": "bx-16-anti-pattern-examine-loop",
+  "kind": "pick and place",
+  "path": "library/builder/bx-16-anti-pattern-examine-loop",
+  "cond": "E",
+  "title": "Anti-Pattern written from 2 of 3 lost tasks (examine loop)",
+  "success": false,
+  "steps": 30,
+  "goal": "put some pen on drawer."
+ },
+ {
+  "slug": "bx-17-refine-contrastive-rewrite",
+  "kind": "pick and place",
+  "path": "library/builder/bx-17-refine-contrastive-rewrite",
+  "cond": "E",
+  "title": "MACLA contrastive refinement of a rule",
+  "success": false,
+  "steps": 22,
+  "goal": "put some pen on drawer."
+ },
+ {
+  "slug": "bx-18-upvote-after-win",
+  "kind": "clean then place",
+  "path": "library/builder/bx-18-upvote-after-win",
+  "cond": "E",
+  "title": "Builder vote: upvote after a win",
+  "success": true,
+  "steps": 7,
+  "goal": "clean some cloth and put it in countertop."
+ },
+ {
+  "slug": "bx-19-merge-near-duplicate",
+  "kind": "two objects",
+  "path": "library/builder/bx-19-merge-near-duplicate",
+  "cond": "E",
+  "title": "A new rule merged into an existing one",
+  "success": false,
+  "steps": 30,
+  "goal": "find two laptop and put them in ottoman."
+ },
+ {
+  "slug": "bx-20-e-minus-append-only-refusals",
+  "kind": "pick and place",
+  "path": "library/builder/bx-20-e-minus-append-only-refusals",
+  "cond": "E-minus",
+  "title": "E-minus: append-only, refused edits",
+  "success": true,
+  "steps": 30,
+  "goal": "put a keychain in desk."
+ },
+ {
+  "slug": "snap-early-study-E-after-3-games",
+  "kind": "library/snapshots",
+  "path": "library/snapshots/snap-early-study-E-after-3-games",
+  "cond": "E",
+  "title": "Early library: study E after 4 practice games",
+  "success": null,
+  "steps": "7 rules",
+  "kind2": "snapshot",
+  "goal": ""
+ },
+ {
+  "slug": "snap-early-study-E-after-9-games",
+  "kind": "library/snapshots",
+  "path": "library/snapshots/snap-early-study-E-after-9-games",
+  "cond": "E",
+  "title": "Small library: study E after 10 practice games",
+  "success": null,
+  "steps": "11 rules",
+  "kind2": "snapshot",
+  "goal": ""
+ },
+ {
+  "slug": "snap-mature-study-E-after-35-games",
+  "kind": "library/snapshots",
+  "path": "library/snapshots/snap-mature-study-E-after-35-games",
+  "cond": "E",
+  "title": "Study E library after 35 practice games (current code, still growing)",
+  "success": null,
+  "steps": "16 rules",
+  "kind2": "snapshot",
+  "goal": ""
+ },
+ {
+  "slug": "snap-mature-practice-b-after-48-games",
+  "kind": "library/snapshots",
+  "path": "library/snapshots/snap-mature-practice-b-after-48-games",
+  "cond": "E",
+  "title": "Mature library: practice-b after 48 practice games (stores plans, 1 Anti-Pattern)",
+  "success": null,
+  "steps": "22 rules",
+  "kind2": "snapshot",
+  "goal": ""
+ },
+ {
+  "slug": "snap-mature-practice-d-after-48-games",
+  "kind": "library/snapshots",
+  "path": "library/snapshots/snap-mature-practice-d-after-48-games",
+  "cond": "E",
+  "title": "Mature library: practice-d after 48 practice games (current code, no object names)",
+  "success": null,
+  "steps": "28 rules",
+  "kind2": "snapshot",
+  "goal": ""
+ },
+ {
+  "slug": "snap-best-check-library-26-rules",
+  "kind": "library/snapshots",
+  "path": "library/snapshots/snap-best-check-library-26-rules",
+  "cond": "E",
+  "title": "Best library so far: the frozen avoid-rules practice library that won 54/70 dev games",
+  "success": null,
+  "steps": "26 rules",
+  "kind2": "snapshot",
+  "goal": ""
+ },
+ {
+  "slug": "evolution-study-E",
+  "kind": "library/snapshots",
+  "path": "library/snapshots/evolution-study-E",
+  "cond": "E",
+  "title": "Library evolution game by game (study E, 35 games)",
+  "success": null,
+  "steps": "35 games",
+  "kind2": "snapshot",
+  "goal": ""
+ },
+ {
+  "slug": "snap-e-minus-after-40-games",
+  "kind": "library/snapshots",
+  "path": "library/snapshots/snap-e-minus-after-40-games",
+  "cond": "E-minus",
+  "title": "Append-only library (E-minus) after 40 games",
+  "success": null,
+  "steps": "26 rules",
+  "kind2": "snapshot",
+  "goal": ""
+ },
+ {
+  "slug": "bx-21-retirement-test-demo",
+  "kind": "rule retirement",
+  "path": "library/builder/bx-21-retirement-test-demo",
+  "title": "Retirement test on real saved rules (no recorded retirement yet)",
+  "cond": "E",
+  "success": null,
+  "steps": "-",
+  "goal": "",
+  "result": "no recorded retirement; test shown on real rules"
+ },
+ {
+  "slug": "bx-22-specificity-and-cross-kind-checks",
+  "kind": "rule text checks",
+  "path": "library/builder/bx-22-specificity-and-cross-kind-checks",
+  "title": "Text checks: no specific objects, no steps of another task kind",
+  "cond": "E",
+  "success": null,
+  "steps": "-",
+  "goal": "",
+  "result": "checks demonstrated"
+ }
+]

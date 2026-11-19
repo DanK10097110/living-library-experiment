@@ -1,0 +1,117 @@
+{
+ "id": "e-win-cool-fast",
+ "title": "E: cool task won in 7 steps (C needed 26)",
+ "condition": "E",
+ "source": {
+  "run": "check-e",
+  "stream": "development-E-11",
+  "position": 10,
+  "library": "check-e practice library, frozen (22 entries)"
+ },
+ "goal": "cool some plate and put it in countertop.",
+ "task_type": "pick_cool_then_place_in_recep",
+ "task_kind": "cool then place",
+ "game_id": "valid_seen/pick_cool_then_place_in_recep-Plate-None-CounterTop-1/trial_T20190906_205324_559361",
+ "success": true,
+ "steps": 7,
+ "invalid_actions": 0,
+ "model_calls": 8,
+ "input_tokens": 19598,
+ "output_tokens": 600,
+ "wall_seconds": 94.6,
+ "step_budget": 30,
+ "initial_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see a cabinet 9, a cabinet 8, a cabinet 7, a cabinet 6, a cabinet 5, a cabinet 4, a cabinet 3, a cabinet 2, a cabinet 1, a coffeemachine 1, a countertop 3, a countertop 2, a countertop 1, a drawer 9, a drawer 8, a drawer 7, a drawer 6, a drawer 5, a drawer 4, a drawer 3, a drawer 2, a drawer 1, a fridge 1, a garbagecan 1, a microwave 1, a shelf 3, a shelf 2, a shelf 1, a sinkbasin 1, a stoveburner 4, a stoveburner 3, a stoveburner 2, a stoveburner 1, and a toaster 1.\n\nYour task is to: cool some plate and put it in countertop.",
+ "plan": [
+  "search for a plate in the environment",
+  "go to the fridge to cool the plate",
+  "move the cooled plate to the countertop"
+ ],
+ "rules_shown": [
+  {
+   "id": "rule_15",
+   "type": "Success Process",
+   "task_type": "pick_cool_then_place_in_recep",
+   "alpha": 3,
+   "beta": 3,
+   "mean": 0.5,
+   "visible_to_agent": true,
+   "rule": "When an object must be cooled and placed: search for the object first, take it, cool it with the fridge, then move it to the target.",
+   "example": "The agent found pan 1 on stoveburner 1, took it, cooled it with fridge 1, and moved it to diningtable 1.",
+   "validation": "Agent successfully located bowl 2 in cabinet 5 after checking cabinets and drawers before cooling and placing in microwave. | Agent successfully located pan 1 on stoveburner 1 before cooling and placing in diningtable.",
+   "rendered_for_agent": "[Success Process] When an object must be cooled and placed: search for the object first, take it, cool it with the fridge, then move it to the target. Example: The agent found pan 1 on stoveburner 1, took it, cooled it with fridge 1, and moved it to diningtable 1.",
+   "evidence": {
+    "won": 2,
+    "lost": 2
+   }
+  },
+  {
+   "id": "rule_12",
+   "type": "Corrected Error",
+   "task_type": "pick_cool_then_place_in_recep",
+   "alpha": 1,
+   "beta": 2,
+   "mean": 0.33,
+   "visible_to_agent": true,
+   "rule": "When an object must be picked up and placed, search for the object specifically before systematically checking all cabinets and drawers.",
+   "example": "The agent found pan 1 on stoveburner 1 instead of opening every cabinet sequentially.",
+   "validation": "Agent failed to locate tomato because it only checked the fridge and returned repeatedly instead of systematically searching all cabinets and drawers.",
+   "rendered_for_agent": "[Corrected Error] When an object must be picked up and placed, search for the object specifically before systematically checking all cabinets and drawers. Example: The agent found pan 1 on stoveburner 1 instead of opening every cabinet sequentially.",
+   "evidence": {
+    "won": 0,
+    "lost": 1
+   }
+  }
+ ],
+ "rules_shown_to": "planner (as the \"rules\" field of its prompt, before it writes subgoals) and actor (as the block \"Rules learned from earlier practice (follow them)\" in every step prompt); one set chosen once from the goal",
+ "shows": "Cooling recipe: look for the plate on the countertops, `cool plate 1 with fridge 1`, back to the countertop, move. C needed 26 steps for the same game.",
+ "why_interesting": "Shows the plan the Success Process gives the planner: search -> fridge -> target, no wasted stops.",
+ "trace": [
+  {
+   "step": 1,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a creditcard 3, a pan 1, a papertowelroll 1, a spatula 1, and a winebottle 1.",
+   "valid": true
+  },
+  {
+   "step": 2,
+   "action": "go to countertop 2",
+   "observation": "You arrive at countertop 2. On the countertop 2, you see a bread 1, a fork 3, a fork 2, a houseplant 1, a knife 2, a mug 2, a pan 2, a plate 1, a pot 1, and a statue 2.",
+   "valid": true
+  },
+  {
+   "step": 3,
+   "action": "take plate 1 from countertop 2",
+   "observation": "You pick up the plate 1 from the countertop 2.",
+   "valid": true
+  },
+  {
+   "step": 4,
+   "action": "go to fridge 1",
+   "observation": "You arrive at fridge 1. The fridge 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 5,
+   "action": "cool plate 1 with fridge 1",
+   "observation": "You cool the plate 1 using the fridge 1.",
+   "valid": true
+  },
+  {
+   "step": 6,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a creditcard 3, a pan 1, a papertowelroll 1, a spatula 1, and a winebottle 1.",
+   "valid": true
+  },
+  {
+   "step": 7,
+   "action": "move plate 1 to countertop 1",
+   "observation": "You move the plate 1 to the countertop 1.",
+   "valid": true
+  }
+ ],
+ "same_game_in_C": {
+  "success": true,
+  "steps": 26,
+  "run": "old-pilot-9b-v1"
+ }
+}

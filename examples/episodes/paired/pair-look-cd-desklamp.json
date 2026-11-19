@@ -1,0 +1,386 @@
+{
+ "id": "pair-look-cd-desklamp",
+ "title": "Look at a CD under the desklamp: C loops, E wins after a slow start",
+ "goal": "look at cd under the desklamp.",
+ "task_kind": "look at object under a lamp",
+ "game_id": "valid_seen/look_at_obj_in_light-CD-None-DeskLamp-320/trial_T20190907_224451_655673",
+ "result": "C lost, E won",
+ "shows": "C alternates `go to desk 1` / `go to shelf 1` for 20+ steps. E does the same for 4 steps, then goes to desk 2, finds the lamp, takes the CD and wins at step 17 despite 4 invalid `move` commands.",
+ "why_interesting": "Shows E is not clean: it also stalls, but the rule \"find the light source first, then move the object under it\" breaks the loop.",
+ "notes": [],
+ "C": {
+  "id": "pair-look-cd-desklamp-C",
+  "title": "Look at a CD under the desklamp: C loops, E wins after a slow start (C)",
+  "condition": "C",
+  "source": {
+   "run": "old-pilot-9b-v1",
+   "stream": "development-C-11",
+   "position": 38
+  },
+  "goal": "look at cd under the desklamp.",
+  "task_type": "look_at_obj_in_light",
+  "task_kind": "look at object under a lamp",
+  "game_id": "valid_seen/look_at_obj_in_light-CD-None-DeskLamp-320/trial_T20190907_224451_655673",
+  "success": false,
+  "steps": 30,
+  "invalid_actions": 0,
+  "model_calls": 32,
+  "input_tokens": 66925,
+  "output_tokens": 2360,
+  "wall_seconds": 420.9,
+  "step_budget": 30,
+  "initial_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see a bed 1, a desk 2, a desk 1, a garbagecan 1, a shelf 5, a shelf 4, a shelf 3, a shelf 2, and a shelf 1.\n\nYour task is to: look at cd under the desklamp.",
+  "trace": [
+   {
+    "step": 1,
+    "action": "go to desk 2",
+    "observation": "You arrive at desk 2. On the desk 2, you see a book 1, a pen 2, a pen 1, and a pencil 2.",
+    "valid": true
+   },
+   {
+    "step": 2,
+    "action": "go to shelf 1",
+    "observation": "You arrive at shelf 1. On the shelf 1, you see a cd 2.",
+    "valid": true
+   },
+   {
+    "step": 3,
+    "action": "go to desk 1",
+    "observation": "You arrive at desk 1. On the desk 1, you see a cd 1, a cellphone 1, a creditcard 2, and a creditcard 1.",
+    "valid": true
+   },
+   {
+    "step": 4,
+    "action": "go to shelf 1",
+    "observation": "You arrive at shelf 1. On the shelf 1, you see a cd 2.",
+    "valid": true
+   },
+   {
+    "step": 5,
+    "action": "go to desk 1",
+    "observation": "You arrive at desk 1. On the desk 1, you see a cd 1, a cellphone 1, a creditcard 2, and a creditcard 1.",
+    "valid": true
+   },
+   {
+    "step": 6,
+    "action": "go to shelf 1",
+    "observation": "You arrive at shelf 1. On the shelf 1, you see a cd 2.",
+    "valid": true
+   },
+   {
+    "step": 7,
+    "action": "go to desk 1",
+    "observation": "You arrive at desk 1. On the desk 1, you see a cd 1, a cellphone 1, a creditcard 2, and a creditcard 1.",
+    "valid": true
+   },
+   {
+    "step": 8,
+    "action": "go to shelf 1",
+    "observation": "You arrive at shelf 1. On the shelf 1, you see a cd 2.",
+    "valid": true
+   },
+   {
+    "step": 9,
+    "action": "go to desk 1",
+    "observation": "You arrive at desk 1. On the desk 1, you see a cd 1, a cellphone 1, a creditcard 2, and a creditcard 1.",
+    "valid": true
+   },
+   {
+    "step": 10,
+    "action": "go to desk 2",
+    "observation": "You arrive at desk 2. On the desk 2, you see a book 1, a pen 2, a pen 1, and a pencil 2.",
+    "valid": true
+   },
+   {
+    "step": 11,
+    "action": "go to shelf 1",
+    "observation": "You arrive at shelf 1. On the shelf 1, you see a cd 2.",
+    "valid": true
+   },
+   {
+    "step": 12,
+    "action": "go to desk 1",
+    "observation": "You arrive at desk 1. On the desk 1, you see a cd 1, a cellphone 1, a creditcard 2, and a creditcard 1.",
+    "valid": true
+   },
+   {
+    "step": 13,
+    "action": "go to shelf 1",
+    "observation": "You arrive at shelf 1. On the shelf 1, you see a cd 2.",
+    "valid": true
+   },
+   {
+    "step": 14,
+    "action": "go to desk 1",
+    "observation": "You arrive at desk 1. On the desk 1, you see a cd 1, a cellphone 1, a creditcard 2, and a creditcard 1.",
+    "valid": true
+   },
+   {
+    "step": 15,
+    "action": "go to desk 2",
+    "observation": "You arrive at desk 2. On the desk 2, you see a book 1, a pen 2, a pen 1, and a pencil 2.",
+    "valid": true
+   },
+   {
+    "step": 16,
+    "action": "go to desk 1",
+    "observation": "You arrive at desk 1. On the desk 1, you see a cd 1, a cellphone 1, a creditcard 2, and a creditcard 1.",
+    "valid": true
+   },
+   {
+    "step": 17,
+    "action": "go to shelf 1",
+    "observation": "You arrive at shelf 1. On the shelf 1, you see a cd 2.",
+    "valid": true
+   },
+   {
+    "step": 18,
+    "action": "go to desk 1",
+    "observation": "You arrive at desk 1. On the desk 1, you see a cd 1, a cellphone 1, a creditcard 2, and a creditcard 1.",
+    "valid": true
+   },
+   {
+    "step": 19,
+    "action": "go to shelf 1",
+    "observation": "You arrive at shelf 1. On the shelf 1, you see a cd 2.",
+    "valid": true
+   },
+   {
+    "step": 20,
+    "action": "go to desk 1",
+    "observation": "You arrive at desk 1. On the desk 1, you see a cd 1, a cellphone 1, a creditcard 2, and a creditcard 1.",
+    "valid": true
+   },
+   {
+    "step": 21,
+    "action": "go to shelf 1",
+    "observation": "You arrive at shelf 1. On the shelf 1, you see a cd 2.",
+    "valid": true
+   },
+   {
+    "step": 22,
+    "action": "go to desk 1",
+    "observation": "You arrive at desk 1. On the desk 1, you see a cd 1, a cellphone 1, a creditcard 2, and a creditcard 1.",
+    "valid": true
+   },
+   {
+    "step": 23,
+    "action": "go to shelf 1",
+    "observation": "You arrive at shelf 1. On the shelf 1, you see a cd 2.",
+    "valid": true
+   },
+   {
+    "step": 24,
+    "action": "take cd 2 from shelf 1",
+    "observation": "You pick up the cd 2 from the shelf 1.",
+    "valid": true
+   },
+   {
+    "step": 25,
+    "action": "go to desk 1",
+    "observation": "You arrive at desk 1. On the desk 1, you see a cd 1, a cellphone 1, a creditcard 2, and a creditcard 1.",
+    "valid": true
+   },
+   {
+    "step": 26,
+    "action": "move cd 2 to desk 1",
+    "observation": "You move the cd 2 to the desk 1.",
+    "valid": true
+   },
+   {
+    "step": 27,
+    "action": "examine desk 1",
+    "observation": "On the desk 1, you see a cd 2, a cd 1, a cellphone 1, a creditcard 2, and a creditcard 1.",
+    "valid": true
+   },
+   {
+    "step": 28,
+    "action": "examine desk 1",
+    "observation": "On the desk 1, you see a cd 2, a cd 1, a cellphone 1, a creditcard 2, and a creditcard 1.",
+    "valid": true
+   },
+   {
+    "step": 29,
+    "action": "go to shelf 1",
+    "observation": "You arrive at shelf 1. On the shelf 1, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 30,
+    "action": "go to desk 1",
+    "observation": "You arrive at desk 1. On the desk 1, you see a cd 2, a cd 1, a cellphone 1, a creditcard 2, and a creditcard 1.",
+    "valid": true
+   }
+  ]
+ },
+ "E": {
+  "id": "pair-look-cd-desklamp-E",
+  "title": "Look at a CD under the desklamp: C loops, E wins after a slow start (E)",
+  "condition": "E",
+  "source": {
+   "run": "check-e",
+   "stream": "development-E-11",
+   "position": 38,
+   "library": "check-e practice library, frozen (22 entries)"
+  },
+  "goal": "look at cd under the desklamp.",
+  "task_type": "look_at_obj_in_light",
+  "task_kind": "look at object under a lamp",
+  "game_id": "valid_seen/look_at_obj_in_light-CD-None-DeskLamp-320/trial_T20190907_224451_655673",
+  "success": true,
+  "steps": 17,
+  "invalid_actions": 4,
+  "model_calls": 19,
+  "input_tokens": 38979,
+  "output_tokens": 1804,
+  "wall_seconds": 235.6,
+  "step_budget": 30,
+  "initial_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see a bed 1, a desk 2, a desk 1, a garbagecan 1, a shelf 5, a shelf 4, a shelf 3, a shelf 2, and a shelf 1.\n\nYour task is to: look at cd under the desklamp.",
+  "plan": [
+   "search for the desklamp in the environment",
+   "go to the location where the desklamp is found",
+   "move cd 1 to the desklamp location",
+   "turn on the desklamp",
+   "examine cd 1 under the desklamp"
+  ],
+  "rules_shown": [
+   {
+    "id": "rule_21",
+    "type": "Success Process",
+    "task_type": "look_at_obj_in_light",
+    "alpha": 1,
+    "beta": 1,
+    "mean": 0.5,
+    "visible_to_agent": true,
+    "rule": "When an object must be looked at under a light: search all shelves and desks for the light source, take the object from its location, move it to the light source's location, use the light source, then look.",
+    "example": "Search shelves/desks for desklamp. Take pencil. Move pencil to desklamp location. Use desklamp. Look.",
+    "rendered_for_agent": "[Success Process] When an object must be looked at under a light: search all shelves and desks for the light source, take the object from its location, move it to the light source's location, use the light source, then look. Example: Search shelves/desks for desklamp. Take pencil. Move pencil to desklamp location. Use desklamp. Look.",
+    "evidence": {
+     "won": 0,
+     "lost": 0
+    }
+   },
+   {
+    "id": "rule_20",
+    "type": "Corrected Error",
+    "task_type": "look_at_obj_in_light",
+    "alpha": 1,
+    "beta": 1,
+    "mean": 0.5,
+    "visible_to_agent": true,
+    "rule": "When an object must be looked at under a light, first locate the light source, then move the object directly under it before attempting to look.",
+    "example": "In this game, the agent failed by moving the pencil to desk 2 without finding the desklamp. The successful retry found the desklamp on shelf 2, moved the pencil there, turned on the desklamp, and then",
+    "rendered_for_agent": "[Corrected Error] When an object must be looked at under a light, first locate the light source, then move the object directly under it before attempting to look. Example: In this game, the agent failed by moving the pencil to desk 2 without finding the desklamp. The successful retry found the desklamp on shelf 2, moved the pencil there, turned on the desklamp, and then",
+    "evidence": {
+     "won": 0,
+     "lost": 0
+    }
+   }
+  ],
+  "rules_shown_to": "planner (as the \"rules\" field of its prompt, before it writes subgoals) and actor (as the block \"Rules learned from earlier practice (follow them)\" in every step prompt); one set chosen once from the goal",
+  "trace": [
+   {
+    "step": 1,
+    "action": "go to shelf 1",
+    "observation": "You arrive at shelf 1. On the shelf 1, you see a cd 2.",
+    "valid": true
+   },
+   {
+    "step": 2,
+    "action": "go to desk 1",
+    "observation": "You arrive at desk 1. On the desk 1, you see a cd 1, a cellphone 1, a creditcard 2, and a creditcard 1.",
+    "valid": true
+   },
+   {
+    "step": 3,
+    "action": "go to shelf 1",
+    "observation": "You arrive at shelf 1. On the shelf 1, you see a cd 2.",
+    "valid": true
+   },
+   {
+    "step": 4,
+    "action": "go to desk 1",
+    "observation": "You arrive at desk 1. On the desk 1, you see a cd 1, a cellphone 1, a creditcard 2, and a creditcard 1.",
+    "valid": true
+   },
+   {
+    "step": 5,
+    "action": "go to desk 2",
+    "observation": "You arrive at desk 2. On the desk 2, you see a book 1, a pen 2, a pen 1, and a pencil 2.",
+    "valid": true
+   },
+   {
+    "step": 6,
+    "action": "go to shelf 2",
+    "observation": "You arrive at shelf 2. On the shelf 2, you see a alarmclock 1, and a desklamp 1.",
+    "valid": true
+   },
+   {
+    "step": 7,
+    "action": "use desklamp 1",
+    "observation": "You turn on the desklamp 1.",
+    "valid": true
+   },
+   {
+    "step": 8,
+    "action": "go to desk 1",
+    "observation": "You arrive at desk 1. On the desk 1, you see a cd 1, a cellphone 1, a creditcard 2, and a creditcard 1.",
+    "valid": true
+   },
+   {
+    "step": 9,
+    "action": "take cd 1 from desk 1",
+    "observation": "You pick up the cd 1 from the desk 1.",
+    "valid": true
+   },
+   {
+    "step": 10,
+    "action": "move cd 1 to shelf 2",
+    "observation": "You pick up the cd 1 from the desk 1.",
+    "valid": false
+   },
+   {
+    "step": 11,
+    "action": "examine cd 1",
+    "observation": "There's nothing special about cd 1.",
+    "valid": true
+   },
+   {
+    "step": 12,
+    "action": "look",
+    "observation": "You are facing the desk 1. Next to it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 13,
+    "action": "examine cd 1",
+    "observation": "There's nothing special about cd 1.",
+    "valid": true
+   },
+   {
+    "step": 14,
+    "action": "move cd 1 to shelf 2",
+    "observation": "There's nothing special about cd 1.",
+    "valid": false
+   },
+   {
+    "step": 15,
+    "action": "move cd 1 to shelf 2",
+    "observation": "There's nothing special about cd 1.",
+    "valid": false
+   },
+   {
+    "step": 16,
+    "action": "move cd 1 to shelf 2",
+    "observation": "There's nothing special about cd 1.",
+    "valid": false
+   },
+   {
+    "step": 17,
+    "action": "go to shelf 2",
+    "observation": "You arrive at shelf 2. On the shelf 2, you see a alarmclock 1, and a desklamp 1.",
+    "valid": true
+   }
+  ]
+ }
+}

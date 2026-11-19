@@ -1,0 +1,311 @@
+{
+ "id": "bx-18-upvote-after-win",
+ "title": "Builder vote: upvote after a win",
+ "source": {
+  "run": "practice-b",
+  "stream": "practice-E-0",
+  "position": 18
+ },
+ "shows": "A clean task is won; the Builder upvotes two rules that were shown (rule_12 and rule_9) and updates rule_1. The Beta alpha of each rule shown is incremented by the outcome step regardless of the vote.",
+ "why_interesting": "Shows the two reliability channels: the automatic Beta update (credit to all rules shown) and the Builder's explicit votes.",
+ "notes": [],
+ "practice_game": {
+  "goal": "clean some cloth and put it in countertop.",
+  "task_type": "pick_clean_then_place_in_recep",
+  "task_kind": "clean then place",
+  "game_id": "train/pick_clean_then_place_in_recep-Cloth-None-CounterTop-408/trial_T20190908_103230_310212",
+  "success": true,
+  "steps": 7,
+  "invalid_actions": 0,
+  "model_calls": 9
+ },
+ "rules_shown_in_first_attempt": [
+  {
+   "id": "rule_1",
+   "type": "Success Process",
+   "task_type": "pick_clean_then_place_in_recep",
+   "alpha": 2,
+   "beta": 1,
+   "mean": 0.67,
+   "visible_to_agent": true,
+   "rule": "When an object must be cleaned and placed: search cabinets first, take the object, go to the sink, clean it with the sink, go to the target, move it there.",
+   "example": "go to cabinet 6, take butterknife 1 from countertop 1, go to sinkbasin 1, clean butterknife 1 with sinkbasin 1, go to countertop 1, move butterknife 1 to countertop 1",
+   "validation": "This game confirms searching cabinets first and moving the object to the target after cleaning.",
+   "rendered_for_agent": "[Success Process] When an object must be cleaned and placed: search cabinets first, take the object, go to the sink, clean it with the sink, go to the target, move it there. Example: go to cabinet 6, take butterknife 1 from countertop 1, go to sinkbasin 1, clean butterknife 1 with sinkbasin 1, go to countertop 1, move butterknife 1 to countertop 1",
+   "evidence": {
+    "won": 1,
+    "lost": 0
+   }
+  },
+  {
+   "id": "rule_9",
+   "type": "Special Phenomenon",
+   "task_type": "pick_clean_then_place_in_recep",
+   "alpha": 2,
+   "beta": 1,
+   "mean": 0.67,
+   "visible_to_agent": true,
+   "rule": "When a container is closed, open it before searching inside.",
+   "example": "open cabinet 1 before searching inside",
+   "rendered_for_agent": "[Special Phenomenon] When a container is closed, open it before searching inside. Example: open cabinet 1 before searching inside",
+   "evidence": {
+    "won": 1,
+    "lost": 0
+   }
+  },
+  {
+   "id": "rule_12",
+   "type": "Special Phenomenon",
+   "task_type": "pick_clean_then_place_in_recep",
+   "alpha": 1,
+   "beta": 1,
+   "mean": 0.5,
+   "visible_to_agent": true,
+   "rule": "When the target is a countertop, search cabinets first to find the object if not visible there.",
+   "example": "search cabinet 6, cabinet 7, cabinet 8, cabinet 9 before going to countertop 1",
+   "rendered_for_agent": "[Special Phenomenon] When the target is a countertop, search cabinets first to find the object if not visible there. Example: search cabinet 6, cabinet 7, cabinet 8, cabinet 9 before going to countertop 1",
+   "evidence": {
+    "won": 0,
+    "lost": 0
+   }
+  },
+  {
+   "id": "rule_10",
+   "type": "Corrected Error",
+   "task_type": "all",
+   "alpha": 1,
+   "beta": 3,
+   "mean": 0.25,
+   "visible_to_agent": true,
+   "rule": "When the goal requires cooling an object, locate and take the object from a surface before attempting to open any cabinets.",
+   "example": "The agent failed by checking empty cabinets first; it should have scanned stoveburner 4 to find the pan before opening cabinets.",
+   "validation": "The agent failed by checking empty cabinets first; it should have scanned stoveburners first to find the pan before opening cabinets.",
+   "rendered_for_agent": "[Corrected Error] When the goal requires cooling an object, locate and take the object from a surface before attempting to open any cabinets. Example: The agent failed by checking empty cabinets first; it should have scanned stoveburner 4 to find the pan before opening cabinets.",
+   "evidence": {
+    "won": 0,
+    "lost": 2
+   }
+  }
+ ],
+ "first_attempt_trace": [
+  {
+   "step": 1,
+   "action": "go to cabinet 1",
+   "observation": "You arrive at cabinet 1. The cabinet 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 2,
+   "action": "open cabinet 1",
+   "observation": "You open the cabinet 1. The cabinet 1 is open. In it, you see a cloth 3.",
+   "valid": true
+  },
+  {
+   "step": 3,
+   "action": "take cloth 3 from cabinet 1",
+   "observation": "You pick up the cloth 3 from the cabinet 1.",
+   "valid": true
+  },
+  {
+   "step": 4,
+   "action": "go to sinkbasin 1",
+   "observation": "You arrive at sinkbasin 1. On the sinkbasin 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 5,
+   "action": "clean cloth 3 with sinkbasin 1",
+   "observation": "You clean the cloth 3 using the sinkbasin 1.",
+   "valid": true
+  },
+  {
+   "step": 6,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a candle 3, a candle 2, a candle 1, and a toiletpaper 1.",
+   "valid": true
+  },
+  {
+   "step": 7,
+   "action": "move cloth 3 to countertop 1",
+   "observation": "You move the cloth 3 to the countertop 1.",
+   "valid": true
+  }
+ ],
+ "retries": null,
+ "builder_report": {
+  "case": "direct success",
+  "diagnosis": "imperfect rules",
+  "operations": [
+   {
+    "example": "go to cabinet 1, take cloth 3 from cabinet 1, go to sinkbasin 1, clean cloth 3 with sinkbasin 1, go to countertop 1, move cloth 3 to countertop 1",
+    "id": "rule_1",
+    "op": "update_rule",
+    "rule": "When an object must be cleaned and placed: search cabinets first, take the object, go to the sink, clean it with the sink, go to the target, move it there.",
+    "validation": "This game confirms searching cabinets first and moving the object to the target after cleaning. | This game confirms searching cabinets first and moving the object to the target after cleaning."
+   },
+   {
+    "id": "rule_12",
+    "op": "upvote_rule"
+   },
+   {
+    "id": "rule_9",
+    "op": "upvote_rule"
+   }
+  ],
+  "bookkeeping_operations": [
+   "outcome",
+   "pool_won"
+  ],
+  "log_lines": []
+ },
+ "rules_changed": [
+  {
+   "id": "rule_1",
+   "before": {
+    "id": "rule_1",
+    "type": "Success Process",
+    "task_type": "pick_clean_then_place_in_recep",
+    "alpha": 2,
+    "beta": 1,
+    "mean": 0.67,
+    "visible_to_agent": true,
+    "rule": "When an object must be cleaned and placed: search cabinets first, take the object, go to the sink, clean it with the sink, go to the target, move it there.",
+    "example": "go to cabinet 6, take butterknife 1 from countertop 1, go to sinkbasin 1, clean butterknife 1 with sinkbasin 1, go to countertop 1, move butterknife 1 to countertop 1",
+    "validation": "This game confirms searching cabinets first and moving the object to the target after cleaning.",
+    "rendered_for_agent": "[Success Process] When an object must be cleaned and placed: search cabinets first, take the object, go to the sink, clean it with the sink, go to the target, move it there. Example: go to cabinet 6, take butterknife 1 from countertop 1, go to sinkbasin 1, clean butterknife 1 with sinkbasin 1, go to countertop 1, move butterknife 1 to countertop 1",
+    "evidence": {
+     "won": 1,
+     "lost": 0
+    }
+   },
+   "after": {
+    "id": "rule_1",
+    "type": "Success Process",
+    "task_type": "pick_clean_then_place_in_recep",
+    "alpha": 3,
+    "beta": 1,
+    "mean": 0.75,
+    "visible_to_agent": true,
+    "rule": "When an object must be cleaned and placed: search cabinets first, take the object, go to the sink, clean it with the sink, go to the target, move it there.",
+    "example": "go to cabinet 1, take cloth 3 from cabinet 1, go to sinkbasin 1, clean cloth 3 with sinkbasin 1, go to countertop 1, move cloth 3 to countertop 1",
+    "validation": "This game confirms searching cabinets first and moving the object to the target after cleaning. | This game confirms searching cabinets first and moving the object to the target after cleaning.",
+    "rendered_for_agent": "[Success Process] When an object must be cleaned and placed: search cabinets first, take the object, go to the sink, clean it with the sink, go to the target, move it there. Example: go to cabinet 1, take cloth 3 from cabinet 1, go to sinkbasin 1, clean cloth 3 with sinkbasin 1, go to countertop 1, move cloth 3 to countertop 1",
+    "evidence": {
+     "won": 2,
+     "lost": 0
+    }
+   },
+   "change": "example, alpha"
+  },
+  {
+   "id": "rule_9",
+   "before": {
+    "id": "rule_9",
+    "type": "Special Phenomenon",
+    "task_type": "pick_clean_then_place_in_recep",
+    "alpha": 2,
+    "beta": 1,
+    "mean": 0.67,
+    "visible_to_agent": true,
+    "rule": "When a container is closed, open it before searching inside.",
+    "example": "open cabinet 1 before searching inside",
+    "rendered_for_agent": "[Special Phenomenon] When a container is closed, open it before searching inside. Example: open cabinet 1 before searching inside",
+    "evidence": {
+     "won": 1,
+     "lost": 0
+    }
+   },
+   "after": {
+    "id": "rule_9",
+    "type": "Special Phenomenon",
+    "task_type": "pick_clean_then_place_in_recep",
+    "alpha": 3,
+    "beta": 1,
+    "mean": 0.75,
+    "visible_to_agent": true,
+    "rule": "When a container is closed, open it before searching inside.",
+    "example": "open cabinet 1 before searching inside",
+    "rendered_for_agent": "[Special Phenomenon] When a container is closed, open it before searching inside. Example: open cabinet 1 before searching inside",
+    "evidence": {
+     "won": 2,
+     "lost": 0
+    }
+   },
+   "change": "alpha"
+  },
+  {
+   "id": "rule_10",
+   "before": {
+    "id": "rule_10",
+    "type": "Corrected Error",
+    "task_type": "all",
+    "alpha": 1,
+    "beta": 3,
+    "mean": 0.25,
+    "visible_to_agent": true,
+    "rule": "When the goal requires cooling an object, locate and take the object from a surface before attempting to open any cabinets.",
+    "example": "The agent failed by checking empty cabinets first; it should have scanned stoveburner 4 to find the pan before opening cabinets.",
+    "validation": "The agent failed by checking empty cabinets first; it should have scanned stoveburners first to find the pan before opening cabinets.",
+    "rendered_for_agent": "[Corrected Error] When the goal requires cooling an object, locate and take the object from a surface before attempting to open any cabinets. Example: The agent failed by checking empty cabinets first; it should have scanned stoveburner 4 to find the pan before opening cabinets.",
+    "evidence": {
+     "won": 0,
+     "lost": 2
+    }
+   },
+   "after": {
+    "id": "rule_10",
+    "type": "Corrected Error",
+    "task_type": "all",
+    "alpha": 2,
+    "beta": 3,
+    "mean": 0.4,
+    "visible_to_agent": true,
+    "rule": "When the goal requires cooling an object, locate and take the object from a surface before attempting to open any cabinets.",
+    "example": "The agent failed by checking empty cabinets first; it should have scanned stoveburner 4 to find the pan before opening cabinets.",
+    "validation": "The agent failed by checking empty cabinets first; it should have scanned stoveburners first to find the pan before opening cabinets.",
+    "rendered_for_agent": "[Corrected Error] When the goal requires cooling an object, locate and take the object from a surface before attempting to open any cabinets. Example: The agent failed by checking empty cabinets first; it should have scanned stoveburner 4 to find the pan before opening cabinets.",
+    "evidence": {
+     "won": 1,
+     "lost": 2
+    }
+   },
+   "change": "alpha"
+  },
+  {
+   "id": "rule_12",
+   "before": {
+    "id": "rule_12",
+    "type": "Special Phenomenon",
+    "task_type": "pick_clean_then_place_in_recep",
+    "alpha": 1,
+    "beta": 1,
+    "mean": 0.5,
+    "visible_to_agent": true,
+    "rule": "When the target is a countertop, search cabinets first to find the object if not visible there.",
+    "example": "search cabinet 6, cabinet 7, cabinet 8, cabinet 9 before going to countertop 1",
+    "rendered_for_agent": "[Special Phenomenon] When the target is a countertop, search cabinets first to find the object if not visible there. Example: search cabinet 6, cabinet 7, cabinet 8, cabinet 9 before going to countertop 1",
+    "evidence": {
+     "won": 0,
+     "lost": 0
+    }
+   },
+   "after": {
+    "id": "rule_12",
+    "type": "Special Phenomenon",
+    "task_type": "pick_clean_then_place_in_recep",
+    "alpha": 2,
+    "beta": 1,
+    "mean": 0.67,
+    "visible_to_agent": true,
+    "rule": "When the target is a countertop, search cabinets first to find the object if not visible there.",
+    "example": "search cabinet 6, cabinet 7, cabinet 8, cabinet 9 before going to countertop 1",
+    "rendered_for_agent": "[Special Phenomenon] When the target is a countertop, search cabinets first to find the object if not visible there. Example: search cabinet 6, cabinet 7, cabinet 8, cabinet 9 before going to countertop 1",
+    "evidence": {
+     "won": 1,
+     "lost": 0
+    }
+   },
+   "change": "alpha"
+  }
+ ]
+}

@@ -1,0 +1,353 @@
+{
+ "id": "pair-LOST-clean-ladle-diningtable",
+ "title": "HONEST LOSS: C won in 8 steps, E searched everything but the dining table",
+ "goal": "put a clean ladle in diningtable.",
+ "task_kind": "clean then place",
+ "game_id": "valid_seen/pick_clean_then_place_in_recep-Ladle-None-DiningTable-16/trial_T20190909_183724_205399",
+ "result": "C won, E lost",
+ "shows": "The planner wrote \"go to diningtable 1 to locate the ladle\" but the actor went to countertop 1, stoveburners and cabinets, never going to the diningtable. C simply goes to the diningtable (8 steps, win).",
+ "why_interesting": "Shows a failure of the actor to follow the planner's first subgoal, not a bad rule: the rules shown (clean recipe, open-before-place, scan bathtubbasin) are layout-specific noise here.",
+ "notes": [
+  "Rule `rule_9` (\"scan the bathtubbasin and countertops first\") was written from a different room and is shown for every clean task."
+ ],
+ "C": {
+  "id": "pair-LOST-clean-ladle-diningtable-C",
+  "title": "HONEST LOSS: C won in 8 steps, E searched everything but the dining table (C)",
+  "condition": "C",
+  "source": {
+   "run": "old-pilot-9b-v1",
+   "stream": "development-C-11",
+   "position": 27
+  },
+  "goal": "put a clean ladle in diningtable.",
+  "task_type": "pick_clean_then_place_in_recep",
+  "task_kind": "clean then place",
+  "game_id": "valid_seen/pick_clean_then_place_in_recep-Ladle-None-DiningTable-16/trial_T20190909_183724_205399",
+  "success": true,
+  "steps": 8,
+  "invalid_actions": 0,
+  "model_calls": 9,
+  "input_tokens": 23429,
+  "output_tokens": 722,
+  "wall_seconds": 162.3,
+  "step_budget": 30,
+  "initial_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see a cabinet 27, a cabinet 26, a cabinet 25, a cabinet 24, a cabinet 23, a cabinet 22, a cabinet 21, a cabinet 20, a cabinet 19, a cabinet 18, a cabinet 17, a cabinet 16, a cabinet 15, a cabinet 14, a cabinet 13, a cabinet 12, a cabinet 11, a cabinet 10, a cabinet 9, a cabinet 8, a cabinet 7, a cabinet 6, a cabinet 5, a cabinet 4, a cabinet 3, a cabinet 2, a cabinet 1, a coffeemachine 1, a countertop 2, a countertop 1, a diningtable 1, a drawer 12, a drawer 11, a drawer 10, a drawer 9, a drawer 8, a drawer 7, a drawer 6, a drawer 5, a drawer 4, a drawer 3, a drawer 2, a drawer 1, a fridge 1, a garbagecan 1, a microwave 1, a sinkbasin 1, a stoveburner 4, a stoveburner 3, a stoveburner 2, a stoveburner 1, and a toaster 1.\n\nYour task is to: put a clean ladle in diningtable.",
+  "trace": [
+   {
+    "step": 1,
+    "action": "go to drawer 1",
+    "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 2,
+    "action": "open drawer 1",
+    "observation": "You open the drawer 1. The drawer 1 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 3,
+    "action": "go to diningtable 1",
+    "observation": "You arrive at diningtable 1. On the diningtable 1, you see a bread 2, a bread 1, a butterknife 2, a cup 1, a fork 1, a knife 2, a knife 1, a ladle 1, a lettuce 2, a lettuce 1, a potato 1, a saltshaker 1, a soapbottle 1, a spatula 1, a spoon 1, a tomato 1, and a winebottle 1.",
+    "valid": true
+   },
+   {
+    "step": 4,
+    "action": "take ladle 1 from diningtable 1",
+    "observation": "You pick up the ladle 1 from the diningtable 1.",
+    "valid": true
+   },
+   {
+    "step": 5,
+    "action": "go to sinkbasin 1",
+    "observation": "You arrive at sinkbasin 1. On the sinkbasin 1, you see a dishsponge 2, a egg 3, a fork 2, and a mug 3.",
+    "valid": true
+   },
+   {
+    "step": 6,
+    "action": "clean ladle 1 with sinkbasin 1",
+    "observation": "You clean the ladle 1 using the sinkbasin 1.",
+    "valid": true
+   },
+   {
+    "step": 7,
+    "action": "go to diningtable 1",
+    "observation": "You arrive at diningtable 1. On the diningtable 1, you see a bread 2, a bread 1, a butterknife 2, a cup 1, a fork 1, a knife 2, a knife 1, a lettuce 2, a lettuce 1, a potato 1, a saltshaker 1, a soapbottle 1, a spatula 1, a spoon 1, a tomato 1, and a winebottle 1.",
+    "valid": true
+   },
+   {
+    "step": 8,
+    "action": "move ladle 1 to diningtable 1",
+    "observation": "You move the ladle 1 to the diningtable 1.",
+    "valid": true
+   }
+  ]
+ },
+ "E": {
+  "id": "pair-LOST-clean-ladle-diningtable-E",
+  "title": "HONEST LOSS: C won in 8 steps, E searched everything but the dining table (E)",
+  "condition": "E",
+  "source": {
+   "run": "check-e",
+   "stream": "development-E-11",
+   "position": 27,
+   "library": "check-e practice library, frozen (22 entries)"
+  },
+  "goal": "put a clean ladle in diningtable.",
+  "task_type": "pick_clean_then_place_in_recep",
+  "task_kind": "clean then place",
+  "game_id": "valid_seen/pick_clean_then_place_in_recep-Ladle-None-DiningTable-16/trial_T20190909_183724_205399",
+  "success": false,
+  "steps": 30,
+  "invalid_actions": 0,
+  "model_calls": 33,
+  "input_tokens": 95373,
+  "output_tokens": 2759,
+  "wall_seconds": 403.7,
+  "step_budget": 30,
+  "initial_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see a cabinet 27, a cabinet 26, a cabinet 25, a cabinet 24, a cabinet 23, a cabinet 22, a cabinet 21, a cabinet 20, a cabinet 19, a cabinet 18, a cabinet 17, a cabinet 16, a cabinet 15, a cabinet 14, a cabinet 13, a cabinet 12, a cabinet 11, a cabinet 10, a cabinet 9, a cabinet 8, a cabinet 7, a cabinet 6, a cabinet 5, a cabinet 4, a cabinet 3, a cabinet 2, a cabinet 1, a coffeemachine 1, a countertop 2, a countertop 1, a diningtable 1, a drawer 12, a drawer 11, a drawer 10, a drawer 9, a drawer 8, a drawer 7, a drawer 6, a drawer 5, a drawer 4, a drawer 3, a drawer 2, a drawer 1, a fridge 1, a garbagecan 1, a microwave 1, a sinkbasin 1, a stoveburner 4, a stoveburner 3, a stoveburner 2, a stoveburner 1, and a toaster 1.\n\nYour task is to: put a clean ladle in diningtable.",
+  "plan": [
+   "go to diningtable 1 to locate the ladle",
+   "find the ladle in the current location",
+   "take the ladle",
+   "go to sinkbasin 1 to clean the ladle",
+   "clean the ladle with sinkbasin 1",
+   "go to diningtable 1 and place the clean ladle there"
+  ],
+  "rules_shown": [
+   {
+    "id": "rule_1",
+    "type": "Success Process",
+    "task_type": "pick_clean_then_place_in_recep",
+    "alpha": 6,
+    "beta": 3,
+    "mean": 0.67,
+    "visible_to_agent": true,
+    "rule": "When an object must be cleaned and placed: search the object's current location first, clean it with the sinkbasin, then move it to the target location.",
+    "example": "go to bathtubbasin 1, take cloth 1 from bathtubbasin 1, go to sinkbasin 1, clean cloth 1 with sinkbasin 1, go to toilet 1, move cloth 1 to toilet 1",
+    "validation": "This game confirmed the object was found on the countertop, cleaned at the sinkbasin, and moved to the drawer. | This game confirmed the object was found in the fridge, cleaned at the sinkbasin, and moved to the shelf. | This game confirmed the cloth was found in the bathtubbasin, cleaned at the sinkbasin, and moved to the toilet.",
+    "rendered_for_agent": "[Success Process] When an object must be cleaned and placed: search the object's current location first, clean it with the sinkbasin, then move it to the target location. Example: go to bathtubbasin 1, take cloth 1 from bathtubbasin 1, go to sinkbasin 1, clean cloth 1 with sinkbasin 1, go to toilet 1, move cloth 1 to toilet 1",
+    "evidence": {
+     "won": 5,
+     "lost": 2
+    }
+   },
+   {
+    "id": "rule_2",
+    "type": "Special Phenomenon",
+    "task_type": "pick_clean_then_place_in_recep",
+    "alpha": 6,
+    "beta": 3,
+    "mean": 0.67,
+    "visible_to_agent": true,
+    "rule": "When placing an object in a container, the container must be opened before moving the object inside.",
+    "example": "go to cabinet 1, open cabinet 1, move winebottle 2 to cabinet 1",
+    "validation": "This game confirmed the cabinet must be opened before moving items into it.",
+    "rendered_for_agent": "[Special Phenomenon] When placing an object in a container, the container must be opened before moving the object inside. Example: go to cabinet 1, open cabinet 1, move winebottle 2 to cabinet 1",
+    "evidence": {
+     "won": 5,
+     "lost": 2
+    }
+   },
+   {
+    "id": "rule_9",
+    "type": "Corrected Error",
+    "task_type": "pick_clean_then_place_in_recep",
+    "alpha": 1,
+    "beta": 1,
+    "mean": 0.5,
+    "visible_to_agent": true,
+    "rule": "When the target object must be found, never open cabinets or drawers first; scan the bathtubbasin and countertops first.",
+    "example": "Agent wasted time opening multiple cabinets without finding the cloth, which was in the bathtubbasin.",
+    "rendered_for_agent": "[Corrected Error] When the target object must be found, never open cabinets or drawers first; scan the bathtubbasin and countertops first. Example: Agent wasted time opening multiple cabinets without finding the cloth, which was in the bathtubbasin.",
+    "evidence": {
+     "won": 0,
+     "lost": 0
+    }
+   }
+  ],
+  "rules_shown_to": "planner (as the \"rules\" field of its prompt, before it writes subgoals) and actor (as the block \"Rules learned from earlier practice (follow them)\" in every step prompt); one set chosen once from the goal",
+  "trace": [
+   {
+    "step": 1,
+    "action": "go to countertop 1",
+    "observation": "You arrive at countertop 1. On the countertop 1, you see a dishsponge 1, a glassbottle 1, a houseplant 2, a houseplant 1, a pan 1, a pot 1, a potato 2, a soapbottle 2, a spatula 2, and a tomato 2.",
+    "valid": true
+   },
+   {
+    "step": 2,
+    "action": "go to stoveburner 1",
+    "observation": "You arrive at stoveburner 1. On the stoveburner 1, you see a pot 1.",
+    "valid": true
+   },
+   {
+    "step": 3,
+    "action": "go to cabinet 1",
+    "observation": "You arrive at cabinet 1. The cabinet 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 4,
+    "action": "go to stoveburner 1",
+    "observation": "You arrive at stoveburner 1. On the stoveburner 1, you see a pot 1.",
+    "valid": true
+   },
+   {
+    "step": 5,
+    "action": "go to cabinet 1",
+    "observation": "You arrive at cabinet 1. The cabinet 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 6,
+    "action": "go to stoveburner 2",
+    "observation": "You arrive at stoveburner 2. On the stoveburner 2, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 7,
+    "action": "go to cabinet 1",
+    "observation": "You arrive at cabinet 1. The cabinet 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 8,
+    "action": "go to drawer 1",
+    "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 9,
+    "action": "open drawer 1",
+    "observation": "You open the drawer 1. The drawer 1 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 10,
+    "action": "go to countertop 1",
+    "observation": "You arrive at countertop 1. On the countertop 1, you see a dishsponge 1, a glassbottle 1, a houseplant 2, a houseplant 1, a pan 1, a pot 1, a potato 2, a soapbottle 2, a spatula 2, and a tomato 2.",
+    "valid": true
+   },
+   {
+    "step": 11,
+    "action": "go to fridge 1",
+    "observation": "You arrive at fridge 1. The fridge 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 12,
+    "action": "open fridge 1",
+    "observation": "You open the fridge 1. The fridge 1 is open. In it, you see a apple 2, a apple 1, a bowl 3, a bowl 2, a egg 2, a egg 1, and a lettuce 3.",
+    "valid": true
+   },
+   {
+    "step": 13,
+    "action": "go to cabinet 1",
+    "observation": "You arrive at cabinet 1. The cabinet 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 14,
+    "action": "go to cabinet 2",
+    "observation": "You arrive at cabinet 2. The cabinet 2 is closed.",
+    "valid": true
+   },
+   {
+    "step": 15,
+    "action": "examine cabinet 2",
+    "observation": "The cabinet 2 is closed.",
+    "valid": true
+   },
+   {
+    "step": 16,
+    "action": "go to cabinet 3",
+    "observation": "You arrive at cabinet 3. The cabinet 3 is closed.",
+    "valid": true
+   },
+   {
+    "step": 17,
+    "action": "go to cabinet 4",
+    "observation": "You arrive at cabinet 4. The cabinet 4 is closed.",
+    "valid": true
+   },
+   {
+    "step": 18,
+    "action": "go to stoveburner 1",
+    "observation": "You arrive at stoveburner 1. On the stoveburner 1, you see a pot 1.",
+    "valid": true
+   },
+   {
+    "step": 19,
+    "action": "examine stoveburner 1",
+    "observation": "On the stoveburner 1, you see a pot 1.",
+    "valid": true
+   },
+   {
+    "step": 20,
+    "action": "go to cabinet 5",
+    "observation": "You arrive at cabinet 5. The cabinet 5 is closed.",
+    "valid": true
+   },
+   {
+    "step": 21,
+    "action": "go to countertop 1",
+    "observation": "You arrive at countertop 1. On the countertop 1, you see a dishsponge 1, a glassbottle 1, a houseplant 2, a houseplant 1, a pan 1, a pot 1, a potato 2, a soapbottle 2, a spatula 2, and a tomato 2.",
+    "valid": true
+   },
+   {
+    "step": 22,
+    "action": "go to cabinet 6",
+    "observation": "You arrive at cabinet 6. The cabinet 6 is closed.",
+    "valid": true
+   },
+   {
+    "step": 23,
+    "action": "go to countertop 1",
+    "observation": "You arrive at countertop 1. On the countertop 1, you see a dishsponge 1, a glassbottle 1, a houseplant 2, a houseplant 1, a pan 1, a pot 1, a potato 2, a soapbottle 2, a spatula 2, and a tomato 2.",
+    "valid": true
+   },
+   {
+    "step": 24,
+    "action": "go to fridge 1",
+    "observation": "You arrive at fridge 1. The fridge 1 is open. In it, you see a apple 2, a apple 1, a bowl 3, a bowl 2, a egg 2, a egg 1, and a lettuce 3.",
+    "valid": true
+   },
+   {
+    "step": 25,
+    "action": "go to countertop 1",
+    "observation": "You arrive at countertop 1. On the countertop 1, you see a dishsponge 1, a glassbottle 1, a houseplant 2, a houseplant 1, a pan 1, a pot 1, a potato 2, a soapbottle 2, a spatula 2, and a tomato 2.",
+    "valid": true
+   },
+   {
+    "step": 26,
+    "action": "go to diningtable 1",
+    "observation": "You arrive at diningtable 1. On the diningtable 1, you see a bread 2, a bread 1, a butterknife 2, a cup 1, a fork 1, a knife 2, a knife 1, a ladle 1, a lettuce 2, a lettuce 1, a potato 1, a saltshaker 1, a soapbottle 1, a spatula 1, a spoon 1, a tomato 1, and a winebottle 1.",
+    "valid": true
+   },
+   {
+    "step": 27,
+    "action": "take ladle 1 from diningtable 1",
+    "observation": "You pick up the ladle 1 from the diningtable 1.",
+    "valid": true
+   },
+   {
+    "step": 28,
+    "action": "go to sinkbasin 1",
+    "observation": "You arrive at sinkbasin 1. On the sinkbasin 1, you see a dishsponge 2, a egg 3, a fork 2, and a mug 3.",
+    "valid": true
+   },
+   {
+    "step": 29,
+    "action": "clean ladle 1 with sinkbasin 1",
+    "observation": "You clean the ladle 1 using the sinkbasin 1.",
+    "valid": true
+   },
+   {
+    "step": 30,
+    "action": "go to diningtable 1",
+    "observation": "You arrive at diningtable 1. On the diningtable 1, you see a bread 2, a bread 1, a butterknife 2, a cup 1, a fork 1, a knife 2, a knife 1, a lettuce 2, a lettuce 1, a potato 1, a saltshaker 1, a soapbottle 1, a spatula 1, a spoon 1, a tomato 1, and a winebottle 1.",
+    "valid": true
+   }
+  ]
+ }
+}

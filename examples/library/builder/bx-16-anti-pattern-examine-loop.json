@@ -1,0 +1,738 @@
+{
+ "id": "bx-16-anti-pattern-examine-loop",
+ "title": "Anti-Pattern written from 2 of 3 lost tasks (examine loop)",
+ "source": {
+  "run": "practice-e",
+  "stream": "practice-E-0",
+  "position": 27
+ },
+ "shows": "A pick-and-place task is lost, and with the pooled earlier lost games a repeated-command pattern (`examine` over and over) appears in 2 of 3 never-won tasks; \"rule_17 anti-pattern written from 2 of 3 lost tasks\".",
+ "why_interesting": "Same kind of Anti-Pattern that the frozen check later shows on every simple game.",
+ "notes": [],
+ "practice_game": {
+  "goal": "put some pen on drawer.",
+  "task_type": "pick_and_place_simple",
+  "task_kind": "pick and place",
+  "game_id": "train/pick_and_place_simple-Pen-None-Drawer-305/trial_T20190907_224025_871983",
+  "success": false,
+  "steps": 30,
+  "invalid_actions": 0,
+  "model_calls": 151
+ },
+ "rules_shown_in_first_attempt": [
+  {
+   "id": "rule_4",
+   "type": "Success Process",
+   "task_type": "pick_and_place_simple",
+   "alpha": 6,
+   "beta": 3,
+   "mean": 0.67,
+   "visible_to_agent": true,
+   "rule": "When an object must be placed in a container: search the area for the object, take it, go to the container, open it if closed, move the object to the container.",
+   "example": "search handtowelholder 1, take handtowel 1, go to cabinet 1, open cabinet 1, move handtowel 1 to cabinet 1",
+   "validation": "Confirmed: object found on countertop, container was open, move command succeeded. | Confirmed: object found on cabinet, target was toilet, move command succeeded. | Confirmed: object found on holder, container was closed, move command succeeded.",
+   "rendered_for_agent": "[Success Process] When an object must be placed in a container: search the area for the object, take it, go to the container, open it if closed, move the object to the container. Example: search handtowelholder 1, take handtowel 1, go to cabinet 1, open cabinet 1, move handtowel 1 to cabinet 1",
+   "evidence": {
+    "won": 5,
+    "lost": 2
+   }
+  }
+ ],
+ "first_attempt_trace": [
+  {
+   "step": 1,
+   "action": "go to desk 1",
+   "observation": "You arrive at desk 1. On the desk 1, you see a alarmclock 2, a alarmclock 1, a book 1, a mug 2, a mug 1, and a pencil 1.",
+   "valid": true
+  },
+  {
+   "step": 2,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 3,
+   "action": "go to desk 1",
+   "observation": "You arrive at desk 1. On the desk 1, you see a alarmclock 2, a alarmclock 1, a book 1, a mug 2, a mug 1, and a pencil 1.",
+   "valid": true
+  },
+  {
+   "step": 4,
+   "action": "examine desk 1",
+   "observation": "On the desk 1, you see a alarmclock 2, a alarmclock 1, a book 1, a mug 2, a mug 1, and a pencil 1.",
+   "valid": true
+  },
+  {
+   "step": 5,
+   "action": "examine desk 1",
+   "observation": "On the desk 1, you see a alarmclock 2, a alarmclock 1, a book 1, a mug 2, a mug 1, and a pencil 1.",
+   "valid": true
+  },
+  {
+   "step": 6,
+   "action": "examine desk 1",
+   "observation": "On the desk 1, you see a alarmclock 2, a alarmclock 1, a book 1, a mug 2, a mug 1, and a pencil 1.",
+   "valid": true
+  },
+  {
+   "step": 7,
+   "action": "examine desk 1",
+   "observation": "On the desk 1, you see a alarmclock 2, a alarmclock 1, a book 1, a mug 2, a mug 1, and a pencil 1.",
+   "valid": true
+  },
+  {
+   "step": 8,
+   "action": "examine desk 1",
+   "observation": "On the desk 1, you see a alarmclock 2, a alarmclock 1, a book 1, a mug 2, a mug 1, and a pencil 1.",
+   "valid": true
+  },
+  {
+   "step": 9,
+   "action": "examine desk 1",
+   "observation": "On the desk 1, you see a alarmclock 2, a alarmclock 1, a book 1, a mug 2, a mug 1, and a pencil 1.",
+   "valid": true
+  },
+  {
+   "step": 10,
+   "action": "examine desk 1",
+   "observation": "On the desk 1, you see a alarmclock 2, a alarmclock 1, a book 1, a mug 2, a mug 1, and a pencil 1.",
+   "valid": true
+  },
+  {
+   "step": 11,
+   "action": "examine desk 1",
+   "observation": "On the desk 1, you see a alarmclock 2, a alarmclock 1, a book 1, a mug 2, a mug 1, and a pencil 1.",
+   "valid": true
+  },
+  {
+   "step": 12,
+   "action": "examine desk 1",
+   "observation": "On the desk 1, you see a alarmclock 2, a alarmclock 1, a book 1, a mug 2, a mug 1, and a pencil 1.",
+   "valid": true
+  },
+  {
+   "step": 13,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 14,
+   "action": "open drawer 1",
+   "observation": "You open the drawer 1. The drawer 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 15,
+   "action": "go to desk 1",
+   "observation": "You arrive at desk 1. On the desk 1, you see a alarmclock 2, a alarmclock 1, a book 1, a mug 2, a mug 1, and a pencil 1.",
+   "valid": true
+  },
+  {
+   "step": 16,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 17,
+   "action": "go to desk 1",
+   "observation": "You arrive at desk 1. On the desk 1, you see a alarmclock 2, a alarmclock 1, a book 1, a mug 2, a mug 1, and a pencil 1.",
+   "valid": true
+  },
+  {
+   "step": 18,
+   "action": "take pencil 1 from desk 1",
+   "observation": "You pick up the pencil 1 from the desk 1.",
+   "valid": true
+  },
+  {
+   "step": 19,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 20,
+   "action": "move pencil 1 to drawer 1",
+   "observation": "You move the pencil 1 to the drawer 1.",
+   "valid": true
+  },
+  {
+   "step": 21,
+   "action": "go to desk 1",
+   "observation": "You arrive at desk 1. On the desk 1, you see a alarmclock 2, a alarmclock 1, a book 1, a mug 2, and a mug 1.",
+   "valid": true
+  },
+  {
+   "step": 22,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see a pencil 1.",
+   "valid": true
+  },
+  {
+   "step": 23,
+   "action": "go to desk 1",
+   "observation": "You arrive at desk 1. On the desk 1, you see a alarmclock 2, a alarmclock 1, a book 1, a mug 2, and a mug 1.",
+   "valid": true
+  },
+  {
+   "step": 24,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see a pencil 1.",
+   "valid": true
+  },
+  {
+   "step": 25,
+   "action": "go to desk 1",
+   "observation": "You arrive at desk 1. On the desk 1, you see a alarmclock 2, a alarmclock 1, a book 1, a mug 2, and a mug 1.",
+   "valid": true
+  },
+  {
+   "step": 26,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see a pencil 1.",
+   "valid": true
+  },
+  {
+   "step": 27,
+   "action": "go to desk 1",
+   "observation": "You arrive at desk 1. On the desk 1, you see a alarmclock 2, a alarmclock 1, a book 1, a mug 2, and a mug 1.",
+   "valid": true
+  },
+  {
+   "step": 28,
+   "action": "go to drawer 2",
+   "observation": "You arrive at drawer 2. The drawer 2 is closed.",
+   "valid": true
+  },
+  {
+   "step": 29,
+   "action": "open drawer 2",
+   "observation": "You open the drawer 2. The drawer 2 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 30,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see a pencil 1.",
+   "valid": true
+  }
+ ],
+ "retries": [
+  {
+   "attempt": 1,
+   "reflection": "I repeatedly examined desk 1 without taking action, then moved a pencil to drawer 1 instead of a pen. I should have identified and taken a pen from desk 1 first, then placed it on the drawer surface rather than inside the drawer.",
+   "won": false,
+   "steps": 30,
+   "actions": [
+    {
+     "action": "go to desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "go to desk 1",
+     "valid": true
+    }
+   ]
+  },
+  {
+   "attempt": 2,
+   "reflection": "I repeatedly examined desk 1 without taking action, then moved a pencil to drawer 1 instead of a pen. I should have identified and taken a pen from desk 1 first, then placed it on the drawer surface rather than inside the drawer.",
+   "won": false,
+   "steps": 30,
+   "actions": [
+    {
+     "action": "go to desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "go to desk 1",
+     "valid": true
+    }
+   ]
+  },
+  {
+   "attempt": 3,
+   "reflection": "I repeatedly examined desk 1 without taking action, then moved a pencil to drawer 1 instead of a pen. I should have identified and taken a pen from desk 1 first, then placed it on the drawer surface rather than inside the drawer.",
+   "won": false,
+   "steps": 30,
+   "actions": [
+    {
+     "action": "go to desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    },
+    {
+     "action": "examine desk 1",
+     "valid": true
+    }
+   ]
+  }
+ ],
+ "builder_report": {
+  "case": "failure",
+  "diagnosis": "imperfect rules",
+  "operations": [
+   {
+    "id": "rule_4",
+    "op": "update_rule",
+    "validation": "Confirmed: object found on countertop, container was open, move command succeeded. | Confirmed: object found on cabinet, target was toilet, move command succeeded. | Confirmed: agent repeatedly examined desk without taking action, then took wrong object (pencil) instead of pen, and moved it to drawer instead of placing on surface."
+   },
+   {
+    "example": "\"examine desk\", again and again",
+    "op": "write_rule",
+    "pattern": {
+     "attempts": 7,
+     "example": "",
+     "games": 2,
+     "kind": "repeat",
+     "of_attempts": 12,
+     "of_games": 3,
+     "sig": [
+      "repeat",
+      "examine desk"
+     ],
+     "wins_checked": 7
+    },
+    "rule": "When examining an appliance, do not issue the same \"examine\" command again and again.",
+    "sources": [
+     {
+      "task": "put some pen on drawer.",
+      "task_type": "pick_and_place_simple"
+     }
+    ],
+    "task_type": "pick_and_place_simple",
+    "type": "Anti-Pattern",
+    "verified": true
+   },
+   {
+    "id": "rule_4",
+    "op": "refine",
+    "refined_at": [
+     4,
+     3
+    ],
+    "rule": "When an object must be placed on a target: search the area first, take the object, go to the target, open the target if closed, move the object to the target."
+   }
+  ],
+  "bookkeeping_operations": [
+   "outcome",
+   "pool_game"
+  ],
+  "log_lines": [
+   "rule_4 keeps its text (a lost game may not rewrite a rule the agent sees)",
+   "rule_17 anti-pattern written from 2 of 3 lost tasks"
+  ]
+ },
+ "rules_changed": [
+  {
+   "id": "rule_4",
+   "before": {
+    "id": "rule_4",
+    "type": "Success Process",
+    "task_type": "pick_and_place_simple",
+    "alpha": 6,
+    "beta": 3,
+    "mean": 0.67,
+    "visible_to_agent": true,
+    "rule": "When an object must be placed in a container: search the area for the object, take it, go to the container, open it if closed, move the object to the container.",
+    "example": "search handtowelholder 1, take handtowel 1, go to cabinet 1, open cabinet 1, move handtowel 1 to cabinet 1",
+    "validation": "Confirmed: object found on countertop, container was open, move command succeeded. | Confirmed: object found on cabinet, target was toilet, move command succeeded. | Confirmed: object found on holder, container was closed, move command succeeded.",
+    "rendered_for_agent": "[Success Process] When an object must be placed in a container: search the area for the object, take it, go to the container, open it if closed, move the object to the container. Example: search handtowelholder 1, take handtowel 1, go to cabinet 1, open cabinet 1, move handtowel 1 to cabinet 1",
+    "evidence": {
+     "won": 5,
+     "lost": 2
+    }
+   },
+   "after": {
+    "id": "rule_4",
+    "type": "Success Process",
+    "task_type": "pick_and_place_simple",
+    "alpha": 6,
+    "beta": 4,
+    "mean": 0.6,
+    "visible_to_agent": true,
+    "rule": "When an object must be placed on a target: search the area first, take the object, go to the target, open the target if closed, move the object to the target.",
+    "example": "search handtowelholder 1, take handtowel 1, go to cabinet 1, open cabinet 1, move handtowel 1 to cabinet 1",
+    "validation": "Confirmed: object found on countertop, container was open, move command succeeded. | Confirmed: object found on cabinet, target was toilet, move command succeeded. | Confirmed: agent repeatedly examined desk without taking action, then took wrong object (pencil) instead of pen, and moved it to drawer instead of placing on surface.",
+    "rendered_for_agent": "[Success Process] When an object must be placed on a target: search the area first, take the object, go to the target, open the target if closed, move the object to the target. Example: search handtowelholder 1, take handtowel 1, go to cabinet 1, open cabinet 1, move handtowel 1 to cabinet 1",
+    "evidence": {
+     "won": 5,
+     "lost": 3
+    }
+   },
+   "change": "rule, beta"
+  },
+  {
+   "id": "rule_18",
+   "before": null,
+   "after": {
+    "id": "rule_18",
+    "type": "Anti-Pattern",
+    "task_type": "pick_and_place_simple",
+    "alpha": 1,
+    "beta": 1,
+    "mean": 0.5,
+    "visible_to_agent": true,
+    "rule": "When examining an appliance, do not issue the same \"examine\" command again and again.",
+    "example": "\"examine desk\", again and again",
+    "rendered_for_agent": "[Anti-Pattern] When examining an appliance, do not issue the same \"examine\" command again and again. Example: \"examine desk\", again and again",
+    "evidence": {
+     "won": 0,
+     "lost": 0
+    },
+    "pattern": {
+     "attempts": 7,
+     "games": 2,
+     "kind": "repeat",
+     "of_attempts": 12,
+     "of_games": 3,
+     "sig": [
+      "repeat",
+      "examine desk"
+     ],
+     "wins_checked": 7
+    },
+    "violations": 0
+   },
+   "change": "NEW"
+  }
+ ]
+}

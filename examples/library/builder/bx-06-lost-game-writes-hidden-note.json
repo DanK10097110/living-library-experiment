@@ -1,0 +1,644 @@
+{
+ "id": "bx-06-lost-game-writes-hidden-note",
+ "title": "A lost game: any rule written is a hidden, unconfirmed note",
+ "source": {
+  "run": "study",
+  "stream": "practice-E-0",
+  "position": 1
+ },
+ "shows": "Pick-and-place lost with 3 failed retries. The Builder writes a Special Phenomenon note (\"ensure the container is open before placing\"). Because no attempt won, it is stored with verified=false and never shown to the agent, and a Success Process attempt is refused (\"a failure may not write a Success Process rule\").",
+ "why_interesting": "The protection against learning wrong lessons from failure: guesses stay hidden until a later win confirms them.",
+ "notes": [
+  "Logging quirk worth knowing: the log line says \"rule_1 is a hidden Builder note\" but the new hidden rule has id rule_3 (the id printed was assigned before the failure pools took ids rule_2 and rule_4)."
+ ],
+ "practice_game": {
+  "goal": "put a cloth in drawer.",
+  "task_type": "pick_and_place_simple",
+  "task_kind": "pick and place",
+  "game_id": "train/pick_and_place_simple-Cloth-None-Drawer-409/trial_T20190912_061626_184198",
+  "success": false,
+  "steps": 30,
+  "invalid_actions": 1,
+  "model_calls": 145
+ },
+ "rules_shown_in_first_attempt": [],
+ "first_attempt_trace": [
+  {
+   "step": 1,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 2,
+   "action": "open drawer 1",
+   "observation": "You open the drawer 1. The drawer 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 3,
+   "action": "go to towelholder 1",
+   "observation": "You arrive at towelholder 1. On the towelholder 1, you see a towel 1.",
+   "valid": true
+  },
+  {
+   "step": 4,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+   "valid": true
+  },
+  {
+   "step": 5,
+   "action": "go to towelholder 1",
+   "observation": "You arrive at towelholder 1. On the towelholder 1, you see a towel 1.",
+   "valid": true
+  },
+  {
+   "step": 6,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+   "valid": true
+  },
+  {
+   "step": 7,
+   "action": "go to towelholder 2",
+   "observation": "You arrive at towelholder 2. On the towelholder 2, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 8,
+   "action": "go to garbagecan 1",
+   "observation": "You arrive at garbagecan 1. On the garbagecan 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 9,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+   "valid": true
+  },
+  {
+   "step": 10,
+   "action": "go to sinkbasin 1",
+   "observation": "You arrive at sinkbasin 1. On the sinkbasin 1, you see a sink 1, and a soapbar 2.",
+   "valid": true
+  },
+  {
+   "step": 11,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+   "valid": true
+  },
+  {
+   "step": 12,
+   "action": "go to towelholder 1",
+   "observation": "You arrive at towelholder 1. On the towelholder 1, you see a towel 1.",
+   "valid": true
+  },
+  {
+   "step": 13,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+   "valid": true
+  },
+  {
+   "step": 14,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 15,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+   "valid": true
+  },
+  {
+   "step": 16,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 17,
+   "action": "go to towelholder 1",
+   "observation": "You arrive at towelholder 1. On the towelholder 1, you see a towel 1.",
+   "valid": true
+  },
+  {
+   "step": 18,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+   "valid": true
+  },
+  {
+   "step": 19,
+   "action": "go to garbagecan 1",
+   "observation": "You arrive at garbagecan 1. On the garbagecan 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 20,
+   "action": "go to cabinet 1",
+   "observation": "You arrive at garbagecan 1. On the garbagecan 1, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 21,
+   "action": "go to drawer 2",
+   "observation": "You arrive at drawer 2. The drawer 2 is closed.",
+   "valid": true
+  },
+  {
+   "step": 22,
+   "action": "open drawer 2",
+   "observation": "You open the drawer 2. The drawer 2 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 23,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+   "valid": true
+  },
+  {
+   "step": 24,
+   "action": "go to towelholder 1",
+   "observation": "You arrive at towelholder 1. On the towelholder 1, you see a towel 1.",
+   "valid": true
+  },
+  {
+   "step": 25,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 26,
+   "action": "go to drawer 3",
+   "observation": "You arrive at drawer 3. The drawer 3 is closed.",
+   "valid": true
+  },
+  {
+   "step": 27,
+   "action": "go to towelholder 1",
+   "observation": "You arrive at towelholder 1. On the towelholder 1, you see a towel 1.",
+   "valid": true
+  },
+  {
+   "step": 28,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+   "valid": true
+  },
+  {
+   "step": 29,
+   "action": "go to drawer 4",
+   "observation": "You arrive at drawer 4. The drawer 4 is closed.",
+   "valid": true
+  },
+  {
+   "step": 30,
+   "action": "open drawer 4",
+   "observation": "You open the drawer 4. The drawer 4 is open. In it, you see nothing.",
+   "valid": true
+  }
+ ],
+ "retries": [
+  {
+   "attempt": 1,
+   "reflection": "I repeatedly moved between the towelholder and drawers without ever picking up the towel or placing it in a drawer. Instead of just navigating to locations, I need to actually pick up the towel from towelholder 1 and then place it into one of the open drawers.",
+   "won": false,
+   "steps": 30,
+   "actions": [
+    {
+     "action": "go to towelholder 1",
+     "valid": true
+    },
+    {
+     "action": "take towel 1 from towelholder 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "open drawer 1",
+     "valid": true
+    },
+    {
+     "action": "move towel 1 to drawer 1",
+     "valid": false
+    },
+    {
+     "action": "move towel 1 to drawer 2",
+     "valid": false
+    },
+    {
+     "action": "move towel 1 to drawer 3",
+     "valid": false
+    },
+    {
+     "action": "go to towelholder 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "move towel 1 to drawer 1",
+     "valid": false
+    },
+    {
+     "action": "move towel 1 to drawer 2",
+     "valid": false
+    },
+    {
+     "action": "open drawer 1",
+     "valid": false
+    },
+    {
+     "action": "move towel 1 to drawer 4",
+     "valid": false
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": false
+    },
+    {
+     "action": "inventory",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": false
+    },
+    {
+     "action": "move towel 1 to drawer 1",
+     "valid": false
+    },
+    {
+     "action": "move towel 1 to drawer 1",
+     "valid": false
+    },
+    {
+     "action": "move towel 1 to drawer 2",
+     "valid": false
+    },
+    {
+     "action": "go to drawer 3",
+     "valid": true
+    },
+    {
+     "action": "open drawer 3",
+     "valid": true
+    },
+    {
+     "action": "move towel 1 to drawer 3",
+     "valid": false
+    },
+    {
+     "action": "move towel 1 to drawer 3",
+     "valid": false
+    },
+    {
+     "action": "go to towelholder 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "move towel 1 to drawer 1",
+     "valid": false
+    },
+    {
+     "action": "examine towel 1",
+     "valid": true
+    },
+    {
+     "action": "move towel 1 to drawer 1",
+     "valid": false
+    },
+    {
+     "action": "inventory",
+     "valid": true
+    },
+    {
+     "action": "move towel 1 to drawer 1",
+     "valid": false
+    }
+   ]
+  },
+  {
+   "attempt": 2,
+   "reflection": "I failed because I repeatedly navigated to drawers and towelholders without successfully executing the 'move towel 1 to drawer X' action, likely due to not being in the correct position or the drawer not being properly open. Instead, I should ensure I am standing directly at the target drawer with it open before attempting to move the towel, and verify the action succeeds before moving to another ",
+   "won": false,
+   "steps": 30,
+   "actions": [
+    {
+     "action": "go to towelholder 1",
+     "valid": true
+    },
+    {
+     "action": "take towel 1 from towelholder 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "open drawer 1",
+     "valid": true
+    },
+    {
+     "action": "move towel 1 to drawer 1",
+     "valid": false
+    },
+    {
+     "action": "go to drawer 2",
+     "valid": true
+    },
+    {
+     "action": "open drawer 2",
+     "valid": true
+    },
+    {
+     "action": "move towel 1 to drawer 2",
+     "valid": false
+    },
+    {
+     "action": "move towel 1 to drawer 1",
+     "valid": false
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "move towel 1 to drawer 1",
+     "valid": false
+    },
+    {
+     "action": "move towel 1 to drawer 1",
+     "valid": false
+    },
+    {
+     "action": "move towel 1 to drawer 1",
+     "valid": false
+    },
+    {
+     "action": "go to towelholder 1",
+     "valid": true
+    },
+    {
+     "action": "inventory",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "move towel 1 to drawer 1",
+     "valid": false
+    },
+    {
+     "action": "go to drawer 2",
+     "valid": true
+    },
+    {
+     "action": "move towel 1 to drawer 2",
+     "valid": false
+    },
+    {
+     "action": "move towel 1 to drawer 2",
+     "valid": false
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "move towel 1 to drawer 1",
+     "valid": false
+    },
+    {
+     "action": "move towel 1 to drawer 1",
+     "valid": false
+    },
+    {
+     "action": "go to drawer 2",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 3",
+     "valid": true
+    },
+    {
+     "action": "open drawer 3",
+     "valid": true
+    },
+    {
+     "action": "move towel 1 to drawer 3",
+     "valid": false
+    },
+    {
+     "action": "go to towelholder 1",
+     "valid": true
+    },
+    {
+     "action": "inventory",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 3",
+     "valid": true
+    }
+   ]
+  },
+  {
+   "attempt": 3,
+   "reflection": "I failed because I repeatedly navigated between locations without confirming the towel was actually in my inventory before attempting to move it, and I didn't verify the drawer was open before trying to place the item. Instead, I should first check my inventory to confirm I'm carrying the towel, ensure the target drawer is open, and then immediately execute the move action without unnecessary navi",
+   "won": false,
+   "steps": 30,
+   "actions": [
+    {
+     "action": "go to towelholder 1",
+     "valid": true
+    },
+    {
+     "action": "take towel 1 from towelholder 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "open drawer 1",
+     "valid": true
+    },
+    {
+     "action": "move towel 1 to drawer 1",
+     "valid": false
+    },
+    {
+     "action": "move towel 1 to drawer 1",
+     "valid": false
+    },
+    {
+     "action": "inventory",
+     "valid": true
+    },
+    {
+     "action": "go to towelholder 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "move towel 1 to drawer 1",
+     "valid": false
+    },
+    {
+     "action": "move towel 1 to drawer 1",
+     "valid": false
+    },
+    {
+     "action": "move towel 1 to drawer 1",
+     "valid": false
+    },
+    {
+     "action": "move towel 1 to drawer 1",
+     "valid": false
+    },
+    {
+     "action": "inventory",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 2",
+     "valid": true
+    },
+    {
+     "action": "open drawer 2",
+     "valid": true
+    },
+    {
+     "action": "move towel 1 to drawer 2",
+     "valid": false
+    },
+    {
+     "action": "move towel 1 to drawer 2",
+     "valid": false
+    },
+    {
+     "action": "move towel 1 to drawer 2",
+     "valid": false
+    },
+    {
+     "action": "go to drawer 2",
+     "valid": false
+    },
+    {
+     "action": "move towel 1 to drawer 2",
+     "valid": false
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "move towel 1 to drawer 1",
+     "valid": false
+    },
+    {
+     "action": "go to drawer 2",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "inventory",
+     "valid": true
+    },
+    {
+     "action": "move towel 1 to drawer 1",
+     "valid": false
+    },
+    {
+     "action": "move towel 1 to drawer 1",
+     "valid": false
+    },
+    {
+     "action": "go to towelholder 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    }
+   ]
+  }
+ ],
+ "builder_report": {
+  "case": "failure",
+  "diagnosis": "imperfect rules",
+  "operations": [
+   {
+    "example": "open drawer 1 before putting towel 1 in it.",
+    "op": "write_rule",
+    "rule": "When placing an object in a container, ensure the container is open before attempting to place.",
+    "sources": [
+     {
+      "task": "put a cloth in drawer.",
+      "task_type": "pick_and_place_simple"
+     }
+    ],
+    "task_type": "pick_and_place_simple",
+    "type": "Special Phenomenon",
+    "verified": false
+   }
+  ],
+  "bookkeeping_operations": [
+   "outcome",
+   "pool_game"
+  ],
+  "log_lines": [
+   "rule_1 is a hidden Builder note until a won game confirms it",
+   "a failure may not write a Success Process rule"
+  ]
+ },
+ "rules_changed": [
+  {
+   "id": "rule_3",
+   "before": null,
+   "after": {
+    "id": "rule_3",
+    "type": "Special Phenomenon",
+    "task_type": "pick_and_place_simple",
+    "alpha": 1,
+    "beta": 1,
+    "mean": 0.5,
+    "visible_to_agent": false,
+    "rule": "When placing an object in a container, ensure the container is open before attempting to place.",
+    "example": "open drawer 1 before putting towel 1 in it.",
+    "rendered_for_agent": "[Special Phenomenon] When placing an object in a container, ensure the container is open before attempting to place. Example: open drawer 1 before putting towel 1 in it.",
+    "evidence": {
+     "won": 0,
+     "lost": 0
+    }
+   },
+   "change": "NEW"
+  }
+ ]
+}

@@ -1,0 +1,207 @@
+{
+ "id": "c-heat-failure-typical",
+ "title": "C: the typical heat task, never solved by C",
+ "condition": "C",
+ "source": {
+  "run": "old-pilot-9b-v1",
+  "stream": "development-C-11",
+  "position": 62
+ },
+ "goal": "heat some apple and put it in diningtable.",
+ "task_type": "pick_heat_then_place_in_recep",
+ "task_kind": "heat then place",
+ "game_id": "valid_seen/pick_heat_then_place_in_recep-Apple-None-DiningTable-26/trial_T20190907_060234_011675",
+ "success": false,
+ "steps": 30,
+ "invalid_actions": 3,
+ "model_calls": 34,
+ "input_tokens": 71766,
+ "output_tokens": 2553,
+ "wall_seconds": 464.2,
+ "step_budget": 30,
+ "initial_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see a cabinet 10, a cabinet 9, a cabinet 8, a cabinet 7, a cabinet 6, a cabinet 5, a cabinet 4, a cabinet 3, a cabinet 2, a cabinet 1, a coffeemachine 1, a countertop 2, a countertop 1, a diningtable 2, a diningtable 1, a drawer 3, a drawer 2, a drawer 1, a fridge 1, a garbagecan 1, a microwave 1, a sinkbasin 1, a stoveburner 4, a stoveburner 3, a stoveburner 2, a stoveburner 1, and a toaster 1.\n\nYour task is to: heat some apple and put it in diningtable.",
+ "shows": "The agent finds the apple, goes to the stoveburner, tries `place apple on stoveburner` (invalid), examines the burner, then moves the apple into the microwave with `move` and opens/closes the microwave without ever issuing `heat apple with microwave`.",
+ "why_interesting": "C won 0 of 9 heat tasks. The winning command is `heat <obj> with microwave 1`; C does not discover it. Compare with the paired heat examples, where the library supplies the missing step.",
+ "trace": [
+  {
+   "step": 1,
+   "action": "go to fridge 1",
+   "observation": "You arrive at fridge 1. The fridge 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 2,
+   "action": "go to diningtable 1",
+   "observation": "You arrive at diningtable 1. On the diningtable 1, you see a bread 2, a bread 1, a butterknife 2, a dishsponge 1, a fork 1, a potato 1, and a spatula 1.",
+   "valid": true
+  },
+  {
+   "step": 3,
+   "action": "go to fridge 1",
+   "observation": "You arrive at fridge 1. The fridge 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 4,
+   "action": "open fridge 1",
+   "observation": "You open the fridge 1. The fridge 1 is open. In it, you see a bowl 1, a cup 1, a egg 1, a lettuce 1, a plate 1, and a tomato 1.",
+   "valid": true
+  },
+  {
+   "step": 5,
+   "action": "go to cabinet 1",
+   "observation": "You arrive at cabinet 1. On the cabinet 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 6,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 7,
+   "action": "open drawer 1",
+   "observation": "You open the drawer 1. The drawer 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 8,
+   "action": "go to cabinet 1",
+   "observation": "You arrive at cabinet 1. On the cabinet 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 9,
+   "action": "go to diningtable 2",
+   "observation": "You arrive at diningtable 2. On the diningtable 2, you see a apple 1, a bread 3, a cup 3, a egg 3, a peppershaker 2, a soapbottle 2, and a soapbottle 1.",
+   "valid": true
+  },
+  {
+   "step": 10,
+   "action": "take apple 1 from diningtable 2",
+   "observation": "You pick up the apple 1 from the diningtable 2.",
+   "valid": true
+  },
+  {
+   "step": 11,
+   "action": "go to stoveburner 1",
+   "observation": "You arrive at stoveburner 1. On the stoveburner 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 12,
+   "action": "examine stoveburner 1",
+   "observation": "On the stoveburner 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 13,
+   "action": "place apple 1 on stoveburner 1",
+   "observation": "On the stoveburner 1, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 14,
+   "action": "examine stoveburner 1",
+   "observation": "On the stoveburner 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 15,
+   "action": "examine stoveburner 1",
+   "observation": "On the stoveburner 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 16,
+   "action": "go to microwave 1",
+   "observation": "You arrive at microwave 1. The microwave 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 17,
+   "action": "open microwave 1",
+   "observation": "You open the microwave 1. The microwave 1 is open. In it, you see a egg 2, and a mug 2.",
+   "valid": true
+  },
+  {
+   "step": 18,
+   "action": "move apple 1 to microwave 1",
+   "observation": "You move the apple 1 to the microwave 1.",
+   "valid": true
+  },
+  {
+   "step": 19,
+   "action": "close microwave 1",
+   "observation": "You close the microwave 1.",
+   "valid": true
+  },
+  {
+   "step": 20,
+   "action": "open microwave 1",
+   "observation": "You open the microwave 1. The microwave 1 is open. In it, you see a apple 1, a egg 2, and a mug 2.",
+   "valid": true
+  },
+  {
+   "step": 21,
+   "action": "close microwave 1",
+   "observation": "You close the microwave 1.",
+   "valid": true
+  },
+  {
+   "step": 22,
+   "action": "open microwave 1",
+   "observation": "You open the microwave 1. The microwave 1 is open. In it, you see a apple 1, a egg 2, and a mug 2.",
+   "valid": true
+  },
+  {
+   "step": 23,
+   "action": "take apple 1 from microwave 1",
+   "observation": "You pick up the apple 1 from the microwave 1.",
+   "valid": true
+  },
+  {
+   "step": 24,
+   "action": "go to stoveburner 1",
+   "observation": "You arrive at stoveburner 1. On the stoveburner 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 25,
+   "action": "move apple 1 to stoveburner 1",
+   "observation": "You arrive at stoveburner 1. On the stoveburner 1, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 26,
+   "action": "go to microwave 1",
+   "observation": "You arrive at microwave 1. The microwave 1 is open. In it, you see a egg 2, and a mug 2.",
+   "valid": true
+  },
+  {
+   "step": 27,
+   "action": "close microwave 1",
+   "observation": "You close the microwave 1.",
+   "valid": true
+  },
+  {
+   "step": 28,
+   "action": "open microwave 1",
+   "observation": "You open the microwave 1. The microwave 1 is open. In it, you see a egg 2, and a mug 2.",
+   "valid": true
+  },
+  {
+   "step": 29,
+   "action": "move apple 1 to stoveburner 1",
+   "observation": "You open the microwave 1. The microwave 1 is open. In it, you see a egg 2, and a mug 2.",
+   "valid": false
+  },
+  {
+   "step": 30,
+   "action": "move apple 1 to microwave 1",
+   "observation": "You move the apple 1 to the microwave 1.",
+   "valid": true
+  }
+ ]
+}

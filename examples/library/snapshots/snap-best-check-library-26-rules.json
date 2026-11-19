@@ -1,0 +1,453 @@
+{
+ "label": "Best library so far: the frozen avoid-rules practice library that won 54/70 dev games",
+ "source": {
+  "run": "check-avoid70",
+  "stream": "practice-E-0",
+  "after_practice_game": 0
+ },
+ "rules": [
+  {
+   "id": "rule_1",
+   "type": "Success Process",
+   "task_type": "pick_clean_then_place_in_recep",
+   "alpha": 6,
+   "beta": 3,
+   "mean": 0.67,
+   "visible_to_agent": true,
+   "rule": "When an object must be cleaned and placed: search the object's current location first, clean it with the sinkbasin, then move it to the target.",
+   "example": "take plate 2 from countertop 3, go to sinkbasin 1, clean plate 2 with sinkbasin 1, go to shelf 1, move plate 2 to shelf 1",
+   "validation": "confirmed: object was found on countertop 1, cleaned at sinkbasin 1, then moved to sidetable 1 | confirmed: plate was on countertop 3, cleaned at sinkbasin 1, then moved to shelf 1 | confirmed: towel was on towelholder 1, cleaned at sinkbasin 1, but agent failed to place it in toilet 1 due to repeated attempts on sinkbasin 1",
+   "rendered_for_agent": "[Success Process] When an object must be cleaned and placed: search the object's current location first, clean it with the sinkbasin, then move it to the target. Example: take plate 2 from countertop 3, go to sinkbasin 1, clean plate 2 with sinkbasin 1, go to shelf 1, move plate 2 to shelf 1",
+   "evidence": {
+    "won": 5,
+    "lost": 2
+   }
+  },
+  {
+   "id": "rule_2",
+   "type": "Failure Pool",
+   "task_type": "pick_clean_then_place_in_recep",
+   "alpha": 1,
+   "beta": 1,
+   "mean": 0.5,
+   "visible_to_agent": false,
+   "rule": "failure pool",
+   "evidence": {
+    "won": 0,
+    "lost": 0
+   }
+  },
+  {
+   "id": "rule_3",
+   "type": "Success Process",
+   "task_type": "pick_and_place_simple",
+   "alpha": 9,
+   "beta": 3,
+   "mean": 0.75,
+   "visible_to_agent": true,
+   "rule": "When an object must be picked up and placed: search all rooms first, open the target if closed, take the object from its location, move the object to the target.",
+   "example": "open drawer 1, take watch 1 from drawer 1, move watch 1 to coffeetable 1",
+   "validation": "Confirmed: agent failed when moving object without taking it first; must take object before moving. | Confirmed: agent moved laptop directly to desk without opening it as it was not a container. | Confirmed: agent opened closed drawer before taking object; agent moved object directly to target without opening it as it was not a container.",
+   "rendered_for_agent": "[Success Process] When an object must be picked up and placed: search all rooms first, open the target if closed, take the object from its location, move the object to the target. Example: open drawer 1, take watch 1 from drawer 1, move watch 1 to coffeetable 1",
+   "evidence": {
+    "won": 8,
+    "lost": 2
+   }
+  },
+  {
+   "id": "rule_4",
+   "type": "Special Phenomenon",
+   "task_type": "pick_and_place_simple",
+   "alpha": 9,
+   "beta": 3,
+   "mean": 0.75,
+   "visible_to_agent": true,
+   "rule": "When a container is closed, open it before moving objects into it.",
+   "example": "open cabinet 1 before move cloth 1 to cabinet 1",
+   "validation": "Confirmed by game behavior.",
+   "rendered_for_agent": "[Special Phenomenon] When a container is closed, open it before moving objects into it. Example: open cabinet 1 before move cloth 1 to cabinet 1",
+   "evidence": {
+    "won": 8,
+    "lost": 2
+   }
+  },
+  {
+   "id": "rule_5",
+   "type": "Failure Pool",
+   "task_type": "pick_and_place_simple",
+   "alpha": 1,
+   "beta": 1,
+   "mean": 0.5,
+   "visible_to_agent": false,
+   "rule": "failure pool",
+   "evidence": {
+    "won": 0,
+    "lost": 0
+   }
+  },
+  {
+   "id": "rule_6",
+   "type": "Corrected Error",
+   "task_type": "pick_two_obj_and_place",
+   "alpha": 1,
+   "beta": 1,
+   "mean": 0.5,
+   "visible_to_agent": true,
+   "rule": "When multiple objects must be collected and placed, examine surfaces for them before opening storage, and re-examine surfaces after taking objects.",
+   "example": "Agent failed by wasting time on empty drawers instead of checking armchair surfaces systematically.",
+   "validation": "The agent failed because it did not re-examine the armchair after taking the first cellphone, missing the second one that was there. | Agent corrected by searching armchair and coffeetable surfaces before opening any drawers.",
+   "rendered_for_agent": "[Corrected Error] When multiple objects must be collected and placed, examine surfaces for them before opening storage, and re-examine surfaces after taking objects. Example: Agent failed by wasting time on empty drawers instead of checking armchair surfaces systematically.",
+   "evidence": {
+    "won": 0,
+    "lost": 0
+   }
+  },
+  {
+   "id": "rule_7",
+   "type": "Failure Pool",
+   "task_type": "pick_two_obj_and_place",
+   "alpha": 1,
+   "beta": 1,
+   "mean": 0.5,
+   "visible_to_agent": false,
+   "rule": "failure pool",
+   "evidence": {
+    "won": 0,
+    "lost": 0
+   }
+  },
+  {
+   "id": "rule_8",
+   "type": "Unresolved Error",
+   "task_type": "pick_heat_then_place_in_recep",
+   "alpha": 1,
+   "beta": 1,
+   "mean": 0.5,
+   "visible_to_agent": false,
+   "rule": "When heating water for a hot mug, do not repeatedly move the kettle between locations or examine the stoveburner without actually heating the water.",
+   "example": "Repeatedly moving the kettle and examining the stoveburner without heating water caused failure.",
+   "rendered_for_agent": "[Unresolved Error] When heating water for a hot mug, do not repeatedly move the kettle between locations or examine the stoveburner without actually heating the water. Example: Repeatedly moving the kettle and examining the stoveburner without heating water caused failure.",
+   "evidence": {
+    "won": 0,
+    "lost": 0
+   }
+  },
+  {
+   "id": "rule_9",
+   "type": "Failure Pool",
+   "task_type": "pick_heat_then_place_in_recep",
+   "alpha": 1,
+   "beta": 1,
+   "mean": 0.5,
+   "visible_to_agent": false,
+   "rule": "failure pool",
+   "evidence": {
+    "won": 0,
+    "lost": 0
+   }
+  },
+  {
+   "id": "rule_10",
+   "type": "Unresolved Error",
+   "task_type": "pick_clean_then_place_in_recep",
+   "alpha": 1,
+   "beta": 1,
+   "mean": 0.5,
+   "visible_to_agent": false,
+   "rule": "When a plate must be cleaned and placed in microwave, search diningtable first before checking cabinets or fridge.",
+   "example": "Agent wasted time searching cabinets and fridge; plate was on diningtable 1.",
+   "rendered_for_agent": "[Unresolved Error] When a plate must be cleaned and placed in microwave, search diningtable first before checking cabinets or fridge. Example: Agent wasted time searching cabinets and fridge; plate was on diningtable 1.",
+   "evidence": {
+    "won": 0,
+    "lost": 0
+   }
+  },
+  {
+   "id": "rule_11",
+   "type": "Corrected Error",
+   "task_type": "pick_clean_then_place_in_recep",
+   "alpha": 6,
+   "beta": 3,
+   "mean": 0.67,
+   "visible_to_agent": true,
+   "rule": "When a task requires a clean object, clean it at sinkbasin before placing it in the target.",
+   "example": "clean soapbar 3 with sinkbasin 1 before moving to toilet 1",
+   "rendered_for_agent": "[Corrected Error] When a task requires a clean object, clean it at sinkbasin before placing it in the target. Example: clean soapbar 3 with sinkbasin 1 before moving to toilet 1",
+   "evidence": {
+    "won": 5,
+    "lost": 2
+   }
+  },
+  {
+   "id": "rule_12",
+   "type": "Corrected Error",
+   "task_type": "pick_two_obj_and_place",
+   "alpha": 4,
+   "beta": 4,
+   "mean": 0.5,
+   "visible_to_agent": true,
+   "rule": "When two objects must be placed in a target, search drawers first, take each object, then move to the target and place it there.",
+   "example": "move alarmclock 1 to shelf 1 failed, then go to shelf 1, then move alarmclock 1 to shelf 1",
+   "rendered_for_agent": "[Corrected Error] When two objects must be placed in a target, search drawers first, take each object, then move to the target and place it there. Example: move alarmclock 1 to shelf 1 failed, then go to shelf 1, then move alarmclock 1 to shelf 1",
+   "evidence": {
+    "won": 3,
+    "lost": 3
+   }
+  },
+  {
+   "id": "rule_13",
+   "type": "Corrected Error",
+   "task_type": "pick_and_place_simple",
+   "alpha": 6,
+   "beta": 2,
+   "mean": 0.75,
+   "visible_to_agent": true,
+   "rule": "When an object must be picked up and placed: use inventory to check if carrying the object before searching locations.",
+   "example": "inventory before searching drawers",
+   "validation": "Confirmed: agent failed when trying to move object without taking it first.",
+   "rendered_for_agent": "[Corrected Error] When an object must be picked up and placed: use inventory to check if carrying the object before searching locations. Example: inventory before searching drawers",
+   "evidence": {
+    "won": 5,
+    "lost": 1
+   }
+  },
+  {
+   "id": "rule_14",
+   "type": "Corrected Error",
+   "task_type": "pick_cool_then_place_in_recep",
+   "alpha": 4,
+   "beta": 2,
+   "mean": 0.67,
+   "visible_to_agent": true,
+   "rule": "When searching for a cool plate to place in a cabinet, systematically check all countertops first before attempting to retrieve it from the fridge.",
+   "example": "The agent failed because it searched cabinets and drawers for storage without locating the required plate object on countertops.",
+   "validation": "The agent failed because it never found or cooled a plate, only searching cabinets and drawers for storage without locating the required plate object.",
+   "rendered_for_agent": "[Corrected Error] When searching for a cool plate to place in a cabinet, systematically check all countertops first before attempting to retrieve it from the fridge. Example: The agent failed because it searched cabinets and drawers for storage without locating the required plate object on countertops.",
+   "evidence": {
+    "won": 3,
+    "lost": 1
+   }
+  },
+  {
+   "id": "rule_15",
+   "type": "Failure Pool",
+   "task_type": "pick_cool_then_place_in_recep",
+   "alpha": 1,
+   "beta": 1,
+   "mean": 0.5,
+   "visible_to_agent": false,
+   "rule": "failure pool",
+   "evidence": {
+    "won": 0,
+    "lost": 0
+   }
+  },
+  {
+   "id": "rule_16",
+   "type": "Success Process",
+   "task_type": "pick_cool_then_place_in_recep",
+   "alpha": 4,
+   "beta": 2,
+   "mean": 0.67,
+   "visible_to_agent": true,
+   "rule": "When an object must be cooled and placed: search all countertops first, open them if closed, take the object, cool it with the fridge, move it to the target.",
+   "example": "In the successful game, the agent searched countertop 2, took pan 1, cooled it with fridge 1, and moved it to diningtable 1.",
+   "validation": "This game confirmed that searching cabinets and drawers is necessary, and the agent must open closed containers before taking objects. | This game confirmed that searching countertops first is necessary for finding objects to cool.",
+   "rendered_for_agent": "[Success Process] When an object must be cooled and placed: search all countertops first, open them if closed, take the object, cool it with the fridge, move it to the target. Example: In the successful game, the agent searched countertop 2, took pan 1, cooled it with fridge 1, and moved it to diningtable 1.",
+   "evidence": {
+    "won": 3,
+    "lost": 1
+   }
+  },
+  {
+   "id": "rule_17",
+   "type": "Corrected Error",
+   "task_type": "pick_heat_then_place_in_recep",
+   "alpha": 3,
+   "beta": 2,
+   "mean": 0.6,
+   "visible_to_agent": true,
+   "rule": "When a task requires heating an object before placing it, use the correct heating appliance (e.g., microwave) instead of attempting to cook on a stoveburner that shows nothing.",
+   "example": "The agent failed by trying to cook on stoveburner 1 which showed nothing, then succeeded by heating the potato in microwave 1.",
+   "rendered_for_agent": "[Corrected Error] When a task requires heating an object before placing it, use the correct heating appliance (e.g., microwave) instead of attempting to cook on a stoveburner that shows nothing. Example: The agent failed by trying to cook on stoveburner 1 which showed nothing, then succeeded by heating the potato in microwave 1.",
+   "evidence": {
+    "won": 2,
+    "lost": 1
+   }
+  },
+  {
+   "id": "rule_18",
+   "type": "Success Process",
+   "task_type": "pick_heat_then_place_in_recep",
+   "alpha": 3,
+   "beta": 2,
+   "mean": 0.6,
+   "visible_to_agent": true,
+   "rule": "When an object must be heated and placed: search countertops first, take the object, open the microwave if closed, heat the object with the microwave, move it to the target.",
+   "example": "go to countertop 1, take mug 1, go to microwave 1, open microwave 1, heat mug 1 with microwave 1, go to diningtable 1, move mug 1 to diningtable 1.",
+   "validation": "Confirmed: the agent successfully heated a mug found on the countertop by opening the microwave and using the heat command.",
+   "rendered_for_agent": "[Success Process] When an object must be heated and placed: search countertops first, take the object, open the microwave if closed, heat the object with the microwave, move it to the target. Example: go to countertop 1, take mug 1, go to microwave 1, open microwave 1, heat mug 1 with microwave 1, go to diningtable 1, move mug 1 to diningtable 1.",
+   "evidence": {
+    "won": 2,
+    "lost": 1
+   }
+  },
+  {
+   "id": "rule_19",
+   "type": "Corrected Error",
+   "task_type": "pick_cool_then_place_in_recep",
+   "alpha": 4,
+   "beta": 2,
+   "mean": 0.67,
+   "visible_to_agent": true,
+   "rule": "When searching for a tomato to cool, check countertops and fridge contents first before exhaustively opening cabinets and drawers.",
+   "example": "In a lost attempt, the agent searched all cabinets and drawers without checking the countertop or fridge thoroughly, failing to locate the tomato. In a successful retry, the agent checked countertop 2",
+   "rendered_for_agent": "[Corrected Error] When searching for a tomato to cool, check countertops and fridge contents first before exhaustively opening cabinets and drawers. Example: In a lost attempt, the agent searched all cabinets and drawers without checking the countertop or fridge thoroughly, failing to locate the tomato. In a successful retry, the agent checked countertop 2",
+   "evidence": {
+    "won": 3,
+    "lost": 1
+   }
+  },
+  {
+   "id": "rule_20",
+   "type": "Unresolved Error",
+   "task_type": "pick_clean_then_place_in_recep",
+   "alpha": 1,
+   "beta": 1,
+   "mean": 0.5,
+   "visible_to_agent": false,
+   "rule": "When a fork must be cleaned and placed, search all cabinets and drawers systematically before attempting to clean it.",
+   "example": "Agent failed because it only examined countertops and unrelated cabinets; fork was never found.",
+   "rendered_for_agent": "[Unresolved Error] When a fork must be cleaned and placed, search all cabinets and drawers systematically before attempting to clean it. Example: Agent failed because it only examined countertops and unrelated cabinets; fork was never found.",
+   "evidence": {
+    "won": 0,
+    "lost": 0
+   }
+  },
+  {
+   "id": "rule_21",
+   "type": "Success Process",
+   "task_type": "pick_two_obj_and_place",
+   "alpha": 1,
+   "beta": 2,
+   "mean": 0.33,
+   "visible_to_agent": true,
+   "rule": "When two objects must be collected and placed: search surfaces first, take each object, go to target, move object to target.",
+   "example": "search sofa 1, take laptop 2, go to ottoman 1, move laptop 2 to ottoman 1, search coffeetable 1, take laptop 1, go to ottoman 1, move laptop 1 to ottoman 1",
+   "validation": "Agent followed this order in successful retry: searched sofa first, took laptop 2, moved to ottoman, then searched coffeetable, took laptop 1, moved to ottoman.",
+   "rendered_for_agent": "[Success Process] When two objects must be collected and placed: search surfaces first, take each object, go to target, move object to target. Example: search sofa 1, take laptop 2, go to ottoman 1, move laptop 2 to ottoman 1, search coffeetable 1, take laptop 1, go to ottoman 1, move laptop 1 to ottoman 1",
+   "evidence": {
+    "won": 0,
+    "lost": 1
+   }
+  },
+  {
+   "id": "rule_22",
+   "type": "Corrected Error",
+   "task_type": "look_at_obj_in_light",
+   "alpha": 1,
+   "beta": 2,
+   "mean": 0.33,
+   "visible_to_agent": true,
+   "rule": "When examining an object with a desklamp, turn on the desklamp before examining the object.",
+   "example": "In the lost attempt, the agent examined pen 2 before turning on desklamp 1, causing the examine command to fail. In the successful retry, the agent turned on desklamp 1 first.",
+   "validation": "The agent failed because it did not turn on the desklamp before examining the pencil, instead moving aimlessly between desks and shelves.",
+   "rendered_for_agent": "[Corrected Error] When examining an object with a desklamp, turn on the desklamp before examining the object. Example: In the lost attempt, the agent examined pen 2 before turning on desklamp 1, causing the examine command to fail. In the successful retry, the agent turned on desklamp 1 first.",
+   "evidence": {
+    "won": 0,
+    "lost": 1
+   }
+  },
+  {
+   "id": "rule_23",
+   "type": "Success Process",
+   "task_type": "look_at_obj_in_light",
+   "alpha": 1,
+   "beta": 2,
+   "mean": 0.33,
+   "visible_to_agent": true,
+   "rule": "When examining an object with a desklamp: find the object, take it, go to the desklamp's location, use the desklamp, then examine the object.",
+   "example": "take pencil 1 from shelf 1, go to shelf 2, use desklamp 1, examine pencil 1.",
+   "validation": "The agent failed because it did not verify the desklamp's location before attempting to use it, instead moving aimlessly between desks and shelves.",
+   "rendered_for_agent": "[Success Process] When examining an object with a desklamp: find the object, take it, go to the desklamp's location, use the desklamp, then examine the object. Example: take pencil 1 from shelf 1, go to shelf 2, use desklamp 1, examine pencil 1.",
+   "evidence": {
+    "won": 0,
+    "lost": 1
+   }
+  },
+  {
+   "id": "rule_24",
+   "type": "Failure Pool",
+   "task_type": "look_at_obj_in_light",
+   "alpha": 1,
+   "beta": 1,
+   "mean": 0.5,
+   "visible_to_agent": false,
+   "rule": "failure pool",
+   "evidence": {
+    "won": 0,
+    "lost": 0
+   }
+  },
+  {
+   "id": "rule_25",
+   "type": "Special Phenomenon",
+   "task_type": "pick_cool_then_place_in_recep",
+   "alpha": 1,
+   "beta": 1,
+   "mean": 0.5,
+   "visible_to_agent": false,
+   "rule": "When placing a cooled object in a microwave, explicitly start the heating cycle after closing the door.",
+   "example": "In this lost game, the agent closed the microwave but never initiated heating, causing failure.",
+   "rendered_for_agent": "[Special Phenomenon] When placing a cooled object in a microwave, explicitly start the heating cycle after closing the door. Example: In this lost game, the agent closed the microwave but never initiated heating, causing failure.",
+   "evidence": {
+    "won": 0,
+    "lost": 0
+   }
+  },
+  {
+   "id": "rule_26",
+   "type": "Unresolved Error",
+   "task_type": "pick_clean_then_place_in_recep",
+   "alpha": 1,
+   "beta": 1,
+   "mean": 0.5,
+   "visible_to_agent": false,
+   "rule": "When placing an object in a container, ensure the container is open and the object is not already on a surface before attempting placement.",
+   "example": "Agent failed because it repeatedly tried to place towel 1 on sinkbasin 1 which was empty and not a valid placement target",
+   "rendered_for_agent": "[Unresolved Error] When placing an object in a container, ensure the container is open and the object is not already on a surface before attempting placement. Example: Agent failed because it repeatedly tried to place towel 1 on sinkbasin 1 which was empty and not a valid placement target",
+   "evidence": {
+    "won": 0,
+    "lost": 0
+   }
+  }
+ ],
+ "failure_pools": [
+  {
+   "id": "rule_2",
+   "task_type": "pick_clean_then_place_in_recep"
+  },
+  {
+   "id": "rule_5",
+   "task_type": "pick_and_place_simple"
+  },
+  {
+   "id": "rule_7",
+   "task_type": "pick_two_obj_and_place"
+  },
+  {
+   "id": "rule_9",
+   "task_type": "pick_heat_then_place_in_recep"
+  },
+  {
+   "id": "rule_15",
+   "task_type": "pick_cool_then_place_in_recep"
+  },
+  {
+   "id": "rule_24",
+   "task_type": "look_at_obj_in_light"
+  }
+ ],
+ "shows": "26 entries including hidden notes and failure pools. Used in the paired-heat, cool and two-object examples of this folder.",
+ "why_interesting": "The library behind the biggest measured gain over C (39/70)."
+}

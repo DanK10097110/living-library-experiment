@@ -1,0 +1,316 @@
+{
+ "id": "pair-heat-mug-cabinet",
+ "title": "Heat a mug: C stuck at the stoveburner, E uses the microwave",
+ "goal": "put a hot mug in cabinet.",
+ "task_kind": "heat then place",
+ "game_id": "valid_seen/pick_heat_then_place_in_recep-Mug-None-Cabinet-3/trial_T20190909_014639_335717",
+ "result": "C lost, E won",
+ "shows": "C picks the mug up and tries to put it on the stoveburner (invalid) and examines the burners for 30 steps; E goes straight to the microwave: `heat mug 1 with microwave 1`, then cabinet.",
+ "why_interesting": "The clearest C-lost / E-won pattern: C never learns the `heat ... with microwave` command; E wins 8-step heat games repeatedly.",
+ "notes": [
+  "Only one rule was shown (a Corrected Error about going to the target after heating); the microwave itself came from the planner. The same game with another library (check-avoid70, whose recipe names the microwave) is also won in 8 steps."
+ ],
+ "C": {
+  "id": "pair-heat-mug-cabinet-C",
+  "title": "Heat a mug: C stuck at the stoveburner, E uses the microwave (C)",
+  "condition": "C",
+  "source": {
+   "run": "old-pilot-9b-v1",
+   "stream": "development-C-11",
+   "position": 54
+  },
+  "goal": "put a hot mug in cabinet.",
+  "task_type": "pick_heat_then_place_in_recep",
+  "task_kind": "heat then place",
+  "game_id": "valid_seen/pick_heat_then_place_in_recep-Mug-None-Cabinet-3/trial_T20190909_014639_335717",
+  "success": false,
+  "steps": 30,
+  "invalid_actions": 3,
+  "model_calls": 33,
+  "input_tokens": 67594,
+  "output_tokens": 3583,
+  "wall_seconds": 683.9,
+  "step_budget": 30,
+  "initial_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see a cabinet 4, a cabinet 3, a cabinet 2, a cabinet 1, a coffeemachine 1, a countertop 1, a drawer 8, a drawer 7, a drawer 6, a drawer 5, a drawer 4, a drawer 3, a drawer 2, a drawer 1, a fridge 1, a garbagecan 1, a microwave 1, a sidetable 1, a sinkbasin 1, a stoveburner 4, a stoveburner 3, a stoveburner 2, a stoveburner 1, and a toaster 1.\n\nYour task is to: put a hot mug in cabinet.",
+  "trace": [
+   {
+    "step": 1,
+    "action": "go to coffeemachine 1",
+    "observation": "You arrive at coffeemachine 1. On the coffeemachine 1, you see a mug 1.",
+    "valid": true
+   },
+   {
+    "step": 2,
+    "action": "take mug 1 from coffeemachine 1",
+    "observation": "You pick up the mug 1 from the coffeemachine 1.",
+    "valid": true
+   },
+   {
+    "step": 3,
+    "action": "go to stoveburner 1",
+    "observation": "You arrive at stoveburner 1. On the stoveburner 1, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 4,
+    "action": "examine stoveburner 1",
+    "observation": "On the stoveburner 1, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 5,
+    "action": "examine stoveburner 1",
+    "observation": "On the stoveburner 1, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 6,
+    "action": "examine stoveburner 2",
+    "observation": "On the stoveburner 2, you see a kettle 1.",
+    "valid": true
+   },
+   {
+    "step": 7,
+    "action": "examine stoveburner 1",
+    "observation": "On the stoveburner 1, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 8,
+    "action": "place mug 1 on stoveburner 1",
+    "observation": "On the stoveburner 1, you see nothing.",
+    "valid": false
+   },
+   {
+    "step": 9,
+    "action": "examine stoveburner 1",
+    "observation": "On the stoveburner 1, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 10,
+    "action": "examine stoveburner 1",
+    "observation": "On the stoveburner 1, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 11,
+    "action": "examine stoveburner 1",
+    "observation": "On the stoveburner 1, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 12,
+    "action": "examine stoveburner 1",
+    "observation": "On the stoveburner 1, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 13,
+    "action": "place mug 1 on stoveburner 1",
+    "observation": "On the stoveburner 1, you see nothing.",
+    "valid": false
+   },
+   {
+    "step": 14,
+    "action": "examine stoveburner 1",
+    "observation": "On the stoveburner 1, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 15,
+    "action": "inventory",
+    "observation": "You are carrying: a mug 1.",
+    "valid": true
+   },
+   {
+    "step": 16,
+    "action": "place mug 1 on stoveburner 2",
+    "observation": "You are carrying: a mug 1.",
+    "valid": false
+   },
+   {
+    "step": 17,
+    "action": "examine stoveburner 2",
+    "observation": "On the stoveburner 2, you see a kettle 1.",
+    "valid": true
+   },
+   {
+    "step": 18,
+    "action": "examine stoveburner 2",
+    "observation": "On the stoveburner 2, you see a kettle 1.",
+    "valid": true
+   },
+   {
+    "step": 19,
+    "action": "examine stoveburner 2",
+    "observation": "On the stoveburner 2, you see a kettle 1.",
+    "valid": true
+   },
+   {
+    "step": 20,
+    "action": "examine stoveburner 2",
+    "observation": "On the stoveburner 2, you see a kettle 1.",
+    "valid": true
+   },
+   {
+    "step": 21,
+    "action": "examine stoveburner 2",
+    "observation": "On the stoveburner 2, you see a kettle 1.",
+    "valid": true
+   },
+   {
+    "step": 22,
+    "action": "examine stoveburner 2",
+    "observation": "On the stoveburner 2, you see a kettle 1.",
+    "valid": true
+   },
+   {
+    "step": 23,
+    "action": "examine stoveburner 2",
+    "observation": "On the stoveburner 2, you see a kettle 1.",
+    "valid": true
+   },
+   {
+    "step": 24,
+    "action": "examine stoveburner 2",
+    "observation": "On the stoveburner 2, you see a kettle 1.",
+    "valid": true
+   },
+   {
+    "step": 25,
+    "action": "examine stoveburner 2",
+    "observation": "On the stoveburner 2, you see a kettle 1.",
+    "valid": true
+   },
+   {
+    "step": 26,
+    "action": "examine stoveburner 2",
+    "observation": "On the stoveburner 2, you see a kettle 1.",
+    "valid": true
+   },
+   {
+    "step": 27,
+    "action": "go to cabinet 1",
+    "observation": "You arrive at cabinet 1. The cabinet 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 28,
+    "action": "go to stoveburner 2",
+    "observation": "You arrive at stoveburner 2. On the stoveburner 2, you see a kettle 1.",
+    "valid": true
+   },
+   {
+    "step": 29,
+    "action": "examine stoveburner 2",
+    "observation": "On the stoveburner 2, you see a kettle 1.",
+    "valid": true
+   },
+   {
+    "step": 30,
+    "action": "examine stoveburner 2",
+    "observation": "On the stoveburner 2, you see a kettle 1.",
+    "valid": true
+   }
+  ]
+ },
+ "E": {
+  "id": "pair-heat-mug-cabinet-E",
+  "title": "Heat a mug: C stuck at the stoveburner, E uses the microwave (E)",
+  "condition": "E",
+  "source": {
+   "run": "check-e",
+   "stream": "development-E-11",
+   "position": 54,
+   "library": "check-e practice library, frozen (22 entries)"
+  },
+  "goal": "put a hot mug in cabinet.",
+  "task_type": "pick_heat_then_place_in_recep",
+  "task_kind": "heat then place",
+  "game_id": "valid_seen/pick_heat_then_place_in_recep-Mug-None-Cabinet-3/trial_T20190909_014639_335717",
+  "success": true,
+  "steps": 8,
+  "invalid_actions": 0,
+  "model_calls": 9,
+  "input_tokens": 19395,
+  "output_tokens": 593,
+  "wall_seconds": 84.4,
+  "step_budget": 30,
+  "initial_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see a cabinet 4, a cabinet 3, a cabinet 2, a cabinet 1, a coffeemachine 1, a countertop 1, a drawer 8, a drawer 7, a drawer 6, a drawer 5, a drawer 4, a drawer 3, a drawer 2, a drawer 1, a fridge 1, a garbagecan 1, a microwave 1, a sidetable 1, a sinkbasin 1, a stoveburner 4, a stoveburner 3, a stoveburner 2, a stoveburner 1, and a toaster 1.\n\nYour task is to: put a hot mug in cabinet.",
+  "plan": [
+   "find a mug",
+   "heat the mug in the microwave",
+   "put the hot mug in a cabinet"
+  ],
+  "rules_shown": [
+   {
+    "id": "rule_16",
+    "type": "Corrected Error",
+    "task_type": "pick_heat_then_place_in_recep",
+    "alpha": 3,
+    "beta": 2,
+    "mean": 0.6,
+    "visible_to_agent": true,
+    "rule": "When the object must be heated and placed in a receptacle, go to the target receptacle after heating instead of trying to place it on a stoveburner.",
+    "example": "The agent failed by placing the potato on stoveburner 1 and stoveburner 2, then succeeded by moving it to diningtable 1 after heating it with the microwave.",
+    "rendered_for_agent": "[Corrected Error] When the object must be heated and placed in a receptacle, go to the target receptacle after heating instead of trying to place it on a stoveburner. Example: The agent failed by placing the potato on stoveburner 1 and stoveburner 2, then succeeded by moving it to diningtable 1 after heating it with the microwave.",
+    "evidence": {
+     "won": 2,
+     "lost": 1
+    }
+   }
+  ],
+  "rules_shown_to": "planner (as the \"rules\" field of its prompt, before it writes subgoals) and actor (as the block \"Rules learned from earlier practice (follow them)\" in every step prompt); one set chosen once from the goal",
+  "trace": [
+   {
+    "step": 1,
+    "action": "go to countertop 1",
+    "observation": "You arrive at countertop 1. On the countertop 1, you see a bowl 2, a bread 2, a bread 1, a cup 3, a dishsponge 3, a dishsponge 2, a dishsponge 1, a houseplant 1, a knife 1, a lettuce 2, a mug 2, a mug 1, a peppershaker 3, a peppershaker 2, a potato 1, a saltshaker 1, a spatula 1, a spoon 3, a spoon 2, and a winebottle 1.",
+    "valid": true
+   },
+   {
+    "step": 2,
+    "action": "take mug 1 from countertop 1",
+    "observation": "You pick up the mug 1 from the countertop 1.",
+    "valid": true
+   },
+   {
+    "step": 3,
+    "action": "go to microwave 1",
+    "observation": "You arrive at microwave 1. The microwave 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 4,
+    "action": "open microwave 1",
+    "observation": "You open the microwave 1. The microwave 1 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 5,
+    "action": "heat mug 1 with microwave 1",
+    "observation": "You heat the mug 1 using the microwave 1.",
+    "valid": true
+   },
+   {
+    "step": 6,
+    "action": "go to cabinet 1",
+    "observation": "You arrive at cabinet 1. The cabinet 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 7,
+    "action": "open cabinet 1",
+    "observation": "You open the cabinet 1. The cabinet 1 is open. In it, you see a plate 2, and a plate 1.",
+    "valid": true
+   },
+   {
+    "step": 8,
+    "action": "move mug 1 to cabinet 1",
+    "observation": "You move the mug 1 to the cabinet 1.",
+    "valid": true
+   }
+  ]
+ }
+}

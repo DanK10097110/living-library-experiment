@@ -1,0 +1,822 @@
+{
+ "id": "bx-14-anti-pattern-written",
+ "title": "Anti-Pattern written: \"do not use the command done\"",
+ "source": {
+  "run": "practice-b",
+  "stream": "practice-E-0",
+  "position": 41
+ },
+ "shows": "A cool task keeps being lost. The pool of never-won games for this kind has 3 games; code finds the invalid command `done` in 4 of 12 lost attempts and in none of the 6 won attempts of this kind, in 2 different tasks. The model only words it: \"When cooling an object, do not use the command 'done'\".",
+ "why_interesting": "The Anti-Pattern pipeline: mined by code from pooled failures (never from one game), worded by the model, checked against wins. This one is legitimate (the agent really emits `done`) but low value.",
+ "notes": [],
+ "practice_game": {
+  "goal": "cool some cup and put it in microwave.",
+  "task_type": "pick_cool_then_place_in_recep",
+  "task_kind": "cool then place",
+  "game_id": "train/pick_cool_then_place_in_recep-Cup-None-Microwave-17/trial_T20190906_192746_084663",
+  "success": false,
+  "steps": 30,
+  "invalid_actions": 5,
+  "model_calls": 156
+ },
+ "rules_shown_in_first_attempt": [
+  {
+   "id": "rule_13",
+   "type": "Success Process",
+   "task_type": "pick_cool_then_place_in_recep",
+   "alpha": 3,
+   "beta": 2,
+   "mean": 0.6,
+   "visible_to_agent": true,
+   "rule": "When an object must be cooled and placed: search stoveburners first, take the object, go to fridge, open it if closed, cool object with fridge, close fridge, go to target, move object to target.",
+   "example": "The agent took pan 1 from stoveburner 1, moved it to fridge 1, cooled it with fridge 1, then moved it to diningtable 1.",
+   "validation": "This game confirmed the rule: the agent failed because it opened the fridge without first taking and cooling the bowl. | This game confirmed the rule: the agent successfully cooled the pan with the fridge before placing it on the diningtable.",
+   "rendered_for_agent": "[Success Process] When an object must be cooled and placed: search stoveburners first, take the object, go to fridge, open it if closed, cool object with fridge, close fridge, go to target, move object to target. Example: The agent took pan 1 from stoveburner 1, moved it to fridge 1, cooled it with fridge 1, then moved it to diningtable 1.",
+   "evidence": {
+    "won": 2,
+    "lost": 1
+   }
+  },
+  {
+   "id": "rule_10",
+   "type": "Corrected Error",
+   "task_type": "all",
+   "alpha": 19,
+   "beta": 8,
+   "mean": 0.7,
+   "visible_to_agent": true,
+   "rule": "When two objects must be found and placed, search multiple locations before taking each, then move both to the target.",
+   "example": "The agent failed by checking empty cabinets first; it should have scanned stoveburner 4 to find the pan before opening cabinets.",
+   "validation": "This game confirmed the rule: the agent failed because it never found or cooled a plate, instead spending all time opening cabinets and drawers without checking countertops. | This game confirmed the rule: the agent failed because it never found or cooled a bowl, instead spending all time opening cabinets and drawers without checking where the bowl was.",
+   "rendered_for_agent": "[Corrected Error] When two objects must be found and placed, search multiple locations before taking each, then move both to the target. Example: The agent failed by checking empty cabinets first; it should have scanned stoveburner 4 to find the pan before opening cabinets.",
+   "evidence": {
+    "won": 15,
+    "lost": 7
+   }
+  }
+ ],
+ "first_attempt_trace": [
+  {
+   "step": 1,
+   "action": "go to cabinet 1",
+   "observation": "You arrive at cabinet 1. On the cabinet 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 2,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a bowl 1, a butterknife 1, a knife 1, a mug 1, a plate 1, a saltshaker 1, a spraybottle 1, and a winebottle 1.",
+   "valid": true
+  },
+  {
+   "step": 3,
+   "action": "take mug 1 from countertop 1",
+   "observation": "You pick up the mug 1 from the countertop 1.",
+   "valid": true
+  },
+  {
+   "step": 4,
+   "action": "go to fridge 1",
+   "observation": "You arrive at fridge 1. The fridge 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 5,
+   "action": "open fridge 1",
+   "observation": "You open the fridge 1. The fridge 1 is open. In it, you see a bowl 3, a bowl 2, a bread 2, a potato 1, and a winebottle 2.",
+   "valid": true
+  },
+  {
+   "step": 6,
+   "action": "cool mug 1 with fridge 1",
+   "observation": "You cool the mug 1 using the fridge 1.",
+   "valid": true
+  },
+  {
+   "step": 7,
+   "action": "close fridge 1",
+   "observation": "You close the fridge 1.",
+   "valid": true
+  },
+  {
+   "step": 8,
+   "action": "go to microwave 1",
+   "observation": "You arrive at microwave 1. The microwave 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 9,
+   "action": "open microwave 1",
+   "observation": "You open the microwave 1. The microwave 1 is open. In it, you see a egg 1.",
+   "valid": true
+  },
+  {
+   "step": 10,
+   "action": "move mug 1 to microwave 1",
+   "observation": "You move the mug 1 to the microwave 1.",
+   "valid": true
+  },
+  {
+   "step": 11,
+   "action": "close microwave 1",
+   "observation": "You close the microwave 1.",
+   "valid": true
+  },
+  {
+   "step": 12,
+   "action": "done",
+   "observation": "You close the microwave 1.",
+   "valid": false
+  },
+  {
+   "step": 13,
+   "action": "look",
+   "observation": "You are facing the microwave 1. Next to it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 14,
+   "action": "The task history shows the agent successfully cooled a mug and placed it in the microwave, marking the task as done. However, the current prompt explicitly sets the subgoal to \"take the cup from its location\" and asks for an action at step 14. Since the cup is currently inside the microwave (",
+   "observation": "You are facing the microwave 1. Next to it, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 15,
+   "action": "go to cabinet 1",
+   "observation": "You arrive at cabinet 1. On the cabinet 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 16,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a bowl 1, a butterknife 1, a knife 1, a plate 1, a saltshaker 1, a spraybottle 1, and a winebottle 1.",
+   "valid": true
+  },
+  {
+   "step": 17,
+   "action": "go to cabinet 1",
+   "observation": "You arrive at cabinet 1. On the cabinet 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 18,
+   "action": "go to cabinet 2",
+   "observation": "You arrive at cabinet 2. On the cabinet 2, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 19,
+   "action": "examine cabinet 2",
+   "observation": "On the cabinet 2, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 20,
+   "action": "examine cabinet 2",
+   "observation": "On the cabinet 2, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 21,
+   "action": "go to cabinet 3",
+   "observation": "On the cabinet 2, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 22,
+   "action": "go to cabinet 1",
+   "observation": "You arrive at cabinet 1. On the cabinet 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 23,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a bowl 1, a butterknife 1, a knife 1, a plate 1, a saltshaker 1, a spraybottle 1, and a winebottle 1.",
+   "valid": true
+  },
+  {
+   "step": 24,
+   "action": "go to cabinet 1",
+   "observation": "You arrive at cabinet 1. On the cabinet 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 25,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. On the drawer 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 26,
+   "action": "go to cabinet 2",
+   "observation": "You arrive at cabinet 2. On the cabinet 2, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 27,
+   "action": "go to cabinet 3",
+   "observation": "You arrive at cabinet 2. On the cabinet 2, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 28,
+   "action": "go to cabinet 3",
+   "observation": "You arrive at cabinet 2. On the cabinet 2, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 29,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. On the drawer 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 30,
+   "action": "go to cabinet 3",
+   "observation": "You arrive at cabinet 3. On the cabinet 3, you see nothing.",
+   "valid": true
+  }
+ ],
+ "retries": [
+  {
+   "attempt": 1,
+   "reflection": "I successfully cooled the mug and placed it in the microwave, but the task requires taking the cup from its location afterward. I should have added a step to open the microwave and remove the mug before marking the task as done.",
+   "won": false,
+   "steps": 30,
+   "actions": [
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "take mug 1 from countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "open fridge 1",
+     "valid": true
+    },
+    {
+     "action": "cool mug 1 with fridge 1",
+     "valid": true
+    },
+    {
+     "action": "close fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "open microwave 1",
+     "valid": true
+    },
+    {
+     "action": "move mug 1 to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "Currently",
+     "valid": false
+    },
+    {
+     "action": "The task is to cool a cup and put it in the microwave. I have cooled the mug and placed it inside the microwave. However, the reflection from the previous attempt indicates that the task requires removing the object from the microwave after placing it, or perhaps the task implies a cycle where the object must be taken",
+     "valid": false
+    },
+    {
+     "action": "take mug 1 from microwave 1",
+     "valid": true
+    },
+    {
+     "action": "close microwave 1",
+     "valid": true
+    },
+    {
+     "action": "move mug 1 to microwave 1",
+     "valid": false
+    },
+    {
+     "action": "examine microwave 1",
+     "valid": true
+    },
+    {
+     "action": "open microwave 1",
+     "valid": true
+    },
+    {
+     "action": "take mug 1 from microwave 1",
+     "valid": false
+    },
+    {
+     "action": "move mug 1 to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "take mug 1 from microwave 1",
+     "valid": true
+    },
+    {
+     "action": "close microwave 1",
+     "valid": true
+    },
+    {
+     "action": "open microwave 1",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "go to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "take mug 1 from microwave 1",
+     "valid": false
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "open fridge 1",
+     "valid": true
+    },
+    {
+     "action": "cool mug 1 with fridge 1",
+     "valid": true
+    },
+    {
+     "action": "close fridge 1",
+     "valid": true
+    },
+    {
+     "action": "move mug 1 to microwave 1",
+     "valid": false
+    },
+    {
+     "action": "open microwave 1",
+     "valid": false
+    }
+   ]
+  },
+  {
+   "attempt": 2,
+   "reflection": "I cooled the mug and placed it in the microwave, but failed to complete the task because I did not remove the mug from the microwave afterward. I should have opened the microwave and taken the mug out after placing it inside to fully satisfy the task requirements.",
+   "won": false,
+   "steps": 30,
+   "actions": [
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "take mug 1 from countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "open fridge 1",
+     "valid": true
+    },
+    {
+     "action": "cool mug 1 with fridge 1",
+     "valid": true
+    },
+    {
+     "action": "close fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "open microwave 1",
+     "valid": true
+    },
+    {
+     "action": "move mug 1 to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "take mug 1 from microwave 1",
+     "valid": true
+    },
+    {
+     "action": "move mug 1 to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "close microwave 1",
+     "valid": true
+    },
+    {
+     "action": "open microwave 1",
+     "valid": true
+    },
+    {
+     "action": "close microwave 1",
+     "valid": true
+    },
+    {
+     "action": "The task is to cool a cup and put it in the microwave. I have cooled the mug and placed it inside the microwave (Observation 14 confirms the mug is inside). I just closed the microwave (Action 14). Since the mug is inside the microwave and the task is to put it",
+     "valid": false
+    },
+    {
+     "action": "open microwave 1",
+     "valid": true
+    },
+    {
+     "action": "take mug 1 from microwave 1",
+     "valid": true
+    },
+    {
+     "action": "done",
+     "valid": false
+    },
+    {
+     "action": "move mug 1 to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "close microwave 1",
+     "valid": true
+    },
+    {
+     "action": "The task is to cool a cup and put it in the microwave. The agent has already cooled the mug and placed it inside the microwave (Action 20). The current state is that the microwave is closed. To verify the task is complete or to follow the pattern of ensuring the object is properly placed,",
+     "valid": false
+    },
+    {
+     "action": "open microwave 1",
+     "valid": true
+    },
+    {
+     "action": "take mug 1 from microwave 1",
+     "valid": true
+    },
+    {
+     "action": "move mug 1 to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "close microwave 1",
+     "valid": true
+    },
+    {
+     "action": "open microwave 1",
+     "valid": true
+    },
+    {
+     "action": "close microwave 1",
+     "valid": true
+    },
+    {
+     "action": "open microwave 1",
+     "valid": true
+    },
+    {
+     "action": "take mug 1 from microwave 1",
+     "valid": true
+    },
+    {
+     "action": "move mug 1 to microwave 1",
+     "valid": true
+    }
+   ]
+  },
+  {
+   "attempt": 3,
+   "reflection": "I cooled the mug and placed it in the microwave, but repeatedly closed the microwave without verifying the task completion criteria. I should have checked if the task required leaving the mug inside or removing it afterward, and if removal was needed, I would have opened the microwave and taken the mug out before marking the task as done.",
+   "won": false,
+   "steps": 30,
+   "actions": [
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "take mug 1 from countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "open fridge 1",
+     "valid": true
+    },
+    {
+     "action": "cool mug 1 with fridge 1",
+     "valid": true
+    },
+    {
+     "action": "close fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "open microwave 1",
+     "valid": true
+    },
+    {
+     "action": "move mug 1 to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "close microwave 1",
+     "valid": true
+    },
+    {
+     "action": "open microwave 1",
+     "valid": true
+    },
+    {
+     "action": "take mug 1 from microwave 1",
+     "valid": true
+    },
+    {
+     "action": "done",
+     "valid": false
+    },
+    {
+     "action": "done",
+     "valid": false
+    },
+    {
+     "action": "move mug 1 to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "close microwave 1",
+     "valid": true
+    },
+    {
+     "action": "open microwave 1",
+     "valid": true
+    },
+    {
+     "action": "take mug 1 from microwave 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "move mug 1 to microwave 1",
+     "valid": false
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "open fridge 1",
+     "valid": true
+    },
+    {
+     "action": "close fridge 1",
+     "valid": true
+    },
+    {
+     "action": "open fridge 1",
+     "valid": true
+    },
+    {
+     "action": "open microwave 1",
+     "valid": false
+    },
+    {
+     "action": "cool mug 1 with fridge 1",
+     "valid": true
+    },
+    {
+     "action": "move mug 1 to microwave 1",
+     "valid": false
+    },
+    {
+     "action": "open microwave 1",
+     "valid": false
+    },
+    {
+     "action": "open microwave 1",
+     "valid": false
+    },
+    {
+     "action": "open microwave 1",
+     "valid": false
+    }
+   ]
+  }
+ ],
+ "builder_report": {
+  "case": "failure",
+  "diagnosis": "imperfect rules",
+  "operations": [
+   {
+    "example": "The agent failed because it placed the mug in the microwave but did not take it out before marking the task done.",
+    "op": "write_rule",
+    "rule": "When an object must be cooled and placed in a container, open the container and take the object out after placing it inside if the task requires removal.",
+    "sources": [
+     {
+      "task": "cool some cup and put it in microwave.",
+      "task_type": "pick_cool_then_place_in_recep"
+     }
+    ],
+    "task_type": "pick_cool_then_place_in_recep",
+    "type": "Unresolved Error",
+    "verified": false
+   },
+   {
+    "example": "\"done\" answers \"Nothing happens.\"",
+    "op": "write_rule",
+    "pattern": {
+     "attempts": 4,
+     "example": "done",
+     "games": 2,
+     "kind": "invalid",
+     "of_attempts": 12,
+     "of_games": 3,
+     "sig": [
+      "invalid",
+      "done"
+     ],
+     "wins_checked": 6
+    },
+    "rule": "When cooling an object, do not use the command \"done\".",
+    "sources": [
+     {
+      "task": "cool some cup and put it in microwave.",
+      "task_type": "pick_cool_then_place_in_recep"
+     }
+    ],
+    "task_type": "pick_cool_then_place_in_recep",
+    "type": "Anti-Pattern",
+    "verified": true
+   },
+   {
+    "id": "rule_10",
+    "op": "refine",
+    "refined_at": [
+     17,
+     8
+    ],
+    "rule": "When an object must be cooled and placed, search kitchen areas first, cool with fridge if closed, then move to target."
+   }
+  ],
+  "bookkeeping_operations": [
+   "outcome",
+   "pool_game"
+  ],
+  "log_lines": [
+   "rule_22 anti-pattern written from 2 of 3 lost tasks"
+  ]
+ },
+ "rules_changed": [
+  {
+   "id": "rule_10",
+   "before": {
+    "id": "rule_10",
+    "type": "Corrected Error",
+    "task_type": "all",
+    "alpha": 19,
+    "beta": 8,
+    "mean": 0.7,
+    "visible_to_agent": true,
+    "rule": "When two objects must be found and placed, search multiple locations before taking each, then move both to the target.",
+    "example": "The agent failed by checking empty cabinets first; it should have scanned stoveburner 4 to find the pan before opening cabinets.",
+    "validation": "This game confirmed the rule: the agent failed because it never found or cooled a plate, instead spending all time opening cabinets and drawers without checking countertops. | This game confirmed the rule: the agent failed because it never found or cooled a bowl, instead spending all time opening cabinets and drawers without checking where the bowl was.",
+    "rendered_for_agent": "[Corrected Error] When two objects must be found and placed, search multiple locations before taking each, then move both to the target. Example: The agent failed by checking empty cabinets first; it should have scanned stoveburner 4 to find the pan before opening cabinets.",
+    "evidence": {
+     "won": 15,
+     "lost": 7
+    }
+   },
+   "after": {
+    "id": "rule_10",
+    "type": "Corrected Error",
+    "task_type": "all",
+    "alpha": 19,
+    "beta": 9,
+    "mean": 0.68,
+    "visible_to_agent": true,
+    "rule": "When an object must be cooled and placed, search kitchen areas first, cool with fridge if closed, then move to target.",
+    "example": "The agent failed by checking empty cabinets first; it should have scanned stoveburner 4 to find the pan before opening cabinets.",
+    "validation": "This game confirmed the rule: the agent failed because it never found or cooled a plate, instead spending all time opening cabinets and drawers without checking countertops. | This game confirmed the rule: the agent failed because it never found or cooled a bowl, instead spending all time opening cabinets and drawers without checking where the bowl was.",
+    "rendered_for_agent": "[Corrected Error] When an object must be cooled and placed, search kitchen areas first, cool with fridge if closed, then move to target. Example: The agent failed by checking empty cabinets first; it should have scanned stoveburner 4 to find the pan before opening cabinets.",
+    "evidence": {
+     "won": 15,
+     "lost": 8
+    }
+   },
+   "change": "rule, beta"
+  },
+  {
+   "id": "rule_13",
+   "before": {
+    "id": "rule_13",
+    "type": "Success Process",
+    "task_type": "pick_cool_then_place_in_recep",
+    "alpha": 3,
+    "beta": 2,
+    "mean": 0.6,
+    "visible_to_agent": true,
+    "rule": "When an object must be cooled and placed: search stoveburners first, take the object, go to fridge, open it if closed, cool object with fridge, close fridge, go to target, move object to target.",
+    "example": "The agent took pan 1 from stoveburner 1, moved it to fridge 1, cooled it with fridge 1, then moved it to diningtable 1.",
+    "validation": "This game confirmed the rule: the agent failed because it opened the fridge without first taking and cooling the bowl. | This game confirmed the rule: the agent successfully cooled the pan with the fridge before placing it on the diningtable.",
+    "rendered_for_agent": "[Success Process] When an object must be cooled and placed: search stoveburners first, take the object, go to fridge, open it if closed, cool object with fridge, close fridge, go to target, move object to target. Example: The agent took pan 1 from stoveburner 1, moved it to fridge 1, cooled it with fridge 1, then moved it to diningtable 1.",
+    "evidence": {
+     "won": 2,
+     "lost": 1
+    }
+   },
+   "after": {
+    "id": "rule_13",
+    "type": "Success Process",
+    "task_type": "pick_cool_then_place_in_recep",
+    "alpha": 3,
+    "beta": 3,
+    "mean": 0.5,
+    "visible_to_agent": true,
+    "rule": "When an object must be cooled and placed: search stoveburners first, take the object, go to fridge, open it if closed, cool object with fridge, close fridge, go to target, move object to target.",
+    "example": "The agent took pan 1 from stoveburner 1, moved it to fridge 1, cooled it with fridge 1, then moved it to diningtable 1.",
+    "validation": "This game confirmed the rule: the agent failed because it opened the fridge without first taking and cooling the bowl. | This game confirmed the rule: the agent successfully cooled the pan with the fridge before placing it on the diningtable.",
+    "rendered_for_agent": "[Success Process] When an object must be cooled and placed: search stoveburners first, take the object, go to fridge, open it if closed, cool object with fridge, close fridge, go to target, move object to target. Example: The agent took pan 1 from stoveburner 1, moved it to fridge 1, cooled it with fridge 1, then moved it to diningtable 1.",
+    "evidence": {
+     "won": 2,
+     "lost": 2
+    }
+   },
+   "change": "beta"
+  },
+  {
+   "id": "rule_21",
+   "before": null,
+   "after": {
+    "id": "rule_21",
+    "type": "Unresolved Error",
+    "task_type": "pick_cool_then_place_in_recep",
+    "alpha": 1,
+    "beta": 1,
+    "mean": 0.5,
+    "visible_to_agent": false,
+    "rule": "When an object must be cooled and placed in a container, open the container and take the object out after placing it inside if the task requires removal.",
+    "example": "The agent failed because it placed the mug in the microwave but did not take it out before marking the task done.",
+    "rendered_for_agent": "[Unresolved Error] When an object must be cooled and placed in a container, open the container and take the object out after placing it inside if the task requires removal. Example: The agent failed because it placed the mug in the microwave but did not take it out before marking the task done.",
+    "evidence": {
+     "won": 0,
+     "lost": 0
+    }
+   },
+   "change": "NEW"
+  },
+  {
+   "id": "rule_22",
+   "before": null,
+   "after": {
+    "id": "rule_22",
+    "type": "Anti-Pattern",
+    "task_type": "pick_cool_then_place_in_recep",
+    "alpha": 1,
+    "beta": 1,
+    "mean": 0.5,
+    "visible_to_agent": true,
+    "rule": "When cooling an object, do not use the command \"done\".",
+    "example": "\"done\" answers \"Nothing happens.\"",
+    "rendered_for_agent": "[Anti-Pattern] When cooling an object, do not use the command \"done\". Example: \"done\" answers \"Nothing happens.\"",
+    "evidence": {
+     "won": 0,
+     "lost": 0
+    },
+    "pattern": {
+     "attempts": 4,
+     "games": 2,
+     "kind": "invalid",
+     "of_attempts": 12,
+     "of_games": 3,
+     "sig": [
+      "invalid",
+      "done"
+     ],
+     "wins_checked": 6
+    },
+    "violations": 0
+   },
+   "change": "NEW"
+  }
+ ]
+}

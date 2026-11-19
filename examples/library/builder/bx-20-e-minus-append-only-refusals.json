@@ -1,0 +1,252 @@
+{
+ "id": "bx-20-e-minus-append-only-refusals",
+ "title": "E-minus: append-only, refused edits",
+ "source": {
+  "run": "study",
+  "stream": "practice-E-minus-0",
+  "position": 11
+ },
+ "shows": "E-minus runs the same practice games and retries as E but its manual is append-only: updates, votes, merges and refinement are refused (\"append-only manual: rules cannot be changed\"). The same game for E (appended below) updated rule_7 and rule_3.",
+ "why_interesting": "The ablation shows what rule management buys: E-minus keeps adding rules (26 after 40 games, 8 of them hidden Unresolved Errors) while E rewrites and merges (16 after 35).",
+ "notes": [],
+ "practice_game": {
+  "goal": "put a keychain in desk.",
+  "task_type": "pick_and_place_simple",
+  "task_kind": "pick and place",
+  "game_id": "train/pick_and_place_simple-KeyChain-None-Desk-310/trial_T20190908_125324_094909",
+  "success": true,
+  "steps": 30,
+  "invalid_actions": 2,
+  "model_calls": 37
+ },
+ "rules_shown_in_first_attempt": [
+  {
+   "id": "rule_8",
+   "type": "Success Process",
+   "task_type": "pick_and_place_simple",
+   "alpha": 1,
+   "beta": 1,
+   "mean": 0.5,
+   "visible_to_agent": true,
+   "rule": "When an object must be picked up and placed in a target: search all containers and surfaces first, open any closed containers, take the object, go to the target, open it if closed, and move the object there.",
+   "example": "Search drawers and dresser surfaces, open drawer 4 to find the cd, take it, go to safe 1, open safe 1, move the cd to safe 1.",
+   "rendered_for_agent": "[Success Process] When an object must be picked up and placed in a target: search all containers and surfaces first, open any closed containers, take the object, go to the target, open it if closed, and move the object there. Example: Search drawers and dresser surfaces, open drawer 4 to find the cd, take it, go to safe 1, open safe 1, move the cd to safe 1.",
+   "evidence": {
+    "won": 0,
+    "lost": 0
+   }
+  },
+  {
+   "id": "rule_7",
+   "type": "Corrected Error",
+   "task_type": "pick_and_place_simple",
+   "alpha": 1,
+   "beta": 1,
+   "mean": 0.5,
+   "visible_to_agent": true,
+   "rule": "When attempting to go to a container, ensure you are currently positioned at that container before issuing the command.",
+   "example": "In the failed attempt, the agent repeatedly tried 'go to drawer 4' while standing at drawer 3, causing the command to fail. In the successful retry, the agent moved to drawer 4 before opening it.",
+   "rendered_for_agent": "[Corrected Error] When attempting to go to a container, ensure you are currently positioned at that container before issuing the command. Example: In the failed attempt, the agent repeatedly tried 'go to drawer 4' while standing at drawer 3, causing the command to fail. In the successful retry, the agent moved to drawer 4 before opening it.",
+   "evidence": {
+    "won": 0,
+    "lost": 0
+   }
+  }
+ ],
+ "first_attempt_trace": [
+  {
+   "step": 1,
+   "action": "go to desk 1",
+   "observation": "You arrive at desk 1. On the desk 1, you see a alarmclock 1, a book 3, a book 2, a box 1, a creditcard 2, and a pencil 1.",
+   "valid": true
+  },
+  {
+   "step": 2,
+   "action": "go to cabinet 1",
+   "observation": "You arrive at cabinet 1. The cabinet 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 3,
+   "action": "open cabinet 1",
+   "observation": "You open the cabinet 1. The cabinet 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 4,
+   "action": "open cabinet 2",
+   "observation": "You open the cabinet 2. The cabinet 2 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 5,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 6,
+   "action": "open drawer 1",
+   "observation": "You open the drawer 1. The drawer 1 is open. In it, you see a cd 1.",
+   "valid": true
+  },
+  {
+   "step": 7,
+   "action": "go to drawer 2",
+   "observation": "You arrive at drawer 2. The drawer 2 is closed.",
+   "valid": true
+  },
+  {
+   "step": 8,
+   "action": "open drawer 2",
+   "observation": "You open the drawer 2. The drawer 2 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 9,
+   "action": "go to cabinet 3",
+   "observation": "You arrive at cabinet 3. The cabinet 3 is closed.",
+   "valid": true
+  },
+  {
+   "step": 10,
+   "action": "open cabinet 3",
+   "observation": "You open the cabinet 3. The cabinet 3 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 11,
+   "action": "go to shelf 1",
+   "observation": "You open the cabinet 3. The cabinet 3 is open. In it, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 12,
+   "action": "go to desk 1",
+   "observation": "You arrive at desk 1. On the desk 1, you see a alarmclock 1, a book 3, a book 2, a box 1, a creditcard 2, and a pencil 1.",
+   "valid": true
+  },
+  {
+   "step": 13,
+   "action": "go to cabinet 4",
+   "observation": "You arrive at cabinet 4. The cabinet 4 is closed.",
+   "valid": true
+  },
+  {
+   "step": 14,
+   "action": "open cabinet 4",
+   "observation": "You open the cabinet 4. The cabinet 4 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 15,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see a cd 1.",
+   "valid": true
+  },
+  {
+   "step": 16,
+   "action": "go to desk 1",
+   "observation": "You arrive at desk 1. On the desk 1, you see a alarmclock 1, a book 3, a book 2, a box 1, a creditcard 2, and a pencil 1.",
+   "valid": true
+  },
+  {
+   "step": 17,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see a cd 1.",
+   "valid": true
+  },
+  {
+   "step": 18,
+   "action": "go to desk 1",
+   "observation": "You arrive at desk 1. On the desk 1, you see a alarmclock 1, a book 3, a book 2, a box 1, a creditcard 2, and a pencil 1.",
+   "valid": true
+  },
+  {
+   "step": 19,
+   "action": "go to garbagecan 1",
+   "observation": "You arrive at garbagecan 1. On the garbagecan 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 20,
+   "action": "go to cabinet 1",
+   "observation": "You arrive at cabinet 1. The cabinet 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 21,
+   "action": "go to cabinet 2",
+   "observation": "You arrive at cabinet 1. The cabinet 1 is open. In it, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 22,
+   "action": "go to cabinet 3",
+   "observation": "You arrive at cabinet 3. The cabinet 3 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 23,
+   "action": "go to cabinet 2",
+   "observation": "You arrive at cabinet 2. The cabinet 2 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 24,
+   "action": "go to cabinet 4",
+   "observation": "You arrive at cabinet 4. The cabinet 4 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 25,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see a cd 1.",
+   "valid": true
+  },
+  {
+   "step": 26,
+   "action": "go to bed 1",
+   "observation": "You arrive at bed 1. On the bed 1, you see a book 1, a laptop 3, a laptop 2, a laptop 1, a pillow 3, a pillow 2, and a pillow 1.",
+   "valid": true
+  },
+  {
+   "step": 27,
+   "action": "go to sidetable 1",
+   "observation": "You arrive at sidetable 1. On the sidetable 1, you see a cellphone 1, a keychain 2, a keychain 1, and a pen 1.",
+   "valid": true
+  },
+  {
+   "step": 28,
+   "action": "take keychain 1 from sidetable 1",
+   "observation": "You pick up the keychain 1 from the sidetable 1.",
+   "valid": true
+  },
+  {
+   "step": 29,
+   "action": "go to desk 1",
+   "observation": "You arrive at desk 1. On the desk 1, you see a alarmclock 1, a book 3, a book 2, a box 1, a creditcard 2, and a pencil 1.",
+   "valid": true
+  },
+  {
+   "step": 30,
+   "action": "move keychain 1 to desk 1",
+   "observation": "You move the keychain 1 to the desk 1.",
+   "valid": true
+  }
+ ],
+ "retries": null,
+ "builder_report": {
+  "case": "indirect success",
+  "diagnosis": "imperfect rules",
+  "operations": [],
+  "bookkeeping_operations": [
+   "pool_won"
+  ],
+  "log_lines": [
+   "append-only manual: rules cannot be changed",
+   "append-only manual: rules cannot be changed"
+  ]
+ },
+ "rules_changed": []
+}

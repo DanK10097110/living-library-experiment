@@ -1,0 +1,455 @@
+{
+ "id": "pair-LOST-two-creditcard-safe",
+ "title": "HONEST LOSS: both agents find the cards, E mis-sequences the two-object task",
+ "goal": "put two creditcard in safe.",
+ "task_kind": "two objects",
+ "game_id": "valid_seen/pick_two_obj_and_place-CreditCard-None-Safe-323/trial_T20190907_001129_214240",
+ "result": "C won, E lost",
+ "shows": "C needs 25 steps but wins. E (library check-avoid70) finds creditcard 2 quickly, puts it in the safe, then produces a free-text line instead of a command (\"The current subgoal is to take creditcard 1 ...\") and never recovers.",
+ "why_interesting": "Shows a failure mode in which the model emits text instead of a legal command; two-object tasks are the weakest kind for E (7 of 12).",
+ "notes": [
+  "Library: check-avoid70."
+ ],
+ "C": {
+  "id": "pair-LOST-two-creditcard-safe-C",
+  "title": "HONEST LOSS: both agents find the cards, E mis-sequences the two-object task (C)",
+  "condition": "C",
+  "source": {
+   "run": "old-pilot-9b-v1",
+   "stream": "development-C-11",
+   "position": 19
+  },
+  "goal": "put two creditcard in safe.",
+  "task_type": "pick_two_obj_and_place",
+  "task_kind": "two objects",
+  "game_id": "valid_seen/pick_two_obj_and_place-CreditCard-None-Safe-323/trial_T20190907_001129_214240",
+  "success": true,
+  "steps": 25,
+  "invalid_actions": 4,
+  "model_calls": 27,
+  "input_tokens": 55088,
+  "output_tokens": 2131,
+  "wall_seconds": 311.6,
+  "step_budget": 30,
+  "initial_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see a bed 2, a bed 1, a desk 1, a drawer 11, a drawer 10, a drawer 9, a drawer 8, a drawer 7, a drawer 6, a drawer 5, a drawer 4, a drawer 3, a drawer 2, a drawer 1, a dresser 1, a garbagecan 1, a safe 1, a sidetable 2, and a sidetable 1.\n\nYour task is to: put two creditcard in safe.",
+  "trace": [
+   {
+    "step": 1,
+    "action": "go to drawer 1",
+    "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 2,
+    "action": "open drawer 1",
+    "observation": "You open the drawer 1. The drawer 1 is open. In it, you see a pencil 1.",
+    "valid": true
+   },
+   {
+    "step": 3,
+    "action": "go to drawer 2",
+    "observation": "You arrive at drawer 2. The drawer 2 is closed.",
+    "valid": true
+   },
+   {
+    "step": 4,
+    "action": "open drawer 2",
+    "observation": "You open the drawer 2. The drawer 2 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 5,
+    "action": "go to drawer 3",
+    "observation": "You arrive at drawer 3. The drawer 3 is closed.",
+    "valid": true
+   },
+   {
+    "step": 6,
+    "action": "open drawer 3",
+    "observation": "You open the drawer 3. The drawer 3 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 7,
+    "action": "go to drawer 4",
+    "observation": "You arrive at drawer 4. The drawer 4 is closed.",
+    "valid": true
+   },
+   {
+    "step": 8,
+    "action": "open drawer 4",
+    "observation": "You open the drawer 4. The drawer 4 is open. In it, you see a keychain 2.",
+    "valid": true
+   },
+   {
+    "step": 9,
+    "action": "go to drawer 5",
+    "observation": "You arrive at drawer 5. The drawer 5 is closed.",
+    "valid": true
+   },
+   {
+    "step": 10,
+    "action": "open drawer 5",
+    "observation": "You open the drawer 5. The drawer 5 is open. In it, you see a book 1.",
+    "valid": true
+   },
+   {
+    "step": 11,
+    "action": "go to drawer 6",
+    "observation": "You arrive at drawer 6. The drawer 6 is closed.",
+    "valid": true
+   },
+   {
+    "step": 12,
+    "action": "open drawer 6",
+    "observation": "You open the drawer 6. The drawer 6 is open. In it, you see a cd 2.",
+    "valid": true
+   },
+   {
+    "step": 13,
+    "action": "go to desk 1",
+    "observation": "You arrive at desk 1. On the desk 1, you see a cd 1, a creditcard 3, a creditcard 2, a desklamp 1, a keychain 3, a mug 2, and a mug 1.",
+    "valid": true
+   },
+   {
+    "step": 14,
+    "action": "take creditcard 2 from desk 1",
+    "observation": "You pick up the creditcard 2 from the desk 1.",
+    "valid": true
+   },
+   {
+    "step": 15,
+    "action": "go to safe 1",
+    "observation": "You arrive at safe 1. The safe 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 16,
+    "action": "open safe 1",
+    "observation": "You open the safe 1. The safe 1 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 17,
+    "action": "move creditcard 2 to safe 1",
+    "observation": "You move the creditcard 2 to the safe 1.",
+    "valid": true
+   },
+   {
+    "step": 18,
+    "action": "go to desk 1",
+    "observation": "You arrive at desk 1. On the desk 1, you see a cd 1, a creditcard 3, a desklamp 1, a keychain 3, a mug 2, and a mug 1.",
+    "valid": true
+   },
+   {
+    "step": 19,
+    "action": "take creditcard 3 from desk 1",
+    "observation": "You pick up the creditcard 3 from the desk 1.",
+    "valid": true
+   },
+   {
+    "step": 20,
+    "action": "move creditcard 3 to safe 1",
+    "observation": "You pick up the creditcard 3 from the desk 1.",
+    "valid": false
+   },
+   {
+    "step": 21,
+    "action": "move creditcard 3 to safe 1",
+    "observation": "You pick up the creditcard 3 from the desk 1.",
+    "valid": false
+   },
+   {
+    "step": 22,
+    "action": "open safe 1",
+    "observation": "You pick up the creditcard 3 from the desk 1.",
+    "valid": false
+   },
+   {
+    "step": 23,
+    "action": "move creditcard 3 to safe 1",
+    "observation": "You pick up the creditcard 3 from the desk 1.",
+    "valid": false
+   },
+   {
+    "step": 24,
+    "action": "go to safe 1",
+    "observation": "You arrive at safe 1. The safe 1 is open. In it, you see a creditcard 2.",
+    "valid": true
+   },
+   {
+    "step": 25,
+    "action": "move creditcard 3 to safe 1",
+    "observation": "You move the creditcard 3 to the safe 1.",
+    "valid": true
+   }
+  ]
+ },
+ "E": {
+  "id": "pair-LOST-two-creditcard-safe-E",
+  "title": "HONEST LOSS: both agents find the cards, E mis-sequences the two-object task (E)",
+  "condition": "E",
+  "source": {
+   "run": "check-avoid70",
+   "stream": "development-E-11",
+   "position": 19,
+   "library": "check-avoid70 practice library, frozen (26 entries)"
+  },
+  "goal": "put two creditcard in safe.",
+  "task_type": "pick_two_obj_and_place",
+  "task_kind": "two objects",
+  "game_id": "valid_seen/pick_two_obj_and_place-CreditCard-None-Safe-323/trial_T20190907_001129_214240",
+  "success": false,
+  "steps": 30,
+  "invalid_actions": 2,
+  "model_calls": 34,
+  "input_tokens": 80070,
+  "output_tokens": 3437,
+  "wall_seconds": 482.4,
+  "step_budget": 30,
+  "initial_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see a bed 2, a bed 1, a desk 1, a drawer 11, a drawer 10, a drawer 9, a drawer 8, a drawer 7, a drawer 6, a drawer 5, a drawer 4, a drawer 3, a drawer 2, a drawer 1, a dresser 1, a garbagecan 1, a safe 1, a sidetable 2, and a sidetable 1.\n\nYour task is to: put two creditcard in safe.",
+  "plan": [
+   "examine creditcard 2 to verify it exists",
+   "go to desk 1 to search for creditcard 1",
+   "examine surfaces at desk 1 to find creditcard 1",
+   "take creditcard 1 from desk 1",
+   "take creditcard 2 from its location",
+   "open safe 1 and place both creditcards inside"
+  ],
+  "rules_shown": [
+   {
+    "id": "rule_21",
+    "type": "Success Process",
+    "task_type": "pick_two_obj_and_place",
+    "alpha": 1,
+    "beta": 2,
+    "mean": 0.33,
+    "visible_to_agent": true,
+    "rule": "When two objects must be collected and placed: search surfaces first, take each object, go to target, move object to target.",
+    "example": "search sofa 1, take laptop 2, go to ottoman 1, move laptop 2 to ottoman 1, search coffeetable 1, take laptop 1, go to ottoman 1, move laptop 1 to ottoman 1",
+    "validation": "Agent followed this order in successful retry: searched sofa first, took laptop 2, moved to ottoman, then searched coffeetable, took laptop 1, moved to ottoman.",
+    "rendered_for_agent": "[Success Process] When two objects must be collected and placed: search surfaces first, take each object, go to target, move object to target. Example: search sofa 1, take laptop 2, go to ottoman 1, move laptop 2 to ottoman 1, search coffeetable 1, take laptop 1, go to ottoman 1, move laptop 1 to ottoman 1",
+    "evidence": {
+     "won": 0,
+     "lost": 1
+    }
+   },
+   {
+    "id": "rule_6",
+    "type": "Corrected Error",
+    "task_type": "pick_two_obj_and_place",
+    "alpha": 1,
+    "beta": 1,
+    "mean": 0.5,
+    "visible_to_agent": true,
+    "rule": "When multiple objects must be collected and placed, examine surfaces for them before opening storage, and re-examine surfaces after taking objects.",
+    "example": "Agent failed by wasting time on empty drawers instead of checking armchair surfaces systematically.",
+    "validation": "The agent failed because it did not re-examine the armchair after taking the first cellphone, missing the second one that was there. | Agent corrected by searching armchair and coffeetable surfaces before opening any drawers.",
+    "rendered_for_agent": "[Corrected Error] When multiple objects must be collected and placed, examine surfaces for them before opening storage, and re-examine surfaces after taking objects. Example: Agent failed by wasting time on empty drawers instead of checking armchair surfaces systematically.",
+    "evidence": {
+     "won": 0,
+     "lost": 0
+    }
+   },
+   {
+    "id": "rule_12",
+    "type": "Corrected Error",
+    "task_type": "pick_two_obj_and_place",
+    "alpha": 4,
+    "beta": 4,
+    "mean": 0.5,
+    "visible_to_agent": true,
+    "rule": "When two objects must be placed in a target, search drawers first, take each object, then move to the target and place it there.",
+    "example": "move alarmclock 1 to shelf 1 failed, then go to shelf 1, then move alarmclock 1 to shelf 1",
+    "rendered_for_agent": "[Corrected Error] When two objects must be placed in a target, search drawers first, take each object, then move to the target and place it there. Example: move alarmclock 1 to shelf 1 failed, then go to shelf 1, then move alarmclock 1 to shelf 1",
+    "evidence": {
+     "won": 3,
+     "lost": 3
+    }
+   }
+  ],
+  "rules_shown_to": "planner (as the \"rules\" field of its prompt, before it writes subgoals) and actor (as the block \"Rules learned from earlier practice (follow them)\" in every step prompt); one set chosen once from the goal",
+  "trace": [
+   {
+    "step": 1,
+    "action": "go to drawer 1",
+    "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 2,
+    "action": "open drawer 1",
+    "observation": "You open the drawer 1. The drawer 1 is open. In it, you see a pencil 1.",
+    "valid": true
+   },
+   {
+    "step": 3,
+    "action": "go to drawer 2",
+    "observation": "You arrive at drawer 2. The drawer 2 is closed.",
+    "valid": true
+   },
+   {
+    "step": 4,
+    "action": "open drawer 2",
+    "observation": "You open the drawer 2. The drawer 2 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 5,
+    "action": "go to drawer 3",
+    "observation": "You arrive at drawer 3. The drawer 3 is closed.",
+    "valid": true
+   },
+   {
+    "step": 6,
+    "action": "open drawer 3",
+    "observation": "You open the drawer 3. The drawer 3 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 7,
+    "action": "go to desk 1",
+    "observation": "You arrive at desk 1. On the desk 1, you see a cd 1, a creditcard 3, a creditcard 2, a desklamp 1, a keychain 3, a mug 2, and a mug 1.",
+    "valid": true
+   },
+   {
+    "step": 8,
+    "action": "take creditcard 2 from desk 1",
+    "observation": "You pick up the creditcard 2 from the desk 1.",
+    "valid": true
+   },
+   {
+    "step": 9,
+    "action": "go to drawer 4",
+    "observation": "You arrive at drawer 4. The drawer 4 is closed.",
+    "valid": true
+   },
+   {
+    "step": 10,
+    "action": "open drawer 4",
+    "observation": "You open the drawer 4. The drawer 4 is open. In it, you see a keychain 2.",
+    "valid": true
+   },
+   {
+    "step": 11,
+    "action": "go to drawer 5",
+    "observation": "You arrive at drawer 5. The drawer 5 is closed.",
+    "valid": true
+   },
+   {
+    "step": 12,
+    "action": "open drawer 5",
+    "observation": "You open the drawer 5. The drawer 5 is open. In it, you see a book 1.",
+    "valid": true
+   },
+   {
+    "step": 13,
+    "action": "go to desk 1",
+    "observation": "You arrive at desk 1. On the desk 1, you see a cd 1, a creditcard 3, a desklamp 1, a keychain 3, a mug 2, and a mug 1.",
+    "valid": true
+   },
+   {
+    "step": 14,
+    "action": "take creditcard 3 from desk 1",
+    "observation": "You arrive at desk 1. On the desk 1, you see a cd 1, a creditcard 3, a desklamp 1, a keychain 3, a mug 2, and a mug 1.",
+    "valid": false
+   },
+   {
+    "step": 15,
+    "action": "go to safe 1",
+    "observation": "You arrive at safe 1. The safe 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 16,
+    "action": "open safe 1",
+    "observation": "You open the safe 1. The safe 1 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 17,
+    "action": "move creditcard 2 to safe 1",
+    "observation": "You move the creditcard 2 to the safe 1.",
+    "valid": true
+   },
+   {
+    "step": 18,
+    "action": "go to desk 1",
+    "observation": "You arrive at desk 1. On the desk 1, you see a cd 1, a creditcard 3, a desklamp 1, a keychain 3, a mug 2, and a mug 1.",
+    "valid": true
+   },
+   {
+    "step": 19,
+    "action": "The current subgoal is to take creditcard 1 from desk 1. However, the observation shows creditcard 3 on the desk, not creditcard 1. Since creditcard 1 is not visible on the desk, I should search other locations like drawers or other surfaces to find it. But",
+    "observation": "You arrive at desk 1. On the desk 1, you see a cd 1, a creditcard 3, a desklamp 1, a keychain 3, a mug 2, and a mug 1.",
+    "valid": false
+   },
+   {
+    "step": 20,
+    "action": "go to drawer 1",
+    "observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see a pencil 1.",
+    "valid": true
+   },
+   {
+    "step": 21,
+    "action": "go to drawer 2",
+    "observation": "You arrive at drawer 2. The drawer 2 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 22,
+    "action": "go to drawer 3",
+    "observation": "You arrive at drawer 3. The drawer 3 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 23,
+    "action": "go to desk 1",
+    "observation": "You arrive at desk 1. On the desk 1, you see a cd 1, a creditcard 3, a desklamp 1, a keychain 3, a mug 2, and a mug 1.",
+    "valid": true
+   },
+   {
+    "step": 24,
+    "action": "go to drawer 4",
+    "observation": "You arrive at drawer 4. The drawer 4 is open. In it, you see a keychain 2.",
+    "valid": true
+   },
+   {
+    "step": 25,
+    "action": "go to desk 1",
+    "observation": "You arrive at desk 1. On the desk 1, you see a cd 1, a creditcard 3, a desklamp 1, a keychain 3, a mug 2, and a mug 1.",
+    "valid": true
+   },
+   {
+    "step": 26,
+    "action": "go to drawer 5",
+    "observation": "You arrive at drawer 5. The drawer 5 is open. In it, you see a book 1.",
+    "valid": true
+   },
+   {
+    "step": 27,
+    "action": "go to desk 1",
+    "observation": "You arrive at desk 1. On the desk 1, you see a cd 1, a creditcard 3, a desklamp 1, a keychain 3, a mug 2, and a mug 1.",
+    "valid": true
+   },
+   {
+    "step": 28,
+    "action": "go to drawer 6",
+    "observation": "You arrive at drawer 6. The drawer 6 is closed.",
+    "valid": true
+   },
+   {
+    "step": 29,
+    "action": "open drawer 6",
+    "observation": "You open the drawer 6. The drawer 6 is open. In it, you see a cd 2.",
+    "valid": true
+   },
+   {
+    "step": 30,
+    "action": "close drawer 6",
+    "observation": "You close the drawer 6.",
+    "valid": true
+   }
+  ]
+ }
+}

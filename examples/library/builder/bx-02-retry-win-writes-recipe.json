@@ -1,0 +1,303 @@
+{
+ "id": "bx-02-retry-win-writes-recipe",
+ "title": "ExpeL retry: loss -> reflection -> retry win -> recipe",
+ "source": {
+  "run": "practice-b",
+  "stream": "practice-E-0",
+  "position": 1
+ },
+ "shows": "First attempt on \"put a cloth in drawer\" lost (30 steps). The agent reflects (\"I never found the cloth...\"), replays the same game with that reflection and wins in 10 steps. The Builder contrasts both attempts and writes a Success Process.",
+ "why_interesting": "The complete retry sequence in one example. Note the cost: the retry used 12 model calls and 23k tokens, charged to the condition's compute.",
+ "notes": [],
+ "practice_game": {
+  "goal": "put a cloth in drawer.",
+  "task_type": "pick_and_place_simple",
+  "task_kind": "pick and place",
+  "game_id": "train/pick_and_place_simple-Cloth-None-Drawer-409/trial_T20190912_061626_184198",
+  "success": false,
+  "steps": 30,
+  "invalid_actions": 1,
+  "model_calls": 54
+ },
+ "rules_shown_in_first_attempt": [],
+ "first_attempt_trace": [
+  {
+   "step": 1,
+   "action": "inventory",
+   "observation": "You are not carrying anything.",
+   "valid": true
+  },
+  {
+   "step": 2,
+   "action": "look",
+   "observation": "You are in the middle of a room. Looking quickly around you, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 3,
+   "action": "look",
+   "observation": "You are in the middle of a room. Looking quickly around you, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 4,
+   "action": "inventory",
+   "observation": "You are not carrying anything.",
+   "valid": true
+  },
+  {
+   "step": 5,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+   "valid": true
+  },
+  {
+   "step": 6,
+   "action": "look",
+   "observation": "You are facing the countertop 1. Next to it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 7,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 8,
+   "action": "inventory",
+   "observation": "You are not carrying anything.",
+   "valid": true
+  },
+  {
+   "step": 9,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+   "valid": true
+  },
+  {
+   "step": 10,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 11,
+   "action": "open drawer 1",
+   "observation": "You open the drawer 1. The drawer 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 12,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+   "valid": true
+  },
+  {
+   "step": 13,
+   "action": "examine countertop 1",
+   "observation": "On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+   "valid": true
+  },
+  {
+   "step": 14,
+   "action": "inventory",
+   "observation": "You are not carrying anything.",
+   "valid": true
+  },
+  {
+   "step": 15,
+   "action": "go to sinkbasin 1",
+   "observation": "You arrive at sinkbasin 1. On the sinkbasin 1, you see a sink 1, and a soapbar 2.",
+   "valid": true
+  },
+  {
+   "step": 16,
+   "action": "go to drawer 3",
+   "observation": "You arrive at drawer 3. The drawer 3 is closed.",
+   "valid": true
+  },
+  {
+   "step": 17,
+   "action": "inventory",
+   "observation": "You are not carrying anything.",
+   "valid": true
+  },
+  {
+   "step": 18,
+   "action": "inventory",
+   "observation": "You are not carrying anything.",
+   "valid": true
+  },
+  {
+   "step": 19,
+   "action": "examine drawer 3",
+   "observation": "The drawer 3 is closed.",
+   "valid": true
+  },
+  {
+   "step": 20,
+   "action": "open drawer 3",
+   "observation": "You open the drawer 3. The drawer 3 is open. In it, you see a soapbar 1.",
+   "valid": true
+  },
+  {
+   "step": 21,
+   "action": "inventory",
+   "observation": "You are not carrying anything.",
+   "valid": true
+  },
+  {
+   "step": 22,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+   "valid": true
+  },
+  {
+   "step": 23,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 24,
+   "action": "go to drawer 2",
+   "observation": "You arrive at drawer 2. The drawer 2 is closed.",
+   "valid": true
+  },
+  {
+   "step": 25,
+   "action": "open drawer 2",
+   "observation": "You open the drawer 2. The drawer 2 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 26,
+   "action": "go to drawer 4",
+   "observation": "You arrive at drawer 4. The drawer 4 is closed.",
+   "valid": true
+  },
+  {
+   "step": 27,
+   "action": "open drawer 4",
+   "observation": "You open the drawer 4. The drawer 4 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 28,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+   "valid": true
+  },
+  {
+   "step": 29,
+   "action": "examine countertop 1",
+   "observation": "On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+   "valid": true
+  },
+  {
+   "step": 30,
+   "action": "<action> go to sinkbas",
+   "observation": "On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+   "valid": false
+  }
+ ],
+ "retries": [
+  {
+   "attempt": 1,
+   "reflection": "I failed because I never found the cloth to put in the drawer; I only examined countertops and drawers without searching for the cloth object. Instead, I should have systematically searched all visible areas like countertops and drawers for the cloth before attempting to place it. I need to look more carefully at each location to find the cloth item.",
+   "won": true,
+   "steps": 10,
+   "actions": [
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to garbagecan 1",
+     "valid": true
+    },
+    {
+     "action": "go to sinkbasin 1",
+     "valid": true
+    },
+    {
+     "action": "go to toilet 1",
+     "valid": true
+    },
+    {
+     "action": "take cloth 1 from toilet 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "open drawer 1",
+     "valid": true
+    },
+    {
+     "action": "move cloth 1 to drawer 1",
+     "valid": true
+    }
+   ]
+  }
+ ],
+ "builder_report": {
+  "case": "corrected failure",
+  "diagnosis": "imperfect rules",
+  "operations": [
+   {
+    "example": "search toilet 1, sinkbasin 1, countertop 1, garbagecan 1, drawers; take cloth 1 from toilet 1; open drawer 1; move cloth 1 to drawer 1.",
+    "op": "write_rule",
+    "rule": "When an object must be picked up and placed: search all visible areas first, take the object from its location, open the target container if closed, move the object there.",
+    "sources": [
+     {
+      "task": "put a cloth in drawer.",
+      "task_type": "pick_and_place_simple"
+     }
+    ],
+    "task_type": "pick_and_place_simple",
+    "type": "Success Process",
+    "verified": true
+   }
+  ],
+  "bookkeeping_operations": [
+   "outcome",
+   "pool_won"
+  ],
+  "log_lines": []
+ },
+ "rules_changed": [
+  {
+   "id": "rule_3",
+   "before": null,
+   "after": {
+    "id": "rule_3",
+    "type": "Success Process",
+    "task_type": "pick_and_place_simple",
+    "alpha": 1,
+    "beta": 1,
+    "mean": 0.5,
+    "visible_to_agent": true,
+    "rule": "When an object must be picked up and placed: search all visible areas first, take the object from its location, open the target container if closed, move the object there.",
+    "example": "search toilet 1, sinkbasin 1, countertop 1, garbagecan 1, drawers; take cloth 1 from toilet 1; open drawer 1; move cloth 1 to drawer 1.",
+    "rendered_for_agent": "[Success Process] When an object must be picked up and placed: search all visible areas first, take the object from its location, open the target container if closed, move the object there. Example: search toilet 1, sinkbasin 1, countertop 1, garbagecan 1, drawers; take cloth 1 from toilet 1; open drawer 1; move cloth 1 to drawer 1.",
+    "evidence": {
+     "won": 0,
+     "lost": 0
+    }
+   },
+   "change": "NEW"
+  }
+ ]
+}

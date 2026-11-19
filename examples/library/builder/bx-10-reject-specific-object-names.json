@@ -1,0 +1,604 @@
+{
+ "id": "bx-10-reject-specific-object-names",
+ "title": "Rejected: rule names specific objects after one rewrite attempt",
+ "source": {
+  "run": "practice-e",
+  "stream": "practice-E-0",
+  "position": 4
+ },
+ "shows": "A heat task: the Unresolved Error text names \"kettle\". The check \"names specific objects or rooms\" gives the Builder ONE rewrite (\"use the object / the target\"); the rewrite was still specific and the rule was rejected: `rejected Unresolved Error text, names specific objects or rooms (kettle)`.",
+ "why_interesting": "The specificity check from DECISIONS 2026-11-18: rules like \"When searching for a tomato to cool...\" do not transfer, so they are rewritten or rejected.",
+ "notes": [],
+ "practice_game": {
+  "goal": "put a hot mug in coffeemachine.",
+  "task_type": "pick_heat_then_place_in_recep",
+  "task_kind": "heat then place",
+  "game_id": "train/pick_heat_then_place_in_recep-Mug-None-CoffeeMachine-30/trial_T20190907_220045_510017",
+  "success": false,
+  "steps": 30,
+  "invalid_actions": 6,
+  "model_calls": 144
+ },
+ "rules_shown_in_first_attempt": [],
+ "first_attempt_trace": [
+  {
+   "step": 1,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 2,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a butterknife 1, a houseplant 1, a ladle 1, and a mug 1.",
+   "valid": true
+  },
+  {
+   "step": 3,
+   "action": "go to stoveburner 1",
+   "observation": "You arrive at stoveburner 1. On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 4,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a butterknife 1, a houseplant 1, a ladle 1, and a mug 1.",
+   "valid": true
+  },
+  {
+   "step": 5,
+   "action": "take mug 1 from countertop 1",
+   "observation": "You pick up the mug 1 from the countertop 1.",
+   "valid": true
+  },
+  {
+   "step": 6,
+   "action": "go to stoveburner 1",
+   "observation": "You arrive at stoveburner 1. On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 7,
+   "action": "place mug 1 on stoveburner 1",
+   "observation": "You arrive at stoveburner 1. On the stoveburner 1, you see a kettle 1.",
+   "valid": false
+  },
+  {
+   "step": 8,
+   "action": "examine stoveburner 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 9,
+   "action": "examine stoveburner 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 10,
+   "action": "go to stoveburner 2",
+   "observation": "You arrive at stoveburner 2. On the stoveburner 2, you see a kettle 2.",
+   "valid": true
+  },
+  {
+   "step": 11,
+   "action": "go to stoveburner 1",
+   "observation": "You arrive at stoveburner 1. On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 12,
+   "action": "examine stoveburner 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 13,
+   "action": "examine stoveburner 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 14,
+   "action": "examine stoveburner 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 15,
+   "action": "examine mug 1",
+   "observation": "This is a normal mug 1. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 16,
+   "action": "go to stoveburner 1",
+   "observation": "This is a normal mug 1. In it, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 17,
+   "action": "examine stoveburner 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 18,
+   "action": "go to stoveburner 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": false
+  },
+  {
+   "step": 19,
+   "action": "examine mug 1",
+   "observation": "This is a normal mug 1. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 20,
+   "action": "go to sinkbasin 1",
+   "observation": "You arrive at sinkbasin 1. On the sinkbasin 1, you see a dishsponge 1, a potato 1, and a spatula 1.",
+   "valid": true
+  },
+  {
+   "step": 21,
+   "action": "clean mug 1 with sinkbasin 1",
+   "observation": "You clean the mug 1 using the sinkbasin 1.",
+   "valid": true
+  },
+  {
+   "step": 22,
+   "action": "go to stoveburner 1",
+   "observation": "You arrive at stoveburner 1. On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 23,
+   "action": "examine stoveburner 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 24,
+   "action": "heat mug 1 with stoveburner 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": false
+  },
+  {
+   "step": 25,
+   "action": "heat mug 1 with stoveburner 2",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": false
+  },
+  {
+   "step": 26,
+   "action": "examine mug 1",
+   "observation": "This is a normal mug 1. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 27,
+   "action": "examine mug 1",
+   "observation": "This is a normal mug 1. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 28,
+   "action": "go to stoveburner 3",
+   "observation": "This is a normal mug 1. In it, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 29,
+   "action": "examine stoveburner 3",
+   "observation": "On the stoveburner 3, you see a kettle 3.",
+   "valid": true
+  },
+  {
+   "step": 30,
+   "action": "go to microwave 1",
+   "observation": "You arrive at microwave 1. The microwave 1 is closed.",
+   "valid": true
+  }
+ ],
+ "retries": [
+  {
+   "attempt": 1,
+   "reflection": "I failed because I tried to place the mug directly on the stoveburner without heating the kettle first, and later attempted to heat the mug directly on the stoveburner which was invalid. Instead, I should have heated the kettle on the stoveburner to get hot water, then poured it into the mug to make it hot, and finally placed the hot mug in the coffeemachine.",
+   "won": false,
+   "steps": 30,
+   "actions": [
+    {
+     "action": "look",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "take kettle 1 from stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "move kettle 1 to stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "examine stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "examine stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "turn on stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "examine stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "examine stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "examine stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "examine stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "take kettle 1 from stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "move kettle 1 to stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "take kettle 1 from stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "move kettle 1 to stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "turn on stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "move kettle 1 to stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "move kettle 1 to stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "move kettle 1 to stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "place kettle 1 on stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "examine stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "turn on stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "place kettle 1 on stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "place kettle 1 on stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "place kettle 1 on stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "turn on stoveburner 1",
+     "valid": false
+    }
+   ]
+  },
+  {
+   "attempt": 2,
+   "reflection": "I failed because I repeatedly attempted to turn on the stoveburner and move the kettle without success, likely due to incorrect action sequences or missing prerequisites like opening the fridge first. Instead, I should have first opened the fridge 1 to retrieve the mug 1, then successfully heated the kettle 1 on the stoveburner 1, poured hot water into the mug 1, and finally placed the hot mug 1 i",
+   "won": false,
+   "steps": 30,
+   "actions": [
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "open fridge 1",
+     "valid": true
+    },
+    {
+     "action": "close fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": false
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": false
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": false
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": false
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": false
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": false
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": false
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": false
+    },
+    {
+     "action": "open fridge 1",
+     "valid": true
+    },
+    {
+     "action": "inventory",
+     "valid": true
+    },
+    {
+     "action": "take cup 2 from fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "open microwave 1",
+     "valid": true
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "open cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": false
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": false
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": false
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "move cup 2 to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "take mug 1 from fridge 1",
+     "valid": false
+    },
+    {
+     "action": "take mug 1 from fridge 1",
+     "valid": false
+    },
+    {
+     "action": "take mug 1 from fridge 1",
+     "valid": false
+    },
+    {
+     "action": "close fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "take kettle 1 from stoveburner 1",
+     "valid": true
+    }
+   ]
+  },
+  {
+   "attempt": 3,
+   "reflection": "I failed because I repeatedly attempted invalid actions like moving the cup to the fridge and trying to take the mug from the fridge without first locating it, and I never successfully heated the kettle to make the mug hot. Instead, I should have first opened the fridge 1 to retrieve the mug 1, then opened the stoveburner 1 and heated the kettle 1, poured hot water into the mug 1, and finally plac",
+   "won": false,
+   "steps": 30,
+   "actions": [
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "open fridge 1",
+     "valid": true
+    },
+    {
+     "action": "close fridge 1",
+     "valid": true
+    },
+    {
+     "action": "open fridge 1",
+     "valid": true
+    },
+    {
+     "action": "close fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "open fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "take mug 1 from countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "examine stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "examine stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "turn on stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "examine stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "turn on stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "place kettle 1 on stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "turn on stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "place kettle 1 on stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "inventory",
+     "valid": true
+    },
+    {
+     "action": "place kettle 1 on stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "place kettle 1 on stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "place kettle 1 on stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "examine stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "examine stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "turn on stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "turn on stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "examine stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "wait",
+     "valid": false
+    },
+    {
+     "action": "wait",
+     "valid": false
+    }
+   ]
+  }
+ ],
+ "builder_report": {
+  "case": "failure",
+  "diagnosis": "imperfect rules",
+  "operations": [],
+  "bookkeeping_operations": [
+   "outcome",
+   "pool_game"
+  ],
+  "log_lines": [
+   "rejected Unresolved Error text, names specific objects or rooms (kettle): When heating a container to make it hot, never place the target directly on the "
+  ]
+ },
+ "rules_changed": []
+}

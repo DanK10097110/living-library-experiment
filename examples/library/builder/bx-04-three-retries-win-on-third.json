@@ -1,0 +1,714 @@
+{
+ "id": "bx-04-three-retries-win-on-third",
+ "title": "Three retries, win on the third: the reflection repeats itself",
+ "source": {
+  "run": "practice-b",
+  "stream": "practice-E-0",
+  "position": 20
+ },
+ "shows": "A hot-potato task fails the first attempt and retries 1 and 2, then wins on retry 3 (13 steps). The reflections for attempts 2 and 3 are nearly identical. The winning attempt finally uses `heat potato 1 with microwave 1`. The Builder writes a Corrected Error and a Success Process.",
+ "why_interesting": "Why the retry loop was kept as is: 4 of the 9 retry wins in the check came on attempts 2-3 even though the reflections repeat (the replay itself varies). Also shows the cost: 89 model calls and 270k tokens for this one game.",
+ "notes": [],
+ "practice_game": {
+  "goal": "put a hot potato in diningtable.",
+  "task_type": "pick_heat_then_place_in_recep",
+  "task_kind": "heat then place",
+  "game_id": "train/pick_heat_then_place_in_recep-Potato-None-DiningTable-16/trial_T20190908_015113_664393",
+  "success": false,
+  "steps": 30,
+  "invalid_actions": 6,
+  "model_calls": 127
+ },
+ "rules_shown_in_first_attempt": [
+  {
+   "id": "rule_7",
+   "type": "Corrected Error",
+   "task_type": "pick_heat_then_place_in_recep",
+   "alpha": 1,
+   "beta": 1,
+   "mean": 0.5,
+   "visible_to_agent": true,
+   "rule": "When a stoveburner already has a kettle on it, never place a mug on the stoveburner to heat it; use the microwave instead.",
+   "example": "The agent tried to place the mug on stoveburner 1 but failed because a kettle was already there. The agent then used the microwave to heat the mug successfully.",
+   "rendered_for_agent": "[Corrected Error] When a stoveburner already has a kettle on it, never place a mug on the stoveburner to heat it; use the microwave instead. Example: The agent tried to place the mug on stoveburner 1 but failed because a kettle was already there. The agent then used the microwave to heat the mug successfully.",
+   "evidence": {
+    "won": 0,
+    "lost": 0
+   }
+  },
+  {
+   "id": "rule_10",
+   "type": "Corrected Error",
+   "task_type": "all",
+   "alpha": 2,
+   "beta": 4,
+   "mean": 0.33,
+   "visible_to_agent": true,
+   "rule": "When the goal requires cooling an object, locate and take the object from a surface before attempting to open any cabinets.",
+   "example": "The agent failed by checking empty cabinets first; it should have scanned stoveburner 4 to find the pan before opening cabinets.",
+   "validation": "This game confirmed the rule: the agent failed because it never found or cooled a plate, instead spending all time opening cabinets and drawers without checking countertops.",
+   "rendered_for_agent": "[Corrected Error] When the goal requires cooling an object, locate and take the object from a surface before attempting to open any cabinets. Example: The agent failed by checking empty cabinets first; it should have scanned stoveburner 4 to find the pan before opening cabinets.",
+   "evidence": {
+    "won": 1,
+    "lost": 3
+   }
+  }
+ ],
+ "first_attempt_trace": [
+  {
+   "step": 1,
+   "action": "go to fridge 1",
+   "observation": "You arrive at fridge 1. The fridge 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 2,
+   "action": "open fridge 1",
+   "observation": "You open the fridge 1. The fridge 1 is open. In it, you see a egg 2, a tomato 2, and a tomato 1.",
+   "valid": true
+  },
+  {
+   "step": 3,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a bread 1, a butterknife 3, a egg 1, a fork 1, a houseplant 2, a houseplant 1, a pan 1, a plate 1, and a pot 2.",
+   "valid": true
+  },
+  {
+   "step": 4,
+   "action": "go to diningtable 1",
+   "observation": "You arrive at diningtable 1. On the diningtable 1, you see a apple 1, a bowl 1, a butterknife 2, a butterknife 1, a cup 2, a knife 1, a ladle 2, a ladle 1, a mug 2, a mug 1, a papertowelroll 1, a potato 2, a potato 1, a saltshaker 2, a saltshaker 1, a soapbottle 1, and a winebottle 1.",
+   "valid": true
+  },
+  {
+   "step": 5,
+   "action": "take potato 1 from diningtable 1",
+   "observation": "You pick up the potato 1 from the diningtable 1.",
+   "valid": true
+  },
+  {
+   "step": 6,
+   "action": "go to stoveburner 1",
+   "observation": "You arrive at stoveburner 1. On the stoveburner 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 7,
+   "action": "put potato 1 on stoveburner 1",
+   "observation": "You arrive at stoveburner 1. On the stoveburner 1, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 8,
+   "action": "examine stoveburner 1",
+   "observation": "On the stoveburner 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 9,
+   "action": "go to microwave 1",
+   "observation": "You arrive at microwave 1. The microwave 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 10,
+   "action": "open microwave 1",
+   "observation": "You open the microwave 1. The microwave 1 is open. In it, you see a apple 2.",
+   "valid": true
+  },
+  {
+   "step": 11,
+   "action": "move potato 1 to microwave 1",
+   "observation": "You move the potato 1 to the microwave 1.",
+   "valid": true
+  },
+  {
+   "step": 12,
+   "action": "close microwave 1",
+   "observation": "You close the microwave 1.",
+   "valid": true
+  },
+  {
+   "step": 13,
+   "action": "open microwave 1",
+   "observation": "You open the microwave 1. The microwave 1 is open. In it, you see a apple 2, and a potato 1.",
+   "valid": true
+  },
+  {
+   "step": 14,
+   "action": "close microwave 1",
+   "observation": "You close the microwave 1.",
+   "valid": true
+  },
+  {
+   "step": 15,
+   "action": "open microwave 1",
+   "observation": "You open the microwave 1. The microwave 1 is open. In it, you see a apple 2, and a potato 1.",
+   "valid": true
+  },
+  {
+   "step": 16,
+   "action": "take potato 1 from microwave 1",
+   "observation": "You pick up the potato 1 from the microwave 1.",
+   "valid": true
+  },
+  {
+   "step": 17,
+   "action": "move potato 1 to diningtable 1",
+   "observation": "You pick up the potato 1 from the microwave 1.",
+   "valid": false
+  },
+  {
+   "step": 18,
+   "action": "move potato 1 to microwave 1",
+   "observation": "You move the potato 1 to the microwave 1.",
+   "valid": true
+  },
+  {
+   "step": 19,
+   "action": "close microwave 1",
+   "observation": "You close the microwave 1.",
+   "valid": true
+  },
+  {
+   "step": 20,
+   "action": "go to stoveburner 1",
+   "observation": "You arrive at stoveburner 1. On the stoveburner 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 21,
+   "action": "move potato 1 to stoveburner 1",
+   "observation": "You arrive at stoveburner 1. On the stoveburner 1, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 22,
+   "action": "move potato 1 to diningtable 1",
+   "observation": "You arrive at stoveburner 1. On the stoveburner 1, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 23,
+   "action": "move potato 1 to diningtable 1",
+   "observation": "You arrive at stoveburner 1. On the stoveburner 1, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 24,
+   "action": "go to microwave 1",
+   "observation": "You arrive at microwave 1. The microwave 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 25,
+   "action": "move potato 1 to diningtable 1",
+   "observation": "You arrive at microwave 1. The microwave 1 is closed.",
+   "valid": false
+  },
+  {
+   "step": 26,
+   "action": "go to sinkbasin 1",
+   "observation": "You arrive at sinkbasin 1. On the sinkbasin 1, you see a dishsponge 2, a knife 3, and a spatula 3.",
+   "valid": true
+  },
+  {
+   "step": 27,
+   "action": "go to diningtable 1",
+   "observation": "You arrive at diningtable 1. On the diningtable 1, you see a apple 1, a bowl 1, a butterknife 2, a butterknife 1, a cup 2, a knife 1, a ladle 2, a ladle 1, a mug 2, a mug 1, a papertowelroll 1, a potato 2, a saltshaker 2, a saltshaker 1, a soapbottle 1, and a winebottle 1.",
+   "valid": true
+  },
+  {
+   "step": 28,
+   "action": "take potato 2 from diningtable 1",
+   "observation": "You pick up the potato 2 from the diningtable 1.",
+   "valid": true
+  },
+  {
+   "step": 29,
+   "action": "go to microwave 1",
+   "observation": "You arrive at microwave 1. The microwave 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 30,
+   "action": "open microwave 1",
+   "observation": "You open the microwave 1. The microwave 1 is open. In it, you see a apple 2, and a potato 1.",
+   "valid": true
+  }
+ ],
+ "retries": [
+  {
+   "attempt": 1,
+   "reflection": "I failed because I repeatedly moved the potato to the stoveburner and microwave instead of directly placing it on the diningtable, and I got stuck at the stoveburner trying to move the potato there when it was already in my inventory. I should have immediately moved the potato 1 to diningtable 1 after picking it up from the microwave, or taken potato 2 directly from the diningtable and placed it b",
+   "won": false,
+   "steps": 30,
+   "actions": [
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "take potato 1 from diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "open microwave 1",
+     "valid": true
+    },
+    {
+     "action": "move potato 1 to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "close microwave 1",
+     "valid": true
+    },
+    {
+     "action": "open microwave 1",
+     "valid": true
+    },
+    {
+     "action": "take potato 1 from microwave 1",
+     "valid": true
+    },
+    {
+     "action": "move potato 1 to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "close microwave 1",
+     "valid": true
+    },
+    {
+     "action": "open microwave 1",
+     "valid": true
+    },
+    {
+     "action": "move potato 1 to microwave 1",
+     "valid": false
+    },
+    {
+     "action": "move potato 1 to diningtable 1",
+     "valid": false
+    },
+    {
+     "action": "move potato 1 to diningtable 1",
+     "valid": false
+    },
+    {
+     "action": "The agent is stuck in a loop of moving the potato to the microwave and diningtable without successfully heating it. The potato is currently in the inventory (picked up in step 12), and the agent needs to place it inside the microwave to heat it. Since the last action 'move potato 1 to",
+     "valid": false
+    },
+    {
+     "action": "move potato 1 to microwave 1",
+     "valid": false
+    },
+    {
+     "action": "go to microwave 1",
+     "valid": false
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "take potato 1 from microwave 1",
+     "valid": true
+    },
+    {
+     "action": "move potato 1 to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "close microwave 1",
+     "valid": true
+    },
+    {
+     "action": "move potato 1 to microwave 1",
+     "valid": false
+    },
+    {
+     "action": "close microwave 1",
+     "valid": false
+    },
+    {
+     "action": "open microwave 1",
+     "valid": true
+    },
+    {
+     "action": "move potato 1 to diningtable 1",
+     "valid": false
+    }
+   ]
+  },
+  {
+   "attempt": 2,
+   "reflection": "I failed because I repeatedly moved the potato between the microwave and diningtable without successfully heating it, and I got stuck in a loop of invalid move attempts. I should have closed the microwave after placing the potato inside, waited for it to heat, then moved the potato directly to diningtable 1 without reopening the microwave unnecessarily. I need to ensure the potato is heated before",
+   "won": false,
+   "steps": 30,
+   "actions": [
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "take potato 1 from diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "open microwave 1",
+     "valid": true
+    },
+    {
+     "action": "move potato 1 to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "close microwave 1",
+     "valid": true
+    },
+    {
+     "action": "wait",
+     "valid": false
+    },
+    {
+     "action": "open microwave 1",
+     "valid": true
+    },
+    {
+     "action": "take potato 1 from microwave 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "move potato 1 to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "done",
+     "valid": false
+    },
+    {
+     "action": "examine diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "The potato is already on the diningtable and was just heated in the microwave, so the task of putting a hot potato on the diningtable should be complete. Since the previous attempts failed due to loops or incorrect placement, and the current state shows the potato is on the table, I should verify the task is",
+     "valid": false
+    },
+    {
+     "action": "examine diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "done",
+     "valid": false
+    },
+    {
+     "action": "done",
+     "valid": false
+    },
+    {
+     "action": "examine diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "done",
+     "valid": false
+    },
+    {
+     "action": "examine diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "take potato 1 from diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "move potato 1 to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "close microwave 1",
+     "valid": true
+    },
+    {
+     "action": "open microwave 1",
+     "valid": true
+    }
+   ]
+  },
+  {
+   "attempt": 3,
+   "reflection": "I failed because I repeatedly moved the potato between the microwave and diningtable without successfully heating it, and I got stuck in a loop of invalid move attempts. I should have closed the microwave after placing the potato inside, waited for it to heat, then moved the potato directly to diningtable 1 without reopening the microwave unnecessarily. I need to ensure the potato is heated before",
+   "won": true,
+   "steps": 13,
+   "actions": [
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "take potato 1 from diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "open microwave 1",
+     "valid": true
+    },
+    {
+     "action": "heat potato 1 with microwave 1",
+     "valid": true
+    },
+    {
+     "action": "close microwave 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "move potato 1 to diningtable 1",
+     "valid": true
+    }
+   ]
+  }
+ ],
+ "builder_report": {
+  "case": "corrected failure",
+  "diagnosis": "imperfect agent",
+  "operations": [
+   {
+    "example": "The agent failed by moving the potato to the microwave; it should have used heat potato 1 with microwave 1.",
+    "op": "write_rule",
+    "rule": "When heating an object in a microwave, use the heat command instead of move to place it inside.",
+    "sources": [
+     {
+      "task": "put a hot potato in diningtable.",
+      "task_type": "pick_heat_then_place_in_recep"
+     }
+    ],
+    "task_type": "pick_heat_then_place_in_recep",
+    "type": "Corrected Error",
+    "verified": true
+   },
+   {
+    "example": "The agent took potato 1 from diningtable 1, heated it with microwave 1, then moved it to diningtable 1.",
+    "op": "write_rule",
+    "rule": "When a hot potato must be placed in a diningtable: search diningtable first, take the potato, go to microwave, heat potato with microwave, close microwave, go to diningtable, move potato to diningtable.",
+    "sources": [
+     {
+      "task": "put a hot potato in diningtable.",
+      "task_type": "pick_heat_then_place_in_recep"
+     }
+    ],
+    "task_type": "pick_heat_then_place_in_recep",
+    "type": "Success Process",
+    "verified": true
+   }
+  ],
+  "bookkeeping_operations": [
+   "outcome",
+   "pool_won"
+  ],
+  "log_lines": []
+ },
+ "rules_changed": [
+  {
+   "id": "rule_7",
+   "before": {
+    "id": "rule_7",
+    "type": "Corrected Error",
+    "task_type": "pick_heat_then_place_in_recep",
+    "alpha": 1,
+    "beta": 1,
+    "mean": 0.5,
+    "visible_to_agent": true,
+    "rule": "When a stoveburner already has a kettle on it, never place a mug on the stoveburner to heat it; use the microwave instead.",
+    "example": "The agent tried to place the mug on stoveburner 1 but failed because a kettle was already there. The agent then used the microwave to heat the mug successfully.",
+    "rendered_for_agent": "[Corrected Error] When a stoveburner already has a kettle on it, never place a mug on the stoveburner to heat it; use the microwave instead. Example: The agent tried to place the mug on stoveburner 1 but failed because a kettle was already there. The agent then used the microwave to heat the mug successfully.",
+    "evidence": {
+     "won": 0,
+     "lost": 0
+    }
+   },
+   "after": {
+    "id": "rule_7",
+    "type": "Corrected Error",
+    "task_type": "pick_heat_then_place_in_recep",
+    "alpha": 1,
+    "beta": 2,
+    "mean": 0.33,
+    "visible_to_agent": true,
+    "rule": "When a stoveburner already has a kettle on it, never place a mug on the stoveburner to heat it; use the microwave instead.",
+    "example": "The agent tried to place the mug on stoveburner 1 but failed because a kettle was already there. The agent then used the microwave to heat the mug successfully.",
+    "rendered_for_agent": "[Corrected Error] When a stoveburner already has a kettle on it, never place a mug on the stoveburner to heat it; use the microwave instead. Example: The agent tried to place the mug on stoveburner 1 but failed because a kettle was already there. The agent then used the microwave to heat the mug successfully.",
+    "evidence": {
+     "won": 0,
+     "lost": 1
+    }
+   },
+   "change": "beta"
+  },
+  {
+   "id": "rule_10",
+   "before": {
+    "id": "rule_10",
+    "type": "Corrected Error",
+    "task_type": "all",
+    "alpha": 2,
+    "beta": 4,
+    "mean": 0.33,
+    "visible_to_agent": true,
+    "rule": "When the goal requires cooling an object, locate and take the object from a surface before attempting to open any cabinets.",
+    "example": "The agent failed by checking empty cabinets first; it should have scanned stoveburner 4 to find the pan before opening cabinets.",
+    "validation": "This game confirmed the rule: the agent failed because it never found or cooled a plate, instead spending all time opening cabinets and drawers without checking countertops.",
+    "rendered_for_agent": "[Corrected Error] When the goal requires cooling an object, locate and take the object from a surface before attempting to open any cabinets. Example: The agent failed by checking empty cabinets first; it should have scanned stoveburner 4 to find the pan before opening cabinets.",
+    "evidence": {
+     "won": 1,
+     "lost": 3
+    }
+   },
+   "after": {
+    "id": "rule_10",
+    "type": "Corrected Error",
+    "task_type": "all",
+    "alpha": 2,
+    "beta": 5,
+    "mean": 0.29,
+    "visible_to_agent": true,
+    "rule": "When the goal requires cooling an object, locate and take the object from a surface before attempting to open any cabinets.",
+    "example": "The agent failed by checking empty cabinets first; it should have scanned stoveburner 4 to find the pan before opening cabinets.",
+    "validation": "This game confirmed the rule: the agent failed because it never found or cooled a plate, instead spending all time opening cabinets and drawers without checking countertops.",
+    "rendered_for_agent": "[Corrected Error] When the goal requires cooling an object, locate and take the object from a surface before attempting to open any cabinets. Example: The agent failed by checking empty cabinets first; it should have scanned stoveburner 4 to find the pan before opening cabinets.",
+    "evidence": {
+     "won": 1,
+     "lost": 4
+    }
+   },
+   "change": "beta"
+  },
+  {
+   "id": "rule_15",
+   "before": null,
+   "after": {
+    "id": "rule_15",
+    "type": "Corrected Error",
+    "task_type": "pick_heat_then_place_in_recep",
+    "alpha": 1,
+    "beta": 1,
+    "mean": 0.5,
+    "visible_to_agent": true,
+    "rule": "When heating an object in a microwave, use the heat command instead of move to place it inside.",
+    "example": "The agent failed by moving the potato to the microwave; it should have used heat potato 1 with microwave 1.",
+    "rendered_for_agent": "[Corrected Error] When heating an object in a microwave, use the heat command instead of move to place it inside. Example: The agent failed by moving the potato to the microwave; it should have used heat potato 1 with microwave 1.",
+    "evidence": {
+     "won": 0,
+     "lost": 0
+    }
+   },
+   "change": "NEW"
+  },
+  {
+   "id": "rule_16",
+   "before": null,
+   "after": {
+    "id": "rule_16",
+    "type": "Success Process",
+    "task_type": "pick_heat_then_place_in_recep",
+    "alpha": 1,
+    "beta": 1,
+    "mean": 0.5,
+    "visible_to_agent": true,
+    "rule": "When a hot potato must be placed in a diningtable: search diningtable first, take the potato, go to microwave, heat potato with microwave, close microwave, go to diningtable, move potato to diningtable.",
+    "example": "The agent took potato 1 from diningtable 1, heated it with microwave 1, then moved it to diningtable 1.",
+    "rendered_for_agent": "[Success Process] When a hot potato must be placed in a diningtable: search diningtable first, take the potato, go to microwave, heat potato with microwave, close microwave, go to diningtable, move potato to diningtable. Example: The agent took potato 1 from diningtable 1, heated it with microwave 1, then moved it to diningtable 1.",
+    "evidence": {
+     "won": 0,
+     "lost": 0
+    }
+   },
+   "change": "NEW"
+  }
+ ]
+}

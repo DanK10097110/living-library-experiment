@@ -1,0 +1,951 @@
+{
+ "real_rules": [
+  {
+   "run": "study",
+   "id": "rule_1",
+   "type": "Success Process",
+   "won": 4,
+   "lost": 1,
+   "base": [
+    5,
+    7
+   ],
+   "retirable_now": false,
+   "rule": "When an object must be cleaned and placed: search the target location first, take the object, go to the sink, clean it with the sink, go to the target location, move it there."
+  },
+  {
+   "run": "study",
+   "id": "rule_3",
+   "type": "Special Phenomenon",
+   "won": 3,
+   "lost": 2,
+   "base": [
+    8,
+    11
+   ],
+   "retirable_now": false,
+   "rule": "When placing an object on a surface, no need to open the surface; when placing in a container, ensure the container is open before attempting to place."
+  },
+  {
+   "run": "study",
+   "id": "rule_7",
+   "type": "Success Process",
+   "won": 6,
+   "lost": 3,
+   "base": [
+    7,
+    10
+   ],
+   "retirable_now": false,
+   "rule": "When an object must be picked up and placed: search drawers and containers first, take the object, go to the target, move the object there if the target is open or a surface."
+  },
+  {
+   "run": "study",
+   "id": "rule_9",
+   "type": "Corrected Error",
+   "won": 4,
+   "lost": 1,
+   "base": [
+    4,
+    5
+   ],
+   "retirable_now": false,
+   "rule": "When opening a container, do not attempt to open a different container first; open the one you are currently at."
+  },
+  {
+   "run": "study",
+   "id": "rule_10",
+   "type": "Success Process",
+   "won": 1,
+   "lost": 2,
+   "base": [
+    1,
+    4
+   ],
+   "retirable_now": false,
+   "rule": "When placing two objects in a bed: search furniture surfaces first, take each object, move to bed, if move fails go to bed then move again."
+  },
+  {
+   "run": "study",
+   "id": "rule_11",
+   "type": "Corrected Error",
+   "won": 1,
+   "lost": 2,
+   "base": [
+    1,
+    4
+   ],
+   "retirable_now": false,
+   "rule": "When move command fails, go to target container first before retrying move."
+  },
+  {
+   "run": "study",
+   "id": "rule_12",
+   "type": "Corrected Error",
+   "won": 3,
+   "lost": 3,
+   "base": [
+    3,
+    6
+   ],
+   "retirable_now": false,
+   "rule": "When an object must be cooled and placed, search countertops and cabinets first, then cool with the fridge, open the target if closed, and put it there."
+  },
+  {
+   "run": "study",
+   "id": "rule_13",
+   "type": "Success Process",
+   "won": 3,
+   "lost": 3,
+   "base": [
+    3,
+    6
+   ],
+   "retirable_now": false,
+   "rule": "When an object must be cooled and placed in the target: search cabinets and countertops first, take the object, cool it with the fridge, open the target if closed, move the object there."
+  },
+  {
+   "run": "practice-b",
+   "id": "rule_1",
+   "type": "Success Process",
+   "won": 7,
+   "lost": 0,
+   "base": [
+    8,
+    9
+   ],
+   "retirable_now": false,
+   "rule": "When an object must be cleaned and placed: search cabinets first, take the object, go to the sink, clean it with the sink, go to the target, move it there."
+  },
+  {
+   "run": "practice-b",
+   "id": "rule_3",
+   "type": "Success Process",
+   "won": 9,
+   "lost": 1,
+   "base": [
+    11,
+    12
+   ],
+   "retirable_now": false,
+   "rule": "When an object must be picked up and placed: search all visible areas first, take the object from its location, open the target container if closed, go to the target location, then move the object to the target location."
+  },
+  {
+   "run": "practice-b",
+   "id": "rule_5",
+   "type": "Corrected Error",
+   "won": 3,
+   "lost": 3,
+   "base": [
+    3,
+    8
+   ],
+   "retirable_now": false,
+   "rule": "When two objects must be retrieved and placed, search visible surfaces first before opening closed containers."
+  },
+  {
+   "run": "practice-b",
+   "id": "rule_7",
+   "type": "Corrected Error",
+   "won": 3,
+   "lost": 1,
+   "base": [
+    3,
+    4
+   ],
+   "retirable_now": false,
+   "rule": "When a stoveburner already has a kettle on it, never place a mug on the stoveburner to heat it; use the microwave instead."
+  },
+  {
+   "run": "practice-b",
+   "id": "rule_9",
+   "type": "Special Phenomenon",
+   "won": 7,
+   "lost": 0,
+   "base": [
+    7,
+    7
+   ],
+   "retirable_now": false,
+   "rule": "When a container is closed, open it before searching inside."
+  },
+  {
+   "run": "practice-b",
+   "id": "rule_10",
+   "type": "Corrected Error",
+   "won": 23,
+   "lost": 9,
+   "base": [
+    25,
+    35
+   ],
+   "retirable_now": false,
+   "rule": "When an object must be cooled and placed, search kitchen areas first, cool with fridge if closed, then move to target."
+  },
+  {
+   "run": "practice-b",
+   "id": "rule_12",
+   "type": "Special Phenomenon",
+   "won": 6,
+   "lost": 0,
+   "base": [
+    6,
+    6
+   ],
+   "retirable_now": false,
+   "rule": "When the target is a countertop, search cabinets first to find the object if not visible there."
+  },
+  {
+   "run": "practice-b",
+   "id": "rule_13",
+   "type": "Success Process",
+   "won": 2,
+   "lost": 2,
+   "base": [
+    4,
+    7
+   ],
+   "retirable_now": false,
+   "rule": "When an object must be cooled and placed: search stoveburners first, take the object, go to fridge, open it if closed, cool object with fridge, close fridge, go to target, move object to target."
+  },
+  {
+   "run": "practice-b",
+   "id": "rule_15",
+   "type": "Corrected Error",
+   "won": 3,
+   "lost": 0,
+   "base": [
+    3,
+    3
+   ],
+   "retirable_now": false,
+   "rule": "When heating an object in a microwave, use the heat command instead of move to place it inside."
+  },
+  {
+   "run": "practice-b",
+   "id": "rule_16",
+   "type": "Success Process",
+   "won": 3,
+   "lost": 0,
+   "base": [
+    3,
+    3
+   ],
+   "retirable_now": false,
+   "rule": "When a hot cup must be placed on a countertop: search fridge first, take the cup, go to microwave, heat cup with microwave, go to countertop, move cup to countertop."
+  },
+  {
+   "run": "practice-b",
+   "id": "rule_17",
+   "type": "Success Process",
+   "won": 2,
+   "lost": 1,
+   "base": [
+    3,
+    5
+   ],
+   "retirable_now": false,
+   "rule": "When two objects must be placed in a target location: search visible surfaces first, take each object, then move both to the target."
+  },
+  {
+   "run": "practice-d",
+   "id": "rule_1",
+   "type": "Success Process",
+   "won": 4,
+   "lost": 3,
+   "base": [
+    5,
+    9
+   ],
+   "retirable_now": false,
+   "rule": "When an object must be cleaned and placed: search the object's current location first, take it, clean it with the sinkbasin, then move it to the target location."
+  },
+  {
+   "run": "practice-d",
+   "id": "rule_2",
+   "type": "Special Phenomenon",
+   "won": 4,
+   "lost": 3,
+   "base": [
+    5,
+    9
+   ],
+   "retirable_now": false,
+   "rule": "When placing an object in a location, use the move command with the target location name."
+  },
+  {
+   "run": "practice-d",
+   "id": "rule_10",
+   "type": "Success Process",
+   "won": 8,
+   "lost": 2,
+   "base": [
+    8,
+    10
+   ],
+   "retirable_now": false,
+   "rule": "When an object must be picked up and placed: search surfaces first, then containers, take the object, go to the target, open the target if closed, move the object to the target."
+  },
+  {
+   "run": "practice-d",
+   "id": "rule_11",
+   "type": "Special Phenomenon",
+   "won": 4,
+   "lost": 3,
+   "base": [
+    4,
+    7
+   ],
+   "retirable_now": false,
+   "rule": "When a container is closed, open it before taking objects from it."
+  },
+  {
+   "run": "practice-d",
+   "id": "rule_12",
+   "type": "Corrected Error",
+   "won": 4,
+   "lost": 2,
+   "base": [
+    7,
+    9
+   ],
+   "retirable_now": false,
+   "rule": "When placing an object into a container, open the container if closed before attempting the move."
+  },
+  {
+   "run": "practice-d",
+   "id": "rule_14",
+   "type": "Success Process",
+   "won": 1,
+   "lost": 3,
+   "base": [
+    2,
+    7
+   ],
+   "retirable_now": false,
+   "rule": "When an object must be cooled and placed: search stoveburners first, take the object, go to fridge, open if closed, cool the object with fridge, go to target, open if closed, move the object to target."
+  },
+  {
+   "run": "practice-d",
+   "id": "rule_15",
+   "type": "Corrected Error",
+   "won": 1,
+   "lost": 3,
+   "base": [
+    2,
+    7
+   ],
+   "retirable_now": false,
+   "rule": "When the object is already at the target, stop immediately instead of picking it up and moving it again."
+  },
+  {
+   "run": "practice-d",
+   "id": "rule_18",
+   "type": "Corrected Error",
+   "won": 3,
+   "lost": 0,
+   "base": [
+    3,
+    3
+   ],
+   "retirable_now": false,
+   "rule": "When the object must be heated, use the microwave instead of the stoveburner."
+  },
+  {
+   "run": "practice-d",
+   "id": "rule_20",
+   "type": "Corrected Error",
+   "won": 1,
+   "lost": 3,
+   "base": [
+    1,
+    4
+   ],
+   "retirable_now": false,
+   "rule": "When cooling an object, use the fridge instead of the sinkbasin."
+  },
+  {
+   "run": "practice-d",
+   "id": "rule_21",
+   "type": "Success Process",
+   "won": 1,
+   "lost": 2,
+   "base": [
+    2,
+    5
+   ],
+   "retirable_now": false,
+   "rule": "When an object must be placed on a surface: search all surfaces first, open the target if closed, go to the target location, take the object from its source, go to the target location, move the object to the target."
+  },
+  {
+   "run": "practice-d",
+   "id": "rule_22",
+   "type": "Corrected Error",
+   "won": 7,
+   "lost": 9,
+   "base": [
+    7,
+    16
+   ],
+   "retirable_now": false,
+   "rule": "When placing an object on a target, use 'move <object> to <target>' after taking it, not 'go to <target>' then 'take' again."
+  },
+  {
+   "run": "practice-e",
+   "id": "rule_1",
+   "type": "Success Process",
+   "won": 5,
+   "lost": 2,
+   "base": [
+    5,
+    9
+   ],
+   "retirable_now": false,
+   "rule": "When an object must be cleaned and placed: search the object's current location first, clean it with the sinkbasin, then move it to the target location."
+  },
+  {
+   "run": "practice-e",
+   "id": "rule_2",
+   "type": "Special Phenomenon",
+   "won": 5,
+   "lost": 2,
+   "base": [
+    5,
+    9
+   ],
+   "retirable_now": false,
+   "rule": "When placing an object in a container, the container must be opened before moving the object inside."
+  },
+  {
+   "run": "practice-e",
+   "id": "rule_4",
+   "type": "Success Process",
+   "won": 7,
+   "lost": 3,
+   "base": [
+    9,
+    12
+   ],
+   "retirable_now": false,
+   "rule": "When an object must be placed on a target: search the area first, open any closed containers, take the object, go to the target, move the object to the target."
+  },
+  {
+   "run": "practice-e",
+   "id": "rule_6",
+   "type": "Special Phenomenon",
+   "won": 2,
+   "lost": 1,
+   "base": [
+    3,
+    8
+   ],
+   "retirable_now": false,
+   "rule": "When searching for the object, search furniture surfaces first before opening any drawers or cabinets."
+  },
+  {
+   "run": "practice-e",
+   "id": "rule_11",
+   "type": "Corrected Error",
+   "won": 3,
+   "lost": 3,
+   "base": [
+    3,
+    7
+   ],
+   "retirable_now": false,
+   "rule": "When two objects must be placed in a target: search furniture surfaces first, take each object, move it to the target."
+  },
+  {
+   "run": "practice-e",
+   "id": "rule_15",
+   "type": "Success Process",
+   "won": 2,
+   "lost": 2,
+   "base": [
+    2,
+    7
+   ],
+   "retirable_now": false,
+   "rule": "When an object must be cooled and placed: search for the object first, take it, cool it with the fridge, then move it to the target."
+  },
+  {
+   "run": "practice-e",
+   "id": "rule_16",
+   "type": "Corrected Error",
+   "won": 2,
+   "lost": 1,
+   "base": [
+    2,
+    3
+   ],
+   "retirable_now": false,
+   "rule": "When the object must be heated and placed in a receptacle, go to the target receptacle after heating instead of trying to place it on a stoveburner."
+  },
+  {
+   "run": "practice-e",
+   "id": "rule_17",
+   "type": "Success Process",
+   "won": 2,
+   "lost": 1,
+   "base": [
+    2,
+    4
+   ],
+   "retirable_now": false,
+   "rule": "When placing multiple objects in a target, search all furniture surfaces first, then navigate to the target before each move command."
+  },
+  {
+   "run": "mini-macla",
+   "id": "rule_1",
+   "type": "Success Process",
+   "won": 5,
+   "lost": 2,
+   "base": [
+    5,
+    9
+   ],
+   "retirable_now": false,
+   "rule": "When an object must be cleaned and placed: search the object's current location first, clean it with the sinkbasin, then move it to the target."
+  },
+  {
+   "run": "mini-macla",
+   "id": "rule_3",
+   "type": "Success Process",
+   "won": 8,
+   "lost": 2,
+   "base": [
+    10,
+    12
+   ],
+   "retirable_now": false,
+   "rule": "When an object must be picked up and placed: search all rooms first, open the target if closed, take the object from its location, move the object to the target."
+  },
+  {
+   "run": "mini-macla",
+   "id": "rule_4",
+   "type": "Special Phenomenon",
+   "won": 8,
+   "lost": 2,
+   "base": [
+    10,
+    12
+   ],
+   "retirable_now": false,
+   "rule": "When a container is closed, open it before moving objects into it."
+  },
+  {
+   "run": "mini-macla",
+   "id": "rule_11",
+   "type": "Corrected Error",
+   "won": 5,
+   "lost": 2,
+   "base": [
+    5,
+    7
+   ],
+   "retirable_now": false,
+   "rule": "When a task requires a clean object, clean it at sinkbasin before placing it in the target."
+  },
+  {
+   "run": "mini-macla",
+   "id": "rule_12",
+   "type": "Corrected Error",
+   "won": 3,
+   "lost": 3,
+   "base": [
+    3,
+    7
+   ],
+   "retirable_now": false,
+   "rule": "When two objects must be placed in a target, search drawers first, take each object, then move to the target and place it there."
+  },
+  {
+   "run": "mini-macla",
+   "id": "rule_13",
+   "type": "Corrected Error",
+   "won": 5,
+   "lost": 1,
+   "base": [
+    8,
+    9
+   ],
+   "retirable_now": false,
+   "rule": "When an object must be picked up and placed: use inventory to check if carrying the object before searching locations."
+  },
+  {
+   "run": "mini-macla",
+   "id": "rule_14",
+   "type": "Corrected Error",
+   "won": 3,
+   "lost": 1,
+   "base": [
+    3,
+    8
+   ],
+   "retirable_now": false,
+   "rule": "When searching for a cool plate to place in a cabinet, systematically check all countertops first before attempting to retrieve it from the fridge."
+  },
+  {
+   "run": "mini-macla",
+   "id": "rule_16",
+   "type": "Success Process",
+   "won": 3,
+   "lost": 1,
+   "base": [
+    3,
+    7
+   ],
+   "retirable_now": false,
+   "rule": "When an object must be cooled and placed: search all countertops first, open them if closed, take the object, cool it with the fridge, move it to the target."
+  },
+  {
+   "run": "mini-macla",
+   "id": "rule_17",
+   "type": "Corrected Error",
+   "won": 2,
+   "lost": 1,
+   "base": [
+    2,
+    3
+   ],
+   "retirable_now": false,
+   "rule": "When a task requires heating an object before placing it, use the correct heating appliance (e.g., microwave) instead of attempting to cook on a stoveburner that shows nothing."
+  },
+  {
+   "run": "mini-macla",
+   "id": "rule_18",
+   "type": "Success Process",
+   "won": 2,
+   "lost": 1,
+   "base": [
+    2,
+    3
+   ],
+   "retirable_now": false,
+   "rule": "When an object must be heated and placed: search countertops first, take the object, open the microwave if closed, heat the object with the microwave, move it to the target."
+  },
+  {
+   "run": "mini-macla",
+   "id": "rule_19",
+   "type": "Corrected Error",
+   "won": 3,
+   "lost": 1,
+   "base": [
+    3,
+    4
+   ],
+   "retirable_now": false,
+   "rule": "When searching for a tomato to cool, check countertops and fridge contents first before exhaustively opening cabinets and drawers."
+  }
+ ],
+ "what_if": [
+  {
+   "run": "practice-d",
+   "id": "rule_14",
+   "rule": "When an object must be cooled and placed: search stoveburners first, take the object, go to fridge, open if closed, cool the object with fridge, go to target, open if closed, move the object to target.",
+   "sequence": [
+    {
+     "extra_lost_games": 0,
+     "won": 1,
+     "lost": 3,
+     "base": [
+      2,
+      7
+     ],
+     "retired": false
+    },
+    {
+     "extra_lost_games": 1,
+     "won": 1,
+     "lost": 4,
+     "base": [
+      2,
+      8
+     ],
+     "retired": false
+    },
+    {
+     "extra_lost_games": 2,
+     "won": 1,
+     "lost": 5,
+     "base": [
+      2,
+      9
+     ],
+     "retired": false
+    },
+    {
+     "extra_lost_games": 3,
+     "won": 1,
+     "lost": 6,
+     "base": [
+      2,
+      10
+     ],
+     "retired": false
+    },
+    {
+     "extra_lost_games": 4,
+     "won": 1,
+     "lost": 7,
+     "base": [
+      2,
+      11
+     ],
+     "retired": false
+    },
+    {
+     "extra_lost_games": 5,
+     "won": 1,
+     "lost": 8,
+     "base": [
+      2,
+      12
+     ],
+     "retired": false
+    },
+    {
+     "extra_lost_games": 6,
+     "won": 1,
+     "lost": 9,
+     "base": [
+      2,
+      13
+     ],
+     "retired": false
+    }
+   ]
+  },
+  {
+   "run": "practice-d",
+   "id": "rule_20",
+   "rule": "When cooling an object, use the fridge instead of the sinkbasin.",
+   "sequence": [
+    {
+     "extra_lost_games": 0,
+     "won": 1,
+     "lost": 3,
+     "base": [
+      1,
+      4
+     ],
+     "retired": false
+    },
+    {
+     "extra_lost_games": 1,
+     "won": 1,
+     "lost": 4,
+     "base": [
+      1,
+      5
+     ],
+     "retired": false
+    },
+    {
+     "extra_lost_games": 2,
+     "won": 1,
+     "lost": 5,
+     "base": [
+      1,
+      6
+     ],
+     "retired": false
+    },
+    {
+     "extra_lost_games": 3,
+     "won": 1,
+     "lost": 6,
+     "base": [
+      1,
+      7
+     ],
+     "retired": false
+    },
+    {
+     "extra_lost_games": 4,
+     "won": 1,
+     "lost": 7,
+     "base": [
+      1,
+      8
+     ],
+     "retired": false
+    },
+    {
+     "extra_lost_games": 5,
+     "won": 1,
+     "lost": 8,
+     "base": [
+      1,
+      9
+     ],
+     "retired": false
+    },
+    {
+     "extra_lost_games": 6,
+     "won": 1,
+     "lost": 9,
+     "base": [
+      1,
+      10
+     ],
+     "retired": false
+    }
+   ]
+  },
+  {
+   "run": "practice-d",
+   "id": "rule_15",
+   "rule": "When the object is already at the target, stop immediately instead of picking it up and moving it again.",
+   "sequence": [
+    {
+     "extra_lost_games": 0,
+     "won": 1,
+     "lost": 3,
+     "base": [
+      2,
+      7
+     ],
+     "retired": false
+    },
+    {
+     "extra_lost_games": 1,
+     "won": 1,
+     "lost": 4,
+     "base": [
+      2,
+      8
+     ],
+     "retired": false
+    },
+    {
+     "extra_lost_games": 2,
+     "won": 1,
+     "lost": 5,
+     "base": [
+      2,
+      9
+     ],
+     "retired": false
+    },
+    {
+     "extra_lost_games": 3,
+     "won": 1,
+     "lost": 6,
+     "base": [
+      2,
+      10
+     ],
+     "retired": false
+    },
+    {
+     "extra_lost_games": 4,
+     "won": 1,
+     "lost": 7,
+     "base": [
+      2,
+      11
+     ],
+     "retired": false
+    },
+    {
+     "extra_lost_games": 5,
+     "won": 1,
+     "lost": 8,
+     "base": [
+      2,
+      12
+     ],
+     "retired": false
+    },
+    {
+     "extra_lost_games": 6,
+     "won": 1,
+     "lost": 9,
+     "base": [
+      2,
+      13
+     ],
+     "retired": false
+    }
+   ]
+  },
+  {
+   "run": "practice-d",
+   "id": "rule_22",
+   "rule": "When placing an object on a target, use 'move <object> to <target>' after taking it, not 'go to <target>' then 'take' again.",
+   "sequence": [
+    {
+     "extra_lost_games": 0,
+     "won": 7,
+     "lost": 9,
+     "base": [
+      7,
+      16
+     ],
+     "retired": false
+    },
+    {
+     "extra_lost_games": 1,
+     "won": 7,
+     "lost": 10,
+     "base": [
+      7,
+      17
+     ],
+     "retired": false
+    },
+    {
+     "extra_lost_games": 2,
+     "won": 7,
+     "lost": 11,
+     "base": [
+      7,
+      18
+     ],
+     "retired": false
+    },
+    {
+     "extra_lost_games": 3,
+     "won": 7,
+     "lost": 12,
+     "base": [
+      7,
+      19
+     ],
+     "retired": false
+    },
+    {
+     "extra_lost_games": 4,
+     "won": 7,
+     "lost": 13,
+     "base": [
+      7,
+      20
+     ],
+     "retired": false
+    },
+    {
+     "extra_lost_games": 5,
+     "won": 7,
+     "lost": 14,
+     "base": [
+      7,
+      21
+     ],
+     "retired": false
+    },
+    {
+     "extra_lost_games": 6,
+     "won": 7,
+     "lost": 15,
+     "base": [
+      7,
+      22
+     ],
+     "retired": false
+    }
+   ]
+  }
+ ]
+}

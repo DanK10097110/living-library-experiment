@@ -1,0 +1,344 @@
+{
+ "id": "pair-clean-cloth-cabinet",
+ "title": "Clean a cloth: C grabs a towel and never recovers, E finds the cloth",
+ "goal": "put a clean cloth in cabinet.",
+ "task_kind": "clean then place",
+ "game_id": "valid_seen/pick_clean_then_place_in_recep-Cloth-None-Cabinet-405/trial_T20190907_080903_889497",
+ "result": "C lost, E won",
+ "shows": "C walks to the towelholder, takes a towel (not a cloth), tries `clean towel` (invalid) and loops on invalid moves. E, shown \"scan the bathtubbasin and countertops first\", goes to the bathtubbasin, finds cloth 2 and finishes in 7 steps.",
+ "why_interesting": "A win that depends partly on a lucky rule: the Corrected Error mentions the bathtubbasin, which happens to be right for this room. Good example for discussing room-specific rules.",
+ "notes": [],
+ "C": {
+  "id": "pair-clean-cloth-cabinet-C",
+  "title": "Clean a cloth: C grabs a towel and never recovers, E finds the cloth (C)",
+  "condition": "C",
+  "source": {
+   "run": "old-pilot-9b-v1",
+   "stream": "development-C-11",
+   "position": 22
+  },
+  "goal": "put a clean cloth in cabinet.",
+  "task_type": "pick_clean_then_place_in_recep",
+  "task_kind": "clean then place",
+  "game_id": "valid_seen/pick_clean_then_place_in_recep-Cloth-None-Cabinet-405/trial_T20190907_080903_889497",
+  "success": false,
+  "steps": 30,
+  "invalid_actions": 13,
+  "model_calls": 34,
+  "input_tokens": 70823,
+  "output_tokens": 3431,
+  "wall_seconds": 624.7,
+  "step_budget": 30,
+  "initial_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see a bathtubbasin 1, a cabinet 5, a cabinet 4, a cabinet 3, a cabinet 2, a cabinet 1, a countertop 1, a garbagecan 1, a handtowelholder 2, a handtowelholder 1, a sinkbasin 1, a toilet 1, a toiletpaperhanger 1, and a towelholder 1.\n\nYour task is to: put a clean cloth in cabinet.",
+  "trace": [
+   {
+    "step": 1,
+    "action": "go to towelholder 1",
+    "observation": "You arrive at towelholder 1. On the towelholder 1, you see a towel 1.",
+    "valid": true
+   },
+   {
+    "step": 2,
+    "action": "take towel 1 from towelholder 1",
+    "observation": "You pick up the towel 1 from the towelholder 1.",
+    "valid": true
+   },
+   {
+    "step": 3,
+    "action": "go to sinkbasin 1",
+    "observation": "You arrive at sinkbasin 1. On the sinkbasin 1, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 4,
+    "action": "clean towel 1 with sinkbasin 1",
+    "observation": "You arrive at sinkbasin 1. On the sinkbasin 1, you see nothing.",
+    "valid": false
+   },
+   {
+    "step": 5,
+    "action": "move towel 1 to cabinet 1",
+    "observation": "You arrive at sinkbasin 1. On the sinkbasin 1, you see nothing.",
+    "valid": false
+   },
+   {
+    "step": 6,
+    "action": "examine sinkbasin 1",
+    "observation": "On the sinkbasin 1, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 7,
+    "action": "move towel 1 to cabinet 1",
+    "observation": "On the sinkbasin 1, you see nothing.",
+    "valid": false
+   },
+   {
+    "step": 8,
+    "action": "inventory",
+    "observation": "You are carrying: a towel 1.",
+    "valid": true
+   },
+   {
+    "step": 9,
+    "action": "move towel 1 to sinkbasin 1",
+    "observation": "You are carrying: a towel 1.",
+    "valid": false
+   },
+   {
+    "step": 10,
+    "action": "move towel 1 to sinkbasin 1",
+    "observation": "You are carrying: a towel 1.",
+    "valid": false
+   },
+   {
+    "step": 11,
+    "action": "move towel 1 to sinkbasin 1",
+    "observation": "You are carrying: a towel 1.",
+    "valid": false
+   },
+   {
+    "step": 12,
+    "action": "examine towel 1",
+    "observation": "There's nothing special about towel 1.",
+    "valid": true
+   },
+   {
+    "step": 13,
+    "action": "move towel 1 to sinkbasin 1",
+    "observation": "There's nothing special about towel 1.",
+    "valid": false
+   },
+   {
+    "step": 14,
+    "action": "examine sinkbasin 1",
+    "observation": "On the sinkbasin 1, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 15,
+    "action": "examine towel 1",
+    "observation": "There's nothing special about towel 1.",
+    "valid": true
+   },
+   {
+    "step": 16,
+    "action": "move towel 1 to cabinet 1",
+    "observation": "There's nothing special about towel 1.",
+    "valid": false
+   },
+   {
+    "step": 17,
+    "action": "go to cabinet 1",
+    "observation": "You arrive at cabinet 1. The cabinet 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 18,
+    "action": "open cabinet 1",
+    "observation": "You open the cabinet 1. The cabinet 1 is open. In it, you see a soapbottle 2, and a soapbottle 1.",
+    "valid": true
+   },
+   {
+    "step": 19,
+    "action": "examine towel 1",
+    "observation": "There's nothing special about towel 1.",
+    "valid": true
+   },
+   {
+    "step": 20,
+    "action": "go to sinkbasin 1",
+    "observation": "You arrive at sinkbasin 1. On the sinkbasin 1, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 21,
+    "action": "move towel 1 to sinkbasin 1",
+    "observation": "You arrive at sinkbasin 1. On the sinkbasin 1, you see nothing.",
+    "valid": false
+   },
+   {
+    "step": 22,
+    "action": "examine towel 1",
+    "observation": "There's nothing special about towel 1.",
+    "valid": true
+   },
+   {
+    "step": 23,
+    "action": "move towel 1 to cabinet 1",
+    "observation": "There's nothing special about towel 1.",
+    "valid": false
+   },
+   {
+    "step": 24,
+    "action": "move towel 1 to sinkbasin 1",
+    "observation": "There's nothing special about towel 1.",
+    "valid": false
+   },
+   {
+    "step": 25,
+    "action": "examine sinkbasin 1",
+    "observation": "On the sinkbasin 1, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 26,
+    "action": "examine towel 1",
+    "observation": "There's nothing special about towel 1.",
+    "valid": true
+   },
+   {
+    "step": 27,
+    "action": "go to cabinet 1",
+    "observation": "You arrive at cabinet 1. The cabinet 1 is open. In it, you see a soapbottle 2, and a soapbottle 1.",
+    "valid": true
+   },
+   {
+    "step": 28,
+    "action": "examine towel 1",
+    "observation": "There's nothing special about towel 1.",
+    "valid": true
+   },
+   {
+    "step": 29,
+    "action": "move towel 1 to cabinet 1",
+    "observation": "There's nothing special about towel 1.",
+    "valid": false
+   },
+   {
+    "step": 30,
+    "action": "move towel 1 to cabinet 1",
+    "observation": "There's nothing special about towel 1.",
+    "valid": false
+   }
+  ]
+ },
+ "E": {
+  "id": "pair-clean-cloth-cabinet-E",
+  "title": "Clean a cloth: C grabs a towel and never recovers, E finds the cloth (E)",
+  "condition": "E",
+  "source": {
+   "run": "check-e",
+   "stream": "development-E-11",
+   "position": 22,
+   "library": "check-e practice library, frozen (22 entries)"
+  },
+  "goal": "put a clean cloth in cabinet.",
+  "task_type": "pick_clean_then_place_in_recep",
+  "task_kind": "clean then place",
+  "game_id": "valid_seen/pick_clean_then_place_in_recep-Cloth-None-Cabinet-405/trial_T20190907_080903_889497",
+  "success": true,
+  "steps": 7,
+  "invalid_actions": 0,
+  "model_calls": 8,
+  "input_tokens": 17632,
+  "output_tokens": 656,
+  "wall_seconds": 113.7,
+  "step_budget": 30,
+  "initial_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see a bathtubbasin 1, a cabinet 5, a cabinet 4, a cabinet 3, a cabinet 2, a cabinet 1, a countertop 1, a garbagecan 1, a handtowelholder 2, a handtowelholder 1, a sinkbasin 1, a toilet 1, a toiletpaperhanger 1, and a towelholder 1.\n\nYour task is to: put a clean cloth in cabinet.",
+  "plan": [
+   "go to bathtubbasin 1 and find the cloth",
+   "take the cloth from bathtubbasin 1",
+   "go to sinkbasin 1 and clean the cloth",
+   "go to cabinet 1 and open it",
+   "put the clean cloth in cabinet 1"
+  ],
+  "rules_shown": [
+   {
+    "id": "rule_1",
+    "type": "Success Process",
+    "task_type": "pick_clean_then_place_in_recep",
+    "alpha": 6,
+    "beta": 3,
+    "mean": 0.67,
+    "visible_to_agent": true,
+    "rule": "When an object must be cleaned and placed: search the object's current location first, clean it with the sinkbasin, then move it to the target location.",
+    "example": "go to bathtubbasin 1, take cloth 1 from bathtubbasin 1, go to sinkbasin 1, clean cloth 1 with sinkbasin 1, go to toilet 1, move cloth 1 to toilet 1",
+    "validation": "This game confirmed the object was found on the countertop, cleaned at the sinkbasin, and moved to the drawer. | This game confirmed the object was found in the fridge, cleaned at the sinkbasin, and moved to the shelf. | This game confirmed the cloth was found in the bathtubbasin, cleaned at the sinkbasin, and moved to the toilet.",
+    "rendered_for_agent": "[Success Process] When an object must be cleaned and placed: search the object's current location first, clean it with the sinkbasin, then move it to the target location. Example: go to bathtubbasin 1, take cloth 1 from bathtubbasin 1, go to sinkbasin 1, clean cloth 1 with sinkbasin 1, go to toilet 1, move cloth 1 to toilet 1",
+    "evidence": {
+     "won": 5,
+     "lost": 2
+    }
+   },
+   {
+    "id": "rule_2",
+    "type": "Special Phenomenon",
+    "task_type": "pick_clean_then_place_in_recep",
+    "alpha": 6,
+    "beta": 3,
+    "mean": 0.67,
+    "visible_to_agent": true,
+    "rule": "When placing an object in a container, the container must be opened before moving the object inside.",
+    "example": "go to cabinet 1, open cabinet 1, move winebottle 2 to cabinet 1",
+    "validation": "This game confirmed the cabinet must be opened before moving items into it.",
+    "rendered_for_agent": "[Special Phenomenon] When placing an object in a container, the container must be opened before moving the object inside. Example: go to cabinet 1, open cabinet 1, move winebottle 2 to cabinet 1",
+    "evidence": {
+     "won": 5,
+     "lost": 2
+    }
+   },
+   {
+    "id": "rule_9",
+    "type": "Corrected Error",
+    "task_type": "pick_clean_then_place_in_recep",
+    "alpha": 1,
+    "beta": 1,
+    "mean": 0.5,
+    "visible_to_agent": true,
+    "rule": "When the target object must be found, never open cabinets or drawers first; scan the bathtubbasin and countertops first.",
+    "example": "Agent wasted time opening multiple cabinets without finding the cloth, which was in the bathtubbasin.",
+    "rendered_for_agent": "[Corrected Error] When the target object must be found, never open cabinets or drawers first; scan the bathtubbasin and countertops first. Example: Agent wasted time opening multiple cabinets without finding the cloth, which was in the bathtubbasin.",
+    "evidence": {
+     "won": 0,
+     "lost": 0
+    }
+   }
+  ],
+  "rules_shown_to": "planner (as the \"rules\" field of its prompt, before it writes subgoals) and actor (as the block \"Rules learned from earlier practice (follow them)\" in every step prompt); one set chosen once from the goal",
+  "trace": [
+   {
+    "step": 1,
+    "action": "go to bathtubbasin 1",
+    "observation": "You arrive at bathtubbasin 1. On the bathtubbasin 1, you see a cloth 2, and a soapbar 1.",
+    "valid": true
+   },
+   {
+    "step": 2,
+    "action": "take cloth 2 from bathtubbasin 1",
+    "observation": "You pick up the cloth 2 from the bathtubbasin 1.",
+    "valid": true
+   },
+   {
+    "step": 3,
+    "action": "go to sinkbasin 1",
+    "observation": "You arrive at sinkbasin 1. On the sinkbasin 1, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 4,
+    "action": "clean cloth 2 with sinkbasin 1",
+    "observation": "You clean the cloth 2 using the sinkbasin 1.",
+    "valid": true
+   },
+   {
+    "step": 5,
+    "action": "go to cabinet 1",
+    "observation": "You arrive at cabinet 1. The cabinet 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 6,
+    "action": "open cabinet 1",
+    "observation": "You open the cabinet 1. The cabinet 1 is open. In it, you see a soapbottle 2, and a soapbottle 1.",
+    "valid": true
+   },
+   {
+    "step": 7,
+    "action": "move cloth 2 to cabinet 1",
+    "observation": "You move the cloth 2 to the cabinet 1.",
+    "valid": true
+   }
+  ]
+ }
+}

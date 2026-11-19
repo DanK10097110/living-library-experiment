@@ -1,0 +1,111 @@
+{
+ "id": "e-win-pick-place-with-antipattern",
+ "title": "E: simple task won in 4 steps with an Anti-Pattern rule on screen",
+ "condition": "E",
+ "source": {
+  "run": "check-e",
+  "stream": "development-E-11",
+  "position": 45,
+  "library": "check-e practice library, frozen (22 entries)"
+ },
+ "goal": "put some candle on toilet.",
+ "task_type": "pick_and_place_simple",
+ "task_kind": "pick and place",
+ "game_id": "valid_seen/pick_and_place_simple-Candle-None-Toilet-429/trial_T20190908_052232_887934",
+ "success": true,
+ "steps": 4,
+ "invalid_actions": 0,
+ "model_calls": 5,
+ "input_tokens": 7712,
+ "output_tokens": 334,
+ "wall_seconds": 39.4,
+ "step_budget": 30,
+ "initial_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see a bathtubbasin 1, a garbagecan 1, a handtowelholder 1, a shelf 3, a shelf 2, a shelf 1, a sinkbasin 1, a toilet 1, a toiletpaperhanger 1, and a towelholder 1.\n\nYour task is to: put some candle on toilet.",
+ "plan": [
+  "search the room for a candle",
+  "go to the toilet",
+  "put the candle on the toilet"
+ ],
+ "rules_shown": [
+  {
+   "id": "rule_4",
+   "type": "Success Process",
+   "task_type": "pick_and_place_simple",
+   "alpha": 8,
+   "beta": 4,
+   "mean": 0.67,
+   "visible_to_agent": true,
+   "rule": "When an object must be placed on a target: search the area first, open any closed containers, take the object, go to the target, move the object to the target.",
+   "example": "search drawer 1, open drawer 1, take watch 1 from drawer 1, go to coffeetable 1, move watch 1 to coffeetable 1",
+   "validation": "Confirmed: agent repeatedly examined desk without taking action, then took wrong object (pencil) instead of pen, and moved it to drawer instead of placing on surface. | Confirmed: object found on bed, target was desk, move command succeeded. | Confirmed: object found in closed drawer, required opening before taking, move command succeeded.",
+   "rendered_for_agent": "[Success Process] When an object must be placed on a target: search the area first, open any closed containers, take the object, go to the target, move the object to the target. Example: search drawer 1, open drawer 1, take watch 1 from drawer 1, go to coffeetable 1, move watch 1 to coffeetable 1",
+   "evidence": {
+    "won": 7,
+    "lost": 3
+   }
+  },
+  {
+   "id": "rule_18",
+   "type": "Anti-Pattern",
+   "task_type": "pick_and_place_simple",
+   "alpha": 3,
+   "beta": 1,
+   "mean": 0.75,
+   "visible_to_agent": true,
+   "rule": "When examining an appliance, do not issue the same \"examine\" command again and again.",
+   "example": "\"examine desk\", again and again",
+   "rendered_for_agent": "[Anti-Pattern] When examining an appliance, do not issue the same \"examine\" command again and again. Example: \"examine desk\", again and again",
+   "evidence": {
+    "won": 2,
+    "lost": 0
+   },
+   "pattern": {
+    "attempts": 7,
+    "games": 2,
+    "kind": "repeat",
+    "of_attempts": 12,
+    "of_games": 3,
+    "sig": [
+     "repeat",
+     "examine desk"
+    ],
+    "wins_checked": 7
+   },
+   "violations": 0
+  }
+ ],
+ "rules_shown_to": "planner (as the \"rules\" field of its prompt, before it writes subgoals) and actor (as the block \"Rules learned from earlier practice (follow them)\" in every step prompt); one set chosen once from the goal",
+ "shows": "Two rules are shown: a Success Process and an Anti-Pattern (\"When examining an appliance, do not issue the same examine command again and again\"). The Anti-Pattern is irrelevant here (the agent never examines anything) but it is shown in every pick-and-place game.",
+ "why_interesting": "Shows what an Anti-Pattern looks like in the prompt, and honestly shows its cost: it occupies prompt space in all 22 simple dev games although only a few agents loop on `examine`.",
+ "trace": [
+  {
+   "step": 1,
+   "action": "go to shelf 1",
+   "observation": "You arrive at shelf 1. On the shelf 1, you see a candle 1, a soapbar 2, and a soapbar 1.",
+   "valid": true
+  },
+  {
+   "step": 2,
+   "action": "take candle 1 from shelf 1",
+   "observation": "You pick up the candle 1 from the shelf 1.",
+   "valid": true
+  },
+  {
+   "step": 3,
+   "action": "go to toilet 1",
+   "observation": "You arrive at toilet 1. On the toilet 1, you see a soapbottle 2.",
+   "valid": true
+  },
+  {
+   "step": 4,
+   "action": "move candle 1 to toilet 1",
+   "observation": "You move the candle 1 to the toilet 1.",
+   "valid": true
+  }
+ ],
+ "same_game_in_C": {
+  "success": true,
+  "steps": 8,
+  "run": "old-pilot-9b-v1"
+ }
+}

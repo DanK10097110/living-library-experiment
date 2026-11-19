@@ -1,0 +1,340 @@
+{
+ "id": "pair-cool-mug-coffeemachine",
+ "title": "Cool a mug: E finishes in 6 steps, C searches cabinets for 30",
+ "goal": "put a cool mug in coffeemachine.",
+ "task_kind": "cool then place",
+ "game_id": "valid_seen/pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-16/trial_T20190908_184242_348366",
+ "result": "C lost, E won",
+ "shows": "E takes the mug from countertop 2, opens the fridge and `cool mug 1 with fridge 1`; the environment reports a win at this step (the mug was never moved into the coffeemachine, so the simulator seems to score this goal early). C opens cabinets 1-5 and drawers for the whole budget.",
+ "why_interesting": "Fastest cool win; caveat to mention in the talk: for some \"in coffeemachine/stoveburner\" goals ALFWorld declares success right after cooling.",
+ "notes": [
+  "Library: check-avoid70 (this library still contains a tomato-specific rule, from before the specificity check)."
+ ],
+ "C": {
+  "id": "pair-cool-mug-coffeemachine-C",
+  "title": "Cool a mug: E finishes in 6 steps, C searches cabinets for 30 (C)",
+  "condition": "C",
+  "source": {
+   "run": "old-pilot-9b-v1",
+   "stream": "development-C-11",
+   "position": 61
+  },
+  "goal": "put a cool mug in coffeemachine.",
+  "task_type": "pick_cool_then_place_in_recep",
+  "task_kind": "cool then place",
+  "game_id": "valid_seen/pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-16/trial_T20190908_184242_348366",
+  "success": false,
+  "steps": 30,
+  "invalid_actions": 3,
+  "model_calls": 33,
+  "input_tokens": 84087,
+  "output_tokens": 2362,
+  "wall_seconds": 457.1,
+  "step_budget": 30,
+  "initial_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see a cabinet 27, a cabinet 26, a cabinet 25, a cabinet 24, a cabinet 23, a cabinet 22, a cabinet 21, a cabinet 20, a cabinet 19, a cabinet 18, a cabinet 17, a cabinet 16, a cabinet 15, a cabinet 14, a cabinet 13, a cabinet 12, a cabinet 11, a cabinet 10, a cabinet 9, a cabinet 8, a cabinet 7, a cabinet 6, a cabinet 5, a cabinet 4, a cabinet 3, a cabinet 2, a cabinet 1, a coffeemachine 1, a countertop 2, a countertop 1, a diningtable 1, a drawer 12, a drawer 11, a drawer 10, a drawer 9, a drawer 8, a drawer 7, a drawer 6, a drawer 5, a drawer 4, a drawer 3, a drawer 2, a drawer 1, a fridge 1, a garbagecan 1, a microwave 1, a sinkbasin 1, a stoveburner 4, a stoveburner 3, a stoveburner 2, a stoveburner 1, and a toaster 1.\n\nYour task is to: put a cool mug in coffeemachine.",
+  "trace": [
+   {
+    "step": 1,
+    "action": "go to cabinet 1",
+    "observation": "You arrive at cabinet 1. The cabinet 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 2,
+    "action": "open cabinet 1",
+    "observation": "You open the cabinet 1. The cabinet 1 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 3,
+    "action": "go to drawer 1",
+    "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 4,
+    "action": "open drawer 2",
+    "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+    "valid": false
+   },
+   {
+    "step": 5,
+    "action": "go to drawer 2",
+    "observation": "You arrive at drawer 2. The drawer 2 is closed.",
+    "valid": true
+   },
+   {
+    "step": 6,
+    "action": "open drawer 2",
+    "observation": "You open the drawer 2. The drawer 2 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 7,
+    "action": "open drawer 3",
+    "observation": "You open the drawer 3. The drawer 3 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 8,
+    "action": "go to drawer 4",
+    "observation": "You arrive at drawer 4. The drawer 4 is closed.",
+    "valid": true
+   },
+   {
+    "step": 9,
+    "action": "open drawer 4",
+    "observation": "You open the drawer 4. The drawer 4 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 10,
+    "action": "open drawer 5",
+    "observation": "You open the drawer 4. The drawer 4 is open. In it, you see nothing.",
+    "valid": false
+   },
+   {
+    "step": 11,
+    "action": "open drawer 5",
+    "observation": "You open the drawer 4. The drawer 4 is open. In it, you see nothing.",
+    "valid": false
+   },
+   {
+    "step": 12,
+    "action": "go to cabinet 1",
+    "observation": "You arrive at cabinet 1. The cabinet 1 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 13,
+    "action": "go to cabinet 2",
+    "observation": "You arrive at cabinet 2. The cabinet 2 is closed.",
+    "valid": true
+   },
+   {
+    "step": 14,
+    "action": "open cabinet 2",
+    "observation": "You open the cabinet 2. The cabinet 2 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 15,
+    "action": "go to cabinet 3",
+    "observation": "You arrive at cabinet 3. The cabinet 3 is closed.",
+    "valid": true
+   },
+   {
+    "step": 16,
+    "action": "open cabinet 3",
+    "observation": "You open the cabinet 3. The cabinet 3 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 17,
+    "action": "go to cabinet 4",
+    "observation": "You arrive at cabinet 4. The cabinet 4 is closed.",
+    "valid": true
+   },
+   {
+    "step": 18,
+    "action": "open cabinet 4",
+    "observation": "You open the cabinet 4. The cabinet 4 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 19,
+    "action": "go to cabinet 5",
+    "observation": "You arrive at cabinet 5. The cabinet 5 is closed.",
+    "valid": true
+   },
+   {
+    "step": 20,
+    "action": "go to cabinet 3",
+    "observation": "You arrive at cabinet 3. The cabinet 3 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 21,
+    "action": "go to cabinet 4",
+    "observation": "You arrive at cabinet 4. The cabinet 4 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 22,
+    "action": "go to drawer 1",
+    "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 23,
+    "action": "open drawer 1",
+    "observation": "You open the drawer 1. The drawer 1 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 24,
+    "action": "go to cabinet 5",
+    "observation": "You arrive at cabinet 5. The cabinet 5 is closed.",
+    "valid": true
+   },
+   {
+    "step": 25,
+    "action": "go to cabinet 3",
+    "observation": "You arrive at cabinet 3. The cabinet 3 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 26,
+    "action": "go to cabinet 4",
+    "observation": "You arrive at cabinet 4. The cabinet 4 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 27,
+    "action": "go to drawer 1",
+    "observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 28,
+    "action": "go to cabinet 1",
+    "observation": "You arrive at cabinet 1. The cabinet 1 is open. In it, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 29,
+    "action": "go to cabinet 6",
+    "observation": "You arrive at cabinet 6. The cabinet 6 is closed.",
+    "valid": true
+   },
+   {
+    "step": 30,
+    "action": "open cabinet 6",
+    "observation": "You open the cabinet 6. The cabinet 6 is open. In it, you see a cup 2.",
+    "valid": true
+   }
+  ]
+ },
+ "E": {
+  "id": "pair-cool-mug-coffeemachine-E",
+  "title": "Cool a mug: E finishes in 6 steps, C searches cabinets for 30 (E)",
+  "condition": "E",
+  "source": {
+   "run": "check-avoid70",
+   "stream": "development-E-11",
+   "position": 61,
+   "library": "check-avoid70 practice library, frozen (26 entries)"
+  },
+  "goal": "put a cool mug in coffeemachine.",
+  "task_type": "pick_cool_then_place_in_recep",
+  "task_kind": "cool then place",
+  "game_id": "valid_seen/pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-16/trial_T20190908_184242_348366",
+  "success": true,
+  "steps": 6,
+  "invalid_actions": 0,
+  "model_calls": 7,
+  "input_tokens": 19422,
+  "output_tokens": 779,
+  "wall_seconds": 170.9,
+  "step_budget": 30,
+  "initial_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see a cabinet 27, a cabinet 26, a cabinet 25, a cabinet 24, a cabinet 23, a cabinet 22, a cabinet 21, a cabinet 20, a cabinet 19, a cabinet 18, a cabinet 17, a cabinet 16, a cabinet 15, a cabinet 14, a cabinet 13, a cabinet 12, a cabinet 11, a cabinet 10, a cabinet 9, a cabinet 8, a cabinet 7, a cabinet 6, a cabinet 5, a cabinet 4, a cabinet 3, a cabinet 2, a cabinet 1, a coffeemachine 1, a countertop 2, a countertop 1, a diningtable 1, a drawer 12, a drawer 11, a drawer 10, a drawer 9, a drawer 8, a drawer 7, a drawer 6, a drawer 5, a drawer 4, a drawer 3, a drawer 2, a drawer 1, a fridge 1, a garbagecan 1, a microwave 1, a sinkbasin 1, a stoveburner 4, a stoveburner 3, a stoveburner 2, a stoveburner 1, and a toaster 1.\n\nYour task is to: put a cool mug in coffeemachine.",
+  "plan": [
+   "search all countertops for a mug",
+   "search countertop 2 for a mug if not found on countertop 1",
+   "take the mug from the countertop",
+   "cool the mug using the fridge",
+   "put the cool mug in the coffeemachine"
+  ],
+  "rules_shown": [
+   {
+    "id": "rule_16",
+    "type": "Success Process",
+    "task_type": "pick_cool_then_place_in_recep",
+    "alpha": 4,
+    "beta": 2,
+    "mean": 0.67,
+    "visible_to_agent": true,
+    "rule": "When an object must be cooled and placed: search all countertops first, open them if closed, take the object, cool it with the fridge, move it to the target.",
+    "example": "In the successful game, the agent searched countertop 2, took pan 1, cooled it with fridge 1, and moved it to diningtable 1.",
+    "validation": "This game confirmed that searching cabinets and drawers is necessary, and the agent must open closed containers before taking objects. | This game confirmed that searching countertops first is necessary for finding objects to cool.",
+    "rendered_for_agent": "[Success Process] When an object must be cooled and placed: search all countertops first, open them if closed, take the object, cool it with the fridge, move it to the target. Example: In the successful game, the agent searched countertop 2, took pan 1, cooled it with fridge 1, and moved it to diningtable 1.",
+    "evidence": {
+     "won": 3,
+     "lost": 1
+    }
+   },
+   {
+    "id": "rule_14",
+    "type": "Corrected Error",
+    "task_type": "pick_cool_then_place_in_recep",
+    "alpha": 4,
+    "beta": 2,
+    "mean": 0.67,
+    "visible_to_agent": true,
+    "rule": "When searching for a cool plate to place in a cabinet, systematically check all countertops first before attempting to retrieve it from the fridge.",
+    "example": "The agent failed because it searched cabinets and drawers for storage without locating the required plate object on countertops.",
+    "validation": "The agent failed because it never found or cooled a plate, only searching cabinets and drawers for storage without locating the required plate object.",
+    "rendered_for_agent": "[Corrected Error] When searching for a cool plate to place in a cabinet, systematically check all countertops first before attempting to retrieve it from the fridge. Example: The agent failed because it searched cabinets and drawers for storage without locating the required plate object on countertops.",
+    "evidence": {
+     "won": 3,
+     "lost": 1
+    }
+   },
+   {
+    "id": "rule_19",
+    "type": "Corrected Error",
+    "task_type": "pick_cool_then_place_in_recep",
+    "alpha": 4,
+    "beta": 2,
+    "mean": 0.67,
+    "visible_to_agent": true,
+    "rule": "When searching for a tomato to cool, check countertops and fridge contents first before exhaustively opening cabinets and drawers.",
+    "example": "In a lost attempt, the agent searched all cabinets and drawers without checking the countertop or fridge thoroughly, failing to locate the tomato. In a successful retry, the agent checked countertop 2",
+    "rendered_for_agent": "[Corrected Error] When searching for a tomato to cool, check countertops and fridge contents first before exhaustively opening cabinets and drawers. Example: In a lost attempt, the agent searched all cabinets and drawers without checking the countertop or fridge thoroughly, failing to locate the tomato. In a successful retry, the agent checked countertop 2",
+    "evidence": {
+     "won": 3,
+     "lost": 1
+    }
+   }
+  ],
+  "rules_shown_to": "planner (as the \"rules\" field of its prompt, before it writes subgoals) and actor (as the block \"Rules learned from earlier practice (follow them)\" in every step prompt); one set chosen once from the goal",
+  "trace": [
+   {
+    "step": 1,
+    "action": "go to countertop 1",
+    "observation": "You arrive at countertop 1. On the countertop 1, you see a bowl 3, a bread 1, a butterknife 3, a glassbottle 1, a houseplant 2, a houseplant 1, a ladle 2, a ladle 1, a papertowelroll 1, a peppershaker 2, a plate 1, a potato 2, a spoon 2, a tomato 1, and a winebottle 2.",
+    "valid": true
+   },
+   {
+    "step": 2,
+    "action": "go to countertop 2",
+    "observation": "You arrive at countertop 2. On the countertop 2, you see a apple 3, a fork 2, a ladle 3, a lettuce 3, a mug 1, and a saltshaker 2.",
+    "valid": true
+   },
+   {
+    "step": 3,
+    "action": "take mug 1 from countertop 2",
+    "observation": "You pick up the mug 1 from the countertop 2.",
+    "valid": true
+   },
+   {
+    "step": 4,
+    "action": "go to fridge 1",
+    "observation": "You arrive at fridge 1. The fridge 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 5,
+    "action": "open fridge 1",
+    "observation": "You open the fridge 1. The fridge 1 is open. In it, you see a egg 3.",
+    "valid": true
+   },
+   {
+    "step": 6,
+    "action": "cool mug 1 with fridge 1",
+    "observation": "You cool the mug 1 using the fridge 1.",
+    "valid": true
+   }
+  ]
+ }
+}

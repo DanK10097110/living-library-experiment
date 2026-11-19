@@ -1,0 +1,364 @@
+{
+ "id": "pair-LOST-pick-place-mug-dresser",
+ "title": "HONEST LOSS: C won in 11 steps, E lost with an Anti-Pattern in the prompt",
+ "goal": "put some mug on dresser.",
+ "task_kind": "pick and place",
+ "game_id": "valid_seen/pick_and_place_simple-Mug-None-Dresser-311/trial_T20190909_152837_739016",
+ "result": "C won, E lost",
+ "shows": "C goes to the dresser, then countertop, drawers, diningtable and finds the mug in 11 steps. E opens and closes drawer 1, walks around, goes to the dresser (the target) repeatedly and never finds the mug on the diningtable. Rules shown: the recipe and the \"do not repeat examine\" Anti-Pattern.",
+ "why_interesting": "E is not strictly better than C. The recipe \"search the area first, open any closed containers\" is consistent with what E did, but the extra rules did not prevent a search loop. A fair example of paired losses (E lost where C won 4 of 70 games in this library).",
+ "notes": [
+  "The planner collapsed the task into 3 subgoals including \"go to dresser 1\" before finding the mug."
+ ],
+ "C": {
+  "id": "pair-LOST-pick-place-mug-dresser-C",
+  "title": "HONEST LOSS: C won in 11 steps, E lost with an Anti-Pattern in the prompt (C)",
+  "condition": "C",
+  "source": {
+   "run": "old-pilot-9b-v1",
+   "stream": "development-C-11",
+   "position": 63
+  },
+  "goal": "put some mug on dresser.",
+  "task_type": "pick_and_place_simple",
+  "task_kind": "pick and place",
+  "game_id": "valid_seen/pick_and_place_simple-Mug-None-Dresser-311/trial_T20190909_152837_739016",
+  "success": true,
+  "steps": 11,
+  "invalid_actions": 0,
+  "model_calls": 12,
+  "input_tokens": 20360,
+  "output_tokens": 1008,
+  "wall_seconds": 195.2,
+  "step_budget": 30,
+  "initial_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see a armchair 2, a armchair 1, a bed 1, a countertop 1, a diningtable 1, a drawer 2, a drawer 1, a dresser 1, a garbagecan 1, a laundryhamper 1, and a sidetable 1.\n\nYour task is to: put some mug on dresser.",
+  "trace": [
+   {
+    "step": 1,
+    "action": "go to dresser 1",
+    "observation": "You arrive at dresser 1. On the dresser 1, you see a cd 1, a remotecontrol 1, and a television 1.",
+    "valid": true
+   },
+   {
+    "step": 2,
+    "action": "go to countertop 1",
+    "observation": "You arrive at countertop 1. On the countertop 1, you see a book 1, a bowl 1, a mirror 1, and a pen 3.",
+    "valid": true
+   },
+   {
+    "step": 3,
+    "action": "go to drawer 1",
+    "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 4,
+    "action": "open drawer 1",
+    "observation": "You open the drawer 1. The drawer 1 is open. In it, you see a creditcard 3, and a creditcard 2.",
+    "valid": true
+   },
+   {
+    "step": 5,
+    "action": "go to drawer 2",
+    "observation": "You arrive at drawer 2. The drawer 2 is closed.",
+    "valid": true
+   },
+   {
+    "step": 6,
+    "action": "open drawer 2",
+    "observation": "You open the drawer 2. The drawer 2 is open. In it, you see a creditcard 1, and a remotecontrol 2.",
+    "valid": true
+   },
+   {
+    "step": 7,
+    "action": "go to countertop 1",
+    "observation": "You arrive at countertop 1. On the countertop 1, you see a book 1, a bowl 1, a mirror 1, and a pen 3.",
+    "valid": true
+   },
+   {
+    "step": 8,
+    "action": "go to diningtable 1",
+    "observation": "You arrive at diningtable 1. On the diningtable 1, you see a alarmclock 1, a cd 2, a cellphone 2, a cellphone 1, a mug 1, and a pen 2.",
+    "valid": true
+   },
+   {
+    "step": 9,
+    "action": "take mug 1 from diningtable 1",
+    "observation": "You pick up the mug 1 from the diningtable 1.",
+    "valid": true
+   },
+   {
+    "step": 10,
+    "action": "go to dresser 1",
+    "observation": "You arrive at dresser 1. On the dresser 1, you see a cd 1, a remotecontrol 1, and a television 1.",
+    "valid": true
+   },
+   {
+    "step": 11,
+    "action": "move mug 1 to dresser 1",
+    "observation": "You move the mug 1 to the dresser 1.",
+    "valid": true
+   }
+  ]
+ },
+ "E": {
+  "id": "pair-LOST-pick-place-mug-dresser-E",
+  "title": "HONEST LOSS: C won in 11 steps, E lost with an Anti-Pattern in the prompt (E)",
+  "condition": "E",
+  "source": {
+   "run": "check-e",
+   "stream": "development-E-11",
+   "position": 63,
+   "library": "check-e practice library, frozen (22 entries)"
+  },
+  "goal": "put some mug on dresser.",
+  "task_type": "pick_and_place_simple",
+  "task_kind": "pick and place",
+  "game_id": "valid_seen/pick_and_place_simple-Mug-None-Dresser-311/trial_T20190909_152837_739016",
+  "success": false,
+  "steps": 30,
+  "invalid_actions": 4,
+  "model_calls": 33,
+  "input_tokens": 62357,
+  "output_tokens": 2533,
+  "wall_seconds": 234.9,
+  "step_budget": 30,
+  "initial_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see a armchair 2, a armchair 1, a bed 1, a countertop 1, a diningtable 1, a drawer 2, a drawer 1, a dresser 1, a garbagecan 1, a laundryhamper 1, and a sidetable 1.\n\nYour task is to: put some mug on dresser.",
+  "plan": [
+   "search for a mug in the environment",
+   "go to dresser 1",
+   "put the mug on dresser 1"
+  ],
+  "rules_shown": [
+   {
+    "id": "rule_4",
+    "type": "Success Process",
+    "task_type": "pick_and_place_simple",
+    "alpha": 8,
+    "beta": 4,
+    "mean": 0.67,
+    "visible_to_agent": true,
+    "rule": "When an object must be placed on a target: search the area first, open any closed containers, take the object, go to the target, move the object to the target.",
+    "example": "search drawer 1, open drawer 1, take watch 1 from drawer 1, go to coffeetable 1, move watch 1 to coffeetable 1",
+    "validation": "Confirmed: agent repeatedly examined desk without taking action, then took wrong object (pencil) instead of pen, and moved it to drawer instead of placing on surface. | Confirmed: object found on bed, target was desk, move command succeeded. | Confirmed: object found in closed drawer, required opening before taking, move command succeeded.",
+    "rendered_for_agent": "[Success Process] When an object must be placed on a target: search the area first, open any closed containers, take the object, go to the target, move the object to the target. Example: search drawer 1, open drawer 1, take watch 1 from drawer 1, go to coffeetable 1, move watch 1 to coffeetable 1",
+    "evidence": {
+     "won": 7,
+     "lost": 3
+    }
+   },
+   {
+    "id": "rule_18",
+    "type": "Anti-Pattern",
+    "task_type": "pick_and_place_simple",
+    "alpha": 3,
+    "beta": 1,
+    "mean": 0.75,
+    "visible_to_agent": true,
+    "rule": "When examining an appliance, do not issue the same \"examine\" command again and again.",
+    "example": "\"examine desk\", again and again",
+    "rendered_for_agent": "[Anti-Pattern] When examining an appliance, do not issue the same \"examine\" command again and again. Example: \"examine desk\", again and again",
+    "evidence": {
+     "won": 2,
+     "lost": 0
+    },
+    "pattern": {
+     "attempts": 7,
+     "games": 2,
+     "kind": "repeat",
+     "of_attempts": 12,
+     "of_games": 3,
+     "sig": [
+      "repeat",
+      "examine desk"
+     ],
+     "wins_checked": 7
+    },
+    "violations": 0
+   }
+  ],
+  "rules_shown_to": "planner (as the \"rules\" field of its prompt, before it writes subgoals) and actor (as the block \"Rules learned from earlier practice (follow them)\" in every step prompt); one set chosen once from the goal",
+  "trace": [
+   {
+    "step": 1,
+    "action": "go to drawer 1",
+    "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 2,
+    "action": "open drawer 1",
+    "observation": "You open the drawer 1. The drawer 1 is open. In it, you see a creditcard 3, and a creditcard 2.",
+    "valid": true
+   },
+   {
+    "step": 3,
+    "action": "close drawer 1",
+    "observation": "You close the drawer 1.",
+    "valid": true
+   },
+   {
+    "step": 4,
+    "action": "go to drawer 2",
+    "observation": "You arrive at drawer 2. The drawer 2 is closed.",
+    "valid": true
+   },
+   {
+    "step": 5,
+    "action": "open drawer 2",
+    "observation": "You open the drawer 2. The drawer 2 is open. In it, you see a creditcard 1, and a remotecontrol 2.",
+    "valid": true
+   },
+   {
+    "step": 6,
+    "action": "go to laundryhamper 1",
+    "observation": "You arrive at laundryhamper 1. On the laundryhamper 1, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 7,
+    "action": "go to countertop 1",
+    "observation": "You arrive at countertop 1. On the countertop 1, you see a book 1, a bowl 1, a mirror 1, and a pen 3.",
+    "valid": true
+   },
+   {
+    "step": 8,
+    "action": "go to sidetable 1",
+    "observation": "You arrive at sidetable 1. On the sidetable 1, you see a keychain 1, a pen 1, and a pencil 1.",
+    "valid": true
+   },
+   {
+    "step": 9,
+    "action": "go to armchair 1",
+    "observation": "You arrive at armchair 1. On the armchair 1, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 10,
+    "action": "go to bed 1",
+    "observation": "You arrive at bed 1. On the bed 1, you see a cellphone 3, a pillow 3, a pillow 2, and a pillow 1.",
+    "valid": true
+   },
+   {
+    "step": 11,
+    "action": "go to dresser 1",
+    "observation": "You arrive at dresser 1. On the dresser 1, you see a cd 1, a remotecontrol 1, and a television 1.",
+    "valid": true
+   },
+   {
+    "step": 12,
+    "action": "examine dresser 1",
+    "observation": "On the dresser 1, you see a cd 1, a remotecontrol 1, and a television 1.",
+    "valid": true
+   },
+   {
+    "step": 13,
+    "action": "go to drawer 1",
+    "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 14,
+    "action": "go to cabinet 1",
+    "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+    "valid": false
+   },
+   {
+    "step": 15,
+    "action": "open drawer 1",
+    "observation": "You open the drawer 1. The drawer 1 is open. In it, you see a creditcard 3, and a creditcard 2.",
+    "valid": true
+   },
+   {
+    "step": 16,
+    "action": "close drawer 1",
+    "observation": "You close the drawer 1.",
+    "valid": true
+   },
+   {
+    "step": 17,
+    "action": "go to drawer 2",
+    "observation": "You arrive at drawer 2. The drawer 2 is open. In it, you see a creditcard 1, and a remotecontrol 2.",
+    "valid": true
+   },
+   {
+    "step": 18,
+    "action": "go to laundryhamper 1",
+    "observation": "You arrive at laundryhamper 1. On the laundryhamper 1, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 19,
+    "action": "go to cabinet 1",
+    "observation": "You arrive at laundryhamper 1. On the laundryhamper 1, you see nothing.",
+    "valid": false
+   },
+   {
+    "step": 20,
+    "action": "examine laundryhamper 1",
+    "observation": "On the laundryhamper 1, you see nothing.",
+    "valid": true
+   },
+   {
+    "step": 21,
+    "action": "go to dresser 1",
+    "observation": "You arrive at dresser 1. On the dresser 1, you see a cd 1, a remotecontrol 1, and a television 1.",
+    "valid": true
+   },
+   {
+    "step": 22,
+    "action": "go to countertop 1",
+    "observation": "You arrive at countertop 1. On the countertop 1, you see a book 1, a bowl 1, a mirror 1, and a pen 3.",
+    "valid": true
+   },
+   {
+    "step": 23,
+    "action": "go to drawer 1",
+    "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 24,
+    "action": "go to cabinet 1",
+    "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+    "valid": false
+   },
+   {
+    "step": 25,
+    "action": "go to countertop 1",
+    "observation": "You arrive at countertop 1. On the countertop 1, you see a book 1, a bowl 1, a mirror 1, and a pen 3.",
+    "valid": true
+   },
+   {
+    "step": 26,
+    "action": "go to cabinet 1",
+    "observation": "You arrive at countertop 1. On the countertop 1, you see a book 1, a bowl 1, a mirror 1, and a pen 3.",
+    "valid": false
+   },
+   {
+    "step": 27,
+    "action": "examine countertop 1",
+    "observation": "On the countertop 1, you see a book 1, a bowl 1, a mirror 1, and a pen 3.",
+    "valid": true
+   },
+   {
+    "step": 28,
+    "action": "go to drawer 1",
+    "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+    "valid": true
+   },
+   {
+    "step": 29,
+    "action": "go to drawer 2",
+    "observation": "You arrive at drawer 2. The drawer 2 is open. In it, you see a creditcard 1, and a remotecontrol 2.",
+    "valid": true
+   },
+   {
+    "step": 30,
+    "action": "go to diningtable 1",
+    "observation": "You arrive at diningtable 1. On the diningtable 1, you see a alarmclock 1, a cd 2, a cellphone 2, a cellphone 1, a mug 1, and a pen 2.",
+    "valid": true
+   }
+  ]
+ }
+}

@@ -34,3 +34,4 @@
 - 14:42 Owner: do not run the full experiment until long-run library management is sorted. Study is allowed to reach the 75-game gate (it stops there by itself); NO -PastGate until the lab's long-run retrieval test is done and any change merged.
 - 15:04 Review study E library @24 games (16 rules): no cross-kind steps, no object names; sensible anti-pattern ('don't repeat examine'); some odd-but-harmless wording (rule_3 'surface open', rule_10 shelf-specific target) left to Beta. GPU 86-100%, RAM 23 GB free.
 - 15:19 Lab done (results/lab/REPORT.md): keep current retrieval (fine at 200-270 rules); real risk = junk accumulation because co-shown rules share credit and retirement never fired. Running Phase-3 union check (71 real rules) on 70 games.
+- 15:23 Merged usage-based credit (2a0c36f; 154 tests). Study paused (STOP; its E library is outdated). Started practice-f (new credit) -> check-f 70 games; union check still running.

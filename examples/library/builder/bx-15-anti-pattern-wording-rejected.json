@@ -1,0 +1,706 @@
+{
+ "id": "bx-15-anti-pattern-wording-rejected",
+ "title": "Anti-Pattern: model wording rejected twice, then accepted",
+ "source": {
+  "run": "study",
+  "stream": "practice-E-0",
+  "position": 20
+ },
+ "shows": "Heat task never won. Code mines two patterns (a repeated `wait` and a repeated `examine`). The model's wording for the first (\"When waiting for an object to cool, do not use the command wait\") is rejected twice because it mentions \"cool\", a word the measured pattern does not contain. The `examine` pattern is accepted as rule_16 and stays visible.",
+ "why_interesting": "The code check that the model may only word the measured pattern. Also: a hidden Special Phenomenon is stored from the same lost game.",
+ "notes": [],
+ "practice_game": {
+  "goal": "put a hot potato in diningtable.",
+  "task_type": "pick_heat_then_place_in_recep",
+  "task_kind": "heat then place",
+  "game_id": "train/pick_heat_then_place_in_recep-Potato-None-DiningTable-16/trial_T20190908_015113_664393",
+  "success": false,
+  "steps": 30,
+  "invalid_actions": 5,
+  "model_calls": 146
+ },
+ "rules_shown_in_first_attempt": [],
+ "first_attempt_trace": [
+  {
+   "step": 1,
+   "action": "go to cabinet 1",
+   "observation": "You arrive at cabinet 1. The cabinet 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 2,
+   "action": "go to fridge 1",
+   "observation": "You arrive at fridge 1. The fridge 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 3,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a bread 1, a butterknife 3, a egg 1, a fork 1, a houseplant 2, a houseplant 1, a pan 1, a plate 1, and a pot 2.",
+   "valid": true
+  },
+  {
+   "step": 4,
+   "action": "go to fridge 1",
+   "observation": "You arrive at fridge 1. The fridge 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 5,
+   "action": "go to cabinet 1",
+   "observation": "You arrive at cabinet 1. The cabinet 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 6,
+   "action": "go to fridge 1",
+   "observation": "You arrive at fridge 1. The fridge 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 7,
+   "action": "open fridge 1",
+   "observation": "You open the fridge 1. The fridge 1 is open. In it, you see a egg 2, a tomato 2, and a tomato 1.",
+   "valid": true
+  },
+  {
+   "step": 8,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a bread 1, a butterknife 3, a egg 1, a fork 1, a houseplant 2, a houseplant 1, a pan 1, a plate 1, and a pot 2.",
+   "valid": true
+  },
+  {
+   "step": 9,
+   "action": "go to countertop 2",
+   "observation": "You arrive at countertop 2. On the countertop 2, you see a apple 3, a bowl 2, a glassbottle 3, a glassbottle 1, a knife 2, a lettuce 1, a mug 3, a potato 3, and a soapbottle 2.",
+   "valid": true
+  },
+  {
+   "step": 10,
+   "action": "go to stoveburner 1",
+   "observation": "You arrive at stoveburner 1. On the stoveburner 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 11,
+   "action": "go to countertop 2",
+   "observation": "You arrive at countertop 2. On the countertop 2, you see a apple 3, a bowl 2, a glassbottle 3, a glassbottle 1, a knife 2, a lettuce 1, a mug 3, a potato 3, and a soapbottle 2.",
+   "valid": true
+  },
+  {
+   "step": 12,
+   "action": "take potato 3 from countertop 2",
+   "observation": "You pick up the potato 3 from the countertop 2.",
+   "valid": true
+  },
+  {
+   "step": 13,
+   "action": "go to stoveburner 1",
+   "observation": "You arrive at stoveburner 1. On the stoveburner 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 14,
+   "action": "I am holding the potato 3 and am currently at stoveburner 1. To heat the potato as required by my subgoal, I need to place it on the stoveburner. Since I am already at the stoveburner, I should examine it or attempt to place the potato on it.",
+   "observation": "You arrive at stoveburner 1. On the stoveburner 1, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 15,
+   "action": "examine stoveburner 1",
+   "observation": "On the stoveburner 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 16,
+   "action": "place potato 3 on stoveburner 1",
+   "observation": "On the stoveburner 1, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 17,
+   "action": "go to microwave 1",
+   "observation": "You arrive at microwave 1. The microwave 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 18,
+   "action": "open microwave 1",
+   "observation": "You open the microwave 1. The microwave 1 is open. In it, you see a apple 2.",
+   "valid": true
+  },
+  {
+   "step": 19,
+   "action": "move potato 3 to microwave 1",
+   "observation": "You move the potato 3 to the microwave 1.",
+   "valid": true
+  },
+  {
+   "step": 20,
+   "action": "close microwave 1",
+   "observation": "You close the microwave 1.",
+   "valid": true
+  },
+  {
+   "step": 21,
+   "action": "open microwave 1",
+   "observation": "You open the microwave 1. The microwave 1 is open. In it, you see a apple 2, and a potato 3.",
+   "valid": true
+  },
+  {
+   "step": 22,
+   "action": "open microwave 1",
+   "observation": "You open the microwave 1. The microwave 1 is open. In it, you see a apple 2, and a potato 3.",
+   "valid": false
+  },
+  {
+   "step": 23,
+   "action": "take potato 3 from microwave 1",
+   "observation": "You pick up the potato 3 from the microwave 1.",
+   "valid": true
+  },
+  {
+   "step": 24,
+   "action": "move potato 3 to diningtable 1",
+   "observation": "You pick up the potato 3 from the microwave 1.",
+   "valid": false
+  },
+  {
+   "step": 25,
+   "action": "go to microwave 1",
+   "observation": "You pick up the potato 3 from the microwave 1.",
+   "valid": false
+  },
+  {
+   "step": 26,
+   "action": "examine potato 3",
+   "observation": "There's nothing special about potato 3.",
+   "valid": true
+  },
+  {
+   "step": 27,
+   "action": "move potato 3 to microwave 1",
+   "observation": "You move the potato 3 to the microwave 1.",
+   "valid": true
+  },
+  {
+   "step": 28,
+   "action": "close microwave 1",
+   "observation": "You close the microwave 1.",
+   "valid": true
+  },
+  {
+   "step": 29,
+   "action": "open microwave 1",
+   "observation": "You open the microwave 1. The microwave 1 is open. In it, you see a apple 2, and a potato 3.",
+   "valid": true
+  },
+  {
+   "step": 30,
+   "action": "close microwave 1",
+   "observation": "You close the microwave 1.",
+   "valid": true
+  }
+ ],
+ "retries": [
+  {
+   "attempt": 1,
+   "reflection": "I failed because I repeatedly moved the potato back and forth between the microwave and countertop without actually heating it or placing it on the dining table. Instead, I should have placed the potato on the stoveburner 1 to heat it, then directly moved it to diningtable 1 once it was hot.",
+   "won": false,
+   "steps": 30,
+   "actions": [
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "open fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "move potato 3 to stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "examine stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "take potato 3 from countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "move potato 3 to stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "move potato 3 to stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "examine stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "examine stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "examine stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "go to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "open microwave 1",
+     "valid": true
+    },
+    {
+     "action": "move potato 3 to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "close microwave 1",
+     "valid": true
+    },
+    {
+     "action": "open microwave 1",
+     "valid": true
+    },
+    {
+     "action": "take potato 3 from microwave 1",
+     "valid": true
+    },
+    {
+     "action": "move potato 3 to stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "heat potato 3 with stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "move potato 3 to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "take potato 3 from microwave 1",
+     "valid": true
+    },
+    {
+     "action": "move potato 3 to stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "heat potato 3 with stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "heat potato 3 with microwave 1",
+     "valid": true
+    },
+    {
+     "action": "close microwave 1",
+     "valid": true
+    }
+   ]
+  },
+  {
+   "attempt": 2,
+   "reflection": "I failed because I repeatedly moved the potato between the microwave and countertop without successfully heating it or placing it on the dining table. Instead, I should have placed the potato on stoveburner 1 to heat it, then directly moved it to diningtable 1 once it was hot.",
+   "won": false,
+   "steps": 30,
+   "actions": [
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "go to stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "open fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "open cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 2",
+     "valid": true
+    },
+    {
+     "action": "open cabinet 2",
+     "valid": true
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "take potato 1 from diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "put potato 1 on stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "wait",
+     "valid": false
+    },
+    {
+     "action": "wait",
+     "valid": false
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "move potato 1 to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "wait",
+     "valid": false
+    },
+    {
+     "action": "examine stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "go to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "go to stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "move potato 1 to stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "wait",
+     "valid": false
+    },
+    {
+     "action": "move potato 1 to stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "take potato 1 from diningtable 1",
+     "valid": true
+    }
+   ]
+  },
+  {
+   "attempt": 3,
+   "reflection": "I failed because I repeatedly moved the potato between the diningtable and stoveburner without successfully heating it first, and the stoveburner showed nothing indicating it wasn't hot. Instead, I should have placed the potato on stoveburner 1, waited for it to heat up (checking if it became hot), and then moved it to diningtable 1 to complete the task.",
+   "won": false,
+   "steps": 30,
+   "actions": [
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "open fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "take potato 1 from diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "put potato 1 on stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "wait",
+     "valid": false
+    },
+    {
+     "action": "wait",
+     "valid": false
+    },
+    {
+     "action": "examine stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "go to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "open microwave 1",
+     "valid": true
+    },
+    {
+     "action": "move potato 1 to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "close microwave 1",
+     "valid": true
+    },
+    {
+     "action": "open microwave 1",
+     "valid": true
+    },
+    {
+     "action": "close microwave 1",
+     "valid": true
+    },
+    {
+     "action": "go to stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "wait",
+     "valid": false
+    },
+    {
+     "action": "place potato 1 on stoveburner 1",
+     "valid": false
+    },
+    {
+     "action": "wait",
+     "valid": false
+    },
+    {
+     "action": "wait",
+     "valid": false
+    },
+    {
+     "action": "examine stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "wait",
+     "valid": false
+    },
+    {
+     "action": "go to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "go to stoveburner 1",
+     "valid": true
+    },
+    {
+     "action": "wait",
+     "valid": false
+    }
+   ]
+  }
+ ],
+ "builder_report": {
+  "case": "failure",
+  "diagnosis": "imperfect rules",
+  "operations": [
+   {
+    "example": "The agent failed because it placed the potato on stoveburner 1 without confirming it was hot, then switched to the microwave.",
+    "op": "write_rule",
+    "rule": "When heating an object on a stoveburner, examine it first to confirm it is hot before moving it to the target.",
+    "sources": [
+     {
+      "task": "put a hot potato in diningtable.",
+      "task_type": "pick_heat_then_place_in_recep"
+     }
+    ],
+    "task_type": "pick_heat_then_place_in_recep",
+    "type": "Special Phenomenon",
+    "verified": false
+   },
+   {
+    "example": "\"examine stoveburner\", again and again",
+    "op": "write_rule",
+    "pattern": {
+     "attempts": 4,
+     "example": "",
+     "games": 2,
+     "kind": "repeat",
+     "of_attempts": 8,
+     "of_games": 2,
+     "sig": [
+      "repeat",
+      "examine stoveburner"
+     ],
+     "wins_checked": 0
+    },
+    "rule": "When examining an appliance, do not issue the same \"examine\" command again and again.",
+    "sources": [
+     {
+      "task": "put a hot potato in diningtable.",
+      "task_type": "pick_heat_then_place_in_recep"
+     }
+    ],
+    "task_type": "pick_heat_then_place_in_recep",
+    "type": "Anti-Pattern",
+    "verified": true
+   }
+  ],
+  "bookkeeping_operations": [
+   "outcome",
+   "pool_game"
+  ],
+  "log_lines": [
+   "rule_15 is a hidden Builder note until a won game confirms it",
+   "a failure may not write a Success Process rule",
+   "anti-pattern rejected 'When waiting for an object to cool, do not use the command \"wait\".': names ['cool'] which the measured pattern does not contain",
+   "anti-pattern rejected 'When waiting for an object to cool, do not use the command \"wait\".': names ['cool'] which the measured pattern does not contain",
+   "rule_16 anti-pattern written from 2 of 2 lost tasks"
+  ]
+ },
+ "rules_changed": [
+  {
+   "id": "rule_15",
+   "before": null,
+   "after": {
+    "id": "rule_15",
+    "type": "Special Phenomenon",
+    "task_type": "pick_heat_then_place_in_recep",
+    "alpha": 1,
+    "beta": 1,
+    "mean": 0.5,
+    "visible_to_agent": false,
+    "rule": "When heating an object on a stoveburner, examine it first to confirm it is hot before moving it to the target.",
+    "example": "The agent failed because it placed the potato on stoveburner 1 without confirming it was hot, then switched to the microwave.",
+    "rendered_for_agent": "[Special Phenomenon] When heating an object on a stoveburner, examine it first to confirm it is hot before moving it to the target. Example: The agent failed because it placed the potato on stoveburner 1 without confirming it was hot, then switched to the microwave.",
+    "evidence": {
+     "won": 0,
+     "lost": 0
+    }
+   },
+   "change": "NEW"
+  },
+  {
+   "id": "rule_16",
+   "before": null,
+   "after": {
+    "id": "rule_16",
+    "type": "Anti-Pattern",
+    "task_type": "pick_heat_then_place_in_recep",
+    "alpha": 1,
+    "beta": 1,
+    "mean": 0.5,
+    "visible_to_agent": true,
+    "rule": "When examining an appliance, do not issue the same \"examine\" command again and again.",
+    "example": "\"examine stoveburner\", again and again",
+    "rendered_for_agent": "[Anti-Pattern] When examining an appliance, do not issue the same \"examine\" command again and again. Example: \"examine stoveburner\", again and again",
+    "evidence": {
+     "won": 0,
+     "lost": 0
+    },
+    "pattern": {
+     "attempts": 4,
+     "games": 2,
+     "kind": "repeat",
+     "of_attempts": 8,
+     "of_games": 2,
+     "sig": [
+      "repeat",
+      "examine stoveburner"
+     ],
+     "wins_checked": 0
+    },
+    "violations": 0
+   },
+   "change": "NEW"
+  }
+ ]
+}

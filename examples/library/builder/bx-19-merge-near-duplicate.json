@@ -1,0 +1,738 @@
+{
+ "id": "bx-19-merge-near-duplicate",
+ "title": "A new rule merged into an existing one",
+ "source": {
+  "run": "practice-d",
+  "stream": "practice-E-0",
+  "position": 45
+ },
+ "shows": "The Builder writes a rule; code finds a near-duplicate (similarity >= 0.75) of the same type and kind and merges it into rule_6 (\"merged a new rule into rule_6\") instead of adding a second rule; its task is kept as extra evidence.",
+ "why_interesting": "Keeps the manual small. Merging never widens a rule's scope (a rule for one kind of task is never merged into another kind).",
+ "notes": [],
+ "practice_game": {
+  "goal": "find two laptop and put them in ottoman.",
+  "task_type": "pick_two_obj_and_place",
+  "task_kind": "two objects",
+  "game_id": "train/pick_two_obj_and_place-Laptop-None-Ottoman-203/trial_T20190907_034427_986385",
+  "success": false,
+  "steps": 30,
+  "invalid_actions": 1,
+  "model_calls": 145
+ },
+ "rules_shown_in_first_attempt": [
+  {
+   "id": "rule_21",
+   "type": "Success Process",
+   "task_type": "pick_two_obj_and_place",
+   "alpha": 2,
+   "beta": 2,
+   "mean": 0.5,
+   "visible_to_agent": true,
+   "rule": "When an object must be placed on a surface: search all surfaces first, open the target if closed, go to the target location, take the object from its source, go to the target location, move the object to the target.",
+   "example": "search cabinet 1 and cabinet 2 first, open cabinet 1 if closed, go to diningtable 1, take peppershaker 1 from cabinet 1, go to diningtable 1, move peppershaker 1 to diningtable 1.",
+   "validation": "Agent failed to place peppershaker because it moved directly without going to target first; success required going to target before moving.",
+   "rendered_for_agent": "[Success Process] When an object must be placed on a surface: search all surfaces first, open the target if closed, go to the target location, take the object from its source, go to the target location, move the object to the target. Example: search cabinet 1 and cabinet 2 first, open cabinet 1 if closed, go to diningtable 1, take peppershaker 1 from cabinet 1, go to diningtable 1, move peppershaker 1 to diningtable 1.",
+   "evidence": {
+    "won": 1,
+    "lost": 1
+   }
+  },
+  {
+   "id": "rule_22",
+   "type": "Corrected Error",
+   "task_type": "all",
+   "alpha": 7,
+   "beta": 8,
+   "mean": 0.47,
+   "visible_to_agent": true,
+   "rule": "When placing a hot object on a countertop, heat it with a microwave first, then move it to the countertop.",
+   "example": "take cellphone from armchair, go to bed, move cellphone to bed",
+   "rendered_for_agent": "[Corrected Error] When placing a hot object on a countertop, heat it with a microwave first, then move it to the countertop. Example: take cellphone from armchair, go to bed, move cellphone to bed",
+   "evidence": {
+    "won": 6,
+    "lost": 7
+   }
+  }
+ ],
+ "first_attempt_trace": [
+  {
+   "step": 1,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 2,
+   "action": "open drawer 1",
+   "observation": "You open the drawer 1. The drawer 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 3,
+   "action": "go to drawer 2",
+   "observation": "You arrive at drawer 2. The drawer 2 is closed.",
+   "valid": true
+  },
+  {
+   "step": 4,
+   "action": "open drawer 2",
+   "observation": "You open the drawer 2. The drawer 2 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 5,
+   "action": "go to drawer 3",
+   "observation": "You arrive at drawer 3. On the drawer 3, you see a cellphone 1.",
+   "valid": true
+  },
+  {
+   "step": 6,
+   "action": "go to drawer 4",
+   "observation": "You arrive at drawer 4. The drawer 4 is closed.",
+   "valid": true
+  },
+  {
+   "step": 7,
+   "action": "open drawer 4",
+   "observation": "You open the drawer 4. The drawer 4 is open. In it, you see a cellphone 2.",
+   "valid": true
+  },
+  {
+   "step": 8,
+   "action": "go to drawer 5",
+   "observation": "You arrive at drawer 5. The drawer 5 is closed.",
+   "valid": true
+  },
+  {
+   "step": 9,
+   "action": "open drawer 5",
+   "observation": "You open the drawer 5. The drawer 5 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 10,
+   "action": "go to drawer 6",
+   "observation": "You arrive at drawer 6. The drawer 6 is closed.",
+   "valid": true
+  },
+  {
+   "step": 11,
+   "action": "open drawer 6",
+   "observation": "You open the drawer 6. The drawer 6 is open. In it, you see a creditcard 3.",
+   "valid": true
+  },
+  {
+   "step": 12,
+   "action": "go to ottoman 1",
+   "observation": "You arrive at ottoman 1. On the ottoman 1, you see a keychain 1.",
+   "valid": true
+  },
+  {
+   "step": 13,
+   "action": "go to armchair 1",
+   "observation": "You arrive at armchair 1. On the armchair 1, you see a creditcard 2, a newspaper 1, a remotecontrol 2, and a remotecontrol 1.",
+   "valid": true
+  },
+  {
+   "step": 14,
+   "action": "go to coffeetable 1",
+   "observation": "You arrive at coffeetable 1. On the coffeetable 1, you see a bowl 1, a creditcard 1, a laptop 1, a pencil 1, a tissuebox 2, a tissuebox 1, a vase 1, and a watch 1.",
+   "valid": true
+  },
+  {
+   "step": 15,
+   "action": "take laptop 1 from coffeetable 1",
+   "observation": "You pick up the laptop 1 from the coffeetable 1.",
+   "valid": true
+  },
+  {
+   "step": 16,
+   "action": "move laptop 1 to ottoman 1",
+   "observation": "You pick up the laptop 1 from the coffeetable 1.",
+   "valid": false
+  },
+  {
+   "step": 17,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 18,
+   "action": "go to drawer 2",
+   "observation": "You arrive at drawer 2. The drawer 2 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 19,
+   "action": "go to drawer 3",
+   "observation": "You arrive at drawer 3. On the drawer 3, you see a cellphone 1.",
+   "valid": true
+  },
+  {
+   "step": 20,
+   "action": "go to drawer 4",
+   "observation": "You arrive at drawer 4. The drawer 4 is open. In it, you see a cellphone 2.",
+   "valid": true
+  },
+  {
+   "step": 21,
+   "action": "go to drawer 5",
+   "observation": "You arrive at drawer 5. The drawer 5 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 22,
+   "action": "go to drawer 6",
+   "observation": "You arrive at drawer 6. The drawer 6 is open. In it, you see a creditcard 3.",
+   "valid": true
+  },
+  {
+   "step": 23,
+   "action": "go to diningtable 1",
+   "observation": "You arrive at diningtable 1. On the diningtable 1, you see a cellphone 3, a plate 1, and a tissuebox 3.",
+   "valid": true
+  },
+  {
+   "step": 24,
+   "action": "go to coffeetable 1",
+   "observation": "You arrive at coffeetable 1. On the coffeetable 1, you see a bowl 1, a creditcard 1, a pencil 1, a tissuebox 2, a tissuebox 1, a vase 1, and a watch 1.",
+   "valid": true
+  },
+  {
+   "step": 25,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 26,
+   "action": "go to armchair 1",
+   "observation": "You arrive at armchair 1. On the armchair 1, you see a creditcard 2, a newspaper 1, a remotecontrol 2, and a remotecontrol 1.",
+   "valid": true
+  },
+  {
+   "step": 27,
+   "action": "go to garbagecan 1",
+   "observation": "You arrive at garbagecan 1. On the garbagecan 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 28,
+   "action": "go to armchair 1",
+   "observation": "You arrive at armchair 1. On the armchair 1, you see a creditcard 2, a newspaper 1, a remotecontrol 2, and a remotecontrol 1.",
+   "valid": true
+  },
+  {
+   "step": 29,
+   "action": "examine armchair 1",
+   "observation": "On the armchair 1, you see a creditcard 2, a newspaper 1, a remotecontrol 2, and a remotecontrol 1.",
+   "valid": true
+  },
+  {
+   "step": 30,
+   "action": "go to ottoman 1",
+   "observation": "You arrive at ottoman 1. On the ottoman 1, you see a keychain 1.",
+   "valid": true
+  }
+ ],
+ "retries": [
+  {
+   "attempt": 1,
+   "reflection": "I failed because I only found one laptop on the coffeetable and tried to move it directly to the ottoman without checking if the ottoman could accept it or if I needed to find a second laptop first. I should have examined the ottoman 1 more carefully to see if it was empty and capable of holding items, and I need to search more thoroughly for the second laptop which might be in another location li",
+   "won": false,
+   "steps": 30,
+   "actions": [
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "open drawer 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 2",
+     "valid": true
+    },
+    {
+     "action": "open drawer 2",
+     "valid": true
+    },
+    {
+     "action": "go to coffeetable 1",
+     "valid": true
+    },
+    {
+     "action": "take laptop 1 from coffeetable 1",
+     "valid": true
+    },
+    {
+     "action": "go to ottoman 1",
+     "valid": true
+    },
+    {
+     "action": "move laptop 1 to ottoman 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 3",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 4",
+     "valid": true
+    },
+    {
+     "action": "open drawer 4",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 5",
+     "valid": true
+    },
+    {
+     "action": "open drawer 5",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 6",
+     "valid": true
+    },
+    {
+     "action": "open drawer 6",
+     "valid": true
+    },
+    {
+     "action": "go to armchair 1",
+     "valid": true
+    },
+    {
+     "action": "go to coffeetable 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 7",
+     "valid": true
+    },
+    {
+     "action": "open drawer 7",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "go to armchair 1",
+     "valid": true
+    },
+    {
+     "action": "go to coffeetable 1",
+     "valid": true
+    },
+    {
+     "action": "go to ottoman 1",
+     "valid": true
+    },
+    {
+     "action": "go to coffeetable 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "go to ottoman 1",
+     "valid": true
+    },
+    {
+     "action": "take laptop 1 from ottoman 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    }
+   ]
+  },
+  {
+   "attempt": 2,
+   "reflection": "I failed because I only found one laptop on the coffeetable and moved it to the ottoman without searching for the second laptop first. I should have continued searching all locations (drawers, tables, chairs) for the second laptop before attempting to move both to the ottoman. I need to systematically check every remaining location like drawer 3, drawer 4, drawer 5, drawer 6, drawer 7, armchair 1,",
+   "won": false,
+   "steps": 30,
+   "actions": [
+    {
+     "action": "go to coffeetable 1",
+     "valid": true
+    },
+    {
+     "action": "take laptop 1 from coffeetable 1",
+     "valid": true
+    },
+    {
+     "action": "go to ottoman 1",
+     "valid": true
+    },
+    {
+     "action": "move laptop 1 to ottoman 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "open drawer 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 2",
+     "valid": true
+    },
+    {
+     "action": "open drawer 2",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 3",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 4",
+     "valid": true
+    },
+    {
+     "action": "open drawer 4",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 5",
+     "valid": true
+    },
+    {
+     "action": "open drawer 5",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 6",
+     "valid": true
+    },
+    {
+     "action": "open drawer 6",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 7",
+     "valid": true
+    },
+    {
+     "action": "go to armchair 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "go to coffeetable 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to garbagecan 1",
+     "valid": true
+    },
+    {
+     "action": "go to ottoman 1",
+     "valid": true
+    },
+    {
+     "action": "examine ottoman 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 2",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 3",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 4",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 5",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 6",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 7",
+     "valid": true
+    }
+   ]
+  },
+  {
+   "attempt": 3,
+   "reflection": "I failed because I only found one laptop on the coffeetable and moved it to the ottoman without searching for the second laptop first. I should have systematically checked all remaining locations like drawer 3, drawer 4, drawer 5, drawer 6, drawer 7, and armchair 1 for the second laptop before attempting to move both to the ottoman. I need to continue searching all locations for the second laptop ",
+   "won": false,
+   "steps": 30,
+   "actions": [
+    {
+     "action": "go to coffeetable 1",
+     "valid": true
+    },
+    {
+     "action": "take laptop 1 from coffeetable 1",
+     "valid": true
+    },
+    {
+     "action": "go to ottoman 1",
+     "valid": true
+    },
+    {
+     "action": "move laptop 1 to ottoman 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "open drawer 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 2",
+     "valid": true
+    },
+    {
+     "action": "open drawer 2",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 3",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 4",
+     "valid": true
+    },
+    {
+     "action": "open drawer 4",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 5",
+     "valid": true
+    },
+    {
+     "action": "open drawer 5",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 6",
+     "valid": true
+    },
+    {
+     "action": "open drawer 6",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 7",
+     "valid": true
+    },
+    {
+     "action": "open drawer 7",
+     "valid": true
+    },
+    {
+     "action": "close drawer 7",
+     "valid": true
+    },
+    {
+     "action": "go to armchair 1",
+     "valid": true
+    },
+    {
+     "action": "go to coffeetable 1",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": true
+    },
+    {
+     "action": "go to coffeetable 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "go to garbagecan 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 2",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 3",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 4",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 5",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 6",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 7",
+     "valid": true
+    }
+   ]
+  }
+ ],
+ "builder_report": {
+  "case": "failure",
+  "diagnosis": "imperfect rules",
+  "operations": [
+   {
+    "id": "rule_21",
+    "op": "update_rule",
+    "validation": "Agent failed to place peppershaker because it moved directly without going to target first; success required going to target before moving. | Agent failed to place laptop because it moved directly without going to target first; success requires going to target before moving."
+   },
+   {
+    "id": "rule_6",
+    "op": "merge_rule",
+    "source": {
+     "task": "find two laptop and put them in ottoman.",
+     "task_type": "pick_two_obj_and_place"
+    },
+    "task_type": "pick_two_obj_and_place"
+   },
+   {
+    "id": "rule_22",
+    "op": "refine",
+    "refined_at": [
+     3,
+     6
+    ],
+    "rule": "When placing two objects in a container: search drawers first, take both objects, move them to the container."
+   }
+  ],
+  "bookkeeping_operations": [
+   "outcome",
+   "pool_game"
+  ],
+  "log_lines": [
+   "rule_21 keeps its text (a lost game may not rewrite a rule the agent sees)",
+   "merged a new rule into rule_6"
+  ]
+ },
+ "rules_changed": [
+  {
+   "id": "rule_21",
+   "before": {
+    "id": "rule_21",
+    "type": "Success Process",
+    "task_type": "pick_two_obj_and_place",
+    "alpha": 2,
+    "beta": 2,
+    "mean": 0.5,
+    "visible_to_agent": true,
+    "rule": "When an object must be placed on a surface: search all surfaces first, open the target if closed, go to the target location, take the object from its source, go to the target location, move the object to the target.",
+    "example": "search cabinet 1 and cabinet 2 first, open cabinet 1 if closed, go to diningtable 1, take peppershaker 1 from cabinet 1, go to diningtable 1, move peppershaker 1 to diningtable 1.",
+    "validation": "Agent failed to place peppershaker because it moved directly without going to target first; success required going to target before moving.",
+    "rendered_for_agent": "[Success Process] When an object must be placed on a surface: search all surfaces first, open the target if closed, go to the target location, take the object from its source, go to the target location, move the object to the target. Example: search cabinet 1 and cabinet 2 first, open cabinet 1 if closed, go to diningtable 1, take peppershaker 1 from cabinet 1, go to diningtable 1, move peppershaker 1 to diningtable 1.",
+    "evidence": {
+     "won": 1,
+     "lost": 1
+    }
+   },
+   "after": {
+    "id": "rule_21",
+    "type": "Success Process",
+    "task_type": "pick_two_obj_and_place",
+    "alpha": 2,
+    "beta": 3,
+    "mean": 0.4,
+    "visible_to_agent": true,
+    "rule": "When an object must be placed on a surface: search all surfaces first, open the target if closed, go to the target location, take the object from its source, go to the target location, move the object to the target.",
+    "example": "search cabinet 1 and cabinet 2 first, open cabinet 1 if closed, go to diningtable 1, take peppershaker 1 from cabinet 1, go to diningtable 1, move peppershaker 1 to diningtable 1.",
+    "validation": "Agent failed to place peppershaker because it moved directly without going to target first; success required going to target before moving. | Agent failed to place laptop because it moved directly without going to target first; success requires going to target before moving.",
+    "rendered_for_agent": "[Success Process] When an object must be placed on a surface: search all surfaces first, open the target if closed, go to the target location, take the object from its source, go to the target location, move the object to the target. Example: search cabinet 1 and cabinet 2 first, open cabinet 1 if closed, go to diningtable 1, take peppershaker 1 from cabinet 1, go to diningtable 1, move peppershaker 1 to diningtable 1.",
+    "evidence": {
+     "won": 1,
+     "lost": 2
+    }
+   },
+   "change": "beta"
+  },
+  {
+   "id": "rule_22",
+   "before": {
+    "id": "rule_22",
+    "type": "Corrected Error",
+    "task_type": "all",
+    "alpha": 7,
+    "beta": 8,
+    "mean": 0.47,
+    "visible_to_agent": true,
+    "rule": "When placing a hot object on a countertop, heat it with a microwave first, then move it to the countertop.",
+    "example": "take cellphone from armchair, go to bed, move cellphone to bed",
+    "rendered_for_agent": "[Corrected Error] When placing a hot object on a countertop, heat it with a microwave first, then move it to the countertop. Example: take cellphone from armchair, go to bed, move cellphone to bed",
+    "evidence": {
+     "won": 6,
+     "lost": 7
+    }
+   },
+   "after": {
+    "id": "rule_22",
+    "type": "Corrected Error",
+    "task_type": "all",
+    "alpha": 7,
+    "beta": 9,
+    "mean": 0.44,
+    "visible_to_agent": true,
+    "rule": "When placing two objects in a container: search drawers first, take both objects, move them to the container.",
+    "example": "take cellphone from armchair, go to bed, move cellphone to bed",
+    "rendered_for_agent": "[Corrected Error] When placing two objects in a container: search drawers first, take both objects, move them to the container. Example: take cellphone from armchair, go to bed, move cellphone to bed",
+    "evidence": {
+     "won": 6,
+     "lost": 8
+    }
+   },
+   "change": "rule, beta"
+  }
+ ]
+}

@@ -1,0 +1,722 @@
+{
+ "id": "bx-08-lost-game-cannot-rewrite-visible-rule",
+ "title": "A lost game cannot rewrite a rule the agent sees",
+ "source": {
+  "run": "study",
+  "stream": "practice-E-0",
+  "position": 19
+ },
+ "shows": "A cool task loses after 3 retries. The Builder tries to update rule_13 (visible); the code keeps the confirmed text and only the validation note is added: \"rule_13 keeps its text (a lost game may not rewrite a rule the agent sees)\".",
+ "why_interesting": "Prevents a single bad game from corrupting a good recipe.",
+ "notes": [],
+ "practice_game": {
+  "goal": "cool some plate and put it in cabinet.",
+  "task_type": "pick_cool_then_place_in_recep",
+  "task_kind": "cool then place",
+  "game_id": "train/pick_cool_then_place_in_recep-Plate-None-Cabinet-22/trial_T20190908_083901_120678",
+  "success": false,
+  "steps": 30,
+  "invalid_actions": 0,
+  "model_calls": 144
+ },
+ "rules_shown_in_first_attempt": [
+  {
+   "id": "rule_13",
+   "type": "Success Process",
+   "task_type": "pick_cool_then_place_in_recep",
+   "alpha": 1,
+   "beta": 2,
+   "mean": 0.33,
+   "visible_to_agent": true,
+   "rule": "When the object must be cooled and placed in the target: search stoveburners and countertops first, take the object, cool it with the fridge, open the target cabinet if closed, move the object there.",
+   "example": "search stoveburners and countertops first, take pan 1 from stoveburner 4, cool pan 1 with fridge 1, open cabinet if closed, move pan 1 to diningtable 1.",
+   "validation": "confirmed: pan 1 was found on stoveburner 4 after searching stoveburners and countertops.",
+   "rendered_for_agent": "[Success Process] When the object must be cooled and placed in the target: search stoveburners and countertops first, take the object, cool it with the fridge, open the target cabinet if closed, move the object there. Example: search stoveburners and countertops first, take pan 1 from stoveburner 4, cool pan 1 with fridge 1, open cabinet if closed, move pan 1 to diningtable 1.",
+   "evidence": {
+    "won": 0,
+    "lost": 1
+   }
+  },
+  {
+   "id": "rule_12",
+   "type": "Corrected Error",
+   "task_type": "pick_cool_then_place_in_recep",
+   "alpha": 1,
+   "beta": 2,
+   "mean": 0.33,
+   "visible_to_agent": true,
+   "rule": "When an object must be found and cooled, search stoveburners and countertops first instead of opening cabinets.",
+   "example": "search stoveburners and countertops first instead of opening cabinets.",
+   "validation": "confirmed: agent failed by only checking cabinets/drawers, succeeded by searching stoveburners/countertops.",
+   "rendered_for_agent": "[Corrected Error] When an object must be found and cooled, search stoveburners and countertops first instead of opening cabinets. Example: search stoveburners and countertops first instead of opening cabinets.",
+   "evidence": {
+    "won": 0,
+    "lost": 1
+   }
+  }
+ ],
+ "first_attempt_trace": [
+  {
+   "step": 1,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a bread 1, a butterknife 1, a creditcard 1, a egg 1, a knife 1, and a tomato 1.",
+   "valid": true
+  },
+  {
+   "step": 2,
+   "action": "go to countertop 2",
+   "observation": "You arrive at countertop 2. On the countertop 2, you see a bread 2, a dishsponge 2, a fork 1, a pan 1, a potato 1, a spoon 1, and a tomato 2.",
+   "valid": true
+  },
+  {
+   "step": 3,
+   "action": "go to countertop 3",
+   "observation": "You arrive at countertop 3. On the countertop 3, you see a butterknife 2, a knife 2, a saltshaker 1, a soapbottle 2, and a spatula 1.",
+   "valid": true
+  },
+  {
+   "step": 4,
+   "action": "go to cabinet 1",
+   "observation": "You arrive at cabinet 1. The cabinet 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 5,
+   "action": "open cabinet 1",
+   "observation": "You open the cabinet 1. The cabinet 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 6,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a bread 1, a butterknife 1, a creditcard 1, a egg 1, a knife 1, and a tomato 1.",
+   "valid": true
+  },
+  {
+   "step": 7,
+   "action": "go to countertop 2",
+   "observation": "You arrive at countertop 2. On the countertop 2, you see a bread 2, a dishsponge 2, a fork 1, a pan 1, a potato 1, a spoon 1, and a tomato 2.",
+   "valid": true
+  },
+  {
+   "step": 8,
+   "action": "go to countertop 3",
+   "observation": "You arrive at countertop 3. On the countertop 3, you see a butterknife 2, a knife 2, a saltshaker 1, a soapbottle 2, and a spatula 1.",
+   "valid": true
+  },
+  {
+   "step": 9,
+   "action": "go to cabinet 1",
+   "observation": "You arrive at cabinet 1. The cabinet 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 10,
+   "action": "go to cabinet 2",
+   "observation": "You arrive at cabinet 2. The cabinet 2 is closed.",
+   "valid": true
+  },
+  {
+   "step": 11,
+   "action": "open cabinet 2",
+   "observation": "You open the cabinet 2. The cabinet 2 is open. In it, you see a dishsponge 1.",
+   "valid": true
+  },
+  {
+   "step": 12,
+   "action": "go to cabinet 3",
+   "observation": "You arrive at cabinet 3. The cabinet 3 is closed.",
+   "valid": true
+  },
+  {
+   "step": 13,
+   "action": "open cabinet 3",
+   "observation": "You open the cabinet 3. The cabinet 3 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 14,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a bread 1, a butterknife 1, a creditcard 1, a egg 1, a knife 1, and a tomato 1.",
+   "valid": true
+  },
+  {
+   "step": 15,
+   "action": "go to countertop 2",
+   "observation": "You arrive at countertop 2. On the countertop 2, you see a bread 2, a dishsponge 2, a fork 1, a pan 1, a potato 1, a spoon 1, and a tomato 2.",
+   "valid": true
+  },
+  {
+   "step": 16,
+   "action": "go to countertop 3",
+   "observation": "You arrive at countertop 3. On the countertop 3, you see a butterknife 2, a knife 2, a saltshaker 1, a soapbottle 2, and a spatula 1.",
+   "valid": true
+  },
+  {
+   "step": 17,
+   "action": "go to cabinet 1",
+   "observation": "You arrive at cabinet 1. The cabinet 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 18,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a bread 1, a butterknife 1, a creditcard 1, a egg 1, a knife 1, and a tomato 1.",
+   "valid": true
+  },
+  {
+   "step": 19,
+   "action": "go to countertop 3",
+   "observation": "You arrive at countertop 3. On the countertop 3, you see a butterknife 2, a knife 2, a saltshaker 1, a soapbottle 2, and a spatula 1.",
+   "valid": true
+  },
+  {
+   "step": 20,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a bread 1, a butterknife 1, a creditcard 1, a egg 1, a knife 1, and a tomato 1.",
+   "valid": true
+  },
+  {
+   "step": 21,
+   "action": "go to countertop 3",
+   "observation": "You arrive at countertop 3. On the countertop 3, you see a butterknife 2, a knife 2, a saltshaker 1, a soapbottle 2, and a spatula 1.",
+   "valid": true
+  },
+  {
+   "step": 22,
+   "action": "go to countertop 2",
+   "observation": "You arrive at countertop 2. On the countertop 2, you see a bread 2, a dishsponge 2, a fork 1, a pan 1, a potato 1, a spoon 1, and a tomato 2.",
+   "valid": true
+  },
+  {
+   "step": 23,
+   "action": "go to countertop 3",
+   "observation": "You arrive at countertop 3. On the countertop 3, you see a butterknife 2, a knife 2, a saltshaker 1, a soapbottle 2, and a spatula 1.",
+   "valid": true
+  },
+  {
+   "step": 24,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a bread 1, a butterknife 1, a creditcard 1, a egg 1, a knife 1, and a tomato 1.",
+   "valid": true
+  },
+  {
+   "step": 25,
+   "action": "go to countertop 2",
+   "observation": "You arrive at countertop 2. On the countertop 2, you see a bread 2, a dishsponge 2, a fork 1, a pan 1, a potato 1, a spoon 1, and a tomato 2.",
+   "valid": true
+  },
+  {
+   "step": 26,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a bread 1, a butterknife 1, a creditcard 1, a egg 1, a knife 1, and a tomato 1.",
+   "valid": true
+  },
+  {
+   "step": 27,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 28,
+   "action": "go to countertop 3",
+   "observation": "You arrive at countertop 3. On the countertop 3, you see a butterknife 2, a knife 2, a saltshaker 1, a soapbottle 2, and a spatula 1.",
+   "valid": true
+  },
+  {
+   "step": 29,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a bread 1, a butterknife 1, a creditcard 1, a egg 1, a knife 1, and a tomato 1.",
+   "valid": true
+  },
+  {
+   "step": 30,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+   "valid": true
+  }
+ ],
+ "retries": [
+  {
+   "attempt": 1,
+   "reflection": "I failed because I never identified or picked up a plate to cool, instead repeatedly moving between countertops and cabinets without locating the required object. I should have first searched all countertops for a plate, picked it up, used the cooling action, and then placed it in the cabinet.",
+   "won": false,
+   "steps": 30,
+   "actions": [
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 3",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "open drawer 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 2",
+     "valid": true
+    },
+    {
+     "action": "open drawer 2",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 3",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 3",
+     "valid": true
+    },
+    {
+     "action": "examine drawer 3",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 4",
+     "valid": false
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "examine countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 3",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 3",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    }
+   ]
+  },
+  {
+   "attempt": 2,
+   "reflection": "I failed because I never identified or picked up a plate to cool, instead repeatedly moving between countertops and cabinets without locating the required object. I should have first searched all countertops for a plate, picked it up, used the cooling action, and then placed it in the cabinet.",
+   "won": false,
+   "steps": 30,
+   "actions": [
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 3",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "open cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 3",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 3",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "open drawer 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 2",
+     "valid": true
+    },
+    {
+     "action": "open drawer 2",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 3",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 3",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    }
+   ]
+  },
+  {
+   "attempt": 3,
+   "reflection": "I failed because I never identified or picked up a plate to cool, instead repeatedly moving between countertops and cabinets without locating the required object. I should have first searched all countertops for a plate, picked it up, used the cooling action, and then placed it in the cabinet.",
+   "won": false,
+   "steps": 30,
+   "actions": [
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 3",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "open cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 3",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": false
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": false
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": false
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": false
+    },
+    {
+     "action": "go to diningtable 1",
+     "valid": false
+    },
+    {
+     "action": "go to countertop 3",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "examine countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 3",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 2",
+     "valid": true
+    },
+    {
+     "action": "examine countertop 2",
+     "valid": true
+    },
+    {
+     "action": "go to cabinet 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 3",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to drawer 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    }
+   ]
+  }
+ ],
+ "builder_report": {
+  "case": "failure",
+  "diagnosis": "imperfect rules",
+  "operations": [
+   {
+    "id": "rule_13",
+    "op": "update_rule",
+    "validation": "The agent failed because it never searched countertops for a plate to cool, instead repeatedly moving between countertops and cabinets without locating the required object."
+   }
+  ],
+  "bookkeeping_operations": [
+   "outcome",
+   "pool_game"
+  ],
+  "log_lines": [
+   "rule_13 keeps its text (a lost game may not rewrite a rule the agent sees)"
+  ]
+ },
+ "rules_changed": [
+  {
+   "id": "rule_12",
+   "before": {
+    "id": "rule_12",
+    "type": "Corrected Error",
+    "task_type": "pick_cool_then_place_in_recep",
+    "alpha": 1,
+    "beta": 2,
+    "mean": 0.33,
+    "visible_to_agent": true,
+    "rule": "When an object must be found and cooled, search stoveburners and countertops first instead of opening cabinets.",
+    "example": "search stoveburners and countertops first instead of opening cabinets.",
+    "validation": "confirmed: agent failed by only checking cabinets/drawers, succeeded by searching stoveburners/countertops.",
+    "rendered_for_agent": "[Corrected Error] When an object must be found and cooled, search stoveburners and countertops first instead of opening cabinets. Example: search stoveburners and countertops first instead of opening cabinets.",
+    "evidence": {
+     "won": 0,
+     "lost": 1
+    }
+   },
+   "after": {
+    "id": "rule_12",
+    "type": "Corrected Error",
+    "task_type": "pick_cool_then_place_in_recep",
+    "alpha": 1,
+    "beta": 3,
+    "mean": 0.25,
+    "visible_to_agent": true,
+    "rule": "When an object must be found and cooled, search stoveburners and countertops first instead of opening cabinets.",
+    "example": "search stoveburners and countertops first instead of opening cabinets.",
+    "validation": "confirmed: agent failed by only checking cabinets/drawers, succeeded by searching stoveburners/countertops.",
+    "rendered_for_agent": "[Corrected Error] When an object must be found and cooled, search stoveburners and countertops first instead of opening cabinets. Example: search stoveburners and countertops first instead of opening cabinets.",
+    "evidence": {
+     "won": 0,
+     "lost": 2
+    }
+   },
+   "change": "beta"
+  },
+  {
+   "id": "rule_13",
+   "before": {
+    "id": "rule_13",
+    "type": "Success Process",
+    "task_type": "pick_cool_then_place_in_recep",
+    "alpha": 1,
+    "beta": 2,
+    "mean": 0.33,
+    "visible_to_agent": true,
+    "rule": "When the object must be cooled and placed in the target: search stoveburners and countertops first, take the object, cool it with the fridge, open the target cabinet if closed, move the object there.",
+    "example": "search stoveburners and countertops first, take pan 1 from stoveburner 4, cool pan 1 with fridge 1, open cabinet if closed, move pan 1 to diningtable 1.",
+    "validation": "confirmed: pan 1 was found on stoveburner 4 after searching stoveburners and countertops.",
+    "rendered_for_agent": "[Success Process] When the object must be cooled and placed in the target: search stoveburners and countertops first, take the object, cool it with the fridge, open the target cabinet if closed, move the object there. Example: search stoveburners and countertops first, take pan 1 from stoveburner 4, cool pan 1 with fridge 1, open cabinet if closed, move pan 1 to diningtable 1.",
+    "evidence": {
+     "won": 0,
+     "lost": 1
+    }
+   },
+   "after": {
+    "id": "rule_13",
+    "type": "Success Process",
+    "task_type": "pick_cool_then_place_in_recep",
+    "alpha": 1,
+    "beta": 3,
+    "mean": 0.25,
+    "visible_to_agent": true,
+    "rule": "When the object must be cooled and placed in the target: search stoveburners and countertops first, take the object, cool it with the fridge, open the target cabinet if closed, move the object there.",
+    "example": "search stoveburners and countertops first, take pan 1 from stoveburner 4, cool pan 1 with fridge 1, open cabinet if closed, move pan 1 to diningtable 1.",
+    "validation": "The agent failed because it never searched countertops for a plate to cool, instead repeatedly moving between countertops and cabinets without locating the required object.",
+    "rendered_for_agent": "[Success Process] When the object must be cooled and placed in the target: search stoveburners and countertops first, take the object, cool it with the fridge, open the target cabinet if closed, move the object there. Example: search stoveburners and countertops first, take pan 1 from stoveburner 4, cool pan 1 with fridge 1, open cabinet if closed, move pan 1 to diningtable 1.",
+    "evidence": {
+     "won": 0,
+     "lost": 2
+    }
+   },
+   "change": "beta"
+  }
+ ]
+}

@@ -1,0 +1,295 @@
+{
+ "id": "bx-03-retry-corrected-error-and-rejected-recipe",
+ "title": "Retry win writes a Corrected Error; a recipe naming a numbered object is rejected",
+ "source": {
+  "run": "practice-b",
+  "stream": "practice-E-0",
+  "position": 4
+ },
+ "shows": "Heat task lost then won on retry 1. The Builder writes a Corrected Error (\"never place a mug on the stoveburner to heat it; use the microwave instead\") and its Success Process attempt is rejected by the code check because the text names \"microwave 1\".",
+ "why_interesting": "Shows the two kinds of rule writes in one game and the deterministic reject-and-log guard. A Corrected Error is the \"when X, do Y instead of X\" contrastive rule from the ExpeL idea.",
+ "notes": [
+  "This run (practice-b) predates the specificity check, so the Corrected Error still names a kettle and a mug; later runs would rewrite or reject it (see bx-10)."
+ ],
+ "practice_game": {
+  "goal": "put a hot mug in coffeemachine.",
+  "task_type": "pick_heat_then_place_in_recep",
+  "task_kind": "heat then place",
+  "game_id": "train/pick_heat_then_place_in_recep-Mug-None-CoffeeMachine-30/trial_T20190907_220045_510017",
+  "success": false,
+  "steps": 30,
+  "invalid_actions": 6,
+  "model_calls": 50
+ },
+ "rules_shown_in_first_attempt": [],
+ "first_attempt_trace": [
+  {
+   "step": 1,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 2,
+   "action": "go to drawer 2",
+   "observation": "You arrive at drawer 2. The drawer 2 is closed.",
+   "valid": true
+  },
+  {
+   "step": 3,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a butterknife 1, a houseplant 1, a ladle 1, and a mug 1.",
+   "valid": true
+  },
+  {
+   "step": 4,
+   "action": "go to stoveburner 1",
+   "observation": "You arrive at stoveburner 1. On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 5,
+   "action": "go to countertop 1",
+   "observation": "You arrive at countertop 1. On the countertop 1, you see a butterknife 1, a houseplant 1, a ladle 1, and a mug 1.",
+   "valid": true
+  },
+  {
+   "step": 6,
+   "action": "take mug 1 from countertop 1",
+   "observation": "You pick up the mug 1 from the countertop 1.",
+   "valid": true
+  },
+  {
+   "step": 7,
+   "action": "go to stoveburner 1",
+   "observation": "You arrive at stoveburner 1. On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 8,
+   "action": "examine stoveburner 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 9,
+   "action": "place mug 1 on stoveburner 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": false
+  },
+  {
+   "step": 10,
+   "action": "examine stoveburner 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 11,
+   "action": "examine stoveburner 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 12,
+   "action": "examine stoveburner 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 13,
+   "action": "examine stoveburner 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 14,
+   "action": "go to stoveburner 2",
+   "observation": "You arrive at stoveburner 2. On the stoveburner 2, you see a kettle 2.",
+   "valid": true
+  },
+  {
+   "step": 15,
+   "action": "go to stoveburner 1",
+   "observation": "You arrive at stoveburner 1. On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 16,
+   "action": "examine stoveburner 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 17,
+   "action": "examine mug 1",
+   "observation": "This is a normal mug 1. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 18,
+   "action": "examine stoveburner 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 19,
+   "action": "examine stoveburner 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 20,
+   "action": "examine stoveburner 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 21,
+   "action": "examine stoveburner 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 22,
+   "action": "examine stoveburner 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 23,
+   "action": "examine stoveburner 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 24,
+   "action": "examine kettle 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": false
+  },
+  {
+   "step": 25,
+   "action": "examine stoveburner 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 26,
+   "action": "examine kettle 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": false
+  },
+  {
+   "step": 27,
+   "action": "examine kettle 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": false
+  },
+  {
+   "step": 28,
+   "action": "examine stoveburner 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": true
+  },
+  {
+   "step": 29,
+   "action": "examine kettle 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": false
+  },
+  {
+   "step": 30,
+   "action": "examine kettle 1",
+   "observation": "On the stoveburner 1, you see a kettle 1.",
+   "valid": false
+  }
+ ],
+ "retries": [
+  {
+   "attempt": 1,
+   "reflection": "I attempted to place the mug on the stoveburner to heat it, but the action was invalid because the stoveburner already had a kettle on it. Instead, I should have examined the stoveburner more carefully to understand why the mug couldn't be placed, or looked for an alternative way to heat the mug such as using the kettle to boil water for it. I also wasted many steps repeatedly examining the stoveb",
+   "won": true,
+   "steps": 7,
+   "actions": [
+    {
+     "action": "go to fridge 1",
+     "valid": true
+    },
+    {
+     "action": "open fridge 1",
+     "valid": true
+    },
+    {
+     "action": "go to countertop 1",
+     "valid": true
+    },
+    {
+     "action": "take mug 1 from countertop 1",
+     "valid": true
+    },
+    {
+     "action": "go to microwave 1",
+     "valid": true
+    },
+    {
+     "action": "open microwave 1",
+     "valid": true
+    },
+    {
+     "action": "heat mug 1 with microwave 1",
+     "valid": true
+    }
+   ]
+  }
+ ],
+ "builder_report": {
+  "case": "corrected failure",
+  "diagnosis": "imperfect rules",
+  "operations": [
+   {
+    "example": "The agent tried to place the mug on stoveburner 1 but failed because a kettle was already there. The agent then used the microwave to heat the mug successfully.",
+    "op": "write_rule",
+    "rule": "When a stoveburner already has a kettle on it, never place a mug on the stoveburner to heat it; use the microwave instead.",
+    "sources": [
+     {
+      "task": "put a hot mug in coffeemachine.",
+      "task_type": "pick_heat_then_place_in_recep"
+     }
+    ],
+    "task_type": "pick_heat_then_place_in_recep",
+    "type": "Corrected Error",
+    "verified": true
+   }
+  ],
+  "bookkeeping_operations": [
+   "outcome",
+   "pool_won"
+  ],
+  "log_lines": [
+   "rejected Success Process text, names a numbered object ('microwave 1'): When a mug must be heated and placed in a coffeemachine: search countertop and f"
+  ]
+ },
+ "rules_changed": [
+  {
+   "id": "rule_7",
+   "before": null,
+   "after": {
+    "id": "rule_7",
+    "type": "Corrected Error",
+    "task_type": "pick_heat_then_place_in_recep",
+    "alpha": 1,
+    "beta": 1,
+    "mean": 0.5,
+    "visible_to_agent": true,
+    "rule": "When a stoveburner already has a kettle on it, never place a mug on the stoveburner to heat it; use the microwave instead.",
+    "example": "The agent tried to place the mug on stoveburner 1 but failed because a kettle was already there. The agent then used the microwave to heat the mug successfully.",
+    "rendered_for_agent": "[Corrected Error] When a stoveburner already has a kettle on it, never place a mug on the stoveburner to heat it; use the microwave instead. Example: The agent tried to place the mug on stoveburner 1 but failed because a kettle was already there. The agent then used the microwave to heat the mug successfully.",
+    "evidence": {
+     "won": 0,
+     "lost": 0
+    }
+   },
+   "change": "NEW"
+  }
+ ]
+}

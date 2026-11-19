@@ -1,0 +1,207 @@
+{
+ "id": "c-loop-failure-pick-place",
+ "title": "C: long failure by looping between receptacles",
+ "condition": "C",
+ "source": {
+  "run": "old-pilot-9b-v1",
+  "stream": "development-C-11",
+  "position": 28
+ },
+ "goal": "put some creditcard on drawer.",
+ "task_type": "pick_and_place_simple",
+ "task_kind": "pick and place",
+ "game_id": "valid_seen/pick_and_place_simple-CreditCard-None-Drawer-227/trial_T20190909_010644_297017",
+ "success": false,
+ "steps": 30,
+ "invalid_actions": 2,
+ "model_calls": 34,
+ "input_tokens": 64319,
+ "output_tokens": 2448,
+ "wall_seconds": 853.1,
+ "step_budget": 30,
+ "initial_observation": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking quickly around you, you see a armchair 2, a armchair 1, a cabinet 8, a cabinet 7, a cabinet 6, a cabinet 5, a cabinet 4, a cabinet 3, a cabinet 2, a cabinet 1, a coffeetable 2, a coffeetable 1, a diningtable 1, a drawer 7, a drawer 6, a drawer 5, a drawer 4, a drawer 3, a drawer 2, a drawer 1, a garbagecan 1, a shelf 13, a shelf 12, a shelf 11, a shelf 10, a shelf 9, a shelf 8, a shelf 7, a shelf 6, a shelf 5, a shelf 4, a shelf 3, a shelf 2, a shelf 1, and a sofa 1.\n\nYour task is to: put some creditcard on drawer.",
+ "shows": "After checking drawer 1 and cabinets 1-4, the agent starts cycling `go to shelf 1` / `go to shelf 2` / cabinet 1..4 / drawer 1 without ever completing the search, and exhausts the 30-step budget.",
+ "why_interesting": "The typical failure of C on pick-and-place: revisiting receptacles it has already seen, with no record of what was checked (17 repeated commands).",
+ "trace": [
+  {
+   "step": 1,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 2,
+   "action": "open drawer 1",
+   "observation": "You open the drawer 1. The drawer 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 3,
+   "action": "go to cabinet 1",
+   "observation": "You arrive at cabinet 1. The cabinet 1 is closed.",
+   "valid": true
+  },
+  {
+   "step": 4,
+   "action": "open cabinet 1",
+   "observation": "You open the cabinet 1. The cabinet 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 5,
+   "action": "go to cabinet 2",
+   "observation": "You arrive at cabinet 2. The cabinet 2 is closed.",
+   "valid": true
+  },
+  {
+   "step": 6,
+   "action": "open cabinet 2",
+   "observation": "You open the cabinet 2. The cabinet 2 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 7,
+   "action": "go to cabinet 1",
+   "observation": "You arrive at cabinet 1. The cabinet 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 8,
+   "action": "go to cabinet 3",
+   "observation": "You arrive at cabinet 3. The cabinet 3 is closed.",
+   "valid": true
+  },
+  {
+   "step": 9,
+   "action": "open cabinet 3",
+   "observation": "You open the cabinet 3. The cabinet 3 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 10,
+   "action": "go to cabinet 4",
+   "observation": "You arrive at cabinet 4. The cabinet 4 is closed.",
+   "valid": true
+  },
+  {
+   "step": 11,
+   "action": "open cabinet 4",
+   "observation": "You open the cabinet 4. The cabinet 4 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 12,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 13,
+   "action": "go to shelf 1",
+   "observation": "You arrive at shelf 1. On the shelf 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 14,
+   "action": "go to shelf 1",
+   "observation": "You arrive at shelf 1. On the shelf 1, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 15,
+   "action": "go to shelf 1",
+   "observation": "You arrive at shelf 1. On the shelf 1, you see nothing.",
+   "valid": false
+  },
+  {
+   "step": 16,
+   "action": "go to shelf 2",
+   "observation": "You arrive at shelf 2. On the shelf 2, you see a vase 2.",
+   "valid": true
+  },
+  {
+   "step": 17,
+   "action": "go to shelf 1",
+   "observation": "You arrive at shelf 1. On the shelf 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 18,
+   "action": "go to shelf 2",
+   "observation": "You arrive at shelf 2. On the shelf 2, you see a vase 2.",
+   "valid": true
+  },
+  {
+   "step": 19,
+   "action": "go to shelf 1",
+   "observation": "You arrive at shelf 1. On the shelf 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 20,
+   "action": "go to cabinet 1",
+   "observation": "You arrive at cabinet 1. The cabinet 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 21,
+   "action": "go to cabinet 2",
+   "observation": "You arrive at cabinet 2. The cabinet 2 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 22,
+   "action": "go to cabinet 3",
+   "observation": "You arrive at cabinet 3. The cabinet 3 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 23,
+   "action": "go to cabinet 4",
+   "observation": "You arrive at cabinet 4. The cabinet 4 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 24,
+   "action": "go to drawer 1",
+   "observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 25,
+   "action": "go to drawer 2",
+   "observation": "You arrive at drawer 2. The drawer 2 is closed.",
+   "valid": true
+  },
+  {
+   "step": 26,
+   "action": "go to shelf 1",
+   "observation": "You arrive at shelf 1. On the shelf 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 27,
+   "action": "go to cabinet 1",
+   "observation": "You arrive at cabinet 1. The cabinet 1 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 28,
+   "action": "go to cabinet 2",
+   "observation": "You arrive at cabinet 2. The cabinet 2 is open. In it, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 29,
+   "action": "go to shelf 1",
+   "observation": "You arrive at shelf 1. On the shelf 1, you see nothing.",
+   "valid": true
+  },
+  {
+   "step": 30,
+   "action": "go to cabinet 3",
+   "observation": "You arrive at cabinet 3. The cabinet 3 is open. In it, you see nothing.",
+   "valid": true
+  }
+ ]
+}

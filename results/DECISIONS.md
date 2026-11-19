@@ -154,3 +154,17 @@ _Reconstructed on 2026-11-19 from git history, archive/, results/, the proposal,
   only if its win/loss counts are worse. But every rule shown in a game gets the same credit, and no real
   run has retired a rule yet. So credit assignment and retirement are the next things to fix before the
   full study.
+
+### 2026-11-19 — Usage-based credit: only rules the agent followed get win/loss credit
+- **Decision:** after each practice game the Builder (already called once per game) also lists which of the
+  shown rules the agent's actions actually followed. Only those get the Beta win/loss update. Recipes
+  shown to the planner always count as followed. A rule shown at least 8 times and followed in under 20%
+  of them is retired as useless (recipes and Anti-Patterns exempt). If the list is missing, every shown
+  rule is credited as before.
+- **Why:** the lab found junk accumulation to be the long-run risk. With all co-shown rules getting the
+  same credit, junk inherits the wins of good rules, is never retired (no real run had retired a rule),
+  and retrieval cannot screen it out. MACLA itself updates a procedure's reliability only when it was
+  executed. Using the existing Builder call adds no model calls and leaves the play prompts (and C/D)
+  unchanged.
+- **Risk to watch:** a Builder that under-reports "followed" starves good rules of credit. Checked on a
+  live practice (practice-f) before the study's E library is restarted.
