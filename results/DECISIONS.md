@@ -116,3 +116,20 @@ _Reconstructed on 2026-11-19 from git history, archive/, results/, the proposal,
   RAM falls below 12 GB. Library checks use 70 games (all dev games), not 30.
 - **Why:** five parallel runs exhausted RAM and the runs were killed. With run-to-run noise of about
   ±4 games in 70, 30-game checks cannot separate library variants.
+
+### 2026-11-19 — Start the study with the current library code
+- **Decision:** start the long study (`run.ps1 study -RestartLibrary`), which rebuilds E's library from scratch with the current code. It stops at the 75-game gate unless E >= C.
+- **Why:** frozen libraries from the current code clearly beat C on all 70 dev games (49/70 and, for the
+  best library from almost the same code, 54/70, vs C 39/70, with paired wins 15-18 vs losses 3-5). Rules
+  are now general (no object names, no wrong scope). The remaining junk rules are rare and are left to
+  Beta retirement over 300 practice games. Known weak spots to watch at the gate are two-object and
+  clean tasks.
+
+### 2026-11-19 — Rules may not contain another task kind's action
+- **Decision:** a rule scoped to one task type must not contain the action of another kind (clean,
+  cool or heat, using a lamp, handling two objects). One Builder rewrite ("remove steps of another kind of
+  task"), else the rule is rejected. Appliance names used only as places to search are allowed.
+- **Why:** Success Process recipes copy every step of the winning game. In the restarted study's
+  library a cooling recipe said "clean it with sinkbasin, cool it with fridge". The game won
+  anyway, so Beta reliability can never catch such a wrong step, and it would teach a wrong recipe.
+  The E library of the study was restarted after this fix (C/D games kept).
