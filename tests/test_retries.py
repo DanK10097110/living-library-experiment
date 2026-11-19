@@ -209,7 +209,7 @@ class RetirementTests(unittest.TestCase):
         rules = [bad]
         result = run(Retrying(fail=()), rules=rules)
         ops = result['manual']['operations']
-        self.assertEqual(ops[0]['op'], 'outcome')
+        self.assertIn('outcome', [o['op'] for o in ops])
         self.assertIn({'op': 'retire', 'id': 'rule_1', 'won': 1, 'lost': 5, 'base': [7, 11]}, ops)
         self.assertNotIn('rule_1', [r['id'] for r in rules])
 

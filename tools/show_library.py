@@ -19,7 +19,7 @@ def rule_lines(rules):
         stored = 'n/a (stripped)' if ctx is None else f"{len(ctx)} ctx, {sum(bool(c.get('plan')) for c in ctx)} with plan"
         hidden = 'hidden' if (r.get('type') in HIDDEN or r.get('verified') is False) else 'visible'
         lines.append(f"{r.get('id')} [{r.get('type')}] task_type={r.get('task_type')} "
-                     f"a/b={r.get('alpha')}/{r.get('beta')} {hidden} won contexts: {stored}\n    {r.get('rule')}")
+                     f"a/b={r.get('alpha')}/{r.get('beta')} unused={r.get('unused', 0)} {hidden} won contexts: {stored}\n    {r.get('rule')}")
     return lines
 
 

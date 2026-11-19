@@ -109,6 +109,8 @@ RETRY_CONDITIONS = ('E', 'E-minus')
 MAX_REFLECTION = 400         # characters
 HIDDEN = ('Unresolved Error', avoid.POOL)    # Builder notes and the failure pools, never shown to the agent
 RETIRE_MIN = 4               # games shown before a rule can be retired
+USELESS_MIN = 8              # showings before a rule that is never followed can be retired
+USELESS_FOLLOWED = 0.2       # ... when followed in fewer than this share of its showings
 RETIRE_CONFIDENCE = 0.9      # P(rule win rate < base rate of its kind of task) needed to retire it
 EVIDENCE_PRIOR = 2           # retrieval: weight of task evidence = wins / (wins + EVIDENCE_PRIOR)
 CROSS_TYPE_EVIDENCE = 0.85   # evidence needed to show another kind's rule in an unseen kind of task
@@ -187,7 +189,9 @@ BUILDER_GUIDE = (
     'even in other words, update or upvote that rule; never restate it as a new rule. Use "validation" to note when a later game confirmed or contradicted a '
     'rule, in one short sentence. A rule with "confirmed": false is an unconfirmed guess from a lost game, '
     'not shown to the agent: upvote or update it when this game confirms it. '
-    'Output {"diagnosis": "...", "operations": [...]}; an empty list is fine.')
+    'Also list "followed": the ids from "shown_in_game" (the rules the agent was shown) that its actions '
+    'clearly followed in this game; a rule counts only if some action clearly did what it says. '
+    'Output {"diagnosis": "...", "operations": [...], "followed": [...]}; an empty list is fine.')
 CASE_NOTES = {
     'direct success': ' This game was won without mistakes: you may write or update a Success Process '
                       'and Special Phenomenon rules only.',
@@ -647,11 +651,19 @@ def near_duplicate(rules, kind, scope, text, similarity, task_type=None):
     return pool[best] if scores[best] >= DUP_SIMILARITY else None
 
 
-def observe(rules, shown_ids, won, context, position, violated=()):
-    """MACLA Beta update and contrastive contexts for the rules shown in a game; returns the op.
-    `violated`: shown Anti-Pattern rules whose pattern the agent did anyway."""
-    op = {'op': 'outcome', 'ids': list(shown_ids), 'won': bool(won), 'context': context, 'position': position,
-          **({'violated': list(violated)} if violated else {})}
+def observe(rules, shown_ids, won, context, position, violated=(), followed=None):
+    """MACLA Beta update and contrastive contexts for the rules the agent followed in a game; returns the op.
+    `violated`: shown Anti-Pattern rules whose pattern the agent did anyway.
+    `followed`: ids the Builder says the actions followed (None: credit every shown rule). Success Process
+    recipes always count (they shape the plan); shown rules not followed only get `unused` += 1."""
+    shown_ids = list(shown_ids)
+    unused = []
+    if followed is not None:
+        kind = {r['id']: r['type'] for r in rules}
+        unused = [i for i in shown_ids if i not in set(followed) and kind.get(i) != 'Success Process']
+    op = {'op': 'outcome', 'ids': [i for i in shown_ids if i not in unused], 'won': bool(won), 'context': context,
+          'position': position, **({'violated': list(violated)} if violated else {}),
+          **({'unused': unused} if unused else {})}
     _observe(rules, op)
     return op
 
@@ -663,6 +675,10 @@ def _observe(rules, op):
         if rule.get('task_type') in (kind, 'all', None):
             won, games = rule.get('base', [0, 0])
             rule['base'] = [won + bool(op['won']), games + 1]
+    for rule_id in op.get('unused', ()):   # shown, not followed: no Beta update
+        if rule_id in by_id:
+            by_id[rule_id]['unused'] = by_id[rule_id].get('unused', 0) + 1
+            by_id[rule_id]['last_used'] = op['position']
     for rule_id in op['ids']:
         rule = by_id.get(rule_id)
         if rule is None:
@@ -683,11 +699,22 @@ def observed(rule):
     return [rule.get('alpha', 1) - 1, rule.get('beta', 1) - 1]
 
 
+def useless(rule):
+    """Shown in >= USELESS_MIN games but followed in under USELESS_FOLLOWED of them (recipes and Anti-Patterns exempt)."""
+    if rule['type'] in ('Success Process', avoid.TYPE, avoid.POOL):
+        return False
+    won, lost = observed(rule)
+    shown = won + lost + rule.get('unused', 0)
+    return shown >= USELESS_MIN and (won + lost) < USELESS_FOLLOWED * shown
+
+
 def retirable(rule):
     """Shown in >= RETIRE_MIN games and, by its Beta posterior, clearly below the base win rate of
     the games it could have been shown in (Laplace-smoothed)."""
     won, lost = observed(rule)
     base_won, base_games = rule.get('base', [0, 0])
+    if useless(rule):
+        return True
     if won + lost < RETIRE_MIN or rule['type'] == avoid.POOL:
         return False
     if won == 0 and rule['type'] == avoid.TYPE:
@@ -707,8 +734,15 @@ def retire(rules, report):
     for rule in [r for r in rules if retirable(r)]:
         won, lost = observed(rule)
         op = {'op': 'retire', 'id': rule['id'], 'won': won, 'lost': lost, 'base': list(rule['base'])}
+        if rule.get('unused'):
+            op['unused'] = rule['unused']
+        gone_useless = useless(rule)
         avoid.forget(rules, rule)
         report['operations'].append(op)
+        if gone_useless:
+            report['errors'].append(f"retired {rule['id']} (useless: followed in {won + lost} of "
+                                    f"{won + lost + op.get('unused', 0)} games shown)")
+            continue
         report['errors'].append(f"retired {rule['id']} (won {won} of {won + lost} games shown"
                                 f"{', never won' if not won else ''}; base "
                                 f"{rule['base'][0]} of {rule['base'][1]})")
@@ -859,37 +893,48 @@ def build(agent):
         counter[0] += 1
         return f'rule_{counter[0]}'
     position = agent.context.get('position', 0)
-    if not append_only:   # every game: Beta updates of the shown rules and the base rates
-        report['operations'].append(observe(rules, agent.rules_shown, agent.result['success'],
-                                            {'task': agent.public_task.get('goal', ''),
-                                             'task_type': agent.task.get('task_type'),
-                                             'steps': [t['action'] for t in agent.result['trace'] if t['valid']][-12:],
-                                             **({'plan': agent.plan_text} if agent.plan_text else {})},
-                                            position,
-                                            avoid.violated(rules, agent.rules_shown, avoid.compact(agent.result['trace']))))
-        retire(rules, report)
     shown = relevant(rules, agent.task.get('task_type'), BUILDER_SEES)
     guide = builder_guide(report['case'], append_only, agent.task.get('task_type'), shown)
     if 'failed_retries' in extra:
         guide += RETRY_NOTE
+    followed = None
     try:
         data = agent._ask('builder', {
             'instructions': guide,
             'game': _game(agent.result, agent.public_task.get('goal', '')), **extra,
             'task_type': agent.task.get('task_type'),
+            **({'shown_in_game': [{'id': r['id'], 'rule': r['rule']} for r in rules if r['id'] in set(agent.rules_shown)]}
+               if not append_only else {}),
             'rules': [{k: r.get(k, NEW_IMPORTANCE if k == 'importance' else '')
                        for k in ('id', 'type', 'rule', 'example', 'validation', 'importance')}
                       | ({} if r.get('verified', True) else {'confirmed': False}) for r in shown],
             'response_schema': {'diagnosis': 'imperfect rules | imperfect agent',
                                 'operations': [{'op': 'write_rule | update_rule | upvote_rule | downvote_rule', 'id': 'rule_N',
                                                 'type': '|'.join(CASE_TYPES[report['case']]), 'rule': 'string', 'example': 'string',
-                                                'validation': 'string'}]}})
+                                                'validation': 'string'}],
+                                **({'followed': ['rule ids from shown_in_game that the actions clearly followed']}
+                                   if not append_only else {})}})
         report['diagnosis'] = data.get('diagnosis')
+        if isinstance(data.get('followed'), list):
+            followed = [i for i in data['followed'] if i in set(agent.rules_shown)]
+        report['followed'] = followed
         report['operations'] += apply(rules, data.get('operations'), report['case'], append_only, next_id,
                                       report['errors'], agent.task.get('task_type'), [r['id'] for r in shown],
                                       agent.embedder.similarity, agent.public_task.get('goal', ''), agent._ask)
     except (ValueError, RuntimeError, KeyError, TypeError) as exc:
         report['errors'].append(f'builder: {exc}'[:200])
+    if not append_only:   # every game: Beta updates of the followed rules and the base rates
+        if followed is None and agent.rules_shown:
+            report['errors'].append('builder gave no followed list: all shown rules credited')
+        report['operations'].append(observe(rules, agent.rules_shown, agent.result['success'],
+                                            {'task': agent.public_task.get('goal', ''),
+                                             'task_type': agent.task.get('task_type'),
+                                             'steps': [t['action'] for t in agent.result['trace'] if t['valid']][-12:],
+                                             **({'plan': agent.plan_text} if agent.plan_text else {})},
+                                            position,
+                                            avoid.violated(rules, agent.rules_shown, avoid.compact(agent.result['trace'])),
+                                            followed))
+        retire(rules, report)
     report['operations'] += avoid_update(agent, rules, report, summary, append_only, next_id)
     if not append_only:
         refine(agent, rules, [r for r in rules if r['id'] in set(agent.rules_shown)], report)

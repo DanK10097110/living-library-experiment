@@ -179,7 +179,7 @@ class GameAndBatchTests(unittest.TestCase):
         result = a.run(TASK, 1, {'phase': 'practice', 'position': 4})
         self.assertEqual(result['rules_shown'], ['rule_1'])
         ops = result['manual']['operations']
-        self.assertEqual(ops[0]['op'], 'outcome')
+        self.assertIn('outcome', [o['op'] for o in ops])    # logged after the Builder's operations
         self.assertEqual(rules[0]['alpha'], 2)                            # the won game counted
         # Batching: replaying the game's operations on the live manual gives the same manual.
         self.assertEqual(manual.replay(live, ops, []), rules)
