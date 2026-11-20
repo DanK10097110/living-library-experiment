@@ -342,3 +342,12 @@ Owner asked for a full review ("changing a rule after every use is stupid"). An 
   - Study state when this was written (E checkpoint 88): rule_25 (heat recipe, written at game 43) had Beta
     1/6 (followed in 5 games, 0 wins), `rewrites` 0, heat base rate 0 of 8. A retry win at game 61 had
     proposed a rewrite of it, which the freeze refused.
+
+### 2026-11-20 — No only-recipe protection; retry wins may rewrite like first-attempt wins (owner)
+- **Decision:** remove the protection of a task type's only recipe from retirement and pruning. A corrected failure
+  (a game won on a retry) may rewrite visible rules under the same conditions as a game won on the first attempt
+  (drift freeze with the young and dead exceptions, the 2-rewrite cap, one change per rule per batch). E only;
+  E is restarted, and C, D and E-minus are kept.
+- **Why:** the owner's call. A retry win is direct evidence of what works, so forbidding it to fix rules makes no
+  sense. Only-recipe protection kept a wrong heat recipe alive. Without it, a type without a recipe gets a new
+  one from its next won game.
