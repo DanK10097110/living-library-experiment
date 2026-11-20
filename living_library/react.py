@@ -1,9 +1,9 @@
 """ALFWorld step-by-step (ReAct) prompting, reused from published code (see prompts/SOURCES.md).
 
 The prompt is verl-agent's ALFWORLD_TEMPLATE preceded by ReAct's two demonstrations for the task
-type. Memory is added as plain extra context: skills (callable as one action), skill text (E-text)
-or successful past trajectories (D). Invalid actions are answered with ALFWorld's own
-"Nothing happens."
+type. Memory is added as plain extra context: rules from the manual (E, E-minus) and reflections on
+earlier attempts (practice retries), or successful past trajectories (D). Invalid actions are answered
+with ALFWorld's own "Nothing happens."
 """
 import json
 from pathlib import Path
@@ -48,9 +48,9 @@ def current_observation(trace, initial):
 
 
 def build(goal, task_type, trace, initial_observation, admissible, subgoal=None,
-          skills=(), skill_texts=(), examples=(), lessons=(), brief=False):
+          examples=(), lessons=(), brief=False):
     parts = []
-    if lessons:                   # E-plus: general lessons validated in simulation
+    if lessons:                   # E, E-minus: manual rules; retries: reflections on earlier attempts
         parts.append('Rules learned from earlier practice (follow them):\n' + '\n'.join(f'- {text}' for text in lessons))
     demo = demos(task_type)
     if demo:
@@ -58,14 +58,7 @@ def build(goal, task_type, trace, initial_observation, admissible, subgoal=None,
     for example in examples:      # D: successful practice trajectories
         parts.append('Here is a task you solved before:\nYour task is to: ' + example['goal'] + '\n'
                      + ''.join(f'> {a}\n' for a in example['actions']))
-    for skill in skill_texts:     # E-text: library skills as reference steps
-        parts.append(f"Reference procedure {skill['signature']} ({skill['description']}):\n"
-                     + '\n'.join(skill['steps']))
     actions = [c for c in admissible if c != 'help']
-    if skills:                    # skill libraries: each skill is one extra action
-        parts.append('You can also use these learned skills; each runs several steps as one action:\n'
-                     + '\n'.join(f"'{action}': {description}" for action, description in skills))
-        actions += [action for action, _ in skills]
     pairs = history(trace)[-HISTORY:]
     offset = max(0, len(trace) - HISTORY)
     task = goal + (f' Your current subgoal is: {subgoal}.' if subgoal else '')

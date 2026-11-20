@@ -1,13 +1,11 @@
-"""Explicit commands: fixture smoke test, manifest, study (with its early gate), analysis.
-`pilot` and `freeze` remain for the model bake-off (tools/run.ps1 bakeoff); the study no longer needs them."""
+"""Explicit commands: fixture smoke test, manifest, study (with its early gate), status, analysis."""
 import argparse
-import json
 from pathlib import Path
 import sys
 
-from .config import CONDITIONS, Settings, write_json
+from .config import CONDITIONS, MEMORY, Settings, write_json
 from .environments import build_manifest, demo_manifest
-from .experiment import Runner, freeze, load_json, restart_library
+from .experiment import GATE_MARGIN, Runner, load_json, restart_library, stream_key
 
 
 def session(command, workers):
@@ -30,34 +28,27 @@ def parser():
     demo.add_argument('--sample-count', type=int, default=3)
     demo.add_argument('--conditions', nargs='+', choices=CONDITIONS, default=list(CONDITIONS))
     session(demo, workers=1)
-    for name in ('pilot', 'freeze', 'study'):
-        command = commands.add_parser(name)
-        command.add_argument('--config', default='configs/pilot.json')
-        command.add_argument('--manifest', required=True)
-        command.add_argument('--output', required=True)
-        if name == 'freeze':
-            command.add_argument('--pilot-dir', required=True)
-        if name == 'study':
-            command.add_argument('--conditions', nargs='+', choices=CONDITIONS,
-                                 help='default: the conditions in the config')
-            command.add_argument('--gate-at', type=int, default=75,
-                                 help='early gate after this many library practice games (0: no gate)')
-            command.add_argument('--gate-games', type=int, default=30,
-                                 help='paired development games for the early gate')
-            command.add_argument('--gate-margin', type=int, default=0,
-                                 help='gate passes when E wins - C wins >= this')
-            command.add_argument('--past-gate', action='store_true',
-                                 help='continue from the checkpoint although the early gate failed')
-            command.add_argument('--restart-library', action='store_true',
-                                 help="discard E/E-minus/E-text practice and everything built on it "
-                                      "(keeps C and D), then run")
-            command.add_argument('--restart-streams', nargs='+', choices=['E'],
-                                 help="discard only these conditions' streams and what is built on them "
-                                      "(E: practice, gate, evaluations, snapshots and E-text), keeping C, D and "
-                                      "E-minus if E-minus's probe shows it unchanged, then run")
-        if name != 'freeze':
-            session(command, workers=8)
-    status = commands.add_parser('status', help='progress of a pilot or study output directory')
+    study = commands.add_parser('study')
+    study.add_argument('--config', default='configs/pilot.json')
+    study.add_argument('--manifest', required=True)
+    study.add_argument('--output', required=True)
+    study.add_argument('--conditions', nargs='+', choices=CONDITIONS, help='default: the conditions in the config')
+    study.add_argument('--gate-at', type=int, default=75,
+                       help='early gate after this many library practice games (0: no gate)')
+    study.add_argument('--gate-games', type=int, default=30, help='paired development games for the early gate')
+    study.add_argument('--gate-margin', type=int, default=GATE_MARGIN,
+                       help='gate passes when E wins - C wins >= this (a bug detector)')
+    study.add_argument('--past-gate', action='store_true',
+                       help='continue from the checkpoint although the early gate failed')
+    study.add_argument('--restart-library', action='store_true',
+                       help='discard E/E-minus practice (every replicate) and everything built on it '
+                            '(keeps C and D), then run')
+    study.add_argument('--restart-streams', nargs='+', choices=['E'],
+                       help="discard only these conditions' streams (every replicate) and what is built on them "
+                            "(E: practice, gate, evaluations, snapshots), keeping C, D and E-minus if E-minus's "
+                            "probe shows it unchanged, then run")
+    session(study, workers=8)
+    status = commands.add_parser('status', help='progress of a study output directory')
     status.add_argument('--output', required=True)
     analyze = commands.add_parser('analyze')
     analyze.add_argument('--records', required=True)
@@ -66,25 +57,31 @@ def parser():
     return p
 
 
+def practice_costs(records, cfg):
+    """{condition: {replicate: total weighted tokens of that replicate's practice}} (None if any is unknown)."""
+    from .analysis import weighted_tokens
+    costs = {}
+    for condition in MEMORY & set(cfg.conditions):
+        for pseed in cfg.practice_seeds:
+            rows = [r for r in records if r['phase'] == 'practice' and r['condition'] == condition
+                    and r.get('replicate') == pseed]
+            values = [weighted_tokens(r) for r in rows]
+            costs.setdefault(condition, {})[pseed] = sum(values) if rows and None not in values else None
+    return costs
+
+
 def save_analysis(records, cfg, output):
-    from .analysis import analyze, weighted_tokens
-    practice_costs = {}
-    for condition in ('B', 'D', 'E', 'E-minus', 'E-plus'):
-        if condition not in cfg.conditions:
-            continue
-        rows = [r for r in records if r['phase'] == 'practice' and r['condition'] == condition]
-        costs = [weighted_tokens(r) for r in rows]
-        total = sum(costs) if rows and None not in costs else None
-        practice_costs[condition] = {seed: total for seed in cfg.seeds}
-    report = analyze(records, cfg, practice_costs)
+    from .analysis import analyze
+    costs = practice_costs(records, cfg)
+    report = analyze(records, cfg, costs)
     write_json(output, report)
-    # Secondary: in-distribution test (seen-room games the pilot never touched), same analysis.
+    # Secondary: in-distribution test (seen-room games outside the development set), same analysis.
     in_dist = [{**r, 'phase': 'evaluation'} for r in records if r['phase'] == 'id-evaluation']
     if in_dist:
         from dataclasses import replace
         n = len({r['task_id'] for r in in_dist})
         write_json(Path(output).with_name('analysis-in-distribution.json'),
-                   analyze(in_dist, replace(cfg, evaluation_games=n), practice_costs))
+                   analyze(in_dist, replace(cfg, evaluation_games=n), costs))
     return report
 
 
@@ -95,7 +92,7 @@ def print_status(output):
     records = load_json(output / 'records.json') if (output / 'records.json').exists() else []
     wins, seen = {}, {}
     for r in records:
-        key = f"{r['phase']}-{r['condition']}-{r['seed']}"
+        key = stream_key(r['condition'], r['phase'], r['seed'], r.get('replicate'))
         wins[key] = wins.get(key, 0) + bool(r['success'])
         seen[key] = seen.get(key, 0) + 1
     rows = []
@@ -111,7 +108,7 @@ def print_status(output):
     for key, done, n in rows:
         filled = round(20 * done / n)
         rate = f"  success {wins[key]}/{seen[key]}" if seen.get(key) else ''
-        print(f"  {key:28} {'#' * filled}{'.' * (20 - filled)} {done:4}/{n}{rate}")
+        print(f"  {key:30} {'#' * filled}{'.' * (20 - filled)} {done:4}/{n}{rate}")
     if (output / 'gate.json').exists():
         g = load_json(output / 'gate.json')
         verdict = 'passed' if g['passed'] else ('FAILED, continued' if g.get('continued') else 'FAILED, stopped')
@@ -143,35 +140,25 @@ def main(argv=None):
         else:
             cfg = Settings.load(args.config)
             manifest = load_json(args.manifest)
-            if args.command == 'freeze':
-                freeze(cfg, manifest, args.pilot_dir, args.output)
-            elif args.command == 'pilot':
-                runner = Runner(cfg, manifest, args.output)
-                evidence = runner.pilot(args.workers, args.max_episodes, args.max_hours)
-                if evidence is None:
-                    print(f'pilot paused: {args.output}')
-                    return 0
-                print(json.dumps(evidence['gate'], indent=2))
-            else:
-                if args.restart_library and args.restart_streams:
-                    raise ValueError('use either --restart-library or --restart-streams')
-                if args.restart_library:
-                    restart_library(cfg, manifest, args.output)
-                elif args.restart_streams:
-                    restart_library(cfg, manifest, args.output, streams=args.restart_streams)
-                runner = Runner(cfg, manifest, args.output)
-                records = runner.study(args.conditions, workers=args.workers,
-                                       max_episodes=args.max_episodes, max_hours=args.max_hours,
-                                       gate_at=args.gate_at, gate_games=args.gate_games,
-                                       gate_margin=args.gate_margin, past_gate=args.past_gate)
-                gate = runner.gate
-                if gate is not None and not (gate['passed'] or gate.get('continued')):
-                    print(f'study stopped at the early gate: {Path(args.output) / "gate.json"}')
-                    return 3
-                if not runner.complete:
-                    print(f'study paused: {args.output}')
-                    return 0
-                save_analysis(records, cfg, Path(args.output) / 'analysis.json')
+            if args.restart_library and args.restart_streams:
+                raise ValueError('use either --restart-library or --restart-streams')
+            if args.restart_library:
+                restart_library(cfg, manifest, args.output)
+            elif args.restart_streams:
+                restart_library(cfg, manifest, args.output, streams=args.restart_streams)
+            runner = Runner(cfg, manifest, args.output)
+            records = runner.study(args.conditions, workers=args.workers,
+                                   max_episodes=args.max_episodes, max_hours=args.max_hours,
+                                   gate_at=args.gate_at, gate_games=args.gate_games,
+                                   gate_margin=args.gate_margin, past_gate=args.past_gate)
+            gate = runner.gate
+            if gate is not None and not (gate['passed'] or gate.get('continued')):
+                print(f'study stopped at the early gate: {Path(args.output) / "gate.json"}')
+                return 3
+            if not runner.complete:
+                print(f'study paused: {args.output}')
+                return 0
+            save_analysis(records, cfg, Path(args.output) / 'analysis.json')
         done = runner is None or runner.complete
         print(f"{args.command} {'complete' if done else 'paused'}: {args.output}")
         return 0

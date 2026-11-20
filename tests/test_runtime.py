@@ -6,59 +6,91 @@ from unittest.mock import patch
 
 from living_library.agents import Agent
 from living_library.config import Settings, CONDITIONS
+from living_library.embedding import LexicalEmbedding
 from living_library.environments import MiniWorld
-from living_library.library import Library, LexicalEmbedding, Skill
 from living_library.models import FixtureModel, HTTPModel, ModelResponse
 
 
 TASK = {'object': 'apple 1', 'target': 'cabinet 1'}
+KIND = 'pick_and_place_simple'
+KIND_TASK = {**TASK, 'task_type': KIND}
+RULE = {'id': 'rule_1', 'type': 'Success Process', 'task_type': KIND,
+        'rule': 'When the task is to put an object somewhere: 1. take it, 2. go there, 3. open it, 4. move it in.',
+        'example': '', 'sources': [], 'contexts': []}
 
 
 class RuntimeTests(unittest.TestCase):
-    def agent(self, condition, library=None, model=None, cfg=None):
-        cfg = cfg or Settings()
-        return Agent(cfg, condition, model or FixtureModel(), library or Library(cfg), LexicalEmbedding(), MiniWorld)
+    def agent(self, condition, model=None, cfg=None, **kwargs):
+        return Agent(cfg or Settings(), condition, model or FixtureModel(), LexicalEmbedding(), MiniWorld, **kwargs)
 
     def test_all_fixture_conditions_and_unknown_gpu(self):
         for condition in CONDITIONS:
             with self.subTest(condition=condition):
-                result = self.agent(condition).run(TASK, 12, {'phase': 'practice'})
+                result = self.agent(condition).run(TASK, 12, {})
                 self.assertTrue(result['success'], result['program_errors'])
                 self.assertIsNone(result['gpu_seconds'])
                 self.assertEqual(result['input_tokens'], 0)
 
-    def test_append_only_and_text_preserve_existing_library(self):
-        library = Library()
-        learned = self.agent('E', library).run(TASK, 1, {})
-        self.assertTrue(learned['success'])
-        self.assertEqual(len(library.current()), 1)
-        before = library.snapshot()
-        self.assertTrue(self.agent('E-minus', library).run(TASK, 2, {})['success'])
-        self.assertEqual(before, library.snapshot())
-        result = self.agent('E-text', library).run(TASK, 3, {})
-        self.assertTrue(result['success'])
-        self.assertEqual(result['invocations'], [])
-        self.assertEqual(before, library.snapshot())
+    def test_prompts_carry_no_skill_channel(self):
+        seen = []
 
-    def test_precondition_failure_never_changes_counts(self):
-        library = Library()
-        self.agent('E', library).run(TASK, 1, {})
-        sid = library.current()[0].id
-        class InvalidCall(FixtureModel):
-            # Leave the table first, then call the skill whose precondition is being at the table.
+        class Spy(FixtureModel):
             def complete(self, role, payload, seed, context):
-                offered = [a for a in payload.get('skills', []) if a.startswith(f'use skill {sid}')]
-                if role == 'actor' and offered:
-                    if 'At table 1.' in payload['prompt'].split('current observation is: ')[-1]:
-                        return ModelResponse({'text': '<action>go to cabinet 1</action>'})
-                    return ModelResponse({'text': f'<action>{offered[0]}</action>'})
+                seen.append((role, payload))
                 return super().complete(role, payload, seed, context)
-        before = library.snapshot()
-        result = self.agent('E-minus', library, InvalidCall(), Settings(repairs=0, replans=0)).run(TASK, 1, {})
-        # Away from the table the skill's precondition fails, so it is not offered: the call is an
-        # invalid action, never an invocation (precondition misses are covered in test_core).
-        self.assertEqual(result['invocations'], [])
-        self.assertEqual(before, library.snapshot())
+        self.agent('E', Spy(), rules=[RULE], frozen=True).run(KIND_TASK, 1, {'phase': 'evaluation'})
+        planner = [p for r, p in seen if r == 'planner']
+        actor = [p for r, p in seen if r == 'actor']
+        self.assertTrue(planner and actor)
+        self.assertNotIn('catalog', planner[0])
+        self.assertEqual(planner[0]['rules'], ['[Success Process] ' + RULE['rule']])
+        self.assertTrue(all(set(p) == {'task', 'prompt', 'admissible'} for p in actor))
+        self.assertIn(RULE['rule'], actor[0]['prompt'])
+        self.assertNotIn('use skill', actor[0]['prompt'])
+
+    def test_frozen_rules_shown_once_and_never_changed(self):
+        rules = [copy.deepcopy(RULE)]
+        agent = self.agent('E', rules=rules, frozen=True)
+        result = agent.run(KIND_TASK, 1, {'phase': 'practice'})
+        self.assertEqual(result['rules_shown'], ['rule_1'])
+        self.assertEqual(agent.rules_shown, ['rule_1'])
+        self.assertEqual(rules, [RULE])
+        self.assertNotIn('manual', result)                                   # frozen: no Builder
+        self.assertEqual(agent.plan_text, 'put object in target')
+        self.assertEqual(result['plan'], 'put object in target')
+
+    def test_retry_agent_is_a_frozen_copy_with_reflections(self):
+        rules, trajectories = [copy.deepcopy(RULE)], [{'goal': 'g', 'trace': []}]
+        agent = self.agent('E-minus', rules=rules, trajectories=trajectories)
+        retry = agent.retry_agent(['look first'])
+        self.assertIsInstance(retry, Agent)
+        self.assertTrue(retry.frozen)
+        self.assertEqual((retry.cfg, retry.condition, retry.model, retry.embedder, retry.env_factory),
+                         (agent.cfg, agent.condition, agent.model, agent.embedder, agent.env_factory))
+        self.assertIs(retry.rules, rules)
+        self.assertIs(retry.trajectories, trajectories)
+        self.assertEqual(retry.reflections, ['look first'])
+        self.assertEqual(agent.reflections, [])
+        seen = []
+
+        class Spy(FixtureModel):
+            def complete(self, role, payload, seed, context):
+                seen.append((role, payload))
+                return super().complete(role, payload, seed, context)
+        retry.model = Spy()
+        result = retry.run(KIND_TASK, 1, {'phase': 'practice', 'attempt': 1})
+        self.assertTrue(result['success'])
+        self.assertEqual(rules, [RULE])
+        self.assertEqual(next(p for r, p in seen if r == 'planner')['reflections'], ['look first'])
+        self.assertIn('Your reflection on it: look first', next(p for r, p in seen if r == 'actor')['prompt'])
+
+    def test_fixture_judge_and_unknown_roles(self):
+        model = FixtureModel()
+        judged = model.complete('judge', {'task': TASK, 'rule': RULE}, 1, {}).data
+        self.assertEqual(judged, {'followed': 'yes', 'usefulness': 1, 'reason': 'fixture'})
+        for role in ('librarian', 'reflector', 'refiner'):
+            with self.assertRaises(KeyError):
+                model.complete(role, {'task': TASK}, 1, {})
 
     def test_environment_closed_on_model_error(self):
         class Broken(FixtureModel):
@@ -101,59 +133,6 @@ class RuntimeTests(unittest.TestCase):
         self.assertEqual(len(model.flat_observations), 4)
         self.assertEqual(len(set(model.flat_observations)), 4)
 
-    def test_failed_skill_repair_enters_admission_below_revision_threshold(self):
-        library = Library()
-        self.agent('E', library).run(TASK, 1, {})
-        old = library.current()[0]
-        # Simulate a stale stored implementation. One failure is below min_uses
-        # and consecutive_failures, but a repair must still be replay-gated.
-        old.body = 'act("look")'
-        result = self.agent('E', library).run(TASK, 2, {})
-        self.assertTrue(result['success'], result['program_errors'])
-        self.assertEqual(old.failures, 1)
-        self.assertEqual(result['revision_gate_count'], 0)
-        self.assertEqual(library.current()[0].parent, old.id)
-        self.assertGreaterEqual(result['candidate_attempts'], 1)
-        self.assertEqual(result['program_failures'], 1)
-
-    def test_failed_skill_is_refined_with_the_execution_error(self):
-        seen = []
-
-        class FirstTryBroken(FixtureModel):
-            def complete(self, role, payload, seed, context):
-                response = super().complete(role, payload, seed, context)
-                if role == 'librarian':
-                    seen.append(payload)
-                    if 'error' not in payload:               # first round: code that does nothing
-                        response.data['candidate']['body'] = 'act("look")\nact("look")'
-                return response
-        library = Library()
-        result = self.agent('E', library, FirstTryBroken()).run(TASK, 1, {})
-        self.assertTrue(result['success'])
-        self.assertEqual(result['candidate_rejections'], 0)
-        self.assertEqual(result['candidate_refinements'], 1)
-        self.assertEqual(len(seen), 2)
-        self.assertIn('replay', seen[1]['error'])             # the writer saw why it failed
-        self.assertEqual(seen[1]['previous_attempt']['body'], 'act("look")\nact("look")')
-        self.assertEqual(len(library.current()), 1)
-
-    def test_skill_that_never_verifies_is_dropped_after_all_rounds(self):
-        rounds = []
-
-        class Hopeless(FixtureModel):
-            def complete(self, role, payload, seed, context):
-                response = super().complete(role, payload, seed, context)
-                if role == 'librarian':
-                    rounds.append(payload)
-                    response.data['candidate']['postconditions'] = ['is_hot(object)']   # never achieved
-                return response
-        cfg = Settings()
-        library = Library()
-        result = self.agent('E', library, Hopeless(), cfg).run(TASK, 1, {})
-        self.assertEqual(len(rounds), cfg.repairs + 1)
-        self.assertEqual(result['candidate_rejections'], 1)
-        self.assertEqual(library.current(), [])
-
     def test_runaway_actor_reply_gets_one_followup(self):
         class Rambler(FixtureModel):
             def __init__(self):
@@ -177,6 +156,16 @@ class RuntimeTests(unittest.TestCase):
             http.close()
         self.assertEqual([m['role'] for m in request['messages']], ['user', 'assistant', 'user'])
         self.assertEqual(request['max_tokens'], 64)
+
+    def test_judge_is_a_json_role(self):
+        with tempfile.TemporaryDirectory() as directory:
+            http = HTTPModel(Settings(), directory + '/c.sqlite')
+            request = http.request('judge', {'task': {'goal': 'g'}, 'instructions': 'judge it', 'rule': RULE,
+                                             'response_schema': {'followed': 'yes|no'}}, 1)
+            http.close()
+        self.assertEqual(request['response_format'], {'type': 'json_object'})
+        self.assertIn('judge it', request['messages'][0]['content'])
+        self.assertEqual(request['max_tokens'], Settings().max_tokens)
 
     def test_malformed_http_response_is_cached_with_cost(self):
         class Response:
@@ -208,19 +197,19 @@ class RuntimeTests(unittest.TestCase):
             def __exit__(self, *args):
                 pass
             def read(self):
-                return json.dumps({'choices': [{'message': {'content': '{"program":"act(\\"look\\")"}'}}],
+                return json.dumps({'choices': [{'message': {'content': '{"subgoals":[]}'}}],
                                    'usage': {'prompt_tokens': 10, 'completion_tokens': 5}}).encode()
         with tempfile.TemporaryDirectory() as directory:
             path = directory + '/responses.sqlite'
             with patch('living_library.models.urlopen', return_value=Response()) as request:
                 model = HTTPModel(Settings(), path)
-                first = model.complete('executor', {'task': TASK}, 11, {'episode': 1})
+                first = model.complete('builder', {'task': TASK}, 11, {'episode': 1})
                 self.assertIsNone(first.gpu_seconds)
                 model.close()
                 model = HTTPModel(Settings(), path)
-                self.assertTrue(model.complete('executor', {'task': TASK}, 11, {'episode': 1}).cached)
-                model.complete('executor', {'task': TASK}, 12, {'episode': 1})
-                model.complete('executor', {'task': TASK}, 11, {'episode': 2})
+                self.assertTrue(model.complete('builder', {'task': TASK}, 11, {'episode': 1}).cached)
+                model.complete('builder', {'task': TASK}, 12, {'episode': 1})
+                model.complete('builder', {'task': TASK}, 11, {'episode': 2})
                 self.assertEqual(request.call_count, 3)
                 model.close()
 

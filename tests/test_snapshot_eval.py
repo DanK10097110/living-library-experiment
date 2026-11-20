@@ -13,7 +13,8 @@ from living_library.experiment import Runner  # noqa: E402
 
 class SnapshotEvalTest(unittest.TestCase):
     def test_toy_snapshots_match_study_and_compare(self):
-        cfg = Settings(practice_episodes=4, evaluation_games=4, development_games=3, step_budget=15, bootstrap_samples=20)
+        cfg = Settings(practice_episodes=4, evaluation_games=4, development_games=3, step_budget=15, bootstrap_samples=20,
+                       conditions=['C', 'E'])
         with tempfile.TemporaryDirectory() as tmp:
             study, manifest = Path(tmp) / 'study', demo_manifest()
             Runner(cfg, manifest, study).study(('C', 'E'), demo_count=4)
@@ -25,8 +26,8 @@ class SnapshotEvalTest(unittest.TestCase):
                 runner, specs, tests = snapshot_eval.prepare(study, n, ['ood', 'id'], out, manifest, probe=False)
                 self.assertTrue(runner.execute(specs, workers=1, log=lambda *a: None))
             # the 4-game snapshot is the study's own final evaluation, game by game
-            snap = compare_snapshots.stream_results(outs[4], 'evaluation-E-11')
-            self.assertEqual(snap, compare_snapshots.stream_results(study, 'evaluation-E-11'))
+            snap = compare_snapshots.stream_results(outs[4], 'evaluation-E-r0-11')
+            self.assertEqual(snap, compare_snapshots.stream_results(study, 'evaluation-E-r0-11'))
             self.assertEqual(len(snap), 4)
             md = Path(tmp) / 'out.md'
             compare_snapshots.main([str(study), str(outs[2]), str(outs[4]), '--output', str(md)])

@@ -1,19 +1,12 @@
 {
   "actor_brief": true,
-  "beta_alpha": 1.0,
-  "beta_beta": 1.0,
   "bootstrap_samples": 10000,
-  "call_depth": 8,
-  "compose_min_count": 3,
   "conditions": [
     "C",
     "D",
     "E",
-    "E-minus",
-    "E-text"
+    "E-minus"
   ],
-  "consecutive_failures": 3,
-  "consolidation_interval": 8,
   "cost_reduction": 0.3,
   "development_games": 70,
   "embedding": "BAAI/bge-small-en-v1.5",
@@ -33,30 +26,24 @@
     262,
     300
   ],
-  "low_reliability": 0.6,
   "max_model_calls": 60,
   "max_subgoals": 12,
   "max_tokens": 512,
-  "merge_similarity": 0.75,
-  "min_uses": 5,
-  "pilot_practice": 100,
   "planner_model": "qwen3.5-9b-q4_k_m",
   "planner_revision": "local file Qwen3.5-9B-Q4_K_M.gguf (unsloth/Qwen3.5-9B-GGUF@3885219b6810) sha256:03b74727a860a56338e042c4420bb3f04b2fec5734175f4cb9fa853daf52b7e8 (thinking off)",
   "planner_url": "http://127.0.0.1:8000/v1",
   "practice_batch": 8,
   "practice_episodes": 300,
-  "practice_seed": 0,
-  "program_budget": 1000,
+  "practice_seeds": [
+    0,
+    1
+  ],
   "quantization": "GGUF Q4_K_M, fully on the GPU",
   "react_demos": true,
-  "reliability_percentile": 0.1,
-  "reliability_weight": 1.0,
-  "repairs": 2,
   "replans": 2,
   "seeds": [
     11
   ],
-  "similarity_weight": 1.0,
   "snapshot_conditions": [
     "E",
     "E-minus"
@@ -69,7 +56,5 @@
   "subgoal_step_budget": 15,
   "success_margin": 0.1,
   "temperature": 0.2,
-  "test_limit": 10,
-  "text_rendering": "numbered-python-statements-v1",
   "top_k": 3
 }

@@ -1,35 +1,66 @@
-"""Expectations fixed from the proposal, not empirical claims about this run."""
+"""Pre-registration of the current design (redesign 2026-11-20), with a short amendment history.
+Expectations come from the proposal; they are not empirical claims about this run."""
 
 PREREGISTRATION = {
-    "hypotheses": {
-        "H1": {"comparison": "E - D", "primary_metric": "task_success",
-               "secondary_comparison": "E - C", "expectation": "no confident prediction against D"},
-        "H2": {"comparison": "E - D", "primary_metric": "amortized_weighted_tokens_per_task",
-               "expectation": "E eventually costs less including practice"},
-        "H3": {"comparison": "E - E-minus", "primary_metric": "skill_invocation_success",
-               "expectation": "updates help; smaller gains than adding memory"},
-        "H4": {"comparison": "E - E-text", "primary_metric": "task_success",
-               "expectation": "executable skills outperform the same content rendered as text"},
+    "conditions": {
+        "C": "planner + published ALFWorld ReAct actor, no memory",
+        "D": "C + successful first-attempt practice trajectories; the top 3 by goal similarity shown as examples",
+        "E": "C + rule manual built in practice with evidence-based management (LIBRARY-SPEC.md)",
+        "E-minus": "E with the same writing, judging and ranking, but append-only (never changes or removes a rule)",
+        "A": "flat ReAct without planner or memory; kept in the code, not part of the study",
     },
-    "exploratory": "B versus E: no prediction about the contribution of hierarchy",
-    "other_expectations": {"E_vs_C": "memory helps", "C_vs_A": "hierarchy helps somewhat"},
-    "success_criterion": "E-D success >=10 percentage points, OR zero within its 95% CI and >=30% lower amortized GPU cost; AND positive E-E-minus invocation effect with Holm p<=.05. Cost = weighted tokens (amendment). H4 is reported separately.",
-    "statistics": "Paired bootstrap 95% intervals clustering by task; average seeds for task success/cost; pooled invocation counts with tasks resampled as clusters; Holm correction across H1-H4.",
-    "practice_allocation": "300 episodes per memory-building condition (lean amendment; proposal: 500), one fixed practice seed; clone that memory into each independent evaluation seed. E-text shares E's practice charge.",
-    "cost_amendment_2026_11_14": "H2 cost is weighted tokens (input + 4 x output) per task including amortized practice, instead of GPU-seconds: the local server batches many episodes at once, so per-request GPU time is not observable, and cached replays must cost the same as live calls. Model wall-seconds are reported descriptively.",
-    "extension_E_plus_2026_11_15": "E-plus = E + library consolidation every 25 episodes (consolidation.py): evidence-based retirement (ignored when offered, unreliable when chosen, never chosen; never by length), back-to-back skill pairs composed into meta-skills, near-duplicates merged and too-specific skills generalized by a curator role using the same model. Every new skill passes the replay gate on the tests of the skills it replaces. Reported against E outside the H1-H4 family.",
-    "held_out_data_2026_11_15": "Out-of-distribution test = the 134 unseen-room games (whole split held back; primary, H1-H4). In-distribution test = the 70 seen-room games the pilot never touched (secondary, same analysis). Practice uses only the train split.",
-    "practice_length_curve_2026_11_15": "Libraries of E and E-plus after 50/100/200/300 practice episodes are frozen (read-only) and tested on fixed 40-game ID and OOD subsets (first evaluation seed); C on the same games is the 0 point. Answers whether more practice keeps paying off, separately for ID and OOD.",
-    "frozen_evaluation_2026_11_15": "Every test (pilot development, study ID and OOD evaluation, snapshot replays) reads the practice memory frozen: nothing is learned at test time, so test episodes are independent and run in parallel. E-text reads E's frozen practice library rendered as text. Practice stays sequential. Seeds: one (11) everywhere; condition A dropped. The practice-length curve replays the library at 150 episodes; its final point is the main evaluation (300) and its 0 point is C.",
-    "batched_practice_2026_11_15": "Practice runs in batches of 4 games for every memory condition: the games of a batch start from the same memory and are merged in fixed position order afterwards (batching.py); each game remains its own episode and every admitted skill passed its replay gate. E-plus writes skills only at the end of games it won, seeing the whole game; failed games feed the reflector, whose lessons (and the skills written from the now-won simulated game) are kept only if the simulation fixes the failure without breaking a won game.",
-    "library_method_2026_11_15": "Code skills failed with Qwen3.5-9B (81% of candidates unverifiable even with Voyager-style refinement). The E/E-minus library is a rule manual (manual.py): AutoManual rule types and case-conditioned Builder after every practice game, ExpeL importance votes, no cap with retrieval of the 8 most useful relevant rules, and MACLA (implemented from the paper) Bayesian reliability, expected-utility selection, contrastive refinement, merging and pruning. E-minus only appends rules. Code skills remain alongside as AutoManual's helper-method type. E-text reads E's rules with helpers as text. E-plus and meta-procedures dropped.",
-    "batch8_2026_11_15": "Practice batches of 8 games (each game still writes its own skills from its own trace; merged one game at a time). E-plus library management runs at the end of every batch (consolidation_interval 8) with at most 2 merges and 1 simulation-checked lesson per round.",
-    "pilot_2026_11_15": "Development gate only: 100 practice episodes for E-minus and E-plus, each then tested on 70 seen-room games against C. Gates are computed for E-minus; E-plus is reported.",
-    "early_gate_2026_11_17": "The separate pilot stage is dropped (no throwaway compute; it replaces pilot_2026_11_15 and the pilot-based freeze). The study itself first runs the library conditions' practice to a checkpoint (default 75 games), then tests E's rules frozen at that checkpoint against C on 30 paired development (seen-room) games, the first 30 of the 70 the pilot used, so the in-distribution test set is unchanged. The report (gate.json: wins each, paired wins/losses, rule count, builder errors) is written to the run folder; the study continues only if E wins - C wins >= margin (default 0), or explicitly past a failed gate from the same checkpoint (no practice replayed). A library restart discards E, E-minus, E-text (and every stream initialised from or reading them) and keeps C's and D's games; it is allowed only when settings and manifest are unchanged and the only changed sources are manual.py, library.py or consolidation.py, and is logged in restarts.json. Gate games are reported, never part of H1-H4.",
-    "practice_retries_2026_11_17": "Library practice follows ExpeL's experience gathering (Zhao et al. 2023, with Reflexion): a lost practice game of E or E-minus (E-minus too, so the ablation differs from E only in rule management) is replayed from its start with a short reflection on each failed attempt, up to 3 retries, stopping at the first win. Retries read the memory but change nothing; never in evaluation, gate or snapshot games, and never for C, D or E-text. The Builder then contrasts the failed and the successful attempt of the same task and writes a Corrected Error rule ('When <situation>, do Y instead of X'); only if every retry fails does it write an Unresolved Error. Practice success and the practice curve use the first attempt only; retry calls and tokens are added to that game's totals (so to the condition's compute) and reported separately under 'retries'. Unresolved Error rules are Builder notes, never shown to the agent, until a retry success turns one into a Corrected Error. Rules other than a Success Process may not list steps. A rule shown in >= 4 practice games is retired (logged) when its Beta posterior puts its win rate below the base win rate of the games of its kind since it was written with probability >= 0.9. Near-duplicate rules of the same type merge within a kind of task or into a general rule, never widening a rule's scope (amended by rule_visibility_retrieval_2026_11_17); Success Processes stay one per kind of task. A library restart may also accept changed agents.py, experiment.py or protocol.py, but only when a probe of C's and D's behaviour (every model request and record of a fixture C and D study under the run's settings) equals the probe stored with the run's recorded sources (probe.json).",
-    "rule_visibility_retrieval_2026_11_17": "Rule manual corrections after the 48-game check (mini-macla-retries). (1) Any rule written from a practice game that was not won (first attempt lost and no retry won) is a hidden Builder note, whatever its type, until the Builder upvotes, updates or merges into it after a won game or retry success; a lost game may not rewrite the text or example of a rule the agent sees (only a validation note is added). (2) Besides the base-rate test, a rule shown in >= 4 practice games and never won is retired (logged), so retirement also works for kinds of task that are almost never won. (3) Near-duplicates merge only within the same kind of task or into a rule that already holds for all tasks; merging never widens scope. (4) Retrieval is task-keyed as in ExpeL/Memp: each rule stores the task(s) it was written or merged from; relevance = w * evidence + (1 - w) * text, evidence = max embedding similarity of the goal to those tasks and to the goals of games the rule was shown in and won, text = similarity of goal and rule text, w = wins / (wins + 2); this relevance enters MACLA's expected utility as before. Candidates are the task kind's Success Process (first), its other rules and the general rules; other kinds' visible rules join only for a kind of task with no rules of its own and task evidence >= 0.85 (goal similarity is dominated by the object, so other kinds' rules are never mixed into a known kind). Deterministic; no LLM selector call (an extra call per game and its own noise; an option for manuals above ~50 rules per kind). C and D are unaffected (baseline probe unchanged).",
-    "anti_patterns_2026_11_17": "Anti-Pattern rules for never-won tasks (avoid.py; E and E-minus practice only, C, D and E-text unaffected, baseline probe unchanged). A new rule type, 'When <situation>, do not <X>.', makes negative results useful memory. Never written from one game: a hidden failure pool per kind of task holds the never-won games (first attempt and every failed retry, as command/accepted lists), the won attempts of the kind and every command form the game ever accepted. Deterministic mining proposes a pattern only if it occurs in >= 2 different task instances, >= 4 lost attempts and half of the pooled games (a quarter for a command the game never accepts) and never in a won attempt: (a) an invalid command form never accepted anywhere in the kind, (b) the same command repeated >= 3 times in a row, (c) two commands alternated >= 3 times, (d) a task command (heat, cool, clean, use, toggle, slice, move) used in lost attempts and in none of >= 3 won attempts. The model only words the measured pattern (and declines when it cannot without guessing); code rejects rule text that is not a short general negative rule, gives a cause or advice, names a command or object outside the pattern, or omits a word the pattern consists of (one repair round). Reliability tracking, expected-utility retrieval and the Builder's votes apply as for every rule; the Builder cannot rewrite it and the contrastive refiner skips it. A rule is retired when the agent did the avoided thing in every game it was shown in, by the usual base-rate test once it has wins (not for merely never winning, which is the kind's normal state), or when a later won attempt of the kind contains its pattern (re-check on every win: kept with refreshed evidence, or retired and its pattern remembered so it is not rewritten). Basis: ExpeL insights from success/failure contrast, Reflexion failed attempts, AutoManual Unresolved Error, MACLA contrastive evidence and retirement. Checked first on pooled synthetic failure sets with known answers (tools/avoid_rule_check.py, tests/fixtures/avoid_scenarios.json).",
-    "design_amendment_2026_11_14": "For local compute, following the proposal's cut order: condition B dropped; seeds 3 -> 2; practice 500 -> 300 (equal for every memory condition); pilot development 140 -> 70 games. D is kept; all 134 evaluation games are run. Total about 2,300 episodes instead of about 4,900.",
-    "sanity_rule": "If E-C is near zero, inspect retrieval, execution and predicate logs before interpreting a null result.",
-    "optional_extensions": "Excluded from the seven-condition core study and its success criterion.",
+    "data": "Practice: 300 games per memory condition and replicate from the ALFWorld train split. Out-of-distribution "
+            "test (primary): the 134 unseen-room games. In-distribution test (secondary, same analysis): the 70 "
+            "seen-room games outside the development set. Development set: the other 70 seen-room games, used "
+            "only for the early gate and offline library checks. One evaluation seed (11).",
+    "replicates": "Practice seeds [0, 1]: every memory condition practises once per seed, each seed with its own game "
+                  "order (shared by D, E and E-minus, so practice games are paired within a replicate). Each "
+                  "replicate's memory is evaluated on the same test games.",
+    "frozen_evaluation": "Every test (evaluation, gate, snapshots) reads the practice memory frozen: nothing is "
+                         "learned at test time, so test episodes are independent.",
+    "practice": "Batches of 8 games run on the memory as it was at the start of the batch and are merged in fixed "
+                "position order (batching.py); each game is its own episode.",
+    "retries": "Part of the library method for E and E-minus only (ExpeL experience gathering with Reflexion): a lost "
+               "practice game is replayed with a short reflection on each failed attempt, up to 3 retries, stopping "
+               "at the first win; retries read the memory and change nothing, and their calls and tokens are charged "
+               "to the game. Asymmetry, stated: D stores first-attempt wins only, so H1 compares 'rules + retries' "
+               "with 'trajectories without retries'. Practice success uses the first attempt only. Never in tests.",
+    "hypotheses": {
+        "H1": {"comparison": "E - D", "metric": "task_success", "expectation": "no confident prediction"},
+        "H2": {"comparison": "E - D", "metric": "amortized_weighted_tokens_per_task",
+               "expectation": "E costs less including practice"},
+        "H3": {"comparison": "E - E-minus", "metric": "task_success",
+               "expectation": "rule management helps; a smaller gain than adding memory"},
+    },
+    "secondary": "E - C task success (memory helps); the same analysis on the in-distribution test.",
+    "success_criterion": "(E - D task success >= 10 percentage points, OR zero inside its 95% CI with >= 30% lower "
+                         "amortized cost) AND H3 > 0 with Holm-adjusted p <= .05.",
+    "statistics": "Hierarchical paired percentile bootstrap: each sample resamples the evaluation tasks and, within "
+                  "each condition, its practice replicates with replacement; a task's value is the mean over the "
+                  "chosen replicates and the evaluation seeds. Cost = weighted tokens (input + 4 x output) per task; "
+                  "each replicate's practice cost (retries included) is amortized over its evaluation tasks. Centered "
+                  "two-sided bootstrap p values; Holm correction over H1-H3.",
+    "early_gate": "A bug detector, not evidence: library practice stops at 75 games, then E (replicate 0, frozen) "
+                  "plays 30 development games against C; the study stops if E wins - C wins < -3. Gate games are "
+                  "never part of H1-H3.",
+    "sanity_rule": "If E - C is near zero, inspect retrieval, judge and Builder logs before interpreting a null result.",
+    "amendments": {
+        "2026_11_14_lean_design": "For local compute: condition B dropped, 300 practice games per memory condition "
+                                  "(proposal: 500); H2 cost is weighted tokens instead of GPU-seconds (per-request GPU "
+                                  "time is not observable on a batching server; cached replays must cost the same).",
+        "2026_11_15_rule_manual": "Code skills failed with the 9B model (81% of candidates unverifiable); the E library "
+                                  "became an AutoManual-style rule manual; one evaluation seed; frozen evaluation; "
+                                  "OOD (primary) and ID (secondary) tests; condition A dropped from the study.",
+        "2026_11_17_early_gate_and_retries": "The separate pilot was replaced by the early gate inside the study; "
+                                             "Reflexion retries for E and E-minus practice; a library restart may keep "
+                                             "C's and D's games when only library code changed or a fixture probe "
+                                             "shows C and D unchanged.",
+        "redesign_2026_11_20": "Code skills removed everywhere (interpreter, skill actions, E-plus, condition B and "
+                               "E-text, invocation metrics); H3 is scored on task success (it was skill-invocation "
+                               "success); H4 (E vs E-text) dropped; two practice replicates with a hierarchical "
+                               "bootstrap; evidence-based rule management per LIBRARY-SPEC.md (outcome-blind "
+                               "per-rule judge, evidence-triggered refinement capped at 2 revisions, retirement of "
+                               "unfollowed or persistently harmful rules); the early gate became a bug detector "
+                               "(margin -3); fresh output directory, C and D re-run because their prompts changed.",
+    },
 }
