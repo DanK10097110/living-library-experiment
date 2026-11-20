@@ -1,0 +1,4 @@
+games,rules_total,visible,hidden,success_process,corrected_error,unresolved_error,special_phenomenon,anti-pattern,added,removed,retire_ops,consolidate_ops,merge_ops,refine_ops,win_rate,mean_words_visible,mean_beta_mean_visible,unused_total
+25,18,13,5,4,3,4,2,0,18,0,0,0,0,0,0.44,17.2,0.529,3
+50,27,22,5,6,7,4,3,1,9,0,0,0,0,1,0.52,19.9,0.519,18
+75,29,22,7,6,7,5,3,2,3,1,2,0,2,0,0.48,18.7,0.505,44

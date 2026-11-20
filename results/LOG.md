@@ -68,3 +68,4 @@
 - 2026-11-20 13:57 Game-50 check: E-minus old 29/50 vs now 28/50 (1-25: 11 vs 12; 26-50: 18 vs 16) -> not worse (noise). E old drift 22/50 vs now 24/50. Paired now: E 24 vs E- 28 of 50 (old 22 vs 29). Re-check at 75.
 - 2026-11-20 14:27 Game-72 check: games 51-72 D 11, E 10, E- 9 of 22 (old E- ~16/22 there). Current E/E- at D level in this window; old E- was above. Read-only diagnosis launched (promoted guesses / exploration slot / text repair suspects). Study continues (E gate running).
 - 2026-11-20 14:31 Dip diagnosis: mostly chance + hard stretch; exploration slot never active; promoted guess 'examine sink' ~ -1 game. No revert/restart; stricter promotion deferred (DECISIONS). Re-check at 100.
+- 2026-11-20 14:56 Gate passed again (E 24/30 vs C 21/30, 4W/1L). Study past gate: D 168, E 80, E- 81; paired E 38 vs E- 41 (8/11). GPU 93%, VRAM normal, RAM 20 GB free.

@@ -1,0 +1,9262 @@
+{
+ "stream": "practice-E-0",
+ "games": 50,
+ "rules": [
+  {
+   "alpha": 6,
+   "base": [
+    7,
+    10
+   ],
+   "base_types": {
+    "pick_clean_then_place_in_recep": [
+     7,
+     10
+    ]
+   },
+   "beta": 2,
+   "commands": {
+    "go to sink": [
+     0,
+     5
+    ]
+   },
+   "contexts": [
+    {
+     "plan": "clean the butterknife 1 using sinkbasin 1 ; go to countertop 1 ; put the clean butterknife 1 on countertop 1",
+     "steps": [
+      "go to cabinet 4",
+      "go to fridge 1",
+      "open fridge 1",
+      "go to drawer 1",
+      "go to drawer 2",
+      "open drawer 2",
+      "go to countertop 1",
+      "take butterknife 1 from countertop 1",
+      "go to sinkbasin 1",
+      "clean butterknife 1 with sinkbasin 1",
+      "go to countertop 1",
+      "move butterknife 1 to countertop 1"
+     ],
+     "task": "put a clean butterknife in countertop.",
+     "task_type": "pick_clean_then_place_in_recep",
+     "won": true
+    },
+    {
+     "plan": "find the cloth in the environment ; go to the sinkbasin to clean the cloth ; clean the cloth using the sinkbasin ; go to the countertop to place the cloth ; put the clean cloth on the countertop",
+     "steps": [
+      "go to cabinet 1",
+      "open cabinet 1",
+      "take cloth 3 from cabinet 1",
+      "go to sinkbasin 1",
+      "clean cloth 3 with sinkbasin 1",
+      "go to countertop 1",
+      "move cloth 3 to countertop 1"
+     ],
+     "task": "clean some cloth and put it in countertop.",
+     "task_type": "pick_clean_then_place_in_recep",
+     "won": true
+    },
+    {
+     "plan": "find a butterknife in the environment ; take the butterknife from its current location ; go to the sinkbasin to clean the butterknife ; clean the butterknife at the sinkbasin ; go to the sidetable to place the clean butterknife ; put the clean butterknife on the sidetable",
+     "steps": [
+      "go to countertop 1",
+      "take butterknife 1 from countertop 1",
+      "go to sinkbasin 1",
+      "clean butterknife 1 with sinkbasin 1",
+      "go to sidetable 1",
+      "move butterknife 1 to sidetable 1"
+     ],
+     "task": "put a clean butterknife in sidetable.",
+     "task_type": "pick_clean_then_place_in_recep",
+     "won": true
+    },
+    {
+     "plan": "find a pan in the environment ; take the pan from its current location ; go to the sinkbasin to clean the pan ; clean the pan at the sinkbasin ; go to a stoveburner to place the pan ; put the clean pan in the stoveburner",
+     "steps": [
+      "go to cabinet 1",
+      "examine cabinet 2",
+      "go to fridge 1",
+      "open fridge 1",
+      "go to cabinet 1",
+      "examine cabinet 2",
+      "examine cabinet 2",
+      "go to countertop 1",
+      "take pan 1 from countertop 1",
+      "go to sinkbasin 1",
+      "clean pan 1 with sinkbasin 1"
+     ],
+     "task": "put a clean pan in stoveburner.",
+     "task_type": "pick_clean_then_place_in_recep",
+     "won": true
+    },
+    {
+     "plan": "find and take a plate from countertop 1 ; go to sinkbasin 1 to clean the plate ; clean the plate at sinkbasin 1 ; go to shelf 1 to place the clean plate ; put the clean plate in shelf 1",
+     "steps": [
+      "go to countertop 1",
+      "go to garbagecan 1",
+      "go to countertop 1",
+      "go to countertop 2",
+      "go to countertop 1",
+      "go to fridge 1",
+      "open fridge 1",
+      "take plate 3 from fridge 1",
+      "go to sinkbasin 1",
+      "clean plate 3 with sinkbasin 1",
+      "go to shelf 1",
+      "move plate 3 to shelf 1"
+     ],
+     "task": "clean some plate and put it in shelf.",
+     "task_type": "pick_clean_then_place_in_recep",
+     "won": true
+    },
+    {
+     "plan": "locate towel 1 ; take towel 1 from its current location ; go to sinkbasin 1 to clean the towel ; clean towel 1 at sinkbasin 1 ; go to toilet 1 to place the clean towel ; put clean towel 1 in toilet 1",
+     "steps": [
+      "go to toilet 1",
+      "inventory",
+      "examine towel 1",
+      "go to sinkbasin 1",
+      "go to toilet 1",
+      "go to sinkbasin 1",
+      "examine sinkbasin 1",
+      "examine towel 1",
+      "inventory",
+      "go to toilet 1",
+      "go to sinkbasin 1",
+      "go to toilet 1"
+     ],
+     "task": "clean some cloth and put it in toilet.",
+     "task_type": "pick_clean_then_place_in_recep",
+     "won": false
+    }
+   ],
+   "credits": {
+    "pick_clean_then_place_in_recep": [
+     5,
+     1
+    ]
+   },
+   "example": "take butterknife 1 from countertop 1, go to sinkbasin 1, clean butterknife 1 with sinkbasin 1, go to sidetable 1, move butterknife 1 to sidetable 1",
+   "id": "rule_1",
+   "importance": 9,
+   "last_used": 47,
+   "refined_at": [
+    0,
+    0
+   ],
+   "rule": "When an object must be cleaned and placed: search the object's current location first, take it, go to the sink, clean it with sinkbasin, go to the target container, move it there.",
+   "sources": [
+    {
+     "task": "clean some fork and put it in drawer.",
+     "task_type": "pick_clean_then_place_in_recep"
+    }
+   ],
+   "task_type": "pick_clean_then_place_in_recep",
+   "type": "Success Process",
+   "unused": 1,
+   "validation": "Confirmed: the fork was found on countertop 2 after searching multiple locations, cleaned at sinkbasin 1, and moved to drawer 1. | Confirmed: the plate was found in the fridge, cleaned at the sinkbasin, and moved to the shelf. | Confirmed: the cloth was found on countertop 1, cleaned at sinkbasin 1 after examining it, and moved to toilet 1.",
+   "verified": true
+  },
+  {
+   "alpha": 1,
+   "base": [
+    7,
+    10
+   ],
+   "base_types": {
+    "pick_clean_then_place_in_recep": [
+     7,
+     10
+    ]
+   },
+   "beta": 1,
+   "contexts": [],
+   "example": "move fork 1 to drawer 1",
+   "id": "rule_2",
+   "importance": 2,
+   "last_used": 47,
+   "refined_at": [
+    0,
+    0
+   ],
+   "rule": "When placing an object in a drawer, use the move command with the drawer as the target.",
+   "sources": [
+    {
+     "task": "clean some fork and put it in drawer.",
+     "task_type": "pick_clean_then_place_in_recep"
+    }
+   ],
+   "task_type": "pick_clean_then_place_in_recep",
+   "type": "Special Phenomenon",
+   "unused": 7,
+   "validation": "",
+   "verified": true
+  },
+  {
+   "alpha": 1,
+   "base": [
+    6,
+    9
+   ],
+   "base_types": {
+    "pick_clean_then_place_in_recep": [
+     6,
+     9
+    ]
+   },
+   "beta": 1,
+   "contexts": [],
+   "example": "",
+   "id": "rule_3",
+   "importance": 2,
+   "last_used": null,
+   "pool": {
+    "accepted": [
+     "clean <X> with <X>",
+     "close <X>",
+     "examine <X>",
+     "go to <X>",
+     "inventory",
+     "move <X> to <X>",
+     "open <X>",
+     "take <X> from <X>"
+    ],
+    "declined": {},
+    "games": [
+     {
+      "attempts": [
+       [
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to garbagecan 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "open cabinet 2",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to cabinet 10",
+         1
+        ],
+        [
+         "open cabinet 10",
+         1
+        ],
+        [
+         "close cabinet 10",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "close fridge 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "close cabinet 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "examine diningtable 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "open cabinet 2",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "open cabinet 3",
+         1
+        ],
+        [
+         "go to garbagecan 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "close fridge 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "close cabinet 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "examine diningtable 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "examine diningtable 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to garbagecan 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "close cabinet 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "examine diningtable 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ]
+       ],
+       [
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to sinkbasin 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to garbagecan 1",
+         1
+        ],
+        [
+         "go to sinkbasin 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "examine diningtable 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "examine diningtable 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "go to sinkbasin 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "examine countertop 2",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "examine countertop 2",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ]
+       ]
+      ],
+      "task": "clean some plate and put it in microwave.",
+      "task_id": "train/pick_clean_then_place_in_recep-Plate-None-Microwave-7/trial_T20190907_170142_415879/game.tw-pddl"
+     }
+    ],
+    "retired": [],
+    "task_type": "pick_clean_then_place_in_recep",
+    "won": [
+     [
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "take fork 1 from diningtable 1",
+       1
+      ],
+      [
+       "go to sinkbasin 1",
+       1
+      ],
+      [
+       "clean fork 1 with sinkbasin 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "move fork 1 to drawer 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "open cabinet 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "go to drawer 2",
+       1
+      ],
+      [
+       "go to countertop 2",
+       1
+      ],
+      [
+       "take soapbar 2 from countertop 2",
+       1
+      ],
+      [
+       "go to sinkbasin 1",
+       1
+      ],
+      [
+       "clean soapbar 2 with sinkbasin 1",
+       1
+      ],
+      [
+       "go to toilet 1",
+       1
+      ],
+      [
+       "move soapbar 2 to toilet 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "open drawer 1",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "go to cabinet 2",
+       1
+      ],
+      [
+       "go to cabinet 3",
+       1
+      ],
+      [
+       "go to cabinet 4",
+       1
+      ],
+      [
+       "go to fridge 1",
+       1
+      ],
+      [
+       "open fridge 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "go to drawer 2",
+       1
+      ],
+      [
+       "open drawer 2",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "take butterknife 1 from countertop 1",
+       1
+      ],
+      [
+       "go to sinkbasin 1",
+       1
+      ],
+      [
+       "clean butterknife 1 with sinkbasin 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "move butterknife 1 to countertop 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "open cabinet 1",
+       1
+      ],
+      [
+       "take cloth 3 from cabinet 1",
+       1
+      ],
+      [
+       "go to sinkbasin 1",
+       1
+      ],
+      [
+       "clean cloth 3 with sinkbasin 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "move cloth 3 to countertop 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "take butterknife 1 from countertop 1",
+       1
+      ],
+      [
+       "go to sinkbasin 1",
+       1
+      ],
+      [
+       "clean butterknife 1 with sinkbasin 1",
+       1
+      ],
+      [
+       "go to sidetable 1",
+       1
+      ],
+      [
+       "move butterknife 1 to sidetable 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "open drawer 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "open cabinet 1",
+       1
+      ],
+      [
+       "go to fridge 1",
+       1
+      ],
+      [
+       "go to stoveburner 1",
+       1
+      ],
+      [
+       "go to countertop 2",
+       1
+      ],
+      [
+       "take fork 1 from countertop 2",
+       1
+      ],
+      [
+       "go to sinkbasin 1",
+       1
+      ],
+      [
+       "clean fork 1 with sinkbasin 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "move fork 1 to drawer 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "examine cabinet 2",
+       1
+      ],
+      [
+       "go to fridge 1",
+       1
+      ],
+      [
+       "open fridge 1",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "examine cabinet 2",
+       1
+      ],
+      [
+       "examine cabinet 2",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "take pan 1 from countertop 1",
+       1
+      ],
+      [
+       "go to sinkbasin 1",
+       1
+      ],
+      [
+       "clean pan 1 with sinkbasin 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to fridge 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to countertop 2",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "open drawer 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to garbagecan 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to countertop 2",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to fridge 1",
+       1
+      ],
+      [
+       "open fridge 1",
+       1
+      ],
+      [
+       "take plate 3 from fridge 1",
+       1
+      ],
+      [
+       "go to sinkbasin 1",
+       1
+      ],
+      [
+       "clean plate 3 with sinkbasin 1",
+       1
+      ],
+      [
+       "go to shelf 1",
+       1
+      ],
+      [
+       "move plate 3 to shelf 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "take cloth 2 from countertop 1",
+       1
+      ],
+      [
+       "clean cloth 2 with sinkbasin 1",
+       0
+      ],
+      [
+       "examine sinkbasin 1",
+       0
+      ],
+      [
+       "examine sinkbasin 1",
+       0
+      ],
+      [
+       "examine sinkbasin 1",
+       0
+      ],
+      [
+       "clean cloth 2 with sinkbasin 1",
+       0
+      ],
+      [
+       "examine cloth 2",
+       1
+      ],
+      [
+       "go to bathtubbasin 1",
+       1
+      ],
+      [
+       "go to sinkbasin 1",
+       1
+      ],
+      [
+       "examine bathtubbasin 1",
+       0
+      ],
+      [
+       "clean cloth 2 with bathtubbasin 1",
+       0
+      ],
+      [
+       "clean cloth 2 with bathtubbasin 1",
+       0
+      ],
+      [
+       "examine sinkbasin 1",
+       1
+      ],
+      [
+       "examine cloth 2",
+       1
+      ],
+      [
+       "go to bathtubbasin 1",
+       1
+      ],
+      [
+       "go to sinkbasin 1",
+       1
+      ],
+      [
+       "examine bathtubbasin 1",
+       0
+      ],
+      [
+       "examine sinkbasin 1",
+       1
+      ],
+      [
+       "examine cloth 2",
+       1
+      ],
+      [
+       "examine bathtubbasin 1",
+       0
+      ],
+      [
+       "clean cloth 2 with bathtubbasin 1",
+       0
+      ],
+      [
+       "clean cloth 2 with sinkbasin 1",
+       1
+      ],
+      [
+       "go to toilet 1",
+       1
+      ],
+      [
+       "move cloth 2 to toilet 1",
+       1
+      ]
+     ]
+    ]
+   },
+   "refined_at": [
+    0,
+    0
+   ],
+   "rule": "failure pool",
+   "sources": [],
+   "task_type": "pick_clean_then_place_in_recep",
+   "type": "Failure Pool",
+   "validation": "",
+   "verified": true
+  },
+  {
+   "alpha": 2,
+   "base": [
+    9,
+    13
+   ],
+   "base_types": {
+    "pick_and_place_simple": [
+     9,
+     13
+    ]
+   },
+   "beta": 1,
+   "confirmations": 0,
+   "contexts": [
+    {
+     "plan": "take the watch from drawer 1 ; go to coffeetable 1 ; put the watch on coffeetable 1",
+     "steps": [
+      "go to tvstand 1",
+      "go to garbagecan 1",
+      "go to armchair 2",
+      "go to armchair 1",
+      "go to armchair 2",
+      "go to diningtable 1",
+      "go to diningtable 2",
+      "go to drawer 1",
+      "open drawer 1",
+      "take watch 1 from drawer 1",
+      "go to coffeetable 1",
+      "move watch 1 to coffeetable 1"
+     ],
+     "task": "put a watch in coffeetable.",
+     "task_type": "pick_and_place_simple",
+     "won": true
+    }
+   ],
+   "credits": {
+    "pick_and_place_simple": [
+     1,
+     0
+    ]
+   },
+   "example": "In the lost attempt, the agent opened drawers without finding the cloth; in the successful retry, it searched the toilet and took the cloth before opening the drawer.",
+   "id": "rule_4",
+   "importance": 3,
+   "last_used": 46,
+   "refined_at": [
+    0,
+    0
+   ],
+   "rewrites": 1,
+   "rule": "When an object must be picked up and placed, search surfaces and containers for it before opening any target container.",
+   "sources": [
+    {
+     "task": "put a cloth in drawer.",
+     "task_type": "pick_and_place_simple"
+    }
+   ],
+   "task_type": "pick_and_place_simple",
+   "type": "Corrected Error",
+   "unused": 0,
+   "validation": "This game confirmed that the agent must search all locations before attempting to open the target.",
+   "verified": true
+  },
+  {
+   "alpha": 4,
+   "base": [
+    9,
+    13
+   ],
+   "base_types": {
+    "pick_and_place_simple": [
+     9,
+     13
+    ]
+   },
+   "beta": 2,
+   "confirmations": 0,
+   "contexts": [
+    {
+     "plan": "find the handtowel by going to handtowelholder 1 ; take the handtowel from handtowelholder 1 ; go to a cabinet to place the handtowel ; put the handtowel in the cabinet",
+     "steps": [
+      "go to handtowelholder 1",
+      "take handtowel 1 from handtowelholder 1",
+      "go to cabinet 1",
+      "open cabinet 1",
+      "move handtowel 1 to cabinet 1"
+     ],
+     "task": "put a handtowel in cabinet.",
+     "task_type": "pick_and_place_simple",
+     "won": true
+    },
+    {
+     "plan": "search for a pen on surfaces or in containers ; go to a drawer ; put the pen on the drawer",
+     "steps": [
+      "go to desk 1",
+      "go to drawer 1",
+      "go to dresser 1",
+      "take pen 3 from dresser 1",
+      "go to drawer 1",
+      "open drawer 1",
+      "move pen 3 to drawer 1"
+     ],
+     "task": "put some pen on drawer.",
+     "task_type": "pick_and_place_simple",
+     "won": true
+    },
+    {
+     "plan": "take the watch from drawer 1 ; go to coffeetable 1 ; put the watch on coffeetable 1",
+     "steps": [
+      "go to tvstand 1",
+      "go to garbagecan 1",
+      "go to armchair 2",
+      "go to armchair 1",
+      "go to armchair 2",
+      "go to diningtable 1",
+      "go to diningtable 2",
+      "go to drawer 1",
+      "open drawer 1",
+      "take watch 1 from drawer 1",
+      "go to coffeetable 1",
+      "move watch 1 to coffeetable 1"
+     ],
+     "task": "put a watch in coffeetable.",
+     "task_type": "pick_and_place_simple",
+     "won": true
+    },
+    {
+     "plan": "go to desk 1 ; search for laptop on desk 1 ; take laptop from desk 1 ; put laptop in desk 1",
+     "steps": [
+      "go to desk 1",
+      "go to drawer 3",
+      "go to desk 1",
+      "go to shelf 1",
+      "go to desk 1",
+      "go to drawer 1",
+      "go to drawer 4",
+      "go to desk 1",
+      "go to drawer 5",
+      "go to shelf 1",
+      "go to desk 1",
+      "examine desk 1"
+     ],
+     "task": "put a laptop in desk.",
+     "task_type": "pick_and_place_simple",
+     "won": false
+    }
+   ],
+   "credits": {
+    "pick_and_place_simple": [
+     3,
+     1
+    ]
+   },
+   "example": "Search cabinet 1, take spraybottle 1, go to toilet 1, move spraybottle 1 to toilet 1.",
+   "id": "rule_5",
+   "importance": 11,
+   "last_used": 46,
+   "refined_at": [
+    0,
+    0
+   ],
+   "rewrites": 2,
+   "rule": "When an object must be picked up and placed: search surfaces and containers first, take the object from its location, go to the target, move the object there.",
+   "sources": [
+    {
+     "task": "put a cloth in drawer.",
+     "task_type": "pick_and_place_simple"
+    }
+   ],
+   "task_type": "pick_and_place_simple",
+   "type": "Success Process",
+   "unused": 0,
+   "validation": "This game confirmed that the target container must be opened before moving the object to it. | This game confirmed that the object must be located and taken from its current location before moving it to the target. | This game confirmed that the target container must be opened before moving the object to it.",
+   "verified": true
+  },
+  {
+   "alpha": 1,
+   "base": [
+    9,
+    12
+   ],
+   "base_types": {
+    "pick_and_place_simple": [
+     9,
+     12
+    ]
+   },
+   "beta": 1,
+   "contexts": [],
+   "example": "",
+   "id": "rule_6",
+   "importance": 2,
+   "last_used": null,
+   "pool": {
+    "accepted": [
+     "close <X>",
+     "examine <X>",
+     "go to <X>",
+     "inventory",
+     "look",
+     "move <X> to <X>",
+     "open <X>",
+     "take <X> from <X>"
+    ],
+    "declined": {},
+    "games": [
+     {
+      "attempts": [
+       [
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "open cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "open cabinet 3",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "open cabinet 4",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to garbagecan 1",
+         1
+        ],
+        [
+         "go to bed 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         0
+        ],
+        [
+         "go to cabinet 2",
+         0
+        ],
+        [
+         "go to bed 1",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "examine desk 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "examine box 1",
+         0
+        ],
+        [
+         "examine box 1",
+         0
+        ],
+        [
+         "take alarmclock 1 from desk 1",
+         1
+        ],
+        [
+         "put alarmclock 1 to desk 1",
+         0
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 2",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "examine box 1",
+         0
+        ],
+        [
+         "examine book 3",
+         0
+        ],
+        [
+         "examine creditcard 2",
+         0
+        ],
+        [
+         "examine box 1",
+         0
+        ],
+        [
+         "examine pencil 1",
+         0
+        ],
+        [
+         "examine box 1",
+         0
+        ],
+        [
+         "examine box 1",
+         0
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "close cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         0
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "examine box 1",
+         0
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         0
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "close drawer 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "examine box 1",
+         0
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "examine desk 1",
+         1
+        ],
+        [
+         "examine box 1",
+         0
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "close drawer 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         0
+        ],
+        [
+         "examine cabinet 2",
+         1
+        ],
+        [
+         "open cabinet 3",
+         0
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "open cabinet 3",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "examine desk 1",
+         1
+        ],
+        [
+         "examine box 1",
+         0
+        ],
+        [
+         "take box 1 from desk 1",
+         1
+        ],
+        [
+         "examine box 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         0
+        ],
+        [
+         "examine desk 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "examine desk 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "examine box 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ]
+       ],
+       [
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "take box 1 from desk 1",
+         1
+        ],
+        [
+         "examine box 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         0
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "examine book 3",
+         0
+        ],
+        [
+         "examine book 3",
+         0
+        ],
+        [
+         "examine book 3",
+         0
+        ],
+        [
+         "examine desk 1",
+         1
+        ],
+        [
+         "examine box 1",
+         1
+        ],
+        [
+         "examine alarmclock 1",
+         0
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         0
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "close drawer 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "examine alarmclock 1",
+         0
+        ],
+        [
+         "examine box 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ]
+       ]
+      ],
+      "task": "put a keychain in desk.",
+      "task_id": "train/pick_and_place_simple-KeyChain-None-Desk-310/trial_T20190908_125324_094909/game.tw-pddl"
+     }
+    ],
+    "retired": [],
+    "task_type": "pick_and_place_simple",
+    "won": [
+     [
+      [
+       "inventory",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to sinkbasin 1",
+       1
+      ],
+      [
+       "go to garbagecan 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to towelholder 1",
+       1
+      ],
+      [
+       "go to handtowelholder 1",
+       1
+      ],
+      [
+       "go to toilet 1",
+       1
+      ],
+      [
+       "take cloth 1 from toilet 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       0
+      ],
+      [
+       "open drawer 1",
+       1
+      ],
+      [
+       "move cloth 1 to drawer 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to safe 1",
+       1
+      ],
+      [
+       "open safe 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "go to drawer 10",
+       1
+      ],
+      [
+       "open drawer 10",
+       1
+      ],
+      [
+       "go to drawer 11",
+       1
+      ],
+      [
+       "open drawer 11",
+       1
+      ],
+      [
+       "take cd 3 from drawer 11",
+       1
+      ],
+      [
+       "go to safe 1",
+       1
+      ],
+      [
+       "move cd 3 to safe 1",
+       1
+      ]
+     ],
+     [
+      [
+       "inventory",
+       1
+      ],
+      [
+       "go to shelf 1",
+       1
+      ],
+      [
+       "go to shelf 2",
+       1
+      ],
+      [
+       "take statue 3 from shelf 2",
+       1
+      ],
+      [
+       "go to sidetable 1",
+       1
+      ],
+      [
+       "move statue 3 to sidetable 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to bed 1",
+       1
+      ],
+      [
+       "take cellphone 1 from bed 1",
+       1
+      ],
+      [
+       "go to dresser 1",
+       1
+      ],
+      [
+       "move cellphone 1 to dresser 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to coffeetable 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "open drawer 1",
+       1
+      ],
+      [
+       "go to drawer 2",
+       1
+      ],
+      [
+       "open drawer 2",
+       1
+      ],
+      [
+       "go to armchair 1",
+       1
+      ],
+      [
+       "go to sofa 1",
+       1
+      ],
+      [
+       "go to armchair 2",
+       1
+      ],
+      [
+       "go to armchair 1",
+       1
+      ],
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "go to diningtable 2",
+       1
+      ],
+      [
+       "take statue 2 from diningtable 2",
+       1
+      ],
+      [
+       "go to coffeetable 1",
+       1
+      ],
+      [
+       "move statue 2 to coffeetable 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "take spraybottle 1 from countertop 1",
+       1
+      ],
+      [
+       "go to garbagecan 1",
+       1
+      ],
+      [
+       "move spraybottle 1 to garbagecan 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "go to sidetable 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "go to shelf 1",
+       1
+      ],
+      [
+       "go to dresser 1",
+       1
+      ],
+      [
+       "go to bed 1",
+       1
+      ],
+      [
+       "take cellphone 1 from bed 1",
+       1
+      ],
+      [
+       "go to dresser 1",
+       1
+      ],
+      [
+       "move cellphone 1 to dresser 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "take spraybottle 1 from cabinet 1",
+       1
+      ],
+      [
+       "go to toilet 1",
+       1
+      ],
+      [
+       "move spraybottle 1 to toilet 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to handtowelholder 1",
+       1
+      ],
+      [
+       "take handtowel 1 from handtowelholder 1",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "open cabinet 1",
+       1
+      ],
+      [
+       "move handtowel 1 to cabinet 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "go to dresser 1",
+       1
+      ],
+      [
+       "take pen 3 from dresser 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "open drawer 1",
+       1
+      ],
+      [
+       "move pen 3 to drawer 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "open drawer 1",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "examine desk 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "go to drawer 2",
+       1
+      ],
+      [
+       "open drawer 2",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "go to drawer 3",
+       1
+      ],
+      [
+       "open drawer 3",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "go to drawer 4",
+       1
+      ],
+      [
+       "open drawer 4",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "go to shelf 1",
+       1
+      ],
+      [
+       "go to bed 1",
+       1
+      ],
+      [
+       "take laptop 1 from bed 1",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "move laptop 1 to desk 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "go to sidetable 1",
+       1
+      ],
+      [
+       "go to armchair 1",
+       1
+      ],
+      [
+       "go to sofa 1",
+       1
+      ],
+      [
+       "go to tvstand 1",
+       1
+      ],
+      [
+       "go to garbagecan 1",
+       1
+      ],
+      [
+       "go to armchair 2",
+       1
+      ],
+      [
+       "go to armchair 1",
+       1
+      ],
+      [
+       "go to armchair 2",
+       1
+      ],
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "go to diningtable 2",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       0
+      ],
+      [
+       "go to cabinet 1",
+       0
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "open drawer 1",
+       1
+      ],
+      [
+       "take watch 1 from drawer 1",
+       1
+      ],
+      [
+       "go to coffeetable 1",
+       1
+      ],
+      [
+       "move watch 1 to coffeetable 1",
+       1
+      ]
+     ]
+    ]
+   },
+   "refined_at": [
+    0,
+    0
+   ],
+   "rule": "failure pool",
+   "sources": [],
+   "task_type": "pick_and_place_simple",
+   "type": "Failure Pool",
+   "validation": "",
+   "verified": true
+  },
+  {
+   "alpha": 3,
+   "base": [
+    5,
+    11
+   ],
+   "base_types": {
+    "pick_two_obj_and_place": [
+     5,
+     11
+    ]
+   },
+   "beta": 3,
+   "contexts": [
+    {
+     "plan": "go to shelf 1 ; find and take the first alarmclock ; put the first alarmclock in shelf 1 ; find and take the second alarmclock ; put the second alarmclock in shelf 1",
+     "steps": [
+      "go to shelf 1",
+      "go to desk 1",
+      "take alarmclock 1 from desk 1",
+      "go to shelf 1",
+      "move alarmclock 1 to shelf 1",
+      "go to desk 1",
+      "take alarmclock 2 from desk 1",
+      "go to shelf 1",
+      "move alarmclock 2 to shelf 1"
+     ],
+     "task": "put two alarmclock in shelf.",
+     "task_type": "pick_two_obj_and_place",
+     "won": true
+    },
+    {
+     "plan": "go to drawer 1 ; take a pencil from desk 1 ; put the pencil in drawer 1 ; take another pencil from desk 1 ; put the second pencil in drawer 1 ; verify task completion",
+     "steps": [
+      "go to drawer 1",
+      "go to desk 1",
+      "take pencil 1 from desk 1",
+      "go to drawer 1",
+      "move pencil 1 to drawer 1",
+      "go to desk 1",
+      "take pencil 2 from desk 1",
+      "go to drawer 1",
+      "move pencil 2 to drawer 1"
+     ],
+     "task": "put two pencil in drawer.",
+     "task_type": "pick_two_obj_and_place",
+     "won": true
+    },
+    {
+     "plan": "take keychain 3 from drawer 1 ; put keychain 3 in drawer 1 ; go to drawer 2 ; take keychain from drawer 2 ; put keychain in drawer 1",
+     "steps": [
+      "go to desk 1",
+      "go to drawer 2",
+      "go to drawer 1",
+      "take keychain 3 from drawer 1",
+      "move keychain 3 to drawer 1",
+      "go to drawer 2",
+      "go to desk 1",
+      "go to drawer 1",
+      "take keychain 3 from drawer 1",
+      "move keychain 3 to drawer 1",
+      "go to drawer 2",
+      "go to drawer 1"
+     ],
+     "task": "put two keychain in drawer.",
+     "task_type": "pick_two_obj_and_place",
+     "won": false
+    },
+    {
+     "plan": "go to bed 1 ; find and take the first cellphone ; put the first cellphone in bed ; find and take the second cellphone ; put the second cellphone in bed ; verify both cellphones are in bed",
+     "steps": [
+      "go to bed 1",
+      "move cellphone 2 to bed 1",
+      "go to drawer 1",
+      "go to drawer 2",
+      "go to armchair 1",
+      "go to drawer 1",
+      "go to armchair 1",
+      "go to drawer 1",
+      "go to drawer 2",
+      "go to armchair 1",
+      "go to drawer 1",
+      "go to armchair 1"
+     ],
+     "task": "find two cellphone and put them in bed.",
+     "task_type": "pick_two_obj_and_place",
+     "won": false
+    }
+   ],
+   "credits": {
+    "pick_two_obj_and_place": [
+     2,
+     2
+    ]
+   },
+   "example": "In the lost attempt, the agent moved spatula 2 to drawer 1, then immediately took it back out instead of leaving it there to find the second spatula.",
+   "id": "rule_7",
+   "importance": 6,
+   "last_used": 49,
+   "refined_at": [
+    0,
+    0
+   ],
+   "rule": "When placing multiple objects in a container, leave the first object inside before searching for the second one.",
+   "sources": [
+    {
+     "task": "put two spatula in drawer.",
+     "task_type": "pick_two_obj_and_place"
+    }
+   ],
+   "task_type": "pick_two_obj_and_place",
+   "type": "Corrected Error",
+   "unused": 6,
+   "validation": "Confirmed: the agent failed to place the first alarmclock before retrieving the second, causing a failed move attempt. | Confirmed: the agent failed to place the first alarmclock before retrieving the second, causing a failed move attempt. | Confirmed: the agent failed to place the first pen before retrieving the second, causing a failed move attempt.",
+   "verified": true
+  },
+  {
+   "alpha": 1,
+   "base": [
+    5,
+    10
+   ],
+   "base_types": {
+    "pick_two_obj_and_place": [
+     5,
+     10
+    ]
+   },
+   "beta": 1,
+   "contexts": [],
+   "example": "",
+   "id": "rule_8",
+   "importance": 2,
+   "last_used": null,
+   "pool": {
+    "accepted": [
+     "close <X>",
+     "examine <X>",
+     "go to <X>",
+     "inventory",
+     "look",
+     "move <X> to <X>",
+     "open <X>",
+     "take <X> from <X>"
+    ],
+    "declined": {},
+    "games": [
+     {
+      "attempts": [
+       [
+        [
+         "go to dresser 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "open drawer 3",
+         1
+        ],
+        [
+         "go to drawer 4",
+         1
+        ],
+        [
+         "open drawer 4",
+         1
+        ],
+        [
+         "go to drawer 5",
+         1
+        ],
+        [
+         "open drawer 5",
+         1
+        ],
+        [
+         "go to drawer 6",
+         1
+        ],
+        [
+         "open drawer 6",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to drawer 7",
+         1
+        ],
+        [
+         "go to drawer 8",
+         1
+        ],
+        [
+         "open drawer 8",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to dresser 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to dresser 1",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to drawer 4",
+         1
+        ],
+        [
+         "go to drawer 5",
+         1
+        ],
+        [
+         "go to drawer 6",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to drawer 7",
+         1
+        ]
+       ],
+       [
+        [
+         "go to dresser 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "open drawer 3",
+         1
+        ],
+        [
+         "go to drawer 4",
+         1
+        ],
+        [
+         "open drawer 4",
+         1
+        ],
+        [
+         "go to drawer 5",
+         1
+        ],
+        [
+         "open drawer 5",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to dresser 1",
+         1
+        ],
+        [
+         "go to garbagecan 1",
+         1
+        ],
+        [
+         "go to drawer 6",
+         1
+        ],
+        [
+         "open drawer 6",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to dresser 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "go to drawer 4",
+         1
+        ],
+        [
+         "go to drawer 5",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to dresser 1",
+         1
+        ],
+        [
+         "go to drawer 7",
+         0
+        ],
+        [
+         "examine drawer 7",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to dresser 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "examine desk 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to drawer 4",
+         1
+        ],
+        [
+         "open drawer 4",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to dresser 1",
+         1
+        ],
+        [
+         "go to drawer 5",
+         1
+        ],
+        [
+         "open drawer 6",
+         0
+        ],
+        [
+         "open drawer 6",
+         0
+        ],
+        [
+         "go to dresser 1",
+         1
+        ],
+        [
+         "examine drawer 7",
+         1
+        ],
+        [
+         "examine dresser 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "open drawer 3",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to drawer 4",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to dresser 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "examine dresser 1",
+         0
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to bed 1",
+         1
+        ],
+        [
+         "take cellphone 2 from bed 1",
+         1
+        ],
+        [
+         "move cellphone 2 to dresser 1",
+         0
+        ],
+        [
+         "examine cellphone 2",
+         1
+        ],
+        [
+         "go to dresser 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to bed 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "open drawer 3",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to dresser 1",
+         1
+        ],
+        [
+         "go to drawer 4",
+         1
+        ],
+        [
+         "open drawer 4",
+         1
+        ],
+        [
+         "close drawer 4",
+         1
+        ],
+        [
+         "go to bed 1",
+         1
+        ],
+        [
+         "go to dresser 1",
+         1
+        ],
+        [
+         "inventory",
+         1
+        ],
+        [
+         "move cellphone 2 to dresser 1",
+         1
+        ],
+        [
+         "take cellphone 2 from dresser 1",
+         1
+        ],
+        [
+         "move cellphone 2 to drawer 4",
+         0
+        ]
+       ]
+      ],
+      "task": "put two cellphone in dresser.",
+      "task_id": "train/pick_two_obj_and_place-CellPhone-None-Dresser-327/trial_T20190908_042648_141419/game.tw-pddl"
+     },
+     {
+      "attempts": [
+       [
+        [
+         "go to bed 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "open cabinet 2",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "open cabinet 3",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "open cabinet 4",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "go to armchair 1",
+         1
+        ],
+        [
+         "take cellphone 2 from armchair 1",
+         1
+        ],
+        [
+         "move cellphone 2 to bed 1",
+         0
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "go to bed 1",
+         1
+        ],
+        [
+         "move cellphone 2 to bed 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "go to armchair 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to armchair 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "go to armchair 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to armchair 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to armchair 1",
+         1
+        ],
+        [
+         "take cellphone 2 from armchair 1",
+         1
+        ],
+        [
+         "go to bed 1",
+         1
+        ],
+        [
+         "move cellphone 2 to bed 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "open drawer 3",
+         1
+        ],
+        [
+         "go to drawer 4",
+         1
+        ],
+        [
+         "open drawer 4",
+         1
+        ],
+        [
+         "go to armchair 1",
+         1
+        ],
+        [
+         "go to sidetable 1",
+         1
+        ],
+        [
+         "go to sidetable 2",
+         1
+        ],
+        [
+         "examine sidetable 2",
+         1
+        ],
+        [
+         "go to armchair 1",
+         1
+        ],
+        [
+         "go to bed 1",
+         1
+        ],
+        [
+         "take cellphone 2 from bed 1",
+         1
+        ],
+        [
+         "move cellphone 2 to bed 1",
+         1
+        ],
+        [
+         "go to armchair 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to armchair 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to armchair 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to armchair 1",
+         1
+        ],
+        [
+         "take cellphone 2 from armchair 1",
+         1
+        ],
+        [
+         "go to bed 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "open cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "go to sidetable 1",
+         1
+        ],
+        [
+         "go to armchair 1",
+         1
+        ],
+        [
+         "examine armchair 1",
+         1
+        ],
+        [
+         "go to bed 1",
+         1
+        ],
+        [
+         "go to armchair 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to armchair 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "open drawer 3",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to armchair 1",
+         1
+        ],
+        [
+         "go to drawer 4",
+         1
+        ],
+        [
+         "open drawer 4",
+         1
+        ],
+        [
+         "go to armchair 1",
+         1
+        ],
+        [
+         "go to bed 1",
+         1
+        ],
+        [
+         "move cellphone 2 to bed 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to armchair 1",
+         1
+        ],
+        [
+         "take cellphone 2 from armchair 1",
+         1
+        ],
+        [
+         "go to bed 1",
+         1
+        ],
+        [
+         "move cellphone 2 to bed 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "close drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "go to armchair 1",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "open drawer 3",
+         1
+        ],
+        [
+         "go to drawer 4",
+         1
+        ],
+        [
+         "open drawer 4",
+         1
+        ],
+        [
+         "go to armchair 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to armchair 1",
+         1
+        ],
+        [
+         "go to bed 1",
+         1
+        ],
+        [
+         "take cellphone 2 from bed 1",
+         1
+        ],
+        [
+         "move cellphone 2 to bed 1",
+         1
+        ],
+        [
+         "go to armchair 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "go to drawer 4",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to dresser 1",
+         1
+        ]
+       ]
+      ],
+      "task": "find two cellphone and put them in bed.",
+      "task_id": "train/pick_two_obj_and_place-CellPhone-None-Bed-322/trial_T20190906_181221_374535/game.tw-pddl"
+     },
+     {
+      "attempts": [
+       [
+        [
+         "go to coffeetable 1",
+         1
+        ],
+        [
+         "take laptop 1 from coffeetable 1",
+         1
+        ],
+        [
+         "move laptop 1 to ottoman 1",
+         0
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "go to drawer 4",
+         1
+        ],
+        [
+         "open drawer 4",
+         1
+        ],
+        [
+         "go to coffeetable 1",
+         1
+        ],
+        [
+         "go to drawer 5",
+         1
+        ],
+        [
+         "open drawer 5",
+         1
+        ],
+        [
+         "go to armchair 1",
+         1
+        ],
+        [
+         "go to coffeetable 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to ottoman 1",
+         1
+        ],
+        [
+         "move laptop 1 to ottoman 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "go to drawer 4",
+         1
+        ],
+        [
+         "go to drawer 5",
+         1
+        ],
+        [
+         "go to drawer 6",
+         1
+        ],
+        [
+         "open drawer 6",
+         1
+        ],
+        [
+         "go to drawer 7",
+         1
+        ],
+        [
+         "open drawer 7",
+         1
+        ],
+        [
+         "close drawer 7",
+         1
+        ],
+        [
+         "go to armchair 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to coffeetable 1",
+         1
+        ],
+        [
+         "take laptop 1 from coffeetable 1",
+         1
+        ],
+        [
+         "go to ottoman 1",
+         1
+        ],
+        [
+         "move laptop 1 to ottoman 1",
+         1
+        ],
+        [
+         "go to coffeetable 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to armchair 1",
+         1
+        ],
+        [
+         "go to coffeetable 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to coffeetable 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to coffeetable 1",
+         1
+        ],
+        [
+         "examine coffeetable 1",
+         1
+        ],
+        [
+         "examine coffeetable 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "go to coffeetable 1",
+         1
+        ],
+        [
+         "go to ottoman 1",
+         1
+        ],
+        [
+         "take laptop 1 from ottoman 1",
+         1
+        ],
+        [
+         "move laptop 1 to ottoman 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to coffeetable 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to coffeetable 1",
+         1
+        ],
+        [
+         "examine coffeetable 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "go to coffeetable 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to coffeetable 1",
+         1
+        ],
+        [
+         "take laptop 1 from coffeetable 1",
+         1
+        ],
+        [
+         "go to ottoman 1",
+         1
+        ],
+        [
+         "move laptop 1 to ottoman 1",
+         1
+        ],
+        [
+         "go to coffeetable 1",
+         1
+        ],
+        [
+         "examine coffeetable 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to coffeetable 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "go to coffeetable 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to coffeetable 1",
+         1
+        ],
+        [
+         "examine coffeetable 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to coffeetable 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "go to coffeetable 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to armchair 1",
+         1
+        ],
+        [
+         "go to ottoman 1",
+         1
+        ],
+        [
+         "take laptop 1 from ottoman 1",
+         1
+        ],
+        [
+         "move laptop 1 to ottoman 1",
+         1
+        ],
+        [
+         "go to armchair 1",
+         1
+        ],
+        [
+         "examine armchair 1",
+         1
+        ],
+        [
+         "go to ottoman 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to coffeetable 1",
+         1
+        ],
+        [
+         "take laptop 1 from coffeetable 1",
+         1
+        ],
+        [
+         "go to ottoman 1",
+         1
+        ],
+        [
+         "move laptop 1 to ottoman 1",
+         1
+        ],
+        [
+         "go to coffeetable 1",
+         1
+        ],
+        [
+         "examine coffeetable 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to coffeetable 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to coffeetable 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to coffeetable 1",
+         1
+        ],
+        [
+         "examine coffeetable 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to coffeetable 1",
+         1
+        ],
+        [
+         "examine coffeetable 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to coffeetable 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to armchair 1",
+         1
+        ],
+        [
+         "go to sidetable 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to armchair 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to coffeetable 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to coffeetable 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ]
+       ]
+      ],
+      "task": "find two laptop and put them in ottoman.",
+      "task_id": "train/pick_two_obj_and_place-Laptop-None-Ottoman-203/trial_T20190907_034427_986385/game.tw-pddl"
+     }
+    ],
+    "retired": [],
+    "task_type": "pick_two_obj_and_place",
+    "won": [
+     [
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "take spatula 2 from countertop 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "open drawer 1",
+       1
+      ],
+      [
+       "move spatula 2 to drawer 1",
+       1
+      ],
+      [
+       "go to countertop 2",
+       1
+      ],
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "take spatula 1 from diningtable 1",
+       1
+      ],
+      [
+       "move spatula 1 to drawer 1",
+       0
+      ],
+      [
+       "move spatula 1 to drawer 1",
+       0
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "move spatula 1 to drawer 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to shelf 1",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "take alarmclock 1 from desk 1",
+       1
+      ],
+      [
+       "move alarmclock 1 to shelf 1",
+       0
+      ],
+      [
+       "go to shelf 1",
+       1
+      ],
+      [
+       "move alarmclock 1 to shelf 1",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "take alarmclock 2 from desk 1",
+       1
+      ],
+      [
+       "go to shelf 1",
+       1
+      ],
+      [
+       "move alarmclock 2 to shelf 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "take keychain 3 from desk 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "open drawer 1",
+       1
+      ],
+      [
+       "move keychain 3 to drawer 1",
+       1
+      ],
+      [
+       "go to drawer 2",
+       1
+      ],
+      [
+       "open drawer 2",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "go to drawer 3",
+       1
+      ],
+      [
+       "open drawer 3",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "go to drawer 2",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "examine desk 1",
+       1
+      ],
+      [
+       "go to sidetable 1",
+       1
+      ],
+      [
+       "take keychain 2 from sidetable 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "move keychain 2 to drawer 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "take pencil 1 from desk 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "move pencil 1 to drawer 1",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "take pencil 2 from desk 1",
+       1
+      ],
+      [
+       "move pencil 2 to drawer 1",
+       0
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "move pencil 2 to drawer 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to dresser 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "go to dresser 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "go to dresser 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "open drawer 1",
+       1
+      ],
+      [
+       "go to drawer 2",
+       1
+      ],
+      [
+       "open drawer 2",
+       1
+      ],
+      [
+       "close drawer 2",
+       1
+      ],
+      [
+       "go to drawer 3",
+       1
+      ],
+      [
+       "open drawer 3",
+       1
+      ],
+      [
+       "close drawer 3",
+       1
+      ],
+      [
+       "go to drawer 4",
+       1
+      ],
+      [
+       "open drawer 4",
+       1
+      ],
+      [
+       "go to coffeetable 1",
+       1
+      ],
+      [
+       "take pen 1 from coffeetable 1",
+       1
+      ],
+      [
+       "go to dresser 1",
+       1
+      ],
+      [
+       "move pen 1 to dresser 1",
+       1
+      ],
+      [
+       "go to coffeetable 1",
+       1
+      ],
+      [
+       "take pen 2 from coffeetable 1",
+       1
+      ],
+      [
+       "move pen 2 to dresser 1",
+       0
+      ],
+      [
+       "move pen 2 to dresser 1",
+       0
+      ],
+      [
+       "go to dresser 1",
+       1
+      ],
+      [
+       "move pen 2 to dresser 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "open cabinet 1",
+       1
+      ],
+      [
+       "take peppershaker 1 from cabinet 1",
+       1
+      ],
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "move peppershaker 1 to diningtable 1",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "go to cabinet 2",
+       1
+      ],
+      [
+       "open cabinet 2",
+       1
+      ],
+      [
+       "take peppershaker 2 from cabinet 2",
+       1
+      ],
+      [
+       "open diningtable 1",
+       0
+      ],
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "move peppershaker 2 to diningtable 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "take winebottle 1 from diningtable 1",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "open cabinet 1",
+       0
+      ],
+      [
+       "open cabinet 1",
+       0
+      ],
+      [
+       "move winebottle 1 to cabinet 1",
+       1
+      ],
+      [
+       "go to diningtable 2",
+       1
+      ],
+      [
+       "take winebottle 3 from diningtable 2",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "move winebottle 3 to cabinet 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to handtowelholder 1",
+       1
+      ],
+      [
+       "take handtowel 1 from handtowelholder 1",
+       1
+      ],
+      [
+       "move handtowel 1 to countertop 1",
+       0
+      ],
+      [
+       "go to handtowelholder 2",
+       1
+      ],
+      [
+       "take handtowel 2 from handtowelholder 2",
+       0
+      ],
+      [
+       "move handtowel 2 to countertop 1",
+       0
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "examine countertop 1",
+       1
+      ],
+      [
+       "move handtowel 1 to countertop 1",
+       1
+      ],
+      [
+       "go to handtowelholder 2",
+       1
+      ],
+      [
+       "take handtowel 2 from handtowelholder 2",
+       1
+      ],
+      [
+       "move handtowel 2 to countertop 1",
+       0
+      ],
+      [
+       "move handtowel 2 to countertop 1",
+       0
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "move handtowel 2 to countertop 1",
+       1
+      ]
+     ]
+    ]
+   },
+   "refined_at": [
+    0,
+    0
+   ],
+   "rule": "failure pool",
+   "sources": [],
+   "task_type": "pick_two_obj_and_place",
+   "type": "Failure Pool",
+   "validation": "",
+   "verified": true
+  },
+  {
+   "alpha": 1,
+   "base": [
+    0,
+    4
+   ],
+   "base_types": {
+    "pick_heat_then_place_in_recep": [
+     0,
+     4
+    ]
+   },
+   "beta": 1,
+   "contexts": [],
+   "example": "",
+   "id": "rule_9",
+   "importance": 2,
+   "last_used": null,
+   "pool": {
+    "accepted": [
+     "close <X>",
+     "examine <X>",
+     "go to <X>",
+     "heat <X> with <X>",
+     "inventory",
+     "move <X> to <X>",
+     "open <X>",
+     "take <X> from <X>"
+    ],
+    "declined": {},
+    "games": [
+     {
+      "attempts": [
+       [
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "take mug 1 from countertop 1",
+         1
+        ],
+        [
+         "go to stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "move mug 1 to stoveburner 1",
+         0
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "move mug 1 to stoveburner 1",
+         0
+        ],
+        [
+         "move mug 1 to stoveburner 2",
+         0
+        ],
+        [
+         "move mug 1 to stoveburner 3",
+         0
+        ],
+        [
+         "examine mug 1",
+         1
+        ],
+        [
+         "go to stoveburner 1",
+         0
+        ],
+        [
+         "go to coffeemachine 1",
+         1
+        ],
+        [
+         "move mug 1 to coffeemachine 1",
+         1
+        ],
+        [
+         "examine coffeemachine 1",
+         1
+        ],
+        [
+         "go to stoveburner 1",
+         1
+        ],
+        [
+         "examine kettle 1",
+         0
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine kettle 1",
+         0
+        ],
+        [
+         "examine kettle 1",
+         0
+        ],
+        [
+         "go to stoveburner 1",
+         0
+        ],
+        [
+         "examine kettle 1",
+         0
+        ],
+        [
+         "take kettle 1 from stoveburner 1",
+         1
+        ],
+        [
+         "move kettle 1 to coffeemachine 1",
+         0
+        ],
+        [
+         "move kettle 1 to stoveburner 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "take mug 1 from countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "heat water in kettle 1 on stoveburner 1",
+         0
+        ],
+        [
+         "pour water from kettle 1 to mug 1",
+         0
+        ],
+        [
+         "go to stoveburner 1",
+         0
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "heat water in kettle 1 on stoveburner 1",
+         0
+        ],
+        [
+         "heat water in kettle 1 on stoveburner 1",
+         0
+        ],
+        [
+         "heat water in kettle 1 on stoveburner 1",
+         0
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "heat water in kettle 1 on stoveburner 3",
+         0
+        ],
+        [
+         "examine mug 1",
+         1
+        ],
+        [
+         "move mug 1 to coffeemachine 1",
+         0
+        ],
+        [
+         "examine mug 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "heat water in kettle 1 on stoveburner 3",
+         0
+        ],
+        [
+         "heat water in kettle 1 on stoveburner 2",
+         0
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to stoveburner 1",
+         1
+        ],
+        [
+         "take kettle 1 from stoveburner 1",
+         1
+        ],
+        [
+         "move kettle 1 to stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "heat kettle 1 with stoveburner 1",
+         0
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "move kettle 1 to stoveburner 1",
+         0
+        ],
+        [
+         "heat kettle 1 with stoveburner 1",
+         0
+        ],
+        [
+         "heat kettle 1 with stoveburner 1",
+         0
+        ],
+        [
+         "take kettle 1 from stoveburner 1",
+         1
+        ],
+        [
+         "move kettle 1 to stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "heat kettle 1 with stoveburner 1",
+         0
+        ],
+        [
+         "take kettle 1 from stoveburner 1",
+         1
+        ],
+        [
+         "move kettle 1 to stoveburner 1",
+         1
+        ],
+        [
+         "heat kettle 1 with stoveburner 1",
+         0
+        ],
+        [
+         "move kettle 1 to stoveburner 1",
+         0
+        ],
+        [
+         "heat kettle 1 with stoveburner 1",
+         0
+        ],
+        [
+         "take kettle 1 from stoveburner 1",
+         1
+        ],
+        [
+         "move kettle 1 to coffeemachine 1",
+         0
+        ],
+        [
+         "move kettle 1 to stoveburner 1",
+         1
+        ],
+        [
+         "heat kettle 1 with stoveburner 1",
+         0
+        ],
+        [
+         "move kettle 1 to stoveburner 1",
+         0
+        ],
+        [
+         "move kettle 1 to stoveburner 1",
+         0
+        ],
+        [
+         "take kettle 1 from stoveburner 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "move kettle 1 to mug 1",
+         0
+        ],
+        [
+         "go to stoveburner 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to stoveburner 1",
+         1
+        ],
+        [
+         "take kettle 1 from stoveburner 1",
+         1
+        ],
+        [
+         "move kettle 1 to stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "go to stoveburner 2",
+         1
+        ],
+        [
+         "go to stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "heat kettle 1 with stoveburner 1",
+         0
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "take mug 1 from countertop 1",
+         1
+        ],
+        [
+         "pour mug 1 from kettle 1",
+         0
+        ],
+        [
+         "move mug 1 to countertop 1",
+         1
+        ],
+        [
+         "take mug 1 from countertop 1",
+         1
+        ],
+        [
+         "go to coffeemachine 1",
+         1
+        ],
+        [
+         "move mug 1 to coffeemachine 1",
+         1
+        ],
+        [
+         "examine coffeemachine 1",
+         1
+        ],
+        [
+         "examine coffeemachine 1",
+         1
+        ],
+        [
+         "examine coffeemachine 1",
+         1
+        ],
+        [
+         "examine coffeemachine 1",
+         1
+        ],
+        [
+         "examine coffeemachine 1",
+         1
+        ],
+        [
+         "examine coffeemachine 1",
+         1
+        ],
+        [
+         "go to stoveburner 1",
+         1
+        ]
+       ]
+      ],
+      "task": "put a hot mug in coffeemachine.",
+      "task_id": "train/pick_heat_then_place_in_recep-Mug-None-CoffeeMachine-30/trial_T20190907_220045_510017/game.tw-pddl"
+     },
+     {
+      "attempts": [
+       [
+        [
+         "go to stoveburner 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "close cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "open cabinet 2",
+         1
+        ],
+        [
+         "close cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "open cabinet 3",
+         1
+        ],
+        [
+         "go to stoveburner 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to stoveburner 2",
+         1
+        ],
+        [
+         "go to stoveburner 3",
+         0
+        ],
+        [
+         "go to stoveburner 3",
+         0
+        ],
+        [
+         "go to stoveburner 4",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to stoveburner 2",
+         1
+        ],
+        [
+         "take pan 1 from stoveburner 2",
+         1
+        ],
+        [
+         "move pan 1 to diningtable 1",
+         0
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "move pan 1 to diningtable 1",
+         1
+        ],
+        [
+         "take potato 1 from diningtable 1",
+         1
+        ],
+        [
+         "go to stoveburner 1",
+         1
+        ],
+        [
+         "go to stoveburner 1",
+         0
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "open cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "open cabinet 3",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "open cabinet 4",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to cabinet 5",
+         1
+        ],
+        [
+         "open cabinet 5",
+         1
+        ],
+        [
+         "go to cabinet 6",
+         1
+        ],
+        [
+         "go to cabinet 7",
+         1
+        ],
+        [
+         "go to cabinet 8",
+         1
+        ],
+        [
+         "open cabinet 8",
+         1
+        ],
+        [
+         "go to cabinet 9",
+         1
+        ],
+        [
+         "open cabinet 9",
+         1
+        ],
+        [
+         "go to cabinet 10",
+         1
+        ],
+        [
+         "open cabinet 10",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "take potato 1 from diningtable 1",
+         1
+        ],
+        [
+         "go to stoveburner 1",
+         1
+        ],
+        [
+         "move potato 1 to stoveburner 1",
+         0
+        ],
+        [
+         "heat potato 1 on stoveburner 1",
+         0
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "open cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "open cabinet 3",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "open cabinet 4",
+         1
+        ],
+        [
+         "go to cabinet 5",
+         1
+        ],
+        [
+         "open cabinet 5",
+         1
+        ],
+        [
+         "go to cabinet 6",
+         1
+        ],
+        [
+         "open cabinet 6",
+         1
+        ],
+        [
+         "go to cabinet 7",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 8",
+         1
+        ],
+        [
+         "open cabinet 8",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 9",
+         1
+        ],
+        [
+         "open cabinet 9",
+         1
+        ],
+        [
+         "go to cabinet 10",
+         1
+        ],
+        [
+         "go to cabinet 11",
+         1
+        ],
+        [
+         "open cabinet 11",
+         1
+        ],
+        [
+         "go to cabinet 12",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "close fridge 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "go to drawer 3",
+         0
+        ],
+        [
+         "go to drawer 3",
+         0
+        ],
+        [
+         "go to drawer 3",
+         0
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to stoveburner 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "open cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "open cabinet 3",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "open cabinet 4",
+         1
+        ],
+        [
+         "go to cabinet 5",
+         1
+        ],
+        [
+         "open cabinet 5",
+         1
+        ],
+        [
+         "go to cabinet 6",
+         1
+        ],
+        [
+         "open cabinet 6",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "take potato 3 from countertop 2",
+         1
+        ],
+        [
+         "go to stoveburner 1",
+         1
+        ]
+       ]
+      ],
+      "task": "put a hot potato in diningtable.",
+      "task_id": "train/pick_heat_then_place_in_recep-Potato-None-DiningTable-16/trial_T20190908_015113_664393/game.tw-pddl"
+     },
+     {
+      "attempts": [
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "take mug 1 from countertop 1",
+         1
+        ],
+        [
+         "go to stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "place mug 1 on stoveburner 1",
+         0
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "wait",
+         0
+        ],
+        [
+         "wait",
+         0
+        ],
+        [
+         "examine mug 1",
+         1
+        ],
+        [
+         "wait",
+         0
+        ],
+        [
+         "wait",
+         0
+        ],
+        [
+         "wait",
+         0
+        ],
+        [
+         "examine mug 1",
+         1
+        ],
+        [
+         "wait",
+         0
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "inventory",
+         1
+        ],
+        [
+         "go to stoveburner 2",
+         1
+        ],
+        [
+         "examine stoveburner 2",
+         1
+        ],
+        [
+         "examine stoveburner 2",
+         1
+        ],
+        [
+         "place mug 1 on stoveburner 2",
+         0
+        ],
+        [
+         "wait",
+         0
+        ],
+        [
+         "wait",
+         0
+        ],
+        [
+         "examine stoveburner 2",
+         1
+        ],
+        [
+         "wait",
+         0
+        ],
+        [
+         "wait",
+         0
+        ],
+        [
+         "wait",
+         0
+        ],
+        [
+         "wait",
+         0
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to stoveburner 2",
+         1
+        ]
+       ],
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "take mug 1 from countertop 1",
+         1
+        ],
+        [
+         "go to stoveburner 1",
+         1
+        ],
+        [
+         "go to stoveburner 2",
+         1
+        ],
+        [
+         "go to stoveburner 3",
+         1
+        ],
+        [
+         "place mug 1 on stoveburner 3",
+         0
+        ],
+        [
+         "go to stoveburner 1",
+         0
+        ],
+        [
+         "go to stoveburner 4",
+         1
+        ],
+        [
+         "place mug 1 on stoveburner 4",
+         0
+        ],
+        [
+         "place mug 1 on stoveburner 1",
+         0
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "move mug 1 to cabinet 1",
+         1
+        ],
+        [
+         "close cabinet 1",
+         1
+        ],
+        [
+         "The task is to put a hot mug in a cabinet. I have already placed the mug in cabinet 1 and closed it in the previous steps. Since the task is complete, I should verify the state or check the inventory to confirm the mug is inside. However, the most logical next step if the task",
+         0
+        ],
+        [
+         "inventory",
+         1
+        ],
+        [
+         "inventory",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "close cabinet 1",
+         1
+        ],
+        [
+         "inventory",
+         1
+        ],
+        [
+         "inventory",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "close fridge 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "take mug 1 from cabinet 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to stoveburner 1",
+         1
+        ],
+        [
+         "go to stoveburner 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to stoveburner 3",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to stoveburner 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "move mug 1 to cabinet 1",
+         0
+        ],
+        [
+         "close cabinet 1",
+         1
+        ],
+        [
+         "The previous attempt to move the mug to the cabinet failed, likely because the mug was not hot enough or the action was invalid. Since the task requires a \"hot mug\" and the mug was found on the countertop, I need to heat it first. The microwave is the appropriate tool for this. I",
+         0
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "take mug 1 from countertop 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "move mug 1 to microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "move mug 1 to cabinet 1",
+         0
+        ],
+        [
+         "close cabinet 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "move mug 1 to cabinet 1",
+         0
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "move mug 1 to cabinet 1",
+         0
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         0
+        ],
+        [
+         "move mug 1 to cabinet 1",
+         0
+        ],
+        [
+         "open cabinet 1",
+         0
+        ],
+        [
+         "open cabinet 1",
+         0
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "move mug 1 to cabinet 1",
+         0
+        ],
+        [
+         "move mug 1 to cabinet 1",
+         0
+        ],
+        [
+         "go to stoveburner 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ]
+       ]
+      ],
+      "task": "put a hot mug in cabinet.",
+      "task_id": "train/pick_heat_then_place_in_recep-Mug-None-Cabinet-12/trial_T20190909_032836_007400/game.tw-pddl"
+     },
+     {
+      "attempts": [
+       [
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "take cup 2 from fridge 1",
+         1
+        ],
+        [
+         "go to stoveburner 1",
+         1
+        ],
+        [
+         "place cup 2 on stoveburner 1",
+         0
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine cup 2",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "go to stoveburner 1",
+         0
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "examine stoveburner 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to stoveburner 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "move cup 2 to countertop 1",
+         1
+        ],
+        [
+         "take cup 2 from countertop 1",
+         1
+        ],
+        [
+         "move cup 2 to countertop 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         0
+        ],
+        [
+         "take cup 2 from fridge 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "move cup 2 to countertop 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "I need to heat the cup first since the task requires a \"hot cup\". I am currently at the microwave, but the cup is on countertop 1. I should go to the stoveburner to heat the cup, but first I need to pick it up from countertop 1. However,",
+         0
+        ],
+        [
+         "go to stoveburner 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "take cup 2 from countertop 1",
+         1
+        ],
+        [
+         "move cup 2 to countertop 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "move cup 2 to microwave 1",
+         0
+        ],
+        [
+         "move cup 2 to stoveburner 1",
+         0
+        ],
+        [
+         "move cup 2 to countertop 1",
+         0
+        ],
+        [
+         "move cup 2 to stoveburner 1",
+         0
+        ],
+        [
+         "move cup 2 to countertop 1",
+         0
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "move cup 2 to countertop 1",
+         0
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "move cup 2 to countertop 1",
+         0
+        ],
+        [
+         "take cup 2 from countertop 1",
+         1
+        ],
+        [
+         "move cup 2 to countertop 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "take cup 2 from fridge 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "move cup 2 to countertop 1",
+         1
+        ],
+        [
+         "done",
+         0
+        ],
+        [
+         "The cup has already been moved to countertop 1 in the previous steps, and the reflection indicates that heating is not required or possible. Since the task is to put the cup on the countertop and it is already there, the task should be considered complete. However, the system is waiting for an action",
+         0
+        ],
+        [
+         "take cup 2 from countertop 1",
+         1
+        ],
+        [
+         "move cup 2 to countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "done",
+         0
+        ],
+        [
+         "move cup 2 to countertop 1",
+         0
+        ],
+        [
+         "done",
+         0
+        ],
+        [
+         "done",
+         0
+        ],
+        [
+         "done",
+         0
+        ],
+        [
+         "move cup 2 to countertop 1",
+         0
+        ],
+        [
+         "take cup 2 from countertop 1",
+         1
+        ],
+        [
+         "move cup 2 to countertop 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "take cup 2 from fridge 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "move cup 2 to countertop 1",
+         1
+        ],
+        [
+         "done",
+         0
+        ],
+        [
+         "done",
+         0
+        ],
+        [
+         "move cup 2 to countertop 1",
+         0
+        ],
+        [
+         "move cup 2 to countertop 1",
+         0
+        ],
+        [
+         "done",
+         0
+        ],
+        [
+         "take cup 2 from countertop 1",
+         1
+        ],
+        [
+         "move cup 2 to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         0
+        ],
+        [
+         "done",
+         0
+        ],
+        [
+         "move cup 2 to countertop 1",
+         0
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "take cup 2 from countertop 1",
+         1
+        ],
+        [
+         "move cup 2 to countertop 1",
+         1
+        ]
+       ]
+      ],
+      "task": "put a hot cup in countertop.",
+      "task_id": "train/pick_heat_then_place_in_recep-Cup-None-CounterTop-17/trial_T20190908_130923_081236/game.tw-pddl"
+     }
+    ],
+    "retired": [],
+    "task_type": "pick_heat_then_place_in_recep",
+    "won": [
+     [
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "go to microwave 1",
+       1
+      ],
+      [
+       "open microwave 1",
+       1
+      ],
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "open cabinet 1",
+       1
+      ],
+      [
+       "go to fridge 1",
+       1
+      ],
+      [
+       "open fridge 1",
+       1
+      ],
+      [
+       "take cup 1 from fridge 1",
+       1
+      ],
+      [
+       "go to microwave 1",
+       1
+      ],
+      [
+       "move cup 1 to microwave 1",
+       1
+      ],
+      [
+       "close microwave 1",
+       1
+      ],
+      [
+       "heat cup 1 with microwave 1",
+       0
+      ],
+      [
+       "wait",
+       0
+      ],
+      [
+       "open microwave 1",
+       1
+      ],
+      [
+       "take cup 1 from microwave 1",
+       1
+      ],
+      [
+       "move cup 1 to diningtable 1",
+       0
+      ],
+      [
+       "close microwave 1",
+       1
+      ],
+      [
+       "I have successfully moved the cup to the dining table after heating it in the microwave. The task is to heat a cup and put it in the dining table, which I have completed. I should now verify if the cup is hot or if I need to reheat it, but since the task is done,",
+       0
+      ],
+      [
+       "The cup is currently on the dining table, but the task requires it to be heated. Since the cup is not in the microwave, I need to move it there first. However, the most direct way to ensure the cup is heated is to attempt the heating action if the system allows it, or move the",
+       0
+      ],
+      [
+       "heat cup 1 with microwave 1",
+       1
+      ],
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "move cup 1 to diningtable 1",
+       1
+      ]
+     ]
+    ]
+   },
+   "refined_at": [
+    0,
+    0
+   ],
+   "rule": "failure pool",
+   "sources": [],
+   "task_type": "pick_heat_then_place_in_recep",
+   "type": "Failure Pool",
+   "validation": "",
+   "verified": true
+  },
+  {
+   "alpha": 1,
+   "base": [
+    6,
+    9
+   ],
+   "base_types": {
+    "pick_clean_then_place_in_recep": [
+     6,
+     9
+    ]
+   },
+   "beta": 1,
+   "confirmations": 2,
+   "contexts": [],
+   "example": "The agent wasted time searching closed cabinets and drawers while a pan was visible on the countertop.",
+   "guess_credits": {
+    "pick_clean_then_place_in_recep": [
+     2,
+     0
+    ]
+   },
+   "id": "rule_10",
+   "importance": 6,
+   "last_used": 47,
+   "refined_at": [
+    0,
+    0
+   ],
+   "rule": "When searching for the object, inspect the object's current location first before opening any cabinets or drawers.",
+   "sources": [
+    {
+     "task": "clean some plate and put it in microwave.",
+     "task_type": "pick_clean_then_place_in_recep"
+    }
+   ],
+   "task_type": "pick_clean_then_place_in_recep",
+   "type": "Special Phenomenon",
+   "unused": 1,
+   "validation": "Confirmed: the cloth was in cabinet 1, so opening it was necessary. | Confirmed: the butterknife was on the countertop, so searching there first was correct. | Confirmed: the pan was on the countertop, so searching there first was correct.",
+   "verified": true
+  },
+  {
+   "alpha": 1,
+   "base": [
+    5,
+    8
+   ],
+   "base_types": {
+    "pick_and_place_simple": [
+     5,
+     8
+    ]
+   },
+   "beta": 1,
+   "contexts": [],
+   "example": "On desk 1, the agent saw a box 1 but did not examine it to find the keychain inside.",
+   "id": "rule_11",
+   "importance": 2,
+   "last_used": null,
+   "refined_at": [
+    0,
+    0
+   ],
+   "rule": "When searching for an object on a surface, examine each visible item including containers before assuming it is not there.",
+   "sources": [
+    {
+     "task": "put a keychain in desk.",
+     "task_type": "pick_and_place_simple"
+    }
+   ],
+   "task_type": "pick_and_place_simple",
+   "type": "Unresolved Error",
+   "validation": "",
+   "verified": false
+  },
+  {
+   "alpha": 1,
+   "base": [
+    2,
+    9
+   ],
+   "base_types": {
+    "pick_cool_then_place_in_recep": [
+     2,
+     9
+    ]
+   },
+   "beta": 1,
+   "confirmations": 0,
+   "contexts": [],
+   "example": "The agent found the pan on countertop 2, not on the stoveburner.",
+   "id": "rule_12",
+   "importance": 5,
+   "last_used": null,
+   "refined_at": [
+    0,
+    0
+   ],
+   "rule": "When an object must be cooled and placed in a container, search the countertop first before checking other locations.",
+   "sources": [
+    {
+     "task": "put a cool bowl in cabinet.",
+     "task_type": "pick_cool_then_place_in_recep"
+    }
+   ],
+   "task_type": "pick_cool_then_place_in_recep",
+   "type": "Unresolved Error",
+   "unused": 0,
+   "validation": "confirmed",
+   "verified": false
+  },
+  {
+   "alpha": 1,
+   "base": [
+    2,
+    8
+   ],
+   "base_types": {
+    "pick_cool_then_place_in_recep": [
+     2,
+     8
+    ]
+   },
+   "beta": 1,
+   "contexts": [],
+   "example": "",
+   "id": "rule_13",
+   "importance": 2,
+   "last_used": null,
+   "pool": {
+    "accepted": [
+     "clean <X> with <X>",
+     "close <X>",
+     "cool <X> with <X>",
+     "examine <X>",
+     "go to <X>",
+     "inventory",
+     "move <X> to <X>",
+     "open <X>",
+     "take <X> from <X>"
+    ],
+    "declined": {},
+    "games": [
+     {
+      "attempts": [
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "examine cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "open cabinet 3",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "go to cabinet 5",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "go to cabinet 6",
+         1
+        ],
+        [
+         "open cabinet 6",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "close fridge 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         0
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         0
+        ],
+        [
+         "go to cabinet 2",
+         0
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "open cabinet 4",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "close fridge 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         0
+        ]
+       ],
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         0
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "open cabinet 4",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "examine countertop 2",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "I need to find the cool bowl on countertop 1, but it is not currently visible among the listed items. Since the task explicitly states the bowl is on countertop 1, I should check the other locations mentioned in the initial room scan to find it, starting with cabinet 1 which I have",
+         0
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         0
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         0
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "examine countertop 2",
+         0
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "open cabinet 4",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 5",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ]
+       ]
+      ],
+      "task": "put a cool bowl in cabinet.",
+      "task_id": "train/pick_cool_then_place_in_recep-Bowl-None-Cabinet-19/trial_T20190908_043325_612655/game.tw-pddl"
+     },
+     {
+      "attempts": [
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to countertop 3",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "open cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "open cabinet 3",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "open cabinet 4",
+         1
+        ],
+        [
+         "go to cabinet 5",
+         1
+        ],
+        [
+         "open cabinet 5",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to countertop 3",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to countertop 3",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to countertop 3",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ]
+       ],
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to countertop 3",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to countertop 3",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 3",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 3",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "examine countertop 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 3",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "examine cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 3",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ]
+       ],
+       [
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 3",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "examine countertop 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to countertop 3",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "examine countertop 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to countertop 3",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ]
+       ]
+      ],
+      "task": "cool some plate and put it in cabinet.",
+      "task_id": "train/pick_cool_then_place_in_recep-Plate-None-Cabinet-22/trial_T20190908_083901_120678/game.tw-pddl"
+     },
+     {
+      "attempts": [
+       [
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "take mug 1 from countertop 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "cool mug 1 with fridge 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "move mug 1 to microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "The task \"cool some cup and put it in microwave\" has been completed in the previous steps (taking mug 1, cooling it, and placing it in the microwave). The current subgoal instruction \"take the cup from its location\" seems to be a generic placeholder or a misunderstanding since the task is already",
+         0
+        ],
+        [
+         "inventory",
+         1
+        ],
+        [
+         "inventory",
+         1
+        ],
+        [
+         "inventory",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "inventory",
+         1
+        ],
+        [
+         "done",
+         0
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         0
+        ],
+        [
+         "go to cabinet 3",
+         0
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "go to cabinet 5",
+         1
+        ],
+        [
+         "open cabinet 5",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to cabinet 6",
+         1
+        ],
+        [
+         "open cabinet 6",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "take mug 1 from countertop 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "cool mug 1 with fridge 1",
+         1
+        ],
+        [
+         "close fridge 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "move mug 1 to microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "examine microwave 1",
+         1
+        ],
+        [
+         "examine microwave 1",
+         1
+        ],
+        [
+         "examine microwave 1",
+         1
+        ],
+        [
+         "inventory",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "done",
+         0
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "examine drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         0
+        ],
+        [
+         "examine cabinet 3",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "take mug 1 from countertop 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "cool mug 1 with fridge 1",
+         1
+        ],
+        [
+         "close fridge 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "move mug 1 to microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "inventory",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "take cup 1 from diningtable 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "cool cup 1 with fridge 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "take mug 1 from countertop 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "cool mug 1 with fridge 1",
+         1
+        ],
+        [
+         "close fridge 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "move mug 1 to microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         0
+        ],
+        [
+         "close microwave 1",
+         0
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "take mug 1 from microwave 1",
+         1
+        ],
+        [
+         "move mug 1 to microwave 1",
+         1
+        ],
+        [
+         "think",
+         0
+        ],
+        [
+         "think",
+         0
+        ],
+        [
+         "think",
+         0
+        ],
+        [
+         "inventory",
+         1
+        ],
+        [
+         "think",
+         0
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "inventory",
+         1
+        ],
+        [
+         "examine microwave 1",
+         1
+        ],
+        [
+         "think",
+         0
+        ],
+        [
+         "examine microwave 1",
+         1
+        ],
+        [
+         "think",
+         0
+        ],
+        [
+         "examine microwave 1",
+         1
+        ],
+        [
+         "examine microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         0
+        ],
+        [
+         "open microwave 1",
+         1
+        ]
+       ]
+      ],
+      "task": "cool some cup and put it in microwave.",
+      "task_id": "train/pick_cool_then_place_in_recep-Cup-None-Microwave-17/trial_T20190906_192746_084663/game.tw-pddl"
+     }
+    ],
+    "retired": [],
+    "task_type": "pick_cool_then_place_in_recep",
+    "won": [
+     [
+      [
+       "go to stoveburner 1",
+       1
+      ],
+      [
+       "examine stoveburner 2",
+       1
+      ],
+      [
+       "examine stoveburner 3",
+       0
+      ],
+      [
+       "examine stoveburner 4",
+       0
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "examine stoveburner 1",
+       0
+      ],
+      [
+       "examine stoveburner 1",
+       0
+      ],
+      [
+       "go to stoveburner 1",
+       1
+      ],
+      [
+       "examine stoveburner 2",
+       1
+      ],
+      [
+       "examine stoveburner 3",
+       0
+      ],
+      [
+       "examine stoveburner 3",
+       0
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "open cabinet 1",
+       1
+      ],
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "go to stoveburner 1",
+       1
+      ],
+      [
+       "go to stoveburner 3",
+       1
+      ],
+      [
+       "go to stoveburner 4",
+       0
+      ],
+      [
+       "examine stoveburner 4",
+       1
+      ],
+      [
+       "take pan 1 from stoveburner 4",
+       1
+      ],
+      [
+       "go to fridge 1",
+       1
+      ],
+      [
+       "cool pan 1 with fridge 1",
+       1
+      ],
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "move pan 1 to diningtable 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to stoveburner 1",
+       1
+      ],
+      [
+       "go to stoveburner 2",
+       1
+      ],
+      [
+       "go to stoveburner 3",
+       1
+      ],
+      [
+       "go to stoveburner 4",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to countertop 2",
+       1
+      ],
+      [
+       "take pan 1 from countertop 2",
+       1
+      ],
+      [
+       "go to fridge 1",
+       1
+      ],
+      [
+       "open fridge 1",
+       1
+      ],
+      [
+       "cool pan 1 with fridge 1",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "open cabinet 1",
+       1
+      ],
+      [
+       "move pan 1 to cabinet 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to fridge 1",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "open cabinet 1",
+       1
+      ],
+      [
+       "go to cabinet 2",
+       0
+      ],
+      [
+       "go to cabinet 2",
+       0
+      ],
+      [
+       "go to cabinet 3",
+       1
+      ],
+      [
+       "go to cabinet 4",
+       0
+      ],
+      [
+       "go to cabinet 5",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to cabinet 6",
+       1
+      ],
+      [
+       "open cabinet 6",
+       1
+      ],
+      [
+       "go to countertop 2",
+       1
+      ],
+      [
+       "take tomato 1 from countertop 2",
+       1
+      ],
+      [
+       "go to fridge 1",
+       1
+      ],
+      [
+       "open fridge 1",
+       1
+      ],
+      [
+       "cool tomato 1 with fridge 1",
+       1
+      ],
+      [
+       "go to microwave 1",
+       1
+      ],
+      [
+       "open microwave 1",
+       1
+      ],
+      [
+       "move tomato 1 to microwave 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "open cabinet 1",
+       1
+      ],
+      [
+       "go to cabinet 2",
+       1
+      ],
+      [
+       "open cabinet 2",
+       1
+      ],
+      [
+       "go to cabinet 3",
+       1
+      ],
+      [
+       "open cabinet 3",
+       1
+      ],
+      [
+       "go to cabinet 4",
+       1
+      ],
+      [
+       "go to cabinet 5",
+       1
+      ],
+      [
+       "open cabinet 5",
+       1
+      ],
+      [
+       "go to cabinet 5",
+       0
+      ],
+      [
+       "take bowl 2 from cabinet 5",
+       1
+      ],
+      [
+       "go to fridge 1",
+       1
+      ],
+      [
+       "open fridge 1",
+       1
+      ],
+      [
+       "cool bowl 2 with fridge 1",
+       1
+      ],
+      [
+       "go to microwave 1",
+       1
+      ],
+      [
+       "open microwave 1",
+       1
+      ],
+      [
+       "move bowl 2 to microwave 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "open cabinet 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "take bread 1 from countertop 1",
+       1
+      ],
+      [
+       "go to fridge 1",
+       1
+      ],
+      [
+       "open fridge 1",
+       1
+      ],
+      [
+       "go to fridge 1",
+       0
+      ],
+      [
+       "cool bread 1 with fridge 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "move bread 1 to countertop 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to stoveburner 1",
+       1
+      ],
+      [
+       "take pan 1 from stoveburner 1",
+       1
+      ],
+      [
+       "go to fridge 1",
+       1
+      ],
+      [
+       "go to fridge 1",
+       0
+      ],
+      [
+       "open fridge 1",
+       1
+      ],
+      [
+       "cool pan 1 with fridge 1",
+       1
+      ],
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "move pan 1 to diningtable 1",
+       1
+      ]
+     ]
+    ]
+   },
+   "refined_at": [
+    0,
+    0
+   ],
+   "rule": "failure pool",
+   "sources": [],
+   "task_type": "pick_cool_then_place_in_recep",
+   "type": "Failure Pool",
+   "validation": "",
+   "verified": true
+  },
+  {
+   "alpha": 1,
+   "base": [
+    4,
+    9
+   ],
+   "base_types": {
+    "pick_two_obj_and_place": [
+     4,
+     9
+    ]
+   },
+   "beta": 1,
+   "confirmations": 0,
+   "contexts": [],
+   "example": "In the lost attempt, the agent repeatedly checked empty drawers and missed the second laptop on coffeetable 1.",
+   "id": "rule_14",
+   "importance": 5,
+   "last_used": null,
+   "refined_at": [
+    0,
+    0
+   ],
+   "rule": "When placing multiple objects in a container, search all surfaces and containers systematically before attempting to move items.",
+   "sources": [
+    {
+     "task": "put two cellphone in dresser.",
+     "task_type": "pick_two_obj_and_place"
+    }
+   ],
+   "task_type": "pick_two_obj_and_place",
+   "type": "Unresolved Error",
+   "unused": 0,
+   "validation": "Confirmed: the agent wasted time repeatedly checking empty drawers and cabinets instead of searching other locations for the second cellphone.",
+   "verified": false
+  },
+  {
+   "alpha": 2,
+   "base": [
+    2,
+    8
+   ],
+   "base_types": {
+    "pick_cool_then_place_in_recep": [
+     2,
+     8
+    ]
+   },
+   "beta": 2,
+   "contexts": [
+    {
+     "plan": "find bread in the environment ; take the bread from its location ; cool the bread using the fridge ; go to the countertop ; put the cooled bread on the countertop",
+     "steps": [
+      "go to cabinet 1",
+      "open cabinet 1",
+      "go to countertop 1",
+      "take bread 1 from countertop 1",
+      "go to fridge 1",
+      "open fridge 1",
+      "cool bread 1 with fridge 1",
+      "go to countertop 1",
+      "move bread 1 to countertop 1"
+     ],
+     "task": "cool some bread and put it in countertop.",
+     "task_type": "pick_cool_then_place_in_recep",
+     "won": true
+    },
+    {
+     "plan": "take a cup from countertop 1 ; cool the cup in the fridge ; put the cool cup in the microwave",
+     "steps": [
+      "inventory",
+      "go to cabinet 1",
+      "go to countertop 1",
+      "go to cabinet 1",
+      "go to cabinet 2",
+      "go to cabinet 4",
+      "go to cabinet 5",
+      "open cabinet 5",
+      "go to drawer 1",
+      "go to cabinet 6",
+      "open cabinet 6",
+      "go to countertop 1"
+     ],
+     "task": "cool some cup and put it in microwave.",
+     "task_type": "pick_cool_then_place_in_recep",
+     "won": false
+    }
+   ],
+   "credits": {
+    "pick_cool_then_place_in_recep": [
+     1,
+     1
+    ]
+   },
+   "example": "The agent failed to place the pot because it moved it back to the stove instead of confirming it was held at the dining table.",
+   "id": "rule_15",
+   "importance": 2,
+   "last_used": 41,
+   "refined_at": [
+    0,
+    0
+   ],
+   "rule": "When moving a cool object to a target, verify you are holding it and standing at the target before moving.",
+   "sources": [
+    {
+     "task": "put a cool pan in diningtable.",
+     "task_type": "pick_cool_then_place_in_recep"
+    }
+   ],
+   "task_type": "pick_cool_then_place_in_recep",
+   "type": "Corrected Error",
+   "unused": 2,
+   "validation": "",
+   "verified": true
+  },
+  {
+   "alpha": 1,
+   "base": [
+    2,
+    8
+   ],
+   "base_types": {
+    "pick_cool_then_place_in_recep": [
+     2,
+     8
+    ]
+   },
+   "beta": 2,
+   "commands": {
+    "go to fridge": [
+     0,
+     0
+    ],
+    "open fridge": [
+     0,
+     0
+    ]
+   },
+   "confirmations": 0,
+   "contexts": [
+    {
+     "plan": "take a cup from countertop 1 ; cool the cup in the fridge ; put the cool cup in the microwave",
+     "steps": [
+      "inventory",
+      "go to cabinet 1",
+      "go to countertop 1",
+      "go to cabinet 1",
+      "go to cabinet 2",
+      "go to cabinet 4",
+      "go to cabinet 5",
+      "open cabinet 5",
+      "go to drawer 1",
+      "go to cabinet 6",
+      "open cabinet 6",
+      "go to countertop 1"
+     ],
+     "task": "cool some cup and put it in microwave.",
+     "task_type": "pick_cool_then_place_in_recep",
+     "won": false
+    }
+   ],
+   "credits": {
+    "pick_cool_then_place_in_recep": [
+     0,
+     1
+    ]
+   },
+   "example": "The agent took bread 1 from countertop 1, cooled it with fridge 1, then moved it to countertop 1.",
+   "id": "rule_16",
+   "importance": 6,
+   "last_used": 41,
+   "refined_at": [
+    0,
+    0
+   ],
+   "rewrites": 1,
+   "rule": "When an object must be cooled and placed on a surface: search the countertop first, take the object, go to the fridge, open the fridge if closed, cool the object with the fridge, go to the target surface, move the object to the target surface.",
+   "sources": [
+    {
+     "task": "put a cool pan in diningtable.",
+     "task_type": "pick_cool_then_place_in_recep"
+    }
+   ],
+   "task_type": "pick_cool_then_place_in_recep",
+   "type": "Success Process",
+   "unused": 0,
+   "validation": "The agent failed the first attempt because it did not open the microwave or place the bowl inside, but succeeded after opening the microwave and using the move command. | The agent succeeded after opening the fridge and using the cool command, confirming the fridge must be opened if closed before cooling. | The agent succeeded after opening the microwave and using the move command, confirming the container must be opened if closed before moving.",
+   "verified": true
+  },
+  {
+   "alpha": 1,
+   "base": [
+    0,
+    4
+   ],
+   "base_types": {
+    "pick_heat_then_place_in_recep": [
+     0,
+     4
+    ]
+   },
+   "beta": 1,
+   "contexts": [],
+   "example": "Agent failed by moving a pan instead of finding/heating a potato, then tried taking a potato already on the table without heating it.",
+   "id": "rule_17",
+   "importance": 1,
+   "last_used": null,
+   "refined_at": [
+    0,
+    0
+   ],
+   "rule": "When the object must be heated and placed, searching all cabinets and the fridge first is required before attempting to take it from the target.",
+   "sources": [
+    {
+     "task": "put a hot potato in diningtable.",
+     "task_type": "pick_heat_then_place_in_recep"
+    }
+   ],
+   "task_type": "pick_heat_then_place_in_recep",
+   "type": "Unresolved Error",
+   "validation": "",
+   "verified": false
+  },
+  {
+   "alpha": 1,
+   "base": [
+    4,
+    8
+   ],
+   "base_types": {
+    "pick_two_obj_and_place": [
+     4,
+     8
+    ]
+   },
+   "beta": 1,
+   "confirmations": 0,
+   "contexts": [],
+   "example": "Search handtowelholder 1, take handtowel 1, go to countertop 1, move handtowel 1 to countertop 1, search handtowelholder 2, take handtowel 2, move handtowel 2 to countertop 1.",
+   "id": "rule_18",
+   "importance": 7,
+   "last_used": 48,
+   "refined_at": [
+    0,
+    0
+   ],
+   "rewrites": 2,
+   "rule": "When an object must be picked up and placed: search surfaces first, then open all containers to find the second object, take each object, go to the target if not already there, open the target if closed, and move each object there.",
+   "sources": [
+    {
+     "task": "put two keychain in drawer.",
+     "task_type": "pick_two_obj_and_place"
+    }
+   ],
+   "task_type": "pick_two_obj_and_place",
+   "type": "Success Process",
+   "unused": 0,
+   "validation": "Confirmed: the agent must open the target container if closed before moving the second object. | Confirmed: the agent wasted time checking empty drawers instead of re-examining visible surfaces like coffeetable 1 where the second laptop was visible. | Confirmed: the agent must go to the target location before attempting to move the object if it is not already there.",
+   "verified": true
+  },
+  {
+   "alpha": 1,
+   "base": [
+    1,
+    2
+   ],
+   "base_types": {
+    "look_at_obj_in_light": [
+     1,
+     2
+    ]
+   },
+   "beta": 1,
+   "contexts": [],
+   "example": "use desklamp 1 on pen 2 failed because desklamp 1 was off",
+   "id": "rule_19",
+   "importance": 2,
+   "last_used": 40,
+   "refined_at": [
+    0,
+    0
+   ],
+   "rule": "When using a lamp on an object, never use the lamp on the object before turning the lamp on.",
+   "sources": [
+    {
+     "task": "examine the pen with the desklamp.",
+     "task_type": "look_at_obj_in_light"
+    }
+   ],
+   "task_type": "look_at_obj_in_light",
+   "type": "Corrected Error",
+   "unused": 1,
+   "validation": "",
+   "verified": true
+  },
+  {
+   "alpha": 1,
+   "base": [
+    0,
+    1
+   ],
+   "base_types": {
+    "look_at_obj_in_light": [
+     0,
+     1
+    ]
+   },
+   "beta": 1,
+   "contexts": [],
+   "example": "",
+   "id": "rule_20",
+   "importance": 2,
+   "last_used": null,
+   "pool": {
+    "accepted": [
+     "go to <X>",
+     "inventory",
+     "move <X> to <X>",
+     "take <X> from <X>",
+     "use <X>"
+    ],
+    "declined": {},
+    "games": [],
+    "retired": [],
+    "task_type": "look_at_obj_in_light",
+    "won": [
+     [
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "go to desk 1",
+       0
+      ],
+      [
+       "go to desk 1",
+       0
+      ],
+      [
+       "take pen 2 from desk 1",
+       1
+      ],
+      [
+       "go to desk 1",
+       0
+      ],
+      [
+       "inventory",
+       1
+      ],
+      [
+       "go to desk 1",
+       0
+      ],
+      [
+       "use desklamp 1 on pen 2",
+       0
+      ],
+      [
+       "go to desk 1",
+       0
+      ],
+      [
+       "go to dresser 1",
+       1
+      ],
+      [
+       "use desklamp 1 on pen 2",
+       0
+      ],
+      [
+       "use desklamp 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "go to shelf 1",
+       1
+      ],
+      [
+       "take pencil 1 from shelf 1",
+       1
+      ],
+      [
+       "go to desk 2",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "go to desk 2",
+       1
+      ],
+      [
+       "go to shelf 1",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "go to desk 2",
+       1
+      ],
+      [
+       "go to shelf 2",
+       1
+      ],
+      [
+       "use desklamp 1",
+       1
+      ]
+     ]
+    ]
+   },
+   "refined_at": [
+    0,
+    0
+   ],
+   "rule": "failure pool",
+   "sources": [],
+   "task_type": "look_at_obj_in_light",
+   "type": "Failure Pool",
+   "validation": "",
+   "verified": true
+  },
+  {
+   "alpha": 1,
+   "base": [
+    0,
+    1
+   ],
+   "base_types": {
+    "look_at_obj_in_light": [
+     0,
+     1
+    ]
+   },
+   "beta": 1,
+   "contexts": [],
+   "example": "agent failed by moving pencil to desk 2 without finding desklamp 1, then won by finding desklamp 1 on shelf 2 and turning it on",
+   "id": "rule_21",
+   "importance": 2,
+   "last_used": null,
+   "refined_at": [
+    0,
+    0
+   ],
+   "rule": "When looking at an object under a lamp, never move the object to a desk without first locating and turning on the lamp.",
+   "sources": [
+    {
+     "task": "look at pencil under the desklamp.",
+     "task_type": "look_at_obj_in_light"
+    }
+   ],
+   "task_type": "look_at_obj_in_light",
+   "type": "Corrected Error",
+   "validation": "",
+   "verified": true
+  },
+  {
+   "alpha": 1,
+   "base": [
+    0,
+    1
+   ],
+   "base_types": {
+    "look_at_obj_in_light": [
+     0,
+     1
+    ]
+   },
+   "beta": 1,
+   "contexts": [],
+   "example": "search shelf 2 for desklamp 1, take pencil 1 from shelf 1, go to shelf 2, use desklamp 1, look at pencil 1",
+   "id": "rule_22",
+   "importance": 2,
+   "last_used": null,
+   "refined_at": [
+    0,
+    0
+   ],
+   "rule": "When an object must be looked at under a lamp: search shelves first for the lamp, take the object from its source, go to the lamp's location, turn on the lamp, then look at the object.",
+   "sources": [
+    {
+     "task": "look at pencil under the desklamp.",
+     "task_type": "look_at_obj_in_light"
+    }
+   ],
+   "task_type": "look_at_obj_in_light",
+   "type": "Success Process",
+   "validation": "",
+   "verified": true
+  },
+  {
+   "alpha": 1,
+   "base": [
+    0,
+    1
+   ],
+   "base_types": {
+    "pick_cool_then_place_in_recep": [
+     0,
+     1
+    ]
+   },
+   "beta": 1,
+   "contexts": [],
+   "example": "The agent stopped after placing the mug in the microwave, but the system marked it incomplete due to a placeholder subgoal.",
+   "id": "rule_23",
+   "importance": 2,
+   "last_used": null,
+   "refined_at": [
+    0,
+    0
+   ],
+   "rule": "When a task is completed after placing an object in a container, stop immediately; do not continue searching or re-examining.",
+   "sources": [
+    {
+     "task": "cool some cup and put it in microwave.",
+     "task_type": "pick_cool_then_place_in_recep"
+    }
+   ],
+   "task_type": "pick_cool_then_place_in_recep",
+   "type": "Special Phenomenon",
+   "validation": "",
+   "verified": false
+  },
+  {
+   "alpha": 1,
+   "base": [
+    0,
+    2
+   ],
+   "base_types": {
+    "pick_heat_then_place_in_recep": [
+     0,
+     2
+    ]
+   },
+   "beta": 1,
+   "contexts": [],
+   "example": "Agent failed by repeatedly trying to place cup 1 on empty stoveburners, then succeeded by moving cup 1 to microwave 1 and executing heat cup 1 with microwave 1.",
+   "id": "rule_24",
+   "importance": 2,
+   "last_used": null,
+   "refined_at": [
+    0,
+    0
+   ],
+   "rule": "When heating an object, prioritize microwaves over stoveburners and execute the heat command with the microwave instead of placing the object on stoveburners.",
+   "sources": [
+    {
+     "task": "heat some cup and put it in diningtable.",
+     "task_type": "pick_heat_then_place_in_recep"
+    }
+   ],
+   "task_type": "pick_heat_then_place_in_recep",
+   "type": "Corrected Error",
+   "validation": "",
+   "verified": true
+  },
+  {
+   "alpha": 1,
+   "base": [
+    0,
+    2
+   ],
+   "base_types": {
+    "pick_heat_then_place_in_recep": [
+     0,
+     2
+    ]
+   },
+   "beta": 1,
+   "contexts": [],
+   "example": "Agent took cup 1 from fridge 1, moved it to microwave 1, closed microwave 1, executed heat cup 1 with microwave 1, waited, opened microwave 1, took cup 1, moved it to diningtable 1.",
+   "id": "rule_25",
+   "importance": 2,
+   "last_used": null,
+   "refined_at": [
+    0,
+    0
+   ],
+   "rule": "When an object must be heated and placed: search fridge first, take the object, go to microwave, open it if closed, move the object to microwave, close microwave, heat the object with microwave, wait, open microwave, take the object, move it to the target.",
+   "sources": [
+    {
+     "task": "heat some cup and put it in diningtable.",
+     "task_type": "pick_heat_then_place_in_recep"
+    }
+   ],
+   "task_type": "pick_heat_then_place_in_recep",
+   "type": "Success Process",
+   "validation": "",
+   "verified": true
+  },
+  {
+   "alpha": 1,
+   "base": [
+    0,
+    0
+   ],
+   "beta": 1,
+   "contexts": [],
+   "example": "\"examine stoveburner\", again and again",
+   "id": "rule_26",
+   "importance": 2,
+   "last_used": null,
+   "pattern": {
+    "attempts": 5,
+    "example": "",
+    "games": 2,
+    "kind": "repeat",
+    "of_attempts": 12,
+    "of_games": 3,
+    "sig": [
+     "repeat",
+     "examine stoveburner"
+    ],
+    "wins_checked": 0
+   },
+   "refined_at": [
+    0,
+    0
+   ],
+   "rule": "When examining an appliance, do not issue the same \"examine\" command again and again.",
+   "sources": [
+    {
+     "task": "put a hot cup in countertop.",
+     "task_type": "pick_heat_then_place_in_recep"
+    }
+   ],
+   "task_type": "pick_heat_then_place_in_recep",
+   "type": "Anti-Pattern",
+   "validation": "",
+   "verified": true
+  },
+  {
+   "alpha": 1,
+   "base": [
+    0,
+    1
+   ],
+   "base_types": {
+    "pick_clean_then_place_in_recep": [
+     0,
+     1
+    ]
+   },
+   "beta": 1,
+   "contexts": [],
+   "example": "examine sinkbasin 1 before clean cloth 2 with sinkbasin 1",
+   "id": "rule_27",
+   "importance": 2,
+   "last_used": null,
+   "refined_at": [
+    0,
+    0
+   ],
+   "rule": "When cleaning an object with a sink fails because the sink is empty, examine the sink first to check for water or cleaning mechanism before attempting to clean.",
+   "sources": [
+    {
+     "task": "clean some cloth and put it in toilet.",
+     "task_type": "pick_clean_then_place_in_recep"
+    }
+   ],
+   "task_type": "pick_clean_then_place_in_recep",
+   "type": "Corrected Error",
+   "validation": "",
+   "verified": true
+  }
+ ]
+}
