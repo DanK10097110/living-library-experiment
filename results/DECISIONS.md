@@ -250,3 +250,36 @@ _Reconstructed on 2026-11-19 from git history, archive/, results/, the proposal,
   accepted heat recipe had a wrong step order that the freeze then locked in. A weak "check inventory"
   guess was shown in 24 games after a single win. A filter that randomly discards recipes adds noise to the
   main E vs E-minus comparison, so it is fixed for both.
+
+### 2026-11-20 — Design review: stabilise all rules, fair E vs E-minus, evidence-only deletion
+Owner asked for a full review ("changing a rule after every use is stupid"). An independent review found:
+1. **Drift in non-recipe rules.** Corrected Error and Special Phenomenon rules were still rewritten by single
+   won games, keeping the old text's credit (a rule flipped A->B->A; one changed topic entirely).
+   **Decision:** the text freeze applies to every visible rule, with the young-rule (< 3 credited games) and
+   rejected-step exceptions. Any text change of a verified rule starts fresh counters (alpha/beta, contexts,
+   confirmations).
+2. **Refinement as a drift channel.** **Decision:** contrastive refine only for rules whose followed-win rate is
+   below their task type's base rate, with fresh counters for the new text.
+3. **Circular recipe credit and unlucky retirement.** **Decision:** recipes are credited only when the judge says
+   they were followed. Never-won retirement only if the type has had wins. A task type's only recipe is never
+   retired.
+4. **Confound.** E-minus had no evidence bookkeeping, so its retrieval was text-only and its guesses could never
+   be shown. **Decision:** E-minus gets the same bookkeeping (Beta, contexts, base rates, judge, guess promotion)
+   for retrieval and visibility. E and E-minus now differ only in that E may edit, delete, merge and fold
+   rules.
+5. **Starvation of new rules.** **Decision:** one of the shown slots is kept for rarely shown rules, and ranking
+   uses lift over the base rate instead of raw wins.
+6. **Guess promotion on wins only.** **Decision:** count followed losses too, require a followed-win rate >= the
+   base rate, and reset on a text change.
+7. **Outcome-aware deletion by Builder votes and different Builder views.** **Decision:** rules are removed only
+   by statistical retirement, never by votes. Both conditions' Builders see rules ranked by relevance, with
+   slots for new rules.
+8. **Corrected Error used as a second recipe.** **Decision:** the recipe-shape check applies to Corrected Errors.
+9. **Near-duplicates across a batch.** **Decision:** E re-runs the similarity merge after replaying a batch.
+10. **Folds double-count credit and fold unevidenced rules.** **Decision:** a fold keeps the stronger rule's
+    counts, and an absorbed rule needs at least one won credited game.
+11. **Base rate for general rules.** **Decision:** expected wins = the sum of the base rates of the followed games'
+    task types.
+- E and E-minus are restarted again (fix 4 changes E-minus). C and D are kept.
+- **Why overall:** each mechanism could make a 300-game library worse or the comparison unfair. Fixing them
+  costs only a few minutes of already-paused E/E-minus practice.
