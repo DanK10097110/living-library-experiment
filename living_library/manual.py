@@ -116,6 +116,9 @@ practice a rule's text changes at most once per batch, the first change in posit
 Amended 2026-11-20 (E): a young recipe (credited in fewer than YOUNG_CREDITS games) may still be rewritten by
 a won game's update, and so may a recipe the judge says a game followed while the game rejected one of its
 instructed commands; the judge now runs before the Builder, on the rules as the agent saw them.
+Amended 2026-11-20 (E): a dead recipe (followed in at least DEAD_MIN games, never won) may be rewritten by a won
+game or a corrected failure (retry win) of its kind of task, within MAX_REWRITES; a dead recipe at that cap is
+retired even when it is its kind's only recipe (dead_recipe, dead_and_capped).
 
 The Builder answers with JSON operations (write_rule / update_rule / upvote_rule / downvote_rule),
 never code.
@@ -422,7 +425,27 @@ def shown_to_agent(rule):
 
 
 YOUNG_CREDITS = 3          # credited games below which a verified recipe is still young (correctable)
-MAX_REWRITES = 2           # text changes of a verified rule after which the young/rejected-step exceptions end
+MAX_REWRITES = 2           # text changes of a verified rule after which the young/rejected-step/dead exceptions end
+DEAD_MIN = 4               # followed (credited) games with no win that make a verified recipe "dead"
+
+
+def dead_recipe(rule):
+    """A verified recipe followed in >= DEAD_MIN games (since its text last changed) and never won (2026-11-20,
+    E only). Other rule types are left to the normal retirement."""
+    return (rule['type'] == 'Success Process' and shown_to_agent(rule)
+            and rule.get('alpha', 1) - 1 == 0 and credited(rule) >= DEAD_MIN)
+
+
+def dead_and_capped(rule):
+    """A dead recipe that may not be rewritten any more (MAX_REWRITES): retired even as its kind's only
+    recipe, so the next won game of that kind can write a new one."""
+    return dead_recipe(rule) and rule.get('rewrites', 0) >= MAX_REWRITES
+
+
+def dead_rewritable(rule, case, task_type):
+    """A dead recipe of this game's kind of task, and this game was won (first attempt or retry win)."""
+    return (case != 'failure' and task_type is not None and rule.get('task_type') == task_type
+            and dead_recipe(rule))
 
 
 def count_rewrite(rule):
@@ -430,7 +453,7 @@ def count_rewrite(rule):
     rule['rewrites'] = rule.get('rewrites', 0) + 1
 
 
-def text_frozen(rule, case, rejected_step=False):
+def text_frozen(rule, case, rejected_step=False, task_type=None):
     """Why a Builder update may not rewrite this rule's text (None if it may). E only (E-minus never updates).
     A verified rule (any type the agent sees; recipes since 2026-11-19, all types since the 2026-11-20 design
     review) changes only through contrastive refinement (refine), and a corrected failure (a retry win) may
@@ -440,13 +463,17 @@ def text_frozen(rule, case, rejected_step=False):
     rewritten by this game, even a corrected failure (its retry win shows the fix). Any text change of a
     verified rule starts fresh counters (fresh_counters). Both exceptions apply only while the rule's text was
     changed fewer than MAX_REWRITES times (`rewrites`, never reset), so a young rule cannot drift through a
-    chain of fresh starts; after that its text changes only by contrastive refinement."""
+    chain of fresh starts; after that its text changes only by contrastive refinement. Amended 2026-11-20: a
+    dead recipe (dead_recipe) may also be rewritten, within the same cap, by a won game (first attempt) or a
+    corrected failure (retry win) of its kind of task (`task_type`): the winning trace is the evidence."""
     if not shown_to_agent(rule):
         return None
     if rule.get('rewrites', 0) >= MAX_REWRITES:
         return (f"a verified {rule['type']} rewritten {rule['rewrites']} times changes only by contrastive "
                 'refinement')
     if rejected_step:
+        return None
+    if dead_rewritable(rule, case, task_type):
         return None
     if credited(rule) >= YOUNG_CREDITS:
         return f"a verified {rule['type']} changes only by contrastive refinement"
@@ -925,7 +952,9 @@ def apply(rules, operations, case, append_only, next_id, log, task_type=None, vi
                     log.append(f"{rule['id']} keeps its text (a lost game may not rewrite a rule the agent sees)")
                     if not changes:
                         continue
-                frozen = text_frozen(rule, case, rule['id'] in correctable)
+                dead = rule['id'] not in correctable and dead_rewritable(rule, case, task_type)
+                dead_games = credited(rule)
+                frozen = text_frozen(rule, case, rule['id'] in correctable, task_type)
                 if frozen and ({'rule', 'example'} & set(changes)):
                     # Rule stability: single games rewrote verified rules back and forth (drift).
                     changes = {k: v for k, v in changes.items() if k not in ('rule', 'example', 'type')}
@@ -942,6 +971,10 @@ def apply(rules, operations, case, append_only, next_id, log, task_type=None, vi
                                               rule.get('task_type'))
                     if changes['rule'] == old_text:
                         del changes['rule']
+                    elif shown_to_agent(rule) and dead:
+                        log.append(f"{rule['id']}: dead recipe rewritten from a won game ({case}; followed in "
+                                   f"{dead_games} games, never won; rewrite {rule.get('rewrites', 0) + 1} of "
+                                   f"{MAX_REWRITES}; fresh counters)")
                     elif shown_to_agent(rule):
                         log.append(f"{rule['id']} rewritten although verified ("
                                    + ('a young rule: credited in {} of {} games'.format(credited(rule), YOUNG_CREDITS)
@@ -965,6 +998,8 @@ def apply(rules, operations, case, append_only, next_id, log, task_type=None, vi
                     if was_visible:
                         count_rewrite(rule)
                         changes['rewrite'] = True
+                        if dead:
+                            changes['dead'] = dead_games     # marker for the logs (replay ignores it)
                 if narrowed(rule, task_type, log):
                     changes['task_type'] = rule['task_type']
                 changes.update(confirm(rule))
@@ -1186,10 +1221,18 @@ def sole_recipe(rule, rules):
 
 def retire(rules, report):
     """Remove rules that do clearly worse than their kind of task's base rate; logged. Removal is by this
-    statistical retirement only (and capacity pruning), never by Builder votes (2026-11-20 review)."""
-    for rule in [r for r in rules if retirable(r) and not sole_recipe(r, rules)]:
+    statistical retirement only (and capacity pruning), never by Builder votes (2026-11-20 review). A dead recipe
+    at the rewrite cap (dead_and_capped) is retired even when it is its kind's only recipe (2026-11-20)."""
+    for rule in [r for r in rules if dead_and_capped(r) or (retirable(r) and not sole_recipe(r, rules))]:
         won, lost = observed(rule)
         op = {'op': 'retire', 'id': rule['id'], 'won': won, 'lost': lost, 'base': list(rule['base'])}
+        if dead_and_capped(rule):
+            op['reason'] = (f"dead recipe retired: followed in {won + lost} games, never won, rewritten "
+                            f"{rule.get('rewrites', 0)} times")
+            avoid.forget(rules, rule)
+            report['operations'].append(op)
+            report['errors'].append(f"retired {rule['id']} ({op['reason']})")
+            continue
         if rule.get('unused'):
             op['unused'] = rule['unused']
         gone_useless, bad = useless(rule), rejected_command(rule)

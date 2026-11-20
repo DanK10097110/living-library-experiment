@@ -329,3 +329,16 @@ Owner asked for a full review ("changing a rule after every use is stupid"). An 
   the young-rule exception was over, refinement needs 3 new wins, and retry wins may not rewrite visible rules.
   A wrong recipe would have stayed for all 300 games, a systematic handicap. A retry win is exactly the
   evidence of what works.
+- **Implementation choices** (living_library/manual.py, `DEAD_MIN = 4`, `dead_recipe`, `dead_and_capped`):
+  - "Dead" counts the games since the recipe's text last changed (its Beta counts: credited >= 4, wins 0). A
+    rewrite gives fresh counters, so a rewritten recipe must lose 4 more followed games before it is dead again.
+  - The rewrite needs a won game (direct or indirect success) or a corrected failure whose task type is the
+    recipe's. A lost game still never changes a visible rule. The Builder prompts are unchanged.
+  - Logged as "rule_N: dead recipe rewritten from a won game (...)"; the update op carries `dead` (games
+    followed) as a log marker, which replay ignores. Replay reproduces the rewrite and the rewrite count.
+  - Retiring a dead recipe at the cap does not need the normal "its kind had wins" test (heat had 0 of 8
+    first-attempt wins in the study): reaching the cap took two rewrites from won games. Logged as
+    "retired rule_N (dead recipe retired: ...)".
+  - Study state when this was written (E checkpoint 88): rule_25 (heat recipe, written at game 43) had Beta
+    1/6 (followed in 5 games, 0 wins), `rewrites` 0, heat base rate 0 of 8. A retry win at game 61 had
+    proposed a rewrite of it, which the freeze refused.
