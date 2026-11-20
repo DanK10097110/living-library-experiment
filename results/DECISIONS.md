@@ -200,7 +200,16 @@ _Reconstructed on 2026-11-19 from git history, archive/, results/, the proposal,
 - **Decision:** let the study continue past its passed gate (E 25/30 vs C 21/30, 4 games won where C lost, 0 the
   reverse) with the current library management.
 - **Why:** long-run management is in place and verified live. Retrieval holds at long-run size, credit is
-  outcome-blind, and retirement and consolidation fire (8 retirements, 1 fold in 76 games). The remaining
+  outcome-blind, and retirement and consolidation fire (1 retirement, 1 fold and 2 merges in 76 games; the log shows the retirement 8 times, once per game of its parallel batch). The remaining
   wrong rules ("take the lamp", "leave it on the surface to cool") survive only because the wrong step is
   harmless in won games. Fixing them by hand would inject ALFWorld knowledge into a learning condition, and
   a new mechanism would add complexity near the model's ceiling.
+
+### 2026-11-19 — Measure library improvement over time with 3 frozen snapshots
+- **Decision:** evaluate E's library frozen after 100, 200 and 300 practice games (1/3, 2/3, full) on the same
+  evaluation games (134 unseen-room plus 70 seen-room) as the study's final evaluation. The 300 point is the
+  study's own evaluation. The 100 and 200 points get extra frozen runs after the study (tools/snapshot_eval.py),
+  compared game by game with C and with each other (tools/compare_snapshots.py).
+- **Why:** the owner wants to know whether and how much the library improves with more practice. Checkpoints
+  store the library after every game, so the snapshots need no extra practice, only about 400 extra
+  evaluation games.

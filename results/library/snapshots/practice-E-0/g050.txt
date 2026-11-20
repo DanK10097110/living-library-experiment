@@ -1,0 +1,54 @@
+practice-E-0 after 50 games: 26 rules
+
+rule_1 [Success Process] task_type=pick_clean_then_place_in_recep a/b=5/4 unused=0 visible won contexts: 7 ctx, 7 with plan
+    When an object must be cleaned and placed: search storage first, take it, go to sinkbasin, clean it with sinkbasin, go to target, move it there.
+rule_2 [Failure Pool] task_type=pick_clean_then_place_in_recep a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
+    failure pool
+rule_3 [Unresolved Error] task_type=pick_and_place_simple a/b=1/1 unused=0 hidden won contexts: 0 ctx, 0 with plan
+    When placing an object in a container, ensure you are carrying the object before navigating to the target container.
+rule_4 [Failure Pool] task_type=pick_and_place_simple a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
+    failure pool
+rule_5 [Corrected Error] task_type=pick_two_obj_and_place a/b=3/3 unused=1 visible won contexts: 4 ctx, 4 with plan
+    When placing an object in a target, use 'move <object> to <target>' instead of 'move <object> <target>' or attempting to place it directly.
+rule_6 [Failure Pool] task_type=pick_two_obj_and_place a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
+    failure pool
+rule_7 [Success Process] task_type=pick_and_place_simple a/b=7/5 unused=0 visible won contexts: 10 ctx, 9 with plan
+    When an object must be picked up and placed in a container: search drawers and other locations first, open the target container if closed, take the object from its location, move it to the container.
+rule_8 [Corrected Error] task_type=pick_heat_then_place_in_recep a/b=3/3 unused=0 visible won contexts: 4 ctx, 4 with plan
+    When heating the object to place in the target, use the microwave instead of the stoveburner.
+rule_9 [Success Process] task_type=pick_heat_then_place_in_recep a/b=3/3 unused=0 visible won contexts: 4 ctx, 4 with plan
+    When a hot object must be placed in the target: search for the object in containers, open containers if closed, heat it with the microwave if needed, then move it to the target.
+rule_10 [Failure Pool] task_type=pick_heat_then_place_in_recep a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
+    failure pool
+rule_11 [Unresolved Error] task_type=pick_clean_then_place_in_recep a/b=1/1 unused=0 hidden won contexts: 0 ctx, 0 with plan
+    When searching for the object to clean, check all open surfaces before opening any storage containers.
+rule_12 [Corrected Error] task_type=pick_clean_then_place_in_recep a/b=3/4 unused=2 visible won contexts: 5 ctx, 5 with plan
+    When a clean object must be found for a task, systematically search all storage locations (cabinets and drawers) before moving or cleaning the target object.
+rule_13 [Corrected Error] task_type=pick_two_obj_and_place a/b=1/1 unused=8 visible won contexts: 0 ctx, 0 with plan
+    When placing multiple objects in a target, place the first object, then immediately search for the second before moving the first again.
+rule_14 [Success Process] task_type=pick_two_obj_and_place a/b=4/6 unused=0 visible won contexts: 8 ctx, 8 with plan
+    When two objects must be placed in a target: search the current location first, take the first object, move it to the target, search the current location again for the second object, take it, move it to the target.
+rule_15 [Failure Pool] task_type=pick_cool_then_place_in_recep a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
+    failure pool
+rule_16 [Success Process] task_type=pick_cool_then_place_in_recep a/b=3/3 unused=0 visible won contexts: 4 ctx, 4 with plan
+    When an object must be cooled and placed: search all storage areas (cabinets, drawers, fridge) first, take the object, cool it with a fridge, open the target container if closed, then move it there.
+rule_17 [Corrected Error] task_type=pick_and_place_simple a/b=2/1 unused=0 visible won contexts: 1 ctx, 0 with plan
+    When an object must be located before placing it, search the environment systematically (drawers, bed, garbagecan) before attempting to take it from the target location.
+rule_18 [Anti-Pattern] task_type=pick_and_place_simple a/b=3/2 unused=1 visible won contexts: 3 ctx, 3 with plan
+    When issuing the go command, do not issue the same go command again and again.
+rule_19 [Corrected Error] task_type=pick_clean_then_place_in_recep a/b=2/1 unused=4 visible won contexts: 1 ctx, 1 with plan
+    When moving a clean object to a target container, go to the target container first before attempting the move command.
+rule_20 [Corrected Error] task_type=pick_cool_then_place_in_recep a/b=3/2 unused=0 visible won contexts: 3 ctx, 3 with plan
+    When cooling an object and placing it in a container, search all storage areas first to confirm the object exists before attempting to take it.
+rule_21 [Corrected Error] task_type=pick_cool_then_place_in_recep a/b=2/1 unused=3 visible won contexts: 1 ctx, 1 with plan
+    When cooling an object, leave it on the target surface to cool instead of moving it back and forth.
+rule_22 [Corrected Error] task_type=pick_cool_then_place_in_recep a/b=3/2 unused=1 visible won contexts: 3 ctx, 3 with plan
+    When cooling an object and placing it in a container, open the container before moving the object into it.
+rule_23 [Corrected Error] task_type=look_at_obj_in_light a/b=1/1 unused=1 visible won contexts: 0 ctx, 0 with plan
+    When examining an object with a lamp, take the lamp from its location before attempting to use it.
+rule_24 [Success Process] task_type=look_at_obj_in_light a/b=1/2 unused=0 visible won contexts: 1 ctx, 1 with plan
+    When examining an object with a lamp: search all locations for the lamp and object, take the lamp from its location, take the object from its location, go to the lamp's location, use the lamp.
+rule_25 [Failure Pool] task_type=look_at_obj_in_light a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
+    failure pool
+rule_26 [Special Phenomenon] task_type=pick_cool_then_place_in_recep a/b=1/1 unused=0 hidden won contexts: 0 ctx, 0 with plan
+    When cooling an object and placing it in a container, verify task completion immediately after placing the object in the container and stop all further navigation.

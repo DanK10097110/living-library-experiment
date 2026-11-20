@@ -1,0 +1,46 @@
+practice-E-0 after 25 games: 22 rules
+
+rule_1 [Success Process] task_type=pick_clean_then_place_in_recep a/b=3/1 unused=0 visible won contexts: 2 ctx, 2 with plan
+    When an object must be cleaned and placed: search the object's current location first, take it, go to the sink, clean it with sinkbasin, go to the target container, move it there.
+rule_2 [Failure Pool] task_type=pick_clean_then_place_in_recep a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
+    failure pool
+rule_3 [Unresolved Error] task_type=pick_and_place_simple a/b=1/1 unused=0 hidden won contexts: 0 ctx, 0 with plan
+    When placing an object in a container, ensure you are carrying the object before navigating to the target container.
+rule_4 [Failure Pool] task_type=pick_and_place_simple a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
+    failure pool
+rule_5 [Unresolved Error] task_type=pick_two_obj_and_place a/b=1/1 unused=0 hidden won contexts: 0 ctx, 0 with plan
+    When placing two objects in a container, place the first object and immediately search nearby surfaces for the second before moving the first object again.
+rule_6 [Failure Pool] task_type=pick_two_obj_and_place a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
+    failure pool
+rule_7 [Success Process] task_type=pick_and_place_simple a/b=4/4 unused=0 visible won contexts: 6 ctx, 6 with plan
+    When an object must be picked up and placed in a container: search drawers first, open the target container if closed, take the object from its drawer or countertop, move it to the container.
+rule_8 [Corrected Error] task_type=pick_heat_then_place_in_recep a/b=1/2 unused=0 visible won contexts: 1 ctx, 1 with plan
+    When heating the object to place in the target, use the microwave instead of the stoveburner.
+rule_9 [Success Process] task_type=pick_heat_then_place_in_recep a/b=1/2 unused=0 visible won contexts: 1 ctx, 1 with plan
+    When the hot object must be placed in the target: search for the object, heat it if needed, then place it in the target.
+rule_10 [Failure Pool] task_type=pick_heat_then_place_in_recep a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
+    failure pool
+rule_11 [Unresolved Error] task_type=pick_clean_then_place_in_recep a/b=1/1 unused=0 hidden won contexts: 0 ctx, 0 with plan
+    When searching for the object to clean, check all open surfaces before opening any storage containers.
+rule_12 [Corrected Error] task_type=pick_clean_then_place_in_recep a/b=2/1 unused=1 visible won contexts: 1 ctx, 1 with plan
+    When a clean object must be found for a task, systematically search all storage locations (cabinets and drawers) before moving or cleaning the target object.
+rule_13 [Corrected Error] task_type=pick_two_obj_and_place a/b=1/1 unused=1 visible won contexts: 0 ctx, 0 with plan
+    When placing multiple objects in a target, place the first object, then immediately search for the second before moving the first again.
+rule_14 [Success Process] task_type=pick_two_obj_and_place a/b=1/2 unused=0 visible won contexts: 1 ctx, 1 with plan
+    When two objects must be placed in a target: search the starting surface for both objects, take the first, move it to the target, search the starting surface for the second, take it, move it to the target.
+rule_15 [Failure Pool] task_type=pick_cool_then_place_in_recep a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
+    failure pool
+rule_16 [Success Process] task_type=pick_cool_then_place_in_recep a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
+    When an object must be cooled and placed: search stoveburners first, take the object, cool it with a fridge, then move it to the target.
+rule_17 [Unresolved Error] task_type=pick_and_place_simple a/b=1/1 unused=0 hidden won contexts: 0 ctx, 0 with plan
+    When an object must be located before placing it, search the environment systematically before opening drawers.
+rule_18 [Anti-Pattern] task_type=pick_and_place_simple a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
+    When issuing the go command, do not issue the same go command again and again.
+rule_19 [Corrected Error] task_type=pick_clean_then_place_in_recep a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
+    When moving a clean object to a target container, go to the target container first before attempting the move command.
+rule_20 [Unresolved Error] task_type=pick_cool_then_place_in_recep a/b=1/1 unused=0 hidden won contexts: 0 ctx, 0 with plan
+    When cooling an object and placing it in a container, search the target surface first to confirm the object exists before attempting to take it.
+rule_21 [Corrected Error] task_type=pick_cool_then_place_in_recep a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
+    When cooling an object, leave it on the target surface to cool instead of moving it back and forth.
+rule_22 [Corrected Error] task_type=pick_cool_then_place_in_recep a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
+    When cooling an object and placing it in a container, open the container before moving the object into it.
