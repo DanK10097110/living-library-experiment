@@ -60,3 +60,4 @@
 - 2026-11-20 11:51 Merged text repair / young recipes / stricter promotion (ac1a39c; 212 tests OK). Restarted E, E-minus, E-text (run.ps1 study -RestartLibrary -MaxHours 12 -Workers 24 -KeepServer); C/D kept. Old library snapshots archived to results/library/archive-2026-11-20-before-text-repair/.
 - 2026-11-20 11:55 Owner asked for a full review of library functionality now. Found: text freeze covers only Success Process; other visible rules (Corrected Error, Special Phenomenon) are still rewritten by every won game (same drift). Study PAUSED (fresh E/E- would be discarded by the next fix anyway). Independent design review subagent running.
 - 2026-11-20 12:02 Design review done (11 problems). Decisions recorded; implementation subagent started.
+- 2026-11-20 12:28 Merged design-review fixes (873c948, 9635f68 rewrite cap; 244 tests OK). Restarted E, E-minus (run.ps1 study -RestartLibrary -MaxHours 12 -Workers 24 -KeepServer); C/D kept.
