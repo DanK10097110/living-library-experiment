@@ -73,3 +73,4 @@
 - 2026-11-20 15:34 Merged dead-recipe fix (dd56782; 253 tests OK; E-minus probe unchanged). Restarted E only (-RestartE); C, D, E-minus kept. Old E snapshots archived to results/library/archive-2026-11-20-E-before-dead-recipe/.
 - 2026-11-20 15:42 Owner: remove sole-recipe protection; retry wins may rewrite like wins. Study paused (E had just restarted); implementing (E-only), then -RestartE.
 - 2026-11-20 15:46 Merged 9672498 (no sole-recipe protection; retry wins rewrite like wins; 254 tests OK). Restarted E only (-RestartE); C, D, E-minus kept.
+- 2026-11-20 15:48 Owner: pause E trials. Whole study paused via STOP (run.ps1 cannot run without E). State: C eval done, D practice ~230, E-minus practice ~104+, E restarted (few games). Resume: rm STOP; tools\run.ps1 study -MaxHours 12 -Workers 24 -KeepServer.
