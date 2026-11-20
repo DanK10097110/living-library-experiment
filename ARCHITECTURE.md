@@ -1,5 +1,10 @@
 # Living Library: architecture, decisions and logical gaps
 
+> **Status (2026-11-20, later the same day):** this review describes the system *before* the redesign. Gaps A1,
+> A2, A3, A5, B3 and C1-C7 have been addressed; A4 is stated in the protocol. The current library behaviour is
+> specified in `LIBRARY-SPEC.md`, and the decisions are in `results/DECISIONS.md` (entry "Redesign"). Sections 2.2-2.4
+> describe the old code-skill and threshold machinery and are kept for the record.
+
 Written 2026-11-20 from the code at commit `2a2e73f` (plus the uncommitted LOG/DECISIONS edits), the live study
 folder `/root/ll-runs/study`, `results/DECISIONS.md`, `results/LOG.md`, `protocol.py` and `README.md`.
 

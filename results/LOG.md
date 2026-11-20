@@ -74,3 +74,4 @@
 - 2026-11-20 15:42 Owner: remove sole-recipe protection; retry wins may rewrite like wins. Study paused (E had just restarted); implementing (E-only), then -RestartE.
 - 2026-11-20 15:46 Merged 9672498 (no sole-recipe protection; retry wins rewrite like wins; 254 tests OK). Restarted E only (-RestartE); C, D, E-minus kept.
 - 2026-11-20 15:48 Owner: pause E trials. Whole study paused via STOP (run.ps1 cannot run without E). State: C eval done, D practice ~230, E-minus practice ~104+, E restarted (few games). Resume: rm STOP; tools\run.ps1 study -MaxHours 12 -Workers 24 -KeepServer.
+- 2026-11-20 evening: architecture review (ARCHITECTURE.md) and redesign (LIBRARY-SPEC.md) merged: code skills removed, per-rule usefulness evidence, evidence-only management, replicates, H3 on task success. 172 tests OK (1 skipped, known two-object bug); mechanism simulator passes. Old study (/root/ll-runs/study) left paused and untouched; next run goes to /root/ll-runs/study2.

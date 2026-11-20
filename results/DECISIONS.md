@@ -351,3 +351,40 @@ Owner asked for a full review ("changing a rule after every use is stupid"). An 
 - **Why:** the owner's call. A retry win is direct evidence of what works, so forbidding it to fix rules makes no
   sense. Only-recipe protection kept a wrong heat recipe alive. Without it, a type without a recipe gets a new
   one from its next won game.
+
+### 2026-11-20 — Redesign: code skills removed, evidence-based rule management, design fixes (spec: LIBRARY-SPEC.md)
+Owner: "thresholds are becoming the main problem; nothing should change too often; retirement and refinement must
+rest on evidence about the rule". Review: ARCHITECTURE.md section 4. Done as targeted edits of manual.py, not a rewrite.
+- **Code skills removed everywhere** (interpreter, librarian, skill actions, E-plus, conditions B and E-text,
+  invocation metrics). **Why:** abandoned on 11-15 (81% unverifiable) but still live in E/E-minus: called in 43 of
+  104 E-minus games, 65% of calls failed; E repaired skills, E-minus did not (a confound); every frozen 70-game
+  check had run without skills.
+- **Hypotheses:** H3 = E − E-minus on task success (was code-skill invocation success); H4/E-text dropped (same
+  rules as E once skills are gone). **Why:** the old H3/H4 could not answer whether rule management helps.
+- **Two practice replicates** (`practice_seeds` [0, 1]); the bootstrap resamples tasks and replicates. **Why:**
+  replicate libraries scored 48-54/70; one library per condition put library luck outside the intervals.
+- **Gate = bug detector** (stop if E < C − 3). **Why:** 30 games, margin 0 on the tuning set carries no evidence.
+- **D keeps first-attempt wins only; retries are part of the library method** (charged in cost), stated in protocol.
+- **No Builder rewrite of a visible rule from one game** (young, rejected-step and dead-recipe exceptions removed).
+  The Builder writes rules, adds validation notes and edits hidden notes. **Why:** single-game edits caused every
+  drift episode (11-19, 11-20).
+- **Write gate:** every command a new rule instructs must have worked in the won trace it came from; lost games
+  write only hidden notes (hidden-guess promotion removed). **Why:** rules should start decent; "take the lamp"
+  and a promoted "examine the sink" guess came from unchecked text.
+- **Evidence = per-rule usefulness judge** (−2..2, one outcome-blind call per shown rule; judge failure = no
+  evidence). Replaces the joint followed judge, Beta/base-rate credit and lift. **Why:** the base rate included the
+  rule's own games (a recipe compared with itself); the joint judge failed in 15% of games and then credited
+  everything. Per-rule ablation was rejected: about 10 withheld games per rule gives SE ≈ 0.18, so only > 35 pp
+  effects would be detectable.
+- **Management:** bad = ≥ 6 followed games with shrunk mean (sum/(n+2)) ≤ −0.5 → refine (max 2 revisions,
+  refinement counts; refine failure → retire) else retire; useless = ≥ 12 judged showings, < 20% followed → retire;
+  capacity 200. Removed: never-won-in-4, Beta vs base rate, dead recipe, command-rejection retirement, votes,
+  consolidation folding, retrieval modes. **Why:** simulated, "never won in 4" retired a good rule 66% of the time
+  at a 10% base rate, and refinement fired about 1.5 times per 50 games on a neutral recipe with no cap.
+- **Simulator** (`tools/sim_mechanisms.py`, asserted in `tests/test_rules_sim.py`; noisy judge, 15% swapped, 10%
+  failures, 300 games): helpful rule changed 0.0%, neutral 1.4% (≤ 5%), harmful changed within 15 followed games
+  99.6% (≥ 90%), followed 10% retired as useless 91.6% (≥ 90%), followed 60% falsely retired 0.4% (≤ 1%).
+  USELESS_MIN raised 10 → 12 because 10 gave 0.9% against the 1% limit.
+- **Batches:** refine and bad-retire ops replay only if the rule is still bad on the live library; useless
+  retirement, dedupe and pruning run once per batch on the live library. **Why:** decisions on partial evidence.
+- A fresh run (`/root/ll-runs/study2`); C and D are re-run because the planner/actor prompts lost the skill parts.
