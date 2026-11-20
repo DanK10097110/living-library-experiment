@@ -283,3 +283,21 @@ Owner asked for a full review ("changing a rule after every use is stupid"). An 
 - E and E-minus are restarted again (fix 4 changes E-minus). C and D are kept.
 - **Why overall:** each mechanism could make a 300-game library worse or the comparison unfair. Fixing them
   costs only a few minutes of already-paused E/E-minus practice.
+- **Implementation choices** (living_library/manual.py):
+  - Base rates are kept per kind of task (`base_types`) and credited games per kind (`credits`), so expected
+    wins (11) use the current smoothed rate of each kind, (wins + 1) / (games + 2). Refinement (2), the Beta
+    retirement test and guess promotion (6) compare wins with these expected wins.
+  - Lift (5) is smoothed toward the base rate: (wins - expected wins) / (games + 2), so a new rule has lift 0.
+    It replaces the raw Beta mean in MACLA's utility as 0.5 + lift. The risk term and the evidence weight of
+    task-keyed relevance are unchanged.
+  - "Rarely shown" means fewer than 3 showings (credited plus shown but not followed). The kept slot goes to the
+    rarely shown rule with the highest relevance, and only when none made the cut.
+  - Fresh counters (1, 2, 6) also drop the per-kind credits, guess credits and command evidence of the old text.
+    The game whose Builder changed a text gives the new text no credit. The base rate is kept.
+  - In replay, a note's conversion to a Corrected Error sets 'verified' together with the type. When a batch
+    drops that text change, it now drops 'verified' too (before, a hidden Unresolved Error was left marked
+    verified).
+  - The end-of-batch merge (9) runs in the main process when the batch's last game is committed. Its ops are
+    added to that game's manual operations, so replaying a game's operations reproduces its checkpoint.
+  - Not changed: the "decent" test of consolidation's underused selection still uses the pooled rate of the
+    visible rules of the same task type.

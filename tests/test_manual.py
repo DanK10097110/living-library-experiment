@@ -156,10 +156,12 @@ class RuleOperationTests(unittest.TestCase):
         log = []
         live = manual.replay(live, [{'op': 'write_rule', 'type': 'Corrected Error', 'rule': 'B', 'example': ''},
                                     {'op': 'downvote_rule', 'id': 'rule_1'},
-                                    {'op': 'downvote_rule', 'id': 'rule_1'}], log)   # ExpeL: removed at 0
+                                    {'op': 'downvote_rule', 'id': 'rule_1'}], log)
+        # (2026-11-20 design review) votes rank rules but never remove one (ExpeL removed it at 0)
+        self.assertEqual([(r['id'], r['importance']) for r in live], [('rule_1', 0), ('rule_2', manual.NEW_IMPORTANCE)])
         live = manual.replay(live, [{'op': 'write_rule', 'type': 'Corrected Error', 'rule': 'B', 'example': ''},
-                                    {'op': 'update_rule', 'id': 'rule_1', 'rule': 'A2'}], log)
-        self.assertEqual([(r['id'], r['rule']) for r in live], [('rule_2', 'B')])
+                                    {'op': 'update_rule', 'id': 'rule_9', 'rule': 'A2'}], log)
+        self.assertEqual([(r['id'], r['rule']) for r in live], [('rule_1', 'A'), ('rule_2', 'B')])
         self.assertEqual([entry[0] for entry in log], ['duplicate rule', 'rule already gone'])
 
 

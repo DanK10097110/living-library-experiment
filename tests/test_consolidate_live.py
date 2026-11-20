@@ -12,7 +12,7 @@ from living_library.models import FixtureModel, ModelResponse
 
 COOL = 'pick_cool_then_place_in_recep'
 HEAT = 'pick_heat_then_place_in_recep'
-NEW = 'When cooling, open the fridge first, then put the object in it.'
+NEW = 'When cooling, open the fridge first and put the object in it.'   # no "then": a Corrected Error may not list steps
 
 
 def rule(i, text, task=COOL, kind='Corrected Error', won=0, lost=0, **extra):
@@ -74,10 +74,9 @@ class ConsolidateTests(unittest.TestCase):
         self.assertEqual(absorber['rule'], NEW)
         self.assertEqual(op['old_rule'], old[op['id']]['rule'])
         self.assertTrue(op['absorbed'] and all(i not in by_id for i in op['absorbed']))
-        n = len(op['absorbed'])
-        self.assertEqual(absorber['alpha'], sum(old[i]['alpha'] for i in [op['id']] + op['absorbed']) - n)
-        self.assertEqual(absorber['beta'], sum(old[i]['beta'] for i in [op['id']] + op['absorbed']) - n)
-        self.assertEqual(absorber.get('unused', 0), sum(old[i].get('unused', 0) for i in [op['id']] + op['absorbed']))
+        # (2026-11-20 design review) the fold keeps the stronger rule's counts (here the absorber's), no sums
+        self.assertEqual((absorber['alpha'], absorber['beta'], absorber.get('unused', 0)),
+                         (old[op['id']]['alpha'], old[op['id']]['beta'], old[op['id']].get('unused', 0)))
         self.assertEqual(by_id['rule_5']['rule'], 'Cool it.')
         self.assertEqual(by_id['rule_10']['rule'], 'Never cool in the sink.')
         self.assertIn('rule_7', by_id)                 # no well-used partner of its own scope

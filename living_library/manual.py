@@ -21,9 +21,9 @@ Adapted to this agent (a hierarchical step-by-step ReAct agent, not a code-writi
   * E-minus (append-only) may only write new rules: no update, no delete, no merge.
 
 Rule management follows ExpeL (Zhao et al., AAAI 2024, section 4.2): a new rule has importance 2;
-UPVOTE and EDIT add 1, DOWNVOTE subtracts 1, and a rule is removed when its importance reaches 0. There
-is no direct delete: a wrong rule disappears only after repeated disagreement, so one bad Builder call
-cannot erase a good rule. Merging = edit one rule, downvote the other.
+UPVOTE and EDIT add 1, DOWNVOTE subtracts 1. Amended 2026-11-20 (design review): importance is only a ranking
+signal and a vote never removes a rule (ExpeL removed it at 0; the outcome-aware Builder's votes deleted good
+rules); rules are removed only by statistical retirement (and MACLA capacity pruning).
 
 Selection and upkeep follow MACLA (Forouzandeh et al., AAMAS 2026, arXiv 2512.18950), implemented
 from the paper (its released code does not implement these parts):
@@ -55,7 +55,27 @@ from the paper (its released code does not implement these parts):
     its task kept as extra evidence) instead of added. Merging never widens a rule's scope.
   * Pruning (eq. 8): above CAPACITY rules, drop the lowest U = 0.5 mean + 0.3 use share + 0.2 recency.
   * Not taken: meta-procedures (the paper's description is inconsistent and its code never uses them).
-E-minus is append-only: no Beta updates, refinement, merging or pruning.
+E-minus is append-only: no text edits, deletion, refinement, merging, folding, retirement or pruning. Since the
+2026-11-20 design review it keeps the same evidence bookkeeping as E (outcome-blind judge, Beta updates,
+contexts, base rates, hidden-guess promotion), used for retrieval and visibility only, so E and E-minus differ
+only in that E may edit, delete, merge and fold rules.
+
+Design review (2026-11-20, results/DECISIONS.md), E unless noted:
+  1. The text freeze covers every visible rule (young rules and rejected instructed commands excepted); any
+     text change starts fresh counters (fresh_counters; the op keeps the old text).
+  2. Contrastive refinement only for rules whose followed-win rate is below the base rate (refinable).
+  3. A recipe is credited only when the judge says it was followed (observe); "never won" retires a rule only
+     if its kind of task has had wins; a kind's only recipe is never retired (sole_recipe).
+  4. E-minus: the same bookkeeping (above).
+  5. Retrieval keeps one slot for a rarely shown rule (take) and ranks by lift over the base rate (lift).
+  6. A hidden guess is promoted only with CONFIRM_WINS followed wins and a followed-win rate >= the base rate,
+     counting followed losses (promoted); a text change resets it.
+  7. Both conditions' Builders see the relevant rules plus the newest (for_builder); votes never delete.
+  8. Corrected Errors may not list steps (rule_problems).
+  9. Batched E re-runs the similarity merge at the end of each batch (batch_dedupe).
+  10. A fold keeps the strongest rule's counts; an absorbed rule needs a won credited game.
+  11. Base rates are per kind of task: expected wins = the sum of the followed games' kinds' base rates
+      (expected_wins), so general rules are compared with the kinds they were followed in.
 
 Experience gathering follows ExpeL (Zhao et al., AAAI 2024, sec. 4.1), which uses Reflexion (Shinn et
 al. 2023): when a practice game of E or E-minus is lost, the agent reflects on the failed attempt
@@ -158,6 +178,9 @@ import copy
 
 SHOWN = 8           # rules shown to the planner and actor in a game
 BUILDER_SEES = 24   # rules shown to the Builder for the game it reviews
+RARE_SHOWINGS = 3   # a rule shown in fewer games is "rarely shown": one shown slot is kept for the best of them
+NEWEST_SLOTS = 2    # Builder slots for the newest rules not otherwise included (2026-11-20 design review)
+BASE_PRIOR = 2      # lift smoothing: pseudo-games at the expected (base) rate
 TYPES = ('Special Phenomenon', 'Success Process', 'Corrected Error', 'Unresolved Error', avoid.TYPE)
 CASE_TYPES = {      # which rule types each case may WRITE (updates follow the same limits)
     'direct success': ('Success Process', 'Special Phenomenon'),
@@ -197,7 +220,7 @@ BUILDER_GUIDE = (
     'give the whole new rule, still one short general rule, never append another case to it '
     '(prefer this over writing a near-duplicate); upvote_rule {id} when this game confirms a rule; '
     'downvote_rule {id} when this game contradicts a rule or shows it is wrong (also downvote a rule you '
-    'merged into another). Each rule has an importance; rules that reach 0 are removed. Never merge two '
+    'merged into another). Each rule has an importance (votes rank rules; they never remove one). Never merge two '
     'Success Process rules. There is at most one Success Process per kind of task (task_type): if '
     'one exists for this kind of task, update it instead of writing another. The rules you get are '
     'those for this kind of task and the general ones: if what you want to say is already in one of them, '
@@ -247,7 +270,7 @@ def rule_problems(kind, text):
     found = NUMBERED.search(text)
     if found:
         problems.append(f'names a numbered object ({found.group(0)!r})')
-    if kind not in ('Success Process', 'Corrected Error') and recipe_shaped(text):
+    if kind != 'Success Process' and recipe_shaped(text):     # Corrected Errors too (2026-11-20 review)
         problems.append('lists steps (only a Success Process may)')
     return problems
 
@@ -402,30 +425,97 @@ YOUNG_CREDITS = 3          # credited games below which a verified recipe is sti
 
 def text_frozen(rule, case, rejected_step=False):
     """Why a Builder update may not rewrite this rule's text (None if it may). E only (E-minus never updates).
-    A verified Success Process changes only through contrastive refinement (refine: >= MIN_CONTRAST new wins
-    and losses), and a corrected failure (a retry win) may write new rules but not rewrite visible ones.
-    Exceptions (amended 2026-11-20): a young recipe (credited in fewer than YOUNG_CREDITS games) may still be
-    rewritten by a won game's update; and a recipe the outcome-blind judge says this game followed while
-    the game rejected one of its instructed commands (`rejected_step`) may be rewritten by this game, even
-    a corrected failure (its retry win shows the fix)."""
+    A verified rule (any type the agent sees; recipes since 2026-11-19, all types since the 2026-11-20 design
+    review) changes only through contrastive refinement (refine), and a corrected failure (a retry win) may
+    write new rules but not rewrite visible ones. Exceptions: a young rule (credited in fewer than
+    YOUNG_CREDITS games) may still be rewritten by a won game's update; and a rule the outcome-blind judge says
+    this game followed while the game rejected one of its instructed commands (`rejected_step`) may be
+    rewritten by this game, even a corrected failure (its retry win shows the fix). Any text change of a
+    verified rule starts fresh counters (fresh_counters)."""
     if not shown_to_agent(rule):
         return None
-    if rule['type'] == 'Success Process':
-        if rejected_step:
-            return None
-        if credited(rule) >= YOUNG_CREDITS:
-            return 'a verified Success Process changes only by contrastive refinement'
+    if rejected_step:
+        return None
+    if credited(rule) >= YOUNG_CREDITS:
+        return f"a verified {rule['type']} changes only by contrastive refinement"
     if case == 'corrected failure':
         return 'a corrected failure may write new rules, not rewrite rules the agent sees'
     return None
 
 
 def rejected_steps(rules, followed, trace):
-    """Ids of the Success Process recipes the judge says were `followed` in a game whose `trace` rejected one
-    of their instructed commands (command_evidence): such a recipe may be rewritten by this game."""
+    """Ids of the visible rules (not Anti-Patterns) the judge says were `followed` in a game whose `trace`
+    rejected one of their instructed commands (command_evidence): such a rule may be rewritten by this game."""
     followed = set(followed or ())
-    return sorted(r['id'] for r in rules if r['type'] == 'Success Process' and r['id'] in followed
+    return sorted(r['id'] for r in rules if r['id'] in followed and shown_to_agent(r)
+                  and r['type'] not in (avoid.TYPE, avoid.POOL)
                   and 'rejected' in command_evidence(r['rule'], trace).values())
+
+
+# Counters a text change resets (2026-11-20 design review): the evidence belongs to the old text. Kept: id,
+# type, task_type, sources, importance, base (the kind's base win rate since the rule was written).
+FRESH = {'alpha': 1, 'beta': 1, 'contexts': [], 'confirmations': 0, 'unused': 0, 'refined_at': [0, 0]}
+FRESH_DROPPED = ('credits', 'guess_credits', 'commands', 'violations')
+
+
+def fresh_counters(rule):
+    """Start a rule's evidence afresh after its text changed (the old text's credit is not carried over)."""
+    rule.update(copy.deepcopy(FRESH))
+    for key in FRESH_DROPPED:
+        rule.pop(key, None)
+    return rule
+
+
+def type_rate(rule, task_type):
+    """Laplace-smoothed base win rate of `task_type` over the games the rule could have been shown in since it
+    was written (rules from before per-type counts: the rule's pooled base)."""
+    if 'base_types' in rule:
+        won, games = rule['base_types'].get(str(task_type), [0, 0])     # JSON keys are strings
+    else:
+        won, games = rule.get('base', [0, 0])
+    return (won + 1) / (games + 2)
+
+
+def credit_counts(rule, key='credits'):
+    """{task type: [won, lost]} of the games the rule was credited in (followed); rules without per-type
+    counts: their Beta counts under their own task type."""
+    if key in rule:
+        return rule[key]
+    if key != 'credits':
+        return {}
+    won, lost = observed(rule)
+    return {str(rule.get('task_type')): [won, lost]} if won + lost else {}
+
+
+def expected_wins(rule, counts=None):
+    """Wins expected from the base rates alone (2026-11-20 review, decision 11): the sum of the base rates of
+    the followed games' task types, so a general rule followed mostly in easy kinds of task is compared with
+    those kinds."""
+    counts = credit_counts(rule) if counts is None else counts
+    return sum((won + lost) * type_rate(rule, t) for t, (won, lost) in counts.items())
+
+
+def expected_rate(rule, task_type=None):
+    """Expected (base) win rate of the rule's followed games; with none, the base rate of `task_type`
+    (default: the rule's own)."""
+    counts = credit_counts(rule)
+    games = sum(won + lost for won, lost in counts.values())
+    if games:
+        return expected_wins(rule, counts) / games
+    return type_rate(rule, task_type or rule.get('task_type'))
+
+
+def lift(rule, task_type=None):
+    """Followed-win rate minus the expected (base) rate, smoothed toward the base rate with BASE_PRIOR
+    pseudo-games: (wins - expected wins) / (games + BASE_PRIOR); 0 for a rule never credited."""
+    won, lost = observed(rule)
+    games = won + lost
+    return (won - games * expected_rate(rule, task_type)) / (games + BASE_PRIOR)
+
+
+def showings(rule):
+    """Games the rule was shown in (credited or shown but not followed)."""
+    return credited(rule) + rule.get('unused', 0)
 
 
 # Evidence check against traces (E only): the commands a rule instructs, and whether the game rejected them.
@@ -568,9 +658,11 @@ def reliability(rule):
 
 
 def expected_utility(rule, relevance, task_type):
-    """MACLA eq. 4."""
+    """MACLA eq. 4, with the rule's reliability measured as lift over the base rate (2026-11-20 design review):
+    mean = 0.5 + lift (clipped to [0, 1]), so a rule that wins as often as its kind of task is 0.5 like a new
+    rule, and rules of hard kinds of task are not ranked down for the kind's difficulty."""
     a, b = rule.get('alpha', 1), rule.get('beta', 1)
-    mean = a / (a + b)
+    mean = min(1.0, max(0.0, 0.5 + lift(rule, task_type)))
     same = [c for c in rule.get('contexts', []) if c.get('task_type') == task_type]
     risk = sum(not c['won'] for c in same) / len(same) if same else 0.0
     return relevance * mean * R_MAX - risk * (1 - mean) * C_FAIL + LAMBDA_INFO * float(beta_distribution(a, b).entropy())
@@ -594,26 +686,28 @@ def relevance(rule, sims, evidence=None):
     return w * evidence + (1 - w) * text, evidence
 
 
-def relevant(rules, task_type, k, query=None, similarity=None, cross_type=False, text_query=None, evidence=None):
-    """This kind of task's Success Process first, then its other rules and the general ones, ranked by
-    MACLA's expected utility with task-keyed relevance when a query and similarity function are given,
-    else by importance. `cross_type`: other kinds' rules may join when their task evidence is high.
-    `evidence(rule)`: [(query, text)] pairs the rule is keyed by (default: `query` vs its tasks);
-    `text_query`: what the rule text is compared with (default `query`)."""
-    def number(r):
-        return int(r['id'].split('_')[1])
+def _number(rule):
+    return int(rule['id'].split('_')[1])
+
+
+def ranked(rules, task_type, query=None, similarity=None, cross_type=False, text_query=None, evidence=None):
+    """(this kind's Success Process, the other candidates ranked, {id(rule): Rel}): candidates are this kind's
+    other rules and the general ones, ranked by MACLA's expected utility with task-keyed relevance when a query
+    and similarity function are given, else by importance (Rel then empty). `cross_type`: other kinds' rules
+    may join when their task evidence is high. `evidence(rule)`: [(query, text)] pairs the rule is keyed by
+    (default: `query` vs its tasks); `text_query`: what the rule text is compared with (default `query`)."""
     rules = [r for r in rules if r['type'] != avoid.POOL]
     recipe = [r for r in rules if r['type'] == 'Success Process' and r.get('task_type') == task_type]
     others = [r for r in rules if r not in recipe and r['type'] != 'Success Process'
               and r.get('task_type') in (task_type, 'all', None)]
     if not (query and similarity):
-        others.sort(key=lambda r: (r.get('importance', NEW_IMPORTANCE), number(r)), reverse=True)
-        return (recipe + others)[:k]
+        others.sort(key=lambda r: (r.get('importance', NEW_IMPORTANCE), _number(r)), reverse=True)
+        return recipe, others, {}
     foreign = [r for r in rules if cross_type and r not in recipe and r not in others
                and r['type'] != 'Success Process']
     pool = others + foreign
     if not pool:
-        return recipe[:k]
+        return recipe, [], {}
     text_query = text_query or query
     pairs = {id(r): evidence(r) if evidence else [(query, g) for g in evidence_tasks(r)] for r in pool}
     wanted = {text_query: [r['rule'] for r in pool]}
@@ -628,8 +722,45 @@ def relevant(rules, task_type, k, query=None, similarity=None, cross_type=False,
                                max([max(0.0, sims[p]) for p in pairs[id(r)]], default=0.0)) for r in pool}
     pool = others + [r for r in foreign if scored[id(r)][1] >= CROSS_TYPE_EVIDENCE]
     utility = {id(r): expected_utility(r, scored[id(r)][0], task_type) for r in pool}
-    pool.sort(key=lambda r: (utility[id(r)], number(r)), reverse=True)
-    return (recipe + pool)[:k]
+    pool.sort(key=lambda r: (utility[id(r)], _number(r)), reverse=True)
+    return recipe, pool, {id(r): scored[id(r)][0] for r in pool}
+
+
+def take(recipe, pool, rel, k):
+    """The first `k` of recipe + pool, keeping one slot (when there are more candidates than slots) for the
+    best-matching (highest Rel) rarely shown rule (fewer than RARE_SHOWINGS showings) if none made the cut
+    (2026-11-20 design review: new rules were starved). The recipe stays first."""
+    chosen = (recipe + pool)[:k]
+    if k is None or k < 1 or len(recipe) + len(pool) <= k or not rel:
+        return chosen
+    if any(showings(r) < RARE_SHOWINGS for r in chosen if r not in recipe):
+        return chosen
+    rare = [r for r in pool if showings(r) < RARE_SHOWINGS and r not in chosen]
+    if not rare:
+        return chosen
+    best = max(rare, key=lambda r: (rel[id(r)], _number(r)))
+    return chosen[:k - 1] + [best]
+
+
+def relevant(rules, task_type, k, query=None, similarity=None, cross_type=False, text_query=None, evidence=None):
+    """This kind of task's Success Process first, then its other rules and the general ones (ranked), at most
+    `k` (None: all), with one slot kept for a rarely shown rule (take)."""
+    recipe, pool, rel = ranked(rules, task_type, query, similarity, cross_type, text_query, evidence)
+    return take(recipe, pool, rel, k)
+
+
+def for_builder(rules, task_type, k, query=None, similarity=None):
+    """The rules the Builder sees for a game, built the same way for E and E-minus (2026-11-20 design review):
+    the rules relevant to the game, ranked with the agent's task-keyed function (Builder notes and hidden
+    guesses included), plus NEWEST_SLOTS slots for the newest rules not otherwise included."""
+    known = any(r.get('task_type') == task_type for r in rules)
+    recipe, pool, rel = ranked(rules, task_type, query, similarity, cross_type=not known)
+    if len(recipe) + len(pool) <= k:
+        return recipe + pool
+    top = take(recipe, pool, rel, max(k - NEWEST_SLOTS, len(recipe)))
+    rest = [r for r in recipe + pool if r not in top]
+    newest = sorted(rest, key=_number, reverse=True)[:k - len(top)]
+    return top + sorted(newest, key=_number)
 
 
 def new_rule(rule_id, kind, text, example, task_type, verified=True, sources=()):
@@ -762,8 +893,7 @@ def apply(rules, operations, case, append_only, next_id, log, task_type=None, vi
                 if kind != 'update_rule':
                     delta = 1 if kind == 'upvote_rule' else -1
                     confirmed = confirm(rule) if delta > 0 else {}
-                    if vote(rules, by_id, rule['id'], delta):
-                        log.append(f"removed {rule['id']} (importance reached 0)")
+                    vote(rules, by_id, rule['id'], delta)     # ranks only; never removes (2026-11-20 review)
                     applied.append({'op': kind, 'id': rule['id'], **confirmed})
                     continue
                 changes = {k: str(op[k])[:600] for k in ('rule', 'example', 'validation') if isinstance(op.get(k), str)}
@@ -785,7 +915,7 @@ def apply(rules, operations, case, append_only, next_id, log, task_type=None, vi
                         continue
                 frozen = text_frozen(rule, case, rule['id'] in correctable)
                 if frozen and ({'rule', 'example'} & set(changes)):
-                    # Recipe stability: single games rewrote verified recipes back and forth (recipe drift).
+                    # Rule stability: single games rewrote verified rules back and forth (drift).
                     changes = {k: v for k, v in changes.items() if k not in ('rule', 'example', 'type')}
                     log.append(f"{rule['id']} keeps its text ({frozen})")
                     if not changes:
@@ -794,21 +924,31 @@ def apply(rules, operations, case, append_only, next_id, log, task_type=None, vi
                         retry_followed is not None and retry_followed(tidy(strip_instances(changes['rule'])))):
                     del changes['type']    # the note may be reworded but stays hidden
                     log.append(f"{rule['id']} keeps its type Unresolved Error (the winning retry did not follow it)")
+                old_text = rule['rule']
                 if 'rule' in changes:
                     changes['rule'] = checked(changes.get('type', rule['type']), changes['rule'], ask,
                                               rule.get('task_type'))
-                    if shown_to_agent(rule) and rule['type'] == 'Success Process':
+                    if changes['rule'] == old_text:
+                        del changes['rule']
+                    elif shown_to_agent(rule):
                         log.append(f"{rule['id']} rewritten although verified ("
-                                   + ('a young recipe: credited in {} of {} games'.format(credited(rule), YOUNG_CREDITS)
+                                   + ('a young rule: credited in {} of {} games'.format(credited(rule), YOUNG_CREDITS)
                                       if credited(rule) < YOUNG_CREDITS else
-                                      'a step it instructs was rejected in this game, which followed it') + ')')
+                                      'a step it instructs was rejected in this game, which followed it')
+                                   + '; fresh counters)')
                 if 'example' in changes:
                     changes['example'] = ' '.join(changes['example'].split())[:MAX_EXAMPLE]
                 if 'validation' in changes:   # keep the last few notes, as AutoManual does
                     changes['validation'] = ' | '.join(([rule['validation']] if rule['validation'] else [])
                                                        + [changes['validation']]).split(' | ')[-3:]
                     changes['validation'] = ' | '.join(changes['validation'])
+                if not changes:
+                    continue
                 rule.update(changes)
+                if 'rule' in changes:
+                    # The old text's credit does not carry over to the new text (2026-11-20 design review).
+                    fresh_counters(rule)
+                    changes.update({'fresh': True, 'old_rule': old_text})
                 if narrowed(rule, task_type, log):
                     changes['task_type'] = rule['task_type']
                 changes.update(confirm(rule))
@@ -834,21 +974,64 @@ def near_duplicate(rules, kind, scope, text, similarity, task_type=None):
     return pool[best] if scores[best] >= DUP_SIMILARITY else None
 
 
-def observe(rules, shown_ids, won, context, position, violated=(), followed=None, trace=None, guesses=()):
+DEDUPE_EXEMPT = ('Success Process', avoid.TYPE, avoid.POOL)   # one recipe per kind; Anti-Patterns by signature
+
+
+def batch_dedupe(rules, base_ids, similarity):
+    """E only, after a batch is replayed (2026-11-20 review, decision 9): games of a batch never saw each
+    other's new rules, so the similarity merge of write_rule is run again. Each rule written in the batch (id
+    not in `base_ids`), oldest first, is merged into an older near-duplicate (near_duplicate: same type, same
+    kind of task or a general one; a verified rule never into a hidden guess). The older rule keeps its text
+    and counts, gains the sources and +1 importance. Mutates `rules`; returns the ops (replayed by _dedupe)."""
+    ops = []
+    for new in sorted([r for r in rules if r['id'] not in set(base_ids) and r['type'] not in DEDUPE_EXEMPT],
+                      key=_number):
+        if new not in rules:
+            continue
+        older = [r for r in rules if _number(r) < _number(new)
+                 and (not new.get('verified', True) or r.get('verified', True))]
+        twin = near_duplicate(older, new['type'], new.get('task_type'), new['rule'], similarity)
+        if twin is None:
+            continue
+        op = {'op': 'dedupe', 'id': twin['id'], 'absorbed': new['id'], 'absorbed_rule': new['rule'],
+              'sources': copy.deepcopy(new.get('sources', []))}
+        _dedupe(rules, op)
+        ops.append(op)
+    return ops
+
+
+def _dedupe(rules, op):
+    by_id = {r['id']: r for r in rules}
+    twin, gone = by_id.get(op['id']), by_id.get(op['absorbed'])
+    if twin is None or gone is None:
+        return
+    for source in op.get('sources', []):
+        add_source(twin, source)
+    vote(rules, by_id, twin['id'], 1)
+    rules.remove(gone)
+
+
+def observe(rules, shown_ids, won, context, position, violated=(), followed=None, trace=None, guesses=(),
+            changed=()):
     """MACLA Beta update and contrastive contexts for the rules the agent followed in a game; returns the op.
+    Both E and E-minus (2026-11-20 design review: E-minus gets the same bookkeeping, used for retrieval and
+    visibility only).
     `violated`: shown Anti-Pattern rules whose pattern the agent did anyway.
-    `followed`: ids the Builder says the actions followed (None: credit every shown rule). Success Process
-    recipes always count (they shape the plan); shown rules not followed only get `unused` += 1.
+    `followed`: ids the outcome-blind judge says the actions followed (None: credit every shown rule). Shown
+    rules not followed, Success Process recipes included (2026-11-20 review), only get `unused` += 1.
     `trace`: the game's steps; for each rule the judge says was followed, whether the commands it instructs
     were accepted or rejected (command_evidence) is recorded in the op as 'commands'.
-    `guesses`: hidden guesses (not shown) the judge says the actions followed; in a won game each gets a
-    confirmation, and CONFIRM_WINS of them make it visible (amended 2026-11-20)."""
-    shown_ids = list(shown_ids)
-    guesses = [i for i in guesses if i not in set(shown_ids)] if won else []
+    `guesses`: hidden guesses (not shown) the judge says the actions followed, in a won or lost game; a guess
+    is shown once CONFIRM_WINS followed games were won and its followed-win rate is at least the base rate
+    (promoted).
+    `changed`: rules whose text this game's Builder changed: they started fresh counters and get no credit
+    for a game played with their old text."""
+    changed = set(changed)
+    shown_ids = [i for i in shown_ids if i not in changed]
+    guesses = [i for i in guesses if i not in set(shown_ids) and i not in changed]
     unused = []
     if followed is not None:
-        kind = {r['id']: r['type'] for r in rules}
-        unused = [i for i in shown_ids if i not in set(followed) and kind.get(i) != 'Success Process']
+        unused = [i for i in shown_ids if i not in set(followed)]
     commands = {}
     if followed is not None and trace is not None:
         by_id = {r['id']: r for r in rules}
@@ -861,18 +1044,36 @@ def observe(rules, shown_ids, won, context, position, violated=(), followed=None
     op = {'op': 'outcome', 'ids': [i for i in shown_ids if i not in unused], 'won': bool(won), 'context': context,
           'position': position, **({'violated': list(violated)} if violated else {}),
           **({'unused': unused} if unused else {}), **({'commands': commands} if commands else {}),
-          **({'confirms': list(guesses)} if guesses else {})}
+          **({'guessed': list(guesses)} if guesses else {})}
     _observe(rules, op)
     return op
+
+
+def _count(rule, key, task_type, won):
+    """Add one game to rule[key][task_type] = [won, lost]."""
+    counts = rule.setdefault(key, {}).setdefault(str(task_type), [0, 0])     # JSON keys are strings
+    counts[0 if won else 1] += 1
+
+
+def promoted(rule):
+    """A hidden guess that may be shown: followed in >= CONFIRM_WINS won games and its followed-win rate at
+    least the base rate (wins >= the expected wins of its followed games; 2026-11-20 design review)."""
+    counts = credit_counts(rule, 'guess_credits')
+    wins = sum(won for won, _ in counts.values())
+    return rule.get('confirmations', 0) >= CONFIRM_WINS and wins >= expected_wins(rule, counts)
 
 
 def _observe(rules, op):
     by_id = {r['id']: r for r in rules}
     kind = op['context'].get('task_type')
+    won_game = bool(op['won'])
     for rule in rules:   # base rate of this kind of task for every rule that could have been shown
         if rule.get('task_type') in (kind, 'all', None):
             won, games = rule.get('base', [0, 0])
-            rule['base'] = [won + bool(op['won']), games + 1]
+            rule['base'] = [won + won_game, games + 1]
+            base = rule.setdefault('base_types', {}).setdefault(str(kind), [0, 0])
+            base[0] += won_game
+            base[1] += 1
     for rule_id in op.get('unused', ()):   # shown, not followed: no Beta update
         if rule_id in by_id:
             by_id[rule_id]['unused'] = by_id[rule_id].get('unused', 0) + 1
@@ -883,6 +1084,7 @@ def _observe(rules, op):
             continue
         key = 'alpha' if op['won'] else 'beta'
         rule[key] = rule.get(key, 1) + 1
+        _count(rule, 'credits', kind, won_game)
         contexts = rule.get('contexts', []) + [{**op['context'], 'won': op['won']}]
         won = [c for c in contexts if c['won']][-K_CONTEXTS:]        # keep the newest K of each kind
         lost = [c for c in contexts if not c['won']][-K_CONTEXTS:]
@@ -897,11 +1099,13 @@ def _observe(rules, op):
                 rejected, accepted = counts.get(command, [0, 0])
                 counts[command] = [rejected + (outcome == 'rejected'),
                                    accepted + (outcome == 'ok' and bool(op['won']))]
-    for rule_id in op.get('confirms', ()) if op['won'] else ():   # hidden guesses followed in a won game
+    guessed = list(op.get('guessed', ())) + (list(op.get('confirms', ())) if op['won'] else [])   # 'confirms': older ops
+    for rule_id in guessed:   # hidden guesses the judge says were followed
         rule = by_id.get(rule_id)
         if rule is not None and not rule.get('verified', True):
-            rule['confirmations'] = rule.get('confirmations', 0) + 1
-            if rule['confirmations'] >= CONFIRM_WINS:
+            _count(rule, 'guess_credits', kind, won_game)
+            rule['confirmations'] = rule.get('confirmations', 0) + won_game
+            if promoted(rule):
                 rule['verified'] = True
 
 
@@ -929,11 +1133,17 @@ def useless(rule):
     return shown >= USELESS_MIN and (won + lost) < USELESS_FOLLOWED * shown
 
 
+def kind_had_wins(rule):
+    """Whether the kinds of task the rule was credited in have had won games since it was written."""
+    if 'base_types' not in rule:
+        return rule.get('base', [0, 0])[0] > 0
+    return any(rule['base_types'].get(t, [0, 0])[0] > 0 for t in credit_counts(rule))
+
+
 def retirable(rule):
-    """Shown in >= RETIRE_MIN games and, by its Beta posterior, clearly below the base win rate of
-    the games it could have been shown in (Laplace-smoothed)."""
+    """Shown in >= RETIRE_MIN games and, by its Beta posterior, clearly below the expected (base) win rate of
+    the games it was followed in (Laplace-smoothed per kind of task; expected_wins)."""
     won, lost = observed(rule)
-    base_won, base_games = rule.get('base', [0, 0])
     if useless(rule) or rejected_command(rule):
         return True
     if won + lost < RETIRE_MIN or rule['type'] == avoid.POOL:
@@ -942,17 +1152,26 @@ def retirable(rule):
         # An Anti-Pattern belongs to a kind of task that is mostly lost, so "never won" proves nothing:
         # it is retired when the agent did the avoided thing in every game it was shown in (it changed nothing).
         return rule.get('violations', 0) >= won + lost
-    if won == 0:          # never won while shown: retired whatever the base rate (which may be ~0)
-        return True
-    if not base_games:
+    if won == 0:
+        # Never won while followed: retired only if its kind of task has had wins (2026-11-20 review); a kind
+        # that is never won says nothing about the rule.
+        return kind_had_wins(rule)
+    if not rule.get('base', [0, 0])[1]:
         return False
-    base = (base_won + 1) / (base_games + 2)
-    return float(beta_distribution(1 + won, 1 + lost).cdf(base)) >= RETIRE_CONFIDENCE
+    return float(beta_distribution(1 + won, 1 + lost).cdf(expected_rate(rule))) >= RETIRE_CONFIDENCE
+
+
+def sole_recipe(rule, rules):
+    """The only visible Success Process of its kind of task: never retired or pruned (2026-11-20 review)."""
+    return rule['type'] == 'Success Process' and shown_to_agent(rule) and not any(
+        r is not rule and r['type'] == 'Success Process' and r.get('task_type') == rule.get('task_type')
+        and shown_to_agent(r) for r in rules)
 
 
 def retire(rules, report):
-    """Remove rules that do clearly worse than their kind of task's base rate; logged."""
-    for rule in [r for r in rules if retirable(r)]:
+    """Remove rules that do clearly worse than their kind of task's base rate; logged. Removal is by this
+    statistical retirement only (and capacity pruning), never by Builder votes (2026-11-20 review)."""
+    for rule in [r for r in rules if retirable(r) and not sole_recipe(r, rules)]:
         won, lost = observed(rule)
         op = {'op': 'retire', 'id': rule['id'], 'won': won, 'lost': lost, 'base': list(rule['base'])}
         if rule.get('unused'):
@@ -975,11 +1194,14 @@ def retire(rules, report):
 
 
 def refinable(rule):
+    """Enough new won and lost games for contrastive refinement, and (2026-11-20 review) a followed-win rate
+    below the base rate of its games (wins < expected_wins): a rule doing as well as its kind is left alone."""
     if rule['type'] in (avoid.TYPE, avoid.POOL):      # worded and checked by code; a rewrite would lose that
         return False
     won, lost = observed(rule)
     done = rule.get('refined_at', [0, 0])
-    return won - done[0] >= MIN_CONTRAST and lost - done[1] >= MIN_CONTRAST
+    return (won - done[0] >= MIN_CONTRAST and lost - done[1] >= MIN_CONTRAST
+            and won < expected_wins(rule))
 
 
 def refine(agent, rules, candidates, report):
@@ -998,7 +1220,10 @@ def refine(agent, rules, candidates, report):
             if not isinstance(text, str) or not text.strip():
                 raise ValueError('refiner gave no rule')
             text = checked(rule['type'], text, agent._ask, rule.get('task_type'))    # a concise rewrite; nothing is appended
-            op = {'op': 'refine', 'id': rule['id'], 'rule': text, 'refined_at': observed(rule)}
+            if text == rule['rule']:
+                raise ValueError('refiner gave the same rule')
+            op = {'op': 'refine', 'id': rule['id'], 'rule': text, 'refined_at': [0, 0], 'old_rule': rule['rule'],
+                  'fresh': True}
             _refine(rules, op)
             report['operations'].append(op)
         except (ValueError, RuntimeError, KeyError, TypeError) as exc:
@@ -1007,9 +1232,12 @@ def refine(agent, rules, candidates, report):
 
 
 def _refine(rules, op):
+    """A refined rule gets fresh counters (2026-11-20 review; ops without 'fresh' are older and kept theirs)."""
     for rule in rules:
         if rule['id'] == op['id']:
-            rule['rule'], rule['refined_at'] = op['rule'], op['refined_at']
+            if op.get('fresh'):
+                fresh_counters(rule)
+            rule['rule'], rule['refined_at'] = op['rule'], list(op['refined_at'])
 
 
 def prune(rules, position, log):
@@ -1020,19 +1248,19 @@ def prune(rules, position, log):
             uses = r.get('alpha', 1) + r.get('beta', 1) - 2
             age = position - (r['last_used'] if r.get('last_used') is not None else 0)
             return 0.5 * reliability(r) + 0.3 * uses / total + 0.2 * math.exp(-max(age, 0) / TAU)
-        victim = min((r for r in rules if r['type'] != avoid.POOL), key=utility)
+        victims = [r for r in rules if r['type'] != avoid.POOL and not sole_recipe(r, rules)]
+        if not victims:
+            return
+        victim = min(victims, key=utility)
         avoid.forget(rules, victim) if victim['type'] == avoid.TYPE else rules.remove(victim)
         log.append(f"pruned {victim['id']} (lowest utility)")
 
 
 def vote(rules, by_id, rule_id, delta):
-    """Change a rule's importance; remove it at 0. Returns True if it was removed."""
+    """Change a rule's importance (a ranking signal, never below 0). Since the 2026-11-20 design review a vote
+    never removes a rule (rules go only by statistical retirement): returns False."""
     rule = by_id[rule_id]
-    rule['importance'] = rule.get('importance', NEW_IMPORTANCE) + delta
-    if rule['importance'] <= 0:
-        rules.remove(rule)
-        del by_id[rule_id]
-        return True
+    rule['importance'] = max(0, rule.get('importance', NEW_IMPORTANCE) + delta)
     return False
 
 
@@ -1199,21 +1427,23 @@ def fold_prompt(task, kind, absorber, extras):
             '"covers_all" to false.\nReturn JSON {"rule": "<the rewritten rule>", "covers_all": true|false}.')
 
 
+COUNT_KEYS = ('alpha', 'beta', 'contexts', 'credits', 'unused', 'base', 'base_types', 'commands', 'refined_at',
+              'confirmations', 'guess_credits', 'violations')
+
+
 def merged_record(keeper, others, text):
-    """The absorbing rule `keeper` rewritten to `text`, with the evidence of `others` folded in."""
+    """The absorbing rule `keeper` rewritten to `text`. It keeps the counts of the strongest rule of the group
+    (most credited games; 2026-11-20 review: summing double-counted games where several were shown), not a
+    sum; sources (retrieval evidence) are united."""
     group = [keeper, *others]
+    strongest = max(group, key=lambda r: (credited(r), r.get('alpha', 1)))
     new = copy.deepcopy(keeper)
     new['rule'] = text
-    new['alpha'] = sum(r.get('alpha', 1) for r in group) - len(others)
-    new['beta'] = sum(r.get('beta', 1) for r in group) - len(others)
-    seen, contexts = set(), []
-    for r in group:
-        for c in r.get('contexts', []):
-            key = (c.get('task'), c.get('won'), c.get('plan'))
-            if key not in seen:
-                seen.add(key)
-                contexts.append(copy.deepcopy(c))
-    new['contexts'] = contexts
+    for key in COUNT_KEYS:
+        if key in strongest:
+            new[key] = copy.deepcopy(strongest[key])
+        else:
+            new.pop(key, None)
     sources = []
     for r in group:
         for s in r.get('sources', []):
@@ -1223,20 +1453,20 @@ def merged_record(keeper, others, text):
     new['importance'] = max(r.get('importance', 0) for r in group)
     last = [r['last_used'] for r in group if r.get('last_used') is not None]
     new['last_used'] = max(last) if last else keeper.get('last_used')
-    new['base'] = list(max((r.get('base', [0, 0]) for r in group), key=lambda b: b[1]))
-    if any('unused' in r for r in group):
-        new['unused'] = sum(r.get('unused', 0) for r in group)
     return new
 
 
 def fold_plans(rules, similarity):
     """[(absorber, [underused rules to fold in])]: each underused rule goes to the most similar well-used rule
-    of the same task type and rule type (similarity >= FOLD_SIM); at most MAX_FOLD per absorber."""
+    of the same task type and rule type (similarity >= FOLD_SIM); at most MAX_FOLD per absorber. An absorbed
+    rule needs at least one won credited game (2026-11-20 review: no folding of unevidenced rules)."""
     under, well, _ = underused(rules)
     by_id = {r['id']: r for r in rules}
     assigned = {}
     for uid in under:
         u = by_id[uid]
+        if observed(u)[0] < 1:
+            continue
         cands = [by_id[w] for w in well if by_id[w].get('task_type') == u.get('task_type')
                  and by_id[w]['type'] == u['type']]
         if not cands:
@@ -1386,20 +1616,22 @@ def build(agent):
         counter[0] += 1
         return f'rule_{counter[0]}'
     position = agent.context.get('position', 0)
-    shown = relevant(rules, agent.task.get('task_type'), BUILDER_SEES)
+    goal = agent.public_task.get('goal', '')
+    # The same view for E and E-minus (2026-11-20 review): relevance to this game plus the newest rules.
+    shown = for_builder(rules, agent.task.get('task_type'), BUILDER_SEES, goal, agent.embedder.similarity)
     guide = builder_guide(report['case'], append_only, agent.task.get('task_type'), shown)
     if 'failed_retries' in extra:
         guide += RETRY_NOTE
-    followed, guessed, correctable, retry_followed = None, [], [], None
+    correctable, retry_followed = [], None
+    # The outcome-blind judge runs on the rules as the agent saw them, before the Builder changes them
+    # (amended 2026-11-20), for E and E-minus alike (design review: E-minus gets the same bookkeeping): its
+    # verdict credits rules and hidden guesses and, in E, decides which frozen rules this game may correct.
+    guesses = guess_candidates(rules, agent.task.get('task_type'))
+    followed, guessed = judge_followed(agent, rules, report['errors'], guesses)
+    report['followed'] = followed
+    if guessed:
+        report['guesses_followed'] = guessed
     if not append_only:
-        # The outcome-blind judge runs on the rules as the agent saw them, before the Builder changes them
-        # (amended 2026-11-20): its verdict also decides which frozen recipes this game may correct and
-        # which hidden guesses this game confirms.
-        guesses = guess_candidates(rules, agent.task.get('task_type'))
-        followed, guessed = judge_followed(agent, rules, report['errors'], guesses)
-        report['followed'] = followed
-        if guessed:
-            report['guesses_followed'] = guessed
         correctable = rejected_steps(rules, followed, agent.result['trace'])
         if report['case'] == 'corrected failure':
             retry_followed = retry_judge(agent, retried, report['errors'])
@@ -1423,20 +1655,23 @@ def build(agent):
                                       correctable, retry_followed)
     except (ValueError, RuntimeError, KeyError, TypeError) as exc:
         report['errors'].append(f'builder: {exc}'[:200])
-    if not append_only:   # every game: Beta updates of the followed rules and the base rates
-        hidden = {r['id'] for r in rules if not r.get('verified', True)}
-        report['operations'].append(observe(rules, agent.rules_shown, agent.result['success'],
-                                            {'task': agent.public_task.get('goal', ''),
-                                             'task_type': agent.task.get('task_type'),
-                                             'steps': [t['action'] for t in agent.result['trace'] if t['valid']][-12:],
-                                             **({'plan': agent.plan_text} if agent.plan_text else {})},
-                                            position,
-                                            avoid.violated(rules, agent.rules_shown, avoid.compact(agent.result['trace'])),
-                                            followed, agent.result['trace'], guessed))
-        for rule in rules:
-            if rule['id'] in hidden and rule.get('verified', True):
-                report['errors'].append(f"{rule['id']} confirmed by {CONFIRM_WINS} won games that followed it "
-                                        '(now shown to the agent)')
+    # Every game, E and E-minus: Beta updates of the followed rules, base rates, guess promotion (E-minus uses
+    # them for retrieval and visibility only; it never edits, deletes, merges, folds or retires).
+    hidden = {r['id'] for r in rules if not r.get('verified', True)}
+    text_changed = [op['id'] for op in report['operations'] if op.get('op') == 'update_rule' and op.get('fresh')]
+    report['operations'].append(observe(rules, agent.rules_shown, agent.result['success'],
+                                        {'task': goal,
+                                         'task_type': agent.task.get('task_type'),
+                                         'steps': [t['action'] for t in agent.result['trace'] if t['valid']][-12:],
+                                         **({'plan': agent.plan_text} if agent.plan_text else {})},
+                                        position,
+                                        avoid.violated(rules, agent.rules_shown, avoid.compact(agent.result['trace'])),
+                                        followed, agent.result['trace'], guessed, text_changed))
+    for rule in rules:
+        if rule['id'] in hidden and rule.get('verified', True):
+            report['errors'].append(f"{rule['id']} confirmed by {rule.get('confirmations', 0)} won games that "
+                                    'followed it, at least its base rate (now shown to the agent)')
+    if not append_only:
         retire(rules, report)
     report['operations'] += avoid_update(agent, rules, report, summary, append_only, next_id)
     if not append_only:
@@ -1498,6 +1733,11 @@ def replay(live, operations, log, base=None):
             by_id.update({r['id']: r for r in rules})
             changed.add(op['id'])
             continue
+        if op['op'] == 'dedupe':
+            _dedupe(rules, op)
+            by_id.clear()
+            by_id.update({r['id']: r for r in rules})
+            continue
         if op['op'] in ('prune', 'retire'):
             if op['id'] in by_id:
                 gone = by_id.pop(op['id'])
@@ -1532,11 +1772,18 @@ def replay(live, operations, log, base=None):
             vote(rules, by_id, op['id'], 1)
         else:
             keys = ('rule', 'example', 'validation', 'type', 'verified', 'task_type')
-            if 'rule' in op and taken(op['id']):
+            text = 'rule' in op
+            if text and taken(op['id']):
                 log.append(['text change dropped (already changed in this batch)', op['op'], op['id']])
-                keys = tuple(k for k in keys if k not in TEXT_KEYS)
-            elif 'rule' in op and started is not None:
+                # 'verified' came with the type change (a note turned Corrected Error): dropping one drops both,
+                # so a hidden Unresolved Error never ends up marked verified.
+                keys = tuple(k for k in keys if k not in TEXT_KEYS + (('verified',) if 'type' in op else ()))
+                text = False
+            elif text and started is not None:
                 changed.add(op['id'])
-            by_id[op['id']].update({k: v for k, v in op.items() if k in keys})
+            target = by_id[op['id']]
+            target.update({k: v for k, v in op.items() if k in keys})
+            if text and op.get('fresh'):
+                fresh_counters(target)      # the new text starts fresh counters, as in apply
             vote(rules, by_id, op['id'], 1)
     return rules

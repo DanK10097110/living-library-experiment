@@ -77,6 +77,8 @@ def agent(rules, model):
 class RefinePruneMergeTests(unittest.TestCase):
     def test_refinement_needs_three_new_wins_and_losses(self):
         rules = [rule(1, 'When x, do y.')]
+        for _ in range(4):        # won games of its kind where it was not shown: the base rate is above its rate
+            manual.observe(rules, [], True, context(True), 0)
         for won in (True, True, True, False, False):
             manual.observe(rules, ['rule_1'], won, context(won), 0)
         model = Refiner()
@@ -90,12 +92,27 @@ class RefinePruneMergeTests(unittest.TestCase):
         # a concise rewrite: nothing is appended (no "Do not use it when When ...")
         self.assertEqual(rules[0]['rule'], 'When x and the cabinet is closed, open it first.')
         self.assertNotIn('not_when', model.calls[0]['response_schema'])
-        self.assertEqual(rules[0]['refined_at'], [3, 3])
+        # (2026-11-20 design review) the new text starts fresh counters; the op keeps the old text
+        self.assertEqual((rules[0]['refined_at'], rules[0]['alpha'], rules[0]['beta'], rules[0]['contexts']),
+                         ([0, 0], 1, 1, []))
+        self.assertEqual(report['operations'][0]['old_rule'], 'When x, do y.')
         manual.refine(agent(rules, model), rules, rules, report)
         self.assertEqual(len(model.calls), 1)                            # not again until 3 more of each
 
+    def test_refinement_only_below_the_base_rate(self):
+        # (2026-11-20 design review) a rule winning as often as its kind of task is not rewritten
+        rules = [rule(1, 'When x, do y.')]
+        for won in (True, False) * 3:
+            manual.observe(rules, ['rule_1'], won, context(won), 0)
+        self.assertEqual(manual.observed(rules[0]), [3, 3])
+        self.assertFalse(manual.refinable(rules[0]))                     # 3 wins = 6 games x base rate 0.5
+        manual.observe(rules, [], True, context(True), 1)                # the kind gets easier
+        self.assertTrue(manual.refinable(rules[0]))
+
     def test_a_long_or_specific_refinement_is_rejected_and_reported(self):
         rules = [rule(1, 'When x, do y.')]
+        for _ in range(4):
+            manual.observe(rules, [], True, context(True), 0)
         for won in (True, False) * 3:
             manual.observe(rules, ['rule_1'], won, context(won), 0)
 
@@ -198,12 +215,17 @@ class GameAndBatchTests(unittest.TestCase):
         self.assertTrue(seen)
         self.assertIn('"action"', str(seen[0]).replace("'", '"'))
 
-    def test_append_only_records_no_outcomes(self):
+    def test_append_only_records_outcomes_but_never_changes_rules(self):
+        # (2026-11-20 design review) E-minus keeps the same evidence bookkeeping as E (for retrieval and
+        # visibility); it still never edits, retires, refines or prunes.
         rules = [rule(1, 'When putting an apple, open the cabinet first.', task_type='pick')]
         a = Agent(Settings(), 'E-minus', FixtureModel(), Library(), LexicalEmbedding(), MiniWorld, rules=rules)
         result = a.run(TASK, 1, {'phase': 'practice', 'position': 0})
-        self.assertFalse(any(op['op'] == 'outcome' for op in result['manual']['operations']))
-        self.assertEqual((rules[0]['alpha'], rules[0]['beta']), (1, 1))
+        kinds = [op['op'] for op in result['manual']['operations']]
+        self.assertIn('outcome', kinds)
+        self.assertTrue(set(kinds) <= {'outcome', 'write_rule', 'pool_game', 'pool_won'}, kinds)
+        self.assertEqual(rules[0]['rule'], 'When putting an apple, open the cabinet first.')
+        self.assertEqual(rules[0]['base'], [int(result['success']), 1])
 
 
 class GeneralRuleTests(unittest.TestCase):

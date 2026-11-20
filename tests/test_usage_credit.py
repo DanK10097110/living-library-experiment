@@ -90,11 +90,14 @@ class UsageCreditTests(unittest.TestCase):
         self.assertEqual([r['alpha'] + r['beta'] for r in rules[:2]], [3, 3])
         self.assertTrue(any('followed judge' in e for e in result['manual']['errors']))
 
-    def test_recipe_is_credited_even_when_not_listed_as_followed(self):
+    def test_recipe_is_credited_only_when_the_judge_says_it_was_followed(self):
+        # (2026-11-20 design review) no circular credit: a recipe shapes the plan, but counts only if followed
         recipe, other = rule(1, 'Take, go, put.', kind='Success Process'), rule(2, 'x')
         op = manual.observe([recipe, other], ['rule_1', 'rule_2'], True, context(), 0, followed=[])
-        self.assertEqual((op['ids'], op['unused']), (['rule_1'], ['rule_2']))
-        self.assertEqual((recipe['alpha'], other.get('alpha', 1)), (2, 1))
+        self.assertEqual((op['ids'], op['unused']), ([], ['rule_1', 'rule_2']))
+        self.assertEqual((recipe['alpha'], recipe['unused'], other.get('alpha', 1)), (1, 1, 1))
+        op = manual.observe([recipe, other], ['rule_1', 'rule_2'], True, context(), 1, followed=['rule_1'])
+        self.assertEqual((op['ids'], recipe['alpha']), (['rule_1'], 2))
 
     def test_useless_rule_is_retired_but_recipes_and_anti_patterns_are_exempt(self):
         borderline = rule(1, 'a', alpha=3, beta=1, unused=8)     # followed 3 of 12 = 25%

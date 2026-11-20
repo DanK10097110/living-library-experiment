@@ -122,7 +122,8 @@ class YoungRecipeTests(unittest.TestCase):
             applied, log = self.update(young)
             self.assertEqual(young['rule'], self.NEW, credits)
             self.assertEqual(applied[0]['rule'], self.NEW)
-            self.assertTrue(any('young recipe' in line for line in log))
+            self.assertTrue(any('young rule' in line and 'fresh counters' in line for line in log))
+            self.assertEqual((young['alpha'], young['beta'], applied[0]['fresh']), (1, 1, True))
         old = recipe(manual.YOUNG_CREDITS - 1, beta=2)                     # credits count wins and losses
         self.update(old)
         self.assertEqual(old['rule'], RECIPE)
@@ -205,7 +206,7 @@ class HiddenGuessTests(unittest.TestCase):
         live = copy.deepcopy(rules)
         second = play(model, rules, position=5)
         self.assertTrue(rules[0]['verified'])
-        self.assertIn('rule_7 confirmed by 2 won games that followed it (now shown to the agent)',
+        self.assertIn('rule_7 confirmed by 2 won games that followed it, at least its base rate (now shown to the agent)',
                       second['manual']['errors'])
         self.assertEqual(manual.replay(live, second['manual']['operations'], []), rules)
         self.assertFalse(rules[1]['verified'])                          # the note stays hidden

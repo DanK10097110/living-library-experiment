@@ -22,6 +22,8 @@ ROOT = Path(__file__).resolve().parent.parent
 STUDY = Path('/root/ll-runs/study')
 # Recorded sources of study runs made before the shared rule-text repair of 2026-11-20 changed E-minus.
 BEFORE_TEXT_REPAIR = {'d0cd9a5c19a4727150f3e35b242984952405d2e72ae78613ca08dcb023696e9e'}
+# ... and before the 2026-11-20 design review gave E-minus the evidence bookkeeping (the paused study).
+BEFORE_DESIGN_REVIEW = {'a473ed7fc06ad67079e14efd9447ee7772dd119201879351d837c207fb581a08'}
 
 
 def quiet(*args, **kwargs):
@@ -62,7 +64,7 @@ class RecipeStabilityTests(unittest.TestCase):
 
     def test_recipe_text_changes_through_refinement(self):
         recipe = rule('rule_1', 'Success Process', RECIPE, alpha=1 + manual.MIN_CONTRAST,
-                      beta=1 + manual.MIN_CONTRAST,
+                      beta=1 + manual.MIN_CONTRAST, base=[9, 10],     # below its kind's base rate (2026-11-20)
                       contexts=[{'task': 'look', 'won': w} for w in [True, False] * manual.MIN_CONTRAST])
         new = 'When an object must be examined under a light: search desks first, take it, use the lamp.'
 
@@ -240,14 +242,16 @@ class RestartETests(unittest.TestCase):
 
     def test_e_minus_probe_is_deterministic_and_sees_append_only_prompts(self):
         cfg = Settings(seeds=[11], conditions=['E-minus'], practice_batch=2)
-        # Golden digest of the 2026-11-20 code (shared rule-text repair; E-minus restarted with E). The probe now
-        # also covers the shared text check; with this probe function the code before the change (029dcdd)
-        # gives 2c6e5fb0b7c462b8..., so the change is detected. (Before: 6617ccc6..., taken with 7da1ecf.)
-        golden = 'd9c9f5aaee0f171cbe24c7ef39640e993a0b49b4d0394ef96120b3633b65c214'
+        # Golden digest of the code after the 2026-11-20 design review (E-minus gets the evidence bookkeeping and
+        # the shared Builder view; E-minus restarted with E). Before: d9c9f5aa... (shared rule-text repair),
+        # 6617ccc6... (taken with 7da1ecf).
+        golden = 'aeedacc0903c99803a6a254e45c05d6805e8bd86819e433892a8d13ae5382334'
         self.assertEqual(e_minus_probe(cfg), golden)
         with patch.object(manual, 'APPEND_ONLY_NOTE', manual.APPEND_ONLY_NOTE + ' Be brief.'):
             self.assertNotEqual(e_minus_probe(cfg), golden)
         with patch.object(manual, 'strip_instances', lambda text: text):
+            self.assertNotEqual(e_minus_probe(cfg), golden)
+        with patch.object(manual, 'JUDGE_GUIDE', manual.JUDGE_GUIDE + ' Be brief.'):   # E-minus runs the judge
             self.assertNotEqual(e_minus_probe(cfg), golden)
 
     def test_probe_tool_measures_a_tree_with_the_current_probe(self):
@@ -361,9 +365,10 @@ class RestartETests(unittest.TestCase):
         stored = stored_e_minus_probe(cfg, STUDY, recorded)
         if stored is None:
             self.skipTest('no E-minus probe recorded for the study sources')
-        if digest(recorded) in BEFORE_TEXT_REPAIR:
-            # The study paused before the shared rule-text repair (2026-11-20) changed E-minus: an E-only restart
-            # must refuse to keep E-minus (the study restarts with -RestartLibrary, which re-records the probe).
+        if digest(recorded) in BEFORE_TEXT_REPAIR | BEFORE_DESIGN_REVIEW:
+            # The study paused before a change of E-minus (the shared rule-text repair, then the design review's
+            # E-minus bookkeeping, both 2026-11-20): an E-only restart must refuse to keep E-minus (the study
+            # restarts with -RestartLibrary, which re-records the probe).
             self.assertNotEqual(e_minus_probe(cfg), stored)
             return
         self.assertEqual(e_minus_probe(cfg), stored)

@@ -66,15 +66,18 @@ class SelectionTests(unittest.TestCase):
 
 
 class MergeTests(unittest.TestCase):
-    def test_merged_record_sums_beta_minus_prior_and_unions(self):
+    def test_merged_record_keeps_the_stronger_counts_and_unions_sources(self):
+        # (2026-11-20 design review) summing double-counted games in which several of the rules were shown
         a = rule(1, 'x', won=3, lost=1, contexts=[{'task': 'g1', 'won': True}], sources=[{'task': 's1'}])
         b = rule(2, 'y', won=1, lost=0, contexts=[{'task': 'g1', 'won': True}, {'task': 'g2', 'won': False}],
                  sources=[{'task': 's1'}, {'task': 's2'}])
         m = C.merged_record(a, [b], 'When z, do w.')
-        self.assertEqual((m['id'], m['rule'], m['alpha'], m['beta']), ('rule_1', 'When z, do w.', 5, 2))
-        self.assertEqual([c['task'] for c in m['contexts']], ['g1', 'g2'])
+        self.assertEqual((m['id'], m['rule'], m['alpha'], m['beta']), ('rule_1', 'When z, do w.', 4, 2))
+        self.assertEqual([c['task'] for c in m['contexts']], ['g1'])
         self.assertEqual(len(m['sources']), 2)
         self.assertEqual(a['alpha'], 4)                  # input not mutated
+        m = C.merged_record(b, [a], 'When z, do w.')     # the stronger one need not be the keeper
+        self.assertEqual((m['id'], m['alpha'], m['beta'], m['type']), ('rule_2', 4, 2, b['type']))
 
     def test_problems_are_the_live_checks(self):
         self.assertEqual(C.problems('Corrected Error', 'When cooling, open the fridge first.', COOL), [])
@@ -94,7 +97,7 @@ class MergeTests(unittest.TestCase):
         kept = merges[0]['kept_id']
         self.assertEqual(by_id[kept]['rule'], chat.text)
         self.assertEqual(sorted(merges[0]['sources']), ['rule_3', 'rule_4'])
-        self.assertEqual((by_id[kept]['alpha'], by_id[kept]['beta']), (3, 1))   # counts summed minus one prior
+        self.assertEqual((by_id[kept]['alpha'], by_id[kept]['beta']), (2, 1))   # the stronger rule's counts
         self.assertEqual(by_id['rule_5']['rule'], 'Cool it.')                         # recipe untouched
 
     def test_variant_a_rejects_failed_checks_and_keeps_originals(self):
@@ -107,7 +110,7 @@ class MergeTests(unittest.TestCase):
 
     def test_variant_b_folds_into_well_used_same_scope_and_type(self):
         rules = library()
-        chat = FakeChat('When cooling, open the fridge first, then put the object in it.')
+        chat = FakeChat('When cooling, open the fridge first and put the object in it.')
         out, merges, rejected, info = C.variant_b(rules, chat, SIM)
         self.assertTrue(merges)
         for m in merges:

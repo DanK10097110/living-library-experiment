@@ -77,6 +77,9 @@ ENTRY_SOURCES = ('living_library/cli.py',)
 # Streams a partial restart may discard (amended 2026-11-19): E alone, keeping C, D and E-minus.
 RESTARTABLE = ('E',)
 E_MINUS_PROBES = Path(__file__).resolve().parent.parent / 'results' / 'probes'
+# Conditions whose batched practice re-runs the similarity merge at the end of each batch (2026-11-20 design
+# review, decision 9). Not E-minus: it never merges.
+DEDUPE_CONDITIONS = ('E',)
 
 
 def e_minus_probe(cfg, games=4):
@@ -476,6 +479,20 @@ class Runner:
         memory = merge_memory(live, game['base'], game['end'], merge_log,
                               game['record'].get('manual', {}).get('operations', []))
         record = {**game['record'], 'batch_merge': merge_log}
+        k = self.cfg.practice_batch
+        if (spec['condition'] in DEDUPE_CONDITIONS and 'rules' in memory
+                and ((position + 1) % k == 0 or position + 1 == len(spec['tasks']))):
+            # End of a batch (2026-11-20 review): merge near-duplicates that games of the batch wrote without
+            # seeing each other's rules. The ops join this game's manual operations, so replaying a game's
+            # operations still reproduces its checkpoint.
+            from .manual import batch_dedupe
+            ops = batch_dedupe(memory['rules'], {r['id'] for r in game['base'].get('rules', [])},
+                               self.embedder.similarity)
+            if ops:
+                manual_report = dict(record.get('manual', {}))
+                manual_report['operations'] = list(manual_report.get('operations', [])) + ops
+                record['manual'] = manual_report
+                merge_log.extend(['batch dedupe', op['absorbed'], op['id']] for op in ops)
         pre = game['base']['library']
         write_json(self._checkpoint(key, position), {
             'stream_identity': sid, 'previous_hash': previous_hash, 'source_hash': None,

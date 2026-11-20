@@ -105,16 +105,18 @@ class HiddenGuessTests(unittest.TestCase):
 
 
 class RetirementTests(unittest.TestCase):
-    def test_a_rule_never_won_in_four_games_is_retired_even_at_a_zero_base_rate(self):
-        never = rule(1, 'a', wins=0, beta=1 + manual.RETIRE_MIN, base=[0, 4])
+    def test_a_rule_never_won_in_four_games_is_retired_only_if_its_kind_has_had_wins(self):
+        # (2026-11-20 design review) at a zero base rate "never won" says nothing about the rule: kept
+        self.assertFalse(manual.retirable(rule(4, 'a', wins=0, beta=1 + manual.RETIRE_MIN, base=[0, 4])))
+        never = rule(1, 'a', wins=0, beta=1 + manual.RETIRE_MIN, base=[1, 5])
         self.assertTrue(manual.retirable(never))
-        self.assertFalse(manual.retirable(rule(2, 'b', wins=0, beta=manual.RETIRE_MIN, base=[0, 4])))  # 3 games
-        self.assertFalse(manual.retirable(rule(3, 'c', wins=1, beta=1 + manual.RETIRE_MIN, base=[0, 4])))
+        self.assertFalse(manual.retirable(rule(2, 'b', wins=0, beta=manual.RETIRE_MIN, base=[1, 5])))  # 3 games
+        self.assertFalse(manual.retirable(rule(3, 'c', wins=1, beta=1 + manual.RETIRE_MIN, base=[1, 5])))
         report = {'operations': [], 'errors': []}
         rules = [never]
         manual.retire(rules, report)
         self.assertEqual(rules, [])
-        self.assertIn('retired rule_1 (won 0 of 4 games shown, never won; base 0 of 4)', report['errors'])
+        self.assertIn('retired rule_1 (won 0 of 4 games shown, never won; base 1 of 5)', report['errors'])
 
 
 class MergeScopeTests(unittest.TestCase):
