@@ -72,7 +72,10 @@ Unresolved Error rules (from a failure without a contrasting success) are Builde
 never shown to the agent (ExpeL extracts insights only from success/failure comparisons), and a retry
 success may turn one into a Corrected Error. Likewise any rule WRITTEN from a game that was not won
 (first attempt lost, no retry won) is an unconfirmed guess and a hidden Builder note, whatever its type
-("verified": false), until the Builder upvotes, updates or merges into it after a won game or retry.
+("verified": false). Amended 2026-11-20 (E): a guess is shown only after CONFIRM_WINS won games whose actions
+the outcome-blind judge says followed it (guesses are judged alongside the shown rules but never shown);
+a Builder upvote, update or merge no longer confirms it. A retry win turns an Unresolved Error into a
+Corrected Error only if the judge says the winning retry's actions followed the corrected text.
 A lost game may not rewrite the text or example of a rule the agent sees (the confirmed text stays;
 only its validation note is added). Rules other than a Success Process may not list steps.
 
@@ -89,6 +92,9 @@ Process changes its text only by contrastive refinement, never by one game's upd
 ("take the lamp") are checked against the game's trace; a rule whose command the game rejected in
 REJECTED_MIN followed games and never accepted in a won game is retired (command_evidence). In batched
 practice a rule's text changes at most once per batch, the first change in position order (replay).
+Amended 2026-11-20 (E): a young recipe (credited in fewer than YOUNG_CREDITS games) may still be rewritten by
+a won game's update, and so may a recipe the judge says a game followed while the game rejected one of its
+instructed commands; the judge now runs before the Builder, on the rules as the agent saw them.
 
 The Builder answers with JSON operations (write_rule / update_rule / upvote_rule / downvote_rule),
 never code.
@@ -96,7 +102,9 @@ never code.
 Rule form: both papers aim at short, general, reusable rules (AutoManual's rules; MACLA's abstract
 procedures with preconditions). The Builder and refiner are asked for one general condition -> action
 sentence (a Success Process: a few generic steps), and a cheap check in code rejects rule text that is
-too long or names numbered objects ("drawer 3"); rejections are reported as errors.
+too long or names numbered objects ("drawer 3"); rejections are reported as errors. Amended 2026-11-20
+(both conditions): instance numbers of ALFWorld objects and receptacles are stripped first ("microwave 1" ->
+"the microwave"), and text that still fails gets one model rewrite told its problems before it is rejected.
 """
 import math
 import re
@@ -278,7 +286,7 @@ def generalize(kind, text, ask):
         'specific objects with "the object" / "the target", never name a room (a game is one room), keep '
         'it at most 25 words and keep its meaning. Output {"rule": "..."}.'),
         'rule': text, 'offending_words': bad, 'response_schema': {'rule': 'string'}})
-    new = tidy(data['rule']) if isinstance(data, dict) and isinstance(data.get('rule'), str) else ''
+    new = rewritten(data)
     if not new or specific_terms(new) or rule_problems(kind, new):
         raise ValueError(f"rejected {kind} text, names specific objects or rooms ({', '.join(bad)}): {text[:80]}")
     return new
@@ -314,24 +322,62 @@ def drop_foreign(kind, text, task_type, ask):
         f'This rule is for {task_type} tasks only. Rewrite it: remove steps that belong to another kind of '
         f'task: {", ".join(bad)}. Keep it at most 25 words. Output {{"rule": "..."}}.'),
         'rule': text, 'offending_words': bad, 'response_schema': {'rule': 'string'}})
-    new = tidy(data['rule']) if isinstance(data, dict) and isinstance(data.get('rule'), str) else ''
+    new = rewritten(data)
     if not new or foreign_actions(task_type, new) or rule_problems(kind, new):
         raise ValueError(f"rejected {kind} text, has steps of another kind of task ({', '.join(bad)}): {text[:80]}")
     return new
 
 
+INSTANCE = re.compile(r'\b(?:(the|a|an|this|that|each|any|another)\s+)?([a-z]+) \d+\b', re.IGNORECASE)
+
+
+def strip_instances(text):
+    """Instance numbers of ALFWorld objects and receptacles removed (amended 2026-11-20, both conditions):
+    "heat it with microwave 1" -> "heat it with the microwave", "the drawer 3" -> "the drawer". A numbered
+    word that is no ALFWorld noun ("most 5") is left for the numbered-object check."""
+    def swap(m):
+        if _noun(m.group(2).lower()) is None:
+            return m.group(0)
+        return f"{m.group(1) or 'the'} {m.group(2).lower()}"
+    return INSTANCE.sub(swap, str(text))
+
+
+def rewritten(data):
+    """The tidied, instance-stripped rule text of a model rewrite ('' if there is none)."""
+    if not isinstance(data, dict) or not isinstance(data.get('rule'), str):
+        return ''
+    return tidy(strip_instances(tidy(data['rule'])))
+
+
+def repair(kind, text, problems, ask):
+    """Text without `problems` (too long, numbered words, steps outside a recipe): one Builder rewrite that
+    is told the problems, or ValueError if it still fails (amended 2026-11-20, both conditions)."""
+    data = ask('builder', {'instructions': (
+        'This rule of a household-game manual was rejected: ' + '; '.join(problems) + '. Rewrite it so it '
+        'passes, keeping its meaning. ' + RULE_FORM + ' Output {"rule": "..."}.'),
+        'rule': text, 'type': kind, 'problems': list(problems), 'response_schema': {'rule': 'string'}})
+    new = rewritten(data)
+    if not new or rule_problems(kind, new):
+        raise ValueError(f"rejected {kind} text, {'; '.join(problems)} (still after one rewrite): {text[:80]}")
+    return new
+
+
 def checked(kind, text, ask=None, task_type=None):
-    """Tidied rule text, or ValueError naming its problems. With `ask` (a model call), text naming
-    specific objects or rooms gets one general rewrite, or is rejected; so does text (for a rule scoped
-    to `task_type`) with an action of another kind of task."""
-    text = tidy(text)
+    """Tidied rule text, or ValueError naming its problems. Instance numbers of ALFWorld objects and
+    receptacles are stripped first ("microwave 1" -> "the microwave"). With `ask` (a model call), text that
+    still fails a check (length, numbered words, steps) gets one rewrite told its problems (repair), or is
+    rejected; then text naming specific objects or rooms gets one general rewrite, or is rejected; so does
+    text (for a rule scoped to `task_type`) with an action of another kind of task."""
+    text = tidy(strip_instances(tidy(text)))
     problems = rule_problems(kind, text)
-    if ask is not None and not problems:
+    if problems and ask is not None:
+        text, problems = repair(kind, text, problems, ask), []
+    if problems:
+        raise ValueError(f"rejected {kind} text, {'; '.join(problems)}: {text[:80]}")
+    if ask is not None:
         text = generalize(kind, text, ask)
         if task_type:
             text = drop_foreign(kind, text, task_type, ask)
-    if problems:
-        raise ValueError(f"rejected {kind} text, {'; '.join(problems)}: {text[:80]}")
     return text
 
 
@@ -351,17 +397,35 @@ def shown_to_agent(rule):
     return rule['type'] not in HIDDEN and rule.get('verified', True)
 
 
-def text_frozen(rule, case):
+YOUNG_CREDITS = 3          # credited games below which a verified recipe is still young (correctable)
+
+
+def text_frozen(rule, case, rejected_step=False):
     """Why a Builder update may not rewrite this rule's text (None if it may). E only (E-minus never updates).
     A verified Success Process changes only through contrastive refinement (refine: >= MIN_CONTRAST new wins
-    and losses), and a corrected failure (a retry win) may write new rules but not rewrite visible ones."""
+    and losses), and a corrected failure (a retry win) may write new rules but not rewrite visible ones.
+    Exceptions (amended 2026-11-20): a young recipe (credited in fewer than YOUNG_CREDITS games) may still be
+    rewritten by a won game's update; and a recipe the outcome-blind judge says this game followed while
+    the game rejected one of its instructed commands (`rejected_step`) may be rewritten by this game, even
+    a corrected failure (its retry win shows the fix)."""
     if not shown_to_agent(rule):
         return None
     if rule['type'] == 'Success Process':
-        return 'a verified Success Process changes only by contrastive refinement'
+        if rejected_step:
+            return None
+        if credited(rule) >= YOUNG_CREDITS:
+            return 'a verified Success Process changes only by contrastive refinement'
     if case == 'corrected failure':
         return 'a corrected failure may write new rules, not rewrite rules the agent sees'
     return None
+
+
+def rejected_steps(rules, followed, trace):
+    """Ids of the Success Process recipes the judge says were `followed` in a game whose `trace` rejected one
+    of their instructed commands (command_evidence): such a recipe may be rewritten by this game."""
+    followed = set(followed or ())
+    return sorted(r['id'] for r in rules if r['type'] == 'Success Process' and r['id'] in followed
+                  and 'rejected' in command_evidence(r['rule'], trace).values())
 
 
 # Evidence check against traces (E only): the commands a rule instructs, and whether the game rejected them.
@@ -611,24 +675,29 @@ def _game(result, task_goal, max_steps=40):
 
 
 def apply(rules, operations, case, append_only, next_id, log, task_type=None, visible=None, similarity=None,
-          goal=None, ask=None):
+          goal=None, ask=None, correctable=(), retry_followed=None):
     """Apply Builder operations under the case limits; returns the applied operations (for batching).
     `visible`: ids the Builder was shown (it may only change those); default all. `goal`: the game's
     task, stored on written rules (and merged ones) as task-keyed retrieval evidence.
     A game that was not won ('failure') writes only hidden, unconfirmed rules and cannot rewrite what
-    the agent sees; a won game (or retry) confirms the rules it upvotes, updates or merges into."""
+    the agent sees. A hidden guess is no longer confirmed by a Builder upvote, update or merge (amended
+    2026-11-20): it is shown only after CONFIRM_WINS won games whose actions followed it (_observe).
+    `correctable`: recipe ids this game may rewrite although frozen (rejected_steps). `retry_followed`:
+    (rule text) -> whether the winning retry's actions followed it; a corrected failure turns an Unresolved
+    Error into a Corrected Error (shown to the agent) only when it did."""
     applied, writes = [], 0
     visible = {r['id'] for r in rules} if visible is None else set(visible)
     by_id = {r['id']: r for r in rules}
     allowed = CASE_TYPES[case]
     won = case != 'failure'
     source = {'task': goal, 'task_type': task_type} if goal else None
+    correctable = set(correctable)
 
     def confirm(rule):
-        """{'verified': True} when this won game confirms a hidden guess (for the applied op)."""
-        if won and not rule.get('verified', True):
+        """{'verified': True} when a retry win's actions followed a note it turned into a Corrected Error."""
+        if won and not rule.get('verified', True) and rule['type'] == 'Corrected Error':
             rule['verified'] = True
-            log.append(f"{rule['id']} confirmed by a won game (now shown to the agent)")
+            log.append(f"{rule['id']} confirmed by the winning retry that followed it (now shown to the agent)")
             return {'verified': True}
         return {}
     for op in operations if isinstance(operations, list) else []:
@@ -659,7 +728,8 @@ def apply(rules, operations, case, append_only, next_id, log, task_type=None, vi
                     scope = task_type
                     log.append(f'a general rule was limited to {task_type} (its text names a task-specific action)')
                 twin = None if append_only or similarity is None else near_duplicate(
-                    rules, op['type'], scope, text, similarity, task_type)
+                    [r for r in rules if not won or r.get('verified', True)], op['type'], scope, text,
+                    similarity, task_type)   # a won game's rule is never merged into a hidden guess
                 if twin is not None:
                     # MACLA: merge into the existing rule instead of adding a near-copy (counts as agreement).
                     # Its scope never changes; this game's task is kept as extra retrieval evidence.
@@ -703,7 +773,7 @@ def apply(rules, operations, case, append_only, next_id, log, task_type=None, vi
                 # any other type in an update is ignored (types never change otherwise).
                 if (op.get('type') == 'Corrected Error' and rule['type'] == 'Unresolved Error'
                         and case == 'corrected failure' and 'rule' in changes):
-                    changes['type'] = 'Corrected Error'
+                    changes['type'] = 'Corrected Error'     # kept only if the retry followed it (below)
                 elif op.get('type') not in (None, rule['type']):
                     log.append(f"{rule['id']} keeps its type {rule['type']} (only a retry success turns a note "
                                'into a Corrected Error)')
@@ -713,16 +783,25 @@ def apply(rules, operations, case, append_only, next_id, log, task_type=None, vi
                     log.append(f"{rule['id']} keeps its text (a lost game may not rewrite a rule the agent sees)")
                     if not changes:
                         continue
-                frozen = text_frozen(rule, case)
+                frozen = text_frozen(rule, case, rule['id'] in correctable)
                 if frozen and ({'rule', 'example'} & set(changes)):
                     # Recipe stability: single games rewrote verified recipes back and forth (recipe drift).
                     changes = {k: v for k, v in changes.items() if k not in ('rule', 'example', 'type')}
                     log.append(f"{rule['id']} keeps its text ({frozen})")
                     if not changes:
                         continue
+                if changes.get('type') == 'Corrected Error' and rule['type'] == 'Unresolved Error' and not (
+                        retry_followed is not None and retry_followed(tidy(strip_instances(changes['rule'])))):
+                    del changes['type']    # the note may be reworded but stays hidden
+                    log.append(f"{rule['id']} keeps its type Unresolved Error (the winning retry did not follow it)")
                 if 'rule' in changes:
                     changes['rule'] = checked(changes.get('type', rule['type']), changes['rule'], ask,
                                               rule.get('task_type'))
+                    if shown_to_agent(rule) and rule['type'] == 'Success Process':
+                        log.append(f"{rule['id']} rewritten although verified ("
+                                   + ('a young recipe: credited in {} of {} games'.format(credited(rule), YOUNG_CREDITS)
+                                      if credited(rule) < YOUNG_CREDITS else
+                                      'a step it instructs was rejected in this game, which followed it') + ')')
                 if 'example' in changes:
                     changes['example'] = ' '.join(changes['example'].split())[:MAX_EXAMPLE]
                 if 'validation' in changes:   # keep the last few notes, as AutoManual does
@@ -755,14 +834,17 @@ def near_duplicate(rules, kind, scope, text, similarity, task_type=None):
     return pool[best] if scores[best] >= DUP_SIMILARITY else None
 
 
-def observe(rules, shown_ids, won, context, position, violated=(), followed=None, trace=None):
+def observe(rules, shown_ids, won, context, position, violated=(), followed=None, trace=None, guesses=()):
     """MACLA Beta update and contrastive contexts for the rules the agent followed in a game; returns the op.
     `violated`: shown Anti-Pattern rules whose pattern the agent did anyway.
     `followed`: ids the Builder says the actions followed (None: credit every shown rule). Success Process
     recipes always count (they shape the plan); shown rules not followed only get `unused` += 1.
     `trace`: the game's steps; for each rule the judge says was followed, whether the commands it instructs
-    were accepted or rejected (command_evidence) is recorded in the op as 'commands'."""
+    were accepted or rejected (command_evidence) is recorded in the op as 'commands'.
+    `guesses`: hidden guesses (not shown) the judge says the actions followed; in a won game each gets a
+    confirmation, and CONFIRM_WINS of them make it visible (amended 2026-11-20)."""
     shown_ids = list(shown_ids)
+    guesses = [i for i in guesses if i not in set(shown_ids)] if won else []
     unused = []
     if followed is not None:
         kind = {r['id']: r['type'] for r in rules}
@@ -778,7 +860,8 @@ def observe(rules, shown_ids, won, context, position, violated=(), followed=None
                     commands[rule_id] = found
     op = {'op': 'outcome', 'ids': [i for i in shown_ids if i not in unused], 'won': bool(won), 'context': context,
           'position': position, **({'violated': list(violated)} if violated else {}),
-          **({'unused': unused} if unused else {}), **({'commands': commands} if commands else {})}
+          **({'unused': unused} if unused else {}), **({'commands': commands} if commands else {}),
+          **({'confirms': list(guesses)} if guesses else {})}
     _observe(rules, op)
     return op
 
@@ -814,6 +897,22 @@ def _observe(rules, op):
                 rejected, accepted = counts.get(command, [0, 0])
                 counts[command] = [rejected + (outcome == 'rejected'),
                                    accepted + (outcome == 'ok' and bool(op['won']))]
+    for rule_id in op.get('confirms', ()) if op['won'] else ():   # hidden guesses followed in a won game
+        rule = by_id.get(rule_id)
+        if rule is not None and not rule.get('verified', True):
+            rule['confirmations'] = rule.get('confirmations', 0) + 1
+            if rule['confirmations'] >= CONFIRM_WINS:
+                rule['verified'] = True
+
+
+CONFIRM_WINS = 2            # won games whose actions followed a hidden guess before it is shown
+
+
+def guess_candidates(rules, task_type):
+    """Hidden guesses that would be shown if confirmed, for this kind of task: unverified rules of a shown
+    type (not Unresolved Error notes, not the failure pools), of this kind or general."""
+    return [r for r in rules if not r.get('verified', True) and r['type'] not in HIDDEN
+            and r.get('task_type') in (task_type, 'all')]
 
 
 def observed(rule):
@@ -943,32 +1042,53 @@ JUDGE_GUIDE = ('Which of these rules did the agent\'s actions follow (did what t
 JUDGE_OBSERVATION = 100     # characters of each observation shown to the judge
 
 
-def judge_payload(agent, rules):
-    """Outcome-blind input for the `followed` judge: goal, shown rules, the first attempt's valid actions with
-    short observations; no success flag, no reward, and the final observation (which reveals a win) is left out."""
-    shown = set(agent.rules_shown)
-    trace = [t for t in agent.result['trace'] if t['valid']]
+def judge_payload(agent, rules, candidates=(), trace=None):
+    """Outcome-blind input for the `followed` judge: goal, the shown rules plus `candidates` (hidden guesses,
+    judged but never shown to the agent; the judge is not told which is which), the valid actions of `trace`
+    (default: the first attempt) with short observations; no success flag, no reward, and the final
+    observation (which reveals a win) is left out."""
+    shown = set(agent.rules_shown) | {r['id'] for r in candidates}
+    trace = [t for t in (agent.result['trace'] if trace is None else trace) if t['valid']]
     steps = [{'action': t['action'], 'observation': t['after'][:JUDGE_OBSERVATION]} for t in trace[-40:]]
     if steps:
         steps[-1].pop('observation')
+    listed = [r for r in rules if r['id'] in shown] + [r for r in candidates if r not in rules]
     return {'instructions': JUDGE_GUIDE, 'goal': agent.public_task.get('goal', ''),
-            'shown_rules': [{'id': r['id'], 'rule': r['rule']} for r in rules if r['id'] in shown],
+            'rules': [{'id': r['id'], 'rule': r['rule']} for r in listed],
             'steps': steps, 'response_schema': {'followed': ['rule ids']}}
 
 
-def judge_followed(agent, rules, errors):
-    """Ids of the shown rules whose advice the actions followed, from a separate outcome-blind model call.
-    None (credit every shown rule) when nothing was shown is not needed; None also on failure, logged."""
-    if not agent.rules_shown:
-        return None
+def judge_followed(agent, rules, errors, candidates=()):
+    """(ids of the shown rules whose advice the actions followed, ids of the `candidates` followed), from one
+    separate outcome-blind model call. The first is None (credit every shown rule) on failure, logged, or
+    when nothing was shown and there are no candidates."""
+    if not agent.rules_shown and not candidates:
+        return None, []
     try:
-        data = agent._ask('builder', judge_payload(agent, rules))
+        data = agent._ask('builder', judge_payload(agent, rules, candidates))
         if not isinstance(data.get('followed'), list):
             raise ValueError('no followed list')
-        return [i for i in data['followed'] if i in set(agent.rules_shown)]
+        said = [i for i in data['followed'] if isinstance(i, str)]
+        hidden = {r['id'] for r in candidates}
+        return ([i for i in said if i in set(agent.rules_shown)] if agent.rules_shown else None,
+                sorted({i for i in said if i in hidden}))
     except (ValueError, RuntimeError, KeyError, TypeError) as exc:
         errors.append(f'followed judge: {exc}; all shown rules credited'[:200])
-        return None
+        return None, []
+
+
+def retry_judge(agent, retried, errors):
+    """(rule text) -> whether the winning retry's actions followed it (outcome-blind judge on the retry trace;
+    False on failure, logged). Used before a corrected failure turns a hidden note into a Corrected Error."""
+    def followed(text):
+        note = {'id': 'note', 'rule': text}
+        try:
+            data = agent._ask('builder', judge_payload(agent, [], [note], retried['trace']))
+            return isinstance(data.get('followed'), list) and 'note' in data['followed']
+        except (ValueError, RuntimeError, KeyError, TypeError, AttributeError) as exc:
+            errors.append(f'retry judge: {exc}'[:200])
+            return False
+    return followed
 
 
 CONSOLIDATE_EVERY = 25      # practice games between consolidations of underused rules
@@ -1270,6 +1390,19 @@ def build(agent):
     guide = builder_guide(report['case'], append_only, agent.task.get('task_type'), shown)
     if 'failed_retries' in extra:
         guide += RETRY_NOTE
+    followed, guessed, correctable, retry_followed = None, [], [], None
+    if not append_only:
+        # The outcome-blind judge runs on the rules as the agent saw them, before the Builder changes them
+        # (amended 2026-11-20): its verdict also decides which frozen recipes this game may correct and
+        # which hidden guesses this game confirms.
+        guesses = guess_candidates(rules, agent.task.get('task_type'))
+        followed, guessed = judge_followed(agent, rules, report['errors'], guesses)
+        report['followed'] = followed
+        if guessed:
+            report['guesses_followed'] = guessed
+        correctable = rejected_steps(rules, followed, agent.result['trace'])
+        if report['case'] == 'corrected failure':
+            retry_followed = retry_judge(agent, retried, report['errors'])
     try:
         data = agent._ask('builder', {
             'instructions': guide,
@@ -1286,12 +1419,12 @@ def build(agent):
         report['diagnosis'] = data.get('diagnosis')
         report['operations'] += apply(rules, data.get('operations'), report['case'], append_only, next_id,
                                       report['errors'], agent.task.get('task_type'), [r['id'] for r in shown],
-                                      agent.embedder.similarity, agent.public_task.get('goal', ''), agent._ask)
+                                      agent.embedder.similarity, agent.public_task.get('goal', ''), agent._ask,
+                                      correctable, retry_followed)
     except (ValueError, RuntimeError, KeyError, TypeError) as exc:
         report['errors'].append(f'builder: {exc}'[:200])
     if not append_only:   # every game: Beta updates of the followed rules and the base rates
-        followed = judge_followed(agent, rules, report['errors'])
-        report['followed'] = followed
+        hidden = {r['id'] for r in rules if not r.get('verified', True)}
         report['operations'].append(observe(rules, agent.rules_shown, agent.result['success'],
                                             {'task': agent.public_task.get('goal', ''),
                                              'task_type': agent.task.get('task_type'),
@@ -1299,7 +1432,11 @@ def build(agent):
                                              **({'plan': agent.plan_text} if agent.plan_text else {})},
                                             position,
                                             avoid.violated(rules, agent.rules_shown, avoid.compact(agent.result['trace'])),
-                                            followed, agent.result['trace']))
+                                            followed, agent.result['trace'], guessed))
+        for rule in rules:
+            if rule['id'] in hidden and rule.get('verified', True):
+                report['errors'].append(f"{rule['id']} confirmed by {CONFIRM_WINS} won games that followed it "
+                                        '(now shown to the agent)')
         retire(rules, report)
     report['operations'] += avoid_update(agent, rules, report, summary, append_only, next_id)
     if not append_only:

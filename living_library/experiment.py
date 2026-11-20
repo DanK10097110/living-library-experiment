@@ -123,7 +123,27 @@ def e_minus_probe(cfg, games=4):
               for case in sorted(_manual.CASE_TYPES)}
     guides['retry'] = _manual.RETRY_NOTE
     guides['reflect'] = _manual.REFLECT_GUIDE
-    return _digest({'requests': requests, 'records': untimed(records), 'rules': rules, 'guides': guides})
+    # The shared rule-text check (amended 2026-11-20): the fixture Builder never writes text it would change,
+    # so it is probed directly, with a fixed model rewrite, on texts that name numbered objects, are too long
+    # or list steps.
+    asked = []
+
+    def ask(role, payload):
+        asked.append(_digest([role, payload]))
+        return {'rule': 'When an object must be heated, heat it with the appliance before placing it.'}
+    checks = []
+    for kind, text in (('Special Phenomenon', 'When heating, heat it with microwave 1.'),
+                       ('Special Phenomenon', 'When at drawer 3, open drawer 3 first.'),
+                       ('Success Process', 'When placing: go to countertop 2, take apple 1, put it in the target.'),
+                       ('Corrected Error', 'When the target is full, ' + 'try another place and open it, ' * 8),
+                       ('Special Phenomenon', 'When cooling: take it, go to the fridge, open it, then cool it.'),
+                       ('Special Phenomenon', 'If a container is closed, open it before putting things in it.')):
+        try:
+            checks.append(_manual.checked(kind, text, ask, 'pick_heat_then_place_in_recep'))
+        except ValueError as exc:
+            checks.append(f'rejected: {exc}')
+    return _digest({'requests': requests, 'records': untimed(records), 'rules': rules, 'guides': guides,
+                    'checks': checks, 'check_requests': asked})
 
 
 def e_minus_replay_check(cfg, output):

@@ -88,10 +88,14 @@ class RuleOperationTests(unittest.TestCase):
         rules, log = [], []
         manual.apply(rules, [{'op': 'write_rule', 'type': 'Corrected Error', 'rule': long},
                              {'op': 'write_rule', 'type': 'Special Phenomenon',
-                              'rule': 'When at drawer 3, open drawer 3 first.'}], 'indirect success', False, ids(), log)
+                              'rule': 'When on floor 3, open the door first.'}], 'indirect success', False, ids(), log)
         self.assertEqual(rules, [])
         self.assertIn('too long', log[0])
-        self.assertIn("numbered object ('drawer 3')", log[1])
+        self.assertIn("numbered object ('floor 3')", log[1])     # not an ALFWorld noun: not stripped
+        # (2026-11-20) an ALFWorld object's instance number is stripped, not rejected
+        manual.apply(rules, [{'op': 'write_rule', 'type': 'Special Phenomenon',
+                              'rule': 'When at drawer 3, open drawer 3 first.'}], 'indirect success', False, ids(), log)
+        self.assertEqual(rules.pop()['rule'], 'When at the drawer, open the drawer first.')
         # a short general rule passes; a type label and repeated words are tidied away
         manual.apply(rules, [{'op': 'write_rule', 'type': 'Special Phenomenon',
                               'rule': 'Special Phenomenon: When when a container is closed, open it first.',

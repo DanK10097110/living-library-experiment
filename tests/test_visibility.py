@@ -38,15 +38,20 @@ class HiddenGuessTests(unittest.TestCase):
         self.assertEqual(manual.for_agent(rules, 'heat', manual.SHOWN), [])
         self.assertEqual(manual.relevant(rules, 'heat', manual.BUILDER_SEES), rules)   # the Builder sees it
         self.assertFalse(manual.replay([], applied, [])[0]['verified'])
-        # a lost game's upvote does not confirm it; a won game's upvote does
+        # (2026-11-20) no Builder upvote confirms it, lost or won
         manual.apply(rules, [{'op': 'upvote_rule', 'id': 'rule_1'}], 'failure', False, None, [], 'heat')
+        manual.apply(rules, [{'op': 'upvote_rule', 'id': 'rule_1'}], 'direct success', False, None, [], 'heat')
         self.assertFalse(rules[0]['verified'])
-        live = copy.deepcopy(rules)
-        applied = manual.apply(rules, [{'op': 'upvote_rule', 'id': 'rule_1'}], 'direct success', False, None,
-                               [], 'heat')
-        self.assertTrue(rules[0]['verified'])
+        # two won games whose actions the outcome-blind judge says followed it do; replay agrees
+        live, ops = copy.deepcopy(rules), []
+        for won in (True, False, True):
+            ops.append(manual.observe(rules, [], won, {'task': 'heat some egg', 'task_type': 'heat'}, 0,
+                                      followed=None, guesses=['rule_1']))
+            self.assertEqual(rules[0]['verified'], ops[-1]['won'] and len(ops) == 3)
+        self.assertNotIn('confirms', ops[1])                         # a lost game is no confirmation
         self.assertEqual([r['id'] for r in manual.for_agent(rules, 'heat', manual.SHOWN)], ['rule_1'])
-        self.assertTrue(manual.replay(live, applied, [])[0]['verified'])
+        self.assertTrue(manual.replay(live, ops, [])[0]['verified'])
+        self.assertEqual(rules[0]['alpha'], 1)                       # not shown: no Beta credit
 
     def test_won_games_and_retry_successes_write_visible_rules(self):
         for case in ('direct success', 'indirect success', 'corrected failure'):
@@ -76,27 +81,27 @@ class HiddenGuessTests(unittest.TestCase):
                      'direct success', False, None, [], 'heat')
         self.assertEqual(rules[0]['rule'], 'When x, do z.')
 
-    def test_a_hidden_guess_may_be_rewritten_by_a_lost_game_and_confirmed_by_a_won_update(self):
+    def test_a_hidden_guess_may_be_rewritten_but_a_won_update_does_not_confirm_it(self):
         rules = []
         write(rules, 'failure')
         manual.apply(rules, [{'op': 'update_rule', 'id': 'rule_1', 'rule': 'When heating, use the microwave.'}],
                      'failure', False, None, [], 'heat')
         self.assertEqual((rules[0]['rule'], rules[0]['verified']), ('When heating, use the microwave.', False))
-        live = copy.deepcopy(rules)
         applied = manual.apply(rules, [{'op': 'update_rule', 'id': 'rule_1', 'validation': 'won with it'}],
                                'indirect success', False, None, [], 'heat')
-        self.assertTrue(rules[0]['verified'])
-        self.assertTrue(manual.replay(live, applied, [])[0]['verified'])
+        self.assertFalse(rules[0]['verified'])                       # (2026-11-20) only followed wins confirm
+        self.assertNotIn('verified', applied[0])
 
-    def test_a_won_game_merging_into_a_hidden_guess_confirms_it(self):
+    def test_a_won_game_never_merges_into_a_hidden_guess(self):
+        # (2026-11-20) the won game's rule is written visibly; the guess stays hidden and is not confirmed
         rules = []
         write(rules, 'failure')
         applied = manual.apply(rules, [{'op': 'write_rule', 'type': 'Special Phenomenon',
                                         'rule': 'When heating a container, turn on the stoveburner first!'}],
                                'direct success', False, lambda: 'rule_9', [], 'heat',
                                similarity=lambda q, texts: [0.95 for _ in texts], goal='heat some mug')
-        self.assertEqual((len(rules), rules[0]['verified'], applied[0]['verified']), (1, True, True))
-        self.assertEqual([s['task'] for s in rules[0]['sources']], ['heat some egg', 'heat some mug'])
+        self.assertEqual([(r['id'], r['verified']) for r in rules], [('rule_1', False), ('rule_9', True)])
+        self.assertEqual(applied[0]['op'], 'write_rule')
 
 
 class RetirementTests(unittest.TestCase):

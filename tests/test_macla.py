@@ -105,7 +105,8 @@ class RefinePruneMergeTests(unittest.TestCase):
         report = {'operations': [], 'errors': []}
         manual.refine(agent(rules, Wordy()), rules, rules, report)
         self.assertEqual(rules[0]['rule'], 'When x, do y.')
-        self.assertIn('numbered object', report['errors'][0])
+        # (2026-11-20) "safe 1", "cd 2" are stripped to "the safe", "the cd"; "cd" stays specific
+        self.assertIn('names specific objects', report['errors'][0])
 
     def test_near_duplicate_is_merged_not_added(self):
         rules = [rule(1, 'when the drawer is closed open it before putting things in')]

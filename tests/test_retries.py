@@ -124,7 +124,9 @@ class RetryTests(unittest.TestCase):
         manual.apply(rules, [op], 'failure', False, None, log, 'pick')
         self.assertEqual(rules[0]['type'], 'Unresolved Error')
         self.assertIn('keeps its type', log[0])
-        applied = manual.apply(rules, [op], 'corrected failure', False, None, [], 'pick')
+        # (2026-11-20) only if the winning retry followed the corrected text (outcome-blind judge)
+        applied = manual.apply(rules, [op], 'corrected failure', False, None, [], 'pick',
+                               retry_followed=lambda text: text == CORRECTED)
         self.assertEqual((rules[0]['type'], rules[0]['rule']), ('Corrected Error', CORRECTED))
         self.assertEqual(manual.replay([note], applied, [])[0]['type'], 'Corrected Error')
         self.assertEqual(len(manual.for_agent(rules, 'pick', manual.SHOWN)), 1)

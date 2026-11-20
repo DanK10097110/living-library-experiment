@@ -68,11 +68,11 @@ class UsageCreditTests(unittest.TestCase):
         rules = self.two_rules()
         result = play(None, rules, model)
         payload = model.judge_payloads[0]
-        self.assertEqual(set(payload), {'instructions', 'goal', 'shown_rules', 'steps', 'response_schema', 'task'})
+        self.assertEqual(set(payload), {'instructions', 'goal', 'rules', 'steps', 'response_schema', 'task'})
         self.assertNotIn('success', repr(payload['task']))
         self.assertTrue(all(set(s) <= {'action', 'observation'} for s in payload['steps']))
         self.assertNotIn('observation', payload['steps'][-1])       # the final message would reveal the win
-        self.assertEqual({r['id'] for r in payload['shown_rules']}, {'rule_1', 'rule_2'})
+        self.assertEqual({r['id'] for r in payload['rules']}, {'rule_1', 'rule_2'})
         # the same judge answer in a lost game: followed rule gets beta + 1, the other only unused
         lost = [rule(1, 'a'), rule(2, 'b')]
         manual.observe(lost, ['rule_1', 'rule_2'], False, context(), 0, followed=['rule_1'])
