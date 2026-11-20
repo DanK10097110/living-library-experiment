@@ -299,5 +299,9 @@ Owner asked for a full review ("changing a rule after every use is stupid"). An 
     verified).
   - The end-of-batch merge (9) runs in the main process when the batch's last game is committed. Its ops are
     added to that game's manual operations, so replaying a game's operations reproduces its checkpoint.
+  - Fresh counters would let a young rule be rewritten forever. So `rewrites`, which fresh counters never
+    reset, counts the text changes of a verified rule (updates, refinements, folds). The young and
+    rejected-step exceptions apply only while it is below 2. After that, only contrastive refinement changes
+    the text, and refinement already requires a rate below the base rate.
   - Not changed: the "decent" test of consolidation's underused selection still uses the pooled rate of the
     visible rules of the same task type.

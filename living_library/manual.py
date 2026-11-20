@@ -62,7 +62,8 @@ only in that E may edit, delete, merge and fold rules.
 
 Design review (2026-11-20, results/DECISIONS.md), E unless noted:
   1. The text freeze covers every visible rule (young rules and rejected instructed commands excepted); any
-     text change starts fresh counters (fresh_counters; the op keeps the old text).
+     text change starts fresh counters (fresh_counters; the op keeps the old text). The exceptions end after
+     MAX_REWRITES text changes of the verified rule (`rewrites`, never reset; refine and folds count too).
   2. Contrastive refinement only for rules whose followed-win rate is below the base rate (refinable).
   3. A recipe is credited only when the judge says it was followed (observe); "never won" retires a rule only
      if its kind of task has had wins; a kind's only recipe is never retired (sole_recipe).
@@ -421,6 +422,12 @@ def shown_to_agent(rule):
 
 
 YOUNG_CREDITS = 3          # credited games below which a verified recipe is still young (correctable)
+MAX_REWRITES = 2           # text changes of a verified rule after which the young/rejected-step exceptions end
+
+
+def count_rewrite(rule):
+    """One more text change of a verified rule (`rewrites` survives fresh_counters)."""
+    rule['rewrites'] = rule.get('rewrites', 0) + 1
 
 
 def text_frozen(rule, case, rejected_step=False):
@@ -431,9 +438,14 @@ def text_frozen(rule, case, rejected_step=False):
     YOUNG_CREDITS games) may still be rewritten by a won game's update; and a rule the outcome-blind judge says
     this game followed while the game rejected one of its instructed commands (`rejected_step`) may be
     rewritten by this game, even a corrected failure (its retry win shows the fix). Any text change of a
-    verified rule starts fresh counters (fresh_counters)."""
+    verified rule starts fresh counters (fresh_counters). Both exceptions apply only while the rule's text was
+    changed fewer than MAX_REWRITES times (`rewrites`, never reset), so a young rule cannot drift through a
+    chain of fresh starts; after that its text changes only by contrastive refinement."""
     if not shown_to_agent(rule):
         return None
+    if rule.get('rewrites', 0) >= MAX_REWRITES:
+        return (f"a verified {rule['type']} rewritten {rule['rewrites']} times changes only by contrastive "
+                'refinement')
     if rejected_step:
         return None
     if credited(rule) >= YOUNG_CREDITS:
@@ -944,11 +956,15 @@ def apply(rules, operations, case, append_only, next_id, log, task_type=None, vi
                     changes['validation'] = ' | '.join(changes['validation'])
                 if not changes:
                     continue
+                was_visible = shown_to_agent(rule)
                 rule.update(changes)
                 if 'rule' in changes:
                     # The old text's credit does not carry over to the new text (2026-11-20 design review).
                     fresh_counters(rule)
                     changes.update({'fresh': True, 'old_rule': old_text})
+                    if was_visible:
+                        count_rewrite(rule)
+                        changes['rewrite'] = True
                 if narrowed(rule, task_type, log):
                     changes['task_type'] = rule['task_type']
                 changes.update(confirm(rule))
@@ -1237,6 +1253,8 @@ def _refine(rules, op):
         if rule['id'] == op['id']:
             if op.get('fresh'):
                 fresh_counters(rule)
+                if shown_to_agent(rule):
+                    count_rewrite(rule)
             rule['rule'], rule['refined_at'] = op['rule'], list(op['refined_at'])
 
 
@@ -1496,6 +1514,8 @@ def _consolidate(rules, op):
         return
     extras = [by_id[i] for i in op['absorbed'] if i in by_id and i != op['id']]
     merged = merged_record(by_id[op['id']], extras, op['rule'])
+    if shown_to_agent(merged) and merged['rule'] != by_id[op['id']]['rule']:
+        count_rewrite(merged)          # a fold rewrites the absorber's text (the absorber keeps its own count)
     rules[rules.index(by_id[op['id']])] = merged
     for r in extras:
         rules.remove(r)
@@ -1785,5 +1805,7 @@ def replay(live, operations, log, base=None):
             target.update({k: v for k, v in op.items() if k in keys})
             if text and op.get('fresh'):
                 fresh_counters(target)      # the new text starts fresh counters, as in apply
+            if text and op.get('rewrite'):
+                count_rewrite(target)
             vote(rules, by_id, op['id'], 1)
     return rules

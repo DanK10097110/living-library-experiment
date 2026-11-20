@@ -124,6 +124,60 @@ class D1FreezeAllVisibleRules(unittest.TestCase):
         self.assertEqual(manual.replay(live, applied, [], copy.deepcopy(live)), rules)
 
 
+class D1RewriteLimit(unittest.TestCase):
+    TEXTS = ('If a drawer is closed, open it.', 'If a shelf is closed, open it.', 'If a safe is closed, open it.')
+
+    def test_a_third_young_rewrite_is_refused_and_logged_and_replay_counts_rewrites(self):
+        tip = rule(1, 'Special Phenomenon', TIP)
+        rules, live, log, ops = [tip], [copy.deepcopy(tip)], [], []
+        for text in self.TEXTS:
+            ops += manual.apply(rules, [{'op': 'update_rule', 'id': 'rule_1', 'rule': text}], 'direct success',
+                                False, ids(), log)
+        self.assertEqual((tip['rule'], tip['rewrites']), (self.TEXTS[1], manual.MAX_REWRITES))
+        self.assertLess(manual.credited(tip), manual.YOUNG_CREDITS)          # still young: fresh counters
+        self.assertIn('rule_1 keeps its text (a verified Special Phenomenon rewritten 2 times changes only by '
+                      'contrastive refinement)', log)
+        self.assertEqual([op.get('rewrite') for op in ops], [True, True])
+        replayed = live
+        for op in ops:                                                   # one game per op, separate batches
+            replayed = manual.replay(replayed, [op], [], copy.deepcopy(replayed))
+        self.assertEqual(replayed, rules)
+
+    def test_the_rejected_step_exception_also_ends(self):
+        tip = rule(1, 'Special Phenomenon', TIP, rewrites=manual.MAX_REWRITES)
+        manual.apply([tip], [{'op': 'update_rule', 'id': 'rule_1', 'rule': self.TEXTS[0]}], 'indirect success',
+                     False, ids(), [], correctable=['rule_1'])
+        self.assertEqual(tip['rule'], TIP)
+
+    def test_a_hidden_note_rewrite_is_not_counted(self):
+        note = {**rule(1, 'Unresolved Error', 'When the lamp was off, the task failed.'), 'verified': False}
+        applied = manual.apply([note], [{'op': 'update_rule', 'id': 'rule_1',
+                                         'rule': 'When the lamp is off, nothing is seen.'}], 'failure', False, ids(), [])
+        self.assertNotIn('rewrites', note)
+        self.assertNotIn('rewrite', applied[0])
+
+    def test_refine_still_rewrites_below_the_base_rate_and_counts(self):
+        tip = rule(1, 'Special Phenomenon', TIP, alpha=4, beta=4, rewrites=manual.MAX_REWRITES,
+                   base_types={LOOK: [9, 10]}, contexts=[{'task': 'g', 'won': w} for w in (True, False) * 3])
+        new = 'If a container is shut, open it before looking inside.'
+
+        class Refiner:
+            def _ask(self, role, payload):
+                return {'rule': new}
+        live, report = [copy.deepcopy(tip)], {'operations': [], 'errors': []}
+        manual.refine(Refiner(), [tip], [tip], report)
+        self.assertEqual((tip['rule'], tip['rewrites'], tip['alpha']), (new, manual.MAX_REWRITES + 1, 1))
+        self.assertEqual(manual.replay(live, report['operations'], [], copy.deepcopy(live)), [tip])
+
+    def test_a_fold_counts_as_a_rewrite_of_the_absorber(self):
+        keeper = rule(1, 'Corrected Error', TIP, alpha=5, rewrites=1)
+        other = rule(2, 'Corrected Error', 'If a box is shut, open it.', alpha=2)
+        rules = [keeper, other]
+        manual._consolidate(rules, {'op': 'consolidate', 'id': 'rule_1', 'absorbed': ['rule_2'],
+                                    'rule': 'If a container is shut, open it first.'})
+        self.assertEqual((len(rules), rules[0]['rewrites'], rules[0]['alpha']), (1, 2, 5))
+
+
 class D2RefineBelowBase(unittest.TestCase):
     def test_refine_fires_only_below_the_base_rate_and_starts_fresh(self):
         good = rule(1, 'Special Phenomenon', TIP, alpha=4, beta=4, base_types={LOOK: [3, 10]})   # 3/6 vs base 1/3
