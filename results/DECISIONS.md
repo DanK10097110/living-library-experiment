@@ -318,3 +318,14 @@ Owner asked for a full review ("changing a rule after every use is stupid"). An 
     normal rule, so it is a Builder content error, near the model's ceiling.
   - Overall the dip is chance plus a hard stretch (heat and two-object tasks).
   - Restarting E and E-minus again for a 1-in-72 effect would throw away about 150 games.
+
+### 2026-11-20 — Dead recipes can be rewritten from a winning game (E only)
+- **Decision:** a verified recipe followed in at least 4 games with 0 wins ("dead") may be rewritten from a won
+  game or a won retry of its task type. This is still within the 2-rewrite cap and starts fresh counters. A dead
+  recipe at the cap may be retired even if it is its type's only recipe. E only; E is restarted, and C, D and
+  E-minus are kept.
+- **Why:** in the study, E's heat recipe (wrong order: "move the object to microwave, close, heat") lost all 5
+  games where it was followed, yet nothing could change it: retirement was blocked (only recipe of its type),
+  the young-rule exception was over, refinement needs 3 new wins, and retry wins may not rewrite visible rules.
+  A wrong recipe would have stayed for all 300 games, a systematic handicap. A retry win is exactly the
+  evidence of what works.

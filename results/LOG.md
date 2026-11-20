@@ -69,3 +69,4 @@
 - 2026-11-20 14:27 Game-72 check: games 51-72 D 11, E 10, E- 9 of 22 (old E- ~16/22 there). Current E/E- at D level in this window; old E- was above. Read-only diagnosis launched (promoted guesses / exploration slot / text repair suspects). Study continues (E gate running).
 - 2026-11-20 14:31 Dip diagnosis: mostly chance + hard stretch; exploration slot never active; promoted guess 'examine sink' ~ -1 game. No revert/restart; stricter promotion deferred (DECISIONS). Re-check at 100.
 - 2026-11-20 14:56 Gate passed again (E 24/30 vs C 21/30, 4W/1L). Study past gate: D 168, E 80, E- 81; paired E 38 vs E- 41 (8/11). GPU 93%, VRAM normal, RAM 20 GB free.
+- 2026-11-20 15:25 Review @89: E heat recipe rule_25 dead (0 wins / 5 followed) and locked by sole-recipe protection + rewrite rules. Fix (E-only) delegated; E will be restarted (-RestartE), C/D/E-minus keep running. Paired E 43 vs E- 47 of 89.
