@@ -92,6 +92,7 @@ fails gets one model rewrite told its problems before it is rejected.
 """
 import copy
 import re
+from pathlib import Path
 
 from . import avoid
 
@@ -119,8 +120,8 @@ USELESS_MIN = 12             # judged showings before a rule can be useless (sim
 USELESS_FOLLOWED = 0.2       # ... when followed in fewer than this share of them (under 1 game in 5)
 K_CONTEXTS = 6               # refiner evidence: the last 6 helped and the last 6 misled games
 CONTEXT_STEPS = 12           # valid actions kept per context: the end of a game, where it is decided
-JUDGE_STEPS = 40             # valid actions shown to the judge: a whole typical game
-JUDGE_OBSERVATION = 100      # characters of each observation shown to the judge: enough to see a failure
+JUDGE_STEPS = 40             # steps shown to the judge (rejected commands included): a whole typical game
+JUDGE_OBSERVATION = 160      # characters of each observation shown to the judge: enough to see what a place holds
 CONVERT_USEFULNESS = 1       # a retry must follow a note's new text at least this usefully to make it visible
 SCORES = (-2, -1, 0, 1, 2)   # the judge's usefulness scale
 RULE_FORM = (
@@ -144,12 +145,8 @@ REFINE_GUIDE = (
     'validation notes say what later games showed. Rewrite it, do not add to it: the result must not be '
     'longer than the original. ' + RULE_FORM + ' Keep its type; use only commands the games show. '
     'Output {"rule": "..."}.')
-JUDGE_GUIDE = (
-    'Did the agent\'s actions follow this rule, and how useful was the rule in this game? You are not told how '
-    'the game ended; do not guess it. usefulness: 2 = following it clearly moved the agent toward the goal '
-    '(something it prescribes was needed and worked); 1 = it helped a little; 0 = not followed, or followed '
-    'but made no difference; -1 = following it wasted steps; -2 = following it misled the agent (a prescribed '
-    'command failed, or it pointed away from the goal). If not followed, usefulness is 0.')
+# The per-rule judge's instructions (tuned on archived games with tools/judge_eval.py).
+JUDGE_GUIDE = (Path(__file__).parent / 'prompts' / 'judge.md').read_text(encoding='utf-8').strip()
 
 SHOWN = 8           # rules shown to the planner and actor in a game (at most 8 judge calls per game)
 BUILDER_SEES = 24   # rules shown to the Builder for the game it reviews
@@ -1038,13 +1035,18 @@ def judge_payload(agent, rule, trace=None):
     """Outcome-blind input for the per-rule judge (LIBRARY-SPEC section 4): goal, one rule, the last
     JUDGE_STEPS valid actions of `trace` (default: the first attempt) with short observations; no success
     flag, no reward, and the final observation (which reveals a win) is left out."""
-    trace = [t for t in (agent.result['trace'] if trace is None else trace) if t['valid']]
-    steps = [{'action': t['action'], 'observation': t['after'][:JUDGE_OBSERVATION]} for t in trace[-JUDGE_STEPS:]]
-    if steps:
-        steps[-1].pop('observation')
+    trace = agent.result['trace'] if trace is None else trace
+    start = max(len(trace) - JUDGE_STEPS, 0)
+    steps = [{'n': start + i + 1, 'action': t['action'],
+              **({'observation': t['after'][:JUDGE_OBSERVATION]} if t['valid'] else {'accepted': False})}
+             for i, t in enumerate(trace[start:])]
+    last = max((i for i, s in enumerate(steps) if 'observation' in s), default=None)
+    if last is not None:
+        steps[last].pop('observation')      # the final observation reveals a win
     return {'instructions': JUDGE_GUIDE, 'goal': agent.public_task.get('goal', ''),
             'rule': {'type': rule['type'], 'rule': rule['rule']}, 'steps': steps,
-            'response_schema': {'followed': 'yes|no', 'usefulness': '-2|-1|0|1|2', 'reason': 'one short sentence'}}
+            'response_schema': {'evidence': 'step numbers and what happened after each, or none',
+                                'followed': 'yes|no', 'usefulness': '-2|-1|0|1|2'}}
 
 
 def parse_verdict(data):
@@ -1067,7 +1069,7 @@ def parse_verdict(data):
     if score not in SCORES:
         raise ValueError(f'bad usefulness value {value!r}')
     return {'followed': followed, 'usefulness': score if followed else 0,
-            'reason': ' '.join(str(data.get('reason') or '').split())[:200]}
+            'reason': ' '.join(str(data.get('reason') or data.get('evidence') or '').split())[:200]}
 
 
 def judge_rule(agent, rule, errors, trace=None):

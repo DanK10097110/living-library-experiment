@@ -196,7 +196,8 @@ class JudgeTests(unittest.TestCase):
         role, payload = calls[0]
         self.assertEqual(role, 'judge')
         self.assertEqual(payload['rule'], {'type': 'Special Phenomenon', 'rule': rules[0]['rule']})
-        self.assertEqual([s['action'] for s in payload['steps']], ['go to fridge 1', 'open fridge 1'])
+        self.assertEqual([s['action'] for s in payload['steps']], ['go to fridge 1', 'dance', 'open fridge 1'])
+        self.assertEqual(payload['steps'][1], {'n': 2, 'action': 'dance', 'accepted': False})  # rejected steps shown
         self.assertNotIn('observation', payload['steps'][-1])                  # the final observation reveals a win
         self.assertNotIn('You win', json.dumps(payload))
         self.assertNotIn('success', json.dumps(payload))

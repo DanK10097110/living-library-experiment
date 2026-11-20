@@ -388,3 +388,22 @@ rest on evidence about the rule". Review: ARCHITECTURE.md section 4. Done as tar
 - **Batches:** refine and bad-retire ops replay only if the rule is still bad on the live library; useless
   retirement, dedupe and pruning run once per batch on the live library. **Why:** decisions on partial evidence.
 - A fresh run (`/root/ll-runs/study2`); C and D are re-run because the planner/actor prompts lost the skill parts.
+
+## 2026-11-20 — Per-rule judge measured on archived games: the -2..2 scale does not work with the 9B
+
+- Tool: `tools/judge_eval.py` (extract cases from an archived run + append-only library, synthetic cases with known
+  answers, run the judge, score against gold labels). Data: study E-minus, 262 (game, shown rule) cases from 83
+  games; 90 stratified cases gold-labelled by Claude (blind to the 9B verdicts), 128 synthetic cases.
+- Gold: followed in 55/90; usefulness mostly 0 (51), -1 (16), +1 (19), +-2 rare. Harm is mostly "searched the
+  prescribed places, they were empty", and wrong mechanics (heat after putting the object INTO the microwave:
+  the heat command is then rejected).
+- Old judge prompt: +2 for 165 of 177 "followed" verdicts (41 of them in lost games); followed agreement 0.59;
+  caught 2 of 18 gold negatives; synthetic "prescribed command keeps being rejected" 2/18 negative. It never saw
+  rejected commands (only valid steps were passed): fixed, rejected steps now shown with "accepted": false,
+  steps numbered, observations 160 chars, evidence asked before the verdict, prompt in prompts/judge.md.
+- Rewritten graded prompt: followed agreement 0.59 (now too strict), 0 of 18 negatives. Binary "used" prompt:
+  agreement 0.63, says "used" in 72 won vs 15 lost games (gold 30/25): it infers use from progress, i.e. leaks
+  the outcome. Command matching (instructed_commands): only 23/90 rules name a concrete command.
+- Conclusion: the 9B cannot give reliable per-rule usefulness from a trace; management must not rest on it.
+  Not yet changed in the run logic; next design under discussion (planner cites the rules it uses; deterministic
+  harm signals; candidate refinements tried on practice games before they replace a text).

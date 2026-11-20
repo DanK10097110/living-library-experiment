@@ -14,7 +14,7 @@ def source_files():
     root = Path(__file__).resolve().parent.parent
     paths = sorted((root / 'living_library').glob('*.py'))
     # Vendored prompts are part of the agent and of the frozen settings.
-    paths += sorted(p for p in (root / 'living_library' / 'prompts').glob('*') if p.suffix in {'.py', '.json'})
+    paths += sorted(p for p in (root / 'living_library' / 'prompts').glob('*') if p.suffix in {'.py', '.json', '.md'})
     if (root / 'pyproject.toml').exists():
         paths.append(root / 'pyproject.toml')
     return {p.relative_to(root).as_posix(): p.read_text() for p in paths}
