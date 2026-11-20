@@ -213,3 +213,22 @@ _Reconstructed on 2026-11-19 from git history, archive/, results/, the proposal,
 - **Why:** the owner wants to know whether and how much the library improves with more practice. Checkpoints
   store the library after every game, so the snapshots need no extra practice, only about 400 extra
   evaluation games.
+
+### 2026-11-19 — Stop recipe drift; check instructed commands against game traces; restart only E
+- **Decision:**
+  1. A verified Success Process recipe may change only through contrastive refinement (at least 3 new wins and
+     at least 3 new losses), never through a single game's update. A retry win may write new rules but not
+     rewrite visible ones.
+  2. A rule whose instructed command (e.g. "take the lamp") was rejected by the game in at least 2 games where it
+     was followed, and never succeeded in a won game, is retired. This is evidence-based management, E only.
+  3. At most one text change per rule per parallel batch.
+  4. The study restarts only E (and E-text, which uses E's library). C, D and E-minus games are kept. E-minus is
+     kept only if a probe shows its append-only path is unchanged.
+  - The shared two-object subgoal check (a step can pass with only the first object placed) is left as it is:
+    it affects all conditions equally, and changing it would invalidate the finished C/D games.
+- **Why:** in the study, E won 47/94 practice games against E-minus's 61/94 on the same games. The diagnosis
+  (LOG 2026-11-19) traced it to recipe drift. E's 6 recipes went through 44 versions as the Builder rewrote
+  "search X first" to wherever the last object happened to be. In the games E lost and E-minus won, E made
+  263 cabinet and drawer moves against E-minus's 64. A never-checked impossible step ("take the lamp") sank
+  look-at-light tasks (3/7 vs 6/7). Retrieval and the new credit/retire/fold machinery were ruled out. The
+  owner asked to salvage the run, so only E is redone (about 94 games).
