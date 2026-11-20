@@ -72,3 +72,4 @@
 - 2026-11-20 15:25 Review @89: E heat recipe rule_25 dead (0 wins / 5 followed) and locked by sole-recipe protection + rewrite rules. Fix (E-only) delegated; E will be restarted (-RestartE), C/D/E-minus keep running. Paired E 43 vs E- 47 of 89.
 - 2026-11-20 15:34 Merged dead-recipe fix (dd56782; 253 tests OK; E-minus probe unchanged). Restarted E only (-RestartE); C, D, E-minus kept. Old E snapshots archived to results/library/archive-2026-11-20-E-before-dead-recipe/.
 - 2026-11-20 15:42 Owner: remove sole-recipe protection; retry wins may rewrite like wins. Study paused (E had just restarted); implementing (E-only), then -RestartE.
+- 2026-11-20 15:46 Merged 9672498 (no sole-recipe protection; retry wins rewrite like wins; 254 tests OK). Restarted E only (-RestartE); C, D, E-minus kept.
