@@ -54,15 +54,6 @@ class State:
     def resolves(self, value):
         return bool(self.instances(value))
 
-    def ground(self, value):
-        """A concrete instance for a type: the one held, else one in view, else the first."""
-        candidates = self.instances(value)
-        if len(candidates) <= 1:
-            return candidates[0] if candidates else value
-        held = [e for e in candidates if ("holding", e) in self.facts]
-        seen = [e for e in candidates if re.search(rf"\b{re.escape(e)}\b", self.observation)]
-        return (held or seen or candidates)[0]
-
     def holds(self, predicate):
         if predicate.name == "task_won":
             return self.won

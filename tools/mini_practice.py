@@ -1,15 +1,16 @@
 """Short live practice run for one condition, then a readable report of how its rule manual evolved.
 
-Plays the first N pilot practice games (same order and settings as the pilot) in a scratch folder,
-writes the final rules to <output>/rules.json (MACLA "contexts", the refiner's per-game evidence, are
-bookkeeping and are reduced to won/lost counts there; rules-full.json keeps them), and prints: what the Builder wrote, updated, voted,
+Plays the first N practice games of a replicate (same order and settings as the study) in a scratch folder,
+writes the final rules to <output>/rules.json ("contexts", the refiner's per-game evidence, are
+bookkeeping and are reduced to won/lost counts there; rules-full.json keeps them), and prints: what the Builder wrote,
 merged, refined, retired and pruned per game, each failed game's retries and reflections, the
-contrastive rules written from retry successes, the final manual with each rule's reliability and whether
-the agent can see it (VISIBLE, or HIDDEN: Builder note / unconfirmed guess from a lost game), the ANTI-PATTERN
+contrastive rules written from retry successes, the final manual with each rule's judged usefulness and whether
+the agent can see it (VISIBLE, or HIDDEN: Builder note), the ANTI-PATTERN
 rules (avoid rules written from pooled never-won attempts, avoid.py) with the evidence behind each and what
 happened to them (retired, contradicted, violated), the failure pool of each kind of task, and errors.
 
-usage: python tools/mini_practice.py --games 48 --output /root/ll-runs/mini-macla [--condition E] [--workers 16]
+usage: python tools/mini_practice.py --games 48 --output /root/ll-runs/mini-macla [--condition E] [--replicate 0]
+                                     [--workers 16]
 """
 import argparse
 import collections
@@ -23,7 +24,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from living_library.config import Settings  # noqa: E402
 from living_library.experiment import Runner, load_json, ordered, stream_spec  # noqa: E402
 from living_library import avoid  # noqa: E402
-from living_library.manual import HIDDEN, NUMBERED, shown_to_agent  # noqa: E402
+from living_library.manual import HIDDEN, NUMBERED  # noqa: E402
 
 # ALFWorld object kinds (portable things a task names). A rule naming one is about a task instance,
 # not a general rule; tools and furniture (fridge, sinkbasin, drawer, ...) are allowed in general rules.
@@ -40,11 +41,20 @@ def instance_specific(text):
     return bool(NUMBERED.search(text)) or bool(words & OBJECTS)
 
 
+def shown_to_agent(rule):
+    """Not a Builder note (hidden Unresolved Error) or a failure pool."""
+    return rule['type'] not in HIDDEN and not rule.get('hidden')
+
+
 def visibility(rule):
-    """Whether the agent can be shown this rule, and if not, why."""
-    if shown_to_agent(rule):
-        return 'VISIBLE'
-    return 'HIDDEN (Builder note)' if rule['type'] in HIDDEN else 'HIDDEN (unconfirmed guess from a lost game)'
+    """Whether the agent can be shown this rule."""
+    return 'VISIBLE' if shown_to_agent(rule) else 'HIDDEN (Builder note)'
+
+
+def mean_usefulness(rule):
+    """m = ev.sum / (ev.followed + 2): the shrunk mean judged usefulness of the current text (LIBRARY-SPEC.md)."""
+    ev = rule.get('ev', {})
+    return ev.get('sum', 0) / (ev.get('followed', 0) + 2)
 
 
 def describe(rules):
@@ -77,13 +87,14 @@ def main():
     p.add_argument('--games', type=int, default=48)
     p.add_argument('--output', required=True)
     p.add_argument('--condition', default='E')
+    p.add_argument('--replicate', type=int, default=0, help='practice seed (game order)')
     p.add_argument('--workers', type=int, default=16)
     a = p.parse_args()
     cfg = Settings.load('configs/pilot.json')
     manifest = load_json('/root/ll-runs/manifest.json')
     runner = Runner(cfg, manifest, a.output)
-    tasks = ordered(manifest['splits']['practice'], cfg.practice_seed, a.games, repeat=True)
-    spec = stream_spec(a.condition, 'practice', cfg.practice_seed, tasks)
+    tasks = ordered(manifest['splits']['practice'], a.replicate, a.games, repeat=True)
+    spec = stream_spec(a.condition, 'practice', a.replicate, tasks, replicate=a.replicate)
     runner.execute([spec], workers=a.workers, log=print)
     n = runner.count(spec['key'])
     records = [load_json(runner._checkpoint(spec['key'], i))['record'] for i in range(n)]
@@ -139,19 +150,18 @@ def main():
         pat = rule['pattern']
         print(f"  {rule['id']} [{rule.get('task_type')}] {pat['kind']} {pat['sig'][1:]}: seen in {pat['games']} of "
               f"{pat['of_games']} lost tasks, {pat['attempts']} of {pat['of_attempts']} lost attempts, "
-              f"{pat['wins_checked']} won attempts checked; violated {rule.get('violations', 0)}x, "
-              f"Beta({rule.get('alpha', 1)},{rule.get('beta', 1)})\n      {rule['rule']}")
+              f"{pat['wins_checked']} won attempts checked; m={mean_usefulness(rule):.2f}\n      {rule['rule']}")
     for rule in rules:
         if rule['type'] == avoid.POOL:
             pool = rule['pool']
             print(f"  pool {rule.get('task_type')}: {len(pool['games'])} never-won games, {len(pool['won'])} won attempts, "
                   f"{len(pool['retired'])} retired patterns, declined {pool['declined']}")
     print(f'\nFINAL MANUAL ({len([r for r in rules if r["type"] != avoid.POOL])} rules): {describe(rules)}')
-    for rule in sorted([r for r in rules if r['type'] != avoid.POOL], key=lambda x: (x['type'], -x.get('alpha', 1) / (x.get('alpha', 1) + x.get('beta', 1)))):
-        a_, b_ = rule.get('alpha', 1), rule.get('beta', 1)
-        print(f"{rule['id']:8} [{rule['type']}] {rule.get('task_type')} importance={rule.get('importance')} "
-              f"Beta({a_},{b_}) mean={a_ / (a_ + b_):.2f} base={rule.get('base')} words={len(rule['rule'].split())}"
-              f" {visibility(rule)}\n    {rule['rule'][:300]}")
+    for rule in sorted([r for r in rules if r['type'] != avoid.POOL], key=lambda x: (x['type'], -mean_usefulness(x))):
+        ev = rule.get('ev', {})
+        print(f"{rule['id']:8} [{rule['type']}] {rule.get('task_type')} m={mean_usefulness(rule):.2f} "
+              f"followed={ev.get('followed', 0)}/{ev.get('shown', 0)} revisions={rule.get('revisions', 0)} "
+              f"words={len(rule['rule'].split())} {visibility(rule)}\n    {rule['rule'][:300]}")
 
 
 if __name__ == '__main__':

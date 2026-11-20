@@ -6,9 +6,8 @@ import random
 import time
 
 from .config import CONDITIONS, MEMORY, Settings, digest, write_json
+from .embedding import LexicalEmbedding, SentenceEmbedding
 from .environments import ALFWorld, MiniWorld, demo_manifest, validate_manifest
-from .library import Library, LexicalEmbedding, SentenceEmbedding
-from .protocol import PREREGISTRATION
 
 
 def source_files():
@@ -48,24 +47,16 @@ def ordered(tasks, seed, count=None, repeat=False):
     return [copy.deepcopy(tasks[i % len(tasks)]) for i in range(count)]
 
 
-# The lean design (amended 2026-11-14/15 for local compute, following the proposal's cut order):
-# condition B dropped, 300 practice episodes (was 500), 2 evaluation seeds (was 3), and a short
-# development pilot (100 practice episodes, 70 of the 140 seen-room games). D is never cut.
-# Extension arm E-plus (E + library consolidation) runs alongside, outside the H1-H4 family.
-# Held-out data: out-of-distribution = the 134 unseen-room games (whole split held back, primary);
-# in-distribution = the 70 seen-room games the pilot never touches (secondary).
-# Trimmed 2026-11-15 for compute: one seed everywhere, condition A dropped (the PDF's cut order:
-# B, then A); every remaining condition answers H1-H4 or the E-plus extension.
-REAL_DESIGN = {'pilot_practice': 100, 'practice_episodes': 300, 'development_games': 70,
-               'evaluation_games': 134, 'seeds': 1,
-               'conditions': ['C', 'D', 'E', 'E-minus', 'E-text']}
-PILOT_CONDITIONS = ('E-minus', 'E')   # memory arms the pilot builds and checks (amended 2026-11-15)
+# The study design (redesign 2026-11-20, protocol.py): C, D, E, E-minus; 300 practice games per memory
+# condition and practice replicate (two replicates, own game orders); one evaluation seed; OOD test = the 134
+# unseen-room games (primary), ID test = the 70 seen-room games outside the development set (secondary).
+REAL_DESIGN = {'practice_episodes': 300, 'development_games': 70, 'evaluation_games': 134, 'seeds': 1,
+               'practice_seeds': 2, 'conditions': ['C', 'D', 'E', 'E-minus']}
 # Conditions built on the library code: a library restart discards their streams and everything
 # derived from them, keeping C's and D's games (amended 2026-11-17, early gate).
-LIBRARY_CONDITIONS = ('E', 'E-minus', 'E-text', 'E-plus')
+LIBRARY_CONDITIONS = ('E', 'E-minus')
 # Source files only the library conditions use; a change anywhere else invalidates C and D too.
-LIBRARY_SOURCES = ('living_library/manual.py', 'living_library/avoid.py', 'living_library/library.py',
-                   'living_library/consolidation.py')
+LIBRARY_SOURCES = ('living_library/manual.py', 'living_library/avoid.py')
 # Shared files a restart may also accept changed (amended 2026-11-17, practice retries; protocol.py holds
 # only the pre-registration text): only when the baseline probe (every model request and every record of
 # a fixture C and D study) is identical to the probe taken with the run's recorded sources (probe.json).
@@ -74,36 +65,41 @@ PROBED_SOURCES = ('living_library/agents.py', 'living_library/experiment.py', 'l
                   'living_library/batching.py')
 # Command-line parsing only (amended 2026-11-19, --restart-streams): never changes an episode.
 ENTRY_SOURCES = ('living_library/cli.py',)
-# Streams a partial restart may discard (amended 2026-11-19): E alone, keeping C, D and E-minus.
+# Streams a partial restart may discard (amended 2026-11-19): E alone (every replicate), keeping C, D and E-minus.
 RESTARTABLE = ('E',)
-E_MINUS_PROBES = Path(__file__).resolve().parent.parent / 'results' / 'probes'
-# Conditions whose batched practice re-runs the similarity merge at the end of each batch (2026-11-20 design
-# review, decision 9). Not E-minus: it never merges.
-DEDUPE_CONDITIONS = ('E',)
+# Conditions whose batched practice runs the deterministic manual upkeep (useless retirement, near-duplicate
+# merge, capacity pruning) at the end of each batch (LIBRARY-SPEC.md section 5). Not E-minus: it never manages.
+UPKEEP_CONDITIONS = ('E',)
+# Early gate (a bug detector, not evidence): stop if E wins - C wins < GATE_MARGIN on the gate games.
+GATE_MARGIN = -3
+
+
+def stream_key(condition, phase, seed, replicate=None):
+    """practice-{condition}-{practice seed}; {phase}-{condition}-r{replicate}-{seed} for a stream that reads a
+    replicate's memory; {phase}-{condition}-{seed} otherwise (C, A). Records carry all four fields."""
+    tag = f'r{replicate}-' if replicate is not None and phase != 'practice' else ''
+    return f'{phase}-{condition}-{tag}{seed}'
+
+
+def practice_key(condition, pseed):
+    return stream_key(condition, 'practice', pseed, pseed)
 
 
 def e_minus_probe(cfg, games=4):
-    """Digest of E-minus's behaviour under `cfg` on the fixture world (practice batched as configured, then
-    its frozen evaluations): every model request, every record (timings removed), the final rules, and the
-    Builder instructions E-minus gets for every case. Self-contained (absolute imports, only APIs older than
-    it) so tools/e_minus_probe.py can run its source against the code of an earlier commit."""
-    import json as _json
+    """Digest of E-minus's behaviour under `cfg` on the fixture world (practice of every replicate, batched as
+    configured, then its frozen evaluations): every model request, every record (timings removed), the final
+    rules, the Builder instructions E-minus gets for every case and the shared rule-text check."""
     import tempfile
-    from pathlib import Path as _Path
-    from living_library import manual as _manual
-    from living_library.config import digest as _digest
-    from living_library.environments import demo_manifest as _demo
-    from living_library.experiment import Runner as _Runner
-    from living_library.library import LexicalEmbedding as _Lexical
-    from living_library.models import FixtureModel as _Fixture
+    from . import manual
+    from .models import FixtureModel
     requests = []
 
     class Recorder:
         def __init__(self):
-            self.inner = _Fixture()
+            self.inner = FixtureModel()
 
         def complete(self, role, payload, seed, context):
-            requests.append(_digest([role, payload, seed, context]))
+            requests.append(digest([role, payload, seed, context]))
             return self.inner.complete(role, payload, seed, context)
 
         def close(self):
@@ -117,22 +113,23 @@ def e_minus_probe(cfg, games=4):
             return [untimed(v) for v in value]
         return value
     with tempfile.TemporaryDirectory() as tmp:
-        runner = _Runner(cfg, _demo(), tmp, model=Recorder(), embedder=_Lexical(), probe=False)
+        runner = Runner(cfg, demo_manifest(), tmp, model=Recorder(), embedder=LexicalEmbedding(), probe=False)
         records = runner.study(('E-minus',), demo_count=games, log=lambda *a, **k: None)
-        key = f'practice-E-minus-{cfg.practice_seed}'
-        last = sorted((_Path(tmp) / 'checkpoints' / key).glob('*.json'))
-        rules = _json.loads(last[-1].read_text())['memory'].get('rules', []) if last else []
-    guides = {case: _manual.builder_guide(case, True, 'pick_and_place_simple', [])
-              for case in sorted(_manual.CASE_TYPES)}
-    guides['retry'] = _manual.RETRY_NOTE
-    guides['reflect'] = _manual.REFLECT_GUIDE
+        rules = {}
+        for pseed in cfg.practice_seeds:
+            last = sorted((Path(tmp) / 'checkpoints' / practice_key('E-minus', pseed)).glob('*.json'))
+            rules[pseed] = load_json(last[-1])['memory']['rules'] if last else []
+    guides = {case: manual.builder_guide(case, True, 'pick_and_place_simple', [])
+              for case in sorted(manual.CASE_TYPES)}
+    guides['retry'] = manual.RETRY_NOTE
+    guides['reflect'] = manual.REFLECT_GUIDE
     # The shared rule-text check (amended 2026-11-20): the fixture Builder never writes text it would change,
     # so it is probed directly, with a fixed model rewrite, on texts that name numbered objects, are too long
     # or list steps.
     asked = []
 
     def ask(role, payload):
-        asked.append(_digest([role, payload]))
+        asked.append(digest([role, payload]))
         return {'rule': 'When an object must be heated, heat it with the appliance before placing it.'}
     checks = []
     for kind, text in (('Special Phenomenon', 'When heating, heat it with microwave 1.'),
@@ -142,46 +139,46 @@ def e_minus_probe(cfg, games=4):
                        ('Special Phenomenon', 'When cooling: take it, go to the fridge, open it, then cool it.'),
                        ('Special Phenomenon', 'If a container is closed, open it before putting things in it.')):
         try:
-            checks.append(_manual.checked(kind, text, ask, 'pick_heat_then_place_in_recep'))
+            checks.append(manual.checked(kind, text, ask, 'pick_heat_then_place_in_recep'))
         except ValueError as exc:
             checks.append(f'rejected: {exc}')
-    return _digest({'requests': requests, 'records': untimed(records), 'rules': rules, 'guides': guides,
-                    'checks': checks, 'check_requests': asked})
+    return digest({'requests': requests, 'records': untimed(records), 'rules': rules, 'guides': guides,
+                   'checks': checks, 'check_requests': asked})
 
 
 def e_minus_replay_check(cfg, output):
-    """The stored E-minus practice of a run, replayed: every checkpoint's rules must equal the current
-    code's replay of that game's stored manual operations onto the previous checkpoint's rules (batched
+    """The stored E-minus practice of a run (every replicate), replayed: every checkpoint's rules must equal the
+    current code's replay of that game's stored manual operations onto the previous checkpoint's rules (batched
     practice). Returns (games checked, None) or (games checked, the first mismatch)."""
     from .manual import replay
-    key = f'practice-E-minus-{cfg.practice_seed}'
-    root, k = Path(output) / 'checkpoints' / key, cfg.practice_batch
+    k, checked = cfg.practice_batch, 0
     if k <= 1:
         return 0, None
-    memories, position = [], 0
-    while (root / f'{position:05d}.json').exists():
-        saved = load_json(root / f'{position:05d}.json')
-        rules = lambda p: [] if p < 0 else memories[p]
-        live, base = rules(position - 1), rules(position - position % k - 1)
-        ops = saved['record'].get('manual', {}).get('operations', [])
-        got = json.loads(json.dumps(replay(live, ops, [], base)))
-        if got != saved['memory'].get('rules', []):
-            return position, f'{key} game {position}: replaying its stored operations gives different rules'
-        memories.append(saved['memory'].get('rules', []))
-        position += 1
-    return position, None
+    for pseed in cfg.practice_seeds:
+        key = practice_key('E-minus', pseed)
+        root = Path(output) / 'checkpoints' / key
+        memories, position = [], 0
+        while (root / f'{position:05d}.json').exists():
+            saved = load_json(root / f'{position:05d}.json')
+            rules = lambda p: [] if p < 0 else memories[p]
+            live, base = rules(position - 1), rules(position - position % k - 1)
+            ops = saved['record'].get('manual', {}).get('operations', [])
+            got = json.loads(json.dumps(replay(live, ops, [], base)))
+            if got != saved['memory']['rules']:
+                return checked, f'{key} game {position}: replaying its stored operations gives different rules'
+            memories.append(saved['memory']['rules'])
+            position += 1
+            checked += 1
+    return checked, None
 
 
 def stored_e_minus_probe(cfg, output, recorded_sources):
-    """The E-minus probe taken with the run's recorded sources: probe.json, else a reference file in
-    results/probes (tools/e_minus_probe.py) for the same sources and settings; None if there is none."""
-    want = {'sources': digest(recorded_sources), 'settings': digest(cfg.to_dict())}
+    """The E-minus probe taken with the run's recorded sources and settings (probe.json); None if there is none."""
     path = Path(output) / 'probe.json'
     saved = load_json(path).get('e_minus') if path.exists() else None
-    candidates = [saved] + [load_json(p) for p in sorted(E_MINUS_PROBES.glob('e-minus-*.json'))]
-    for found in candidates:
-        if found and {k: found.get(k) for k in want} == want:
-            return found['probe']
+    want = {'sources': digest(recorded_sources), 'settings': digest(cfg.to_dict())}
+    if saved and {k: saved.get(k) for k in want} == want:
+        return saved['probe']
     return None
 
 
@@ -213,10 +210,10 @@ def baseline_probe(cfg, games=4):
 
 def validate_real_design(cfg, manifest):
     if manifest['environment'] != 'alfworld':
-        raise ValueError('pilot/study require an ALFWorld manifest; use demo for fixture data')
-    actual = {'pilot_practice': cfg.pilot_practice, 'practice_episodes': cfg.practice_episodes,
-              'development_games': cfg.development_games, 'evaluation_games': cfg.evaluation_games,
-              'seeds': len(cfg.seeds), 'conditions': list(cfg.conditions)}
+        raise ValueError('the study requires an ALFWorld manifest; use demo for fixture data')
+    actual = {'practice_episodes': cfg.practice_episodes, 'development_games': cfg.development_games,
+              'evaluation_games': cfg.evaluation_games, 'seeds': len(cfg.seeds),
+              'practice_seeds': len(cfg.practice_seeds), 'conditions': list(cfg.conditions)}
     if actual != REAL_DESIGN:
         raise ValueError(f'real design requires {REAL_DESIGN}; got {actual}')
     for split, count in [('development', 140), ('evaluation', 134)]:
@@ -224,24 +221,25 @@ def validate_real_design(cfg, manifest):
             raise ValueError(f'{split} manifest must contain exactly {count} games')
 
 
-def stream_spec(condition, phase, seed, tasks, init=None, source=None, init_position=None, frozen=False):
+def stream_spec(condition, phase, seed, tasks, init=None, init_position=None, frozen=False, replicate=None):
     """One sequential episode stream. `init` names the stream whose final memory (or, with
-    `init_position`, its memory after that many episodes) seeds this one; `source` (E-text only)
-    names the stream whose per-position pre-task library it reads. A `frozen` stream reads its
-    memory without changing it, so its episodes are independent."""
-    spec = {'key': f'{phase}-{condition}-{seed}', 'condition': condition, 'phase': phase,
-            'seed': seed, 'tasks': tasks, 'init': init, 'source': source}
+    `init_position`, its memory after that many episodes) seeds this one. A `frozen` stream reads its
+    memory without changing it, so its episodes are independent. `replicate` is the practice seed whose
+    library (or trajectories) the stream builds or reads; None for memoryless conditions (key: stream_key)."""
+    spec = {'key': stream_key(condition, phase, seed, replicate), 'condition': condition, 'phase': phase,
+            'seed': seed, 'replicate': replicate, 'tasks': tasks, 'init': init}
     if init_position is not None or frozen:
         spec.update(init_position=init_position, frozen=frozen)
     return spec
 
 
 def memoryless(spec):
-    """Streams whose episodes do not depend on each other (no memory, no source): their
+    """Streams whose episodes do not depend on each other (frozen memory or no memory): their
     episodes may run in parallel; checkpoints are still committed in order."""
-    if spec['source'] is not None:
-        return False
     return spec.get('frozen', False) or (spec['condition'] not in MEMORY and spec['init'] is None)
+
+
+EMPTY = {'trajectories': [], 'rules': []}
 
 
 class Runner:
@@ -297,6 +295,16 @@ class Runner:
             return FixtureModel(), True
         return HTTPModel(self.cfg, self.output / 'model-cache' / f'{key}.sqlite'), True
 
+    def _agent(self, spec, model, memory, frozen):
+        from .agents import Agent
+        return Agent(self.cfg, spec['condition'], model, self.embedder, self.env_factory,
+                     trajectories=memory['trajectories'], rules=memory['rules'], frozen=frozen)
+
+    def _context(self, spec, position):
+        return {'condition': spec['condition'], 'phase': spec['phase'], 'seed': spec['seed'],
+                'replicate': spec['replicate'], 'task_id': spec['tasks'][position]['id'],
+                'position': position, 'toy': self.toy}
+
     # -- checkpoints -------------------------------------------------------------------
     def _checkpoint(self, key, position):
         return self.output / 'checkpoints' / key / f'{position:05d}.json'
@@ -314,7 +322,7 @@ class Runner:
 
     def _initial(self, spec, specs):
         if spec['init'] is None:
-            return {'library': Library(self.cfg).snapshot(), 'trajectories': [], 'rules': []}
+            return copy.deepcopy(EMPTY)
         dep = specs[spec['init']]
         needed = spec.get('init_position') or len(dep['tasks'])
         if self.count(dep['key']) < needed:
@@ -323,21 +331,35 @@ class Runner:
 
     def _stream_identity(self, spec, initial):
         return digest({'identity': self.identity, 'tasks': spec['tasks'], 'condition': spec['condition'],
-                       'phase': spec['phase'], 'seed': spec['seed'], 'initial': digest(initial),
-                       'source': spec['source']})
+                       'phase': spec['phase'], 'seed': spec['seed'], 'replicate': spec['replicate'],
+                       'initial': digest(initial)})
 
     @staticmethod
     def _check(saved, stream_identity, path):
         if (saved['stream_identity'] != stream_identity
                 or saved['record_hash'] != digest(saved['record'])
-                or saved['memory_hash'] != digest(saved['memory'])
-                or saved['pre_library_hash'] != digest(saved['pre_library'])):
+                or saved['memory_hash'] != digest(saved['memory'])):
             raise ValueError(f'incompatible/corrupt checkpoint {path}; choose a fresh output directory')
+
+    def _write(self, key, position, sid, previous_hash, memory, record):
+        write_json(self._checkpoint(key, position), {
+            'stream_identity': sid, 'previous_hash': previous_hash,
+            'memory': memory, 'memory_hash': digest(memory), 'record': record, 'record_hash': digest(record)})
+
+    def hold(self, spec, memory, note):
+        """Commit a one-game holder stream that only carries `memory` (offline checks read it frozen with
+        init_position=1). False if the stream already holds a different memory."""
+        path = self._checkpoint(spec['key'], 0)
+        if path.exists():
+            return load_json(path)['memory_hash'] == digest(memory)
+        record = {'success': False, 'task_id': spec['tasks'][0]['id'], 'position': 0, 'note': note}
+        sid = self._stream_identity(spec, self._initial(spec, {spec['key']: spec}))
+        self._write(spec['key'], 0, sid, None, memory, record)
+        return True
 
     # -- one stream --------------------------------------------------------------------
     def advance(self, spec, specs, max_new=None, should_stop=None):
         """Commit up to `max_new` further episodes of one stream; returns the new records."""
-        from .agents import Agent
         if self.batched(spec):      # same games and merge order as the parallel scheduler
             new = []
             while self.count(spec['key']) < len(spec['tasks']):
@@ -346,7 +368,7 @@ class Runner:
                 position = self.count(spec['key'])
                 new.append(self.commit_game(spec, specs, position, self.run_game(spec, specs, position)))
             return new
-        cfg, key, tasks = self.cfg, spec['key'], spec['tasks']
+        key, tasks, frozen = spec['key'], spec['tasks'], spec.get('frozen', False)
         initial = self._initial(spec, specs)
         sid = self._stream_identity(spec, initial)
         start = self.count(key)
@@ -357,43 +379,23 @@ class Runner:
             memory, previous_hash = saved['memory'], digest(saved['record'])
         else:
             memory, previous_hash = initial, None
-        library = Library.restore(copy.deepcopy(memory['library']), cfg)
-        trajectories = copy.deepcopy(memory['trajectories'])
-        rules = copy.deepcopy(memory.get('rules', []))
-        limit = len(tasks) if spec['source'] is None else min(len(tasks), self.count(spec['source']))
+        memory = copy.deepcopy(memory)
         model, owned = self._model(key)
         new = []
         try:
-            for position in range(start, limit):
+            for position in range(start, len(tasks)):
                 if (max_new is not None and len(new) >= max_new) or (should_stop and should_stop()):
                     break
                 task = tasks[position]
-                source_hash = None
-                if spec['source'] is not None:
-                    source = load_json(self._checkpoint(spec['source'], position))
-                    if source['record']['task_id'] != task['id']:
-                        raise ValueError(f"{key} is not task-matched with {spec['source']}")
-                    library = Library.restore(copy.deepcopy(source['pre_library']), cfg)
-                    source_hash = source['pre_library_hash']
-                pre = library.snapshot()
-                context = {'condition': spec['condition'], 'phase': spec['phase'], 'seed': spec['seed'],
-                           'task_id': task['id'], 'position': position, 'toy': self.toy}
-                result = Agent(cfg, spec['condition'], model, library, self.embedder,
-                               self.env_factory, trajectories=trajectories, rules=rules,
-                               frozen=spec.get('frozen', False)).run(task, spec['seed'], context)
+                context = self._context(spec, position)
+                result = self._agent(spec, model, memory, frozen).run(task, spec['seed'], context)
                 record = {**result, **context}
-                if (spec['condition'] == 'E-text' or spec.get('frozen')) and library.snapshot() != pre:
-                    raise ValueError(f"{key} mutated its read-only library")
+                if frozen and memory != initial:
+                    raise ValueError(f"{key} mutated its read-only memory")
                 if spec['condition'] == 'D' and spec['phase'] == 'practice' and record['success']:
-                    trajectories.append({'task': task, 'goal': record.get('goal', ''),
-                                         'trace': record['trace'], 'success': True})
-                memory = {'library': library.snapshot(), 'trajectories': copy.deepcopy(trajectories),
-                          'rules': copy.deepcopy(rules)}
-                write_json(self._checkpoint(key, position), {
-                    'stream_identity': sid, 'previous_hash': previous_hash, 'source_hash': source_hash,
-                    'pre_library': pre, 'pre_library_hash': digest(pre),
-                    'memory': memory, 'memory_hash': digest(memory),
-                    'record': record, 'record_hash': digest(record)})
+                    memory['trajectories'].append({'task': task, 'goal': record.get('goal', ''),
+                                                   'trace': record['trace'], 'success': True})
+                self._write(key, position, sid, previous_hash, memory, record)
                 previous_hash = digest(record)
                 new.append(record)
         finally:
@@ -403,32 +405,26 @@ class Runner:
 
     def run_at(self, spec, specs, position):
         """Run one episode of a memoryless stream without committing it (parallel workers)."""
-        from .agents import Agent
         if not memoryless(spec):
             raise ValueError(f"{spec['key']} has memory; its episodes must run in order")
         initial = self._initial(spec, specs)
-        library = Library.restore(copy.deepcopy(initial['library']), self.cfg)
-        pre = library.snapshot()
-        task = spec['tasks'][position]
-        context = {'condition': spec['condition'], 'phase': spec['phase'], 'seed': spec['seed'],
-                   'task_id': task['id'], 'position': position, 'toy': self.toy}
+        memory = copy.deepcopy(initial)
+        context = self._context(spec, position)
         model, owned = self._model(spec['key'])
         try:
-            result = Agent(self.cfg, spec['condition'], model, library, self.embedder,
-                           self.env_factory, trajectories=copy.deepcopy(initial['trajectories']),
-                           frozen=spec.get('frozen', False),
-                           rules=copy.deepcopy(initial.get('rules', []))).run(task, spec['seed'], context)
+            result = self._agent(spec, model, memory, spec.get('frozen', False)).run(
+                spec['tasks'][position], spec['seed'], context)
         finally:
             if owned:
                 model.close()
-        if library.snapshot() != pre:
-            raise ValueError(f"memoryless/frozen stream {spec['key']} changed its library")
+        if memory != initial:
+            raise ValueError(f"memoryless/frozen stream {spec['key']} changed its memory")
         return {**result, **context}
 
     # -- batched practice (cfg.practice_batch games at once; see batching.py) -------------
     def batched(self, spec):
         return (self.cfg.practice_batch > 1 and spec['phase'] == 'practice'
-                and spec['condition'] in MEMORY and not spec.get('frozen') and spec['source'] is None)
+                and spec['condition'] in MEMORY and not spec.get('frozen'))
 
     def _memory_after(self, spec, specs, position):
         """Memory after `position` episodes of the stream (0 = its initial memory)."""
@@ -438,28 +434,22 @@ class Runner:
 
     def run_game(self, spec, specs, position):
         """One game of a batch, run on the memory as it was at the start of its batch."""
-        from .agents import Agent
         k = self.cfg.practice_batch
         base = self._memory_after(spec, specs, position - position % k)
-        library = Library.restore(copy.deepcopy(base['library']), self.cfg)
-        trajectories = copy.deepcopy(base['trajectories'])
-        rules = copy.deepcopy(base.get('rules', []))
+        memory = copy.deepcopy(base)
         task = spec['tasks'][position]
-        context = {'condition': spec['condition'], 'phase': spec['phase'], 'seed': spec['seed'],
-                   'task_id': task['id'], 'position': position, 'toy': self.toy}
+        context = self._context(spec, position)
         model, owned = self._model(spec['key'])
         try:
-            result = Agent(self.cfg, spec['condition'], model, library, self.embedder, self.env_factory,
-                           trajectories=trajectories, rules=rules).run(task, spec['seed'], context)
+            result = self._agent(spec, model, memory, False).run(task, spec['seed'], context)
         finally:
             if owned:
                 model.close()
         record = {**result, **context}
         if spec['condition'] == 'D' and record['success']:
-            trajectories.append({'task': task, 'goal': record.get('goal', ''),
-                                 'trace': record['trace'], 'success': True})
-        return {'record': record, 'base': base,
-                'end': {'library': library.snapshot(), 'trajectories': trajectories, 'rules': rules}}
+            memory['trajectories'].append({'task': task, 'goal': record.get('goal', ''),
+                                           'trace': record['trace'], 'success': True})
+        return {'record': record, 'base': base, 'end': memory}
 
     def commit_game(self, spec, specs, position, game):
         """Merge one finished game into the live memory (fixed position order) and checkpoint it."""
@@ -479,26 +469,20 @@ class Runner:
         memory = merge_memory(live, game['base'], game['end'], merge_log,
                               game['record'].get('manual', {}).get('operations', []))
         record = {**game['record'], 'batch_merge': merge_log}
-        k = self.cfg.practice_batch
-        if (spec['condition'] in DEDUPE_CONDITIONS and 'rules' in memory
-                and ((position + 1) % k == 0 or position + 1 == len(spec['tasks']))):
-            # End of a batch (2026-11-20 review): merge near-duplicates that games of the batch wrote without
-            # seeing each other's rules. The ops join this game's manual operations, so replaying a game's
-            # operations still reproduces its checkpoint.
-            from .manual import batch_dedupe
-            ops = batch_dedupe(memory['rules'], {r['id'] for r in game['base'].get('rules', [])},
+        if (spec['condition'] in UPKEEP_CONDITIONS
+                and ((position + 1) % self.cfg.practice_batch == 0 or position + 1 == len(spec['tasks']))):
+            # End of a batch: the deterministic upkeep (useless retirement, near-duplicate merge of rules that
+            # games of the batch wrote without seeing each other's, capacity pruning) on the live rules. The ops
+            # join this game's manual operations, so replaying a game's operations reproduces its checkpoint.
+            from .manual import batch_upkeep
+            ops = batch_upkeep(memory['rules'], {r['id'] for r in game['base']['rules']},
                                self.embedder.similarity)
             if ops:
                 manual_report = dict(record.get('manual', {}))
                 manual_report['operations'] = list(manual_report.get('operations', [])) + ops
                 record['manual'] = manual_report
-                merge_log.extend(['batch dedupe', op['absorbed'], op['id']] for op in ops)
-        pre = game['base']['library']
-        write_json(self._checkpoint(key, position), {
-            'stream_identity': sid, 'previous_hash': previous_hash, 'source_hash': None,
-            'pre_library': pre, 'pre_library_hash': digest(pre),
-            'memory': memory, 'memory_hash': digest(memory),
-            'record': record, 'record_hash': digest(record)})
+                merge_log.extend(['batch upkeep', op.get('op'), op.get('id')] for op in ops)
+        self._write(key, position, sid, previous_hash, memory, record)
         return record
 
     def commit(self, spec, specs, position, record):
@@ -514,12 +498,7 @@ class Runner:
             saved = load_json(path)
             self._check(saved, sid, path)
             previous_hash = digest(saved['record'])
-        memory = copy.deepcopy(initial)
-        write_json(self._checkpoint(key, position), {
-            'stream_identity': sid, 'previous_hash': previous_hash, 'source_hash': None,
-            'pre_library': memory['library'], 'pre_library_hash': digest(memory['library']),
-            'memory': memory, 'memory_hash': digest(memory),
-            'record': record, 'record_hash': digest(record)})
+        self._write(key, position, sid, previous_hash, initial, record)
 
     def verify(self, spec, specs):
         """Full chain check of a stream's checkpoints; returns its records in order."""
@@ -532,10 +511,6 @@ class Runner:
             if (saved['previous_hash'] != previous_hash
                     or saved['record']['task_id'] != spec['tasks'][position]['id']):
                 raise ValueError(f'incompatible/corrupt checkpoint {path}; choose a fresh output directory')
-            if spec['source'] is not None:
-                source = load_json(self._checkpoint(spec['source'], position))
-                if saved['source_hash'] != source['pre_library_hash'] or saved['pre_library'] != source['pre_library']:
-                    raise ValueError(f'incompatible/corrupt checkpoint {path}; choose a fresh output directory')
             records.append(saved['record'])
             previous_hash = digest(saved['record'])
         return records
@@ -564,8 +539,6 @@ class Runner:
         if spec['init'] is not None and self.count(spec['init']) < (
                 spec.get('init_position') or len(specs[spec['init']]['tasks'])):
             return 0
-        if spec['source'] is not None:
-            return max(0, min(cap, self.count(spec['source'])) - done)
         return cap - done
 
     def execute(self, specs, workers=1, max_episodes=None, max_hours=None, log=print, caps=None):
@@ -596,8 +569,8 @@ class Runner:
                     f"| session {state['new']} eps, {rate:.0f}/h")
 
         def priority(key):
-            # Streams others wait on first (practice, E before E-text), then the longest.
-            waiting = sum(s['init'] == key or s['source'] == key for s in specs.values())
+            # Streams others wait on first (practice), then the longest.
+            waiting = sum(s['init'] == key for s in specs.values())
             return (-waiting, -(len(specs[key]['tasks']) - self.count(key)), order.index(key))
 
         if workers <= 1:
@@ -717,85 +690,80 @@ class Runner:
                          'success': sum(r['success'] for r in records)})
         return rows
 
-    def workflow(self, name):
-        marker = self.output / 'workflow.json'
-        if marker.exists() and load_json(marker) != {'workflow': name}:
-            raise ValueError('pilot and study require separate output directories')
-        write_json(marker, {'workflow': name})
-
     def study_specs(self, conditions=None, demo_count=None):
         conditions = tuple(self.cfg.conditions if conditions is None else conditions)
         if any(c not in CONDITIONS for c in conditions) or len(set(conditions)) != len(conditions):
             raise ValueError('conditions must be unique valid condition IDs')
-        # E is a required source for the task-matched E-text snapshot comparison.
-        run_conditions = set(conditions) | ({'E'} if 'E-text' in conditions else set())
-        pseed = self.cfg.practice_seed
-        practice = ordered(self.manifest['splits']['practice'], pseed,
-                           demo_count or self.cfg.practice_episodes, repeat=True)
-        specs = [stream_spec(c, 'practice', pseed, practice)
-                 for c in CONDITIONS if c in run_conditions and c in MEMORY]
+        memory = [c for c in CONDITIONS if c in conditions and c in MEMORY]
+        specs = []
+        # Practice replicates: each practice seed has its own game order, shared by every memory condition, so
+        # practice games are paired within a replicate.
+        for pseed in self.cfg.practice_seeds:
+            practice = ordered(self.manifest['splits']['practice'], pseed,
+                               demo_count or self.cfg.practice_episodes, repeat=True)
+            specs += [stream_spec(c, 'practice', pseed, practice, replicate=pseed) for c in memory]
         id_pool = self.id_evaluation_pool()
         for phase, full in (('evaluation', self.manifest['splits']['evaluation']), ('id-evaluation', id_pool)):
             if not full:
                 continue
             for condition in CONDITIONS:
-                if condition not in run_conditions:
+                if condition not in conditions:
                     continue
-                for seed in (self.cfg.seeds[:1] if condition in {'A', 'B'} else self.cfg.seeds):
+                for seed in (self.cfg.seeds[:1] if condition == 'A' else self.cfg.seeds):
                     pool = full if demo_count is None else full[:demo_count]
                     count = (demo_count or self.cfg.evaluation_games) if phase == 'evaluation' else (demo_count or len(pool))
                     tasks = ordered(pool, seed, min(count, len(pool)) if phase == 'id-evaluation' else count)
-                    # Evaluation reads each condition's practice memory frozen (amended 2026-11-15):
-                    # every test episode is independent, so they all run in parallel. E-text reads
-                    # E's frozen practice library rendered as text.
-                    source_memory = 'E' if condition == 'E-text' else condition
-                    has_memory = condition in MEMORY or condition == 'E-text'
-                    specs.append(stream_spec(condition, phase, seed, tasks,
-                        init=f'practice-{source_memory}-{pseed}' if has_memory else None,
-                        frozen=has_memory))
+                    # Evaluation reads each replicate's practice memory frozen (amended 2026-11-15): every
+                    # test episode is independent, so they all run in parallel.
+                    if condition in MEMORY:
+                        specs += [stream_spec(condition, phase, seed, tasks, init=practice_key(condition, pseed),
+                                              frozen=True, replicate=pseed) for pseed in self.cfg.practice_seeds]
+                    else:
+                        specs.append(stream_spec(condition, phase, seed, tasks))
         # Practice-length curve: frozen libraries at milestones on fixed ID/OOD subsets.
         seed = self.cfg.seeds[0]
         subsets = [('ood', self.manifest['splits']['evaluation']), ('id', id_pool)]
         for milestone in ([] if demo_count is not None else self.cfg.snapshot_milestones):
             for condition in self.cfg.snapshot_conditions:
-                if condition not in run_conditions:
+                if condition not in conditions:
                     continue
-                for name, pool in subsets:
-                    if pool:
-                        tasks = ordered(pool, seed, min(self.cfg.snapshot_games, len(pool)))
-                        specs.append(stream_spec(condition, f'snapshot-{milestone}-{name}', seed, tasks,
-                                                 init=f'practice-{condition}-{pseed}', init_position=milestone,
-                                                 frozen=True))
+                for pseed in self.cfg.practice_seeds:
+                    for name, pool in subsets:
+                        if pool:
+                            tasks = ordered(pool, seed, min(self.cfg.snapshot_games, len(pool)))
+                            specs.append(stream_spec(condition, f'snapshot-{milestone}-{name}', seed, tasks,
+                                                     init=practice_key(condition, pseed), init_position=milestone,
+                                                     frozen=True, replicate=pseed))
         return specs
 
-    def pilot_development(self):
+    def development_set(self):
+        """The 70 seen-room development (tuning) games: early gate and offline library checks."""
         games = self.manifest['splits'].get('development', [])
         return ordered(games, self.cfg.seeds[0], min(self.cfg.development_games, len(games)))
 
     def id_evaluation_pool(self):
-        """Seen-room games the pilot never touched: the in-distribution test set."""
-        used = {t['id'] for t in self.pilot_development()}
+        """Seen-room games outside the development set: the in-distribution test set."""
+        used = {t['id'] for t in self.development_set()}
         pool = [t for t in self.manifest['splits'].get('development', []) if t['id'] not in used]
         assert not used & {t['id'] for t in pool}
         return pool
 
     def study(self, conditions=None, demo_count=None, workers=1, max_episodes=None, max_hours=None,
-              gate_at=None, gate_games=30, gate_margin=0, past_gate=False, log=print):
+              gate_at=None, gate_games=30, gate_margin=GATE_MARGIN, past_gate=False, log=print):
         """The study. With `gate_at`, the library practice first stops after that many games and
-        E's rules are checked against C on `gate_games` development games (early_gate); the
-        study stops there unless E is ahead (or `past_gate` continues anyway)."""
+        E's rules (replicate 0) are checked against C on `gate_games` development games (early_gate); the
+        study stops there if E is clearly behind (or `past_gate` continues anyway)."""
         if not self.toy:
             validate_real_design(self.cfg, self.manifest)
             check_revisions(self.cfg)
-        self.workflow('study')
-        if not self.toy and demo_count is not None:
-            raise ValueError('sample count overrides are available only in demo')
+            if demo_count is not None:
+                raise ValueError('sample count overrides are available only in demo')
         specs = self.study_specs(conditions, demo_count)
         write_json(self.output / 'cost_attribution.json', {
-            'E-text': {'practice_source': 'E', 'charge_full_E_practice_cost': True},
-            'practice_shared_across_evaluation_seeds': True, 'practice_seed': self.cfg.practice_seed})
+            'practice_shared_across_evaluation_seeds': True, 'practice_seeds': self.cfg.practice_seeds,
+            'practice_cost_amortized_per_replicate': True})
         self.complete = False
-        if gate_at and any(s['key'] == f'practice-E-{self.cfg.practice_seed}' for s in specs):
+        if gate_at and any(s['key'] == practice_key('E', self.cfg.practice_seeds[0]) for s in specs):
             started, before = time.monotonic(), self._committed()
             self.gate = self.early_gate(specs, gate_at, gate_games, gate_margin, past_gate,
                                         workers, max_episodes, max_hours, log)
@@ -812,19 +780,19 @@ class Runner:
         root = self.output / 'checkpoints'
         return sum(1 for _ in root.glob('*/*.json')) if root.exists() else 0
 
-    # -- early gate (replaces the pilot, amended 2026-11-17) -----------------------------
+    # -- early gate: a bug detector (amended 2026-11-17, redesign 2026-11-20) ------------------
     def gate_specs(self, gate_at, games):
-        """C and E (rules frozen after `gate_at` practice games) on the first `games` development
-        games: the same seen-room games the pilot used, disjoint from the ID evaluation pool."""
-        seed, pseed = self.cfg.seeds[0], self.cfg.practice_seed
-        dev = self.pilot_development()[:games]
+        """C and E (replicate 0, rules frozen after `gate_at` practice games) on the first `games`
+        development games, disjoint from the ID evaluation pool."""
+        seed, replicate = self.cfg.seeds[0], self.cfg.practice_seeds[0]
+        dev = self.development_set()[:games]
         return [stream_spec('C', 'gate', seed, dev),
-                stream_spec('E', f'gate-{gate_at}', seed, dev, init=f'practice-E-{pseed}',
-                            init_position=gate_at, frozen=True)]
+                stream_spec('E', f'gate-{gate_at}', seed, dev, init=practice_key('E', replicate),
+                            init_position=gate_at, frozen=True, replicate=replicate)]
 
     def early_gate(self, specs, gate_at, games, margin, past_gate, workers, max_episodes, max_hours, log):
-        """Library practice up to `gate_at` games plus the gate games, then the gate report
-        (gate.json). Returns None while unfinished; the decision is kept, so later sessions
+        """Library practice (every replicate) up to `gate_at` games plus the gate games, then the gate
+        report (gate.json). Returns None while unfinished; the decision is kept, so later sessions
         skip straight to the rest of the study."""
         path = self.output / 'gate.json'
         if path.exists():
@@ -832,17 +800,16 @@ class Runner:
             if gate['checkpoint'] != gate_at:
                 log(f"gate already decided at {gate['checkpoint']} practice games; ignoring --gate-at {gate_at}")
         else:
-            pseed = self.cfg.practice_seed
             practice = [s for s in specs if s['phase'] == 'practice' and s['condition'] in LIBRARY_CONDITIONS]
             if gate_at > len(practice[0]['tasks']):
                 raise ValueError(f'gate checkpoint {gate_at} is beyond the practice length')
-            phase = practice + self.gate_specs(gate_at, games)
-            if not self.execute(phase, workers, max_episodes, max_hours, log,
+            gate_streams = self.gate_specs(gate_at, games)
+            if not self.execute(practice + gate_streams, workers, max_episodes, max_hours, log,
                                 caps={s['key']: gate_at for s in practice}):
                 return None
-            seed = self.cfg.seeds[0]
-            e_key, c_key, p_key = f'gate-{gate_at}-E-{seed}', f'gate-C-{seed}', f'practice-E-{pseed}'
-            rules = load_json(self._checkpoint(p_key, gate_at - 1))['memory'].get('rules', [])
+            c_key, e_key = (s['key'] for s in gate_streams)
+            p_key = gate_streams[1]['init']
+            rules = load_json(self._checkpoint(p_key, gate_at - 1))['memory']['rules']
             gate = {'checkpoint': gate_at, **gate_decision(
                 self._records(e_key), self._records(c_key), rules,
                 self._records(p_key)[:gate_at], margin)}
@@ -855,8 +822,9 @@ class Runner:
                 write_json(path, gate)
                 log('continuing past the failed early gate (--past-gate)')
             else:
-                log(f"STOP: E is not ahead of C at the early gate (E {gate['E_wins']} vs C {gate['C_wins']} "
-                    f"of {gate['paired_games']} paired games; needs E - C >= {gate['margin']}). Report: {path}\n"
+                log(f"STOP: E is clearly behind C at the early gate (E {gate['E_wins']} vs C {gate['C_wins']} "
+                    f"of {gate['paired_games']} paired games; needs E - C >= {gate['margin']}): look for a bug. "
+                    f"Report: {path}\n"
                     f"  continue anyway from the checkpoint: rerun with --past-gate (run.ps1 study -PastGate)\n"
                     f"  or fix the library and restart its practice, keeping C and D: --restart-library "
                     f"(run.ps1 study -RestartLibrary)")
@@ -873,29 +841,6 @@ class Runner:
             self._check(saved, saved['stream_identity'], path)    # integrity hashes still hold
             saved['stream_identity'] = sid
             write_json(path, saved)
-
-    def pilot_specs(self):
-        pseed, seed = self.cfg.practice_seed, self.cfg.seeds[0]
-        practice = ordered(self.manifest['splits']['practice'], pseed, self.cfg.pilot_practice, repeat=True)
-        dev = self.pilot_development()
-        specs = [stream_spec('C', 'development', seed, dev)]
-        for c in PILOT_CONDITIONS:
-            specs += [stream_spec(c, 'practice', pseed, practice),
-                      # Frozen: the development test reads the practice library without learning,
-                      # so all its games run in parallel.
-                      stream_spec(c, 'development', seed, dev, init=f'practice-{c}-{pseed}', frozen=True)]
-        return specs
-
-    def pilot(self, workers=1, max_episodes=None, max_hours=None, log=print):
-        self.workflow('pilot')
-        validate_real_design(self.cfg, self.manifest)
-        self.complete = self.execute(self.pilot_specs(), workers, max_episodes, max_hours, log)
-        if not self.complete:
-            return None
-        evidence = {'identity': self.identity, 'toy': False, 'records_hash': digest(self.records),
-                    'gate': pilot_gate(self.records, self.cfg)}
-        write_json(self.output / 'pilot-evidence.json', evidence)
-        return evidence
 
 
 _WORKER = None
@@ -918,27 +863,6 @@ def _worker_run_game(spec, specs, position):
     return _WORKER.run_game(spec, specs, position)
 
 
-def pilot_gate(records, cfg):
-    from .analysis import pilot_report
-    practice = [r for r in records if r['phase'] == 'practice' and r['condition'] == 'E-minus']
-    baseline = [r for r in records if r['phase'] == 'development' and r['condition'] == 'C']
-    memory = [r for r in records if r['phase'] == 'development' and r['condition'] == 'E-minus']
-    n_dev = cfg.development_games
-    plus = [r for r in records if r['condition'] == 'E-plus']
-    complete = (len(records) == len(PILOT_CONDITIONS) * (cfg.pilot_practice + n_dev) + n_dev
-                and len(plus) == cfg.pilot_practice + n_dev and len(practice) == cfg.pilot_practice
-                and len(baseline) == n_dev and len(memory) == n_dev
-                and not any(r.get('toy', True) for r in records)
-                and len({r['task_id'] for r in baseline}) == n_dev
-                and {r['task_id'] for r in baseline} == {r['task_id'] for r in memory})
-    report = pilot_report(practice, baseline, memory, cfg)
-    # E-plus is an extension arm: reported with the same measures, never part of the gate.
-    extension = pilot_report([r for r in plus if r['phase'] == 'practice'], baseline,
-                             [r for r in plus if r['phase'] == 'development'], cfg)
-    return {'passed': complete and report['ready'], 'complete_real_pilot': complete, 'report': report,
-            'extension_E_plus': extension}
-
-
 def paired_comparison(records, baseline):
     """Wins of `records` vs `baseline` on the games both played (paired by task id)."""
     mine = {r['task_id']: bool(r['success']) for r in records}
@@ -950,9 +874,9 @@ def paired_comparison(records, baseline):
             'lost_where_baseline_won': sum(base[t] and not mine[t] for t in paired)}
 
 
-def gate_decision(e_records, c_records, rules, practice_records, margin=0):
+def gate_decision(e_records, c_records, rules, practice_records, margin=GATE_MARGIN):
     """Early gate: E (frozen rules at the checkpoint) vs C on paired development games.
-    Passes when E wins - C wins >= margin (default: E at least ties C)."""
+    Passes when E wins - C wins >= margin (default: E at most 3 games behind C)."""
     pair = paired_comparison(e_records, c_records)
     errors = [e for r in practice_records for e in r.get('manual', {}).get('errors', [])]
     return {'paired_games': pair['games'], 'E_wins': pair['wins'], 'C_wins': pair['baseline_wins'],
@@ -973,8 +897,7 @@ def check_e_minus_kept(cfg, output, before, changed, log=print):
         stored = stored_e_minus_probe(cfg, output, before)
         if stored is None:
             raise ValueError('E-minus probe failed: the run has no E-minus probe for its recorded sources '
-                             '(probe.json or results/probes; make one with tools/e_minus_probe.py --ref <the '
-                             "run's commit>); E-minus cannot be kept (use --restart-library)")
+                             '(probe.json); E-minus cannot be kept (use --restart-library)')
         if stored != e_minus_probe(cfg):
             raise ValueError(f'E-minus probe failed: {", ".join(changed)} changed E-minus\'s behaviour (fixture '
                              'probe differs); E-minus cannot be kept (use --restart-library)')
@@ -983,8 +906,8 @@ def check_e_minus_kept(cfg, output, before, changed, log=print):
 
 
 def restart_library(cfg, manifest, output, log=print, streams=None):
-    """Discard the library conditions' streams (and anything initialised from or reading them)
-    and the gate decision; keep C's and D's games. If sources changed since the run started, only
+    """Discard the library conditions' streams (every replicate, and anything initialised from them) and
+    the gate decision; keep C's and D's games. If sources changed since the run started, only
     LIBRARY_SOURCES may differ: the kept checkpoints are then re-signed with the new identity.
     `streams` (amended 2026-11-19): conditions to restart instead of all library conditions; only
     ('E',) is allowed, which keeps E-minus too when its probe passes (check_e_minus_kept)."""
@@ -1028,7 +951,7 @@ def restart_library(cfg, manifest, output, log=print, streams=None):
     dropped = {s['key'] for s in plan if s['condition'] in conditions}
     grew = True
     while grew:
-        extra = {s['key'] for s in plan if s['init'] in dropped or s['source'] in dropped} - dropped
+        extra = {s['key'] for s in plan if s['init'] in dropped} - dropped
         dropped |= extra
         grew = bool(extra)
     for key in sorted(dropped):
@@ -1060,48 +983,3 @@ def check_revisions(cfg):
         value = getattr(cfg, field, '')
         if not value or value in {'main', 'unverified', '4-bit-unverified', 'unrecorded'}:
             raise ValueError(f'real runs require an explicit verified {field}; update settings')
-
-
-def freeze(cfg, manifest, pilot_dir, destination):
-    validate_manifest(manifest)
-    validate_real_design(cfg, manifest)
-    check_revisions(cfg)
-    evidence = load_json(Path(pilot_dir) / 'pilot-evidence.json')
-    records = load_json(Path(pilot_dir) / 'records.json')
-    current = identity(cfg, manifest)
-    marker = load_json(Path(pilot_dir) / 'run.json')
-    if marker != {'identity': current, 'toy': False, 'environment': 'alfworld'}:
-        raise ValueError('pilot run metadata does not match current real experiment')
-    for record in records:
-        if record['phase'] not in {'practice', 'development'}:
-            raise ValueError('pilot evidence contains an unauthorized split')
-        split = 'practice' if record['phase'] == 'practice' else 'development'
-        ids = {t['id'] for t in manifest['splits'][split]}
-        if record['task_id'] not in ids:
-            raise ValueError('pilot evidence has a task outside its authorized split')
-        stream = f"{record['phase']}-{record['condition']}-{record['seed']}"
-        checkpoint = load_json(Path(pilot_dir) / 'checkpoints' / stream / f"{record['position']:05d}.json")
-        if (checkpoint.get('record') != record or checkpoint.get('record_hash') != digest(record)
-                or checkpoint.get('memory_hash') != digest(checkpoint.get('memory'))
-                or checkpoint.get('pre_library_hash') != digest(checkpoint.get('pre_library'))):
-            raise ValueError('pilot checkpoint evidence is missing or corrupt')
-    gate = pilot_gate(records, cfg)
-    if (evidence['identity'] != current or evidence['toy'] or evidence['records_hash'] != digest(records)
-            or evidence['gate'] != gate or not gate['passed']):
-        raise ValueError('freeze requires complete real pilot evidence passing every gate with matching sources/settings/data')
-    artifact = {'identity': current, 'settings': cfg.to_dict(), 'manifest_hash': digest(manifest),
-                'preregistration': PREREGISTRATION,
-                'pilot_records_hash': digest(records), 'pilot_gate': gate, 'toy': False}
-    artifact['freeze_hash'] = digest(artifact)
-    write_json(destination, artifact)
-    return artifact
-
-
-def verify_freeze(cfg, manifest, path):
-    validate_real_design(cfg, manifest)
-    artifact = load_json(path)
-    payload = {k: v for k, v in artifact.items() if k != 'freeze_hash'}
-    if (artifact.get('freeze_hash') != digest(payload) or artifact.get('identity') != identity(cfg, manifest)
-            or artifact.get('toy') is not False or not artifact.get('pilot_gate', {}).get('passed')):
-        raise ValueError('freeze is missing/invalid or sources/settings/data changed; rerun the real pilot and freeze')
-    return artifact

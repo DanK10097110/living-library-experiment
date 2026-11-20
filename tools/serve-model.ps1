@@ -1,4 +1,4 @@
-# Serves the experiment model (one model for planner, executor and librarian roles) on
+# Serves the experiment model (one model for every role: planner, actor, Builder, judge, ...) on
 # 127.0.0.1:8000 with continuous batching. Run in its own window; Ctrl-C stops it.
 # The lc local coder (port 8088) must be stopped first: both need the whole GPU.
 param(

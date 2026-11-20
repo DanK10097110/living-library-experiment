@@ -128,11 +128,8 @@ class FixtureModel:
         bindings = {'object': obj, 'target': target}
         commands = [f'take {obj} from table 1', f'go to {target}', f'open {target}', f'move {obj} to {target}']
         if role == 'actor':
-            if payload.get('skills'):
-                action = payload['skills'][0]
-            else:
-                admissible = payload['admissible']
-                action = next((c for c in [commands[0], commands[3], commands[2]] if c in admissible), f'go to {target}')
+            admissible = payload['admissible']
+            action = next((c for c in [commands[0], commands[3], commands[2]] if c in admissible), f'go to {target}')
             data = {'text': f'<think>fixture policy</think> <action>{action}</action>'}
         elif role == 'planner':
             data = {'subgoals': [{'description': 'put object in target', 'bindings': bindings, 'postconditions': [f'located({obj}, {target})']}]}
@@ -147,44 +144,13 @@ class FixtureModel:
                 rule = {'op': 'write_rule', 'type': 'Unresolved Error',
                         'rule': 'When an action is not admissible, nothing happens.', 'example': ''}
             data = {'diagnosis': 'imperfect rules', 'operations': [] if rule['rule'] in known else [rule]}
-        elif role == 'librarian':
-            parent = payload.get('parent')
-            data = {'candidate': {'name': 'put_object', 'description': 'put object in target',
-                    'parameters': {'object': 'entity', 'target': 'entity'},
-                    'preconditions': ['at(table 1)', 'located(object, table 1)'],
-                    'postconditions': ['located(object, target)', 'task_won()'],
-                    'body': '\n'.join(['act(f"take {object} from table 1")', 'act(f"go to {target}")', 'act(f"open {target}")', 'act(f"move {object} to {target}")'])}}
-            if parent:
-                data['candidate'].update({k: parent[k] for k in ('parameters', 'preconditions', 'postconditions')})
-        elif payload.get('flat'):
-            skills = payload.get('skills', [])
-            if skills:
-                data = {'skill_id': skills[0]['id'], 'bindings': bindings}
-            elif payload.get('catalog') and not payload['goal']['bindings']:
-                data = {'bindings': bindings}
-            else:
-                admissible = payload['state']['admissible_commands']
-                command = next((c for c in [commands[0], commands[3], commands[2]] if c in admissible), f'go to {target}')
-                data = {'action': command, 'bindings': bindings}
-        elif payload.get('text_only'):
-            admissible = payload['state']['admissible_commands']
-            priorities = [commands[0], commands[3], commands[2]]
-            command = next((c for c in priorities if c in admissible), f'go to {target}')
-            data = {'actions': [command]}
+        elif role == 'judge':
+            # Per-rule usefulness judge (manual.py): every shown rule followed and a little useful.
+            data = {'followed': 'yes', 'usefulness': 1, 'reason': 'fixture'}
         else:
-            skills = payload.get('skills', [])
-            if skills:
-                skill = skills[0]
-                data = {'program': f'call({skill["id"]!r}, object={obj!r}, target={target!r})'}
-            else:
-                observation = payload['state']['observation']
-                if ' is at inventory.' in observation:
-                    commands = commands[1:]
-                if f'At {target}.' in observation:
-                    commands = commands[2:]
-                if f'{target} is open.' in observation:
-                    commands = [commands[-1]]
-                data = {'program': '\n'.join(f'act({c!r})' for c in commands)}
+            # No fixture answer (e.g. reflector, refiner): the caller records a model error. Tests that
+            # need these roles subclass the fixture.
+            raise KeyError(f'fixture model has no answer for role {role!r}')
         return ModelResponse(data)
 
     def close(self):

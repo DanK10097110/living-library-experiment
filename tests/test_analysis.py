@@ -1,42 +1,73 @@
 import unittest
-from living_library.analysis import analyze, pilot_report
+from living_library.analysis import analyze
 from living_library.config import Settings
 
 
 class AnalysisTests(unittest.TestCase):
     def setUp(self):
-        self.cfg = Settings(seeds=[11, 22], bootstrap_samples=1000, pilot_practice=2,
+        self.cfg = Settings(seeds=[11, 22], practice_seeds=[0, 1], bootstrap_samples=1000,
                             evaluation_games=3, development_games=20)
 
-    def records(self):
-        return [dict(condition=c, phase='evaluation', task_id=str(t), seed=s, position=t,
-                     success=c == 'E', invocations=[{'success': c == 'E', 'skill_id': 'x@v1', 'preconditions_held': True}],
-                     subgoals_passed=True, gpu_seconds=None,
-                     input_tokens=2, output_tokens=3 if c == 'E' else 6)
-                for c in ['C', 'D', 'E', 'E-minus', 'E-text']
-                for t in range(3) for s in self.cfg.seeds]
+    def records(self, e_success=None):
+        """E wins everything, the others nothing; memory conditions have two replicates."""
+        e_success = e_success or (lambda task, replicate: True)
+        rows = []
+        for c in ['C', 'D', 'E', 'E-minus']:
+            for replicate in ([None] if c == 'C' else self.cfg.practice_seeds):
+                for t in range(3):
+                    for s in self.cfg.seeds:
+                        rows.append(dict(condition=c, phase='evaluation', task_id=str(t), seed=s, replicate=replicate,
+                                         position=t, success=c == 'E' and e_success(t, replicate),
+                                         subgoals_passed=True, gpu_seconds=None,
+                                         input_tokens=2, output_tokens=3 if c == 'E' else 6))
+        return rows
 
-    def test_primary_gpu_and_paired_holm(self):
-        costs = {c: {11: 0, 22: 0} for c in ['D', 'E']}
-        result = analyze(self.records(), self.cfg, costs)
+    def costs(self, value=0):
+        return {c: {0: value, 1: value} for c in ['D', 'E', 'E-minus']}
+
+    def test_primary_holm_and_criterion(self):
+        result = analyze(self.records(), self.cfg, self.costs())
         self.assertEqual(result['primary']['H1']['estimate'], 1)
         self.assertEqual(result['primary']['H2']['estimate'], -12)   # 14 vs 26 weighted tokens
         self.assertEqual(result['primary']['H3']['estimate'], 1)
-        self.assertEqual(result['primary']['H4']['ci95'], [1, 1])
+        self.assertEqual(result['primary']['H3']['ci95'], [1, 1])
+        self.assertEqual(result['primary']['H1']['replicates'], [2, 2])
+        self.assertNotIn('H4', result['primary'])
+        self.assertTrue(result['primary']['H3']['reject_holm_05'])
         self.assertTrue(result['study_success'])
+        self.assertEqual(result['secondary']['E_minus_C']['estimate'], 1)
         self.assertEqual(result['secondary']['conditions']['E']['weighted_tokens_per_task'], 14)
-        self.assertEqual(result['secondary']['break_even']['11']['first_task'], 1)
+
+    def test_practice_cost_amortized_per_replicate(self):
+        costs = self.costs()
+        costs['E'] = {0: 30, 1: 90}          # mean 60 over 3 tasks = +20 per task
+        result = analyze(self.records(), self.cfg, costs)
+        self.assertAlmostEqual(result['primary']['H2']['estimate'], -12 + 20)
+        self.assertAlmostEqual(result['secondary']['conditions']['E']['amortized_weighted_tokens_per_task'], 34)
+        self.assertAlmostEqual(result['amortized_cost_ratio_E_D'], 34 / 26)
+
+    def test_replicate_variance_widens_the_interval(self):
+        # Replicate 0 of E wins everything, replicate 1 nothing: the point estimate is the mean, and resampling
+        # replicates puts both extremes into the interval although every task agrees.
+        rows = self.records(lambda task, replicate: replicate == 0)
+        h3 = analyze(rows, self.cfg, self.costs())['primary']['H3']
+        self.assertAlmostEqual(h3['estimate'], .5)
+        self.assertEqual(h3['ci95'], [0, 1])
+        self.assertFalse(h3['reject_holm_05'])
 
     def test_missing_tokens_never_uses_wall_time(self):
         rows = self.records()
         for r in rows:
             r['output_tokens'] = None
             r['wall_seconds'] = 100
-        result = analyze(rows, self.cfg)
+        result = analyze(rows, self.cfg, self.costs())
         self.assertEqual(result['primary']['H2']['status'], 'unavailable')
         self.assertIsNone(result['amortized_cost_ratio_E_D'])
         # practice cost is required to amortize
         self.assertEqual(analyze(self.records(), self.cfg)['primary']['H2']['status'], 'unavailable')
+        costs = self.costs()
+        del costs['E'][1]
+        self.assertEqual(analyze(self.records(), self.cfg, costs)['primary']['H2']['status'], 'unavailable')
 
     def test_missing_seed_or_task_and_duplicate_raise(self):
         rows = self.records()
@@ -51,50 +82,13 @@ class AnalysisTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'every configured seed'):
             analyze(rows, self.cfg)
 
-    def test_zero_invocations_unavailable(self):
-        rows = self.records()
-        next(r for r in rows if r['condition'] == 'E')['invocations'] = []
-        # The other seed in this task contributes one invocation: pooled denominator remains one.
-        self.assertEqual(analyze(rows, self.cfg)['primary']['H3']['status'], 'available')
-        for r in rows:
-            if r['condition'] == 'E' and r['task_id'] == '0':
-                r['invocations'] = []
-        self.assertEqual(analyze(rows, self.cfg)['primary']['H3']['status'], 'available')
-        for r in rows:
-            if r['condition'] == 'E':
-                r['invocations'] = []
-        self.assertEqual(analyze(rows, self.cfg)['primary']['H3']['status'], 'unavailable')
-
-    def test_pilot_thresholds_and_zero_evidence(self):
-        result = pilot_report([], [], [], self.cfg)
-        self.assertFalse(result['ready'])
-        self.assertTrue(all(g['status'] == 'unavailable' for g in result['gates'].values()))
-        rows = [dict(condition=c, success=i < 17, subgoals_passed=False)
-                for c in ['C', 'E-minus'] for i in range(20)]
-        practice = [dict(invocations=[], program_attempts=5, program_errors=['bad', 'crash']) for _ in range(2)]
-        result = pilot_report(practice, rows, [], self.cfg)
-        self.assertEqual(result['gates']['baseline_ceiling']['status'], 'pass')  # exactly .85
-        self.assertEqual(result['gates']['program_failure']['status'], 'pass')  # exactly .40
-        self.assertEqual(result['gates']['repeated_skills']['status'], 'fail')
-        self.assertTrue(result['switch_domain'])
-        rows[17]['success'] = True
-        self.assertEqual(pilot_report(practice, rows, [], self.cfg)['gates']['baseline_ceiling']['status'], 'fail')
-
-    def test_truncated_study_rejected_and_partial_false_success_unknown(self):
+    def test_truncated_study_rejected_and_false_success(self):
         rows = [r for r in self.records() if r['task_id'] != '2']
         with self.assertRaisesRegex(ValueError, 'every configured evaluation task'):
             analyze(rows, self.cfg)
-        report = pilot_report([], [{'condition': 'C', 'success': True, 'subgoals_passed': False},
-                                   {'condition': 'C', 'success': False}], [], self.cfg)
-        self.assertEqual(report['gates']['false_success']['status'], 'unavailable')
-
-    def test_invocation_ratio_pools_counts_but_resamples_tasks(self):
-        rows = self.records()
-        for r in rows:
-            if r['condition'] == 'E':
-                r['invocations'] = [{'success': r['task_id'] == '0', 'preconditions_held': True}] * (100 if r['task_id'] == '0' else 1)
-        result = analyze(rows, self.cfg)
-        self.assertAlmostEqual(result['primary']['H3']['estimate'], 100/102)
+        result = analyze(self.records(), self.cfg, self.costs())
+        self.assertEqual(result['secondary']['conditions']['C']['false_success'], 1)
+        self.assertEqual(result['secondary']['conditions']['E']['false_success'], 0)
 
 
 if __name__ == '__main__':
