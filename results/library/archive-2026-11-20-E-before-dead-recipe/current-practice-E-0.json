@@ -1,6 +1,6 @@
 {
  "stream": "practice-E-0",
- "games": 80,
+ "games": 89,
  "rules": [
   {
    "alpha": 8,
@@ -1905,12 +1905,12 @@
    "alpha": 2,
    "base": [
     14,
-    19
+    20
    ],
    "base_types": {
     "pick_and_place_simple": [
      14,
-     19
+     20
     ]
    },
    "beta": 2,
@@ -1965,8 +1965,8 @@
    },
    "example": "In the lost attempt, the agent opened drawers without finding the cloth; in the successful retry, it searched the toilet and took the cloth before opening the drawer.",
    "id": "rule_4",
-   "importance": 4,
-   "last_used": 74,
+   "importance": 5,
+   "last_used": 88,
    "refined_at": [
     0,
     0
@@ -1981,23 +1981,23 @@
    ],
    "task_type": "pick_and_place_simple",
    "type": "Corrected Error",
-   "unused": 5,
-   "validation": "This game confirmed that the agent must search all locations before attempting to open the target. | This game confirmed that inventory must be used to locate the object before searching containers.",
+   "unused": 6,
+   "validation": "This game confirmed that the agent must search all locations before attempting to open the target. | This game confirmed that inventory must be used to locate the object before searching containers. | This game confirmed that the agent must search all locations before attempting to open the target.",
    "verified": true
   },
   {
    "alpha": 9,
    "base": [
     14,
-    19
+    20
    ],
    "base_types": {
     "pick_and_place_simple": [
      14,
-     19
+     20
     ]
    },
-   "beta": 3,
+   "beta": 4,
    "confirmations": 0,
    "contexts": [
     {
@@ -2160,18 +2160,38 @@
      "task": "put a box in armchair.",
      "task_type": "pick_and_place_simple",
      "won": false
+    },
+    {
+     "plan": "search for peppershaker in the environment ; go to sidetable 1 ; put the peppershaker on the sidetable",
+     "steps": [
+      "go to diningtable 2",
+      "go to countertop 1",
+      "go to sinkbasin 1",
+      "go to garbagecan 1",
+      "go to fridge 1",
+      "go to sidetable 1",
+      "go to countertop 1",
+      "go to cabinet 1",
+      "go to cabinet 2",
+      "go to cabinet 3",
+      "open cabinet 3",
+      "go to countertop 1"
+     ],
+     "task": "put some peppershaker on sidetable.",
+     "task_type": "pick_and_place_simple",
+     "won": false
     }
    ],
    "credits": {
     "pick_and_place_simple": [
      8,
-     2
+     3
     ]
    },
    "example": "Search cabinet 1, take spraybottle 1, go to toilet 1, move spraybottle 1 to toilet 1.",
    "id": "rule_5",
-   "importance": 16,
-   "last_used": 74,
+   "importance": 17,
+   "last_used": 88,
    "refined_at": [
     0,
     0
@@ -2187,19 +2207,19 @@
    "task_type": "pick_and_place_simple",
    "type": "Success Process",
    "unused": 0,
-   "validation": "This game confirmed that the agent must search all locations before attempting to open the target. | This game confirmed that inventory must be used to locate the object before searching containers. | This game confirmed that the agent can move an object directly to a target surface without opening it.",
+   "validation": "This game confirmed that inventory must be used to locate the object before searching containers. | This game confirmed that the agent can move an object directly to a target surface without opening it. | This game confirmed that the agent must search all locations including closed containers before attempting to open the target.",
    "verified": true
   },
   {
    "alpha": 1,
    "base": [
     14,
-    18
+    19
    ],
    "base_types": {
     "pick_and_place_simple": [
      14,
-     18
+     19
     ]
    },
    "beta": 1,
@@ -3219,28 +3239,6 @@
        1
       ],
       [
-       "go to countertop 1",
-       1
-      ],
-      [
-       "take spraybottle 1 from countertop 1",
-       1
-      ],
-      [
-       "go to garbagecan 1",
-       1
-      ],
-      [
-       "move spraybottle 1 to garbagecan 1",
-       1
-      ]
-     ],
-     [
-      [
-       "go to drawer 1",
-       1
-      ],
-      [
        "go to sidetable 1",
        1
       ],
@@ -3680,6 +3678,80 @@
        "move pillow 1 to ottoman 1",
        1
       ]
+     ],
+     [
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "open cabinet 1",
+       1
+      ],
+      [
+       "go to cabinet 2",
+       1
+      ],
+      [
+       "open cabinet 2",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "go to diningtable 2",
+       1
+      ],
+      [
+       "go to diningtable 3",
+       1
+      ],
+      [
+       "go to cabinet 3",
+       1
+      ],
+      [
+       "open cabinet 3",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to fridge 1",
+       1
+      ],
+      [
+       "open fridge 1",
+       1
+      ],
+      [
+       "go to cabinet 4",
+       1
+      ],
+      [
+       "open cabinet 4",
+       1
+      ],
+      [
+       "take peppershaker 1 from cabinet 4",
+       1
+      ],
+      [
+       "go to sidetable 1",
+       1
+      ],
+      [
+       "move peppershaker 1 to sidetable 1",
+       1
+      ]
      ]
     ]
    },
@@ -3695,135 +3767,15 @@
    "verified": true
   },
   {
-   "alpha": 3,
-   "base": [
-    8,
-    20
-   ],
-   "base_types": {
-    "pick_two_obj_and_place": [
-     8,
-     20
-    ]
-   },
-   "beta": 3,
-   "contexts": [
-    {
-     "plan": "go to shelf 1 ; find and take the first alarmclock ; put the first alarmclock in shelf 1 ; find and take the second alarmclock ; put the second alarmclock in shelf 1",
-     "steps": [
-      "go to shelf 1",
-      "go to desk 1",
-      "take alarmclock 1 from desk 1",
-      "go to shelf 1",
-      "move alarmclock 1 to shelf 1",
-      "go to desk 1",
-      "take alarmclock 2 from desk 1",
-      "go to shelf 1",
-      "move alarmclock 2 to shelf 1"
-     ],
-     "task": "put two alarmclock in shelf.",
-     "task_type": "pick_two_obj_and_place",
-     "won": true
-    },
-    {
-     "plan": "go to drawer 1 ; take a pencil from desk 1 ; put the pencil in drawer 1 ; take another pencil from desk 1 ; put the second pencil in drawer 1 ; verify task completion",
-     "steps": [
-      "go to drawer 1",
-      "go to desk 1",
-      "take pencil 1 from desk 1",
-      "go to drawer 1",
-      "move pencil 1 to drawer 1",
-      "go to desk 1",
-      "take pencil 2 from desk 1",
-      "go to drawer 1",
-      "move pencil 2 to drawer 1"
-     ],
-     "task": "put two pencil in drawer.",
-     "task_type": "pick_two_obj_and_place",
-     "won": true
-    },
-    {
-     "plan": "take keychain 3 from drawer 1 ; put keychain 3 in drawer 1 ; go to drawer 2 ; take keychain from drawer 2 ; put keychain in drawer 1",
-     "steps": [
-      "go to desk 1",
-      "go to drawer 2",
-      "go to drawer 1",
-      "take keychain 3 from drawer 1",
-      "move keychain 3 to drawer 1",
-      "go to drawer 2",
-      "go to desk 1",
-      "go to drawer 1",
-      "take keychain 3 from drawer 1",
-      "move keychain 3 to drawer 1",
-      "go to drawer 2",
-      "go to drawer 1"
-     ],
-     "task": "put two keychain in drawer.",
-     "task_type": "pick_two_obj_and_place",
-     "won": false
-    },
-    {
-     "plan": "go to bed 1 ; find and take the first cellphone ; put the first cellphone in bed ; find and take the second cellphone ; put the second cellphone in bed ; verify both cellphones are in bed",
-     "steps": [
-      "go to bed 1",
-      "move cellphone 2 to bed 1",
-      "go to drawer 1",
-      "go to drawer 2",
-      "go to armchair 1",
-      "go to drawer 1",
-      "go to armchair 1",
-      "go to drawer 1",
-      "go to drawer 2",
-      "go to armchair 1",
-      "go to drawer 1",
-      "go to armchair 1"
-     ],
-     "task": "find two cellphone and put them in bed.",
-     "task_type": "pick_two_obj_and_place",
-     "won": false
-    }
-   ],
-   "credits": {
-    "pick_two_obj_and_place": [
-     2,
-     2
-    ]
-   },
-   "example": "In the lost attempt, the agent moved spatula 2 to drawer 1, then immediately took it back out instead of leaving it there to find the second spatula.",
-   "id": "rule_7",
-   "importance": 9,
-   "last_used": 79,
-   "refined_at": [
-    0,
-    0
-   ],
-   "rule": "When placing multiple objects in a container, leave the first object inside before searching for the second one.",
-   "sources": [
-    {
-     "task": "put two spatula in drawer.",
-     "task_type": "pick_two_obj_and_place"
-    },
-    {
-     "task": "put two toiletpaper in sidetable.",
-     "task_type": "pick_two_obj_and_place"
-    }
-   ],
-   "task_type": "pick_two_obj_and_place",
-   "type": "Corrected Error",
-   "unused": 15,
-   "validation": "Confirmed: the agent failed to place the first pen before retrieving the second, causing a failed move attempt. | Confirmed: the agent failed to leave the first saltshaker in drawer 1 before searching for the second one, causing unnecessary retrieval cycles. | Confirmed: the agent failed to leave the first soapbottle in cabinet 1 before searching for the second one, causing unnecessary retrieval cycles.",
-   "verified": true
-  },
-  {
    "alpha": 1,
    "base": [
-    8,
-    19
+    11,
+    24
    ],
    "base_types": {
     "pick_two_obj_and_place": [
-     8,
-     19
+     11,
+     24
     ]
    },
    "beta": 1,
@@ -7803,316 +7755,6 @@
     "won": [
      [
       [
-       "go to countertop 1",
-       1
-      ],
-      [
-       "take spatula 2 from countertop 1",
-       1
-      ],
-      [
-       "go to drawer 1",
-       1
-      ],
-      [
-       "open drawer 1",
-       1
-      ],
-      [
-       "move spatula 2 to drawer 1",
-       1
-      ],
-      [
-       "go to countertop 2",
-       1
-      ],
-      [
-       "go to diningtable 1",
-       1
-      ],
-      [
-       "take spatula 1 from diningtable 1",
-       1
-      ],
-      [
-       "move spatula 1 to drawer 1",
-       0
-      ],
-      [
-       "move spatula 1 to drawer 1",
-       0
-      ],
-      [
-       "go to drawer 1",
-       1
-      ],
-      [
-       "move spatula 1 to drawer 1",
-       1
-      ]
-     ],
-     [
-      [
-       "go to shelf 1",
-       1
-      ],
-      [
-       "go to desk 1",
-       1
-      ],
-      [
-       "take alarmclock 1 from desk 1",
-       1
-      ],
-      [
-       "move alarmclock 1 to shelf 1",
-       0
-      ],
-      [
-       "go to shelf 1",
-       1
-      ],
-      [
-       "move alarmclock 1 to shelf 1",
-       1
-      ],
-      [
-       "go to desk 1",
-       1
-      ],
-      [
-       "take alarmclock 2 from desk 1",
-       1
-      ],
-      [
-       "go to shelf 1",
-       1
-      ],
-      [
-       "move alarmclock 2 to shelf 1",
-       1
-      ]
-     ],
-     [
-      [
-       "go to desk 1",
-       1
-      ],
-      [
-       "take keychain 3 from desk 1",
-       1
-      ],
-      [
-       "go to drawer 1",
-       1
-      ],
-      [
-       "open drawer 1",
-       1
-      ],
-      [
-       "move keychain 3 to drawer 1",
-       1
-      ],
-      [
-       "go to drawer 2",
-       1
-      ],
-      [
-       "open drawer 2",
-       1
-      ],
-      [
-       "go to desk 1",
-       1
-      ],
-      [
-       "go to drawer 3",
-       1
-      ],
-      [
-       "open drawer 3",
-       1
-      ],
-      [
-       "go to desk 1",
-       1
-      ],
-      [
-       "go to drawer 2",
-       1
-      ],
-      [
-       "go to desk 1",
-       1
-      ],
-      [
-       "examine desk 1",
-       1
-      ],
-      [
-       "go to sidetable 1",
-       1
-      ],
-      [
-       "take keychain 2 from sidetable 1",
-       1
-      ],
-      [
-       "go to drawer 1",
-       1
-      ],
-      [
-       "move keychain 2 to drawer 1",
-       1
-      ]
-     ],
-     [
-      [
-       "go to drawer 1",
-       1
-      ],
-      [
-       "go to desk 1",
-       1
-      ],
-      [
-       "take pencil 1 from desk 1",
-       1
-      ],
-      [
-       "go to drawer 1",
-       1
-      ],
-      [
-       "move pencil 1 to drawer 1",
-       1
-      ],
-      [
-       "go to desk 1",
-       1
-      ],
-      [
-       "take pencil 2 from desk 1",
-       1
-      ],
-      [
-       "move pencil 2 to drawer 1",
-       0
-      ],
-      [
-       "go to drawer 1",
-       1
-      ],
-      [
-       "move pencil 2 to drawer 1",
-       1
-      ]
-     ],
-     [
-      [
-       "go to dresser 1",
-       1
-      ],
-      [
-       "go to drawer 1",
-       1
-      ],
-      [
-       "go to dresser 1",
-       1
-      ],
-      [
-       "go to drawer 1",
-       1
-      ],
-      [
-       "go to dresser 1",
-       1
-      ],
-      [
-       "go to drawer 1",
-       1
-      ],
-      [
-       "open drawer 1",
-       1
-      ],
-      [
-       "go to drawer 2",
-       1
-      ],
-      [
-       "open drawer 2",
-       1
-      ],
-      [
-       "close drawer 2",
-       1
-      ],
-      [
-       "go to drawer 3",
-       1
-      ],
-      [
-       "open drawer 3",
-       1
-      ],
-      [
-       "close drawer 3",
-       1
-      ],
-      [
-       "go to drawer 4",
-       1
-      ],
-      [
-       "open drawer 4",
-       1
-      ],
-      [
-       "go to coffeetable 1",
-       1
-      ],
-      [
-       "take pen 1 from coffeetable 1",
-       1
-      ],
-      [
-       "go to dresser 1",
-       1
-      ],
-      [
-       "move pen 1 to dresser 1",
-       1
-      ],
-      [
-       "go to coffeetable 1",
-       1
-      ],
-      [
-       "take pen 2 from coffeetable 1",
-       1
-      ],
-      [
-       "move pen 2 to dresser 1",
-       0
-      ],
-      [
-       "move pen 2 to dresser 1",
-       0
-      ],
-      [
-       "go to dresser 1",
-       1
-      ],
-      [
-       "move pen 2 to dresser 1",
-       1
-      ]
-     ],
-     [
-      [
        "go to diningtable 1",
        1
       ],
@@ -8584,6 +8226,412 @@
        "move laptop 1 to desk 1",
        1
       ]
+     ],
+     [
+      [
+       "go to sidetable 1",
+       1
+      ],
+      [
+       "examine sidetable 1",
+       1
+      ],
+      [
+       "take keychain 1 from sidetable 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "open drawer 1",
+       1
+      ],
+      [
+       "move keychain 1 to drawer 1",
+       1
+      ],
+      [
+       "go to sidetable 1",
+       1
+      ],
+      [
+       "take keychain 2 from sidetable 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "move keychain 2 to drawer 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "open drawer 1",
+       1
+      ],
+      [
+       "go to drawer 2",
+       1
+      ],
+      [
+       "open drawer 2",
+       1
+      ],
+      [
+       "open drawer 3",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "take keychain 2 from desk 1",
+       1
+      ],
+      [
+       "move keychain 2 to safe 1",
+       0
+      ],
+      [
+       "go to desk 1",
+       0
+      ],
+      [
+       "examine desk 1",
+       1
+      ],
+      [
+       "move keychain 2 to desk 1",
+       1
+      ],
+      [
+       "take keychain 3 from desk 1",
+       1
+      ],
+      [
+       "move keychain 3 to safe 1",
+       0
+      ],
+      [
+       "move keychain 3 to safe 1",
+       0
+      ],
+      [
+       "go to safe 1",
+       1
+      ],
+      [
+       "open safe 1",
+       1
+      ],
+      [
+       "move keychain 3 to safe 1",
+       1
+      ],
+      [
+       "examine safe 1",
+       1
+      ],
+      [
+       "examine desk 1",
+       0
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "take keychain 2 from desk 1",
+       1
+      ],
+      [
+       "move keychain 2 to safe 1",
+       0
+      ],
+      [
+       "move keychain 2 to safe 1",
+       0
+      ],
+      [
+       "examine safe 1",
+       0
+      ],
+      [
+       "examine safe 1",
+       0
+      ],
+      [
+       "examine safe 1",
+       0
+      ],
+      [
+       "go to safe 1",
+       1
+      ],
+      [
+       "move keychain 2 to safe 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "take tissuebox 1 from desk 1",
+       1
+      ],
+      [
+       "go to shelf 1",
+       1
+      ],
+      [
+       "move tissuebox 1 to shelf 1",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "take tissuebox 2 from desk 1",
+       1
+      ],
+      [
+       "go to shelf 1",
+       1
+      ],
+      [
+       "move tissuebox 2 to shelf 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "open drawer 1",
+       1
+      ],
+      [
+       "go to drawer 2",
+       1
+      ],
+      [
+       "open drawer 2",
+       1
+      ],
+      [
+       "go to drawer 3",
+       1
+      ],
+      [
+       "go to drawer 4",
+       1
+      ],
+      [
+       "go to sidetable 1",
+       1
+      ],
+      [
+       "go to bed 1",
+       1
+      ],
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "take pen 1 from diningtable 1",
+       1
+      ],
+      [
+       "go to sidetable 1",
+       1
+      ],
+      [
+       "go to garbagecan 1",
+       1
+      ],
+      [
+       "go to sidetable 2",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "take pen 2 from diningtable 1",
+       0
+      ],
+      [
+       "go to sidetable 1",
+       1
+      ],
+      [
+       "move pen 1 to sidetable 1",
+       1
+      ],
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "take pen 2 from diningtable 1",
+       1
+      ],
+      [
+       "move pen 2 to sidetable 1",
+       0
+      ],
+      [
+       "go to sidetable 1",
+       1
+      ],
+      [
+       "move pen 2 to sidetable 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "open drawer 1",
+       1
+      ],
+      [
+       "go to drawer 2",
+       1
+      ],
+      [
+       "go to drawer 3",
+       1
+      ],
+      [
+       "open drawer 3",
+       1
+      ],
+      [
+       "go to drawer 4",
+       1
+      ],
+      [
+       "open drawer 4",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "open cabinet 1",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "examine desk 1",
+       1
+      ],
+      [
+       "go to armchair 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "go to drawer 2",
+       1
+      ],
+      [
+       "go to armchair 1",
+       1
+      ],
+      [
+       "go to bed 1",
+       1
+      ],
+      [
+       "take laptop 1 from bed 1",
+       1
+      ],
+      [
+       "move laptop 1 to desk 1",
+       0
+      ],
+      [
+       "go to bed 1",
+       0
+      ],
+      [
+       "go to bed 1",
+       0
+      ],
+      [
+       "go to bed 1",
+       0
+      ],
+      [
+       "go to bed 1",
+       0
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "move laptop 1 to desk 1",
+       1
+      ],
+      [
+       "go to bed 1",
+       1
+      ],
+      [
+       "take laptop 2 from bed 1",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "move laptop 2 to desk 1",
+       1
+      ]
      ]
     ]
    },
@@ -8602,12 +8650,12 @@
    "alpha": 1,
    "base": [
     0,
-    9
+    10
    ],
    "base_types": {
     "pick_heat_then_place_in_recep": [
      0,
-     9
+     10
     ]
    },
    "beta": 1,
@@ -12461,6 +12509,500 @@
       ],
       "task": "heat some plate and put it in countertop.",
       "task_id": "train/pick_heat_then_place_in_recep-Plate-None-CounterTop-7/trial_T20190909_100702_050461/game.tw-pddl"
+     },
+     {
+      "attempts": [
+       [
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "take tomato 3 from fridge 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "move tomato 3 to microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "take tomato 3 from microwave 1",
+         1
+        ],
+        [
+         "go to sidetable 1",
+         1
+        ],
+        [
+         "move tomato 3 to sidetable 1",
+         1
+        ],
+        [
+         "done",
+         0
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "go to sidetable 1",
+         1
+        ],
+        [
+         "take tomato 3 from sidetable 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "move tomato 3 to microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "take tomato 3 from fridge 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "move tomato 3 to microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "close microwave 1",
+         0
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "The agent is stuck in a loop of opening and closing the microwave without successfully heating the tomato. The subgoal is to take the tomato from the microwave, which implies the heating process should be completed. Since the previous \"heat\" command resulted in \"Nothing happens\" and the microwave is currently open with the tomato",
+         0
+        ],
+        [
+         "take tomato 3 from microwave 1",
+         0
+        ],
+        [
+         "take tomato 3 from microwave 1",
+         0
+        ],
+        [
+         "take tomato 3 from microwave 1",
+         0
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "take tomato 3 from fridge 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "move tomato 3 to microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "close microwave 1",
+         0
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "wait",
+         0
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "close microwave 1",
+         0
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "take tomato 3 from microwave 1",
+         1
+        ],
+        [
+         "go to sidetable 1",
+         1
+        ],
+        [
+         "move tomato 3 to sidetable 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "take tomato 3 from fridge 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "move tomato 3 to microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "close microwave 1",
+         0
+        ],
+        [
+         "close microwave 1",
+         0
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "wait",
+         0
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "close microwave 1",
+         0
+        ],
+        [
+         "close microwave 1",
+         0
+        ],
+        [
+         "close microwave 1",
+         0
+        ],
+        [
+         "close microwave 1",
+         0
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ]
+       ]
+      ],
+      "task": "heat some tomato and put it in sidetable.",
+      "task_id": "train/pick_heat_then_place_in_recep-Tomato-None-SideTable-21/trial_T20190909_041918_595548/game.tw-pddl"
      }
     ],
     "retired": [],
@@ -12723,12 +13265,12 @@
    "alpha": 1,
    "base": [
     10,
-    14
+    15
    ],
    "base_types": {
     "pick_and_place_simple": [
      10,
-     14
+     15
     ]
    },
    "beta": 1,
@@ -12756,13 +13298,13 @@
   {
    "alpha": 1,
    "base": [
-    3,
-    11
+    4,
+    12
    ],
    "base_types": {
     "pick_cool_then_place_in_recep": [
-     3,
-     11
+     4,
+     12
     ]
    },
    "beta": 1,
@@ -12792,13 +13334,13 @@
   {
    "alpha": 1,
    "base": [
-    3,
-    10
+    4,
+    11
    ],
    "base_types": {
     "pick_cool_then_place_in_recep": [
-     3,
-     10
+     4,
+     11
     ]
    },
    "beta": 1,
@@ -14834,6 +15376,48 @@
        "move winebottle 1 to diningtable 1",
        1
       ]
+     ],
+     [
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "open drawer 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to countertop 2",
+       1
+      ],
+      [
+       "take potato 1 from countertop 2",
+       1
+      ],
+      [
+       "go to fridge 1",
+       1
+      ],
+      [
+       "open fridge 1",
+       1
+      ],
+      [
+       "cool potato 1 with fridge 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "move potato 1 to countertop 1",
+       1
+      ]
      ]
     ]
    },
@@ -14851,13 +15435,13 @@
   {
    "alpha": 1,
    "base": [
-    7,
-    18
+    10,
+    23
    ],
    "base_types": {
     "pick_two_obj_and_place": [
-     7,
-     18
+     10,
+     23
     ]
    },
    "beta": 1,
@@ -14887,13 +15471,13 @@
   {
    "alpha": 2,
    "base": [
-    3,
-    10
+    4,
+    11
    ],
    "base_types": {
     "pick_cool_then_place_in_recep": [
-     3,
-     10
+     4,
+     11
     ]
    },
    "beta": 2,
@@ -14945,7 +15529,7 @@
    "example": "The agent failed to place the pot because it moved it back to the stove instead of confirming it was held at the dining table.",
    "id": "rule_15",
    "importance": 2,
-   "last_used": 68,
+   "last_used": 80,
    "refined_at": [
     0,
     0
@@ -14959,29 +15543,54 @@
    ],
    "task_type": "pick_cool_then_place_in_recep",
    "type": "Corrected Error",
-   "unused": 4,
+   "unused": 5,
    "validation": "",
    "verified": true
   },
   {
-   "alpha": 1,
+   "alpha": 2,
    "base": [
-    3,
-    10
+    4,
+    11
    ],
    "base_types": {
     "pick_cool_then_place_in_recep": [
-     3,
-     10
+     4,
+     11
     ]
    },
    "beta": 1,
    "confirmations": 0,
-   "contexts": [],
+   "contexts": [
+    {
+     "plan": "find a potato in the environment ; take the potato from its location ; cool the potato in the fridge ; go to a countertop to place the potato ; put the cooled potato on the countertop",
+     "steps": [
+      "go to drawer 1",
+      "open drawer 1",
+      "go to countertop 1",
+      "go to countertop 2",
+      "take potato 1 from countertop 2",
+      "go to fridge 1",
+      "open fridge 1",
+      "cool potato 1 with fridge 1",
+      "go to countertop 1",
+      "move potato 1 to countertop 1"
+     ],
+     "task": "cool some potato and put it in countertop.",
+     "task_type": "pick_cool_then_place_in_recep",
+     "won": true
+    }
+   ],
+   "credits": {
+    "pick_cool_then_place_in_recep": [
+     1,
+     0
+    ]
+   },
    "example": "The agent took plate 1 from countertop 2, cooled it with fridge 1, then moved it to cabinet 1.",
    "id": "rule_16",
-   "importance": 8,
-   "last_used": 68,
+   "importance": 9,
+   "last_used": 80,
    "refined_at": [
     0,
     0
@@ -14997,19 +15606,19 @@
    "task_type": "pick_cool_then_place_in_recep",
    "type": "Success Process",
    "unused": 1,
-   "validation": "The agent succeeded after opening the microwave and using the move command, confirming the container must be opened if closed before moving. | The agent succeeded after opening the fridge and cabinet before cooling and moving, confirming containers must be opened if closed before use. | The agent succeeded after taking the object from countertop 1 and using the fridge to cool it, confirming the object must be taken before cooling.",
+   "validation": "The agent succeeded after opening the fridge and cabinet before cooling and moving, confirming containers must be opened if closed before use. | The agent succeeded after taking the object from countertop 1 and using the fridge to cool it, confirming the object must be taken before cooling. | The agent succeeded after taking the potato from countertop 2 and using the fridge to cool it, confirming the object must be taken before cooling.",
    "verified": true
   },
   {
    "alpha": 1,
    "base": [
     0,
-    9
+    10
    ],
    "base_types": {
     "pick_heat_then_place_in_recep": [
      0,
-     9
+     10
     ]
    },
    "beta": 1,
@@ -15041,171 +15650,94 @@
   {
    "alpha": 4,
    "base": [
-    7,
-    17
+    10,
+    22
    ],
    "base_types": {
     "pick_two_obj_and_place": [
-     7,
-     17
+     10,
+     22
     ]
    },
-   "beta": 6,
+   "beta": 2,
    "confirmations": 0,
    "contexts": [
     {
-     "plan": "go to sofa 1 ; find and take the first book from coffeetable 1 ; put the first book in sofa 1 ; find and take the second book from coffeetable 1 ; put the second book in sofa 1",
      "steps": [
+      "take keychain 2 from desk 1",
+      "examine desk 1",
+      "move keychain 2 to desk 1",
+      "take keychain 3 from desk 1",
+      "go to safe 1",
+      "open safe 1",
+      "move keychain 3 to safe 1",
+      "examine safe 1",
+      "go to desk 1",
+      "take keychain 2 from desk 1",
+      "go to safe 1",
+      "move keychain 2 to safe 1"
+     ],
+     "task": "find two keychain and put them in safe.",
+     "task_type": "pick_two_obj_and_place",
+     "won": true
+    },
+    {
+     "plan": "search for the first pen in the room ; search for the second pen in the room ; go to sidetable 1 ; put the first pen in sidetable 1 ; put the second pen in sidetable 1",
+     "steps": [
+      "take pen 1 from diningtable 1",
+      "go to sidetable 1",
+      "go to garbagecan 1",
+      "go to sidetable 2",
       "go to drawer 1",
-      "go to coffeetable 1",
+      "go to diningtable 1",
       "go to sidetable 1",
-      "go to dresser 1",
-      "take book 1 from dresser 1",
-      "go to sofa 1",
-      "move book 1 to sofa 1",
+      "move pen 1 to sidetable 1",
+      "go to diningtable 1",
+      "take pen 2 from diningtable 1",
+      "go to sidetable 1",
+      "move pen 2 to sidetable 1"
+     ],
+     "task": "find two pen and put them in sidetable.",
+     "task_type": "pick_two_obj_and_place",
+     "won": true
+    },
+    {
+     "plan": "go to desk 1 ; search desk 1 for laptop 1 ; take laptop 1 from desk 1 ; put laptop 1 in desk 1 ; search desk 1 for laptop 2 ; take laptop 2 from desk 1 ; put laptop 2 in desk 1",
+     "steps": [
       "go to armchair 1",
-      "go to dresser 1",
-      "take book 2 from dresser 1",
-      "go to sofa 1",
-      "move book 2 to sofa 1"
-     ],
-     "task": "find two book and put them in sofa.",
-     "task_type": "pick_two_obj_and_place",
-     "won": true
-    },
-    {
-     "plan": "search for the first peppershaker ; go to sidetable 1 ; put the first peppershaker in sidetable 1 ; search for the second peppershaker ; put the second peppershaker in sidetable 1",
-     "steps": [
-      "go to countertop 1",
-      "take peppershaker 1 from countertop 1",
-      "go to sidetable 1",
-      "move peppershaker 1 to sidetable 1",
-      "go to countertop 1",
-      "take peppershaker 3 from countertop 1",
-      "go to sidetable 1",
-      "move peppershaker 3 to sidetable 1"
-     ],
-     "task": "put two peppershaker in sidetable.",
-     "task_type": "pick_two_obj_and_place",
-     "won": true
-    },
-    {
-     "plan": "search for the first laptop in the room ; take the first laptop ; search for the second laptop in the room ; take the second laptop ; go to the desk ; put both laptops in the desk",
-     "steps": [
+      "go to drawer 1",
+      "go to drawer 2",
+      "go to armchair 1",
       "go to bed 1",
       "take laptop 1 from bed 1",
-      "examine bed 1",
-      "move laptop 1 to bed 1",
+      "go to desk 1",
+      "move laptop 1 to desk 1",
+      "go to bed 1",
       "take laptop 2 from bed 1",
       "go to desk 1",
-      "move laptop 2 to desk 1",
-      "examine desk 1",
-      "go to bed 1",
-      "take laptop 1 from bed 1",
-      "go to desk 1",
-      "move laptop 1 to desk 1"
+      "move laptop 2 to desk 1"
      ],
-     "task": "find two laptop and put them in desk.",
+     "task": "put two laptop in desk.",
      "task_type": "pick_two_obj_and_place",
      "won": true
     },
     {
-     "plan": "go to cabinet 1 to search for saltshaker 1 ; take saltshaker 1 from cabinet 1 ; go to drawer 1 ; put saltshaker 1 in drawer 1 ; go to cabinet 2 to search for saltshaker 2 ; take saltshaker 2 from cabinet 2 ; put saltshaker 2 in drawer 1",
+     "plan": "go to shelf 1 ; search shelf 1 for tissuebox ; take tissuebox 1 from shelf 1 ; go to shelf 2 ; search shelf 2 for tissuebox ; take tissuebox 2 from shelf 2 ; put tissuebox 1 in shelf 1 ; put tissuebox 2 in shelf 2",
      "steps": [
-      "open drawer 2",
-      "go to countertop 1",
-      "go to cabinet 1",
-      "go to drawer 2",
-      "go to countertop 1",
-      "go to cabinet 1",
-      "go to countertop 1",
-      "go to drawer 3",
-      "open drawer 3",
+      "examine shelf 1",
       "go to drawer 1",
-      "move saltshaker 1 to drawer 1",
-      "go to cabinet 2"
-     ],
-     "task": "put two saltshaker in drawer.",
-     "task_type": "pick_two_obj_and_place",
-     "won": false
-    },
-    {
-     "plan": "go to toiletpaperhanger 1 to find toiletpaper ; take toiletpaper 1 from toiletpaperhanger 1 ; go to sidetable 1 ; put toiletpaper 1 in sidetable 1 ; go to toiletpaperhanger 1 to find second toiletpaper ; take toiletpaper 2 from toiletpaperhanger 1 ; go to sidetable 1 ; put toiletpaper 2 in sidetable 1",
-     "steps": [
-      "move toiletpaper 2 to sidetable 1",
-      "go to drawer 1",
-      "open drawer 1",
-      "close drawer 1",
-      "go to sidetable 1",
-      "take toiletpaper 2 from sidetable 1",
-      "move toiletpaper 2 to sidetable 1",
-      "go to toiletpaperhanger 1",
-      "go to drawer 1",
-      "open drawer 1",
-      "close drawer 1",
-      "go to toiletpaperhanger 1"
-     ],
-     "task": "put two toiletpaper in sidetable.",
-     "task_type": "pick_two_obj_and_place",
-     "won": false
-    },
-    {
-     "plan": "go to dresser 1 ; search dresser 1 for spraybottle ; take first spraybottle from dresser 1 ; put first spraybottle in dresser 1 ; search dresser 1 for second spraybottle ; take second spraybottle from dresser 1 ; put second spraybottle in dresser 1",
-     "steps": [
-      "go to cabinet 1",
-      "go to countertop 1",
-      "take soapbottle 1 from countertop 1",
-      "go to drawer 1",
-      "examine drawer 1",
-      "examine drawer 1",
-      "go to countertop 1",
-      "go to dresser 1",
-      "go to countertop 1",
-      "go to cabinet 1",
-      "go to drawer 1",
-      "go to countertop 1"
-     ],
-     "task": "find two spraybottle and put them in dresser.",
-     "task_type": "pick_two_obj_and_place",
-     "won": false
-    },
-    {
-     "plan": "find soapbottle 1 on countertop 1 ; go to cabinet 1 ; open cabinet 1 and place soapbottle 1 inside ; find soapbottle 2 ; go to cabinet 1 and place soapbottle 2 inside",
-     "steps": [
-      "move soapbottle 1 to cabinet 1",
-      "go to cabinet 3",
-      "open cabinet 3",
-      "go to countertop 1",
-      "go to drawer 1",
-      "go to cabinet 2",
-      "go to countertop 1",
-      "go to cabinet 4",
-      "open cabinet 4",
-      "go to drawer 1",
-      "go to cabinet 5",
-      "open cabinet 5"
-     ],
-     "task": "put two soapbottle in cabinet.",
-     "task_type": "pick_two_obj_and_place",
-     "won": false
-    },
-    {
-     "plan": "go to desk 1 ; search desk 1 for alarmclock ; take first alarmclock from desk 1 ; put first alarmclock in desk 1 ; search desk 1 for second alarmclock ; take second alarmclock from desk 1 ; put second alarmclock in desk 1",
-     "steps": [
-      "go to drawer 1",
-      "go to drawer 2",
-      "go to drawer 3",
-      "close drawer 3",
       "go to desk 1",
-      "go to drawer 4",
+      "examine desk 1",
+      "go to shelf 1",
+      "go to shelf 2",
       "go to desk 1",
-      "go to bed 1",
-      "go to drawer 5",
-      "go to drawer 6",
-      "open drawer 6",
+      "go to drawer 1",
+      "go to desk 1",
+      "go to drawer 1",
+      "go to shelf 2",
       "go to desk 1"
      ],
-     "task": "find two alarmclock and put them in desk.",
+     "task": "find two tissuebox and put them in shelf.",
      "task_type": "pick_two_obj_and_place",
      "won": false
     }
@@ -15213,19 +15745,19 @@
    "credits": {
     "pick_two_obj_and_place": [
      3,
-     5
+     1
     ]
    },
    "example": "Search handtowelholder 1, take handtowel 1, go to countertop 1, move handtowel 1 to countertop 1, search handtowelholder 2, take handtowel 2, move handtowel 2 to countertop 1.",
    "id": "rule_18",
-   "importance": 15,
-   "last_used": 79,
+   "importance": 18,
+   "last_used": 87,
    "refined_at": [
     0,
     0
    ],
-   "rewrites": 2,
-   "rule": "When an object must be picked up and placed: search surfaces first, then open all containers to find the second object, take each object, go to the target if not already there, open the target if closed, and move each object there.",
+   "rewrites": 3,
+   "rule": "When two objects must be picked up and placed: search surfaces first, then open containers if needed, take each object, go to the target if not already there, open the target if closed, and move each object there.",
    "sources": [
     {
      "task": "put two keychain in drawer.",
@@ -15234,20 +15766,20 @@
    ],
    "task_type": "pick_two_obj_and_place",
    "type": "Success Process",
-   "unused": 1,
-   "validation": "Confirmed: the agent successfully found both books on the dresser 1 surface without needing to open any containers for this task. | Confirmed: the agent failed because it never searched all surfaces systematically for the second spraybottle before attempting to place the first one. | Confirmed: the agent successfully found both laptops on bed 1 surface without needing to open any containers for this task.",
+   "unused": 0,
+   "validation": "Confirmed: the agent failed because it never searched all surfaces systematically for the second spraybottle before attempting to place the first one. | Confirmed: the agent successfully found both laptops on bed 1 surface without needing to open any containers for this task. | Confirmed: the agent failed to move the first laptop to the desk before searching for the second one, causing repeated failed move attempts.",
    "verified": true
   },
   {
    "alpha": 1,
    "base": [
-    4,
-    6
+    5,
+    7
    ],
    "base_types": {
     "look_at_obj_in_light": [
-     4,
-     6
+     5,
+     7
     ]
    },
    "beta": 1,
@@ -15255,7 +15787,7 @@
    "example": "use desklamp 1 on pen 2 failed because desklamp 1 was off",
    "id": "rule_19",
    "importance": 4,
-   "last_used": 71,
+   "last_used": 84,
    "refined_at": [
     0,
     0
@@ -15269,20 +15801,20 @@
    ],
    "task_type": "look_at_obj_in_light",
    "type": "Corrected Error",
-   "unused": 5,
+   "unused": 6,
    "validation": "",
    "verified": true
   },
   {
    "alpha": 1,
    "base": [
-    3,
-    5
+    4,
+    6
    ],
    "base_types": {
     "look_at_obj_in_light": [
-     3,
-     5
+     4,
+     6
     ]
    },
    "beta": 1,
@@ -15684,6 +16216,56 @@
        "use desklamp 1",
        1
       ]
+     ],
+     [
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "open drawer 1",
+       1
+      ],
+      [
+       "go to drawer 2",
+       1
+      ],
+      [
+       "open drawer 2",
+       1
+      ],
+      [
+       "go to drawer 3",
+       1
+      ],
+      [
+       "open drawer 3",
+       1
+      ],
+      [
+       "go to drawer 4",
+       1
+      ],
+      [
+       "open drawer 4",
+       1
+      ],
+      [
+       "go to shelf 1",
+       1
+      ],
+      [
+       "take tissuebox 4 from shelf 1",
+       1
+      ],
+      [
+       "go to sidetable 1",
+       1
+      ],
+      [
+       "use desklamp 1",
+       1
+      ]
      ]
     ]
    },
@@ -15701,13 +16283,13 @@
   {
    "alpha": 1,
    "base": [
-    3,
-    5
+    4,
+    6
    ],
    "base_types": {
     "look_at_obj_in_light": [
-     3,
-     5
+     4,
+     6
     ]
    },
    "beta": 1,
@@ -15716,7 +16298,7 @@
    "example": "agent failed by moving pencil to desk 2 without finding desklamp 1, then won by finding desklamp 1 on shelf 2 and turning it on",
    "id": "rule_21",
    "importance": 5,
-   "last_used": 71,
+   "last_used": 84,
    "refined_at": [
     0,
     0
@@ -15731,27 +16313,27 @@
    ],
    "task_type": "look_at_obj_in_light",
    "type": "Corrected Error",
-   "unused": 2,
+   "unused": 3,
    "validation": "This game confirmed the lamp must be turned on before examining, even when both are on the same surface.",
    "verified": true
   },
   {
-   "alpha": 3,
+   "alpha": 4,
    "base": [
-    3,
-    5
+    4,
+    6
    ],
    "base_types": {
     "look_at_obj_in_light": [
-     3,
-     5
+     4,
+     6
     ]
    },
    "beta": 1,
    "commands": {
     "use lamp": [
      0,
-     2
+     3
     ]
    },
    "confirmations": 0,
@@ -15787,18 +16369,37 @@
      "task": "examine the tissuebox with the desklamp.",
      "task_type": "look_at_obj_in_light",
      "won": true
+    },
+    {
+     "steps": [
+      "go to drawer 1",
+      "open drawer 1",
+      "go to drawer 2",
+      "open drawer 2",
+      "go to drawer 3",
+      "open drawer 3",
+      "go to drawer 4",
+      "open drawer 4",
+      "go to shelf 1",
+      "take tissuebox 4 from shelf 1",
+      "go to sidetable 1",
+      "use desklamp 1"
+     ],
+     "task": "examine the tissuebox with the desklamp.",
+     "task_type": "look_at_obj_in_light",
+     "won": true
     }
    ],
    "credits": {
     "look_at_obj_in_light": [
-     2,
+     3,
      0
     ]
    },
-   "example": "search drawers for tissuebox 1, take tissuebox 1 from desk 1, go to dresser 1, use desklamp 1, examine tissuebox 1",
+   "example": "search drawers for tissuebox 4, take tissuebox 4 from shelf 1, go to sidetable 1, use desklamp 1, examine tissuebox 4",
    "id": "rule_22",
-   "importance": 6,
-   "last_used": 71,
+   "importance": 7,
+   "last_used": 84,
    "refined_at": [
     0,
     0
@@ -15814,19 +16415,19 @@
    "task_type": "look_at_obj_in_light",
    "type": "Success Process",
    "unused": 0,
-   "validation": "This game showed the lamp and object were on the same dresser, not on a shelf as the old rule suggested. | This game confirmed the lamp and object were on different furniture pieces, not the same dresser.",
+   "validation": "This game showed the lamp and object were on the same dresser, not on a shelf as the old rule suggested. | This game confirmed the lamp and object were on different furniture pieces, not the same dresser. | This game confirmed the agent must turn on the lamp before examining, even when both are on different furniture pieces.",
    "verified": true
   },
   {
    "alpha": 1,
    "base": [
-    1,
-    3
+    2,
+    4
    ],
    "base_types": {
     "pick_cool_then_place_in_recep": [
-     1,
-     3
+     2,
+     4
     ]
    },
    "beta": 1,
@@ -15855,12 +16456,12 @@
    "alpha": 1,
    "base": [
     0,
-    7
+    8
    ],
    "base_types": {
     "pick_heat_then_place_in_recep": [
      0,
-     7
+     8
     ]
    },
    "beta": 2,
@@ -15895,7 +16496,7 @@
    "example": "Agent failed by repeatedly trying to place cup 1 on empty stoveburners, then succeeded by moving cup 1 to microwave 1 and executing heat cup 1 with microwave 1.",
    "id": "rule_24",
    "importance": 2,
-   "last_used": 76,
+   "last_used": 81,
    "refined_at": [
     0,
     0
@@ -15909,7 +16510,7 @@
    ],
    "task_type": "pick_heat_then_place_in_recep",
    "type": "Corrected Error",
-   "unused": 4,
+   "unused": 5,
    "validation": "",
    "verified": true
   },
@@ -15917,15 +16518,15 @@
    "alpha": 1,
    "base": [
     0,
-    7
+    8
    ],
    "base_types": {
     "pick_heat_then_place_in_recep": [
      0,
-     7
+     8
     ]
    },
-   "beta": 5,
+   "beta": 6,
    "commands": {
     "close microwave": [
      0,
@@ -16020,18 +16621,38 @@
      "task": "heat some plate and put it in countertop.",
      "task_type": "pick_heat_then_place_in_recep",
      "won": false
+    },
+    {
+     "plan": "search the fridge for a tomato ; go to the microwave ; open the microwave ; move the tomato into the microwave ; heat the tomato in the microwave",
+     "steps": [
+      "take tomato 3 from sidetable 1",
+      "go to microwave 1",
+      "move tomato 3 to microwave 1",
+      "close microwave 1",
+      "open microwave 1",
+      "close microwave 1",
+      "open microwave 1",
+      "close microwave 1",
+      "open microwave 1",
+      "close microwave 1",
+      "open microwave 1",
+      "close microwave 1"
+     ],
+     "task": "heat some tomato and put it in sidetable.",
+     "task_type": "pick_heat_then_place_in_recep",
+     "won": false
     }
    ],
    "credits": {
     "pick_heat_then_place_in_recep": [
      0,
-     4
+     5
     ]
    },
    "example": "Agent took cup 1 from fridge 1, moved it to microwave 1, closed microwave 1, executed heat cup 1 with microwave 1, waited, opened microwave 1, took cup 1, moved it to diningtable 1.",
    "id": "rule_25",
-   "importance": 7,
-   "last_used": 76,
+   "importance": 8,
+   "last_used": 81,
    "refined_at": [
     0,
     0
@@ -16046,22 +16667,22 @@
    "task_type": "pick_heat_then_place_in_recep",
    "type": "Success Process",
    "unused": 1,
-   "validation": "Agent failed because the egg was on countertop 1, not fridge 1, and the heat command was invalid without waiting properly. | Agent failed because it opened the microwave before heating; it must close the microwave first. | Confirmed: heat command requires microwave to be closed before execution, then opened before taking the object.",
+   "validation": "Agent failed because it opened the microwave before heating; it must close the microwave first. | Confirmed: heat command requires microwave to be closed before execution, then opened before taking the object. | Confirmed: heat command requires microwave to be closed before execution, then opened before taking the object. Agent failed because it opened the microwave before heating.",
    "verified": true
   },
   {
    "alpha": 1,
    "base": [
     0,
-    5
+    6
    ],
    "base_types": {
     "pick_heat_then_place_in_recep": [
      0,
-     5
+     6
     ]
    },
-   "beta": 4,
+   "beta": 5,
    "contexts": [
     {
      "plan": "go to the fridge to find potato ; take potato from fridge ; go to microwave ; open the microwave ; put potato in microwave ; heat potato in microwave ; open the microwave ; take potato from microwave ; go to countertop ; put potato on countertop",
@@ -16122,18 +16743,38 @@
      "task": "heat some plate and put it in countertop.",
      "task_type": "pick_heat_then_place_in_recep",
      "won": false
+    },
+    {
+     "plan": "search the fridge for a tomato ; go to the microwave ; open the microwave ; move the tomato into the microwave ; heat the tomato in the microwave",
+     "steps": [
+      "take tomato 3 from sidetable 1",
+      "go to microwave 1",
+      "move tomato 3 to microwave 1",
+      "close microwave 1",
+      "open microwave 1",
+      "close microwave 1",
+      "open microwave 1",
+      "close microwave 1",
+      "open microwave 1",
+      "close microwave 1",
+      "open microwave 1",
+      "close microwave 1"
+     ],
+     "task": "heat some tomato and put it in sidetable.",
+     "task_type": "pick_heat_then_place_in_recep",
+     "won": false
     }
    ],
    "credits": {
     "pick_heat_then_place_in_recep": [
      0,
-     3
+     4
     ]
    },
    "example": "\"examine stoveburner\", again and again",
    "id": "rule_26",
    "importance": 2,
-   "last_used": 76,
+   "last_used": 81,
    "pattern": {
     "attempts": 5,
     "example": "",
@@ -16237,25 +16878,26 @@
    "alpha": 1,
    "base": [
     5,
-    6
+    7
    ],
    "base_types": {
     "pick_and_place_simple": [
      5,
-     6
+     7
     ]
    },
    "beta": 1,
+   "confirmations": 0,
    "contexts": [],
    "example": "In this lost game, the agent wasted time opening empty cabinets and drawers; using inventory immediately would have found the box.",
    "id": "rule_29",
-   "importance": 4,
+   "importance": 5,
    "last_used": null,
    "refined_at": [
     0,
     0
    ],
-   "rule": "When searching for an object, use inventory first to locate it before opening containers or surfaces.",
+   "rule": "When searching for an object, check all containers including closed ones before assuming it is not there.",
    "sources": [
     {
      "task": "put a box in armchair.",
@@ -16264,19 +16906,20 @@
    ],
    "task_type": "pick_and_place_simple",
    "type": "Special Phenomenon",
-   "validation": "This game confirmed that the agent must search all locations before attempting to open the target. | This game confirmed that inventory must be used to locate the object before searching containers.",
+   "unused": 0,
+   "validation": "This game confirmed that the agent must search all locations before attempting to open the target. | This game confirmed that inventory must be used to locate the object before searching containers. | This game confirmed that the agent must search all locations before attempting to open the target.",
    "verified": false
   },
   {
    "alpha": 1,
    "base": [
     0,
-    3
+    4
    ],
    "base_types": {
     "pick_heat_then_place_in_recep": [
      0,
-     3
+     4
     ]
    },
    "beta": 1,
@@ -16284,7 +16927,7 @@
    "example": "\"done\" answers \"Nothing happens.\"",
    "id": "rule_30",
    "importance": 2,
-   "last_used": 76,
+   "last_used": 81,
    "pattern": {
     "attempts": 4,
     "example": "done",
@@ -16311,7 +16954,7 @@
    ],
    "task_type": "pick_heat_then_place_in_recep",
    "type": "Anti-Pattern",
-   "unused": 2,
+   "unused": 3,
    "validation": "",
    "verified": true
   }

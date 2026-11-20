@@ -1,16 +1,14 @@
-/root/ll-runs/study/checkpoints/practice-E-0/00079.json: 29 rules
+/root/ll-runs/study/checkpoints/practice-E-0/00088.json: 28 rules
 rule_1 [Success Process] task_type=pick_clean_then_place_in_recep a/b=8/2 unused=3 visible won contexts: 8 ctx, 7 with plan
     When an object must be cleaned and placed: search the object's current location first, take it, go to the sink, clean it with sinkbasin, go to the target container, move it there.
 rule_3 [Failure Pool] task_type=pick_clean_then_place_in_recep a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
     failure pool
-rule_4 [Corrected Error] task_type=pick_and_place_simple a/b=2/2 unused=5 visible won contexts: 2 ctx, 2 with plan
+rule_4 [Corrected Error] task_type=pick_and_place_simple a/b=2/2 unused=6 visible won contexts: 2 ctx, 2 with plan
     When an object must be picked up and placed, search surfaces and containers for it before opening any target container.
-rule_5 [Success Process] task_type=pick_and_place_simple a/b=9/3 unused=0 visible won contexts: 10 ctx, 6 with plan
+rule_5 [Success Process] task_type=pick_and_place_simple a/b=9/4 unused=0 visible won contexts: 11 ctx, 7 with plan
     When an object must be picked up and placed: search surfaces and containers first, take the object from its location, go to the target, move the object there.
 rule_6 [Failure Pool] task_type=pick_and_place_simple a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
     failure pool
-rule_7 [Corrected Error] task_type=pick_two_obj_and_place a/b=3/3 unused=15 visible won contexts: 4 ctx, 4 with plan
-    When placing multiple objects in a container, leave the first object inside before searching for the second one.
 rule_8 [Failure Pool] task_type=pick_two_obj_and_place a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
     failure pool
 rule_9 [Failure Pool] task_type=pick_heat_then_place_in_recep a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
@@ -25,38 +23,38 @@ rule_13 [Failure Pool] task_type=pick_cool_then_place_in_recep a/b=1/1 unused=0 
     failure pool
 rule_14 [Unresolved Error] task_type=pick_two_obj_and_place a/b=1/1 unused=0 hidden won contexts: 0 ctx, 0 with plan
     When placing multiple objects in a container, search all surfaces systematically before attempting to move items.
-rule_15 [Corrected Error] task_type=pick_cool_then_place_in_recep a/b=2/2 unused=4 visible won contexts: 2 ctx, 2 with plan
+rule_15 [Corrected Error] task_type=pick_cool_then_place_in_recep a/b=2/2 unused=5 visible won contexts: 2 ctx, 2 with plan
     When moving a cool object to a target, verify you are holding it and standing at the target before moving.
-rule_16 [Success Process] task_type=pick_cool_then_place_in_recep a/b=1/1 unused=1 visible won contexts: 0 ctx, 0 with plan
+rule_16 [Success Process] task_type=pick_cool_then_place_in_recep a/b=2/1 unused=1 visible won contexts: 1 ctx, 1 with plan
     When an object must be cooled and placed in a container: search the countertop first, cool it with the fridge, open the target if closed, put it there.
 rule_17 [Unresolved Error] task_type=pick_heat_then_place_in_recep a/b=1/1 unused=0 hidden won contexts: 0 ctx, 0 with plan
     When the object must be heated and placed, searching all cabinets and the fridge first is required before attempting to take it from the target.
-rule_18 [Success Process] task_type=pick_two_obj_and_place a/b=4/6 unused=1 visible won contexts: 8 ctx, 8 with plan
-    When an object must be picked up and placed: search surfaces first, then open all containers to find the second object, take each object, go to the target if not already there, open the target if closed, and move each object there.
-rule_19 [Corrected Error] task_type=look_at_obj_in_light a/b=1/1 unused=5 visible won contexts: 0 ctx, 0 with plan
+rule_18 [Success Process] task_type=pick_two_obj_and_place a/b=4/2 unused=0 visible won contexts: 4 ctx, 3 with plan
+    When two objects must be picked up and placed: search surfaces first, then open containers if needed, take each object, go to the target if not already there, open the target if closed, and move each object there.
+rule_19 [Corrected Error] task_type=look_at_obj_in_light a/b=1/1 unused=6 visible won contexts: 0 ctx, 0 with plan
     When using a lamp on an object, never use the lamp on the object before turning the lamp on.
 rule_20 [Failure Pool] task_type=look_at_obj_in_light a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
     failure pool
-rule_21 [Corrected Error] task_type=look_at_obj_in_light a/b=1/1 unused=2 visible won contexts: 0 ctx, 0 with plan
+rule_21 [Corrected Error] task_type=look_at_obj_in_light a/b=1/1 unused=3 visible won contexts: 0 ctx, 0 with plan
     When examining an object under a lamp, never move the object to a different location without first locating and turning on the lamp.
-rule_22 [Success Process] task_type=look_at_obj_in_light a/b=3/1 unused=0 visible won contexts: 2 ctx, 2 with plan
+rule_22 [Success Process] task_type=look_at_obj_in_light a/b=4/1 unused=0 visible won contexts: 3 ctx, 2 with plan
     When an object must be examined under a lamp: search drawers and furniture first for the object, take it, go to the lamp's location, turn on the lamp, then examine the object.
 rule_23 [Special Phenomenon] task_type=pick_cool_then_place_in_recep a/b=1/1 unused=0 hidden won contexts: 0 ctx, 0 with plan
     When a task is completed after placing an object in a container, stop immediately; do not continue searching or re-examining.
-rule_24 [Corrected Error] task_type=pick_heat_then_place_in_recep a/b=1/2 unused=4 visible won contexts: 1 ctx, 1 with plan
+rule_24 [Corrected Error] task_type=pick_heat_then_place_in_recep a/b=1/2 unused=5 visible won contexts: 1 ctx, 1 with plan
     When heating an object, prioritize microwaves over stoveburners and execute the heat command with the microwave instead of placing the object on stoveburners.
-rule_25 [Success Process] task_type=pick_heat_then_place_in_recep a/b=1/5 unused=1 visible won contexts: 4 ctx, 4 with plan
+rule_25 [Success Process] task_type=pick_heat_then_place_in_recep a/b=1/6 unused=1 visible won contexts: 5 ctx, 5 with plan
     When an object must be heated and placed: search fridge first, take the object, go to microwave, open it if closed, move the object to microwave, close microwave, heat the object with microwave, wait, open microwave, take the object, move it to the target.
-rule_26 [Anti-Pattern] task_type=pick_heat_then_place_in_recep a/b=1/4 unused=2 visible won contexts: 3 ctx, 3 with plan
+rule_26 [Anti-Pattern] task_type=pick_heat_then_place_in_recep a/b=1/5 unused=2 visible won contexts: 4 ctx, 4 with plan
     When examining an appliance, do not issue the same "examine" command again and again.
 rule_27 [Corrected Error] task_type=pick_clean_then_place_in_recep a/b=1/1 unused=4 visible won contexts: 0 ctx, 0 with plan
     When cleaning an object with a sink fails because the sink is empty, examine the sink first to check for water or cleaning mechanism before attempting to clean.
 rule_28 [Unresolved Error] task_type=pick_clean_then_place_in_recep a/b=1/1 unused=0 hidden won contexts: 0 ctx, 0 with plan
     When searching for the object, examine all stoveburners first before checking other locations.
 rule_29 [Special Phenomenon] task_type=pick_and_place_simple a/b=1/1 unused=0 hidden won contexts: 0 ctx, 0 with plan
-    When searching for an object, use inventory first to locate it before opening containers or surfaces.
-rule_30 [Anti-Pattern] task_type=pick_heat_then_place_in_recep a/b=1/1 unused=2 visible won contexts: 0 ctx, 0 with plan
+    When searching for an object, check all containers including closed ones before assuming it is not there.
+rule_30 [Anti-Pattern] task_type=pick_heat_then_place_in_recep a/b=1/1 unused=3 visible won contexts: 0 ctx, 0 with plan
     When using the command "done", do not use the command "done".
 
-manual operations over 80 games: downvote_rule=1, merge_rule=2, outcome=80, pool_game=23, pool_won=57, refine=1, retire=2, update_rule=78, upvote_rule=6, write_rule=27
-builder errors: 79; candidate_attempts=158, candidate_duplicates=165, candidate_refinements=9, candidate_rejections=133
+manual operations over 89 games: downvote_rule=1, merge_rule=2, outcome=89, pool_game=24, pool_won=65, refine=6, retire=3, update_rule=89, upvote_rule=7, write_rule=27
+builder errors: 89; candidate_attempts=166, candidate_duplicates=189, candidate_refinements=10, candidate_rejections=140

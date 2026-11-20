@@ -1,24 +1,24 @@
 {
  "stream": "practice-E-minus-0",
- "games": 81,
+ "games": 91,
  "rules": [
   {
-   "alpha": 8,
+   "alpha": 9,
    "base": [
-    9,
-    14
+    10,
+    15
    ],
    "base_types": {
     "pick_clean_then_place_in_recep": [
-     9,
-     14
+     10,
+     15
     ]
    },
    "beta": 1,
    "commands": {
     "go to sink": [
      0,
-     7
+     8
     ]
    },
    "contexts": [
@@ -143,18 +143,34 @@
      "task": "clean some bowl and put it in microwave.",
      "task_type": "pick_clean_then_place_in_recep",
      "won": true
+    },
+    {
+     "plan": "examine the bowl to confirm its state ; go to the sink to clean the bowl ; clean the bowl at the sink ; go to the cabinet to store the bowl ; put the clean bowl in the cabinet",
+     "steps": [
+      "go to countertop 1",
+      "go to fridge 1",
+      "open fridge 1",
+      "take bowl 3 from fridge 1",
+      "go to sinkbasin 1",
+      "clean bowl 3 with sinkbasin 1",
+      "go to cabinet 1",
+      "move bowl 3 to cabinet 1"
+     ],
+     "task": "put a clean bowl in cabinet.",
+     "task_type": "pick_clean_then_place_in_recep",
+     "won": true
     }
    ],
    "credits": {
     "pick_clean_then_place_in_recep": [
-     7,
+     8,
      0
     ]
    },
    "example": "go to diningtable 1, take fork 1 from diningtable 1, go to sinkbasin 1, clean fork 1 with sinkbasin 1, go to drawer 1, move fork 1 to drawer 1",
    "id": "rule_1",
    "importance": 2,
-   "last_used": 69,
+   "last_used": 90,
    "refined_at": [
     0,
     0
@@ -175,13 +191,13 @@
   {
    "alpha": 1,
    "base": [
-    8,
-    13
+    9,
+    14
    ],
    "base_types": {
     "pick_clean_then_place_in_recep": [
-     8,
-     13
+     9,
+     14
     ]
    },
    "beta": 1,
@@ -2266,6 +2282,40 @@
        "move cloth 1 to toilet 1",
        1
       ]
+     ],
+     [
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to fridge 1",
+       1
+      ],
+      [
+       "open fridge 1",
+       1
+      ],
+      [
+       "take bowl 3 from fridge 1",
+       1
+      ],
+      [
+       "go to sinkbasin 1",
+       1
+      ],
+      [
+       "clean bowl 3 with sinkbasin 1",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "move bowl 3 to cabinet 1",
+       1
+      ]
      ]
     ]
    },
@@ -2283,13 +2333,13 @@
   {
    "alpha": 8,
    "base": [
-    15,
-    19
+    16,
+    20
    ],
    "base_types": {
     "pick_and_place_simple": [
-     15,
-     19
+     16,
+     20
     ]
    },
    "beta": 1,
@@ -2424,7 +2474,7 @@
    },
    "id": "rule_3",
    "importance": 2,
-   "last_used": 74,
+   "last_used": 88,
    "refined_at": [
     0,
     0
@@ -2438,20 +2488,20 @@
    ],
    "task_type": "pick_and_place_simple",
    "type": "Special Phenomenon",
-   "unused": 5,
+   "unused": 6,
    "validation": "",
    "verified": true
   },
   {
    "alpha": 1,
    "base": [
-    15,
-    18
+    16,
+    19
    ],
    "base_types": {
     "pick_and_place_simple": [
-     15,
-     18
+     16,
+     19
     ]
    },
    "beta": 1,
@@ -3976,76 +4026,6 @@
        1
       ],
       [
-       "go to cabinet 1",
-       1
-      ],
-      [
-       "open cabinet 1",
-       1
-      ],
-      [
-       "go to cabinet 2",
-       0
-      ],
-      [
-       "go to cabinet 3",
-       1
-      ],
-      [
-       "open cabinet 3",
-       1
-      ],
-      [
-       "go to cabinet 4",
-       1
-      ],
-      [
-       "open cabinet 4",
-       1
-      ],
-      [
-       "go to desk 1",
-       1
-      ],
-      [
-       "go to garbagecan 1",
-       1
-      ],
-      [
-       "go to sidetable 1",
-       1
-      ],
-      [
-       "take keychain 1 from sidetable 1",
-       1
-      ],
-      [
-       "go to desk 1",
-       1
-      ],
-      [
-       "move keychain 1 to desk 1",
-       1
-      ]
-     ],
-     [
-      [
-       "go to drawer 1",
-       1
-      ],
-      [
-       "open drawer 1",
-       1
-      ],
-      [
-       "go to drawer 2",
-       1
-      ],
-      [
-       "open drawer 2",
-       1
-      ],
-      [
        "go to drawer 3",
        1
       ],
@@ -4565,6 +4545,116 @@
        "move pillow 1 to ottoman 1",
        1
       ]
+     ],
+     [
+      [
+       "go to sidetable 1",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "open cabinet 1",
+       1
+      ],
+      [
+       "go to cabinet 2",
+       1
+      ],
+      [
+       "open cabinet 2",
+       1
+      ],
+      [
+       "go to cabinet 3",
+       1
+      ],
+      [
+       "open cabinet 3",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "go to diningtable 2",
+       1
+      ],
+      [
+       "go to diningtable 3",
+       1
+      ],
+      [
+       "go to fridge 1",
+       1
+      ],
+      [
+       "open fridge 1",
+       1
+      ],
+      [
+       "close fridge 1",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to sinkbasin 1",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "go to cabinet 2",
+       1
+      ],
+      [
+       "go to cabinet 3",
+       1
+      ],
+      [
+       "go to garbagecan 1",
+       1
+      ],
+      [
+       "go to cabinet 4",
+       1
+      ],
+      [
+       "open cabinet 4",
+       1
+      ],
+      [
+       "take peppershaker 1 from cabinet 4",
+       1
+      ],
+      [
+       "go to sidetable 1",
+       1
+      ],
+      [
+       "move peppershaker 1 to sidetable 1",
+       1
+      ]
      ]
     ]
    },
@@ -4582,13 +4672,13 @@
   {
    "alpha": 1,
    "base": [
-    7,
-    19
+    11,
+    25
    ],
    "base_types": {
     "pick_two_obj_and_place": [
-     7,
-     19
+     11,
+     25
     ]
    },
    "beta": 1,
@@ -8568,498 +8658,6 @@
     "won": [
      [
       [
-       "go to shelf 1",
-       1
-      ],
-      [
-       "go to desk 1",
-       1
-      ],
-      [
-       "take alarmclock 1 from desk 1",
-       1
-      ],
-      [
-       "move alarmclock 1 to shelf 1",
-       0
-      ],
-      [
-       "go to desk 1",
-       0
-      ],
-      [
-       "go to shelf 1",
-       1
-      ],
-      [
-       "go to desk 1",
-       1
-      ],
-      [
-       "take alarmclock 2 from desk 1",
-       0
-      ],
-      [
-       "move alarmclock 1 to desk 1",
-       1
-      ],
-      [
-       "take alarmclock 1 from desk 1",
-       1
-      ],
-      [
-       "move alarmclock 1 to shelf 1",
-       0
-      ],
-      [
-       "go to desk 1",
-       0
-      ],
-      [
-       "move alarmclock 1 to desk 1",
-       1
-      ],
-      [
-       "go to desk 1",
-       0
-      ],
-      [
-       "go to desk 1",
-       0
-      ],
-      [
-       "take alarmclock 2 from desk 1",
-       1
-      ],
-      [
-       "move alarmclock 2 to shelf 1",
-       0
-      ],
-      [
-       "move alarmclock 2 to shelf 1",
-       0
-      ],
-      [
-       "go to shelf 1",
-       1
-      ],
-      [
-       "move alarmclock 2 to shelf 1",
-       1
-      ],
-      [
-       "examine shelf 1",
-       1
-      ],
-      [
-       "done",
-       0
-      ],
-      [
-       "go to desk 1",
-       1
-      ],
-      [
-       "take alarmclock 1 from desk 1",
-       1
-      ],
-      [
-       "use skill move_object_to_place@v1 obj=alarmclock 1, place=shelf 1",
-       0
-      ],
-      [
-       "use skill move_object_to_place@v1 obj=alarmclock 1, place=shelf 1",
-       0
-      ],
-      [
-       "go to shelf 1",
-       1
-      ],
-      [
-       "move alarmclock 1 to shelf 1",
-       1
-      ]
-     ],
-     [
-      [
-       "go to desk 1",
-       1
-      ],
-      [
-       "take pencil 1 from desk 1",
-       1
-      ],
-      [
-       "move pencil 1 to drawer 2",
-       0
-      ],
-      [
-       "use skill move_object_to_receptacle@v1 obj=pencil 1 place=drawer 2",
-       0
-      ],
-      [
-       "go to drawer 2",
-       1
-      ],
-      [
-       "open drawer 2",
-       1
-      ],
-      [
-       "move pencil 1 to drawer 2",
-       1
-      ],
-      [
-       "take pencil 2 from desk 1",
-       0
-      ],
-      [
-       "go to desk 1",
-       1
-      ],
-      [
-       "take pencil 2 from desk 1",
-       1
-      ],
-      [
-       "move pencil 2 to drawer 2",
-       0
-      ],
-      [
-       "move pencil 2 to drawer 2",
-       0
-      ],
-      [
-       "go to drawer 2",
-       1
-      ],
-      [
-       "move pencil 2 to drawer 2",
-       1
-      ]
-     ],
-     [
-      [
-       "go to dresser 1",
-       1
-      ],
-      [
-       "go to drawer 1",
-       1
-      ],
-      [
-       "open drawer 1",
-       1
-      ],
-      [
-       "go to dresser 1",
-       1
-      ],
-      [
-       "go to drawer 1",
-       1
-      ],
-      [
-       "go to drawer 2",
-       1
-      ],
-      [
-       "open drawer 2",
-       1
-      ],
-      [
-       "go to drawer 3",
-       1
-      ],
-      [
-       "open drawer 3",
-       1
-      ],
-      [
-       "go to dresser 1",
-       1
-      ],
-      [
-       "go to drawer 4",
-       1
-      ],
-      [
-       "open drawer 4",
-       1
-      ],
-      [
-       "go to coffeetable 1",
-       1
-      ],
-      [
-       "take pen 1 from coffeetable 1",
-       1
-      ],
-      [
-       "go to dresser 1",
-       1
-      ],
-      [
-       "move pen 1 to dresser 1",
-       1
-      ],
-      [
-       "go to coffeetable 1",
-       1
-      ],
-      [
-       "take pen 2 from coffeetable 1",
-       1
-      ],
-      [
-       "move pen 2 to dresser 1",
-       0
-      ],
-      [
-       "move pen 2 to dresser 1",
-       0
-      ],
-      [
-       "go to dresser 1",
-       1
-      ],
-      [
-       "move pen 2 to dresser 1",
-       1
-      ]
-     ],
-     [
-      [
-       "go to diningtable 1",
-       1
-      ],
-      [
-       "go to countertop 1",
-       1
-      ],
-      [
-       "go to cabinet 1",
-       1
-      ],
-      [
-       "go to countertop 1",
-       1
-      ],
-      [
-       "go to cabinet 1",
-       1
-      ],
-      [
-       "go to countertop 1",
-       1
-      ],
-      [
-       "go to cabinet 1",
-       1
-      ],
-      [
-       "go to cabinet 2",
-       1
-      ],
-      [
-       "go to countertop 1",
-       1
-      ],
-      [
-       "go to cabinet 1",
-       1
-      ],
-      [
-       "open cabinet 1",
-       1
-      ],
-      [
-       "take peppershaker 1 from cabinet 1",
-       1
-      ],
-      [
-       "go to diningtable 1",
-       1
-      ],
-      [
-       "move peppershaker 1 to diningtable 1",
-       1
-      ],
-      [
-       "go to countertop 1",
-       1
-      ],
-      [
-       "go to cabinet 1",
-       1
-      ],
-      [
-       "go to cabinet 2",
-       1
-      ],
-      [
-       "open cabinet 2",
-       1
-      ],
-      [
-       "take peppershaker 2 from cabinet 2",
-       1
-      ],
-      [
-       "move peppershaker 2 to diningtable 1",
-       0
-      ],
-      [
-       "move peppershaker 2 to diningtable 1",
-       0
-      ],
-      [
-       "go to diningtable 1",
-       1
-      ],
-      [
-       "move peppershaker 2 to diningtable 1",
-       1
-      ]
-     ],
-     [
-      [
-       "go to coffeetable 1",
-       1
-      ],
-      [
-       "take laptop 1 from coffeetable 1",
-       1
-      ],
-      [
-       "go to ottoman 1",
-       1
-      ],
-      [
-       "move laptop 1 to ottoman 1",
-       1
-      ],
-      [
-       "go to diningtable 1",
-       1
-      ],
-      [
-       "go to sofa 1",
-       1
-      ],
-      [
-       "take laptop 2 from sofa 1",
-       1
-      ],
-      [
-       "go to ottoman 1",
-       1
-      ],
-      [
-       "move laptop 2 to ottoman 1",
-       1
-      ]
-     ],
-     [
-      [
-       "go to diningtable 1",
-       1
-      ],
-      [
-       "take winebottle 1 from diningtable 1",
-       1
-      ],
-      [
-       "go to diningtable 2",
-       1
-      ],
-      [
-       "take winebottle 2 from diningtable 2",
-       0
-      ],
-      [
-       "move winebottle 3 to cabinet 1",
-       0
-      ],
-      [
-       "go to diningtable 2",
-       0
-      ],
-      [
-       "go to diningtable 2",
-       0
-      ],
-      [
-       "examine diningtable 2",
-       1
-      ],
-      [
-       "move winebottle 1 to cabinet 1",
-       0
-      ],
-      [
-       "go to diningtable 2",
-       0
-      ],
-      [
-       "go to diningtable 2",
-       0
-      ],
-      [
-       "move winebottle 1 to cabinet 1",
-       0
-      ],
-      [
-       "go to diningtable 1",
-       1
-      ],
-      [
-       "go to diningtable 2",
-       1
-      ],
-      [
-       "I need to take the second winebottle (winebottle 3) from diningtable 2 and put it in cabinet 1. Since I am currently at diningtable 2 and see winebottle 3 there, I should first take it. However, the current observation shows winebottle",
-       0
-      ],
-      [
-       "take winebottle 3 from diningtable 2",
-       0
-      ],
-      [
-       "go to diningtable 2",
-       0
-      ],
-      [
-       "take winebottle 3 from diningtable 2",
-       0
-      ],
-      [
-       "go to cabinet 1",
-       1
-      ],
-      [
-       "move winebottle 1 to cabinet 1",
-       1
-      ],
-      [
-       "go to diningtable 2",
-       1
-      ],
-      [
-       "take winebottle 3 from diningtable 2",
-       1
-      ],
-      [
-       "go to cabinet 1",
-       1
-      ],
-      [
-       "move winebottle 3 to cabinet 1",
-       1
-      ]
-     ],
-     [
-      [
        "go to handtowelholder 1",
        1
       ],
@@ -9393,6 +8991,366 @@
        "move laptop 2 to desk 1",
        1
       ]
+     ],
+     [
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "go to sidetable 1",
+       1
+      ],
+      [
+       "take keychain 1 from sidetable 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "open drawer 1",
+       1
+      ],
+      [
+       "move keychain 1 to drawer 1",
+       1
+      ],
+      [
+       "go to sidetable 1",
+       1
+      ],
+      [
+       "take keychain 2 from sidetable 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "move keychain 2 to drawer 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "go to desk 1",
+       0
+      ],
+      [
+       "examine desk 1",
+       1
+      ],
+      [
+       "take keychain 2 from desk 1",
+       1
+      ],
+      [
+       "examine desk 1",
+       1
+      ],
+      [
+       "go to desk 1",
+       0
+      ],
+      [
+       "take keychain 3 from desk 1",
+       0
+      ],
+      [
+       "go to desk 1",
+       0
+      ],
+      [
+       "take keychain 3 from desk 1",
+       0
+      ],
+      [
+       "go to safe 1",
+       1
+      ],
+      [
+       "open safe 1",
+       1
+      ],
+      [
+       "move keychain 2 to safe 1",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "take keychain 3 from desk 1",
+       1
+      ],
+      [
+       "go to safe 1",
+       1
+      ],
+      [
+       "move keychain 3 to safe 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "take tissuebox 1 from desk 1",
+       1
+      ],
+      [
+       "go to shelf 1",
+       1
+      ],
+      [
+       "move tissuebox 1 to shelf 1",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "take tissuebox 2 from desk 1",
+       1
+      ],
+      [
+       "go to shelf 1",
+       1
+      ],
+      [
+       "move tissuebox 2 to shelf 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "open drawer 1",
+       1
+      ],
+      [
+       "go to drawer 2",
+       1
+      ],
+      [
+       "open drawer 2",
+       1
+      ],
+      [
+       "go to drawer 3",
+       1
+      ],
+      [
+       "go to drawer 4",
+       1
+      ],
+      [
+       "go to sidetable 1",
+       1
+      ],
+      [
+       "go to sidetable 2",
+       1
+      ],
+      [
+       "go to bed 1",
+       1
+      ],
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "take pen 1 from diningtable 1",
+       1
+      ],
+      [
+       "go to sidetable 1",
+       1
+      ],
+      [
+       "move pen 1 to sidetable 1",
+       1
+      ],
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "take pen 2 from diningtable 1",
+       1
+      ],
+      [
+       "go to sidetable 1",
+       1
+      ],
+      [
+       "move pen 2 to sidetable 1",
+       1
+      ]
+     ],
+     [
+      [
+       "look",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "look",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "go to bed 1",
+       1
+      ],
+      [
+       "take laptop 1 from bed 1",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "move laptop 1 to desk 1",
+       1
+      ],
+      [
+       "go to bed 1",
+       1
+      ],
+      [
+       "take laptop 2 from bed 1",
+       1
+      ],
+      [
+       "go to desk 1",
+       1
+      ],
+      [
+       "move laptop 2 to desk 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "take soapbar 3 from countertop 1",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "open cabinet 1",
+       1
+      ],
+      [
+       "move soapbar 3 to cabinet 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to sinkbasin 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to sinkbasin 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to sinkbasin 1",
+       1
+      ],
+      [
+       "go to sinkbasin 1",
+       0
+      ],
+      [
+       "go to toilet 1",
+       1
+      ],
+      [
+       "take soapbar 1 from toilet 1",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "move soapbar 1 to cabinet 1",
+       1
+      ]
      ]
     ]
    },
@@ -9408,15 +9366,15 @@
    "verified": true
   },
   {
-   "alpha": 14,
+   "alpha": 15,
    "base": [
-    15,
-    18
+    16,
+    19
    ],
    "base_types": {
     "pick_and_place_simple": [
-     15,
-     18
+     16,
+     19
     ]
    },
    "beta": 4,
@@ -9647,6 +9605,26 @@
      "won": true
     },
     {
+     "plan": "go to sidetable 1 ; search for peppershaker in available locations ; take peppershaker from its location ; put peppershaker on sidetable 1",
+     "steps": [
+      "go to diningtable 1",
+      "go to countertop 1",
+      "go to sinkbasin 1",
+      "go to cabinet 1",
+      "go to cabinet 2",
+      "go to cabinet 3",
+      "go to garbagecan 1",
+      "go to cabinet 4",
+      "open cabinet 4",
+      "take peppershaker 1 from cabinet 4",
+      "go to sidetable 1",
+      "move peppershaker 1 to sidetable 1"
+     ],
+     "task": "put some peppershaker on sidetable.",
+     "task_type": "pick_and_place_simple",
+     "won": true
+    },
+    {
      "plan": "go to dresser 1 ; open dresser 1 ; search drawers in dresser 1 for cellphone ; take cellphone from drawer ; put cellphone in dresser 1",
      "steps": [
       "open drawer 9",
@@ -9709,14 +9687,14 @@
    ],
    "credits": {
     "pick_and_place_simple": [
-     13,
+     14,
      3
     ]
    },
    "example": "search drawers 1-4, take cd 2 from drawer 4, go to safe 1, open safe 1, move cd 2 to safe 1",
    "id": "rule_6",
    "importance": 2,
-   "last_used": 74,
+   "last_used": 88,
    "refined_at": [
     0,
     0
@@ -9737,12 +9715,12 @@
    "alpha": 1,
    "base": [
     3,
-    10
+    11
    ],
    "base_types": {
     "pick_heat_then_place_in_recep": [
      3,
-     10
+     11
     ]
    },
    "beta": 1,
@@ -9757,7 +9735,7 @@
    },
    "id": "rule_7",
    "importance": 2,
-   "last_used": null,
+   "last_used": 81,
    "refined_at": [
     0,
     0
@@ -9771,6 +9749,7 @@
    ],
    "task_type": "pick_heat_then_place_in_recep",
    "type": "Special Phenomenon",
+   "unused": 1,
    "validation": "",
    "verified": true
   },
@@ -9778,12 +9757,12 @@
    "alpha": 1,
    "base": [
     3,
-    9
+    10
    ],
    "base_types": {
     "pick_heat_then_place_in_recep": [
      3,
-     9
+     10
     ]
    },
    "beta": 1,
@@ -12746,6 +12725,500 @@
       ],
       "task": "heat some plate and put it in countertop.",
       "task_id": "train/pick_heat_then_place_in_recep-Plate-None-CounterTop-7/trial_T20190909_100702_050461/game.tw-pddl"
+     },
+     {
+      "attempts": [
+       [
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "take tomato 3 from fridge 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "move tomato 3 to microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         0
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "open microwave 1",
+         0
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "take tomato 3 from microwave 1",
+         1
+        ],
+        [
+         "go to sidetable 1",
+         1
+        ],
+        [
+         "move tomato 3 to sidetable 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "go to sidetable 1",
+         1
+        ],
+        [
+         "take tomato 3 from sidetable 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "move tomato 3 to microwave 1",
+         1
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "take tomato 3 from fridge 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "move tomato 3 to microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         0
+        ],
+        [
+         "move tomato 1 to microwave 1",
+         0
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "heat tomato 1 with microwave 1",
+         0
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "heat tomato 1 with microwave 1",
+         0
+        ],
+        [
+         "go to microwave 1",
+         0
+        ],
+        [
+         "close microwave 1",
+         0
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "heat tomato 1 with microwave 1",
+         0
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "close cabinet 1",
+         1
+        ],
+        [
+         "go to garbagecan 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "close drawer 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "open cabinet 2",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "close fridge 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "take tomato 3 from fridge 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "move tomato 3 to microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "go to sidetable 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "take tomato 3 from fridge 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "move tomato 3 to microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "go to microwave 1",
+         0
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "close microwave 1",
+         0
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "move tomato 1 to microwave 1",
+         0
+        ],
+        [
+         "go to microwave 1",
+         0
+        ],
+        [
+         "open microwave 1",
+         1
+        ],
+        [
+         "close microwave 1",
+         1
+        ],
+        [
+         "heat tomato 3 with microwave 1",
+         0
+        ],
+        [
+         "open microwave 1",
+         1
+        ]
+       ]
+      ],
+      "task": "heat some tomato and put it in sidetable.",
+      "task_id": "train/pick_heat_then_place_in_recep-Tomato-None-SideTable-21/trial_T20190909_041918_595548/game.tw-pddl"
      }
     ],
     "retired": [],
@@ -13045,15 +13518,15 @@
    "verified": true
   },
   {
-   "alpha": 5,
+   "alpha": 6,
    "base": [
-    8,
-    12
+    9,
+    13
    ],
    "base_types": {
     "pick_clean_then_place_in_recep": [
-     8,
-     12
+     9,
+     13
     ]
    },
    "beta": 3,
@@ -13135,6 +13608,22 @@
      "won": true
     },
     {
+     "plan": "examine the bowl to confirm its state ; go to the sink to clean the bowl ; clean the bowl at the sink ; go to the cabinet to store the bowl ; put the clean bowl in the cabinet",
+     "steps": [
+      "go to countertop 1",
+      "go to fridge 1",
+      "open fridge 1",
+      "take bowl 3 from fridge 1",
+      "go to sinkbasin 1",
+      "clean bowl 3 with sinkbasin 1",
+      "go to cabinet 1",
+      "move bowl 3 to cabinet 1"
+     ],
+     "task": "put a clean bowl in cabinet.",
+     "task_type": "pick_clean_then_place_in_recep",
+     "won": true
+    },
+    {
      "plan": "go to diningtable 1 ; take kettle from diningtable 1 ; go to sinkbasin 1 ; clean kettle with sinkbasin 1 ; go to diningtable 1 ; put kettle in diningtable 1",
      "steps": [
       "go to fridge 1",
@@ -13177,14 +13666,14 @@
    ],
    "credits": {
     "pick_clean_then_place_in_recep": [
-     4,
+     5,
      2
     ]
    },
    "example": "open cabinet 1 before searching inside.",
    "id": "rule_9",
    "importance": 2,
-   "last_used": 69,
+   "last_used": 90,
    "refined_at": [
     0,
     0
@@ -13205,13 +13694,13 @@
   {
    "alpha": 2,
    "base": [
-    7,
-    19
+    11,
+    25
    ],
    "base_types": {
     "pick_two_obj_and_place": [
-     7,
-     19
+     11,
+     25
     ]
    },
    "beta": 1,
@@ -13243,7 +13732,7 @@
    "example": "move alarmclock 1 to shelf 1",
    "id": "rule_10",
    "importance": 2,
-   "last_used": 79,
+   "last_used": 89,
    "refined_at": [
     0,
     0
@@ -13257,7 +13746,7 @@
    ],
    "task_type": "pick_two_obj_and_place",
    "type": "Corrected Error",
-   "unused": 16,
+   "unused": 22,
    "validation": "",
    "verified": true
   },
@@ -15084,13 +15573,13 @@
   {
    "alpha": 1,
    "base": [
-    6,
-    18
+    10,
+    24
    ],
    "base_types": {
     "pick_two_obj_and_place": [
-     6,
-     18
+     10,
+     24
     ]
    },
    "beta": 1,
@@ -15118,13 +15607,13 @@
   {
    "alpha": 2,
    "base": [
-    6,
-    10
+    7,
+    11
    ],
    "base_types": {
     "pick_clean_then_place_in_recep": [
-     6,
-     10
+     7,
+     11
     ]
    },
    "beta": 2,
@@ -15192,7 +15681,7 @@
    },
    "id": "rule_14",
    "importance": 2,
-   "last_used": 69,
+   "last_used": 90,
    "refined_at": [
     0,
     0
@@ -15206,7 +15695,7 @@
    ],
    "task_type": "pick_clean_then_place_in_recep",
    "type": "Special Phenomenon",
-   "unused": 5,
+   "unused": 6,
    "validation": "",
    "verified": true
   },
@@ -15214,12 +15703,12 @@
    "alpha": 1,
    "base": [
     3,
-    9
+    10
    ],
    "base_types": {
     "pick_heat_then_place_in_recep": [
      3,
-     9
+     10
     ]
    },
    "beta": 1,
@@ -15245,18 +15734,18 @@
    "verified": false
   },
   {
-   "alpha": 5,
+   "alpha": 8,
    "base": [
-    6,
-    16
+    10,
+    22
    ],
    "base_types": {
     "pick_two_obj_and_place": [
-     6,
-     16
+     10,
+     22
     ]
    },
-   "beta": 6,
+   "beta": 7,
    "contexts": [
     {
      "plan": "go to dresser 1 ; take first pen from dresser 1 ; put first pen in dresser 1 ; take second pen from dresser 1 ; put second pen in dresser 1",
@@ -15333,6 +15822,61 @@
       "move saltshaker 2 to drawer 1"
      ],
      "task": "put two saltshaker in drawer.",
+     "task_type": "pick_two_obj_and_place",
+     "won": true
+    },
+    {
+     "steps": [
+      "go to desk 1",
+      "go to sidetable 1",
+      "take keychain 1 from sidetable 1",
+      "go to drawer 1",
+      "open drawer 1",
+      "move keychain 1 to drawer 1",
+      "go to sidetable 1",
+      "take keychain 2 from sidetable 1",
+      "go to drawer 1",
+      "move keychain 2 to drawer 1"
+     ],
+     "task": "put two keychain in drawer.",
+     "task_type": "pick_two_obj_and_place",
+     "won": true
+    },
+    {
+     "steps": [
+      "go to drawer 4",
+      "go to sidetable 1",
+      "go to sidetable 2",
+      "go to bed 1",
+      "go to diningtable 1",
+      "take pen 1 from diningtable 1",
+      "go to sidetable 1",
+      "move pen 1 to sidetable 1",
+      "go to diningtable 1",
+      "take pen 2 from diningtable 1",
+      "go to sidetable 1",
+      "move pen 2 to sidetable 1"
+     ],
+     "task": "find two pen and put them in sidetable.",
+     "task_type": "pick_two_obj_and_place",
+     "won": true
+    },
+    {
+     "steps": [
+      "open cabinet 1",
+      "move soapbar 3 to cabinet 1",
+      "go to countertop 1",
+      "go to sinkbasin 1",
+      "go to countertop 1",
+      "go to sinkbasin 1",
+      "go to countertop 1",
+      "go to sinkbasin 1",
+      "go to toilet 1",
+      "take soapbar 1 from toilet 1",
+      "go to cabinet 1",
+      "move soapbar 1 to cabinet 1"
+     ],
+     "task": "put two soapbar in cabinet.",
      "task_type": "pick_two_obj_and_place",
      "won": true
     },
@@ -15435,18 +15979,38 @@
      "task": "find two laptop and put them in desk.",
      "task_type": "pick_two_obj_and_place",
      "won": false
+    },
+    {
+     "plan": "search for keychains in the environment ; take first keychain from its location ; take second keychain from its location ; put first keychain in safe 1 ; put second keychain in safe 1",
+     "steps": [
+      "open safe 1",
+      "go to drawer 1",
+      "go to desk 1",
+      "go to drawer 1",
+      "go to drawer 2",
+      "open drawer 2",
+      "go to desk 1",
+      "go to armchair 1",
+      "go to desk 1",
+      "go to drawer 1",
+      "go to desk 1",
+      "go to drawer 1"
+     ],
+     "task": "find two keychain and put them in safe.",
+     "task_type": "pick_two_obj_and_place",
+     "won": false
     }
    ],
    "credits": {
     "pick_two_obj_and_place": [
-     4,
-     5
+     7,
+     6
     ]
    },
    "example": "open drawer 2, then move pencil 1 to drawer 2",
    "id": "rule_16",
    "importance": 2,
-   "last_used": 79,
+   "last_used": 89,
    "refined_at": [
     0,
     0
@@ -15460,20 +16024,20 @@
    ],
    "task_type": "pick_two_obj_and_place",
    "type": "Corrected Error",
-   "unused": 5,
+   "unused": 7,
    "validation": "",
    "verified": true
   },
   {
-   "alpha": 3,
+   "alpha": 4,
    "base": [
-    6,
-    16
+    10,
+    22
    ],
    "base_types": {
     "pick_two_obj_and_place": [
-     6,
-     16
+     10,
+     22
     ]
    },
    "beta": 2,
@@ -15517,6 +16081,23 @@
      "won": true
     },
     {
+     "steps": [
+      "go to desk 1",
+      "go to sidetable 1",
+      "take keychain 1 from sidetable 1",
+      "go to drawer 1",
+      "open drawer 1",
+      "move keychain 1 to drawer 1",
+      "go to sidetable 1",
+      "take keychain 2 from sidetable 1",
+      "go to drawer 1",
+      "move keychain 2 to drawer 1"
+     ],
+     "task": "put two keychain in drawer.",
+     "task_type": "pick_two_obj_and_place",
+     "won": true
+    },
+    {
      "plan": "go to dresser 1 ; search for spraybottle 1 on surfaces ; take spraybottle 1 from its location ; search for spraybottle 2 on surfaces ; take spraybottle 2 from its location ; put spraybottle 1 in dresser 1 ; put spraybottle 2 in dresser 1",
      "steps": [
       "go to countertop 1",
@@ -15539,14 +16120,14 @@
    ],
    "credits": {
     "pick_two_obj_and_place": [
-     2,
+     3,
      1
     ]
    },
    "example": "take pencil 1 from desk 1, open drawer 2, move pencil 1 to drawer 2, take pencil 2 from desk 1, move pencil 2 to drawer 2",
    "id": "rule_17",
    "importance": 2,
-   "last_used": 79,
+   "last_used": 89,
    "refined_at": [
     0,
     0
@@ -15560,7 +16141,7 @@
    ],
    "task_type": "pick_two_obj_and_place",
    "type": "Success Process",
-   "unused": 11,
+   "unused": 16,
    "validation": "",
    "verified": true
   },
@@ -15699,13 +16280,13 @@
   {
    "alpha": 1,
    "base": [
-    6,
-    15
+    10,
+    21
    ],
    "base_types": {
     "pick_two_obj_and_place": [
-     6,
-     15
+     10,
+     21
     ]
    },
    "beta": 1,
@@ -15731,15 +16312,15 @@
    "verified": false
   },
   {
-   "alpha": 3,
+   "alpha": 4,
    "base": [
-    4,
-    7
+    5,
+    8
    ],
    "base_types": {
     "pick_clean_then_place_in_recep": [
-     4,
-     7
+     5,
+     8
     ]
    },
    "beta": 1,
@@ -15777,18 +16358,34 @@
      "task": "clean some bowl and put it in microwave.",
      "task_type": "pick_clean_then_place_in_recep",
      "won": true
+    },
+    {
+     "plan": "examine the bowl to confirm its state ; go to the sink to clean the bowl ; clean the bowl at the sink ; go to the cabinet to store the bowl ; put the clean bowl in the cabinet",
+     "steps": [
+      "go to countertop 1",
+      "go to fridge 1",
+      "open fridge 1",
+      "take bowl 3 from fridge 1",
+      "go to sinkbasin 1",
+      "clean bowl 3 with sinkbasin 1",
+      "go to cabinet 1",
+      "move bowl 3 to cabinet 1"
+     ],
+     "task": "put a clean bowl in cabinet.",
+     "task_type": "pick_clean_then_place_in_recep",
+     "won": true
     }
    ],
    "credits": {
     "pick_clean_then_place_in_recep": [
-     2,
+     3,
      0
     ]
    },
    "example": "move pan 1 to stoveburner",
    "id": "rule_20",
    "importance": 2,
-   "last_used": 69,
+   "last_used": 90,
    "refined_at": [
     0,
     0
@@ -15807,23 +16404,50 @@
    "verified": true
   },
   {
-   "alpha": 1,
+   "alpha": 2,
    "base": [
-    2,
-    6
+    3,
+    7
    ],
    "base_types": {
     "look_at_obj_in_light": [
-     2,
-     6
+     3,
+     7
     ]
    },
    "beta": 1,
-   "contexts": [],
+   "contexts": [
+    {
+     "plan": "go to the desklamp location ; turn on the desklamp ; examine the tissuebox with the desklamp",
+     "steps": [
+      "go to drawer 3",
+      "open drawer 3",
+      "go to drawer 4",
+      "open drawer 4",
+      "go to shelf 1",
+      "go to sidetable 1",
+      "use desklamp 1",
+      "examine sidetable 1",
+      "go to shelf 1",
+      "take tissuebox 2 from shelf 1",
+      "examine tissuebox 2",
+      "go to sidetable 1"
+     ],
+     "task": "examine the tissuebox with the desklamp.",
+     "task_type": "look_at_obj_in_light",
+     "won": true
+    }
+   ],
+   "credits": {
+    "look_at_obj_in_light": [
+     1,
+     0
+    ]
+   },
    "example": "The agent wasted actions searching drawers while pen 2 was on desk 1.",
    "id": "rule_21",
    "importance": 2,
-   "last_used": 71,
+   "last_used": 84,
    "refined_at": [
     0,
     0
@@ -15842,15 +16466,15 @@
    "verified": true
   },
   {
-   "alpha": 3,
+   "alpha": 4,
    "base": [
-    2,
-    6
+    3,
+    7
    ],
    "base_types": {
     "look_at_obj_in_light": [
-     2,
-     6
+     3,
+     7
     ]
    },
    "beta": 3,
@@ -15882,6 +16506,26 @@
       "take tissuebox 1 from desk 1",
       "go to dresser 1",
       "use desklamp 1"
+     ],
+     "task": "examine the tissuebox with the desklamp.",
+     "task_type": "look_at_obj_in_light",
+     "won": true
+    },
+    {
+     "plan": "go to the desklamp location ; turn on the desklamp ; examine the tissuebox with the desklamp",
+     "steps": [
+      "go to drawer 3",
+      "open drawer 3",
+      "go to drawer 4",
+      "open drawer 4",
+      "go to shelf 1",
+      "go to sidetable 1",
+      "use desklamp 1",
+      "examine sidetable 1",
+      "go to shelf 1",
+      "take tissuebox 2 from shelf 1",
+      "examine tissuebox 2",
+      "go to sidetable 1"
      ],
      "task": "examine the tissuebox with the desklamp.",
      "task_type": "look_at_obj_in_light",
@@ -15930,14 +16574,14 @@
    ],
    "credits": {
     "look_at_obj_in_light": [
-     2,
+     3,
      2
     ]
    },
    "example": "take pen 2 from desk 1, go to dresser 1, use desklamp 1.",
    "id": "rule_22",
    "importance": 2,
-   "last_used": 71,
+   "last_used": 84,
    "refined_at": [
     0,
     0
@@ -15958,13 +16602,13 @@
   {
    "alpha": 1,
    "base": [
-    2,
-    5
+    3,
+    6
    ],
    "base_types": {
     "look_at_obj_in_light": [
-     2,
-     5
+     3,
+     6
     ]
    },
    "beta": 1,
@@ -16306,6 +16950,88 @@
        "use desklamp 1",
        1
       ]
+     ],
+     [
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "open drawer 1",
+       1
+      ],
+      [
+       "go to drawer 2",
+       1
+      ],
+      [
+       "open drawer 2",
+       1
+      ],
+      [
+       "go to drawer 3",
+       1
+      ],
+      [
+       "open drawer 3",
+       1
+      ],
+      [
+       "go to drawer 4",
+       1
+      ],
+      [
+       "open drawer 4",
+       1
+      ],
+      [
+       "go to shelf 1",
+       1
+      ],
+      [
+       "go to sidetable 1",
+       1
+      ],
+      [
+       "go to desklamp 1",
+       0
+      ],
+      [
+       "use desklamp 1",
+       1
+      ],
+      [
+       "examine sidetable 1",
+       1
+      ],
+      [
+       "go to shelf 1",
+       1
+      ],
+      [
+       "take tissuebox 2 from shelf 1",
+       1
+      ],
+      [
+       "go to desklamp 1",
+       0
+      ],
+      [
+       "go to desklamp 1",
+       0
+      ],
+      [
+       "go to desklamp 1",
+       0
+      ],
+      [
+       "examine tissuebox 2",
+       1
+      ],
+      [
+       "go to sidetable 1",
+       1
+      ]
      ]
     ]
    },
@@ -16358,12 +17084,12 @@
    "alpha": 1,
    "base": [
     3,
-    7
+    8
    ],
    "base_types": {
     "pick_heat_then_place_in_recep": [
      3,
-     7
+     8
     ]
    },
    "beta": 1,
@@ -16371,7 +17097,7 @@
    "example": "\"place <X> on <X>\" answers \"Nothing happens.\"",
    "id": "rule_25",
    "importance": 2,
-   "last_used": 76,
+   "last_used": 81,
    "pattern": {
     "attempts": 5,
     "example": "place mug 1 on stoveburner 1",
@@ -16398,7 +17124,7 @@
    ],
    "task_type": "pick_heat_then_place_in_recep",
    "type": "Anti-Pattern",
-   "unused": 5,
+   "unused": 6,
    "validation": "",
    "verified": true
   },
@@ -16406,15 +17132,15 @@
    "alpha": 3,
    "base": [
     3,
-    7
+    8
    ],
    "base_types": {
     "pick_heat_then_place_in_recep": [
      3,
-     7
+     8
     ]
    },
-   "beta": 4,
+   "beta": 5,
    "contexts": [
     {
      "plan": "find a plate in the environment ; take the plate from its current location ; heat the plate in the microwave ; open the fridge ; put the hot plate in the fridge",
@@ -16513,18 +17239,38 @@
      "task": "heat some plate and put it in countertop.",
      "task_type": "pick_heat_then_place_in_recep",
      "won": false
+    },
+    {
+     "plan": "go to microwave 1 ; open the microwave ; take tomato 3 from sidetable 1 ; put tomato 3 in microwave 1 ; heat tomato 3 with microwave 1 ; put tomato 3 on sidetable 1",
+     "steps": [
+      "close microwave 1",
+      "open microwave 1",
+      "take tomato 3 from microwave 1",
+      "go to sidetable 1",
+      "move tomato 3 to sidetable 1",
+      "go to microwave 1",
+      "go to sidetable 1",
+      "take tomato 3 from sidetable 1",
+      "go to microwave 1",
+      "move tomato 3 to microwave 1",
+      "close microwave 1",
+      "open microwave 1"
+     ],
+     "task": "heat some tomato and put it in sidetable.",
+     "task_type": "pick_heat_then_place_in_recep",
+     "won": false
     }
    ],
    "credits": {
     "pick_heat_then_place_in_recep": [
      2,
-     3
+     4
     ]
    },
    "example": "The agent tried to heat the cup on stoveburner 1 but failed because the cup was not placed on it; it succeeded by placing the cup inside the microwave.",
    "id": "rule_26",
    "importance": 2,
-   "last_used": 76,
+   "last_used": 81,
    "refined_at": [
     0,
     0
@@ -16544,13 +17290,13 @@
   {
    "alpha": 2,
    "base": [
-    4,
-    12
+    8,
+    18
    ],
    "base_types": {
     "pick_two_obj_and_place": [
-     4,
-     12
+     8,
+     18
     ]
    },
    "beta": 1,
@@ -16585,7 +17331,7 @@
    "example": "take laptop 1 from coffeetable 1, move laptop 1 to ottoman 1",
    "id": "rule_27",
    "importance": 2,
-   "last_used": 79,
+   "last_used": 89,
    "refined_at": [
     0,
     0
@@ -16599,20 +17345,20 @@
    ],
    "task_type": "pick_two_obj_and_place",
    "type": "Corrected Error",
-   "unused": 10,
+   "unused": 16,
    "validation": "",
    "verified": true
   },
   {
    "alpha": 1,
    "base": [
-    1,
-    4
+    2,
+    5
    ],
    "base_types": {
     "pick_clean_then_place_in_recep": [
-     1,
-     4
+     2,
+     5
     ]
    },
    "beta": 1,
@@ -16620,7 +17366,7 @@
    "example": "go to stoveburner 4 to find kettle 2",
    "id": "rule_28",
    "importance": 2,
-   "last_used": 69,
+   "last_used": 90,
    "refined_at": [
     0,
     0
@@ -16634,7 +17380,7 @@
    ],
    "task_type": "pick_clean_then_place_in_recep",
    "type": "Corrected Error",
-   "unused": 2,
+   "unused": 3,
    "validation": "",
    "verified": true
   },
@@ -16642,12 +17388,12 @@
    "alpha": 2,
    "base": [
     2,
-    5
+    6
    ],
    "base_types": {
     "pick_heat_then_place_in_recep": [
      2,
-     5
+     6
     ]
    },
    "beta": 1,
@@ -16682,7 +17428,7 @@
    "example": "The agent failed by repeatedly opening/closing the microwave without heating; it succeeded by executing 'heat egg 1 with microwave 1' right after placing the egg.",
    "id": "rule_29",
    "importance": 2,
-   "last_used": 76,
+   "last_used": 81,
    "refined_at": [
     0,
     0
@@ -16696,7 +17442,7 @@
    ],
    "task_type": "pick_heat_then_place_in_recep",
    "type": "Corrected Error",
-   "unused": 3,
+   "unused": 4,
    "validation": "",
    "verified": true
   },
@@ -16704,12 +17450,12 @@
    "alpha": 2,
    "base": [
     2,
-    5
+    6
    ],
    "base_types": {
     "pick_heat_then_place_in_recep": [
      2,
-     5
+     6
     ]
    },
    "beta": 1,
@@ -16756,7 +17502,7 @@
    "example": "The agent found egg 1 on countertop 1, took it, opened microwave 1, used 'heat egg 1 with microwave 1', then moved it to fridge 1.",
    "id": "rule_30",
    "importance": 2,
-   "last_used": 76,
+   "last_used": 81,
    "refined_at": [
     0,
     0
@@ -16770,20 +17516,20 @@
    ],
    "task_type": "pick_heat_then_place_in_recep",
    "type": "Success Process",
-   "unused": 3,
+   "unused": 4,
    "validation": "",
    "verified": true
   },
   {
    "alpha": 1,
    "base": [
-    2,
-    9
+    6,
+    15
    ],
    "base_types": {
     "pick_two_obj_and_place": [
-     2,
-     9
+     6,
+     15
     ]
    },
    "beta": 1,
@@ -16811,13 +17557,13 @@
   {
    "alpha": 1,
    "base": [
-    5,
-    6
+    6,
+    7
    ],
    "base_types": {
     "pick_and_place_simple": [
-     5,
-     6
+     6,
+     7
     ]
    },
    "beta": 1,
@@ -16845,13 +17591,13 @@
   {
    "alpha": 1,
    "base": [
-    1,
-    7
+    5,
+    13
    ],
    "base_types": {
     "pick_two_obj_and_place": [
-     1,
-     7
+     5,
+     13
     ]
    },
    "beta": 1,
@@ -16880,12 +17626,12 @@
    "alpha": 1,
    "base": [
     1,
-    3
+    4
    ],
    "base_types": {
     "pick_heat_then_place_in_recep": [
      1,
-     3
+     4
     ]
    },
    "beta": 1,
@@ -16914,12 +17660,12 @@
    "alpha": 2,
    "base": [
     1,
-    2
+    3
    ],
    "base_types": {
     "pick_heat_then_place_in_recep": [
      1,
-     2
+     3
     ]
    },
    "beta": 1,
@@ -16954,7 +17700,7 @@
    "example": "\"done\" answers \"Nothing happens.\"",
    "id": "rule_35",
    "importance": 2,
-   "last_used": 76,
+   "last_used": 81,
    "pattern": {
     "attempts": 4,
     "example": "done",
@@ -16981,20 +17727,20 @@
    ],
    "task_type": "pick_heat_then_place_in_recep",
    "type": "Anti-Pattern",
-   "unused": 1,
+   "unused": 2,
    "validation": "",
    "verified": true
   },
   {
    "alpha": 1,
    "base": [
-    0,
-    2
+    1,
+    3
    ],
    "base_types": {
     "pick_clean_then_place_in_recep": [
-     0,
-     2
+     1,
+     3
     ]
    },
    "beta": 1,
@@ -17002,7 +17748,7 @@
    "example": "examine sinkbasin 1 before clean cloth 1 with sinkbasin 1",
    "id": "rule_36",
    "importance": 2,
-   "last_used": 69,
+   "last_used": 90,
    "refined_at": [
     0,
     0
@@ -17016,7 +17762,7 @@
    ],
    "task_type": "pick_clean_then_place_in_recep",
    "type": "Corrected Error",
-   "unused": 1,
+   "unused": 2,
    "validation": "",
    "verified": true
   },
@@ -17085,13 +17831,13 @@
   {
    "alpha": 1,
    "base": [
-    0,
-    1
+    1,
+    2
    ],
    "base_types": {
     "pick_clean_then_place_in_recep": [
-     0,
-     1
+     1,
+     2
     ]
    },
    "beta": 1,
@@ -17119,13 +17865,13 @@
   {
    "alpha": 1,
    "base": [
-    1,
-    4
+    5,
+    10
    ],
    "base_types": {
     "pick_two_obj_and_place": [
-     1,
-     4
+     5,
+     10
     ]
    },
    "beta": 1,
@@ -17154,12 +17900,12 @@
    "alpha": 1,
    "base": [
     0,
-    1
+    2
    ],
    "base_types": {
     "pick_heat_then_place_in_recep": [
      0,
-     1
+     2
     ]
    },
    "beta": 1,
@@ -17187,13 +17933,13 @@
   {
    "alpha": 1,
    "base": [
-    0,
-    2
+    4,
+    8
    ],
    "base_types": {
     "pick_two_obj_and_place": [
-     0,
-     2
+     4,
+     8
     ]
    },
    "beta": 1,
@@ -17219,23 +17965,140 @@
    "verified": false
   },
   {
-   "alpha": 1,
+   "alpha": 5,
    "base": [
-    0,
-    1
+    4,
+    7
    ],
    "base_types": {
     "pick_two_obj_and_place": [
-     0,
-     1
+     4,
+     7
     ]
    },
-   "beta": 1,
-   "contexts": [],
+   "beta": 3,
+   "contexts": [
+    {
+     "steps": [
+      "go to desk 1",
+      "go to sidetable 1",
+      "take keychain 1 from sidetable 1",
+      "go to drawer 1",
+      "open drawer 1",
+      "move keychain 1 to drawer 1",
+      "go to sidetable 1",
+      "take keychain 2 from sidetable 1",
+      "go to drawer 1",
+      "move keychain 2 to drawer 1"
+     ],
+     "task": "put two keychain in drawer.",
+     "task_type": "pick_two_obj_and_place",
+     "won": true
+    },
+    {
+     "steps": [
+      "go to desk 1",
+      "take tissuebox 1 from desk 1",
+      "go to shelf 1",
+      "move tissuebox 1 to shelf 1",
+      "go to desk 1",
+      "take tissuebox 2 from desk 1",
+      "go to shelf 1",
+      "move tissuebox 2 to shelf 1"
+     ],
+     "task": "find two tissuebox and put them in shelf.",
+     "task_type": "pick_two_obj_and_place",
+     "won": true
+    },
+    {
+     "steps": [
+      "go to drawer 4",
+      "go to sidetable 1",
+      "go to sidetable 2",
+      "go to bed 1",
+      "go to diningtable 1",
+      "take pen 1 from diningtable 1",
+      "go to sidetable 1",
+      "move pen 1 to sidetable 1",
+      "go to diningtable 1",
+      "take pen 2 from diningtable 1",
+      "go to sidetable 1",
+      "move pen 2 to sidetable 1"
+     ],
+     "task": "find two pen and put them in sidetable.",
+     "task_type": "pick_two_obj_and_place",
+     "won": true
+    },
+    {
+     "steps": [
+      "open cabinet 1",
+      "move soapbar 3 to cabinet 1",
+      "go to countertop 1",
+      "go to sinkbasin 1",
+      "go to countertop 1",
+      "go to sinkbasin 1",
+      "go to countertop 1",
+      "go to sinkbasin 1",
+      "go to toilet 1",
+      "take soapbar 1 from toilet 1",
+      "go to cabinet 1",
+      "move soapbar 1 to cabinet 1"
+     ],
+     "task": "put two soapbar in cabinet.",
+     "task_type": "pick_two_obj_and_place",
+     "won": true
+    },
+    {
+     "plan": "search for keychains in the environment ; take first keychain from its location ; take second keychain from its location ; put first keychain in safe 1 ; put second keychain in safe 1",
+     "steps": [
+      "open safe 1",
+      "go to drawer 1",
+      "go to desk 1",
+      "go to drawer 1",
+      "go to drawer 2",
+      "open drawer 2",
+      "go to desk 1",
+      "go to armchair 1",
+      "go to desk 1",
+      "go to drawer 1",
+      "go to desk 1",
+      "go to drawer 1"
+     ],
+     "task": "find two keychain and put them in safe.",
+     "task_type": "pick_two_obj_and_place",
+     "won": false
+    },
+    {
+     "plan": "go to desk 1 ; examine desk 1 to find laptops ; take first laptop from desk 1 ; go to drawer 1 ; open drawer 1 ; put first laptop in drawer 1 ; take second laptop from desk 1 ; put second laptop in drawer 1 ; task_won()",
+     "steps": [
+      "inventory",
+      "examine desk 1",
+      "go to drawer 1",
+      "go to drawer 2",
+      "go to safe 1",
+      "go to armchair 1",
+      "go to bed 1",
+      "take laptop 1 from bed 1",
+      "go to desk 1",
+      "move laptop 1 to desk 1",
+      "go to bed 1",
+      "take laptop 2 from bed 1"
+     ],
+     "task": "put two laptop in desk.",
+     "task_type": "pick_two_obj_and_place",
+     "won": false
+    }
+   ],
+   "credits": {
+    "pick_two_obj_and_place": [
+     4,
+     2
+    ]
+   },
    "example": "go to bed 1, then take laptop 2 from bed 1",
    "id": "rule_42",
    "importance": 2,
-   "last_used": null,
+   "last_used": 89,
    "refined_at": [
     0,
     0
