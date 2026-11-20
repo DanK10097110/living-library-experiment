@@ -305,3 +305,16 @@ Owner asked for a full review ("changing a rule after every use is stupid"). An 
     the text, and refinement already requires a rate below the base rate.
   - Not changed: the "decent" test of consolidation's underused selection still uses the pooled rate of the
     visible rules of the same task type.
+
+### 2026-11-20 — Games 51-72 dip: no revert; stricter guess promotion deferred
+- **Decision:** keep the current mechanisms, with no restart. Deferred to the next code change (applies to both
+  conditions): promote a guess only if its followed wins >= expected wins + 1, and demote it again if it later
+  fails that test.
+- **Why:** in games 51-72, E and E-minus played at D's level (D 11/22, E 10/22, E-minus 9/22), below the old
+  E-minus run (about 16/22, already flagged as a high outlier). The diagnosis found:
+  - The exploration slot never activated (at most 6 candidates per type).
+  - Lift ranking only reordered rules.
+  - One promoted guess ("examine the sink first") cost about 1 game. E reached the same bad idea through a
+    normal rule, so it is a Builder content error, near the model's ceiling.
+  - Overall the dip is chance plus a hard stretch (heat and two-object tasks).
+  - Restarting E and E-minus again for a 1-in-72 effect would throw away about 150 games.
