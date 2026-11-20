@@ -1,4 +1,4 @@
-/root/ll-runs/study/checkpoints/practice-E-minus-0/00088.json: 32 rules
+/root/ll-runs/study/checkpoints/practice-E-minus-0/00111.json: 34 rules
 rule_1 [Success Process] task_type=pick_clean_then_place_in_recep a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
     When an object must be cleaned and placed in a container: search the table first, take the object, go to the sink, clean it with the sink, go to the container, move it there.
 rule_2 [Failure Pool] task_type=pick_clean_then_place_in_recep a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
@@ -63,6 +63,10 @@ rule_31 [Unresolved Error] task_type=pick_two_obj_and_place a/b=1/1 unused=0 hid
     When searching for the object: check the garbagecan before checking countertops, cabinets, or bathtubs.
 rule_32 [Unresolved Error] task_type=pick_two_obj_and_place a/b=1/1 unused=0 hidden won contexts: 0 ctx, 0 with plan
     When searching for multiple objects: systematically check all locations including sinkbasins before giving up.
+rule_33 [Unresolved Error] task_type=pick_two_obj_and_place a/b=1/1 unused=0 hidden won contexts: 0 ctx, 0 with plan
+    When searching for multiple objects: systematically check all countertops before assuming only one exists.
+rule_34 [Unresolved Error] task_type=pick_two_obj_and_place a/b=1/1 unused=0 hidden won contexts: 0 ctx, 0 with plan
+    When searching for multiple objects: systematically check all drawers and dresser surfaces before assuming only one exists.
 
-manual operations over 89 games: pool_game=17, pool_won=72, write_rule=27
-builder errors: 104; candidate_attempts=139, candidate_duplicates=195, candidate_refinements=7, candidate_rejections=108
+manual operations over 112 games: pool_game=21, pool_won=91, write_rule=29
+builder errors: 128; candidate_attempts=160, candidate_duplicates=254, candidate_refinements=8, candidate_rejections=124

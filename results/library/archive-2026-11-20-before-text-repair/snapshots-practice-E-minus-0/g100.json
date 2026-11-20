@@ -1,6 +1,6 @@
 {
  "stream": "practice-E-minus-0",
- "games": 89,
+ "games": 100,
  "rules": [
   {
    "alpha": 1,
@@ -1997,6 +1997,80 @@
       ],
       [
        "move butterknife 1 to drawer 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to fridge 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to fridge 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to fridge 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to fridge 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to fridge 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to fridge 1",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       0
+      ],
+      [
+       "take bowl 1 from cabinet 1",
+       1
+      ],
+      [
+       "go to sinkbasin 1",
+       1
+      ],
+      [
+       "clean bowl 1 with sinkbasin 1",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "move bowl 1 to cabinet 1",
        1
       ]
      ]
@@ -4040,109 +4114,505 @@
       ],
       "task": "put a box in armchair.",
       "task_id": "train/pick_and_place_simple-Box-None-ArmChair-217/trial_T20190907_170757_425284/game.tw-pddl"
+     },
+     {
+      "attempts": [
+       [
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "open cabinet 3",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "open drawer 3",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "open cabinet 4",
+         1
+        ],
+        [
+         "go to cabinet 5",
+         1
+        ],
+        [
+         "open cabinet 5",
+         1
+        ],
+        [
+         "go to cabinet 6",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "take peppershaker 1 from drawer 1",
+         0
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "open drawer 3",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "open cabinet 3",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "open cabinet 4",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "close fridge 1",
+         1
+        ],
+        [
+         "go to sinkbasin 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         0
+        ],
+        [
+         "go to diningtable 1",
+         0
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "open cabinet 3",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "open cabinet 4",
+         1
+        ],
+        [
+         "go to cabinet 5",
+         1
+        ],
+        [
+         "open cabinet 5",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to cabinet 6",
+         1
+        ],
+        [
+         "open cabinet 6",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "take peppershaker 1 from diningtable 1",
+         0
+        ],
+        [
+         "examine diningtable 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         0
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ]
+       ]
+      ],
+      "task": "put some peppershaker on countertop.",
+      "task_id": "train/pick_and_place_simple-PepperShaker-None-CounterTop-27/trial_T20190909_010815_295286/game.tw-pddl"
      }
     ],
     "retired": [],
     "task_type": "pick_and_place_simple",
     "won": [
-     [
-      [
-       "go to drawer 1",
-       1
-      ],
-      [
-       "open drawer 1",
-       1
-      ],
-      [
-       "go to drawer 2",
-       1
-      ],
-      [
-       "open drawer 2",
-       1
-      ],
-      [
-       "go to drawer 3",
-       1
-      ],
-      [
-       "open drawer 3",
-       1
-      ],
-      [
-       "go to drawer 4",
-       1
-      ],
-      [
-       "open drawer 4",
-       1
-      ],
-      [
-       "go to countertop 1",
-       1
-      ],
-      [
-       "take spraybottle 1 from countertop 1",
-       1
-      ],
-      [
-       "go to garbagecan 1",
-       1
-      ],
-      [
-       "move spraybottle 1 to garbagecan 1",
-       1
-      ]
-     ],
-     [
-      [
-       "go to cabinet 1",
-       1
-      ],
-      [
-       "take spraybottle 1 from cabinet 1",
-       1
-      ],
-      [
-       "go to toilet 1",
-       1
-      ],
-      [
-       "move spraybottle 1 to toilet 1",
-       1
-      ]
-     ],
-     [
-      [
-       "go to handtowelholder 1",
-       1
-      ],
-      [
-       "go to handtowelholder 1",
-       0
-      ],
-      [
-       "go to handtowelholder 1",
-       0
-      ],
-      [
-       "take handtowel 1 from handtowelholder 1",
-       1
-      ],
-      [
-       "go to cabinet 1",
-       1
-      ],
-      [
-       "open cabinet 1",
-       1
-      ],
-      [
-       "move handtowel 1 to cabinet 1",
-       1
-      ]
-     ],
      [
       [
        "go to drawer 1",
@@ -4586,6 +5056,108 @@
       ],
       [
        "move peppershaker 1 to sidetable 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "take keychain 1 from drawer 1",
+       1
+      ],
+      [
+       "move keychain 1 to desk 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to garbagecan 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "open drawer 1",
+       1
+      ],
+      [
+       "go to drawer 2",
+       1
+      ],
+      [
+       "open drawer 2",
+       1
+      ],
+      [
+       "go to drawer 3",
+       1
+      ],
+      [
+       "open drawer 3",
+       1
+      ],
+      [
+       "go to drawer 4",
+       1
+      ],
+      [
+       "open drawer 4",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "take spraybottle 1 from countertop 1",
+       1
+      ],
+      [
+       "go to garbagecan 1",
+       1
+      ],
+      [
+       "move spraybottle 1 to garbagecan 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "open cabinet 1",
+       1
+      ],
+      [
+       "go to cabinet 2",
+       1
+      ],
+      [
+       "open cabinet 2",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "take candle 1 from countertop 1",
+       1
+      ],
+      [
+       "go to toilet 1",
+       1
+      ],
+      [
+       "move candle 1 to toilet 1",
        1
       ]
      ]
@@ -7618,87 +8190,999 @@
       ],
       "task": "put two keychain in drawer.",
       "task_id": "train/pick_two_obj_and_place-KeyChain-None-Drawer-307/trial_T20190909_035451_649886/game.tw-pddl"
+     },
+     {
+      "attempts": [
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "take soapbar 3 from countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "move soapbar 3 to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "open cabinet 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "open cabinet 3",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "open cabinet 4",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to sinkbasin 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "take soapbar 3 from cabinet 1",
+         1
+        ],
+        [
+         "move soapbar 3 to cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "take soapbar 3 from cabinet 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "take soapbar 3 from countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "move soapbar 3 to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "open cabinet 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "inventory",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "inventory",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "open cabinet 3",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "take soapbar 3 from countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "move soapbar 3 to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "open cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to drawer 1",
+         0
+        ],
+        [
+         "go to drawer 1",
+         0
+        ],
+        [
+         "go to drawer 1",
+         0
+        ],
+        [
+         "go to drawer 1",
+         0
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to drawer 1",
+         0
+        ],
+        [
+         "go to drawer 1",
+         0
+        ],
+        [
+         "go to drawer 1",
+         0
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "go to drawer 1",
+         0
+        ],
+        [
+         "open cabinet 3",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "take soapbar 3 from cabinet 1",
+         1
+        ],
+        [
+         "move soapbar 3 to cabinet 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "take soapbar 3 from countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "move soapbar 3 to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "open cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "open cabinet 3",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "inventory",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         0
+        ],
+        [
+         "go to drawer 1",
+         0
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "go to drawer 1",
+         0
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         0
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         0
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ]
+       ]
+      ],
+      "task": "put two soapbar in cabinet.",
+      "task_id": "train/pick_two_obj_and_place-SoapBar-None-Cabinet-428/trial_T20190909_013318_053714/game.tw-pddl"
+     },
+     {
+      "attempts": [
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "cool saltshaker 1 with fridge 1",
+         0
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "close fridge 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "close cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "The task requires putting two saltshakers in the cabinet, but the current observation of countertop 1 does not show any saltshakers. Since the goal requires finding saltshakers, I need to search other locations like the fridge or drawers, or check if I missed them in the cabinet. However,",
+         0
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "close fridge 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "open drawer 3",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "go to drawer 4",
+         1
+        ],
+        [
+         "open drawer 4",
+         1
+        ],
+        [
+         "go to drawer 5",
+         1
+        ],
+        [
+         "open drawer 5",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 6",
+         1
+        ],
+        [
+         "open drawer 6",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "open cabinet 2",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ]
+       ],
+       [
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "open drawer 3",
+         1
+        ],
+        [
+         "go to drawer 4",
+         1
+        ],
+        [
+         "open drawer 4",
+         1
+        ],
+        [
+         "go to drawer 5",
+         1
+        ],
+        [
+         "open drawer 5",
+         1
+        ],
+        [
+         "go to drawer 6",
+         1
+        ],
+        [
+         "open drawer 6",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "close fridge 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "open cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "open cabinet 3",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "open cabinet 4",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "go to drawer 4",
+         1
+        ],
+        [
+         "go to drawer 5",
+         1
+        ],
+        [
+         "go to drawer 6",
+         1
+        ]
+       ],
+       [
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "go to drawer 4",
+         1
+        ],
+        [
+         "open drawer 4",
+         1
+        ],
+        [
+         "go to drawer 5",
+         1
+        ],
+        [
+         "open drawer 5",
+         1
+        ],
+        [
+         "go to drawer 6",
+         1
+        ],
+        [
+         "go to drawer 7",
+         1
+        ],
+        [
+         "go to drawer 8",
+         1
+        ],
+        [
+         "take saltshaker 3 from drawer 8",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "move saltshaker 3 to cabinet 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "close fridge 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "open drawer 3",
+         1
+        ],
+        [
+         "go to drawer 4",
+         1
+        ],
+        [
+         "go to drawer 5",
+         1
+        ],
+        [
+         "go to drawer 6",
+         1
+        ],
+        [
+         "open drawer 6",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ]
+       ]
+      ],
+      "task": "put two saltshaker in cabinet.",
+      "task_id": "train/pick_two_obj_and_place-SaltShaker-None-Cabinet-3/trial_T20190908_102252_413545/game.tw-pddl"
      }
     ],
     "retired": [],
     "task_type": "pick_two_obj_and_place",
     "won": [
-     [
-      [
-       "go to countertop 1",
-       1
-      ],
-      [
-       "go to diningtable 1",
-       1
-      ],
-      [
-       "take winebottle 1 from diningtable 1",
-       1
-      ],
-      [
-       "go to cabinet 1",
-       1
-      ],
-      [
-       "move winebottle 1 to cabinet 1",
-       1
-      ],
-      [
-       "go to diningtable 2",
-       1
-      ],
-      [
-       "take winebottle 3 from diningtable 2",
-       1
-      ],
-      [
-       "go to cabinet 1",
-       1
-      ],
-      [
-       "move winebottle 3 to cabinet 1",
-       1
-      ]
-     ],
-     [
-      [
-       "go to handtowelholder 1",
-       1
-      ],
-      [
-       "go to handtowelholder 1",
-       0
-      ],
-      [
-       "take handtowel 1 from handtowelholder 1",
-       1
-      ],
-      [
-       "go to countertop 1",
-       1
-      ],
-      [
-       "move handtowel 1 to countertop 1",
-       1
-      ],
-      [
-       "go to handtowelholder 2",
-       1
-      ],
-      [
-       "take handtowel 2 from handtowelholder 2",
-       1
-      ],
-      [
-       "go to countertop 1",
-       1
-      ],
-      [
-       "move handtowel 2 to countertop 1",
-       1
-      ]
-     ],
      [
       [
        "go to countertop 1",
@@ -8392,6 +9876,90 @@
       ],
       [
        "move laptop 2 to desk 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to ottoman 1",
+       1
+      ],
+      [
+       "go to coffeetable 1",
+       1
+      ],
+      [
+       "go to sofa 1",
+       1
+      ],
+      [
+       "take remotecontrol 1 from sofa 1",
+       1
+      ],
+      [
+       "move remotecontrol 1 to ottoman 1",
+       0
+      ],
+      [
+       "go to ottoman 1",
+       1
+      ],
+      [
+       "move remotecontrol 1 to ottoman 1",
+       1
+      ],
+      [
+       "go to sofa 1",
+       1
+      ],
+      [
+       "take remotecontrol 2 from sofa 1",
+       1
+      ],
+      [
+       "move remotecontrol 2 to ottoman 1",
+       0
+      ],
+      [
+       "go to ottoman 1",
+       1
+      ],
+      [
+       "move remotecontrol 2 to ottoman 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "take spraybottle 3 from countertop 1",
+       1
+      ],
+      [
+       "go to garbagecan 1",
+       1
+      ],
+      [
+       "move spraybottle 3 to garbagecan 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "take spraybottle 4 from countertop 1",
+       1
+      ],
+      [
+       "go to garbagecan 1",
+       1
+      ],
+      [
+       "move spraybottle 4 to garbagecan 1",
        1
       ]
      ]
@@ -11520,6 +13088,98 @@
        "move potato 1 to countertop 1",
        1
       ]
+     ],
+     [
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to countertop 2",
+       0
+      ],
+      [
+       "go to countertop 2",
+       0
+      ],
+      [
+       "go to countertop 2",
+       0
+      ],
+      [
+       "go to countertop 2",
+       0
+      ],
+      [
+       "go to countertop 2",
+       0
+      ],
+      [
+       "go to diningtable 2",
+       1
+      ],
+      [
+       "go to diningtable 3",
+       1
+      ],
+      [
+       "take lettuce 2 from diningtable 3",
+       1
+      ],
+      [
+       "go to fridge 1",
+       1
+      ],
+      [
+       "cool lettuce 2 with fridge 1",
+       1
+      ],
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "move lettuce 2 to diningtable 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to countertop 2",
+       1
+      ],
+      [
+       "take potato 1 from countertop 2",
+       1
+      ],
+      [
+       "go to fridge 1",
+       1
+      ],
+      [
+       "go to fridge 1",
+       0
+      ],
+      [
+       "cool potato 1 with fridge 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "move potato 1 to countertop 1",
+       1
+      ]
      ]
     ]
    },
@@ -12529,6 +14189,34 @@
    "sources": [
     {
      "task": "put two soapbottle in cabinet.",
+     "task_type": "pick_two_obj_and_place"
+    }
+   ],
+   "task_type": "pick_two_obj_and_place",
+   "type": "Unresolved Error",
+   "validation": "",
+   "verified": false
+  },
+  {
+   "alpha": 1,
+   "base": [
+    0,
+    0
+   ],
+   "beta": 1,
+   "contexts": [],
+   "example": "The agent found one soapbar on countertop 1 but never searched other countertops for the second one.",
+   "id": "rule_33",
+   "importance": 2,
+   "last_used": null,
+   "refined_at": [
+    0,
+    0
+   ],
+   "rule": "When searching for multiple objects: systematically check all countertops before assuming only one exists.",
+   "sources": [
+    {
+     "task": "put two soapbar in cabinet.",
      "task_type": "pick_two_obj_and_place"
     }
    ],
