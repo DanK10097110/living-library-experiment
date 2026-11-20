@@ -70,7 +70,96 @@ LIBRARY_SOURCES = ('living_library/manual.py', 'living_library/avoid.py', 'livin
 # only the pre-registration text): only when the baseline probe (every model request and every record of
 # a fixture C and D study) is identical to the probe taken with the run's recorded sources (probe.json).
 # Any other changed file still refuses.
-PROBED_SOURCES = ('living_library/agents.py', 'living_library/experiment.py', 'living_library/protocol.py')
+PROBED_SOURCES = ('living_library/agents.py', 'living_library/experiment.py', 'living_library/protocol.py',
+                  'living_library/batching.py')
+# Command-line parsing only (amended 2026-11-19, --restart-streams): never changes an episode.
+ENTRY_SOURCES = ('living_library/cli.py',)
+# Streams a partial restart may discard (amended 2026-11-19): E alone, keeping C, D and E-minus.
+RESTARTABLE = ('E',)
+E_MINUS_PROBES = Path(__file__).resolve().parent.parent / 'results' / 'probes'
+
+
+def e_minus_probe(cfg, games=4):
+    """Digest of E-minus's behaviour under `cfg` on the fixture world (practice batched as configured, then
+    its frozen evaluations): every model request, every record (timings removed), the final rules, and the
+    Builder instructions E-minus gets for every case. Self-contained (absolute imports, only APIs older than
+    it) so tools/e_minus_probe.py can run its source against the code of an earlier commit."""
+    import json as _json
+    import tempfile
+    from pathlib import Path as _Path
+    from living_library import manual as _manual
+    from living_library.config import digest as _digest
+    from living_library.environments import demo_manifest as _demo
+    from living_library.experiment import Runner as _Runner
+    from living_library.library import LexicalEmbedding as _Lexical
+    from living_library.models import FixtureModel as _Fixture
+    requests = []
+
+    class Recorder:
+        def __init__(self):
+            self.inner = _Fixture()
+
+        def complete(self, role, payload, seed, context):
+            requests.append(_digest([role, payload, seed, context]))
+            return self.inner.complete(role, payload, seed, context)
+
+        def close(self):
+            pass
+
+    def untimed(value):
+        if isinstance(value, dict):
+            return {k: untimed(v) for k, v in value.items()
+                    if k not in ('wall_seconds', 'model_wall_seconds', 'gpu_seconds')}
+        if isinstance(value, list):
+            return [untimed(v) for v in value]
+        return value
+    with tempfile.TemporaryDirectory() as tmp:
+        runner = _Runner(cfg, _demo(), tmp, model=Recorder(), embedder=_Lexical(), probe=False)
+        records = runner.study(('E-minus',), demo_count=games, log=lambda *a, **k: None)
+        key = f'practice-E-minus-{cfg.practice_seed}'
+        last = sorted((_Path(tmp) / 'checkpoints' / key).glob('*.json'))
+        rules = _json.loads(last[-1].read_text())['memory'].get('rules', []) if last else []
+    guides = {case: _manual.builder_guide(case, True, 'pick_and_place_simple', [])
+              for case in sorted(_manual.CASE_TYPES)}
+    guides['retry'] = _manual.RETRY_NOTE
+    guides['reflect'] = _manual.REFLECT_GUIDE
+    return _digest({'requests': requests, 'records': untimed(records), 'rules': rules, 'guides': guides})
+
+
+def e_minus_replay_check(cfg, output):
+    """The stored E-minus practice of a run, replayed: every checkpoint's rules must equal the current
+    code's replay of that game's stored manual operations onto the previous checkpoint's rules (batched
+    practice). Returns (games checked, None) or (games checked, the first mismatch)."""
+    from .manual import replay
+    key = f'practice-E-minus-{cfg.practice_seed}'
+    root, k = Path(output) / 'checkpoints' / key, cfg.practice_batch
+    if k <= 1:
+        return 0, None
+    memories, position = [], 0
+    while (root / f'{position:05d}.json').exists():
+        saved = load_json(root / f'{position:05d}.json')
+        rules = lambda p: [] if p < 0 else memories[p]
+        live, base = rules(position - 1), rules(position - position % k - 1)
+        ops = saved['record'].get('manual', {}).get('operations', [])
+        got = json.loads(json.dumps(replay(live, ops, [], base)))
+        if got != saved['memory'].get('rules', []):
+            return position, f'{key} game {position}: replaying its stored operations gives different rules'
+        memories.append(saved['memory'].get('rules', []))
+        position += 1
+    return position, None
+
+
+def stored_e_minus_probe(cfg, output, recorded_sources):
+    """The E-minus probe taken with the run's recorded sources: probe.json, else a reference file in
+    results/probes (tools/e_minus_probe.py) for the same sources and settings; None if there is none."""
+    want = {'sources': digest(recorded_sources), 'settings': digest(cfg.to_dict())}
+    path = Path(output) / 'probe.json'
+    saved = load_json(path).get('e_minus') if path.exists() else None
+    candidates = [saved] + [load_json(p) for p in sorted(E_MINUS_PROBES.glob('e-minus-*.json'))]
+    for found in candidates:
+        if found and {k: found.get(k) for k in want} == want:
+            return found['probe']
+    return None
 
 
 def baseline_probe(cfg, games=4):
@@ -158,7 +247,11 @@ class Runner:
             write_json(self.output / 'sources.json', sources)
             path = self.output / 'probe.json'
             if probe and (not path.exists() or load_json(path).get('sources') != digest(sources)):
-                write_json(path, {'sources': digest(sources), 'probe': baseline_probe(cfg)})
+                saved = {'sources': digest(sources), 'probe': baseline_probe(cfg)}
+                if 'E-minus' in cfg.conditions:     # lets a later E-only restart keep E-minus (restart_library)
+                    saved['e_minus'] = {'sources': digest(sources), 'settings': digest(cfg.to_dict()),
+                                        'probe': e_minus_probe(cfg)}
+                write_json(path, saved)
         self.fixed_model = model
         self._embedder = embedder
         self.records = []
@@ -832,12 +925,39 @@ def gate_decision(e_records, c_records, rules, practice_records, margin=0):
             'passed': pair['games'] > 0 and pair['wins'] - pair['baseline_wins'] >= margin}
 
 
-def restart_library(cfg, manifest, output, log=print):
+def check_e_minus_kept(cfg, output, before, changed, log=print):
+    """An E-only restart keeps E-minus only if its behaviour is unchanged: its stored practice replays
+    exactly under the current code (e_minus_replay_check) and, when sources changed, the fixture E-minus
+    probe of the current code equals the one taken with the run's recorded sources. ValueError otherwise."""
+    games, problem = e_minus_replay_check(cfg, output)
+    if problem:
+        raise ValueError(f'E-minus probe failed: {problem}; E-minus cannot be kept (use --restart-library)')
+    if changed:
+        stored = stored_e_minus_probe(cfg, output, before)
+        if stored is None:
+            raise ValueError('E-minus probe failed: the run has no E-minus probe for its recorded sources '
+                             '(probe.json or results/probes; make one with tools/e_minus_probe.py --ref <the '
+                             "run's commit>); E-minus cannot be kept (use --restart-library)")
+        if stored != e_minus_probe(cfg):
+            raise ValueError(f'E-minus probe failed: {", ".join(changed)} changed E-minus\'s behaviour (fixture '
+                             'probe differs); E-minus cannot be kept (use --restart-library)')
+    log(f'E-minus probe passed: {games} stored practice games replay exactly'
+        + ('; fixture probe unchanged' if changed else '; sources unchanged'))
+
+
+def restart_library(cfg, manifest, output, log=print, streams=None):
     """Discard the library conditions' streams (and anything initialised from or reading them)
     and the gate decision; keep C's and D's games. If sources changed since the run started, only
-    LIBRARY_SOURCES may differ: the kept checkpoints are then re-signed with the new identity."""
+    LIBRARY_SOURCES may differ: the kept checkpoints are then re-signed with the new identity.
+    `streams` (amended 2026-11-19): conditions to restart instead of all library conditions; only
+    ('E',) is allowed, which keeps E-minus too when its probe passes (check_e_minus_kept)."""
     import shutil
     output = Path(output)
+    conditions = LIBRARY_CONDITIONS
+    if streams is not None:
+        if tuple(sorted(set(streams))) not in [(s,) for s in RESTARTABLE]:
+            raise ValueError(f'only these conditions can be restarted alone: {", ".join(RESTARTABLE)}')
+        conditions = tuple(set(streams))
     marker = output / 'run.json'
     if not marker.exists():
         raise ValueError(f'{output} has no run to restart')
@@ -846,13 +966,13 @@ def restart_library(cfg, manifest, output, log=print):
     if old['settings'] != new['settings'] or old['manifest'] != new['manifest']:
         raise ValueError('settings or manifest changed since this run started; C and D cannot be kept '
                          '(use a new output directory)')
-    changed = []
+    changed, before = [], None
     if old['source'] != new['source']:
         if not (output / 'sources.json').exists():
             raise ValueError('run has no sources.json; cannot tell which files changed (use a new output directory)')
         before, now = load_json(output / 'sources.json'), source_hashes()
         changed = sorted(p for p in set(before) | set(now) if before.get(p) != now.get(p))
-        outside = [p for p in changed if p not in LIBRARY_SOURCES and p not in PROBED_SOURCES]
+        outside = [p for p in changed if p not in LIBRARY_SOURCES + PROBED_SOURCES + ENTRY_SOURCES]
         if outside:
             raise ValueError(f'files outside the library code changed ({", ".join(outside)}); '
                              'C and D cannot be kept (use a new output directory)')
@@ -865,8 +985,10 @@ def restart_library(cfg, manifest, output, log=print):
             if saved['probe'] != baseline_probe(cfg):
                 raise ValueError(f'{", ".join(probed)} changed C\'s or D\'s behaviour (baseline probe differs); '
                                  'C and D cannot be kept (use a new output directory)')
+    if 'E-minus' not in conditions:
+        check_e_minus_kept(cfg, output, before, changed, log)
     plan = load_json(output / 'plan.json') if (output / 'plan.json').exists() else []
-    dropped = {s['key'] for s in plan if s['condition'] in LIBRARY_CONDITIONS}
+    dropped = {s['key'] for s in plan if s['condition'] in conditions}
     grew = True
     while grew:
         extra = {s['key'] for s in plan if s['init'] in dropped or s['source'] in dropped} - dropped
@@ -887,7 +1009,8 @@ def restart_library(cfg, manifest, output, log=print):
     for spec in kept:
         runner.restamp(spec, specs)
     history = load_json(output / 'restarts.json') if (output / 'restarts.json').exists() else []
-    history.append({'time': time.strftime('%Y-%m-%d %H:%M:%S'), 'discarded': sorted(dropped),
+    history.append({'time': time.strftime('%Y-%m-%d %H:%M:%S'), 'restarted': sorted(conditions),
+                    'discarded': sorted(dropped),
                     'kept': [s['key'] for s in kept], 'changed_sources': changed, 'previous_gate': gate})
     write_json(output / 'restarts.json', history)
     log(f"library restart: discarded {len(dropped)} streams ({', '.join(sorted(dropped)) or 'none'}); "

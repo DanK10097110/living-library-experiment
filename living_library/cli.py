@@ -51,6 +51,10 @@ def parser():
             command.add_argument('--restart-library', action='store_true',
                                  help="discard E/E-minus/E-text practice and everything built on it "
                                       "(keeps C and D), then run")
+            command.add_argument('--restart-streams', nargs='+', choices=['E'],
+                                 help="discard only these conditions' streams and what is built on them "
+                                      "(E: practice, gate, evaluations, snapshots and E-text), keeping C, D and "
+                                      "E-minus if E-minus's probe shows it unchanged, then run")
         if name != 'freeze':
             session(command, workers=8)
     status = commands.add_parser('status', help='progress of a pilot or study output directory')
@@ -149,8 +153,12 @@ def main(argv=None):
                     return 0
                 print(json.dumps(evidence['gate'], indent=2))
             else:
+                if args.restart_library and args.restart_streams:
+                    raise ValueError('use either --restart-library or --restart-streams')
                 if args.restart_library:
                     restart_library(cfg, manifest, args.output)
+                elif args.restart_streams:
+                    restart_library(cfg, manifest, args.output, streams=args.restart_streams)
                 runner = Runner(cfg, manifest, args.output)
                 records = runner.study(args.conditions, workers=args.workers,
                                        max_episodes=args.max_episodes, max_hours=args.max_hours,

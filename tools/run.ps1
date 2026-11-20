@@ -6,6 +6,8 @@
 #   tools\run.ps1 study -PastGate              # gate failed: continue from the checkpoint anyway
 #   tools\run.ps1 study -RestartLibrary        # gate failed, library fixed: redo E/E-minus/E-text
 #                                              #   practice from scratch, keeping C's and D's games
+#   tools\run.ps1 study -RestartE              # redo only E's practice (and its gate, evaluations, snapshots,
+#                                              #   E-text), keeping C, D and E-minus (refused if E-minus's probe fails)
 #   tools\speed-test.ps1                       # throughput sweep over server slot counts
 #   tools\run.ps1 plots                        # figures + report.html (study so far)
 #   tools\serve-model.ps1                      # optional: one shared server for parallel jobs
@@ -28,6 +30,7 @@ param(
     [int]$GateMargin = 0,             # gate passes when E wins - C wins >= this
     [switch]$PastGate,
     [switch]$RestartLibrary,
+    [switch]$RestartE,                # redo only E (and E-text), keeping C, D and E-minus if its probe passes
     [string]$Model = 'qwen3.5-9b',      # default since 2026-11-15 (see tools/serve-model.ps1)
     [switch]$KeepServer
 )
@@ -94,6 +97,7 @@ try {
             $cliArgs = "study --manifest $runs/manifest.json --output $runs/study --gate-at $GateAt --gate-margin $GateMargin"
             if ($PastGate) { $cliArgs += ' --past-gate' }
             if ($RestartLibrary) { $cliArgs += ' --restart-library' }
+            if ($RestartE) { $cliArgs += ' --restart-streams E' }
         }
     }
     $log = "$runs/$(if ($Command -eq 'bakeoff') { "bakeoff-$Model" } else { $Command }).log"
