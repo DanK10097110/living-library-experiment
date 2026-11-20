@@ -1,12 +1,12 @@
 {
  "stream": "practice-E-0",
- "games": 88,
+ "games": 91,
  "rules": [
   {
-   "alpha": 8,
+   "alpha": 9,
    "base": [
-    8,
-    14
+    9,
+    15
    ],
    "beta": 5,
    "contexts": [
@@ -144,6 +144,22 @@
      "won": true
     },
     {
+     "plan": "search for a bowl on available surfaces ; take the bowl from the surface ; go to the sinkbasin to clean the bowl ; clean the bowl at the sinkbasin ; go to a cabinet to place the clean bowl ; put the clean bowl in the cabinet",
+     "steps": [
+      "go to countertop 1",
+      "go to countertop 2",
+      "go to countertop 3",
+      "take bowl 4 from countertop 3",
+      "go to sinkbasin 1",
+      "clean bowl 4 with sinkbasin 1",
+      "go to cabinet 1",
+      "move bowl 4 to cabinet 1"
+     ],
+     "task": "put a clean bowl in cabinet.",
+     "task_type": "pick_clean_then_place_in_recep",
+     "won": true
+    },
+    {
      "plan": "search for a fork in the current cabinet or other storage locations ; take the fork from its current location ; go to the sinkbasin to clean the fork ; clean the fork at the sinkbasin ; go to the target drawer ; put the clean fork in the drawer",
      "steps": [
       "go to cabinet 2",
@@ -224,10 +240,10 @@
      "won": false
     }
    ],
-   "example": "take butterknife 1 from countertop 2, go to sinkbasin 1, clean butterknife 1 with sinkbasin 1, go to drawer 1, open drawer 1, move butterknife 1 to drawer 1.",
+   "example": "take bowl 4 from countertop 3, go to sinkbasin 1, clean bowl 4 with sinkbasin 1, go to cabinet 1, move bowl 4 to cabinet 1.",
    "id": "rule_1",
-   "importance": 12,
-   "last_used": 69,
+   "importance": 13,
+   "last_used": 90,
    "refined_at": [
     4,
     3
@@ -241,14 +257,14 @@
    ],
    "task_type": "pick_clean_then_place_in_recep",
    "type": "Success Process",
-   "validation": "This game confirmed the agent must open the target container before attempting to move the object into it. | This game confirmed the agent must examine the target before attempting placement, and that 'clean cloth 1 with sinkbasin 1' failed; the correct cleaning action is 'clean cloth 1 with sink 1'. | This game confirmed the agent must open the target container before attempting to move the object into it.",
+   "validation": "This game confirmed the agent must examine the target before attempting placement, and that 'clean cloth 1 with sinkbasin 1' failed; the correct cleaning action is 'clean cloth 1 with sink 1'. | This game confirmed the agent must open the target container before attempting to move the object into it. | This game confirmed the agent must go to the target container before attempting the move command.",
    "verified": true
   },
   {
    "alpha": 1,
    "base": [
-    7,
-    13
+    8,
+    14
    ],
    "beta": 1,
    "contexts": [],
@@ -2464,6 +2480,40 @@
        "move butterknife 1 to drawer 1",
        1
       ]
+     ],
+     [
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to countertop 2",
+       1
+      ],
+      [
+       "go to countertop 3",
+       1
+      ],
+      [
+       "take bowl 4 from countertop 3",
+       1
+      ],
+      [
+       "go to sinkbasin 1",
+       1
+      ],
+      [
+       "clean bowl 4 with sinkbasin 1",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "move bowl 4 to cabinet 1",
+       1
+      ]
      ]
     ]
    },
@@ -2482,7 +2532,7 @@
    "alpha": 1,
    "base": [
     13,
-    18
+    19
    ],
    "beta": 1,
    "contexts": [],
@@ -4485,64 +4535,6 @@
     "won": [
      [
       [
-       "go to garbagecan 1",
-       1
-      ],
-      [
-       "go to drawer 1",
-       1
-      ],
-      [
-       "open drawer 1",
-       1
-      ],
-      [
-       "go to drawer 2",
-       1
-      ],
-      [
-       "open drawer 2",
-       1
-      ],
-      [
-       "go to drawer 3",
-       1
-      ],
-      [
-       "open drawer 3",
-       1
-      ],
-      [
-       "go to drawer 4",
-       1
-      ],
-      [
-       "open drawer 4",
-       1
-      ],
-      [
-       "go to countertop 1",
-       1
-      ],
-      [
-       "take spraybottle 1 from countertop 1",
-       1
-      ],
-      [
-       "move spraybottle 1 to garbagecan 1",
-       0
-      ],
-      [
-       "go to garbagecan 1",
-       1
-      ],
-      [
-       "move spraybottle 1 to garbagecan 1",
-       1
-      ]
-     ],
-     [
-      [
        "go to toilet 1",
        1
       ],
@@ -4942,6 +4934,96 @@
        "move pillow 1 to ottoman 1",
        1
       ]
+     ],
+     [
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to diningtable 2",
+       1
+      ],
+      [
+       "go to garbagecan 1",
+       1
+      ],
+      [
+       "go to diningtable 3",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "open cabinet 1",
+       1
+      ],
+      [
+       "go to cabinet 2",
+       1
+      ],
+      [
+       "open cabinet 2",
+       1
+      ],
+      [
+       "go to cabinet 3",
+       1
+      ],
+      [
+       "open cabinet 3",
+       1
+      ],
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "go to garbagecan 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "open drawer 1",
+       1
+      ],
+      [
+       "go to cabinet 4",
+       1
+      ],
+      [
+       "open cabinet 4",
+       1
+      ],
+      [
+       "take peppershaker 1 from cabinet 4",
+       1
+      ],
+      [
+       "go to sidetable 1",
+       1
+      ],
+      [
+       "move peppershaker 1 to sidetable 1",
+       1
+      ]
      ]
     ]
    },
@@ -4960,9 +5042,9 @@
    "alpha": 6,
    "base": [
     8,
-    25
+    26
    ],
-   "beta": 9,
+   "beta": 10,
    "contexts": [
     {
      "plan": "go to dresser 1 ; search for pen in dresser 1 ; take the first pen from dresser 1 ; put the first pen in dresser 1 ; search for the second pen in dresser 1 ; take the second pen from dresser 1 and put it in dresser 1",
@@ -5215,17 +5297,37 @@
      "task": "find two pen and put them in sidetable.",
      "task_type": "pick_two_obj_and_place",
      "won": false
+    },
+    {
+     "plan": "go to cabinet 1 ; take soapbar 1 from toilet 1 ; put soapbar 1 in cabinet 1 ; go to toilet 1 ; take soapbar 2 from toilet 1 ; put soapbar 2 in cabinet 1",
+     "steps": [
+      "open cabinet 3",
+      "go to countertop 1",
+      "go to cabinet 4",
+      "open cabinet 4",
+      "go to countertop 1",
+      "go to cabinet 1",
+      "go to countertop 1",
+      "go to cabinet 2",
+      "go to countertop 1",
+      "go to sinkbasin 1",
+      "go to countertop 1",
+      "go to toilet 1"
+     ],
+     "task": "put two soapbar in cabinet.",
+     "task_type": "pick_two_obj_and_place",
+     "won": false
     }
    ],
-   "example": "After taking laptop 1 from bed 1, use 'move laptop 1 to desk 1' instead of 'move laptop 1 desk 1'.",
+   "example": "After taking soapbar 1 from toilet 1, use 'move soapbar 1 to cabinet 1' only after opening cabinet 1, instead of trying to move while at the source or without opening.",
    "id": "rule_5",
-   "importance": 15,
-   "last_used": 87,
+   "importance": 16,
+   "last_used": 89,
    "refined_at": [
     3,
     5
    ],
-   "rule": "When placing two objects in a target, search the area first, take each object, then move each to the target.",
+   "rule": "When placing two objects in a target, take each object from its source first, then open the target if closed, then move each to the target.",
    "sources": [
     {
      "task": "put two spatula in drawer.",
@@ -5246,7 +5348,7 @@
    "alpha": 1,
    "base": [
     8,
-    24
+    25
    ],
    "beta": 1,
    "contexts": [],
@@ -9718,56 +9820,6 @@
     "won": [
      [
       [
-       "go to countertop 1",
-       1
-      ],
-      [
-       "go to cabinet 1",
-       1
-      ],
-      [
-       "open cabinet 1",
-       1
-      ],
-      [
-       "take peppershaker 1 from cabinet 1",
-       1
-      ],
-      [
-       "go to diningtable 1",
-       1
-      ],
-      [
-       "move peppershaker 1 to diningtable 1",
-       1
-      ],
-      [
-       "go to cabinet 2",
-       1
-      ],
-      [
-       "open cabinet 2",
-       1
-      ],
-      [
-       "take peppershaker 2 from cabinet 2",
-       1
-      ],
-      [
-       "move peppershaker 2 to diningtable 1",
-       0
-      ],
-      [
-       "go to diningtable 1",
-       1
-      ],
-      [
-       "move peppershaker 2 to diningtable 1",
-       1
-      ]
-     ],
-     [
-      [
        "go to fridge 1",
        1
       ],
@@ -10423,6 +10475,48 @@
        "move laptop 2 to desk 1",
        1
       ]
+     ],
+     [
+      [
+       "go to toilet 1",
+       1
+      ],
+      [
+       "take soapbar 1 from toilet 1",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "move soapbar 1 to cabinet 1",
+       0
+      ],
+      [
+       "open cabinet 1",
+       1
+      ],
+      [
+       "move soapbar 1 to cabinet 1",
+       1
+      ],
+      [
+       "go to toilet 1",
+       1
+      ],
+      [
+       "take soapbar 2 from toilet 1",
+       1
+      ],
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "move soapbar 2 to cabinet 1",
+       1
+      ]
      ]
     ]
    },
@@ -10441,9 +10535,9 @@
    "alpha": 12,
    "base": [
     13,
-    18
+    19
    ],
-   "beta": 6,
+   "beta": 7,
    "contexts": [
     {
      "plan": "go to coffeetable 1 ; put the statue in coffeetable 1",
@@ -10720,17 +10814,37 @@
      "task": "put a box in armchair.",
      "task_type": "pick_and_place_simple",
      "won": false
+    },
+    {
+     "plan": "search for peppershaker in cabinets and tables ; go to sidetable 1 ; take peppershaker from its current location ; put peppershaker on sidetable 1",
+     "steps": [
+      "go to countertop 1",
+      "go to garbagecan 1",
+      "go to sinkbasin 1",
+      "go to drawer 1",
+      "go to diningtable 1",
+      "go to sidetable 1",
+      "go to cabinet 1",
+      "go to cabinet 2",
+      "open cabinet 2",
+      "go to diningtable 1",
+      "go to fridge 1",
+      "open fridge 1"
+     ],
+     "task": "put some peppershaker on sidetable.",
+     "task_type": "pick_and_place_simple",
+     "won": false
     }
    ],
-   "example": "search furniture and tables, take pillow from sofa, go to ottoman, move pillow to ottoman",
+   "example": "search diningtables, countertops, cabinets, drawers, then take peppershaker from cabinet, go to sidetable, move peppershaker to sidetable",
    "id": "rule_7",
-   "importance": 17,
-   "last_used": 74,
+   "importance": 18,
+   "last_used": 88,
    "refined_at": [
-    4,
-    3
+    11,
+    6
    ],
-   "rule": "When an object must be picked up and placed: search furniture and tables first, take the object from its location, go to the target, and move it there.",
+   "rule": "When an object must be picked up and placed: search furniture, tables, and cabinets first, take the object from its location, go to the target, and move it there.",
    "sources": [
     {
      "task": "put a cd in safe.",
@@ -10739,7 +10853,7 @@
    ],
    "task_type": "pick_and_place_simple",
    "type": "Success Process",
-   "validation": "Confirmed that 'move' command succeeds when agent is at target location and carrying object. | Confirmed that objects are found on furniture/tables, not just drawers/cabinets; 'move' command requires being at target location. | Confirmed that 'move' command requires agent to be at the target location and carrying the object.",
+   "validation": "Confirmed that objects are found on furniture/tables, not just drawers/cabinets; 'move' command requires being at target location. | Confirmed that 'move' command requires agent to be at the target location and carrying the object. | Confirmed that objects may be in cabinets (not just furniture); 'move' command requires being at target location and carrying object.",
    "verified": true
   },
   {
@@ -12307,8 +12421,8 @@
   {
    "alpha": 1,
    "base": [
-    7,
-    13
+    8,
+    14
    ],
    "beta": 1,
    "contexts": [],
@@ -12335,8 +12449,8 @@
   {
    "alpha": 5,
    "base": [
-    7,
-    12
+    8,
+    13
    ],
    "beta": 4,
    "contexts": [
@@ -12477,7 +12591,7 @@
    "example": "The agent should check countertop 1, countertop 2, and stoveburners before opening cabinet 2 or cabinet 3.",
    "id": "rule_12",
    "importance": 8,
-   "last_used": 69,
+   "last_used": 90,
    "refined_at": [
     3,
     3
@@ -12491,7 +12605,7 @@
    ],
    "task_type": "pick_clean_then_place_in_recep",
    "type": "Corrected Error",
-   "unused": 4,
+   "unused": 5,
    "validation": "This game confirmed the agent must search all cabinets systematically before attempting to clean and place the object. | This game confirmed the agent must search all cabinets systematically before attempting to clean and place the object. | This game confirmed the agent must search all cabinets systematically before attempting to clean and place the object.",
    "verified": true
   },
@@ -12499,9 +12613,9 @@
    "alpha": 8,
    "base": [
     8,
-    24
+    25
    ],
-   "beta": 16,
+   "beta": 17,
    "contexts": [
     {
      "plan": "go to desk 1 to find pencils ; take the first pencil from desk 1 ; go to drawer 1 to place the first pencil ; put the first pencil in drawer 1 ; go back to desk 1 to find the second pencil ; take the second pencil from desk 1 and put it in drawer 1",
@@ -12630,26 +12744,6 @@
      "task": "find two keychain and put them in safe.",
      "task_type": "pick_two_obj_and_place",
      "won": true
-    },
-    {
-     "plan": "search desk 1 for keychain 1 ; take keychain 1 from desk 1 ; put keychain 1 in drawer 1 ; search desk 1 for keychain 2 ; take keychain 2 from desk 1 ; put keychain 2 in drawer 1",
-     "steps": [
-      "examine desk 1",
-      "go to drawer 1",
-      "move keychain 3 to drawer 1",
-      "go to desk 1",
-      "inventory",
-      "go to drawer 1",
-      "take keychain 3 from drawer 1",
-      "move keychain 3 to drawer 1",
-      "go to desk 1",
-      "inventory",
-      "examine desk 1",
-      "examine desk 1"
-     ],
-     "task": "put two keychain in drawer.",
-     "task_type": "pick_two_obj_and_place",
-     "won": false
     },
     {
      "plan": "search for cellphone in the current location ; take the first cellphone found ; go to bed 1 ; put the first cellphone in bed 1 ; search for the second cellphone ; take the second cellphone and put it in bed 1",
@@ -12924,17 +13018,37 @@
      "task": "put two laptop in desk.",
      "task_type": "pick_two_obj_and_place",
      "won": false
+    },
+    {
+     "plan": "go to cabinet 1 ; take soapbar 1 from toilet 1 ; put soapbar 1 in cabinet 1 ; go to toilet 1 ; take soapbar 2 from toilet 1 ; put soapbar 2 in cabinet 1",
+     "steps": [
+      "open cabinet 3",
+      "go to countertop 1",
+      "go to cabinet 4",
+      "open cabinet 4",
+      "go to countertop 1",
+      "go to cabinet 1",
+      "go to countertop 1",
+      "go to cabinet 2",
+      "go to countertop 1",
+      "go to sinkbasin 1",
+      "go to countertop 1",
+      "go to toilet 1"
+     ],
+     "task": "put two soapbar in cabinet.",
+     "task_type": "pick_two_obj_and_place",
+     "won": false
     }
    ],
-   "example": "Search bed 1 for laptop 1 and laptop 2, take laptop 1, move laptop 1 to desk 1, return to bed 1, take laptop 2, move laptop 2 to desk 1.",
+   "example": "Search toilet 1 for soapbar 1 and soapbar 2, take soapbar 1, go to cabinet 1, open cabinet 1, move soapbar 1 to cabinet 1, return to toilet 1, take soapbar 2, move soapbar 2 to cabinet 1.",
    "id": "rule_14",
-   "importance": 21,
-   "last_used": 87,
+   "importance": 22,
+   "last_used": 89,
    "refined_at": [
     6,
     12
    ],
-   "rule": "When two objects must be placed in a target: search all furniture surfaces first, take the first, move it to the target, return to search for the second, take it, move it to the same target.",
+   "rule": "When two objects must be placed in a target: search all furniture surfaces first, take each object, then open the target if closed, move each to the target.",
    "sources": [
     {
      "task": "put two alarmclock in shelf.",
@@ -12943,7 +13057,7 @@
    ],
    "task_type": "pick_two_obj_and_place",
    "type": "Success Process",
-   "validation": "The agent failed because it did not systematically check all remaining surfaces (like cabinet 1, cabinet 2, bathtubbasin 1) after moving the first soapbottle, instead wasting time on empty drawers and the wrong target location. | The agent successfully searched all furniture surfaces (bed) and used 'move' with 'to' correctly. | The agent failed because it did not search all furniture surfaces (bed 1) before wasting time on empty drawers and cabinets; the retry corrected this by scanning armchairs, bed, and finding laptops on bed 1.",
+   "validation": "The agent successfully searched all furniture surfaces (bed) and used 'move' with 'to' correctly. | The agent failed because it did not search all furniture surfaces (bed 1) before wasting time on empty drawers and cabinets; the retry corrected this by scanning armchairs, bed, and finding laptops on bed 1. | The agent failed because it did not take the soapbars from the toilet before attempting to move them, and did not open the cabinet before moving the first soapbar.",
    "verified": true
   },
   {
@@ -15353,9 +15467,9 @@
    "alpha": 6,
    "base": [
     13,
-    19
+    20
    ],
-   "beta": 2,
+   "beta": 3,
    "contexts": [
     {
      "steps": [
@@ -15406,26 +15520,6 @@
      "won": true
     },
     {
-     "plan": "search for a box in the environment ; go to the armchair ; put the box in the armchair",
-     "steps": [
-      "open cabinet 4",
-      "go to garbagecan 1",
-      "go to coffeetable 1",
-      "go to drawer 1",
-      "go to drawer 2",
-      "go to drawer 3",
-      "go to drawer 4",
-      "go to dresser 1",
-      "go to armchair 1",
-      "go to sofa 1",
-      "take box 1 from sofa 1",
-      "go to armchair 1"
-     ],
-     "task": "put a box in armchair.",
-     "task_type": "pick_and_place_simple",
-     "won": false
-    },
-    {
      "plan": "search for a pillow in the environment ; take the pillow from its current location ; go to the armchair ; put the pillow in the armchair",
      "steps": [
       "go to sofa 1",
@@ -15449,17 +15543,57 @@
      "task": "put some pillow on ottoman.",
      "task_type": "pick_and_place_simple",
      "won": true
+    },
+    {
+     "plan": "search for a box in the environment ; go to the armchair ; put the box in the armchair",
+     "steps": [
+      "open cabinet 4",
+      "go to garbagecan 1",
+      "go to coffeetable 1",
+      "go to drawer 1",
+      "go to drawer 2",
+      "go to drawer 3",
+      "go to drawer 4",
+      "go to dresser 1",
+      "go to armchair 1",
+      "go to sofa 1",
+      "take box 1 from sofa 1",
+      "go to armchair 1"
+     ],
+     "task": "put a box in armchair.",
+     "task_type": "pick_and_place_simple",
+     "won": false
+    },
+    {
+     "plan": "search for peppershaker in cabinets and tables ; go to sidetable 1 ; take peppershaker from its current location ; put peppershaker on sidetable 1",
+     "steps": [
+      "go to countertop 1",
+      "go to garbagecan 1",
+      "go to sinkbasin 1",
+      "go to drawer 1",
+      "go to diningtable 1",
+      "go to sidetable 1",
+      "go to cabinet 1",
+      "go to cabinet 2",
+      "open cabinet 2",
+      "go to diningtable 1",
+      "go to fridge 1",
+      "open fridge 1"
+     ],
+     "task": "put some peppershaker on sidetable.",
+     "task_type": "pick_and_place_simple",
+     "won": false
     }
    ],
-   "example": "search drawers 1-5, bed 1, garbagecan 1 before taking laptop 1",
+   "example": "search diningtables, countertops, cabinets first before checking drawers or garbagecan",
    "id": "rule_17",
-   "importance": 6,
-   "last_used": 74,
+   "importance": 7,
+   "last_used": 88,
    "refined_at": [
     0,
     0
    ],
-   "rule": "When an object must be located and placed: search drawers, bed, garbagecan first, take the object, put it on the target.",
+   "rule": "When an object must be located and placed: search all furniture, tables, and cabinets systematically before assuming it is in drawers or garbagecan.",
    "sources": [
     {
      "task": "put some cellphone on dresser.",
@@ -15480,7 +15614,7 @@
    "alpha": 4,
    "base": [
     9,
-    11
+    12
    ],
    "beta": 3,
    "contexts": [
@@ -15578,7 +15712,7 @@
    "example": "\"go to drawer\", again and again",
    "id": "rule_18",
    "importance": 2,
-   "last_used": 74,
+   "last_used": 88,
    "pattern": {
     "attempts": 4,
     "example": "",
@@ -15605,15 +15739,15 @@
    ],
    "task_type": "pick_and_place_simple",
    "type": "Anti-Pattern",
-   "unused": 5,
+   "unused": 6,
    "validation": "",
    "verified": true
   },
   {
-   "alpha": 4,
+   "alpha": 5,
    "base": [
-    6,
-    10
+    7,
+    11
    ],
    "beta": 2,
    "contexts": [
@@ -15671,6 +15805,22 @@
      "won": true
     },
     {
+     "plan": "search for a bowl on available surfaces ; take the bowl from the surface ; go to the sinkbasin to clean the bowl ; clean the bowl at the sinkbasin ; go to a cabinet to place the clean bowl ; put the clean bowl in the cabinet",
+     "steps": [
+      "go to countertop 1",
+      "go to countertop 2",
+      "go to countertop 3",
+      "take bowl 4 from countertop 3",
+      "go to sinkbasin 1",
+      "clean bowl 4 with sinkbasin 1",
+      "go to cabinet 1",
+      "move bowl 4 to cabinet 1"
+     ],
+     "task": "put a clean bowl in cabinet.",
+     "task_type": "pick_clean_then_place_in_recep",
+     "won": true
+    },
+    {
      "plan": "go to sinkbasin 1 to clean the towel ; clean the towel at sinkbasin 1 ; go to toilet 1 ; put the clean towel in toilet 1",
      "steps": [
       "take towel 1 from towelholder 1",
@@ -15694,7 +15844,7 @@
    "example": "The agent should go to diningtable 1 before moving kettle 2 there.",
    "id": "rule_19",
    "importance": 7,
-   "last_used": 69,
+   "last_used": 90,
    "refined_at": [
     0,
     0
@@ -16836,7 +16986,7 @@
    "alpha": 1,
    "base": [
     4,
-    14
+    15
    ],
    "beta": 1,
    "contexts": [],
@@ -16863,8 +17013,8 @@
   {
    "alpha": 1,
    "base": [
-    1,
-    2
+    2,
+    3
    ],
    "beta": 1,
    "contexts": [],

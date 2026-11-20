@@ -1,16 +1,16 @@
-/root/ll-runs/study/checkpoints/practice-E-0/00087.json: 26 rules
-rule_1 [Success Process] task_type=pick_clean_then_place_in_recep a/b=8/5 unused=0 visible won contexts: 11 ctx, 11 with plan
+/root/ll-runs/study/checkpoints/practice-E-0/00090.json: 26 rules
+rule_1 [Success Process] task_type=pick_clean_then_place_in_recep a/b=9/5 unused=0 visible won contexts: 12 ctx, 12 with plan
     When an object must be cleaned and placed: search surfaces first, take it, go to sinkbasin, clean it with sinkbasin, go to target, open target if closed, move it there.
 rule_2 [Failure Pool] task_type=pick_clean_then_place_in_recep a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
     failure pool
 rule_4 [Failure Pool] task_type=pick_and_place_simple a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
     failure pool
-rule_5 [Corrected Error] task_type=pick_two_obj_and_place a/b=6/9 unused=6 visible won contexts: 13 ctx, 13 with plan
-    When placing two objects in a target, search the area first, take each object, then move each to the target.
+rule_5 [Corrected Error] task_type=pick_two_obj_and_place a/b=6/10 unused=6 visible won contexts: 14 ctx, 14 with plan
+    When placing two objects in a target, take each object from its source first, then open the target if closed, then move each to the target.
 rule_6 [Failure Pool] task_type=pick_two_obj_and_place a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
     failure pool
-rule_7 [Success Process] task_type=pick_and_place_simple a/b=12/6 unused=0 visible won contexts: 16 ctx, 15 with plan
-    When an object must be picked up and placed: search furniture and tables first, take the object from its location, go to the target, and move it there.
+rule_7 [Success Process] task_type=pick_and_place_simple a/b=12/7 unused=0 visible won contexts: 17 ctx, 16 with plan
+    When an object must be picked up and placed: search furniture, tables, and cabinets first, take the object from its location, go to the target, and move it there.
 rule_8 [Corrected Error] task_type=pick_heat_then_place_in_recep a/b=8/3 unused=1 visible won contexts: 9 ctx, 9 with plan
     When heating the object to place in the target, use the microwave instead of the stoveburner.
 rule_9 [Success Process] task_type=pick_heat_then_place_in_recep a/b=8/4 unused=0 visible won contexts: 10 ctx, 10 with plan
@@ -19,19 +19,19 @@ rule_10 [Failure Pool] task_type=pick_heat_then_place_in_recep a/b=1/1 unused=0 
     failure pool
 rule_11 [Unresolved Error] task_type=pick_clean_then_place_in_recep a/b=1/1 unused=0 hidden won contexts: 0 ctx, 0 with plan
     When searching for the object to clean, check all open surfaces before opening any storage containers.
-rule_12 [Corrected Error] task_type=pick_clean_then_place_in_recep a/b=5/4 unused=4 visible won contexts: 7 ctx, 7 with plan
+rule_12 [Corrected Error] task_type=pick_clean_then_place_in_recep a/b=5/4 unused=5 visible won contexts: 7 ctx, 7 with plan
     When an object must be cleaned and placed: search storage locations first, clean the object at the sinkbasin, open the target if closed, put it there.
-rule_14 [Success Process] task_type=pick_two_obj_and_place a/b=8/16 unused=0 visible won contexts: 22 ctx, 22 with plan
-    When two objects must be placed in a target: search all furniture surfaces first, take the first, move it to the target, return to search for the second, take it, move it to the same target.
+rule_14 [Success Process] task_type=pick_two_obj_and_place a/b=8/17 unused=0 visible won contexts: 22 ctx, 22 with plan
+    When two objects must be placed in a target: search all furniture surfaces first, take each object, then open the target if closed, move each to the target.
 rule_15 [Failure Pool] task_type=pick_cool_then_place_in_recep a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
     failure pool
 rule_16 [Success Process] task_type=pick_cool_then_place_in_recep a/b=5/4 unused=0 visible won contexts: 7 ctx, 7 with plan
     When an object must be cooled and placed: search countertops first, take the object, cool it with a fridge, open the target if closed, then move it there.
-rule_17 [Corrected Error] task_type=pick_and_place_simple a/b=6/2 unused=6 visible won contexts: 6 ctx, 5 with plan
-    When an object must be located and placed: search drawers, bed, garbagecan first, take the object, put it on the target.
-rule_18 [Anti-Pattern] task_type=pick_and_place_simple a/b=4/3 unused=5 visible won contexts: 5 ctx, 5 with plan
+rule_17 [Corrected Error] task_type=pick_and_place_simple a/b=6/3 unused=6 visible won contexts: 7 ctx, 6 with plan
+    When an object must be located and placed: search all furniture, tables, and cabinets systematically before assuming it is in drawers or garbagecan.
+rule_18 [Anti-Pattern] task_type=pick_and_place_simple a/b=4/3 unused=6 visible won contexts: 5 ctx, 5 with plan
     When issuing the go command, do not issue the same go command again and again.
-rule_19 [Corrected Error] task_type=pick_clean_then_place_in_recep a/b=4/2 unused=5 visible won contexts: 4 ctx, 4 with plan
+rule_19 [Corrected Error] task_type=pick_clean_then_place_in_recep a/b=5/2 unused=5 visible won contexts: 5 ctx, 5 with plan
     When moving a clean object to a target container, go to the target container first before attempting the move command.
 rule_20 [Corrected Error] task_type=pick_cool_then_place_in_recep a/b=5/3 unused=0 visible won contexts: 6 ctx, 6 with plan
     When cooling an object and placing it in a container, search countertops first before searching storage areas to confirm the object exists.
@@ -52,5 +52,5 @@ rule_27 [Unresolved Error] task_type=pick_two_obj_and_place a/b=1/1 unused=0 hid
 rule_28 [Special Phenomenon] task_type=pick_clean_then_place_in_recep a/b=1/1 unused=0 hidden won contexts: 0 ctx, 0 with plan
     When placing an object on toilet, examine toilet first to confirm valid placement action before attempting to place.
 
-manual operations over 88 games: consolidate=1, downvote_rule=2, merge_rule=2, outcome=88, pool_game=20, pool_won=68, refine=12, retire=8, update_rule=108, upvote_rule=6, write_rule=24
-builder errors: 40; candidate_attempts=169, candidate_duplicates=172, candidate_refinements=8, candidate_rejections=142
+manual operations over 91 games: consolidate=1, downvote_rule=2, merge_rule=2, outcome=91, pool_game=20, pool_won=71, refine=13, retire=8, update_rule=113, upvote_rule=6, write_rule=24
+builder errors: 40; candidate_attempts=171, candidate_duplicates=174, candidate_refinements=8, candidate_rejections=144
