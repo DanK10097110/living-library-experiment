@@ -83,6 +83,13 @@ with 0.5. A rule shown in at least RETIRE_MIN games is retired (logged) when it 
 Beta posterior puts its win rate below that base rate with probability >= RETIRE_CONFIDENCE (the base
 rate test alone never fires for kinds of task that are almost never won).
 
+Against recipe drift (amended 2026-11-19, E only; the Builder prompts are unchanged): a verified Success
+Process changes its text only by contrastive refinement, never by one game's update_rule; a corrected failure
+(retry win) may write rules but not rewrite visible ones (text_frozen). The commands a followed rule instructs
+("take the lamp") are checked against the game's trace; a rule whose command the game rejected in
+REJECTED_MIN followed games and never accepted in a won game is retired (command_evidence). In batched
+practice a rule's text changes at most once per batch, the first change in position order (replay).
+
 The Builder answers with JSON operations (write_rule / update_rule / upvote_rule / downvote_rule),
 never code.
 
@@ -344,7 +351,99 @@ def shown_to_agent(rule):
     return rule['type'] not in HIDDEN and rule.get('verified', True)
 
 
-MODES = ('task', 'placeholder', 'plan', 'steps')   # retrieval modes (how rules are chosen, not written)
+def text_frozen(rule, case):
+    """Why a Builder update may not rewrite this rule's text (None if it may). E only (E-minus never updates).
+    A verified Success Process changes only through contrastive refinement (refine: >= MIN_CONTRAST new wins
+    and losses), and a corrected failure (a retry win) may write new rules but not rewrite visible ones."""
+    if not shown_to_agent(rule):
+        return None
+    if rule['type'] == 'Success Process':
+        return 'a verified Success Process changes only by contrastive refinement'
+    if case == 'corrected failure':
+        return 'a corrected failure may write new rules, not rewrite rules the agent sees'
+    return None
+
+
+# Evidence check against traces (E only): the commands a rule instructs, and whether the game rejected them.
+COMMAND_VERBS = {'go to': 'go to', 'take': 'take', 'pick up': 'take', 'put': 'move', 'move': 'move',
+                 'place': 'move', 'open': 'open', 'close': 'close', 'use': 'use', 'turn on': 'use',
+                 'heat': 'heat', 'cool': 'cool', 'clean': 'clean', 'examine': 'examine', 'toggle': 'toggle'}
+DETERMINERS = {'the', 'a', 'an', 'some', 'any', 'each', 'another', 'that', 'this'}
+NEGATED = re.compile(r"\b(?:instead of|rather than|never|not|don't|do not|cannot|can't|avoid|without|no)\b"
+                     r"[^.;:,]*", re.IGNORECASE)
+REJECTED_MIN = 2            # followed games in which the instructed command was rejected, to retire the rule
+
+
+def _noun(word):
+    for w in (word, word[:-1] if word.endswith('s') else None, word[:-2] if word.endswith('es') else None):
+        if w and (w in avoid.OBJECTS or w in avoid.PLACES):
+            return w
+    return None
+
+
+def instructed_commands(text):
+    """(verb, noun) commands a rule tells the agent to do: an environment command verb directly followed
+    (after articles) by an ALFWorld object or receptacle noun. "take the lamp" -> ('take', 'lamp');
+    "take it to the lamp" and anything after "never", "instead of", "do not", ... give nothing."""
+    words = re.findall(r"[a-z']+", NEGATED.sub(' , ', str(text).lower()))
+    found = set()
+    for i in range(len(words)):
+        for phrase, verb in COMMAND_VERBS.items():
+            parts = phrase.split()
+            if words[i:i + len(parts)] != parts:
+                continue
+            j = i + len(parts)
+            while j < len(words) and words[j] in DETERMINERS:
+                j += 1
+            noun = _noun(words[j]) if j < len(words) else None
+            if noun:
+                found.add((verb, noun))
+    return sorted(found)
+
+
+def _matches(action, verb, noun):
+    """The game command `action` is `verb` applied to `noun` (its first argument; "lamp" matches "desklamp")."""
+    words = str(action).lower().split()
+    head = verb.split()
+    if verb == 'move':
+        ok = bool(words) and words[0] in ('move', 'put')
+    else:
+        ok = words[:len(head)] == head
+    if not ok or len(words) <= len(head):
+        return False
+    target = words[len(head)]
+    return target == noun or (len(noun) >= 4 and (target.endswith(noun) or target.startswith(noun)))
+
+
+def _rejected(step):
+    return not step.get('valid', True) or str(step.get('after', '')).strip().startswith('Nothing happens')
+
+
+def command_evidence(text, trace):
+    """{'verb noun': 'ok' | 'rejected'} for each command the rule instructs that this trace tried: 'ok' if
+    the game accepted it at least once, else 'rejected'."""
+    out = {}
+    for verb, noun in instructed_commands(text):
+        tried = [t for t in trace if _matches(t.get('action', ''), verb, noun)]
+        if tried:
+            out[f'{verb} {noun}'] = 'rejected' if all(_rejected(t) for t in tried) else 'ok'
+    return out
+
+
+def rejected_command(rule):
+    """An instructed command of a visible rule that was rejected in >= REJECTED_MIN games where the rule was
+    followed and never accepted in a won game (None if there is none)."""
+    if rule['type'] in (avoid.TYPE, avoid.POOL) or not shown_to_agent(rule):
+        return None
+    counts = rule.get('commands', {})
+    for verb, noun in instructed_commands(rule['rule']):
+        rejected, accepted = counts.get(f'{verb} {noun}', [0, 0])
+        if rejected >= REJECTED_MIN and accepted == 0:
+            return f'{verb} {noun}'
+    return None
+
+
+MODES =('task', 'placeholder', 'plan', 'steps')   # retrieval modes (how rules are chosen, not written)
 KEEP_NAMES = {'desklamp', 'floorlamp', 'lamp'}      # the light in "look at X under the desklamp" is not a receptacle
 
 
@@ -614,6 +713,13 @@ def apply(rules, operations, case, append_only, next_id, log, task_type=None, vi
                     log.append(f"{rule['id']} keeps its text (a lost game may not rewrite a rule the agent sees)")
                     if not changes:
                         continue
+                frozen = text_frozen(rule, case)
+                if frozen and ({'rule', 'example'} & set(changes)):
+                    # Recipe stability: single games rewrote verified recipes back and forth (recipe drift).
+                    changes = {k: v for k, v in changes.items() if k not in ('rule', 'example', 'type')}
+                    log.append(f"{rule['id']} keeps its text ({frozen})")
+                    if not changes:
+                        continue
                 if 'rule' in changes:
                     changes['rule'] = checked(changes.get('type', rule['type']), changes['rule'], ask,
                                               rule.get('task_type'))
@@ -649,19 +755,30 @@ def near_duplicate(rules, kind, scope, text, similarity, task_type=None):
     return pool[best] if scores[best] >= DUP_SIMILARITY else None
 
 
-def observe(rules, shown_ids, won, context, position, violated=(), followed=None):
+def observe(rules, shown_ids, won, context, position, violated=(), followed=None, trace=None):
     """MACLA Beta update and contrastive contexts for the rules the agent followed in a game; returns the op.
     `violated`: shown Anti-Pattern rules whose pattern the agent did anyway.
     `followed`: ids the Builder says the actions followed (None: credit every shown rule). Success Process
-    recipes always count (they shape the plan); shown rules not followed only get `unused` += 1."""
+    recipes always count (they shape the plan); shown rules not followed only get `unused` += 1.
+    `trace`: the game's steps; for each rule the judge says was followed, whether the commands it instructs
+    were accepted or rejected (command_evidence) is recorded in the op as 'commands'."""
     shown_ids = list(shown_ids)
     unused = []
     if followed is not None:
         kind = {r['id']: r['type'] for r in rules}
         unused = [i for i in shown_ids if i not in set(followed) and kind.get(i) != 'Success Process']
+    commands = {}
+    if followed is not None and trace is not None:
+        by_id = {r['id']: r for r in rules}
+        for rule_id in shown_ids:
+            rule = by_id.get(rule_id)
+            if rule_id in set(followed) and rule is not None and rule['type'] not in (avoid.TYPE, avoid.POOL):
+                found = command_evidence(rule['rule'], trace)
+                if found:
+                    commands[rule_id] = found
     op = {'op': 'outcome', 'ids': [i for i in shown_ids if i not in unused], 'won': bool(won), 'context': context,
           'position': position, **({'violated': list(violated)} if violated else {}),
-          **({'unused': unused} if unused else {})}
+          **({'unused': unused} if unused else {}), **({'commands': commands} if commands else {})}
     _observe(rules, op)
     return op
 
@@ -690,6 +807,13 @@ def _observe(rules, op):
         rule['last_used'] = op['position']
         if rule_id in op.get('violated', ()):
             rule['violations'] = rule.get('violations', 0) + 1
+    for rule_id, found in op.get('commands', {}).items():   # [games rejected, won games accepted]
+        if rule_id in by_id:
+            counts = by_id[rule_id].setdefault('commands', {})
+            for command, outcome in found.items():
+                rejected, accepted = counts.get(command, [0, 0])
+                counts[command] = [rejected + (outcome == 'rejected'),
+                                   accepted + (outcome == 'ok' and bool(op['won']))]
 
 
 def observed(rule):
@@ -711,7 +835,7 @@ def retirable(rule):
     the games it could have been shown in (Laplace-smoothed)."""
     won, lost = observed(rule)
     base_won, base_games = rule.get('base', [0, 0])
-    if useless(rule):
+    if useless(rule) or rejected_command(rule):
         return True
     if won + lost < RETIRE_MIN or rule['type'] == avoid.POOL:
         return False
@@ -734,9 +858,14 @@ def retire(rules, report):
         op = {'op': 'retire', 'id': rule['id'], 'won': won, 'lost': lost, 'base': list(rule['base'])}
         if rule.get('unused'):
             op['unused'] = rule['unused']
-        gone_useless = useless(rule)
+        gone_useless, bad = useless(rule), rejected_command(rule)
+        if bad:
+            op['reason'] = f'instructed command always rejected: {bad}'
         avoid.forget(rules, rule)
         report['operations'].append(op)
+        if bad:
+            report['errors'].append(f"retired {rule['id']} ({op['reason']})")
+            continue
         if gone_useless:
             report['errors'].append(f"retired {rule['id']} (useless: followed in {won + lost} of "
                                     f"{won + lost + op.get('unused', 0)} games shown)")
@@ -1170,7 +1299,7 @@ def build(agent):
                                              **({'plan': agent.plan_text} if agent.plan_text else {})},
                                             position,
                                             avoid.violated(rules, agent.rules_shown, avoid.compact(agent.result['trace'])),
-                                            followed))
+                                            followed, agent.result['trace']))
         retire(rules, report)
     report['operations'] += avoid_update(agent, rules, report, summary, append_only, next_id)
     if not append_only:
@@ -1184,11 +1313,28 @@ def build(agent):
     return report
 
 
-def replay(live, operations, log):
-    """Batching: apply one game's applied operations onto the live rules (ids re-issued for writes)."""
+TEXT_KEYS = ('rule', 'example', 'type')     # what a dropped text change of an update_rule loses
+
+
+def replay(live, operations, log, base=None):
+    """Batching: apply one game's applied operations onto the live rules (ids re-issued for writes).
+    `base`: the rules at the start of the batch (the copy this game ran on). With it, a rule's text changes
+    at most once per batch: an update_rule text, refine or consolidate of a rule whose text (or refinement)
+    an earlier game of the batch, or an earlier op of this game, already changed is dropped and logged
+    (the first in position order wins). Only E produces these ops; E-minus's replay is unchanged."""
     rules = copy.deepcopy(live)
     by_id = {r['id']: r for r in rules}
     counter = [max([int(r['id'].split('_')[1]) for r in rules] + [0])]
+    started = None if base is None else {r['id']: (r['rule'], r.get('refined_at')) for r in base}
+    changed = set()
+
+    def taken(rule_id):
+        """True when this rule's text already changed in this batch."""
+        if started is None:
+            return False
+        rule = by_id.get(rule_id)
+        return rule_id in changed or (rule is not None and rule_id in started
+                                      and (rule['rule'], rule.get('refined_at')) != started[rule_id])
 
     def next_id():
         counter[0] += 1
@@ -1202,13 +1348,18 @@ def replay(live, operations, log):
         if op['op'] == 'outcome':
             _observe(rules, op)
             continue
+        if op['op'] in ('refine', 'consolidate') and taken(op['id']):
+            log.append(['text change dropped (already changed in this batch)', op['op'], op['id']])
+            continue
         if op['op'] == 'refine':
             _refine(rules, op)
+            changed.add(op['id'])
             continue
         if op['op'] == 'consolidate':
             _consolidate(rules, op)
             by_id.clear()
             by_id.update({r['id']: r for r in rules})
+            changed.add(op['id'])
             continue
         if op['op'] in ('prune', 'retire'):
             if op['id'] in by_id:
@@ -1243,7 +1394,12 @@ def replay(live, operations, log):
                 by_id[op['id']]['verified'] = True
             vote(rules, by_id, op['id'], 1)
         else:
-            by_id[op['id']].update({k: v for k, v in op.items()
-                                    if k in ('rule', 'example', 'validation', 'type', 'verified', 'task_type')})
+            keys = ('rule', 'example', 'validation', 'type', 'verified', 'task_type')
+            if 'rule' in op and taken(op['id']):
+                log.append(['text change dropped (already changed in this batch)', op['op'], op['id']])
+                keys = tuple(k for k in keys if k not in TEXT_KEYS)
+            elif 'rule' in op and started is not None:
+                changed.add(op['id'])
+            by_id[op['id']].update({k: v for k, v in op.items() if k in keys})
             vote(rules, by_id, op['id'], 1)
     return rules

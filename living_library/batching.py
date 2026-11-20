@@ -152,11 +152,12 @@ def _merge_meta(live, base, end):
 
 def merge_memory(live, base, end, log, rule_operations=()):
     """Memory = {'library', 'trajectories', 'rules'}: D appends successful practice traces; the
-    rule manual replays the game's applied Builder operations onto the live rules (manual.replay)."""
+    rule manual replays the game's applied Builder operations onto the live rules (manual.replay; a rule's
+    text changes at most once per batch, judged against the batch's starting rules `base['rules']`)."""
     from .manual import replay
     trajectories = copy.deepcopy(live['trajectories']) + copy.deepcopy(end['trajectories'][len(base['trajectories']):])
     merged = {'library': merge_library(live['library'], base['library'], end['library'], log),
               'trajectories': trajectories}
     if 'rules' in live or 'rules' in end:
-        merged['rules'] = replay(live.get('rules', []), list(rule_operations), log)
+        merged['rules'] = replay(live.get('rules', []), list(rule_operations), log, base.get('rules', []))
     return merged
