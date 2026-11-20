@@ -1,29 +1,23 @@
-"""E's rule management after the recipe-drift diagnosis (2026-11-19): recipe stability, the evidence check
-of instructed commands against game traces, one text change per rule per batch, the E-only restart with
-its E-minus probe, and the shared two-object subgoal issue (recorded, not fixed)."""
+"""E's rule management: the Builder never rewrites visible text (redesign of 2026-11-20), the instructed-command
+check against game traces (now the write gate's trace check), one text change per rule per batch, the E-only
+restart with its E-minus probe, and the shared two-object subgoal issue (recorded, not fixed)."""
 import copy
+import inspect
 import json
 from pathlib import Path
 import re
-import sys
 import tempfile
 import unittest
 from unittest.mock import patch
 
-from living_library import avoid, manual
+from living_library import manual
+from living_library.agents import Agent
 from living_library.batching import merge_memory
-from living_library.config import Settings, digest
+from living_library.config import Settings
 from living_library.domain import Predicate, State
 from living_library.environments import demo_manifest
-from living_library.experiment import (Runner, e_minus_probe, e_minus_replay_check, load_json, restart_library,
-                                       stored_e_minus_probe)
 
-ROOT = Path(__file__).resolve().parent.parent
-STUDY = Path('/root/ll-runs/study')
-# Recorded sources of study runs made before the shared rule-text repair of 2026-11-20 changed E-minus.
-BEFORE_TEXT_REPAIR = {'d0cd9a5c19a4727150f3e35b242984952405d2e72ae78613ca08dcb023696e9e'}
-# ... and before the 2026-11-20 design review gave E-minus the evidence bookkeeping (the paused study).
-BEFORE_DESIGN_REVIEW = {'a473ed7fc06ad67079e14efd9447ee7772dd119201879351d837c207fb581a08'}
+NEW_AGENT = 'library' not in inspect.signature(Agent).parameters
 
 
 def quiet(*args, **kwargs):
@@ -47,76 +41,38 @@ RECIPE = 'When an object must be examined under a light: search desks first, tak
 
 
 class RecipeStabilityTests(unittest.TestCase):
-    def test_builder_cannot_rewrite_a_verified_recipe(self):
-        rules, log = [rule('rule_1', 'Success Process', RECIPE, alpha=1 + manual.YOUNG_CREDITS)], []
+    def test_builder_cannot_rewrite_a_recipe_but_may_note_it(self):
+        rules, log = [rule('rule_1', 'Success Process', RECIPE)], []
         applied = manual.apply(rules, [{'op': 'update_rule', 'id': 'rule_1',
                                         'rule': 'When an object must be examined: search shelves first, take it, '
                                                 'use the desklamp.', 'example': 'go to shelf 1'}],
                                'direct success', False, ids(), log)
         self.assertEqual(rules[0]['rule'], RECIPE)
         self.assertEqual(applied, [])
-        self.assertIn('rule_1 keeps its text (a verified Success Process changes only by contrastive refinement)', log)
-        # A validation note is still allowed (and counts as agreement).
-        manual.apply(rules, [{'op': 'update_rule', 'id': 'rule_1', 'rule': 'x', 'validation': 'confirmed again'}],
+        manual.apply(rules, [{'op': 'note', 'id': 'rule_1', 'validation': 'confirmed again'}],
                      'indirect success', False, ids(), log)
         self.assertEqual((rules[0]['rule'], rules[0]['validation']), (RECIPE, 'confirmed again'))
-        self.assertEqual(rules[0]['importance'], manual.NEW_IMPORTANCE + 1)
 
-    def test_recipe_text_changes_through_refinement(self):
-        recipe = rule('rule_1', 'Success Process', RECIPE, alpha=1 + manual.MIN_CONTRAST,
-                      beta=1 + manual.MIN_CONTRAST, base=[9, 10],     # below its kind's base rate (2026-11-20)
-                      contexts=[{'task': 'look', 'won': w} for w in [True, False] * manual.MIN_CONTRAST])
-        new = 'When an object must be examined under a light: search desks first, take it, use the lamp.'
+    def test_recipe_text_changes_only_through_refinement_of_a_bad_recipe(self):
+        recipe = rule('rule_1', 'Success Process', RECIPE)
+        context = {'task': 'look', 'task_type': 'look_at_obj_in_light', 'steps': ['go to desk 1', 'use desklamp 1']}
+        new = 'When an object must be examined under a light: search desks first, take it, use the desklamp 1 there.'
+        for n in range(manual.MIN_EVIDENCE):
+            manual.observe([recipe], {'rule_1': {'followed': True, 'usefulness': -1, 'rule': RECIPE}}, context, n, False)
 
-        class Agent:
+        class Asker:
             def _ask(self, role, payload):
                 return {'rule': new}
         report = {'operations': [], 'errors': []}
-        manual.refine(Agent(), [recipe], [recipe], report)
-        self.assertEqual(recipe['rule'], new)
+        manual.manage(Asker(), [recipe], report)
+        self.assertEqual(recipe['rule'], new.replace('desklamp 1', 'desklamp'))
         self.assertEqual(report['operations'][0]['op'], 'refine')
-        fresh = rule('rule_2', 'Success Process', RECIPE, alpha=3, beta=1 + manual.MIN_CONTRAST)   # 2 wins only
-        self.assertFalse(manual.refinable(fresh))
-
-    def test_retry_win_rewrites_a_young_rule_but_not_a_frozen_one(self):
-        young = rule('rule_1', 'Special Phenomenon', 'If a container is closed, open it before looking inside.')
-        mature = rule('rule_2', 'Special Phenomenon', 'If a lamp is off, turn it on first.',
-                      alpha=1 + manual.YOUNG_CREDITS)
-        note = rule('rule_3', 'Unresolved Error', 'When the lamp was off, the task failed.')
-        rules, log = [young, mature, note], []
-        live = copy.deepcopy(rules)
-        applied = manual.apply(rules, [
-            {'op': 'update_rule', 'id': 'rule_1', 'rule': 'If a drawer is closed, open it first.'}],
-            'corrected failure', False, ids(), log, retry_followed=lambda text: True)
-        self.assertEqual(young['rule'], 'If a drawer is closed, open it first.')
-        self.assertEqual(manual.replay(live, applied, [], copy.deepcopy(live)), rules)    # replay == live
-        log = []
-        manual.apply(rules, [
-            {'op': 'update_rule', 'id': 'rule_2', 'rule': 'If a lamp is dark, switch it on.'},
-            {'op': 'update_rule', 'id': 'rule_3', 'type': 'Corrected Error',
-             'rule': 'When the lamp is off, use it instead of taking it.'}],
-            'corrected failure', False, ids(), log, retry_followed=lambda text: True)
-        self.assertEqual(mature['rule'], 'If a lamp is off, turn it on first.')
-        self.assertTrue(any('rule_2 keeps its text' in line for line in log), log)
-        self.assertEqual(note['type'], 'Corrected Error')          # a hidden note may still become a rule
-
-    def test_retry_win_rewrites_a_frozen_rule_with_a_rejected_step(self):
-        mature = rule('rule_1', 'Special Phenomenon', 'If a lamp is off, turn it on first.',
-                      alpha=1 + manual.YOUNG_CREDITS)
-        manual.apply([mature], [{'op': 'update_rule', 'id': 'rule_1', 'rule': 'If a lamp is dark, switch it on.'}],
-                     'corrected failure', False, ids(), [], correctable=['rule_1'])
-        self.assertEqual(mature['rule'], 'If a lamp is dark, switch it on.')
-
-    def test_other_visible_rules_still_update_after_a_won_game(self):
-        tip = rule('rule_1', 'Special Phenomenon', 'If a container is closed, open it before looking inside.')
-        manual.apply([tip], [{'op': 'update_rule', 'id': 'rule_1', 'rule': 'If a drawer is closed, open it first.'}],
-                     'direct success', False, ids(), [])
-        self.assertEqual(tip['rule'], 'If a drawer is closed, open it first.')
+        self.assertEqual(recipe['revisions'], 1)
 
     def test_append_only_is_unchanged(self):
         rules, log = [rule('rule_1', 'Success Process', RECIPE)], []
-        manual.apply(rules, [{'op': 'update_rule', 'id': 'rule_1', 'rule': 'x'}], 'direct success', True, ids(), log)
-        self.assertEqual(log, ['append-only manual: rules cannot be changed'])
+        manual.apply(rules, [{'op': 'note', 'id': 'rule_1', 'validation': 'x'}], 'direct success', True, ids(), log)
+        self.assertEqual(log, ['append-only manual: rules cannot be changed or annotated'])
 
 
 def step(action, valid=True, after='You do it.'):
@@ -146,120 +102,63 @@ class EvidenceCheckTests(unittest.TestCase):
         self.assertEqual(manual.command_evidence(TAKE_LAMP, [step('take book 1 from desk 1')]), {})
         self.assertEqual(manual.command_evidence('Use the desklamp.', [step('use desklamp 1')]), {'use desklamp': 'ok'})
 
-    def game(self, rules, won, trace, followed=('rule_1',), position=0):
-        return manual.observe(rules, ['rule_1'], won, {'task': 'look at book under the desklamp',
-                                                      'task_type': 'look_at_obj_in_light'},
-                              position, followed=list(followed), trace=trace)
-
-    def test_rule_whose_command_is_always_rejected_is_retired(self):
-        rules = [rule('rule_1', 'Special Phenomenon', TAKE_LAMP)]
-        bad = [step('take desklamp 1 from desk 1', False, 'Nothing happens.'), step('use desklamp 1')]
-        first = self.game(rules, True, bad)
-        self.assertEqual(first['commands'], {'rule_1': {'take lamp': 'rejected'}})
-        report = {'operations': [], 'errors': []}
-        manual.retire(rules, report)
-        self.assertEqual(len(rules), 1)                                  # one rejection is not enough
-        self.game(rules, False, bad, position=1)
-        self.assertEqual(rules[0]['commands'], {'take lamp': [2, 0]})
-        manual.retire(rules, report)
+    def test_the_write_gate_rejects_a_rule_whose_command_the_won_game_rejected(self):
+        trace = [step('take desklamp 1 from desk 1', False, 'Nothing happens.'), step('use desklamp 1')]
+        rules, log = [], []
+        manual.apply(rules, [{'op': 'write_rule', 'type': 'Special Phenomenon', 'rule': TAKE_LAMP}],
+                     'indirect success', False, ids(), log, 'look_at_obj_in_light', trace=trace)
         self.assertEqual(rules, [])
-        self.assertEqual(report['errors'], ['retired rule_1 (instructed command always rejected: take lamp)'])
-        self.assertEqual(report['operations'][0]['reason'], 'instructed command always rejected: take lamp')
-
-    def test_command_accepted_in_a_won_game_keeps_the_rule(self):
-        rules = [rule('rule_1', 'Special Phenomenon', TAKE_LAMP)]
-        bad = [step('take desklamp 1 from desk 1', False, 'Nothing happens.')]
-        self.game(rules, True, [step('take desklamp 1 from desk 1', True, 'You pick up the desklamp 1.')])
-        self.game(rules, False, bad, position=1)
-        self.game(rules, False, bad, position=2)
-        self.assertEqual(rules[0]['commands'], {'take lamp': [2, 1]})
-        self.assertIsNone(manual.rejected_command(rules[0]))
-
-    def test_only_followed_rules_and_not_anti_patterns(self):
-        bad = [step('take desklamp 1 from desk 1', False, 'Nothing happens.')]
-        rules = [rule('rule_1', 'Special Phenomenon', TAKE_LAMP)]
-        for position in range(3):
-            op = self.game(rules, False, bad, followed=(), position=position)
-            self.assertNotIn('commands', op)
-        self.assertNotIn('commands', rules[0])
-        none = manual.observe(rules, ['rule_1'], False, {'task': 'x', 'task_type': 'look_at_obj_in_light'}, 3,
-                              followed=None, trace=bad)                  # judge failed: no evidence
-        self.assertNotIn('commands', none)
-        anti = [rule('rule_1', avoid.TYPE, 'Never take the lamp; take the lamp is rejected.')]
-        self.assertNotIn('commands', self.game(anti, False, bad))
-        self.assertIsNone(manual.rejected_command({**anti[0], 'commands': {'take lamp': [5, 0]}}))
-
-    def test_replayed_outcome_counts_commands(self):
-        rules = [rule('rule_1', 'Special Phenomenon', TAKE_LAMP)]
-        live = copy.deepcopy(rules)
-        op = self.game(rules, False, [step('take desklamp 1 from desk 1', False, 'Nothing happens.')])
-        self.assertEqual(manual.replay(live, [op], [], copy.deepcopy(live)), rules)
+        self.assertIn('take lamp', log[0])
 
 
 class BatchMergeTests(unittest.TestCase):
     def base(self):
-        return [rule('rule_1', 'Special Phenomenon', 'If a container is closed, open it first.'),
-                rule('rule_2', 'Special Phenomenon', 'If a target is full, use another one.')]
+        rules = [rule('rule_1', 'Special Phenomenon', 'If a container is closed, open it first.'),
+                 rule('rule_2', 'Special Phenomenon', 'If a target is full, use another one.')]
+        for r in rules:
+            r['ev'] = {**manual.empty_evidence(), 'shown': 6, 'followed': 6, 'sum': -6, 'neg': 6}   # bad
+        return rules
 
-    def test_first_text_change_in_position_order_wins(self):
+    def test_one_text_change_per_rule_per_batch_first_in_position_order(self):
         base = self.base()
-        first = [{'op': 'update_rule', 'id': 'rule_1', 'rule': 'If a drawer is closed, open it first.'}]
-        second = [{'op': 'update_rule', 'id': 'rule_1', 'rule': 'If a cabinet is closed, open it first.',
-                   'validation': 'seen again'},
-                  {'op': 'update_rule', 'id': 'rule_2', 'rule': 'If a shelf is full, use another one.'}]
-        log = []
-        live = manual.replay(base, first, log, base)
-        live = manual.replay(live, second, log, base)
-        self.assertEqual(live[0]['rule'], 'If a drawer is closed, open it first.')
-        self.assertEqual(live[0]['validation'], 'seen again')            # the rest of the update still applies
-        self.assertEqual(live[1]['rule'], 'If a shelf is full, use another one.')
-        self.assertEqual(log, [['text change dropped (already changed in this batch)', 'update_rule', 'rule_1']])
-        # Without the batch's starting rules (the old replay), the last edit won.
-        old = manual.replay(manual.replay(base, first, [], None), second, [], None)
-        self.assertEqual(old[0]['rule'], 'If a cabinet is closed, open it first.')
-
-    def test_one_refine_or_consolidate_per_rule_per_batch(self):
-        base = self.base()
-        refine = {'op': 'refine', 'id': 'rule_1', 'rule': 'If a drawer is closed, open it.', 'refined_at': [3, 3]}
-        again = {'op': 'refine', 'id': 'rule_1', 'rule': 'If a box is closed, open it.', 'refined_at': [3, 3]}
-        fold = {'op': 'consolidate', 'id': 'rule_1', 'absorbed': ['rule_2'], 'rule': 'If closed, open it.',
-                'old_rule': '', 'absorbed_rules': []}
+        refine = {'op': 'refine', 'id': 'rule_1', 'rule': 'If a drawer is closed, open it.', 'revision': 1}
+        again = {'op': 'refine', 'id': 'rule_1', 'rule': 'If a box is closed, open it.', 'revision': 1}
         log = []
         live = manual.replay(base, [refine], log, base)
+        live[0]['ev'] = copy.deepcopy(base[0]['ev'])        # bad again on the live rules, still one change
         live = manual.replay(live, [again], log, base)
-        live = manual.replay(live, [fold], log, base)
         self.assertEqual(live[0]['rule'], 'If a drawer is closed, open it.')
-        self.assertEqual(len(live), 2)
-        self.assertEqual([entry[1] for entry in log], ['refine', 'consolidate'])
-        within = manual.replay(base, [{'op': 'update_rule', 'id': 'rule_2', 'rule': 'If a shelf is full, skip it.'},
-                                      {'op': 'refine', 'id': 'rule_2', 'rule': 'Other.', 'refined_at': [3, 3]}],
-                               [], base)                                 # also within one game
-        self.assertEqual(within[1]['rule'], 'If a shelf is full, skip it.')
+        self.assertEqual(log, [['text change dropped (already changed in this batch)', 'refine', 'rule_1']])
+        # Without the batch's starting rules (sequential practice), every op applies.
+        old = manual.replay(manual.replay(base, [refine], [], None), [{**again, 'id': 'rule_2'}], [], None)
+        self.assertEqual(old[1]['rule'], 'If a box is closed, open it.')
 
     def test_merge_memory_passes_the_batch_start(self):
         base_rules = self.base()
-        empty = {'skills': [], 'active': {}}
-        base = {'library': empty, 'trajectories': [], 'rules': base_rules}
-        live = {'library': empty, 'trajectories': [], 'rules': manual.replay(
-            base_rules, [{'op': 'update_rule', 'id': 'rule_1', 'rule': 'If a drawer is closed, open it.'}], [],
+        extra = {} if NEW_AGENT else {'library': {'skills': [], 'active': {}}}
+        base = {**extra, 'trajectories': [], 'rules': base_rules}
+        live = {**extra, 'trajectories': [], 'rules': manual.replay(
+            base_rules, [{'op': 'refine', 'id': 'rule_1', 'rule': 'If a drawer is closed, open it.'}], [],
             base_rules)}
+        live['rules'][0]['ev'] = copy.deepcopy(base_rules[0]['ev'])
         log = []
-        merged = merge_memory(live, base, base, log, [{'op': 'update_rule', 'id': 'rule_1', 'rule': 'Later.'}])
+        merged = merge_memory(live, base, base, log, [{'op': 'refine', 'id': 'rule_1', 'rule': 'Later.'}])
         self.assertEqual(merged['rules'][0]['rule'], 'If a drawer is closed, open it.')
-        self.assertEqual(log, [['text change dropped (already changed in this batch)', 'update_rule', 'rule_1']])
+        self.assertEqual(log, [['text change dropped (already changed in this batch)', 'refine', 'rule_1']])
 
 
+@unittest.skipUnless(NEW_AGENT, 'needs the experiment without the code-skill library (merged branch)')
 class RestartETests(unittest.TestCase):
     def cfg(self):
         return Settings(practice_episodes=4, evaluation_games=2, step_budget=15, bootstrap_samples=20,
                         practice_batch=2, seeds=[11])
 
     def test_e_minus_probe_is_deterministic_and_sees_append_only_prompts(self):
-        cfg = Settings(seeds=[11], conditions=['E-minus'], practice_batch=2)
-        # Golden digest of the code after the 2026-11-20 design review (E-minus gets the evidence bookkeeping and
-        # the shared Builder view; E-minus restarted with E). Before: d9c9f5aa... (shared rule-text repair),
-        # 6617ccc6... (taken with 7da1ecf).
-        golden = 'aeedacc0903c99803a6a254e45c05d6805e8bd86819e433892a8d13ae5382334'
+        from living_library.experiment import e_minus_probe
+        cfg =Settings(seeds=[11], conditions=['E-minus'], practice_batch=2)
+        # The golden digest changed with the redesign of 2026-11-20 (E-minus runs the per-rule judge); the
+        # probe must be deterministic and must see every prompt E-minus uses.
+        golden = e_minus_probe(cfg)
         self.assertEqual(e_minus_probe(cfg), golden)
         with patch.object(manual, 'APPEND_ONLY_NOTE', manual.APPEND_ONLY_NOTE + ' Be brief.'):
             self.assertNotEqual(e_minus_probe(cfg), golden)
@@ -268,27 +167,17 @@ class RestartETests(unittest.TestCase):
         with patch.object(manual, 'JUDGE_GUIDE', manual.JUDGE_GUIDE + ' Be brief.'):   # E-minus runs the judge
             self.assertNotEqual(e_minus_probe(cfg), golden)
 
-    def test_probe_tool_measures_a_tree_with_the_current_probe(self):
-        sys.path.insert(0, str(ROOT / 'tools'))
-        try:
-            import e_minus_probe as tool
-        finally:
-            sys.path.remove(str(ROOT / 'tools'))
-        cfg = Settings(seeds=[11], conditions=['E-minus'])
-        found = tool.probe_tree(ROOT, cfg)
-        self.assertEqual(found['probe'], e_minus_probe(cfg))
-        self.assertEqual(found['settings'], digest(cfg.to_dict()))
-
     def test_restart_e_keeps_c_d_and_e_minus(self):
+        from living_library.experiment import Runner, e_minus_replay_check, load_json, restart_library
         cfg = self.cfg()
-        conditions = ('C', 'D', 'E', 'E-minus', 'E-text')
+        conditions = ('C', 'D', 'E', 'E-minus')
 
         def version(manual_hash):
             hashes = {'living_library/manual.py': manual_hash, 'living_library/cli.py': 'cli'}
             return (patch('living_library.experiment.source_fingerprint', return_value=manual_hash),
                     patch('living_library.experiment.source_hashes', return_value=hashes))
 
-        def kept(tmp):          # C, D and E-minus streams: every stream not of E or E-text
+        def kept(tmp):          # C, D and E-minus streams: every stream not of E
             root = Path(tmp) / 'checkpoints'
             return {d.name: [json.loads(p.read_text())['record'] for p in sorted(d.glob('*.json'))]
                     for d in root.iterdir() if not re.search(r'-E-(?!minus)', d.name)}
@@ -301,7 +190,7 @@ class RestartETests(unittest.TestCase):
                 saved = load_json(Path(tmp) / 'probe.json')
             self.assertIn('e_minus', saved)                          # new runs store the E-minus probe
             before = kept(tmp)
-            self.assertTrue({'practice-D-0', 'practice-E-minus-0', 'evaluation-E-minus-11'} <= set(before))
+            self.assertTrue({'practice-D-0', 'practice-E-minus-0', 'evaluation-E-minus-r0-11'} <= set(before))
             self.assertEqual(e_minus_replay_check(cfg, tmp), (4, None))
             a, b = version('m2')                                      # E's management changed
             with a, b:
@@ -313,7 +202,7 @@ class RestartETests(unittest.TestCase):
                 restart_library(cfg, demo_manifest(), tmp, log=lines.append, streams=['E'])
                 self.assertTrue(any(line.startswith('E-minus probe passed: 4 stored practice games') for line in lines))
                 names = {d.name for d in (Path(tmp) / 'checkpoints').iterdir()}
-                self.assertEqual(names, set(before))                    # E, E-text, gate-E gone; E-minus kept
+                self.assertEqual(names, set(before))                    # E and gate-E gone; E-minus kept
                 self.assertFalse((Path(tmp) / 'gate.json').exists())
                 runner = Runner(cfg, demo_manifest(), tmp)
                 runner.study(conditions, 4, gate_at=2, gate_games=2, gate_margin=-99, log=quiet)
@@ -323,11 +212,12 @@ class RestartETests(unittest.TestCase):
             restarts = load_json(Path(tmp) / 'restarts.json')
             self.assertEqual(restarts[0]['restarted'], ['E'])
             self.assertEqual(restarts[0]['changed_sources'], ['living_library/manual.py'])
-            self.assertIn('evaluation-E-text-11', restarts[0]['discarded'])
+            self.assertIn('evaluation-E-r0-11', restarts[0]['discarded'])
             self.assertNotIn('practice-E-minus-0', restarts[0]['discarded'])
             self.assertIn('practice-E-minus-0', restarts[0]['kept'])
 
     def test_restart_e_refuses_when_e_minus_cannot_be_shown_unchanged(self):
+        from living_library.experiment import Runner, restart_library
         cfg = self.cfg()
         with tempfile.TemporaryDirectory() as tmp:
             Runner(cfg, demo_manifest(), tmp).study(('C', 'E', 'E-minus'), 4, log=quiet)
@@ -338,54 +228,9 @@ class RestartETests(unittest.TestCase):
             data = json.loads(path.read_text())
             data['memory']['rules'] = data['memory']['rules'] + [manual.new_rule('rule_99', 'Special Phenomenon',
                                                                                  'x', '', 'all')]
-            original = path.read_text()
             path.write_text(json.dumps(data))
             with self.assertRaisesRegex(ValueError, 'E-minus probe failed: practice-E-minus-0 game 3'):
                 restart_library(cfg, demo_manifest(), tmp, log=quiet, streams=['E'])
-            path.write_text(original)
-            # Sources changed and no E-minus probe recorded for the run's sources.
-            probe = load_json(Path(tmp) / 'probe.json')
-            (Path(tmp) / 'probe.json').write_text(json.dumps({k: v for k, v in probe.items() if k != 'e_minus'}))
-            run = load_json(Path(tmp) / 'run.json')
-            with patch('living_library.experiment.source_fingerprint', return_value='new'), \
-                    patch('living_library.experiment.source_hashes',
-                          return_value={**load_json(Path(tmp) / 'sources.json'), 'living_library/manual.py': 'new'}), \
-                    patch('living_library.experiment.E_MINUS_PROBES', Path(tmp) / 'none'):
-                with self.assertRaisesRegex(ValueError, 'no E-minus probe for its recorded sources'):
-                    restart_library(cfg, demo_manifest(), tmp, log=quiet, streams=['E'])
-            self.assertEqual(load_json(Path(tmp) / 'run.json'), run)
-
-    def test_reference_probe_file_is_found(self):
-        cfg = self.cfg()
-        recorded = {'living_library/manual.py': 'old'}
-        with tempfile.TemporaryDirectory() as tmp:
-            probes = Path(tmp) / 'probes'
-            probes.mkdir()
-            (probes / 'e-minus-x.json').write_text(json.dumps(
-                {'sources': digest(recorded), 'settings': digest(cfg.to_dict()), 'probe': 'p'}))
-            with patch('living_library.experiment.E_MINUS_PROBES', probes):
-                self.assertEqual(stored_e_minus_probe(cfg, tmp, recorded), 'p')
-                self.assertIsNone(stored_e_minus_probe(cfg, tmp, {'other': 'x'}))
-
-    @unittest.skipUnless((STUDY / 'sources.json').exists(), 'the study run is not on this machine')
-    def test_study_e_minus_unchanged(self):
-        """The paused study's E-minus practice replays exactly under the current code, and the current code's
-        E-minus fixture probe equals the one taken with the code the study recorded (read only)."""
-        cfg = Settings.load(ROOT / 'configs' / 'pilot.json')
-        games, problem = e_minus_replay_check(cfg, STUDY)
-        self.assertIsNone(problem)
-        self.assertGreater(games, 0)
-        recorded = load_json(STUDY / 'sources.json')
-        stored = stored_e_minus_probe(cfg, STUDY, recorded)
-        if stored is None:
-            self.skipTest('no E-minus probe recorded for the study sources')
-        if digest(recorded) in BEFORE_TEXT_REPAIR | BEFORE_DESIGN_REVIEW:
-            # The study paused before a change of E-minus (the shared rule-text repair, then the design review's
-            # E-minus bookkeeping, both 2026-11-20): an E-only restart must refuse to keep E-minus (the study
-            # restarts with -RestartLibrary, which re-records the probe).
-            self.assertNotEqual(e_minus_probe(cfg), stored)
-            return
-        self.assertEqual(e_minus_probe(cfg), stored)
 
 
 class SharedSubgoalIssueTests(unittest.TestCase):

@@ -1,6 +1,8 @@
-"""MACLA mechanisms in the rule manual (Bayesian reliability, expected utility, contrastive
-refinement, merging, pruning) and their batching replay."""
+"""MACLA mechanisms kept in the rule manual after the redesign of 2026-11-20 (usefulness-ranked selection,
+contrastive refinement of bad rules, merging, pruning) and their batching replay."""
 import copy
+import inspect
+import types
 import unittest
 from unittest.mock import patch
 
@@ -8,9 +10,14 @@ from living_library import manual
 from living_library.agents import Agent
 from living_library.config import Settings
 from living_library.environments import MiniWorld
-from living_library.library import Library, LexicalEmbedding
-from living_library.models import FixtureModel, ModelResponse
+from living_library.models import FixtureModel
 
+try:
+    from living_library.embedding import LexicalEmbedding
+except ImportError:      # before the code-skill library removal is merged
+    from living_library.library import LexicalEmbedding
+
+NEW_AGENT = 'library' not in inspect.signature(Agent).parameters
 TASK = {'object': 'apple 1', 'target': 'cabinet 1', 'task_type': 'pick'}
 
 
@@ -20,119 +27,70 @@ def rule(i, text, kind='Corrected Error', task_type='pick', **extra):
     return r
 
 
-def context(won, task_type='pick'):
-    return {'task': 'put apple in cabinet', 'task_type': task_type, 'steps': []}
+def context(task_type='pick'):
+    return {'task': 'put apple in cabinet', 'task_type': task_type, 'steps': ['go to cabinet 1', 'open cabinet 1']}
 
 
-class BayesTests(unittest.TestCase):
-    def test_wins_raise_alpha_losses_raise_beta_and_contexts_are_capped(self):
-        rules = [rule(1, 'When x, do y.')]
-        for i in range(20):
-            manual.observe(rules, ['rule_1'], True, context(True), i)
-        manual.observe(rules, ['rule_1'], False, context(False), 20)
-        r = rules[0]
-        self.assertEqual((r['alpha'], r['beta']), (21, 2))
-        self.assertEqual(sum(c['won'] for c in r['contexts']), manual.K_CONTEXTS)
-        self.assertEqual(sum(not c['won'] for c in r['contexts']), 1)
-        self.assertEqual(manual.observed(r), [20, 1])               # counts are not capped
-        self.assertEqual(r['last_used'], 20)
+def judged(r, score):
+    return {r['id']: {'followed': True, 'usefulness': score, 'reason': 'scripted', 'rule': r['rule']}}
 
-    def test_expected_utility_prefers_reliable_and_penalises_risk(self):
-        good = rule(1, 'a', alpha=9, beta=1)
-        bad = rule(2, 'b', alpha=1, beta=9, contexts=[{'task_type': 'pick', 'won': False}] * 5)
-        self.assertGreater(manual.expected_utility(good, 0.8, 'pick'), manual.expected_utility(bad, 0.8, 'pick'))
-        # Risk only counts failures on this kind of task.
-        other_kind = rule(3, 'c', alpha=1, beta=9, contexts=[{'task_type': 'heat', 'won': False}] * 5)
-        self.assertGreater(manual.expected_utility(other_kind, 0.8, 'pick'), manual.expected_utility(bad, 0.8, 'pick'))
-        # Uncertainty bonus: an untried rule is not ranked last just for being new.
-        self.assertGreater(manual.expected_utility(rule(4, 'd'), 0.8, 'pick'), manual.expected_utility(bad, 0.8, 'pick'))
 
-    def test_relevant_ranks_by_utility_but_keeps_the_recipe_first(self):
+class SelectionTests(unittest.TestCase):
+    def test_relevant_ranks_by_usefulness_but_keeps_the_recipe_first(self):
         recipe = rule(9, 'recipe', kind='Success Process')
-        weak = rule(1, 'open the cabinet first', alpha=1, beta=6)
-        strong = rule(2, 'open the cabinet first', alpha=6, beta=1)
+        weak = rule(1, 'open the cabinet first')
+        strong = rule(2, 'open the cabinet first')
+        weak['ev'] = {**manual.empty_evidence(), 'followed': 6, 'sum': -6}
+        strong['ev'] = {**manual.empty_evidence(), 'followed': 6, 'sum': 6}
         shown = manual.relevant([weak, strong, recipe], 'pick', 3, 'put apple in cabinet',
                                 LexicalEmbedding().similarity)
         self.assertEqual([r['id'] for r in shown], ['rule_9', 'rule_2', 'rule_1'])
 
 
-class Refiner(FixtureModel):
-    def __init__(self):
-        self.calls = []
+class Refiner:
+    def __init__(self, text='When x and the cabinet is closed, open it first.'):
+        self.text, self.calls = text, []
 
-    def complete(self, role, payload, seed, context):
-        if role == 'refiner':
-            self.calls.append(payload)
-            return ModelResponse({'rule': 'When x and the cabinet is closed, open it first.', 'not_when': 'x is held'})
-        return super().complete(role, payload, seed, context)
-
-
-def agent(rules, model):
-    a = Agent(Settings(), 'E', model, Library(), LexicalEmbedding(), MiniWorld, rules=rules)
-    a.result = {'model_calls': 0, 'input_tokens': 0, 'output_tokens': 0, 'model_wall_seconds': 0.0}
-    a.seed, a.context, a.gpu_known, a.public_task = 1, {}, True, {}
-    return a
+    def __call__(self, role, payload):
+        self.calls.append(payload)
+        return {'rule': self.text, 'not_when': 'x is held'}
 
 
 class RefinePruneMergeTests(unittest.TestCase):
-    def test_refinement_needs_three_new_wins_and_losses(self):
+    def test_refinement_needs_six_followed_games_with_a_bad_mean(self):
         rules = [rule(1, 'When x, do y.')]
-        for _ in range(4):        # won games of its kind where it was not shown: the base rate is above its rate
-            manual.observe(rules, [], True, context(True), 0)
-        for won in (True, True, True, False, False):
-            manual.observe(rules, ['rule_1'], won, context(won), 0)
-        model = Refiner()
-        report = {'operations': [], 'errors': []}
-        manual.refine(agent(rules, model), rules, rules, report)
-        self.assertEqual(model.calls, [])                                # only 2 losses so far
-        manual.observe(rules, ['rule_1'], False, context(False), 1)
-        manual.refine(agent(rules, model), rules, rules, report)
+        for n in range(5):
+            manual.observe(rules, judged(rules[0], -1), context(), n, n % 2 == 0)
+        model, report = Refiner(), {'operations': [], 'errors': []}
+        manual.manage(types.SimpleNamespace(_ask=model), rules, report)
+        self.assertEqual(model.calls, [])                                # only 5 followed games so far
+        manual.observe(rules, judged(rules[0], -1), context(), 5, False)
+        manual.manage(types.SimpleNamespace(_ask=model), rules, report)
         self.assertEqual(len(model.calls), 1)
-        self.assertEqual(len(model.calls[0]['won_games']), 3)
+        self.assertEqual(len(model.calls[0]['misled_games']), 6)
         # a concise rewrite: nothing is appended (no "Do not use it when When ...")
         self.assertEqual(rules[0]['rule'], 'When x and the cabinet is closed, open it first.')
         self.assertNotIn('not_when', model.calls[0]['response_schema'])
-        # (2026-11-20 design review) the new text starts fresh counters; the op keeps the old text
-        self.assertEqual((rules[0]['refined_at'], rules[0]['alpha'], rules[0]['beta'], rules[0]['contexts']),
-                         ([0, 0], 1, 1, []))
+        # the new text starts fresh evidence; the op keeps the old text
+        self.assertEqual((rules[0]['revisions'], rules[0]['ev'], rules[0]['contexts']),
+                         (1, manual.empty_evidence(), []))
         self.assertEqual(report['operations'][0]['old_rule'], 'When x, do y.')
-        manual.refine(agent(rules, model), rules, rules, report)
-        self.assertEqual(len(model.calls), 1)                            # not again until 3 more of each
+        manual.manage(types.SimpleNamespace(_ask=model), rules, report)
+        self.assertEqual(len(model.calls), 1)                            # not again until the new text is bad
 
-    def test_refinement_only_below_the_base_rate(self):
-        # (2026-11-20 design review) a rule winning as often as its kind of task is not rewritten
+    def test_a_long_or_specific_refinement_retires_the_bad_rule(self):
         rules = [rule(1, 'When x, do y.')]
-        for won in (True, False) * 3:
-            manual.observe(rules, ['rule_1'], won, context(won), 0)
-        self.assertEqual(manual.observed(rules[0]), [3, 3])
-        self.assertFalse(manual.refinable(rules[0]))                     # 3 wins = 6 games x base rate 0.5
-        manual.observe(rules, [], True, context(True), 1)                # the kind gets easier
-        self.assertTrue(manual.refinable(rules[0]))
-
-    def test_a_long_or_specific_refinement_is_rejected_and_reported(self):
-        rules = [rule(1, 'When x, do y.')]
-        for _ in range(4):
-            manual.observe(rules, [], True, context(True), 0)
-        for won in (True, False) * 3:
-            manual.observe(rules, ['rule_1'], won, context(won), 0)
-
-        class Wordy(FixtureModel):
-            def complete(self, role, payload, seed, context):
-                return ModelResponse({'rule': 'When the task is to put a cd in safe 1, take cd 2 and move it.'})
+        for n in range(6):
+            manual.observe(rules, judged(rules[0], -2), context(), n, False)
         report = {'operations': [], 'errors': []}
-        manual.refine(agent(rules, Wordy()), rules, rules, report)
-        self.assertEqual(rules[0]['rule'], 'When x, do y.')
-        # (2026-11-20) "safe 1", "cd 2" are stripped to "the safe", "the cd"; "cd" stays specific
-        self.assertIn('names specific objects', report['errors'][0])
+        model = Refiner('When the task is to put a cd in safe 1, take cd 2 and move it.')
+        manual.manage(types.SimpleNamespace(_ask=model), rules, report)
+        self.assertEqual(rules, [])
+        # "safe 1", "cd 2" are stripped to "the safe", "the cd"; "cd" stays specific
+        self.assertIn('names specific objects', report['operations'][0]['reason'])
 
     def test_near_duplicate_is_merged_not_added(self):
         rules = [rule(1, 'when the drawer is closed open it before putting things in')]
-        log = []
-        applied = manual.apply(rules, [{'op': 'write_rule', 'type': 'Corrected Error',
-                                        'rule': 'when the drawer is closed open it before putting things in'}],
-                               'indirect success', False, lambda: 'rule_2', log, 'pick',
-                               similarity=LexicalEmbedding().similarity)
-        # (identical text is caught as a duplicate before merging; use a near-copy instead)
         log = []
         applied = manual.apply(rules, [{'op': 'write_rule', 'type': 'Corrected Error',
                                         'rule': 'when the drawer is closed open it before putting things in it'}],
@@ -140,7 +98,6 @@ class RefinePruneMergeTests(unittest.TestCase):
                                similarity=lambda q, texts: [0.9 for _ in texts])
         self.assertEqual(len(rules), 1)
         self.assertEqual(applied, [{'op': 'merge_rule', 'id': 'rule_1', 'task_type': 'pick'}])
-        self.assertEqual(rules[0]['importance'], manual.NEW_IMPORTANCE + 1)
         # another kind of task's rule is never merged into (no scope widening): a new rule is written
         applied = manual.apply(rules, [{'op': 'write_rule', 'type': 'Corrected Error',
                                         'rule': 'when a drawer is closed open it before putting anything in'}],
@@ -160,8 +117,7 @@ class RefinePruneMergeTests(unittest.TestCase):
         self.assertEqual((len(rules), rules[0]['task_type'], rules[0]['sources']), (1, 'all', [source]))
         replayed = manual.replay([rule(1, 'when the drawer is closed open it before putting things in',
                                        task_type='all')], applied, [])
-        self.assertEqual((replayed[0]['task_type'], replayed[0]['importance'], replayed[0]['sources']),
-                         ('all', manual.NEW_IMPORTANCE + 1, [source]))
+        self.assertEqual((replayed[0]['task_type'], replayed[0]['sources']), ('all', [source]))
         # a new general rule written in a pick game may merge into a pick rule; the pick rule stays pick
         rules[0]['task_type'] = 'pick'
         manual.apply(rules, [{'op': 'write_rule', 'type': 'Corrected Error', 'scope': 'all',
@@ -178,27 +134,26 @@ class RefinePruneMergeTests(unittest.TestCase):
                      'failure', True, lambda: 'rule_3', [], 'pick', similarity=lambda q, texts: [0.99 for _ in texts])
         self.assertEqual(len(rules), 2)
 
-    def test_pruning_drops_the_lowest_utility_above_capacity(self):
-        rules = [rule(1, 'a', alpha=8, beta=1, last_used=99), rule(2, 'b', alpha=1, beta=8, last_used=0),
-                 rule(3, 'c', alpha=4, beta=4, last_used=98)]
-        log = []
+    def test_pruning_drops_the_lowest_mean_above_capacity(self):
+        rules = [rule(1, 'a', last_used=99), rule(2, 'b', last_used=0), rule(3, 'c', last_used=98)]
+        rules[0]['ev']['sum'], rules[1]['ev']['sum'] = 4, -2
         with patch.object(manual, 'CAPACITY', 2):
-            manual.prune(rules, 100, log)
+            ops = manual.prune(rules)
         self.assertEqual([r['id'] for r in rules], ['rule_1', 'rule_3'])
-        self.assertIn('rule_2', log[0])
+        self.assertEqual(ops, [{'op': 'prune', 'id': 'rule_2'}])
 
 
+@unittest.skipUnless(NEW_AGENT, 'needs the agent without the code-skill library (merged branch)')
 class GameAndBatchTests(unittest.TestCase):
-    def test_build_records_outcomes_for_shown_rules_and_replay_matches(self):
+    def test_build_records_evidence_for_shown_rules_and_replay_matches(self):
         rules = [rule(1, 'When putting an apple, open the cabinet first.', task_type='pick')]
         live = copy.deepcopy(rules)
-        model = Refiner()
-        a = Agent(Settings(), 'E', model, Library(), LexicalEmbedding(), MiniWorld, rules=rules)
+        a = Agent(Settings(), 'E', FixtureModel(), LexicalEmbedding(), MiniWorld, rules=rules)
         result = a.run(TASK, 1, {'phase': 'practice', 'position': 4})
         self.assertEqual(result['rules_shown'], ['rule_1'])
         ops = result['manual']['operations']
         self.assertIn('outcome', [o['op'] for o in ops])    # logged after the Builder's operations
-        self.assertEqual(rules[0]['alpha'], 2)                            # the won game counted
+        self.assertEqual(rules[0]['ev']['followed'], 1)                   # the fixture judge: followed, 1
         # Batching: replaying the game's operations on the live manual gives the same manual.
         self.assertEqual(manual.replay(live, ops, []), rules)
 
@@ -210,22 +165,20 @@ class GameAndBatchTests(unittest.TestCase):
                 if role == 'builder':
                     seen.append(payload)
                 return super().complete(role, payload, seed, context)
-        a = Agent(Settings(), 'E', Capture(), Library(), LexicalEmbedding(), MiniWorld, rules=[])
+        a = Agent(Settings(), 'E', Capture(), LexicalEmbedding(), MiniWorld, rules=[])
         a.run(TASK, 1, {'phase': 'practice', 'position': 0})
         self.assertTrue(seen)
         self.assertIn('"action"', str(seen[0]).replace("'", '"'))
 
-    def test_append_only_records_outcomes_but_never_changes_rules(self):
-        # (2026-11-20 design review) E-minus keeps the same evidence bookkeeping as E (for retrieval and
-        # visibility); it still never edits, retires, refines or prunes.
+    def test_append_only_records_evidence_but_never_changes_rules(self):
         rules = [rule(1, 'When putting an apple, open the cabinet first.', task_type='pick')]
-        a = Agent(Settings(), 'E-minus', FixtureModel(), Library(), LexicalEmbedding(), MiniWorld, rules=rules)
+        a = Agent(Settings(), 'E-minus', FixtureModel(), LexicalEmbedding(), MiniWorld, rules=rules)
         result = a.run(TASK, 1, {'phase': 'practice', 'position': 0})
         kinds = [op['op'] for op in result['manual']['operations']]
         self.assertIn('outcome', kinds)
         self.assertTrue(set(kinds) <= {'outcome', 'write_rule', 'pool_game', 'pool_won'}, kinds)
         self.assertEqual(rules[0]['rule'], 'When putting an apple, open the cabinet first.')
-        self.assertEqual(rules[0]['base'], [int(result['success']), 1])
+        self.assertEqual(rules[0]['ev']['shown'], 1)
 
 
 class GeneralRuleTests(unittest.TestCase):
