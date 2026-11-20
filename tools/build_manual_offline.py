@@ -16,8 +16,12 @@ from living_library import manual  # noqa: E402
 from living_library.agents import Agent  # noqa: E402
 from living_library.config import Settings  # noqa: E402
 from living_library.environments import ALFWorld  # noqa: E402
-from living_library.library import Library, LexicalEmbedding  # noqa: E402
 from living_library.models import HTTPModel  # noqa: E402
+
+try:
+    from living_library.embedding import LexicalEmbedding  # noqa: E402
+except ImportError:      # before the code-skill library removal
+    from living_library.library import LexicalEmbedding  # noqa: E402
 
 
 def main():
@@ -40,8 +44,9 @@ def main():
     files = sorted((Path(a.run) / 'checkpoints' / a.stream).glob('*.json'))[:a.games]
     for i, f in enumerate(files):
         r = json.loads(f.read_text())['record']
-        agent = Agent(cfg, a.condition, model, Library(cfg), LexicalEmbedding(), ALFWorld, rules=rules)
+        agent = Agent(cfg, a.condition, model, LexicalEmbedding(), ALFWorld, rules=rules)
         agent.result = {**r, 'model_calls': 0, 'input_tokens': 0, 'output_tokens': 0, 'model_wall_seconds': 0.0}
+        agent.rules_shown = r.get('rules_shown', [])           # judged by the per-rule judge
         agent.public_task, agent.seed = {'goal': r.get('goal', '')}, r['seed']
         agent.task = {'task_type': kinds.get(r['task_id'])}
         agent.context = {k: r[k] for k in ('condition', 'phase', 'seed', 'task_id', 'position', 'toy')}
@@ -59,7 +64,10 @@ def main():
     print('\n' + json.dumps(stats, indent=1))
     print('\nFINAL MANUAL')
     for r in rules:
-        print(f"{r['id']} [{r['type']}] {r['rule']}\n    example: {r['example'][:200]}\n    validation: {r['validation']}")
+        ev = r.get('ev') or {}
+        print(f"{r['id']} [{r['type']}] {r['rule']}\n    example: {r['example'][:200]}\n    validation: {r['validation']}"
+              f"\n    evidence: shown {ev.get('shown', 0)}, followed {ev.get('followed', 0)}, m {manual.mean(r):+.2f}, "
+              f"revisions {r.get('revisions', 0)}")
     if a.out:
         Path(a.out).write_text(json.dumps(rules, indent=1))
 

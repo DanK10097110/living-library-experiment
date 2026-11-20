@@ -14,8 +14,8 @@ Followed from the literature:
   * AutoManual (Chen et al., NeurIPS 2024): the Unresolved Error type (what failed, no guessed cause,
     no impossibility claims); the Anti-Pattern is its pooled, pattern-checked, agent-visible form.
   * MACLA (Forouzandeh et al., AAMAS 2026): contrastive evidence (a pattern needs failures and a
-    clear contrast), Bayesian reliability and retirement apply as for every rule, and a later win of the
-    kind re-checks the rule (kept if the pattern still never occurs in wins, retired otherwise).
+    clear contrast), and a later win of the kind re-checks the rule (kept if the pattern still never
+    occurs in wins, retired otherwise).
 
 Mechanism (deterministic parts first, the language model only words what the measurement says):
   1. Pool (one hidden "Failure Pool" entry per kind of task): lost games that were never won, as compact
@@ -31,8 +31,11 @@ Mechanism (deterministic parts first, the language model only words what the mea
   4. Post-checks in code: the usual rule form (<= 25 words, no numbered entity, no object kind), a
      negation, no cause or advice words, every command word of the rule is one the pattern or the kind of
      task supplies, and every word the pattern consists of is named. One repair round with the reasons.
-  5. Upkeep: the rule is a normal rule for retrieval and reliability; retired when ignored in every game
-     it was shown in, by the usual base-rate test, or when a won attempt of the kind contains its pattern.
+  5. Upkeep (redesign of 2026-11-20, LIBRARY-SPEC.md section 5): the rule is a normal rule for retrieval
+     and the per-rule judge ("followed" = complied with it). It is retired as useless (shown but rarely
+     complied with), as bad (judged harmful; an Anti-Pattern is never refined, and the Builder never
+     rewrites it), or by this module's own contradiction check: a won attempt of the kind contains its
+     pattern (recheck).
 """
 import collections
 import json
@@ -461,13 +464,12 @@ def update(ask, rules, task_type, goal, task_id, attempts, won, next_id, log, ap
             entry['declined'][key(cand['sig'])] = cand['games']
             continue
         from . import manual
-        rule = manual.new_rule(next_id(), TYPE, text, example_of(cand), task_type, verified=True,
+        rule = manual.new_rule(next_id(), TYPE, text, example_of(cand), task_type,
                                sources=[{'task': goal, 'task_type': task_type}])
         rule['pattern'] = {**cand}
         rules.append(rule)
         ops.append({'op': 'write_rule', 'type': TYPE, 'rule': text, 'example': rule['example'],
-                    'task_type': task_type, 'verified': True, 'sources': rule['sources'],
-                    'pattern': rule['pattern']})
+                    'task_type': task_type, 'sources': rule['sources'], 'pattern': rule['pattern']})
         log.append(f"{rule['id']} anti-pattern written from {cand['games']} of {cand['of_games']} lost tasks")
         break
     return ops
@@ -497,10 +499,3 @@ def forget(rules, rule):
         retired = entry['pool']['retired']
         if list(rule['pattern']['sig']) not in retired:
             retired.append(list(rule['pattern']['sig']))
-
-
-def violated(rules, shown_ids, attempt):
-    """Shown Anti-Pattern rules whose pattern the agent did anyway in its first attempt."""
-    done = signatures(attempt)
-    return [r['id'] for r in rules if r['id'] in shown_ids and r.get('type') == TYPE and r.get('pattern')
-            and tuple(r['pattern']['sig']) in done]

@@ -184,7 +184,8 @@ class LifeCycleTests(unittest.TestCase):
         rule = written[0]
         self.assertTrue(manual.shown_to_agent(rule))
         self.assertEqual(rule['pattern']['sig'], ['cycle', 'close microwave', 'open microwave'])
-        self.assertFalse(manual.refinable({**rule, 'alpha': 9, 'beta': 9}))      # code-checked text is not rewritten
+        harmful = {**rule, 'ev': {**manual.empty_evidence(), 'shown': 8, 'followed': 8, 'sum': -8, 'neg': 8}}
+        self.assertEqual(manual.decisions([harmful]), (None, [harmful]))           # bad: retired, never refined
         self.assertEqual([r['id'] for r in manual.for_agent(rules, HEAT, 8)], [rule['id']])
         self.assertEqual([r for r in manual.relevant(rules, HEAT, 8) if r['type'] == avoid.POOL], [])
         self.assertEqual(manual.for_agent(rules, 'pick_and_place_simple', 8), [])
@@ -240,36 +241,34 @@ class LifeCycleTests(unittest.TestCase):
         avoid.update(asker(self.TEXT), rules, HEAT, 'g', 'w', [attempt(*loop(3))], True, nid, [], append_only=True)
         self.assertEqual(sum(r['type'] == avoid.TYPE for r in rules), 1)
 
-    def test_retirement_when_ignored_every_time_but_not_for_merely_never_winning(self):
-        rule = manual.new_rule('rule_1', avoid.TYPE, self.TEXT, '', HEAT)
-        rule['pattern'] = {'sig': ['cycle', 'close microwave', 'open microwave']}
-        rule.update(beta=5, alpha=1, base=[0, 6])                                  # shown in 4 games, all lost
-        self.assertFalse(manual.retirable(rule))                                   # the agent obeyed it
-        rule['violations'] = 4
-        self.assertTrue(manual.retirable(rule))                                    # it changed nothing
-        rule.update(alpha=2, beta=4, violations=0)                                 # one win: the Beta test decides
-        self.assertFalse(manual.retirable({**rule, 'base': [0, 6]}))
-
-    def test_violation_is_recorded_for_shown_rules(self):
+    def test_judged_like_other_rules_useless_when_broken_but_not_for_merely_never_winning(self):
         rules = []
         self.feed(rules, ['g0', 'g1'])
         rule = next(r for r in rules if r['type'] == avoid.TYPE)
-        bad = attempt('go to microwave 1', *loop(3))
-        self.assertEqual(avoid.violated(rules, [rule['id']], bad), [rule['id']])
-        self.assertEqual(avoid.violated(rules, [], bad), [])
-        op = manual.observe(rules, [rule['id']], False, {'task': 't', 'task_type': HEAT}, 0, [rule['id']])
-        self.assertEqual(rule['violations'], 1)
-        self.assertEqual(manual.replay(copy.deepcopy(rules), [op], [])[1]['violations'], 2)
+        complied = {rule['id']: {'followed': True, 'usefulness': 0, 'rule': rule['rule']}}
+        for _ in range(12):                                                        # complied with, every game lost
+            op = manual.observe(rules, complied, {'task': 't', 'task_type': HEAT}, 0, False)
+        self.assertFalse(manual.useless(rule) or manual.bad(rule))
+        self.assertEqual(manual.replay(copy.deepcopy(rules), [op], [])[-1]['ev']['followed'], 13)
+        broken = {rule['id']: {'followed': False, 'usefulness': 0, 'rule': rule['rule']}}
+        fresh = manual.fresh_evidence(copy.deepcopy(rule))
+        for _ in range(10):                                                        # the agent did it anyway
+            manual.observe([fresh], broken, {'task': 't', 'task_type': HEAT}, 0, False)
+        self.assertTrue(manual.useless(fresh))
+        ops = manual.batch_upkeep([fresh, *[r for r in rules if r['type'] == avoid.POOL]], set(), None)
+        self.assertEqual([o['op'] for o in ops], ['retire'])
 
     def test_builder_cannot_rewrite_an_anti_pattern(self):
         rules = []
         self.feed(rules, ['g0', 'g1'])
         rule = next(r for r in rules if r['type'] == avoid.TYPE)
         log = []
-        manual.apply(rules, [{'op': 'update_rule', 'id': rule['id'], 'rule': 'When x, do not y.'}], 'failure', False,
+        manual.apply(rules, [{'op': 'update_note', 'id': rule['id'], 'rule': 'When x, do not y.'},
+                             {'op': 'update_rule', 'id': rule['id'], 'rule': 'When x, do not y.'}], 'failure', False,
                      counter(), log, HEAT)
         self.assertEqual(rule['rule'], self.TEXT)
-        self.assertTrue(any('written and checked by code' in e for e in log))
+        self.assertTrue(any('is not a hidden note' in e for e in log))
+        self.assertTrue(any("unknown operation 'update_rule'" in e for e in log))
 
 
 if __name__ == '__main__':

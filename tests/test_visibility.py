@@ -1,6 +1,6 @@
-"""Guesses from lost games stay hidden until confirmed, never-won rules retire, merging never widens
-scope, and task-keyed retrieval (ExpeL/Memp-style evidence from the tasks a rule came from / won)."""
-import copy
+"""A lost game writes only hidden notes (redesign of 2026-11-20: no hidden guesses), the Builder never rewrites
+visible text, merging never widens scope, and task-keyed retrieval (ExpeL/Memp-style evidence from the tasks a
+rule came from / helped in)."""
 import unittest
 
 from living_library import manual
@@ -16,10 +16,11 @@ def write(rules, case, kind='Special Phenomenon', text=PHENOMENON, task_type='he
 
 
 def rule(i, text, task_type='heat', kind='Special Phenomenon', wins=0, won_goals=(), source=None, **extra):
+    """`wins`: lifetime helped games (h); `won_goals`: tasks of stored helpful contexts."""
     r = manual.new_rule(f'rule_{i}', kind, text, '', task_type,
                         sources=[{'task': source, 'task_type': task_type}] if source else [])
-    r['alpha'] = 1 + wins
-    r['contexts'] = [{'task': g, 'task_type': task_type, 'won': True} for g in won_goals]
+    r['total']['pos'] = wins
+    r['contexts'] = [{'task': g, 'task_type': task_type, 'won': True, 'score': 1} for g in won_goals]
     r.update(extra)
     return r
 
@@ -29,94 +30,36 @@ def table(scores, default=0.1):
     return lambda query, texts: [scores.get(t, default) for t in texts]
 
 
-class HiddenGuessTests(unittest.TestCase):
-    def test_a_rule_written_from_a_lost_game_is_hidden_until_a_won_game_confirms_it(self):
+class LostGameTests(unittest.TestCase):
+    def test_a_lost_game_writes_only_a_hidden_note(self):
         rules = []
         applied, log = write(rules, 'failure')
-        self.assertFalse(rules[0]['verified'])
-        self.assertIn('hidden Builder note', log[0])
+        self.assertEqual((rules, applied), ([], []))
+        self.assertIn('a failure may not write a Special Phenomenon rule', log[0])
+        applied, log = write(rules, 'failure', 'Unresolved Error', 'When heating a container, nothing happened.')
+        self.assertTrue(rules[0]['hidden'])
         self.assertEqual(manual.for_agent(rules, 'heat', manual.SHOWN), [])
         self.assertEqual(manual.relevant(rules, 'heat', manual.BUILDER_SEES), rules)   # the Builder sees it
-        self.assertFalse(manual.replay([], applied, [])[0]['verified'])
-        # (2026-11-20) no Builder upvote confirms it, lost or won
-        manual.apply(rules, [{'op': 'upvote_rule', 'id': 'rule_1'}], 'failure', False, None, [], 'heat')
-        manual.apply(rules, [{'op': 'upvote_rule', 'id': 'rule_1'}], 'direct success', False, None, [], 'heat')
-        self.assertFalse(rules[0]['verified'])
-        # two won games whose actions the outcome-blind judge says followed it do; replay agrees
-        live, ops = copy.deepcopy(rules), []
-        for won in (True, False, True):
-            ops.append(manual.observe(rules, [], won, {'task': 'heat some egg', 'task_type': 'heat'}, 0,
-                                      followed=None, guesses=['rule_1']))
-            self.assertEqual(rules[0]['verified'], ops[-1]['won'] and len(ops) == 3)
-        self.assertNotIn('confirms', ops[1])                         # a lost game is no confirmation
-        self.assertEqual([r['id'] for r in manual.for_agent(rules, 'heat', manual.SHOWN)], ['rule_1'])
-        self.assertTrue(manual.replay(live, ops, [])[0]['verified'])
-        self.assertEqual(rules[0]['alpha'], 1)                       # not shown: no Beta credit
+        self.assertTrue(manual.replay([], applied, [])[0]['hidden'])
 
     def test_won_games_and_retry_successes_write_visible_rules(self):
         for case in ('direct success', 'indirect success', 'corrected failure'):
             rules = []
             applied, _ = write(rules, case)
-            self.assertTrue(rules[0]['verified'], case)
+            self.assertFalse(rules[0]['hidden'], case)
             self.assertEqual(len(manual.for_agent(rules, 'heat', manual.SHOWN)), 1, case)
             self.assertEqual(applied[0]['sources'], [{'task': 'heat some egg', 'task_type': 'heat'}])
 
-    def test_a_lost_game_cannot_rewrite_a_rule_the_agent_sees(self):
-        rules = [rule(1, 'When x, do y.')]
-        log = []
-        applied = manual.apply(rules, [{'op': 'update_rule', 'id': 'rule_1', 'rule': 'When x, do z.',
-                                        'example': 'z', 'validation': 'lost once'}],
-                               'failure', False, None, log, 'heat')
-        self.assertEqual((rules[0]['rule'], rules[0]['example'], rules[0]['validation']),
-                         ('When x, do y.', '', 'lost once'))
-        self.assertTrue(rules[0]['verified'])
-        self.assertIn('keeps its text', log[0])
-        self.assertNotIn('rule', applied[0])
-        # a pure rewrite is dropped entirely (no vote)
-        applied = manual.apply(rules, [{'op': 'update_rule', 'id': 'rule_1', 'rule': 'When x, do z.'}],
-                               'failure', False, None, [], 'heat')
-        self.assertEqual((applied, rules[0]['importance']), ([], manual.NEW_IMPORTANCE + 1))
-        # a won game may rewrite it
-        manual.apply(rules, [{'op': 'update_rule', 'id': 'rule_1', 'rule': 'When x, do z.'}],
-                     'direct success', False, None, [], 'heat')
-        self.assertEqual(rules[0]['rule'], 'When x, do z.')
-
-    def test_a_hidden_guess_may_be_rewritten_but_a_won_update_does_not_confirm_it(self):
-        rules = []
-        write(rules, 'failure')
-        manual.apply(rules, [{'op': 'update_rule', 'id': 'rule_1', 'rule': 'When heating, use the microwave.'}],
-                     'failure', False, None, [], 'heat')
-        self.assertEqual((rules[0]['rule'], rules[0]['verified']), ('When heating, use the microwave.', False))
-        applied = manual.apply(rules, [{'op': 'update_rule', 'id': 'rule_1', 'validation': 'won with it'}],
-                               'indirect success', False, None, [], 'heat')
-        self.assertFalse(rules[0]['verified'])                       # (2026-11-20) only followed wins confirm
-        self.assertNotIn('verified', applied[0])
-
-    def test_a_won_game_never_merges_into_a_hidden_guess(self):
-        # (2026-11-20) the won game's rule is written visibly; the guess stays hidden and is not confirmed
-        rules = []
-        write(rules, 'failure')
-        applied = manual.apply(rules, [{'op': 'write_rule', 'type': 'Special Phenomenon',
-                                        'rule': 'When heating a container, turn on the stoveburner first!'}],
-                               'direct success', False, lambda: 'rule_9', [], 'heat',
-                               similarity=lambda q, texts: [0.95 for _ in texts], goal='heat some mug')
-        self.assertEqual([(r['id'], r['verified']) for r in rules], [('rule_1', False), ('rule_9', True)])
-        self.assertEqual(applied[0]['op'], 'write_rule')
-
-
-class RetirementTests(unittest.TestCase):
-    def test_a_rule_never_won_in_four_games_is_retired_only_if_its_kind_has_had_wins(self):
-        # (2026-11-20 design review) at a zero base rate "never won" says nothing about the rule: kept
-        self.assertFalse(manual.retirable(rule(4, 'a', wins=0, beta=1 + manual.RETIRE_MIN, base=[0, 4])))
-        never = rule(1, 'a', wins=0, beta=1 + manual.RETIRE_MIN, base=[1, 5])
-        self.assertTrue(manual.retirable(never))
-        self.assertFalse(manual.retirable(rule(2, 'b', wins=0, beta=manual.RETIRE_MIN, base=[1, 5])))  # 3 games
-        self.assertFalse(manual.retirable(rule(3, 'c', wins=1, beta=1 + manual.RETIRE_MIN, base=[1, 5])))
-        report = {'operations': [], 'errors': []}
-        rules = [never]
-        manual.retire(rules, report)
-        self.assertEqual(rules, [])
-        self.assertIn('retired rule_1 (won 0 of 4 games shown, never won; base 1 of 5)', report['errors'])
+    def test_no_game_rewrites_a_rule_the_agent_sees_but_any_game_may_note_it(self):
+        for case in ('failure', 'direct success', 'corrected failure'):
+            rules = [rule(1, 'When x, do y.')]
+            log = []
+            applied = manual.apply(rules, [{'op': 'update_note', 'id': 'rule_1', 'rule': 'When x, do z.'},
+                                           {'op': 'note', 'id': 'rule_1', 'validation': 'lost once'}],
+                                   case, False, None, log, 'heat')
+            self.assertEqual((rules[0]['rule'], rules[0]['validation']), ('When x, do y.', 'lost once'))
+            self.assertIn('is not a hidden note', log[0])
+            self.assertEqual([o['op'] for o in applied], ['note'])
 
 
 class MergeScopeTests(unittest.TestCase):
@@ -158,7 +101,7 @@ class RetrievalTests(unittest.TestCase):
         clean_close = rule(3, 'When an object must be cleaned, use the sinkbasin.', task_type='clean',
                            source='clean some apple and put it in fridge.')
         clean_far = rule(4, 'When cleaning, rinse first.', task_type='clean', source='clean some mug.')
-        hidden = rule(5, 'When cooling, use the fridge.', task_type='cool', verified=False,
+        hidden = rule(5, "When cooling, use the fridge.", task_type="cool", hidden=True,
                       source='cool some apple and put it in fridge.')
         rules = [recipe, general, clean_close, clean_far, hidden]
         sims = table({'clean some apple and put it in fridge.': 0.97, 'clean some mug.': 0.5,

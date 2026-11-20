@@ -12,26 +12,18 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from show_library import HIDDEN, rule_lines  # noqa: E402
+from show_library import is_hidden, mean, rule_lines  # noqa: E402
 
-STREAMS = ('practice-E-0', 'practice-E-minus-0', 'practice-E-text-0')
+STREAMS = ('practice-E-0', 'practice-E-minus-0')
 TYPES = ('Success Process', 'Corrected Error', 'Unresolved Error', 'Special Phenomenon', 'Anti-Pattern')
-OPS = {'retire': ('retire',), 'consolidate': ('consolidate',), 'merge': ('merge', 'merge_rule'), 'refine': ('refine',)}
+OPS = {'retire': ('retire', 'prune'), 'merge': ('merge_rule', 'dedupe'), 'refine': ('refine',)}
 COLUMNS = (['games', 'rules_total', 'visible', 'hidden'] + [t.lower().replace(' ', '_') for t in TYPES]
-           + ['added', 'removed', 'retire_ops', 'consolidate_ops', 'merge_ops', 'refine_ops', 'win_rate',
-              'mean_words_visible', 'mean_beta_mean_visible', 'unused_total'])
-
-
-def is_hidden(r):
-    return r.get('type') in HIDDEN or r.get('verified') is False
-
-
-def beta_mean(r):
-    a, b = r.get('alpha') or 0, r.get('beta') or 0
-    return a / (a + b) if a + b else 0.0
+           + ['added', 'removed', 'retire_ops', 'merge_ops', 'refine_ops', 'win_rate',
+              'mean_words_visible', 'mean_usefulness_visible', 'revisions_total'])
 
 
 def row_for(games, rules, prev_ids, window):
+    rules = [r for r in rules if r.get('type') != 'Failure Pool']
     vis = [r for r in rules if not is_hidden(r)]
     ids = {r.get('id') for r in rules}
     ops = {k: 0 for k in OPS}
@@ -46,12 +38,11 @@ def row_for(games, rules, prev_ids, window):
     for t in TYPES:
         row[t.lower().replace(' ', '_')] = sum(r.get('type') == t for r in rules)
     row.update(added=len(ids - prev_ids), removed=len(prev_ids - ids),
-               retire_ops=ops['retire'], consolidate_ops=ops['consolidate'], merge_ops=ops['merge'],
-               refine_ops=ops['refine'],
+               retire_ops=ops['retire'], merge_ops=ops['merge'], refine_ops=ops['refine'],
                win_rate=round(sum(wins) / len(wins), 3) if wins else '',
                mean_words_visible=round(sum(len((r.get('rule') or '').split()) for r in vis) / len(vis), 1) if vis else '',
-               mean_beta_mean_visible=round(sum(beta_mean(r) for r in vis) / len(vis), 3) if vis else '',
-               unused_total=sum(r.get('unused') or 0 for r in rules))
+               mean_usefulness_visible=round(sum(mean(r) for r in vis) / len(vis), 3) if vis else '',
+               revisions_total=sum(r.get('revisions') or 0 for r in rules))
     return row, ids
 
 
@@ -87,14 +78,15 @@ def process_stream(run, stream, every, out):
 
 
 def trends_md(all_rows):
-    lines = ['# Library trends', '', 'Window = games since the previous snapshot. Folds = consolidate + merge ops.', '']
+    lines = ['# Library trends', '', 'Window = games since the previous snapshot. Retired includes pruned; merges = '
+             'near-duplicate merges (write-time and end of batch).', '']
     for stream, rows in all_rows.items():
-        lines += [f'## {stream}', '', '| games | rules | visible | win rate (window) | added | removed | retired | folds |',
-                  '|---|---|---|---|---|---|---|---|']
+        lines += [f'## {stream}', '', '| games | rules | visible | win rate (window) | added | removed | retired | merges '
+                  '| refined |', '|---|---|---|---|---|---|---|---|---|']
         for r in rows:
             wr = f"{r['win_rate']:.2f}" if r['win_rate'] != '' else '-'
             lines.append(f"| {r['games']} | {r['rules_total']} | {r['visible']} | {wr} | {r['added']} | {r['removed']} "
-                         f"| {r['retire_ops']} | {r['consolidate_ops'] + r['merge_ops']} |")
+                         f"| {r['retire_ops']} | {r['merge_ops']} | {r['refine_ops']} |")
         lines.append('')
     return '\n'.join(lines)
 

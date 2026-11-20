@@ -1,14 +1,22 @@
-"""Usage-based credit: only rules the Builder says were followed get Beta updates."""
+"""Usage-based evidence (redesign of 2026-11-20): one outcome-blind judge call per shown rule; only followed
+rules get usefulness scores, the others count as shown; a judge failure gives no evidence; useless rules
+(recipes and Anti-Patterns included) are retired."""
 import copy
+import inspect
 import unittest
 
 from living_library import manual
 from living_library.agents import Agent
 from living_library.config import Settings
 from living_library.environments import MiniWorld
-from living_library.library import Library, LexicalEmbedding
 from living_library.models import FixtureModel, ModelResponse
 
+try:
+    from living_library.embedding import LexicalEmbedding
+except ImportError:      # before the code-skill library removal is merged
+    from living_library.library import LexicalEmbedding
+
+NEW_AGENT = 'library' not in inspect.signature(Agent).parameters
 TASK = {'object': 'apple 1', 'target': 'cabinet 1', 'task_type': 'pick'}
 
 
@@ -22,95 +30,85 @@ def context():
     return {'task': 'put apple in cabinet', 'task_type': 'pick', 'steps': []}
 
 
+def verdict(r, followed, score=0):
+    return {r['id']: {'followed': followed, 'usefulness': score, 'reason': '', 'rule': r['rule']}}
+
+
 class Reporting(FixtureModel):
-    """Builder that reports which shown rules the actions followed (None: leaves the key out)."""
+    """Per-rule judge that says the rules with text in `followed` were followed (usefulness 1); None: broken."""
     def __init__(self, followed):
-        self.followed = followed
+        self.followed, self.judge_payloads = followed, []
 
     def complete(self, role, payload, seed, context):
+        if role == 'judge':
+            self.judge_payloads.append(payload)
+            if self.followed is None:
+                raise RuntimeError('down')
+            hit = payload['rule']['rule'] in self.followed
+            return ModelResponse({'followed': 'yes' if hit else 'no', 'usefulness': int(hit), 'reason': 'r'})
         if role == 'builder':
-            if 'followed' in payload.get('response_schema', {}):     # the separate outcome-blind judge
-                self.judge_payloads = getattr(self, 'judge_payloads', []) + [payload]
-                return ModelResponse({} if self.followed is None else {'followed': self.followed})
             return ModelResponse({'diagnosis': 'imperfect agent', 'operations': []})
         return super().complete(role, payload, seed, context)
 
 
-def play(followed, rules, model=None):
-    agent = Agent(Settings(), 'E', model or Reporting(followed), Library(), LexicalEmbedding(), MiniWorld,
-                  rules=rules)
+def play(rules, model):
+    agent = Agent(Settings(), 'E', model, LexicalEmbedding(), MiniWorld, rules=rules)
     return agent.run(TASK, 1, {'phase': 'practice', 'position': 4})
 
 
-class UsageCreditTests(unittest.TestCase):
+@unittest.skipUnless(NEW_AGENT, 'needs the agent without the code-skill library (merged branch)')
+class UsageCreditInGames(unittest.TestCase):
     def two_rules(self):
         return [rule(1, 'When putting an apple, open the cabinet first.'),
                 rule(2, 'When putting an apple, open the cabinet before anything else.')]
 
-    def test_only_followed_rules_get_credit_the_others_count_unused(self):
+    def test_only_followed_rules_get_scores_the_others_count_as_shown(self):
         rules = self.two_rules()
         live = copy.deepcopy(rules)
-        result = play(['rule_1', 'rule_99'], rules)
+        model = Reporting([rules[0]['rule']])
+        result = play(rules, model)
         self.assertEqual(set(result['rules_shown']), {'rule_1', 'rule_2'})
-        self.assertEqual(result['manual']['followed'], ['rule_1'])
-        self.assertEqual(rules[0]['alpha'], 2)
-        self.assertEqual((rules[1].get('alpha', 1), rules[1].get('unused')), (1, 1))
+        self.assertEqual(len(model.judge_payloads), 2)                   # one call per shown rule
+        self.assertEqual((rules[0]['ev']['followed'], rules[0]['ev']['sum']), (1, 1))
+        self.assertEqual((rules[1]['ev']['shown'], rules[1]['ev']['followed']), (1, 0))
         self.assertEqual(manual.replay(live, result['manual']['operations'], []), rules)
 
-    def test_missing_followed_credits_every_shown_rule_and_logs_it(self):
+    def test_judge_failure_gives_no_evidence(self):
         rules = self.two_rules()
-        result = play(None, rules)
-        self.assertEqual([r['alpha'] for r in rules[:2]], [2, 2])
-        self.assertTrue(any('no followed list' in e for e in result['manual']['errors']))
+        result = play(rules, Reporting(None))
+        self.assertEqual([r['ev'] for r in rules if r['type'] != 'Failure Pool'], [manual.empty_evidence()] * 2)
+        self.assertTrue(any('no evidence' in e for e in result['manual']['errors']))
 
-    def test_judge_is_outcome_blind_and_a_followed_loss_counts_as_a_loss(self):
-        model = Reporting(['rule_1'])
-        rules = self.two_rules()
-        result = play(None, rules, model)
-        payload = model.judge_payloads[0]
-        self.assertEqual(set(payload), {'instructions', 'goal', 'rules', 'steps', 'response_schema', 'task'})
-        self.assertNotIn('success', repr(payload['task']))
-        self.assertTrue(all(set(s) <= {'action', 'observation'} for s in payload['steps']))
-        self.assertNotIn('observation', payload['steps'][-1])       # the final message would reveal the win
-        self.assertEqual({r['id'] for r in payload['rules']}, {'rule_1', 'rule_2'})
-        # the same judge answer in a lost game: followed rule gets beta + 1, the other only unused
+
+class UsageCreditTests(unittest.TestCase):
+    def test_a_followed_loss_counts_as_followed_with_its_score(self):
         lost = [rule(1, 'a'), rule(2, 'b')]
-        manual.observe(lost, ['rule_1', 'rule_2'], False, context(), 0, followed=['rule_1'])
-        self.assertEqual((lost[0]['beta'], lost[1].get('beta', 1), lost[1]['unused']), (2, 1, 1))
-        self.assertIn(result['success'], (True, False))
+        manual.observe(lost, {**verdict(lost[0], True, -1), **verdict(lost[1], False)}, context(), 0, False)
+        self.assertEqual((lost[0]['ev']['followed'], lost[0]['ev']['lost'], lost[0]['ev']['sum']), (1, 1, -1))
+        self.assertEqual((lost[1]['ev']['shown'], lost[1]['ev']['followed'], lost[1]['ev']['lost']), (1, 0, 0))
 
-    def test_judge_failure_credits_all_shown_rules(self):
-        class Broken(Reporting):
-            def complete(self, role, payload, seed, context):
-                if 'followed' in payload.get('response_schema', {}):
-                    raise RuntimeError('down')
-                return super().complete(role, payload, seed, context)
-        rules = self.two_rules()
-        result = play(None, rules, Broken(None))
-        self.assertEqual([r['alpha'] + r['beta'] for r in rules[:2]], [3, 3])
-        self.assertTrue(any('followed judge' in e for e in result['manual']['errors']))
+    def test_recipe_is_counted_only_when_the_judge_says_it_was_followed(self):
+        recipe = rule(1, 'Take, go, put.', kind='Success Process')
+        manual.observe([recipe], verdict(recipe, False), context(), 0, True)
+        self.assertEqual((recipe['ev']['shown'], recipe['ev']['followed']), (1, 0))
+        manual.observe([recipe], verdict(recipe, True, 2), context(), 1, True)
+        self.assertEqual((recipe['ev']['followed'], recipe['ev']['sum']), (1, 2))
 
-    def test_recipe_is_credited_only_when_the_judge_says_it_was_followed(self):
-        # (2026-11-20 design review) no circular credit: a recipe shapes the plan, but counts only if followed
-        recipe, other = rule(1, 'Take, go, put.', kind='Success Process'), rule(2, 'x')
-        op = manual.observe([recipe, other], ['rule_1', 'rule_2'], True, context(), 0, followed=[])
-        self.assertEqual((op['ids'], op['unused']), ([], ['rule_1', 'rule_2']))
-        self.assertEqual((recipe['alpha'], recipe['unused'], other.get('alpha', 1)), (1, 1, 1))
-        op = manual.observe([recipe, other], ['rule_1', 'rule_2'], True, context(), 1, followed=['rule_1'])
-        self.assertEqual((op['ids'], recipe['alpha']), (['rule_1'], 2))
-
-    def test_useless_rule_is_retired_but_recipes_and_anti_patterns_are_exempt(self):
-        borderline = rule(1, 'a', alpha=3, beta=1, unused=8)     # followed 3 of 12 = 25%
-        junk = rule(2, 'b', alpha=1, beta=2, unused=8)           # followed 1 of 9
-        few = rule(3, 'c', unused=7)                              # shown 7 times only
-        recipe = rule(4, 'd', kind='Success Process', unused=20)
-        anti = rule(5, 'e', kind='Anti-Pattern', unused=20)
-        self.assertEqual([manual.useless(r) for r in (borderline, junk, few, recipe, anti)],
-                         [False, True, False, False, False])
-        rules, report = [borderline, junk, few, recipe], {'operations': [], 'errors': []}
-        manual.retire(rules, report)
-        self.assertEqual([r['id'] for r in rules], ['rule_1', 'rule_3', 'rule_4'])
-        self.assertIn('useless', report['errors'][0])
+    def test_useless_rule_is_retired_including_recipes_and_anti_patterns(self):
+        def shown(i, followed, times, kind='Corrected Error'):
+            return rule(i, chr(96 + i), kind, ev={**manual.empty_evidence(), 'shown': times, 'followed': followed})
+        borderline = shown(1, 3, 12)                                 # followed 3 of 12 = 25%
+        junk = shown(2, 1, 10)                                       # followed 1 of 10
+        few = shown(3, 0, 9)                                         # judged 9 times only
+        recipe = shown(4, 0, 20, 'Success Process')
+        anti = shown(5, 1, 20, 'Anti-Pattern')
+        note = shown(6, 0, 20, 'Unresolved Error')
+        self.assertEqual([manual.useless(r) for r in (borderline, junk, few, recipe, anti, note)],
+                         [False, True, False, True, True, False])
+        rules = [borderline, junk, few, recipe]
+        ops = manual.batch_upkeep(rules, set(), None)
+        self.assertEqual([r['id'] for r in rules], ['rule_1', 'rule_3'])
+        self.assertTrue(all('useless' in op['reason'] for op in ops))
 
 
 if __name__ == '__main__':
