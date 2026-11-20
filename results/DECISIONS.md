@@ -232,3 +232,21 @@ _Reconstructed on 2026-11-19 from git history, archive/, results/, the proposal,
   263 cabinet and drawer moves against E-minus's 64. A never-checked impossible step ("take the lamp") sank
   look-at-light tasks (3/7 vs 6/7). Retrieval and the new credit/retire/fold machinery were ruled out. The
   owner asked to salvage the run, so only E is redone (about 94 games).
+
+### 2026-11-20 — Repair (don't discard) rule text; young recipes stay correctable; stricter promotion of guesses
+- **Decision:**
+  1. Shared text check (both conditions): instance numbers are stripped deterministically ("microwave 1" ->
+     "the microwave") before the numbered-object check. Other failures (e.g. length) get one model rewrite.
+     A rule is dropped only if it still fails after that.
+  2. E only: a verified recipe may still be rewritten from a single game while it has fewer than 3 credited
+     games, or when a step it instructs was rejected in a game where it was followed. After that the drift
+     freeze applies.
+  3. E only: a hidden guess (rule from a lost game) is shown only after at least 2 won games where the
+     outcome-blind judge says it was followed (was: one win).
+  - E and E-minus are both rebuilt, because (1) changes a check they share. C and D are kept.
+- **Why:** second diagnosis of E < E-minus (25 vs 34 of 57 paired games after the drift fix). The drift fix
+  worked, and most of the gap was chance in which first recipe got written. But E's heat recipe had been
+  thrown away for naming "microwave 1", leaving E without a heat recipe (heat 0/6 vs 4/6). Its first
+  accepted heat recipe had a wrong step order that the freeze then locked in. A weak "check inventory"
+  guess was shown in 24 games after a single win. A filter that randomly discards recipes adds noise to the
+  main E vs E-minus comparison, so it is fixed for both.
