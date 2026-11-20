@@ -293,8 +293,8 @@ class ManagementTests(unittest.TestCase):
 
     def test_useless_and_capacity_in_batch_upkeep(self):
         ignored = rule('rule_1', 'Success Process', 'When heating: go to the microwave, heat it, put it there.')
-        ignored['ev'] = evidence(1, shown=10)
-        kept = rule('rule_2', ev=evidence(2, shown=10))
+        ignored['ev'] = evidence(1, shown=manual.USELESS_MIN)
+        kept = rule('rule_2', ev=evidence(3, shown=manual.USELESS_MIN))
         rules = [ignored, kept]
         ops = manual.batch_upkeep(rules, set(), None)
         self.assertEqual([(o['op'], o['id']) for o in ops], [('retire', 'rule_1')])
@@ -511,7 +511,7 @@ class ReplayTests(unittest.TestCase):
         base = BuildTests().library()
         live = copy.deepcopy(base)
         live.append(rule('rule_3', text='When the egg is hot, open the safe now.'))      # a batch-mate's twin
-        live[0]['ev'] = evidence(0, shown=10)
+        live[0]['ev'] = evidence(0, shown=manual.USELESS_MIN)
         before = copy.deepcopy(live)
         ops = manual.batch_upkeep(live, {'rule_1', 'rule_2'}, lambda q, ts: [0.9] * len(ts))
         self.assertEqual([o['op'] for o in ops], ['retire', 'dedupe'])

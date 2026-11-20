@@ -1,4 +1,3 @@
-import inspect
 import json
 import tempfile
 import unittest
@@ -10,14 +9,9 @@ from living_library.config import Settings
 from living_library.environments import MiniWorld, demo_manifest
 from living_library.models import FixtureModel
 
-try:
-    from living_library.embedding import LexicalEmbedding
-except ImportError:      # before the code-skill library removal is merged
-    from living_library.library import LexicalEmbedding
+from living_library.embedding import LexicalEmbedding
 
 TASK = {'object': 'apple 1', 'target': 'cabinet 1'}
-# The agent without the code-skill library (Agent(cfg, condition, model, embedder, env_factory, ...)).
-NEW_AGENT = 'library' not in inspect.signature(Agent).parameters
 
 
 def quiet(*args, **kwargs):
@@ -164,7 +158,6 @@ class RuleOperationTests(unittest.TestCase):
         self.assertEqual([entry[0] for entry in log], ['duplicate rule', 'rule already gone'])
 
 
-@unittest.skipUnless(NEW_AGENT, 'needs the agent without the code-skill library (merged branch)')
 class ManualInGamesTests(unittest.TestCase):
     def test_practice_builds_rules_and_the_actor_sees_them(self):
         seen = []

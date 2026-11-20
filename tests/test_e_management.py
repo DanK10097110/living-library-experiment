@@ -2,7 +2,6 @@
 check against game traces (now the write gate's trace check), one text change per rule per batch, the E-only
 restart with its E-minus probe, and the shared two-object subgoal issue (recorded, not fixed)."""
 import copy
-import inspect
 import json
 from pathlib import Path
 import re
@@ -17,7 +16,6 @@ from living_library.config import Settings
 from living_library.domain import Predicate, State
 from living_library.environments import demo_manifest
 
-NEW_AGENT = 'library' not in inspect.signature(Agent).parameters
 
 
 def quiet(*args, **kwargs):
@@ -135,7 +133,7 @@ class BatchMergeTests(unittest.TestCase):
 
     def test_merge_memory_passes_the_batch_start(self):
         base_rules = self.base()
-        extra = {} if NEW_AGENT else {'library': {'skills': [], 'active': {}}}
+        extra = {}
         base = {**extra, 'trajectories': [], 'rules': base_rules}
         live = {**extra, 'trajectories': [], 'rules': manual.replay(
             base_rules, [{'op': 'refine', 'id': 'rule_1', 'rule': 'If a drawer is closed, open it.'}], [],
@@ -147,7 +145,6 @@ class BatchMergeTests(unittest.TestCase):
         self.assertEqual(log, [['text change dropped (already changed in this batch)', 'refine', 'rule_1']])
 
 
-@unittest.skipUnless(NEW_AGENT, 'needs the experiment without the code-skill library (merged branch)')
 class RestartETests(unittest.TestCase):
     def cfg(self):
         return Settings(practice_episodes=4, evaluation_games=2, step_budget=15, bootstrap_samples=20,

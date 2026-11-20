@@ -1,7 +1,6 @@
 """MACLA mechanisms kept in the rule manual after the redesign of 2026-11-20 (usefulness-ranked selection,
 contrastive refinement of bad rules, merging, pruning) and their batching replay."""
 import copy
-import inspect
 import types
 import unittest
 from unittest.mock import patch
@@ -12,12 +11,8 @@ from living_library.config import Settings
 from living_library.environments import MiniWorld
 from living_library.models import FixtureModel
 
-try:
-    from living_library.embedding import LexicalEmbedding
-except ImportError:      # before the code-skill library removal is merged
-    from living_library.library import LexicalEmbedding
+from living_library.embedding import LexicalEmbedding
 
-NEW_AGENT = 'library' not in inspect.signature(Agent).parameters
 TASK = {'object': 'apple 1', 'target': 'cabinet 1', 'task_type': 'pick'}
 
 
@@ -143,7 +138,6 @@ class RefinePruneMergeTests(unittest.TestCase):
         self.assertEqual(ops, [{'op': 'prune', 'id': 'rule_2'}])
 
 
-@unittest.skipUnless(NEW_AGENT, 'needs the agent without the code-skill library (merged branch)')
 class GameAndBatchTests(unittest.TestCase):
     def test_build_records_evidence_for_shown_rules_and_replay_matches(self):
         rules = [rule(1, 'When putting an apple, open the cabinet first.', task_type='pick')]

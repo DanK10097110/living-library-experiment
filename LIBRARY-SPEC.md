@@ -127,7 +127,7 @@ game, the rule with the lowest m). Otherwise → **retire**.
 - MAX_REVISIONS 2 → at most 3 texts per rule in a run. That is the hard cap on drift. Refinement counts
   toward it (it did not before).
 
-**Useless.** `ev.shown >= USELESS_MIN (10)` and `ev.followed < 0.2 * ev.shown` → retire. All types, recipes
+**Useless.** `ev.shown >= USELESS_MIN (12)` and `ev.followed < 0.2 * ev.shown` → retire. All types, recipes
 included: a recipe followed in under 1 of 5 games is not working as a recipe, and the next won game of its
 kind writes a new one. For an Anti-Pattern this means the agent did the avoided thing anyway.
 

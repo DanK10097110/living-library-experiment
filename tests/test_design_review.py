@@ -3,7 +3,6 @@ Builder's view (the same for E and E-minus), Corrected Error shape, the end-of-b
 replay == live check of batched E practice. The mechanisms the redesign removed (text freeze exceptions, base
 rates and lift, hidden guesses, votes, folds) lost their tests with them."""
 import copy
-import inspect
 import json
 from pathlib import Path
 import tempfile
@@ -15,12 +14,8 @@ from living_library.config import Settings
 from living_library.environments import MiniWorld, demo_manifest
 from living_library.models import FixtureModel, ModelResponse
 
-try:
-    from living_library.embedding import LexicalEmbedding
-except ImportError:      # before the code-skill library removal is merged
-    from living_library.library import LexicalEmbedding
+from living_library.embedding import LexicalEmbedding
 
-NEW_AGENT = 'library' not in inspect.signature(Agent).parameters
 LOOK = 'look_at_obj_in_light'
 PICK = 'pick'
 TASK = {'object': 'apple 1', 'target': 'cabinet 1', 'task_type': PICK}
@@ -56,7 +51,6 @@ class BuilderView(unittest.TestCase):
         return [rule(i, 'Special Phenomenon', f'When you put some apple in cabinet, check spot {i}.' if i < 10 else
                      f'When cleaning, try place {chr(96 + i % 26)}{i}.', PICK) for i in range(1, n + 1)]
 
-    @unittest.skipUnless(NEW_AGENT, 'needs the agent without the code-skill library (merged branch)')
     def test_e_and_e_minus_builders_see_the_same_relevant_and_newest_rules(self):
         seen = {}
         for condition in ('E', 'E-minus'):
@@ -118,7 +112,6 @@ class Rephrasing(Judging):
         return super().complete(role, payload, seed, context)
 
 
-@unittest.skipUnless(NEW_AGENT, 'needs the experiment without the code-skill library (merged branch)')
 class BatchedReplayEqualsLive(unittest.TestCase):
     def test_batched_e_practice_replays_exactly_with_the_new_rules(self):
         from living_library.experiment import Runner, load_json

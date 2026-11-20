@@ -18,10 +18,7 @@ from living_library.config import Settings  # noqa: E402
 from living_library.environments import ALFWorld  # noqa: E402
 from living_library.models import HTTPModel  # noqa: E402
 
-try:
-    from living_library.embedding import LexicalEmbedding  # noqa: E402
-except ImportError:      # before the code-skill library removal
-    from living_library.library import LexicalEmbedding  # noqa: E402
+from living_library.embedding import LexicalEmbedding  # noqa: E402
 
 
 def main():

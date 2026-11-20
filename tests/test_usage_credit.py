@@ -2,7 +2,6 @@
 rules get usefulness scores, the others count as shown; a judge failure gives no evidence; useless rules
 (recipes and Anti-Patterns included) are retired."""
 import copy
-import inspect
 import unittest
 
 from living_library import manual
@@ -11,12 +10,8 @@ from living_library.config import Settings
 from living_library.environments import MiniWorld
 from living_library.models import FixtureModel, ModelResponse
 
-try:
-    from living_library.embedding import LexicalEmbedding
-except ImportError:      # before the code-skill library removal is merged
-    from living_library.library import LexicalEmbedding
+from living_library.embedding import LexicalEmbedding
 
-NEW_AGENT = 'library' not in inspect.signature(Agent).parameters
 TASK = {'object': 'apple 1', 'target': 'cabinet 1', 'task_type': 'pick'}
 
 
@@ -56,7 +51,6 @@ def play(rules, model):
     return agent.run(TASK, 1, {'phase': 'practice', 'position': 4})
 
 
-@unittest.skipUnless(NEW_AGENT, 'needs the agent without the code-skill library (merged branch)')
 class UsageCreditInGames(unittest.TestCase):
     def two_rules(self):
         return [rule(1, 'When putting an apple, open the cabinet first.'),
@@ -97,9 +91,9 @@ class UsageCreditTests(unittest.TestCase):
     def test_useless_rule_is_retired_including_recipes_and_anti_patterns(self):
         def shown(i, followed, times, kind='Corrected Error'):
             return rule(i, chr(96 + i), kind, ev={**manual.empty_evidence(), 'shown': times, 'followed': followed})
-        borderline = shown(1, 3, 12)                                 # followed 3 of 12 = 25%
-        junk = shown(2, 1, 10)                                       # followed 1 of 10
-        few = shown(3, 0, 9)                                         # judged 9 times only
+        borderline = shown(1, 3, 14)                                 # followed 3 of 14 = 21%
+        junk = shown(2, 1, 12)                                       # followed 1 of 12
+        few = shown(3, 0, 11)                                        # judged 11 times only
         recipe = shown(4, 0, 20, 'Success Process')
         anti = shown(5, 1, 20, 'Anti-Pattern')
         note = shown(6, 0, 20, 'Unresolved Error')

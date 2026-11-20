@@ -1,7 +1,6 @@
 """ExpeL-style practice retries (Reflexion), contrastive Corrected Error rules, hidden Builder notes and
 recipe-shaped notes."""
 import copy
-import inspect
 import json
 import tempfile
 import unittest
@@ -14,12 +13,8 @@ from living_library.config import Settings
 from living_library.environments import MiniWorld, demo_manifest
 from living_library.models import FixtureModel, ModelResponse
 
-try:
-    from living_library.embedding import LexicalEmbedding
-except ImportError:      # before the code-skill library removal is merged
-    from living_library.library import LexicalEmbedding
+from living_library.embedding import LexicalEmbedding
 
-NEW_AGENT = 'library' not in inspect.signature(Agent).parameters
 TASK = {'object': 'apple 1', 'target': 'cabinet 1', 'task_type': 'pick'}
 CORRECTED = 'When the object is in view, take it at once instead of looking around.'
 
@@ -61,7 +56,6 @@ def run(model, condition='E', rules=None, context=None, frozen=False):
     return agent.run(TASK, 1, {'phase': 'practice', 'position': 0, **(context or {})})
 
 
-@unittest.skipUnless(NEW_AGENT, 'needs the agent without the code-skill library (merged branch)')
 class RetryTests(unittest.TestCase):
     def test_failed_game_is_retried_until_won_and_builder_contrasts_the_attempts(self):
         model, rules = Retrying(fail=(0, 1)), []

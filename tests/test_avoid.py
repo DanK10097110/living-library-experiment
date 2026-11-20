@@ -252,7 +252,7 @@ class LifeCycleTests(unittest.TestCase):
         self.assertEqual(manual.replay(copy.deepcopy(rules), [op], [])[-1]['ev']['followed'], 13)
         broken = {rule['id']: {'followed': False, 'usefulness': 0, 'rule': rule['rule']}}
         fresh = manual.fresh_evidence(copy.deepcopy(rule))
-        for _ in range(10):                                                        # the agent did it anyway
+        for _ in range(manual.USELESS_MIN):                                        # the agent did it anyway
             manual.observe([fresh], broken, {'task': 't', 'task_type': HEAT}, 0, False)
         self.assertTrue(manual.useless(fresh))
         ops = manual.batch_upkeep([fresh, *[r for r in rules if r['type'] == avoid.POOL]], set(), None)

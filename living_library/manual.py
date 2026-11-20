@@ -115,7 +115,7 @@ PRIOR = 2                    # m = sum / (followed + 2): one or two harsh scores
 MIN_EVIDENCE = 6             # followed games before a rule can be bad (about 36 practice games for a recipe)
 BAD_MEAN = -0.5              # m at or below this is bad: a net score of about -4 over 6 followed games
 MAX_REVISIONS = 2            # text changes after the first text: at most 3 texts per rule, the cap on drift
-USELESS_MIN = 10             # judged showings before a rule can be useless
+USELESS_MIN = 12             # judged showings before a rule can be useless (simulator: 10 gave 0.9% false retirement at f 0.6)
 USELESS_FOLLOWED = 0.2       # ... when followed in fewer than this share of them (under 1 game in 5)
 K_CONTEXTS = 6               # refiner evidence: the last 6 helped and the last 6 misled games
 CONTEXT_STEPS = 12           # valid actions kept per context: the end of a game, where it is decided
