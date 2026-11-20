@@ -128,11 +128,12 @@ class YoungRecipeTests(unittest.TestCase):
         self.update(old)
         self.assertEqual(old['rule'], RECIPE)
 
-    def test_a_young_recipe_is_not_rewritten_by_a_lost_game_or_a_retry_win(self):
-        for case in ('failure', 'corrected failure'):
-            young = recipe(0)
-            self.update(young, case)
-            self.assertEqual(young['rule'], RECIPE, case)
+    def test_a_young_recipe_is_not_rewritten_by_a_lost_game_but_by_a_retry_win(self):
+        young = recipe(0)
+        self.update(young, 'failure')
+        self.assertEqual(young['rule'], RECIPE)
+        self.update(young, 'corrected failure')
+        self.assertEqual(young['rule'], self.NEW)
 
     def test_a_followed_recipe_with_a_rejected_step_may_be_rewritten(self):
         trace = [{'action': 'go to desk 1', 'valid': True, 'after': 'You see a desklamp 1.'},

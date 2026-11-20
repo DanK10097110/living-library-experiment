@@ -66,7 +66,8 @@ Design review (2026-11-20, results/DECISIONS.md), E unless noted:
      MAX_REWRITES text changes of the verified rule (`rewrites`, never reset; refine and folds count too).
   2. Contrastive refinement only for rules whose followed-win rate is below the base rate (refinable).
   3. A recipe is credited only when the judge says it was followed (observe); "never won" retires a rule only
-     if its kind of task has had wins; a kind's only recipe is never retired (sole_recipe).
+     if its kind of task has had wins.
+     (Amended 2026-11-20: no rule is protected from retirement or pruning, not even a kind's only recipe.)
   4. E-minus: the same bookkeeping (above).
   5. Retrieval keeps one slot for a rarely shown rule (take) and ranks by lift over the base rate (lift).
   6. A hidden guess is promoted only with CONFIRM_WINS followed wins and a followed-win rate >= the base rate,
@@ -109,7 +110,7 @@ rate test alone never fires for kinds of task that are almost never won).
 
 Against recipe drift (amended 2026-11-19, E only; the Builder prompts are unchanged): a verified Success
 Process changes its text only by contrastive refinement, never by one game's update_rule; a corrected failure
-(retry win) may write rules but not rewrite visible ones (text_frozen). The commands a followed rule instructs
+(retry win) may rewrite visible rules under the same conditions as a first-attempt won game (text_frozen). The commands a followed rule instructs
 ("take the lamp") are checked against the game's trace; a rule whose command the game rejected in
 REJECTED_MIN followed games and never accepted in a won game is retired (command_evidence). In batched
 practice a rule's text changes at most once per batch, the first change in position order (replay).
@@ -457,10 +458,10 @@ def text_frozen(rule, case, rejected_step=False, task_type=None):
     """Why a Builder update may not rewrite this rule's text (None if it may). E only (E-minus never updates).
     A verified rule (any type the agent sees; recipes since 2026-11-19, all types since the 2026-11-20 design
     review) changes only through contrastive refinement (refine), and a corrected failure (a retry win) may
-    write new rules but not rewrite visible ones. Exceptions: a young rule (credited in fewer than
+    rewrite them under the same conditions as a won game (amended 2026-11-20). Exceptions: a young rule (credited in fewer than
     YOUNG_CREDITS games) may still be rewritten by a won game's update; and a rule the outcome-blind judge says
     this game followed while the game rejected one of its instructed commands (`rejected_step`) may be
-    rewritten by this game, even a corrected failure (its retry win shows the fix). Any text change of a
+    rewritten by this game, (a retry win shows the fix too). Any text change of a
     verified rule starts fresh counters (fresh_counters). Both exceptions apply only while the rule's text was
     changed fewer than MAX_REWRITES times (`rewrites`, never reset), so a young rule cannot drift through a
     chain of fresh starts; after that its text changes only by contrastive refinement. Amended 2026-11-20: a
@@ -477,8 +478,6 @@ def text_frozen(rule, case, rejected_step=False, task_type=None):
         return None
     if credited(rule) >= YOUNG_CREDITS:
         return f"a verified {rule['type']} changes only by contrastive refinement"
-    if case == 'corrected failure':
-        return 'a corrected failure may write new rules, not rewrite rules the agent sees'
     return None
 
 
@@ -1212,18 +1211,12 @@ def retirable(rule):
     return float(beta_distribution(1 + won, 1 + lost).cdf(expected_rate(rule))) >= RETIRE_CONFIDENCE
 
 
-def sole_recipe(rule, rules):
-    """The only visible Success Process of its kind of task: never retired or pruned (2026-11-20 review)."""
-    return rule['type'] == 'Success Process' and shown_to_agent(rule) and not any(
-        r is not rule and r['type'] == 'Success Process' and r.get('task_type') == rule.get('task_type')
-        and shown_to_agent(r) for r in rules)
-
-
 def retire(rules, report):
     """Remove rules that do clearly worse than their kind of task's base rate; logged. Removal is by this
-    statistical retirement only (and capacity pruning), never by Builder votes (2026-11-20 review). A dead recipe
-    at the rewrite cap (dead_and_capped) is retired even when it is its kind's only recipe (2026-11-20)."""
-    for rule in [r for r in rules if dead_and_capped(r) or (retirable(r) and not sole_recipe(r, rules))]:
+    statistical retirement only (and capacity pruning), never by Builder votes (2026-11-20 review). No rule is
+    protected, not even a kind's only recipe (2026-11-20). A dead recipe at the rewrite cap (dead_and_capped)
+    is retired without the "its kind had wins" test."""
+    for rule in [r for r in rules if dead_and_capped(r) or retirable(r)]:
         won, lost = observed(rule)
         op = {'op': 'retire', 'id': rule['id'], 'won': won, 'lost': lost, 'base': list(rule['base'])}
         if dead_and_capped(rule):
@@ -1309,7 +1302,7 @@ def prune(rules, position, log):
             uses = r.get('alpha', 1) + r.get('beta', 1) - 2
             age = position - (r['last_used'] if r.get('last_used') is not None else 0)
             return 0.5 * reliability(r) + 0.3 * uses / total + 0.2 * math.exp(-max(age, 0) / TAU)
-        victims = [r for r in rules if r['type'] != avoid.POOL and not sole_recipe(r, rules)]
+        victims = [r for r in rules if r['type'] != avoid.POOL]
         if not victims:
             return
         victim = min(victims, key=utility)

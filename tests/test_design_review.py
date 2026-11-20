@@ -211,21 +211,19 @@ class D3RecipeCreditAndRetirement(unittest.TestCase):
         lost['base_types'][LOOK] = [1, 9]
         self.assertTrue(manual.retirable(lost))
 
-    def test_the_only_recipe_of_a_kind_is_never_retired(self):
+    def test_the_only_recipe_of_a_kind_can_be_retired_and_pruned(self):
         recipe = rule(1, 'Success Process', 'When looking: take it, use the desklamp.', beta=1 + 2 * manual.RETIRE_MIN,
                       base=[5, 10], base_types={LOOK: [5, 10]})
         self.assertTrue(manual.retirable(recipe))
+        live = [copy.deepcopy(recipe)]
         rules, report = [recipe], {'operations': [], 'errors': []}
         manual.retire(rules, report)
-        self.assertEqual(rules, [recipe])
-        twin = rule(2, 'Success Process', 'When looking: use the desklamp.')   # a second visible recipe
-        rules = [recipe, twin]
-        manual.retire(rules, report)
-        self.assertEqual(rules, [twin])
-        rules = [recipe]
-        with patch.object(manual, 'CAPACITY', 0):                                # capacity pruning exempts it too
+        self.assertEqual(rules, [])
+        self.assertEqual(manual.replay(live, report['operations'], [], copy.deepcopy(live)), [])
+        rules = copy.deepcopy(live)
+        with patch.object(manual, 'CAPACITY', 0):                                # capacity pruning too
             manual.prune(rules, 0, [])
-        self.assertEqual(rules, [recipe])
+        self.assertEqual(rules, [])
 
 
 class D4EMinusBookkeeping(unittest.TestCase):

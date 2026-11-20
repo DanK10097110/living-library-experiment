@@ -78,20 +78,34 @@ class RecipeStabilityTests(unittest.TestCase):
         fresh = rule('rule_2', 'Success Process', RECIPE, alpha=3, beta=1 + manual.MIN_CONTRAST)   # 2 wins only
         self.assertFalse(manual.refinable(fresh))
 
-    def test_corrected_failure_writes_but_does_not_rewrite_visible_rules(self):
-        tip = rule('rule_1', 'Special Phenomenon', 'If a container is closed, open it before looking inside.')
-        note = rule('rule_2', 'Unresolved Error', 'When the lamp was off, the task failed.')
-        rules, log = [tip, note], []
-        manual.apply(rules, [
-            {'op': 'update_rule', 'id': 'rule_1', 'rule': 'If a drawer is closed, open it first.'},
-            {'op': 'update_rule', 'id': 'rule_2', 'type': 'Corrected Error',
-             'rule': 'When the lamp is off, use it instead of taking it.'},
-            {'op': 'write_rule', 'type': 'Corrected Error', 'rule': 'When a target is full, use another one.'}],
+    def test_retry_win_rewrites_a_young_rule_but_not_a_frozen_one(self):
+        young = rule('rule_1', 'Special Phenomenon', 'If a container is closed, open it before looking inside.')
+        mature = rule('rule_2', 'Special Phenomenon', 'If a lamp is off, turn it on first.',
+                      alpha=1 + manual.YOUNG_CREDITS)
+        note = rule('rule_3', 'Unresolved Error', 'When the lamp was off, the task failed.')
+        rules, log = [young, mature, note], []
+        live = copy.deepcopy(rules)
+        applied = manual.apply(rules, [
+            {'op': 'update_rule', 'id': 'rule_1', 'rule': 'If a drawer is closed, open it first.'}],
             'corrected failure', False, ids(), log, retry_followed=lambda text: True)
-        self.assertEqual(tip['rule'], 'If a container is closed, open it before looking inside.')
-        self.assertTrue(any('rule_1 keeps its text (a corrected failure' in line for line in log))
+        self.assertEqual(young['rule'], 'If a drawer is closed, open it first.')
+        self.assertEqual(manual.replay(live, applied, [], copy.deepcopy(live)), rules)    # replay == live
+        log = []
+        manual.apply(rules, [
+            {'op': 'update_rule', 'id': 'rule_2', 'rule': 'If a lamp is dark, switch it on.'},
+            {'op': 'update_rule', 'id': 'rule_3', 'type': 'Corrected Error',
+             'rule': 'When the lamp is off, use it instead of taking it.'}],
+            'corrected failure', False, ids(), log, retry_followed=lambda text: True)
+        self.assertEqual(mature['rule'], 'If a lamp is off, turn it on first.')
+        self.assertTrue(any('rule_2 keeps its text' in line for line in log), log)
         self.assertEqual(note['type'], 'Corrected Error')          # a hidden note may still become a rule
-        self.assertEqual(len(rules), 3)
+
+    def test_retry_win_rewrites_a_frozen_rule_with_a_rejected_step(self):
+        mature = rule('rule_1', 'Special Phenomenon', 'If a lamp is off, turn it on first.',
+                      alpha=1 + manual.YOUNG_CREDITS)
+        manual.apply([mature], [{'op': 'update_rule', 'id': 'rule_1', 'rule': 'If a lamp is dark, switch it on.'}],
+                     'corrected failure', False, ids(), [], correctable=['rule_1'])
+        self.assertEqual(mature['rule'], 'If a lamp is dark, switch it on.')
 
     def test_other_visible_rules_still_update_after_a_won_game(self):
         tip = rule('rule_1', 'Special Phenomenon', 'If a container is closed, open it before looking inside.')

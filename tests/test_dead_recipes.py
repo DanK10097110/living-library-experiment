@@ -89,7 +89,7 @@ class DeadRecipeRewrite(unittest.TestCase):
 class DeadRecipeRetirement(unittest.TestCase):
     def test_dead_and_capped_sole_recipe_is_retired_and_replayed(self):
         dead = recipe(rewrites=manual.MAX_REWRITES)
-        self.assertTrue(manual.sole_recipe(dead, [dead]))
+        self.assertTrue(manual.shown_to_agent(dead))                        # its kind's only recipe
         self.assertFalse(manual.retirable(dead))          # its kind never won: the normal test would keep it
         rules, report = [dead], {'operations': [], 'errors': []}
         live = copy.deepcopy(rules)
