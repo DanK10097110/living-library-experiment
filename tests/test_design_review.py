@@ -127,7 +127,7 @@ class BatchedReplayEqualsLive(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             runner = Runner(cfg, demo_manifest(), tmp, model=Rephrasing(), embedder=LexicalEmbedding(), probe=False)
             runner.study(('E',), demo_count=6, log=quiet)
-            root = Path(tmp) / 'checkpoints' / f'practice-E-{cfg.practice_seed}'
+            root = Path(tmp) / 'checkpoints' / f'practice-E-{cfg.practice_seeds[0]}'
             saved = [load_json(p) for p in sorted(root.glob('*.json'))]
         self.assertEqual(len(saved), 6)
         memories, k, kinds = [], cfg.practice_batch, []

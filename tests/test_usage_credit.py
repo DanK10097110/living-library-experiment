@@ -76,7 +76,7 @@ class UsageCreditInGames(unittest.TestCase):
     def test_judge_failure_gives_no_evidence(self):
         rules = self.two_rules()
         result = play(rules, Reporting(None))
-        self.assertEqual([r['ev'] for r in rules], [manual.empty_evidence()] * 2)
+        self.assertEqual([r['ev'] for r in rules if r['type'] != 'Failure Pool'], [manual.empty_evidence()] * 2)
         self.assertTrue(any('no evidence' in e for e in result['manual']['errors']))
 
 
