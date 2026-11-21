@@ -1,9 +1,9 @@
 # Living Library: architecture, decisions and logical gaps
 
-> **Status (2026-11-20, later the same day):** this review describes the system *before* the redesign. Gaps A1,
-> A2, A3, A5, B3 and C1-C7 have been addressed; A4 is stated in the protocol. The current library behaviour is
-> specified in `LIBRARY-SPEC.md`, and the decisions are in `results/DECISIONS.md` (entry "Redesign"). Sections 2.2-2.4
-> describe the old code-skill and threshold machinery and are kept for the record.
+> **Status (2026-11-21):** sections 1-5 are the review of the system *before* the redesign of 2026-11-20 and are
+> kept for the record (gaps A1, A2, A3, A5, B3 and C1-C7 have been addressed; A4 is stated in the protocol). The
+> **current system is summarised in section 6**; the full behaviour is specified in `LIBRARY-SPEC.md`, and every
+> decision with its reason is in `results/DECISIONS.md`.
 
 Written 2026-11-20 from the code at commit `2a2e73f` (plus the uncommitted LOG/DECISIONS edits), the live study
 folder `/root/ll-runs/study`, `results/DECISIONS.md`, `results/LOG.md`, `protocol.py` and `README.md`.
@@ -387,3 +387,46 @@ Snapshots every 25 games stay for tracking.
 ### Expected cost of the plan
 The fixes and the simulator are CPU work (a few hours of agent time, no GPU). The frozen 70-game check takes
 about 1 GPU hour. Replicates are the only large cost, and that is the owner's call in step 1.3.
+
+---
+
+## 6. Current system (2026-11-21)
+
+What changed after this review, in order (details and measurements: `results/DECISIONS.md`, 2026-11-20 evening to
+2026-11-21 evening; behaviour: `LIBRARY-SPEC.md`).
+
+**Design.** Conditions C (no memory), D (top-3 successful practice trajectories as examples), E (managed rule
+library), E-minus (same Builder, append-only: no notes, refinement or retirement). Code skills removed. Practice
+replicates: two for E and E-minus (their libraries differ a lot: so far E - E-minus is +8 on replicate 0 and -2 on
+replicate 1 over 75 games), one for D and C (`experiment.SINGLE_REPLICATE`, owner: less compute). Early gate = a
+bug detector only (E frozen at 75 games vs C on 30 development games; stop if E < C - 3).
+
+**Per practice game (`manual.build`, E; E-minus differs where noted):**
+
+| Step | What |
+| --- | --- |
+| 1 Retry | lost game: Reflexion reflection + replay, up to 3, until won (memory read-only) |
+| 2 Case | direct / indirect success, failure, corrected failure (a retry won), **contrasted failure** (lost, and the failure pool holds a won attempt of this kind) |
+| 3 Use | after each practice plan a short **citer** call (plan + numbered shown rules, no trace or outcome) lists the rules the plan follows. Replaced the per-rule 9B judge, which was measured on 90 Claude-gold-labelled archived cases and removed (it caught 2 of 18 harmful uses and leaked the outcome) |
+| 4 Evidence | per used rule: -1 if the trace shows harm from it (`harms`: >= 2 rejected commands it prescribes, one prescribed command repeated 3 times, its "search X first" places empty), else +1 if won or the object was where it said, else 0. Unused shown rules count as shown only. 15/18 harmful uses flagged, 7/37 false flags |
+| 5 Builder | one call with the game, numbered steps, **game_facts** computed from the trace (where the object was found, wrong object taken, object taken back out, refused commands and whether the object was held, appliance commands that worked, repeated visits), the retry pair or a **won game of this kind** (contrasted failure), the shown rules with their latest note and what may be done with each. E-minus: write_rule only |
+| 6 Apply | case limits; text checks with one repair; trace check (instructed commands accepted in the source win); loose **grounding** (some action/place word; "search X first" must include where the object was found); near-duplicate merge. Refused rule operations go back to the Builder **once with the exact reasons**. A rewrite of a visible rule is kept as a "Suggested text" note for the refiner |
+| 7 New-rule trial | a Corrected Error from a contrasted failure is replayed once, frozen, on its task; kept only if used without harm |
+| 8 Manage (E) | bad (>= 6 used games, m <= -0.4): refine with harmful and other used games (rejected steps marked, held state in the reason), the candidate must pass up to 3 frozen trial replays, else retire; useless (>= 16 shown, < 20% used): retire; Anti-Patterns from pooled failures; prune above capacity |
+
+**Checks used to tune the model roles** (Claude-graded, blind; `results/judge-eval`, `results/refiner-check`,
+`results/builder-check`): judge vs gold labels (led to its removal); refiner on the 9 gold-harmful rules (held-state
+reasons: "worse" rewrites 4 -> 1 of 27; the heat rule fixed in 1 of 3 seeds, the rest caught by trials); Builder
+A/B on 48 real games (good notes 21 -> 35, good rules 1 -> 3, wrong rules 5 -> 3).
+
+**Simulator** (`tools/sim_mechanisms.py`, measured noise): helpful rules changed <= 0.5%, neutral <= 3.6%, harmful
+caught within 15 used games 94-95%, rarely used (f 0.1) retired 90-99%, working (f 0.6) wrongly retired <= 0.9%.
+
+**Known weaknesses (accepted for this run).** The 9B Builder writes mostly weak rules (graded "weak", seldom
+"good"); the system relies on the evidence to filter them. Search-order rules from one or two games are the most
+common weak rule; they are caught after 5-10 used games, and a refinement that swaps in the shown games' place can
+pass its trials. Notes are noisy. Rules from lost games need a won attempt of the kind first.
+
+**Run.** `/root/ll-runs/study2`, about 3,100 episodes after the D cut; gate passed (E 20 vs C 17 of 30); C's
+evaluation replays the earlier run's cached responses.
+
