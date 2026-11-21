@@ -452,3 +452,20 @@ the shipped text and command checks applied; a Sonnet reader graded all 54 rewri
   the same tasks; it then collects fresh evidence and is retired after MAX_REVISIONS if it keeps doing harm. A wrong
   command order (heat case) cannot pass trials (the rejections recur). The 9B refiner rarely produces a real fix
   (about 1 in 10); the protection is the trial gate plus retirement, not the rewrite quality.
+
+## 2026-11-21 — Builder check on the live 48-game practice run (Claude-graded); evidence mechanism verified live
+
+48-game E practice with the new evidence (/root/ll-runs/mini-evidence, `tools/mini_practice.py`): 27/48 first-attempt
+wins, no crashes; citations feed the evidence (the general "open closed containers" rule used in 22 of 40 showings);
+one refinement fired, its candidate failed the trial games ("searched dresser first; the object was not found") and
+the rule was retired, as designed.
+A Sonnet reader graded the 62 Builder/management operations against each game's steps
+(results/refiner-check/builder-cases.json, builder-grades.jsonl): new rules 3 good, 11 weak, 5 wrong; validation
+notes 14 good, 15 weak, 11 wrong. Most wrong notes are the Builder re-emitting validation notes it was shown (a note
+on game 28 describes game 18's cloth; whole " | "-joined note histories copied). Notes only feed the refiner, so this
+is noise, not harm; not changed mid-study (a fix would be: drop a note already contained in the rule's validation).
+Wrong rules (e.g. "never search containers before taking the object from a surface", an Anti-Pattern against the
+command "done") get no protection at write time; the evidence handles them (harm on use, or useless retirement).
+Most common missed lessons: take exactly the named object (cup vs mug, pen vs pencil), do not take a placed object
+back out in two-object tasks, heat with the microwave rather than the stoveburner, do not revisit searched places.
+This matches the 9B ceiling noted before (library-ceiling): no Builder prompt change before the study.

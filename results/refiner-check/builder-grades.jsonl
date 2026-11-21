@@ -1,0 +1,75 @@
+{"game": 0, "op": "write_rule", "id_or_type": "Success Process", "grade": "good", "why": "Matches steps; generic clean-and-place process."}
+{"game": 3, "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "Process fine but 'search drawers first' is overfit to one game."}
+{"game": 3, "op": "write_rule", "id_or_type": "Special Phenomenon", "grade": "good", "why": "Closed containers must be opened; true and useful."}
+{"game": 5, "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "'Search shelves first' is single-game search order."}
+{"game": 7, "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "Clean process ok; 'countertop and drawer first' overfit."}
+{"game": 8, "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "Generic two-object process; 'search starting location first' vague."}
+{"game": 8, "op": "write_rule", "id_or_type": "Corrected Error", "grade": "good", "why": "Move rejected until at target; steps confirm; general."}
+{"game": 9, "op": "note", "id_or_type": "rule_5", "grade": "weak", "why": "Vague criticism of drawer search; unsupported claim about environment."}
+{"game": 10, "op": "note", "id_or_type": "rule_5", "grade": "good", "why": "Accurately notes statue found on tvstand, not drawer."}
+{"game": 11, "op": "note", "id_or_type": "rule_5", "grade": "weak", "why": "Surfaces-first claim from one failed game; location varies."}
+{"game": 12, "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "Cooling steps correct but not shown in this lost game; search order overfit."}
+{"game": 12, "op": "write_rule", "id_or_type": "Corrected Error", "grade": "wrong", "why": "'Never search containers first' false in ALFWorld; objects often in containers; misleads."}
+{"game": 13, "op": "note", "id_or_type": "rule_5", "grade": "wrong", "why": "Says confirms drawers-first, but drawers were wasted; object was on countertop."}
+{"game": 13, "op": "note", "id_or_type": "rule_6", "grade": "weak", "why": "True but trivial confirmation."}
+{"game": 14, "op": "write_rule", "id_or_type": "Unresolved Error", "grade": "wrong", "why": "Real issue was dresser cannot be opened; search-first advice unrelated."}
+{"game": 15, "op": "write_rule", "id_or_type": "Special Phenomenon", "grade": "weak", "why": "Search-order claim from one game, not a game behavior."}
+{"game": 18, "op": "note", "id_or_type": "rule_1", "grade": "good", "why": "Accurate to steps."}
+{"game": 18, "op": "note", "id_or_type": "rule_6", "grade": "good", "why": "Cabinet opened before take; accurate."}
+{"game": 18, "op": "note", "id_or_type": "rule_14", "grade": "weak", "why": "Confirms search order from a lucky first-cabinet find."}
+{"game": 19, "op": "note", "id_or_type": "rule_10", "grade": "weak", "why": "Observes no plate on surfaces; vague, blames agent."}
+{"game": 20, "op": "write_rule", "id_or_type": "Anti-Pattern", "grade": "weak", "why": "True but misses real fix: heat X with microwave; implies move works."}
+{"game": 21, "op": "note", "id_or_type": "rule_5", "grade": "wrong", "why": "Contradicts steps: spraybottle taken from cabinet 1 immediately; copy of old note."}
+{"game": 21, "op": "note", "id_or_type": "rule_6", "grade": "wrong", "why": "Steps show no drawers opened; copy-pasted note."}
+{"game": 22, "op": "note", "id_or_type": "rule_6", "grade": "wrong", "why": "Stoveburner is not a container; nonsensical misjudgment."}
+{"game": 22, "op": "note", "id_or_type": "rule_11", "grade": "weak", "why": "Accurate but confirms a bad rule from one game."}
+{"game": 24, "op": "note", "id_or_type": "rule_8", "grade": "weak", "why": "Partly right but misses taking placed item back out and shuffling."}
+{"game": 25, "op": "note", "id_or_type": "rule_8", "grade": "good", "why": "Accurate to steps."}
+{"game": 25, "op": "note", "id_or_type": "rule_13", "grade": "weak", "why": "Vague confirmation of hidden rule."}
+{"game": 26, "op": "note", "id_or_type": "rule_5", "grade": "wrong", "why": "Steps show no drawer search; handtowel found on holder directly."}
+{"game": 26, "op": "note", "id_or_type": "rule_6", "grade": "good", "why": "Cabinet opened before placing; accurate."}
+{"game": 27, "op": "write_rule", "id_or_type": "Corrected Error", "grade": "wrong", "why": "Retrying nonexistent drawer is useless; real errors were wrong object and missing drawer."}
+{"game": 28, "op": "note", "id_or_type": "rule_1", "grade": "wrong", "why": "Describes cloth/countertop game; this was butterknife/sidetable."}
+{"game": 28, "op": "note", "id_or_type": "rule_14", "grade": "wrong", "why": "Copied from another game; target mismatched."}
+{"game": 28, "op": "note", "id_or_type": "rule_6", "grade": "wrong", "why": "Concatenated stale notes incl. stoveburner nonsense."}
+{"game": 29, "op": "note", "id_or_type": "rule_14", "grade": "weak", "why": "Fair that search order did not help, but only one game."}
+{"game": 29, "op": "note", "id_or_type": "rule_1", "grade": "weak", "why": "Asks rule to say where to search; locations vary."}
+{"game": 30, "op": "note", "id_or_type": "rule_11", "grade": "weak", "why": "Direction right (rule incomplete) but bowl never found in steps."}
+{"game": 31, "op": "note", "id_or_type": "rule_8", "grade": "good", "why": "Accurate: first cellphone re-picked, wasted steps."}
+{"game": 31, "op": "note", "id_or_type": "rule_13", "grade": "weak", "why": "Vague systematic-search claim; sidetable not in steps."}
+{"game": 32, "op": "note", "id_or_type": "rule_10", "grade": "good", "why": "Accurate: bread on countertop."}
+{"game": 34, "op": "write_rule", "id_or_type": "Corrected Error", "grade": "wrong", "why": "Examining target for the object is pointless; not shown helpful in steps."}
+{"game": 34, "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "Generic; includes useless examine-target step."}
+{"game": 35, "op": "note", "id_or_type": "rule_8", "grade": "good", "why": "Accurate to steps."}
+{"game": 35, "op": "note", "id_or_type": "rule_13", "grade": "wrong", "why": "Mentions pencils and desk; game was pens and dresser."}
+{"game": 36, "op": "note", "id_or_type": "rule_1", "grade": "good", "why": "Accurate to steps."}
+{"game": 36, "op": "note", "id_or_type": "rule_14", "grade": "weak", "why": "Confirms search-order after long cabinet search."}
+{"game": 37, "op": "note", "id_or_type": "rule_10", "grade": "good", "why": "Pan on stoveburner surface; accurate."}
+{"game": 37, "op": "note", "id_or_type": "rule_6", "grade": "good", "why": "Fridge opened before cool; accurate."}
+{"game": 38, "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "Right sequence but real command is 'use desklamp', not 'turn on'."}
+{"game": 39, "op": "note", "id_or_type": "rule_8", "grade": "good", "why": "Accurate to steps."}
+{"game": 39, "op": "note", "id_or_type": "rule_13", "grade": "weak", "why": "Vague confirmation of hidden rule."}
+{"game": 40, "op": "note", "id_or_type": "rule_19", "grade": "wrong", "why": "Rule already says take object then turn on light; misjudges rule."}
+{"game": 42, "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "Heat steps right but confusing 'target' wording; omits heat-before-placing emphasis."}
+{"game": 42, "op": "write_rule", "id_or_type": "Corrected Error", "grade": "weak", "why": "Examine container trivia; not the real lesson."}
+{"game": 43, "op": "note", "id_or_type": "rule_15", "grade": "good", "why": "Correctly points to heat X with microwave."}
+{"game": 43, "op": "write_rule", "id_or_type": "Anti-Pattern", "grade": "wrong", "why": "Agent never issued 'done'; irrelevant and misleading."}
+{"game": 45, "op": "note", "id_or_type": "rule_8", "grade": "wrong", "why": "Unsupported; ottoman already checked; real issue was taking placed laptop back."}
+{"game": 47, "op": "note", "id_or_type": "rule_1", "grade": "good", "why": "Accurate to steps."}
+{"game": 47, "op": "note", "id_or_type": "rule_14", "grade": "weak", "why": "Confirms search order from one game."}
+{"game": 1, "missed": "Task says cloth but agent took towel; take only the exact object named; moves kept rejected."}
+{"game": 2, "missed": "Do not take placed item back out of container; find both objects before repeating."}
+{"game": 4, "missed": "Hot task: use 'heat X with microwave', not stoveburner; stop looping examine."}
+{"game": 8, "missed": "Agent holds one object at a time; take second only after placing first (take rejected)."}
+{"game": 14, "missed": "Dresser cannot be opened; put things on it; agent leaked reasoning text as command."}
+{"game": 17, "missed": "Going to a drawer without opening it reveals nothing; open each drawer once, then do not revisit."}
+{"game": 20, "missed": "Heat task: go to microwave and 'heat X with microwave 1'; stoveburner place/turn on rejected."}
+{"game": 24, "missed": "Do not take placed object back out; find second object instead of shuffling the first."}
+{"game": 27, "missed": "Took pencil for a pen task; object name must match task; drawer 5 does not exist."}
+{"game": 41, "missed": "Task said cup but agent used mug; use exact named object."}
+{"game": 42, "missed": "Heat the hot object before placing it at target."}
+{"game": 44, "missed": "Heat with microwave 1 instead of trying to move onto stoveburner (move/place/put all rejected)."}
+{"game": 45, "missed": "After placing first item, do not take it back; keep searching for the second."}
+{"game": 34, "missed": "Repeated open/close of same drawers wasted steps; track visited places."}
+{"game": 16, "missed": "Revisited same countertops and cabinets repeatedly; track searched places."}
+{"game": 19, "missed": "Revisited same countertops repeatedly; track searched places and unexplored containers."}
