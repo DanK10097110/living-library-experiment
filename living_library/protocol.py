@@ -43,7 +43,7 @@ PREREGISTRATION = {
     "early_gate": "A bug detector, not evidence: library practice stops at 75 games, then E (replicate 0, frozen) "
                   "plays 30 development games against C; the study stops if E wins - C wins < -3. Gate games are "
                   "never part of H1-H3.",
-    "sanity_rule": "If E - C is near zero, inspect retrieval, judge and Builder logs before interpreting a null result.",
+    "sanity_rule": "If E - C is near zero, inspect retrieval, rule citations and Builder logs before interpreting a null result.",
     "amendments": {
         "2026_11_14_lean_design": "For local compute: condition B dropped, 300 practice games per memory condition "
                                   "(proposal: 500); H2 cost is weighted tokens instead of GPU-seconds (per-request GPU "
@@ -62,5 +62,11 @@ PREREGISTRATION = {
                                "per-rule judge, evidence-triggered refinement capped at 2 revisions, retirement of "
                                "unfollowed or persistently harmful rules); the early gate became a bug detector "
                                "(margin -3); fresh output directory, C and D re-run because their prompts changed.",
+        "evidence_2026_11_20": "The per-rule LLM judge was measured on gold-labelled archived games and removed "
+                               "(it missed harmful rules and leaked the outcome). A rule's evidence: a short call "
+                               "cites the rules each plan follows; harm is read from the trace (rejected prescribed commands, "
+                               "loops, empty search places); a refinement must pass up to 3 frozen trial replays "
+                               "before it replaces a text. Thresholds re-checked in the simulator (BAD_MEAN -0.4, "
+                               "USELESS_MIN 16).",
     },
 }

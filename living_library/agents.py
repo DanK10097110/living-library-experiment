@@ -1,5 +1,6 @@
 """One game: planner subgoals, then the published ALFWorld ReAct actor step by step."""
 import copy
+import os
 import time
 
 from . import manual, react
@@ -22,11 +23,21 @@ PLANNER_GUIDE = (
     '{"obj":"mug","sink":"sinkbasin 1"},"postconditions":["is_clean(obj)"]},{"description":'
     '"put the mug in the coffeemachine","bindings":{"obj":"mug","place":"coffeemachine 1"},'
     '"postconditions":["located(obj, place)"]}]}')
+# Which shown rules a plan follows (manual.assess: "used"): a separate short call after each plan, from the plan
+# and the numbered rules only (no trace, no outcome). Asking the planner itself to list them broke its subgoals
+# (a subgoal without postconditions in 5 of 30 games vs 1 in 280 before; DECISIONS 2026-11-20).
+CITE_GUIDE = ('An agent in a household text game made this plan (subgoals) after reading these numbered rules. '
+              'List the numbers of the rules the plan follows: a subgoal does what the rule says, or the plan is '
+              'shaped by it. A rule the plan does not act on is not listed. Output {"used_rules": [numbers]}; '
+              '[] if none.')
 # Conditions that read the rule manual; both build it in practice (manual.build), E also manages it.
 RULE_CONDITIONS = ('E', 'E-minus')
 
 
 class Agent:
+    # Frozen games (evaluation, retries) need no citations; LL_CITE_FROZEN=1 turns them on to measure them.
+    CITE_FROZEN = os.environ.get('LL_CITE_FROZEN') == '1'
+
     def __init__(self, cfg, condition, model, embedder, env_factory, trajectories=None, frozen=False,
                  rules=None, reflections=None):
         if condition not in CONDITIONS:
@@ -43,12 +54,20 @@ class Agent:
         self.frozen = frozen
         self.unbudgeted = False
         self.plan_text = ''
+        self.pinned = None      # a rule id always shown (manual.trial: a candidate refinement under test)
 
     def retry_agent(self, reflections):
         """A frozen copy for a Reflexion retry of this game: same memory (read only), these reflections."""
         return type(self)(self.cfg, self.condition, self.model, self.embedder, self.env_factory,
                           trajectories=self.trajectories, frozen=True, rules=self.rules,
                           reflections=reflections)
+
+    def trial_agent(self, rules, pinned):
+        """A frozen agent for a refinement trial game (manual.trial): these rules, `pinned` always shown."""
+        agent = type(self)(self.cfg, self.condition, self.model, self.embedder, self.env_factory,
+                           trajectories=self.trajectories, frozen=True, rules=rules)
+        agent.pinned = pinned
+        return agent
 
     def _ask(self, role, payload):
         if self.result['model_calls'] >= self.cfg.max_model_calls and not self.unbudgeted:
@@ -101,7 +120,35 @@ class Agent:
                 raise ValueError('invalid subgoal')
             self._validate_bindings(goal['bindings'], state)
             self._validate_conditions(goal['postconditions'])
+        self._cite(data['subgoals'])
         return data['subgoals']
+
+    def _cite(self, subgoals):
+        """Record the shown rules this plan follows (manual.assess: "used"): one short call with the plan and
+        the numbered rules. A failed call records nothing (the game goes on; the rules get no use from it)."""
+        if not (self.uses_rules and self.shown_rules) or self.frozen and self.pinned is None and not self.CITE_FROZEN:
+            return
+        try:
+            data = self._ask('citer', {'instructions': CITE_GUIDE,
+                                       'plan': [g['description'] for g in subgoals],
+                                       'rules': [f'{i}. {text}' for i, text in enumerate(manual.render(self.shown_rules), 1)],
+                                       'response_schema': {'used_rules': ['rule number']}})
+            numbers = data.get('used_rules')
+        except BudgetExceeded:
+            raise
+        except (ValueError, RuntimeError, KeyError, TypeError) as exc:
+            self.result['program_errors'].append('citer: ' + str(exc))
+            return
+        if not isinstance(numbers, list):
+            return
+        for n in numbers:
+            try:
+                i = int(str(n).strip().lstrip('#').split('.')[0]) - 1
+            except ValueError:
+                continue
+            if 0 <= i < len(self.shown_rules) and self.shown_rules[i]['id'] not in self.rules_used:
+                self.rules_used.append(self.shown_rules[i]['id'])
+        self.result['rules_used'] = list(self.rules_used)
 
     @staticmethod
     def _predicates():
@@ -179,6 +226,9 @@ class Agent:
             return
         self.shown_rules = manual.for_agent(self.rules, self.task.get('task_type'), manual.SHOWN,
                                             self.result['goal'], self.embedder.similarity)
+        pinned = next((r for r in self.rules if r['id'] == self.pinned), None)
+        if pinned is not None and pinned not in self.shown_rules:
+            self.shown_rules = self.shown_rules[:manual.SHOWN - 1] + [pinned]
         self.rules_shown = [r['id'] for r in self.shown_rules]
         self.result['rules_shown'] = list(self.rules_shown)
 
@@ -207,11 +257,11 @@ class Agent:
         started = time.monotonic()
         self.task, self.seed, self.context = copy.deepcopy(task), seed, dict(context)
         self.gpu, self.gpu_known = 0.0, True
-        self.shown_rules, self.rules_shown, self.plan_text = [], [], ''
+        self.shown_rules, self.rules_shown, self.plan_text, self.rules_used = [], [], '', []
         self.result = {'success': False, 'trace': [], 'subgoals_passed': False, 'program_errors': [],
             'actor_followups': 0, 'input_tokens': 0, 'output_tokens': 0, 'wall_seconds': 0.0,
             'model_wall_seconds': 0.0, 'gpu_seconds': None, 'model_calls': 0, 'retrievals': 0,
-            'subgoal_count': 0, 'planner_fallbacks': 0, 'rules_shown': []}
+            'subgoal_count': 0, 'planner_fallbacks': 0, 'rules_shown': [], 'rules_used': []}
         env = self.env_factory()
         self.episode = Episode(env, self.cfg.step_budget)
         self.public_task = self._public_task(self.task, env)

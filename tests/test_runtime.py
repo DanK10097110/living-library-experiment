@@ -84,11 +84,12 @@ class RuntimeTests(unittest.TestCase):
         self.assertEqual(next(p for r, p in seen if r == 'planner')['reflections'], ['look first'])
         self.assertIn('Your reflection on it: look first', next(p for r, p in seen if r == 'actor')['prompt'])
 
-    def test_fixture_judge_and_unknown_roles(self):
+    def test_fixture_planner_cites_shown_rules_and_unknown_roles(self):
         model = FixtureModel()
-        judged = model.complete('judge', {'task': TASK, 'rule': RULE}, 1, {}).data
-        self.assertEqual(judged, {'followed': 'yes', 'usefulness': 1, 'reason': 'fixture'})
-        for role in ('librarian', 'reflector', 'refiner'):
+        cited = model.complete('citer', {'task': TASK, 'rules': ['1. a', '2. b'], 'plan': ['p']}, 1, {}).data
+        self.assertEqual(cited['used_rules'], ['1', '2'])
+        self.assertEqual(set(model.complete('planner', {'task': TASK}, 1, {}).data), {'subgoals'})
+        for role in ('librarian', 'reflector', 'refiner', 'judge'):
             with self.assertRaises(KeyError):
                 model.complete(role, {'task': TASK}, 1, {})
 

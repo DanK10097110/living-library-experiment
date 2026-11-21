@@ -133,6 +133,9 @@ class FixtureModel:
             data = {'text': f'<think>fixture policy</think> <action>{action}</action>'}
         elif role == 'planner':
             data = {'subgoals': [{'description': 'put object in target', 'bindings': bindings, 'postconditions': [f'located({obj}, {target})']}]}
+        elif role == 'citer':
+            # The plan follows every shown rule (manual.assess: "used").
+            data = {'used_rules': [str(i) for i in range(1, len(payload['rules']) + 1)]}
         elif role == 'builder':
             # One Success Process per won game (skipped if already written), one error rule otherwise.
             known = {r['rule'] for r in payload.get('rules', [])}
@@ -144,9 +147,6 @@ class FixtureModel:
                 rule = {'op': 'write_rule', 'type': 'Unresolved Error',
                         'rule': 'When an action is not admissible, nothing happens.', 'example': ''}
             data = {'diagnosis': 'imperfect rules', 'operations': [] if rule['rule'] in known else [rule]}
-        elif role == 'judge':
-            # Per-rule usefulness judge (manual.py): every shown rule followed and a little useful.
-            data = {'followed': 'yes', 'usefulness': 1, 'reason': 'fixture'}
         else:
             # No fixture answer (e.g. reflector, refiner): the caller records a model error. Tests that
             # need these roles subclass the fixture.

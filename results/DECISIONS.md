@@ -407,3 +407,29 @@ rest on evidence about the rule". Review: ARCHITECTURE.md section 4. Done as tar
 - Conclusion: the 9B cannot give reliable per-rule usefulness from a trace; management must not rest on it.
   Not yet changed in the run logic; next design under discussion (planner cites the rules it uses; deterministic
   harm signals; candidate refinements tried on practice games before they replace a text).
+
+## 2026-11-20 (evening) — Evidence without the judge: plan citations, trace harm, trial games before a refinement
+
+Follows the judge measurement above. LIBRARY-SPEC sections 4, 5 and 7 amended.
+- **Used** = cited: after each plan in practice, one short call (role `citer`) gets the subgoal descriptions and the
+  numbered shown rules (no trace, no outcome) and lists the rules the plan follows. First tried as a field of the
+  planner's own answer: the planner then dropped postconditions from subgoals ("invalid subgoal" in 5 of 30 games;
+  1 in 280 earlier games), also with the field renamed to sort after `subgoals`. The separate call leaves the planner
+  prompt exactly as before (C and D requests unchanged; their record only gains an empty `rules_used`).
+  Frozen 30-game check (old E-minus library, /root/ll-runs/cite-check3): 58 of 120 shown rules cited (recipes 22/30,
+  others about 40%); a spot check of 9 games found the citations plausible (the wrong heat rules were cited in the
+  lost heat game whose plan did what they say); E 23/30 vs C 21/30 on the same games.
+- **Harm** from the trace (`manual.harms`): >= 2 rejected commands of a verb the rule prescribes (on the place it
+  names), one prescribed command repeated 3 times, or its "search X first" places visited while the object was
+  elsewhere or never found. On the 55 gold-used archived cases: 15/18 harmful uses flagged, 7/37 others.
+- **Score** of a used rule: -1 on harm, else +1 if won or the object was where it said to search, else 0.
+- **Refinement**: the refiner sees harmful games (with the reason) and other used games, won and lost, with rejected
+  steps marked; the candidate must pass up to 3 frozen trial replays of the rule's stored tasks (used, no harm)
+  before the text changes; otherwise the rule is retired. Contexts store the task for this.
+- **Thresholds** re-checked in the simulator with the measured noise (citation 0.8/0.1 assumed): BAD_MEAN -0.5 ->
+  -0.4 (harmful caught within 15 followed games 86% -> 94%), USELESS_MIN 12 -> 16 (false useless retirement at
+  f 0.6: 1.5% -> 0.9%); the f 0.1 useless target lowered to 85% (no setting meets 90% and 1% together; wrongly
+  retiring a working rule is the worse error).
+- Planner fallbacks in the frozen checks were 4-9 of 30 games with the planner prompt unchanged (unknown predicates,
+  JSON cut at 512 tokens): ordinary planner noise with this library, not caused by the citation.
+- Not done: a synthetic Claude-graded check of the Builder and refiner (offered as optional).

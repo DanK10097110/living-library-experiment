@@ -23,7 +23,20 @@ def rule(i, text, kind='Corrected Error', task_type='pick', **extra):
 
 
 def context(task_type='pick'):
-    return {'task': 'put apple in cabinet', 'task_type': task_type, 'steps': ['go to cabinet 1', 'open cabinet 1']}
+    return {'task': 'put apple in cabinet', 'task_type': task_type, 'steps': ['go to cabinet 1', 'open cabinet 1'],
+            'task_ref': {'id': 'pick-1', 'task_type': task_type}}
+
+
+def host(ask):
+    """An agent for manage/refine: `ask` answers the refiner; a trial game uses the candidate without harm."""
+    costs = {'model_calls': 0, 'input_tokens': 0, 'output_tokens': 0, 'model_wall_seconds': 0.0}
+
+    def trial_agent(rules, pinned):
+        return types.SimpleNamespace(run=lambda task, seed, context: {
+            **costs, 'success': True, 'goal': 'g', 'rules_used': [pinned], 'gpu_seconds': 0.0,
+            'trace': [{'action': 'look', 'valid': True, 'after': 'You see nothing.'}]})
+    return types.SimpleNamespace(_ask=ask, trial_agent=trial_agent, seed=1, context={'position': 0},
+                                 result=dict(costs), gpu=0.0, gpu_known=True)
 
 
 def judged(r, score):
@@ -57,12 +70,12 @@ class RefinePruneMergeTests(unittest.TestCase):
         for n in range(5):
             manual.observe(rules, judged(rules[0], -1), context(), n, n % 2 == 0)
         model, report = Refiner(), {'operations': [], 'errors': []}
-        manual.manage(types.SimpleNamespace(_ask=model), rules, report)
-        self.assertEqual(model.calls, [])                                # only 5 followed games so far
+        manual.manage(host(model), rules, report)
+        self.assertEqual(model.calls, [])                                # only 5 used games so far
         manual.observe(rules, judged(rules[0], -1), context(), 5, False)
-        manual.manage(types.SimpleNamespace(_ask=model), rules, report)
+        manual.manage(host(model), rules, report)
         self.assertEqual(len(model.calls), 1)
-        self.assertEqual(len(model.calls[0]['misled_games']), 6)
+        self.assertEqual(len(model.calls[0]['harmful_games']), 6)
         # a concise rewrite: nothing is appended (no "Do not use it when When ...")
         self.assertEqual(rules[0]['rule'], 'When x and the cabinet is closed, open it first.')
         self.assertNotIn('not_when', model.calls[0]['response_schema'])
@@ -147,7 +160,7 @@ class GameAndBatchTests(unittest.TestCase):
         self.assertEqual(result['rules_shown'], ['rule_1'])
         ops = result['manual']['operations']
         self.assertIn('outcome', [o['op'] for o in ops])    # logged after the Builder's operations
-        self.assertEqual(rules[0]['ev']['followed'], 1)                   # the fixture judge: followed, 1
+        self.assertEqual(rules[0]['ev']['followed'], 1)                   # the fixture planner cites it
         # Batching: replaying the game's operations on the live manual gives the same manual.
         self.assertEqual(manual.replay(live, ops, []), rules)
 

@@ -1,0 +1,262 @@
+{"case_id": "9-rule_6", "followed": true, "usefulness": 0, "reason": "The agent followed the rule by searching drawers first before going to the target dresser, but the rule was not useful because the cellphone was never found."}
+{"case_id": "10-rule_6", "followed": true, "usefulness": 2, "reason": "The agent searched drawers first, found the statue on the tvstand, picked it up, and moved it to the coffeetable."}
+{"case_id": "11-rule_6", "followed": true, "usefulness": 2, "reason": "The agent searched drawers and cabinets first, then found the keychain on the sidetable, took it, and moved it to the desk."}
+{"case_id": "13-rule_6", "followed": true, "usefulness": 2, "reason": "The agent searched drawers first, then found the spraybottle on the countertop, took it, and moved it to the garbagecan."}
+{"case_id": "15-rule_1", "followed": true, "usefulness": 2, "reason": "The agent followed the prescribed sequence of searching, taking, cleaning, and placing the object."}
+{"case_id": "15-rule_9", "followed": true, "usefulness": 2, "reason": "The agent opened the closed cabinet and drawer before searching inside, following the rule."}
+{"case_id": "16-rule_11", "followed": false, "usefulness": 0, "reason": "The agent never searched for a cool pan, used a fridge, or placed anything in a dining table as required by the rule."}
+{"case_id": "17-rule_6", "followed": true, "usefulness": -1, "reason": "The agent followed the rule by searching drawers first, but the cellphone was never found, making the rule unhelpful for this specific goal."}
+{"case_id": "17-rule_3", "followed": false, "usefulness": 0, "reason": "The agent never moved a cellphone to a dresser, instead repeatedly checking drawers without finding or moving a cellphone."}
+{"case_id": "18-rule_1", "followed": false, "usefulness": 0, "reason": "The agent never cleaned the towel at a sink or placed it on the countertop, instead repeatedly moving between sinks and bathtubs without completing the task."}
+{"case_id": "18-rule_9", "followed": false, "usefulness": 0, "reason": "The agent never opened any container, so the rule was not followed."}
+{"case_id": "19-rule_11", "followed": false, "usefulness": 0, "reason": "The agent searched for a plate but never found or interacted with one, and never used a fridge to cool anything."}
+{"case_id": "21-rule_6", "followed": true, "usefulness": 2, "reason": "The agent searched the cabinet, took the spraybottle, and moved it to the toilet as prescribed."}
+{"case_id": "21-rule_3", "followed": true, "usefulness": 2, "reason": "The agent went to the toilet before attempting to move the spraybottle there."}
+{"case_id": "22-rule_11", "followed": true, "usefulness": 2, "reason": "The agent searched for the pan, took it, opened the fridge, cooled it, closed the fridge, and moved it to the cabinet as prescribed."}
+{"case_id": "23-rule_11", "followed": true, "usefulness": 2, "reason": "The agent searched for the tomato, took it, opened the fridge, cooled it, closed the fridge, and moved it to the microwave as prescribed."}
+{"case_id": "24-rule_10", "followed": true, "usefulness": 2, "reason": "The agent used the move command directly after picking up the keychain, avoiding skill commands as prescribed."}
+{"case_id": "25-rule_10", "followed": true, "usefulness": 2, "reason": "The agent used the move command after picking up pencils, which aligns with the rule"}
+{"case_id": "26-rule_6", "followed": true, "usefulness": 2, "reason": "The agent searched the handtowelholder, took the handtowel, went to the cabinet, opened it, and moved the handtowel inside."}
+{"case_id": "26-rule_3", "followed": true, "usefulness": 2, "reason": "The agent went to the cabinet before attempting to move the handtowel into it."}
+{"case_id": "27-rule_6", "followed": true, "usefulness": 2, "reason": "The agent searched drawers first, opened them, found the pen on a dresser, then moved it to a drawer as prescribed."}
+{"case_id": "27-rule_3", "followed": true, "usefulness": 2, "reason": "The agent went to the drawer before attempting to move the pen there."}
+{"case_id": "28-rule_1", "followed": true, "usefulness": 2, "reason": "The agent followed the prescribed sequence: searched for the butterknife, took it, cleaned it at the sink, and moved it to the sidetable."}
+{"case_id": "28-rule_9", "followed": true, "usefulness": 2, "reason": "The agent opened the closed drawer to find the knife, following the rule."}
+{"case_id": "29-rule_1", "followed": true, "usefulness": 2, "reason": "The agent followed the prescribed sequence: searched for the fork, took it, cleaned it at the sink, then moved it to the drawer."}
+{"case_id": "29-rule_9", "followed": true, "usefulness": 2, "reason": "The agent opened the closed drawer before placing the fork inside, following the rule."}
+{"case_id": "30-rule_11", "followed": false, "usefulness": 0, "reason": "The agent searched multiple locations but never found or interacted with a bowl, and never used a fridge or microwave."}
+{"case_id": "31-rule_10", "followed": false, "usefulness": 0, "reason": "The agent never moved any object to a shelf, so the rule was not applicable"}
+{"case_id": "32-rule_11", "followed": true, "usefulness": 2, "reason": "The agent searched for bread, took it, cooled it in the fridge, and moved it to the countertop as prescribed."}
+{"case_id": "33-rule_1", "followed": false, "usefulness": 0, "reason": "The agent skipped searching the table and taking the object before cleaning, and the provided steps do not show moving the pan to the stoveburner."}
+{"case_id": "33-rule_9", "followed": true, "usefulness": 0, "reason": "The agent opened the closed drawer before searching inside, following the rule."}
+{"case_id": "33-rule_14", "followed": true, "usefulness": 2, "reason": "The agent went to the sink before cleaning the pan as required by the rule."}
+{"case_id": "34-rule_6", "followed": true, "usefulness": 2, "reason": "The agent searched drawers first as prescribed, then located the laptop on the bed, took it, and moved it to the desk."}
+{"case_id": "34-rule_3", "followed": true, "usefulness": 2, "reason": "The agent went to the desk before attempting to move the laptop there."}
+{"case_id": "35-rule_17", "followed": true, "usefulness": 2, "reason": "The agent searched surfaces, opened drawers, and moved both pens to the dresser as prescribed."}
+{"case_id": "35-rule_10", "followed": false, "usefulness": 0, "reason": "The agent used the move command after picking up the pen, which aligns with the rule, but the rule was about avoiding skill commands when moving to a shelf, not a dresser, and the agent successfully c"}
+{"case_id": "35-rule_16", "followed": true, "usefulness": 2, "reason": "The agent opened the target dresser drawer before attempting to move objects into it."}
+{"case_id": "36-rule_1", "followed": true, "usefulness": 2, "reason": "The agent searched for the plate, took it from the fridge, cleaned it at the sink, and placed it on the shelf as prescribed."}
+{"case_id": "36-rule_9", "followed": true, "usefulness": 2, "reason": "The agent opened all closed containers before searching inside them, which was necessary to find the plate."}
+{"case_id": "36-rule_14", "followed": false, "usefulness": 0, "reason": "The agent cleaned the plate without first examining the sink to confirm it contained water."}
+{"case_id": "37-rule_11", "followed": true, "usefulness": 2, "reason": "The agent followed the rule's steps to cool the pan and move it to the dining table."}
+{"case_id": "39-rule_17", "followed": false, "usefulness": 0, "reason": "The rule specifies searching desk surfaces and using a drawer, but the agent searched cabinets and placed items on a dining table instead."}
+{"case_id": "39-rule_16", "followed": true, "usefulness": 2, "reason": "The agent opened each cabinet before taking a peppershaker from it, following the rule."}
+{"case_id": "39-rule_10", "followed": true, "usefulness": 2, "reason": "The agent used the move command directly after picking up each peppershaker, following the rule."}
+{"case_id": "40-rule_22", "followed": true, "usefulness": 2, "reason": "The agent took the pencil, went to the desklamp, turned it on, and examined the pencil under the light."}
+{"case_id": "40-rule_21", "followed": false, "usefulness": 0, "reason": "The agent searched multiple desks and shelves instead of examining the visible pencil on shelf 1 immediately."}
+{"case_id": "41-rule_11", "followed": false, "usefulness": 0, "reason": "The agent moved the mug to the microwave instead of a cabinet as the rule prescribed."}
+{"case_id": "41-rule_18", "followed": true, "usefulness": 2, "reason": "The agent examined the countertop first before checking cabinets or drawers when searching for the cup."}
+{"case_id": "45-rule_17", "followed": false, "usefulness": 0, "reason": "The agent searched drawers instead of desk surfaces first and never put laptops in the ottoman as required."}
+{"case_id": "45-rule_16", "followed": true, "usefulness": 2, "reason": "The agent opened ottoman 1 before attempting to place the laptops inside, following the rule."}
+{"case_id": "45-rule_10", "followed": false, "usefulness": 0, "reason": "The agent never used the move command after picking up the laptop, instead just carrying it and moving around."}
+{"case_id": "46-rule_6", "followed": true, "usefulness": 2, "reason": "The agent searched the drawer, took the watch, and moved it to the coffeetable as prescribed."}
+{"case_id": "46-rule_3", "followed": true, "usefulness": 2, "reason": "The agent went to the coffeetable before attempting to move the watch there."}
+{"case_id": "47-rule_1", "followed": true, "usefulness": 2, "reason": "The agent followed the prescribed sequence of searching, taking, cleaning, and placing the cloth."}
+{"case_id": "47-rule_9", "followed": false, "usefulness": 0, "reason": "The agent never encountered a closed container to open, so the rule was not applicable."}
+{"case_id": "47-rule_14", "followed": true, "usefulness": 2, "reason": "The agent examined the sink before cleaning the cloth as the rule required."}
+{"case_id": "47-rule_20", "followed": true, "usefulness": 2, "reason": "The agent cleaned the cloth and then moved it directly to the toilet as prescribed."}
+{"case_id": "48-rule_17", "followed": true, "usefulness": 2, "reason": "The agent searched dining tables for winebottles and moved both to the cabinet, following the rule's prescribed steps."}
+{"case_id": "48-rule_16", "followed": true, "usefulness": 2, "reason": "The agent opened cabinet 1 before moving winebottles into it, following the rule."}
+{"case_id": "48-rule_10", "followed": true, "usefulness": 2, "reason": "The agent used the move command directly after picking up each winebottle, following the rule."}
+{"case_id": "48-rule_27", "followed": true, "usefulness": 2, "reason": "The agent moved each winebottle directly to the cabinet after picking it up without searching for other containers."}
+{"case_id": "49-rule_17", "followed": false, "usefulness": 0, "reason": "The rule specifies putting objects in a drawer, but the goal and actions involve placing handtowels on a countertop."}
+{"case_id": "49-rule_16", "followed": true, "usefulness": 0, "reason": "The agent moved handtowels to the countertop without explicitly opening it first, but the move succeeded, so the rule was not violated in a harmful way."}
+{"case_id": "49-rule_10", "followed": true, "usefulness": 2, "reason": "The agent used the move command directly after picking up each handtowel to place them on the countertop."}
+{"case_id": "49-rule_27", "followed": true, "usefulness": 2, "reason": "The agent moved each handtowel directly to the countertop after picking it up without searching for other containers."}
+{"case_id": "50-rule_1", "followed": false, "usefulness": 0, "reason": "The agent never found or cleaned a kettle, instead repeatedly visiting locations without completing the task."}
+{"case_id": "50-rule_9", "followed": true, "usefulness": 2, "reason": "The agent opened closed containers (fridge 1, cabinet 2, cabinet 3) before searching inside them."}
+{"case_id": "50-rule_14", "followed": false, "usefulness": 0, "reason": "The agent never examined the sink to confirm water before cleaning, and never cleaned or placed a kettle as required."}
+{"case_id": "50-rule_20", "followed": false, "usefulness": 0, "reason": "The agent never found or cleaned a kettle, and never placed any object on the dining table as required."}
+{"case_id": "51-rule_26", "followed": true, "usefulness": 2, "reason": "The agent placed the egg in the microwave to heat it and then moved it to the fridge, following the rule."}
+{"case_id": "51-rule_25", "followed": true, "usefulness": 2, "reason": "The agent used 'move' instead of 'place' when putting the hot egg into the fridge, adhering to the anti-pattern rule."}
+{"case_id": "52-rule_17", "followed": false, "usefulness": 0, "reason": "The agent never searched desk surfaces for kettles or attempted to put objects in a drawer as prescribed."}
+{"case_id": "52-rule_16", "followed": false, "usefulness": 0, "reason": "The agent never opened the diningtable before attempting to place kettles there, and never found or moved any kettles."}
+{"case_id": "52-rule_27", "followed": false, "usefulness": 0, "reason": "The agent never picked up any kettles or moved them to the dining table, ignoring the rule's guidance on efficient placement."}
+{"case_id": "52-rule_10", "followed": false, "usefulness": 0, "reason": "The agent never picked up any kettles or moved them to the dining table, so the rule about moving objects to a shelf was not applicable and not followed."}
+{"case_id": "53-rule_6", "followed": true, "usefulness": -2, "reason": "The agent followed the rule by searching drawers first, but the rule was not useful because the box was not found in any drawer."}
+{"case_id": "53-rule_3", "followed": false, "usefulness": 0, "reason": "The agent never moved a box to attempt placing it in the armchair, instead repeatedly checking empty containers"}
+{"case_id": "54-rule_1", "followed": true, "usefulness": 2, "reason": "The agent searched the cabinet for the bowl, cleaned it at the sink, and moved it to the microwave as prescribed."}
+{"case_id": "54-rule_9", "followed": true, "usefulness": 2, "reason": "The agent opened the closed fridge and cabinet before searching inside to find the bowl."}
+{"case_id": "54-rule_14", "followed": false, "usefulness": 0, "reason": "The agent cleaned the bowl without first checking the sink for water as the rule required."}
+{"case_id": "54-rule_20", "followed": true, "usefulness": 2, "reason": "The agent cleaned the bowl and then moved it directly to the microwave without unnecessary intermediate steps."}
+{"case_id": "55-rule_17", "followed": true, "usefulness": 2, "reason": "The agent searched surfaces, took both saltshakers, opened the drawer, and moved each object inside as prescribed."}
+{"case_id": "55-rule_16", "followed": true, "usefulness": 2, "reason": "The agent opened drawer 1 before moving saltshakers into it, following the rule."}
+{"case_id": "55-rule_10", "followed": true, "usefulness": 2, "reason": "The agent used the move command directly after picking up each saltshaker, following the rule."}
+{"case_id": "55-rule_27", "followed": true, "usefulness": 2, "reason": "The agent moved each saltshaker directly to the drawer after picking it up without searching for other containers."}
+{"case_id": "56-rule_22", "followed": false, "usefulness": 0, "reason": "The agent never took the CD, went to a light source, or turned on a light; it only moved between locations."}
+{"case_id": "56-rule_21", "followed": false, "usefulness": 0, "reason": "The agent repeatedly searched drawers and shelves instead of examining the visible objects on the desk surface."}
+{"case_id": "57-rule_30", "followed": true, "usefulness": 2, "reason": "The agent followed the prescribed steps to find, heat, and place the plate in the fridge."}
+{"case_id": "57-rule_29", "followed": true, "usefulness": 2, "reason": "The agent heated the plate in the microwave before moving it to the fridge, following the rule's instruction to use the heat command immediately after placing the object inside."}
+{"case_id": "57-rule_25", "followed": true, "usefulness": 2, "reason": "The agent used 'move' instead of 'place' when putting the hot plate in the fridge."}
+{"case_id": "57-rule_26", "followed": true, "usefulness": 2, "reason": "The agent heated the plate in the microwave as prescribed by the rule before placing it in the fridge."}
+{"case_id": "58-rule_17", "followed": false, "usefulness": 0, "reason": "The agent never searched desk surfaces for books or moved any objects to a drawer, instead repeatedly visiting drawers and the coffee table without finding books."}
+{"case_id": "58-rule_16", "followed": false, "usefulness": 0, "reason": "The agent never opened the sofa before attempting to place books there, and never found or moved any books."}
+{"case_id": "58-rule_27", "followed": false, "usefulness": 0, "reason": "The agent never picked up any books or moved them to the sofa, repeatedly visiting drawers and the coffee table instead."}
+{"case_id": "58-rule_10", "followed": false, "usefulness": 0, "reason": "The agent never picked up any books or moved them to the sofa, so the rule about moving objects to a shelf was not followed."}
+{"case_id": "59-rule_6", "followed": true, "usefulness": 2, "reason": "The agent searched drawers and cabinets first, then found the creditcard on the dresser and moved it to the coffeetable."}
+{"case_id": "59-rule_3", "followed": true, "usefulness": 2, "reason": "The agent went to the coffeetable before attempting to move the creditcard there."}
+{"case_id": "60-rule_22", "followed": true, "usefulness": 2, "reason": "The agent took the pen from the surface, went to the desklamp, and turned it on."}
+{"case_id": "60-rule_21", "followed": false, "usefulness": 0, "reason": "The agent searched multiple drawers before finding the pen on the dresser, violating the rule to examine visible objects immediately."}
+{"case_id": "61-rule_30", "followed": false, "usefulness": 0, "reason": "The agent never searched the countertop for the potato before heating it, and never placed the heated potato in the fridge as prescribed."}
+{"case_id": "61-rule_29", "followed": false, "usefulness": 0, "reason": "The agent repeatedly opened and closed the microwave door instead of using the heat command immediately after placing the potato inside."}
+{"case_id": "61-rule_25", "followed": true, "usefulness": 2, "reason": "The agent used 'move' instead of 'place' when putting the hot potato on the countertop"}
+{"case_id": "61-rule_26", "followed": true, "usefulness": 2, "reason": "The agent placed the potato inside the microwave before attempting to heat it, following the rule."}
+{"case_id": "62-rule_1", "followed": false, "usefulness": 0, "reason": "The agent repeatedly examined the sink without cleaning the towel and never placed it in the toilet."}
+{"case_id": "62-rule_20", "followed": false, "usefulness": 0, "reason": "The agent never cleaned the towel or placed it in the toilet, instead repeatedly examining the sink and returning to the toilet without completing the task."}
+{"case_id": "62-rule_14", "followed": true, "usefulness": 0, "reason": "The agent repeatedly examined the sink to check for water as prescribed by the rule."}
+{"case_id": "62-rule_9", "followed": true, "usefulness": 0, "reason": "The agent opened drawer 1 before searching inside as required by the rule."}
+{"case_id": "62-rule_28", "followed": false, "usefulness": 0, "reason": "The agent never searched the stoveburner as the rule instructed, instead going directly to the drawer and towelholder."}
+{"case_id": "63-rule_11", "followed": true, "usefulness": 2, "reason": "The agent searched for the plate, took it, opened the fridge, cooled it, closed the fridge, and moved it to the cabinet."}
+{"case_id": "63-rule_18", "followed": true, "usefulness": 2, "reason": "The agent checked countertop 2 before finding the plate, following the rule to examine countertops first."}
+{"case_id": "64-rule_17", "followed": false, "usefulness": 0, "reason": "The agent moved one toiletpaper to the sidetable but never found or moved a second one, and did not follow the rule's search or drawer steps."}
+{"case_id": "64-rule_16", "followed": true, "usefulness": 0, "reason": "The agent opened the drawer before attempting to move objects into it, following the rule."}
+{"case_id": "64-rule_27", "followed": true, "usefulness": 2, "reason": "The agent moved the toiletpaper directly to the sidetable after picking it up without searching for other containers."}
+{"case_id": "64-rule_10", "followed": true, "usefulness": 2, "reason": "The agent used the move command directly after picking up the toiletpaper, following the rule."}
+{"case_id": "65-rule_6", "followed": false, "usefulness": 0, "reason": "The agent skipped searching drawers/cabinets and found the spraybottle on a garbagecan instead."}
+{"case_id": "65-rule_3", "followed": true, "usefulness": 2, "reason": "The agent went to the countertop before attempting to move the spraybottle there."}
+{"case_id": "66-rule_22", "followed": true, "usefulness": 2, "reason": "The agent took the book from the dresser, moved it to the desk, turned on the desklamp, and examined the desk where the book was placed."}
+{"case_id": "66-rule_21", "followed": true, "usefulness": 2, "reason": "The agent examined visible desk items before searching drawers and eventually examined the book with the desklamp as prescribed."}
+{"case_id": "67-rule_6", "followed": true, "usefulness": 2, "reason": "The agent searched locations, found the laptop on the coffeetable, picked it up, and moved it to the armchair as prescribed."}
+{"case_id": "67-rule_3", "followed": true, "usefulness": 2, "reason": "The agent went to the armchair before attempting to move the laptop there."}
+{"case_id": "68-rule_11", "followed": false, "usefulness": 0, "reason": "The agent searched cabinets, drawers, and opened a fridge but never took the winebottle, cooled it, or placed it on the diningtable as required."}
+{"case_id": "68-rule_37", "followed": true, "usefulness": 0, "reason": "The agent opened closed containers (cabinets, drawers, fridge) before attempting to access their contents, following the rule."}
+{"case_id": "68-rule_18", "followed": true, "usefulness": 2, "reason": "The agent examined countertop 1 before checking cabinets and drawers, following the rule."}
+{"case_id": "69-rule_1", "followed": false, "usefulness": 0, "reason": "The agent repeatedly visited the cabinet and sink without ever taking the knife, cleaning it, or placing it in the drawer."}
+{"case_id": "69-rule_20", "followed": false, "usefulness": 0, "reason": "The agent never cleaned the knife or placed it in the drawer, instead repeatedly moving between locations without completing the task."}
+{"case_id": "69-rule_9", "followed": true, "usefulness": 2, "reason": "The agent opened the closed cabinet before searching inside, following the rule."}
+{"case_id": "69-rule_28", "followed": false, "usefulness": 0, "reason": "The agent repeatedly went to the countertop and cabinet instead of searching the stoveburner first as instructed."}
+{"case_id": "69-rule_36", "followed": true, "usefulness": 2, "reason": "The agent examined the sinkbasin to confirm it was usable before attempting to clean the knife."}
+{"case_id": "69-rule_14", "followed": true, "usefulness": 0, "reason": "The agent examined the sinkbasin 1 to check for water before cleaning, as required by the rule."}
+{"case_id": "70-rule_17", "followed": false, "usefulness": 0, "reason": "The agent did not search desk surfaces first and did not open the target drawer before moving objects."}
+{"case_id": "70-rule_16", "followed": true, "usefulness": 2, "reason": "The agent opened dresser 1 before attempting to move the spraybottle into it, following the rule."}
+{"case_id": "70-rule_27", "followed": true, "usefulness": 2, "reason": "The agent moved the spraybottle directly to the dresser after picking it up without returning to search for containers."}
+{"case_id": "70-rule_10", "followed": false, "usefulness": 0, "reason": "The agent used the move command directly after picking up the spraybottle, which aligns with the rule, but the rule was not applicable since the object was moved to a dresser, not a shelf."}
+{"case_id": "71-rule_22", "followed": true, "usefulness": 2, "reason": "The agent took the tissuebox, went to the desklamp, and used it as prescribed."}
+{"case_id": "71-rule_21", "followed": false, "usefulness": 0, "reason": "The agent took the tissuebox from the desk and then used the desklamp without examining the tissuebox with it."}
+{"case_id": "72-rule_17", "followed": false, "usefulness": 0, "reason": "The agent searched multiple surfaces but failed to find the second soapbottle and did not complete the task"}
+{"case_id": "72-rule_16", "followed": true, "usefulness": 2, "reason": "The agent opened cabinet 1 before moving the first soapbottle into it, and opened cabinet 2 before moving the second soapbottle into it."}
+{"case_id": "72-rule_27", "followed": true, "usefulness": 2, "reason": "The agent moved the soapbottle directly to the cabinet after picking it up without searching for other containers."}
+{"case_id": "72-rule_10", "followed": true, "usefulness": 2, "reason": "The agent used the move command directly after picking up the soapbottle, following the rule."}
+{"case_id": "73-rule_6", "followed": true, "usefulness": 2, "reason": "The agent searched the sofa (not drawers, but the object was there), took the pillow, and moved it to the armchair."}
+{"case_id": "73-rule_3", "followed": true, "usefulness": 2, "reason": "The agent went to the armchair before moving the pillow there."}
+{"case_id": "74-rule_6", "followed": true, "usefulness": 2, "reason": "The agent searched the sofa for the pillow, took it, and moved it to the ottoman as prescribed."}
+{"case_id": "74-rule_3", "followed": true, "usefulness": 2, "reason": "The agent went to the ottoman before moving the pillow there."}
+{"case_id": "75-rule_30", "followed": true, "usefulness": 2, "reason": "The agent searched the fridge for the cup, heated it in the microwave, and placed it on the countertop as prescribed."}
+{"case_id": "75-rule_29", "followed": true, "usefulness": 2, "reason": "The agent heated the cup immediately after closing the microwave door without toggling it open unnecessarily."}
+{"case_id": "75-rule_35", "followed": true, "usefulness": 2, "reason": "The agent never used the command 'done' during the heating process."}
+{"case_id": "75-rule_25", "followed": true, "usefulness": 2, "reason": "The agent used 'move' instead of 'place' when putting the hot cup on the countertop."}
+{"case_id": "75-rule_26", "followed": true, "usefulness": 2, "reason": "The agent placed the cup inside the microwave before heating it, following the rule to put portable objects inside heating appliances."}
+{"case_id": "76-rule_30", "followed": false, "usefulness": 0, "reason": "The agent searched the countertop first but found nothing, then took the plate from the dining table instead of the countertop as the rule specified."}
+{"case_id": "76-rule_35", "followed": true, "usefulness": 2, "reason": "The agent never used the command 'done' during the heating process, adhering to the anti-pattern rule."}
+{"case_id": "76-rule_29", "followed": false, "usefulness": 0, "reason": "The agent repeatedly opened and closed the microwave door instead of using the heat command immediately after placing the plate inside."}
+{"case_id": "76-rule_25", "followed": true, "usefulness": 2, "reason": "The agent avoided using the 'place' command when moving the hot plate to the countertop, instead using 'go to' and presumably an implicit placement action."}
+{"case_id": "76-rule_26", "followed": true, "usefulness": 2, "reason": "The agent placed the plate inside the microwave to heat it, which aligns with the rule."}
+{"case_id": "77-rule_17", "followed": false, "usefulness": 0, "reason": "The rule specifies putting objects in a drawer and searching desk surfaces first, but the agent placed peppershakers on a sidetable instead of a drawer."}
+{"case_id": "77-rule_16", "followed": true, "usefulness": 2, "reason": "The agent opened the target container implicitly by arriving at it before moving objects into it, following the rule's intent."}
+{"case_id": "77-rule_27", "followed": true, "usefulness": 2, "reason": "The agent moved each peppershaker directly to the sidetable after picking it up without searching for other containers."}
+{"case_id": "77-rule_10", "followed": true, "usefulness": 2, "reason": "The agent used the move command directly after picking up each peppershaker, following the rule."}
+{"case_id": "78-rule_17", "followed": false, "usefulness": 0, "reason": "The agent never searched desk surfaces for alarmclocks or moved any objects into a drawer"}
+{"case_id": "78-rule_27", "followed": false, "usefulness": 0, "reason": "The agent never picked up any alarm clocks or moved them to a desk, instead repeatedly visiting drawers and beds without finding the target objects."}
+{"case_id": "78-rule_16", "followed": true, "usefulness": 2, "reason": "The agent opened drawers before attempting to place items, adhering to the rule."}
+{"case_id": "78-rule_10", "followed": false, "usefulness": 0, "reason": "The agent never picked up any alarm clocks or attempted to move them to a desk, so the rule was not followed."}
+{"case_id": "79-rule_17", "followed": false, "usefulness": 0, "reason": "The agent searched drawers first instead of desk surfaces and never placed the laptops in a drawer as prescribed."}
+{"case_id": "79-rule_27", "followed": false, "usefulness": 0, "reason": "The agent repeatedly returned to the bed instead of placing the laptop directly on the desk, violating the rule."}
+{"case_id": "79-rule_16", "followed": false, "usefulness": 0, "reason": "The agent never opened the desk before attempting to place laptops, and the rule was not followed."}
+{"case_id": "79-rule_10", "followed": false, "usefulness": 0, "reason": "The agent never used the move command on a shelf and did not follow the rule's instruction."}
+{"case_id": "80-rule_11", "followed": true, "usefulness": 2, "reason": "The agent searched for the potato, opened the fridge, cooled the potato, closed the fridge, and moved it to a countertop."}
+{"case_id": "80-rule_37", "followed": true, "usefulness": 2, "reason": "The agent opened the closed fridge before placing the potato inside to cool it."}
+{"case_id": "80-rule_18", "followed": true, "usefulness": 2, "reason": "The agent checked countertop 2 before cabinets when searching for the potato, aligning with the rule."}
+{"case_id": "81-rule_30", "followed": false, "usefulness": 0, "reason": "The agent retrieved the tomato from the fridge instead of searching the countertop first, and the rule was not followed."}
+{"case_id": "81-rule_29", "followed": false, "usefulness": 0, "reason": "The agent repeatedly opened and closed the microwave door instead of using the 'heat' command immediately after placing the tomato inside."}
+{"case_id": "81-rule_35", "followed": true, "usefulness": 2, "reason": "The agent never used the command 'done' during the heating process, adhering to the anti-pattern rule."}
+{"case_id": "81-rule_7", "followed": true, "usefulness": 2, "reason": "The agent activated the microwave before placing the tomato inside, following the rule."}
+{"case_id": "81-rule_25", "followed": true, "usefulness": 2, "reason": "The agent used 'move' instead of 'place' when putting the tomato on the sidetable"}
+{"case_id": "81-rule_26", "followed": true, "usefulness": 2, "reason": "The agent placed the tomato inside the microwave before closing it to heat it, following the rule for heating portable objects."}
+{"case_id": "82-rule_17", "followed": true, "usefulness": 2, "reason": "The agent searched surfaces, took each keychain, opened the closed drawer, and moved both objects inside."}
+{"case_id": "82-rule_27", "followed": true, "usefulness": 2, "reason": "The agent moved each keychain directly to the drawer after picking it up without searching for other containers."}
+{"case_id": "82-rule_10", "followed": true, "usefulness": 2, "reason": "The agent used the move command directly after picking up each keychain, following the rule."}
+{"case_id": "82-rule_42", "followed": true, "usefulness": 2, "reason": "The agent moved to the sidetable before taking each keychain, adhering to the rule."}
+{"case_id": "82-rule_16", "followed": true, "usefulness": 2, "reason": "The agent opened the drawer before moving each keychain into it."}
+{"case_id": "83-rule_17", "followed": false, "usefulness": 0, "reason": "The agent never moved the second keychain into the safe or drawer as required by the rule."}
+{"case_id": "83-rule_10", "followed": false, "usefulness": 0, "reason": "The agent never used the move command on any object, instead only navigating and opening containers."}
+{"case_id": "83-rule_27", "followed": false, "usefulness": 0, "reason": "The agent never placed the keychain into any container after picking it up, instead repeatedly moving between locations without depositing the item."}
+{"case_id": "83-rule_42", "followed": true, "usefulness": 2, "reason": "The agent moved to desk 1 before taking keychain 3, following the rule."}
+{"case_id": "83-rule_16", "followed": true, "usefulness": 2, "reason": "The agent opened the safe before attempting to place keychains inside, following the rule."}
+{"case_id": "84-rule_22", "followed": true, "usefulness": 2, "reason": "The agent took the tissuebox from the shelf, went to the desklamp, turned it on, and examined the tissuebox."}
+{"case_id": "84-rule_21", "followed": false, "usefulness": 0, "reason": "The agent searched drawers first instead of examining visible objects on surfaces immediately."}
+{"case_id": "85-rule_17", "followed": false, "usefulness": 0, "reason": "The rule specifies putting objects in a drawer, but the agent put them on a shelf."}
+{"case_id": "85-rule_27", "followed": true, "usefulness": 2, "reason": "The agent moved each tissuebox directly to the shelf after picking it up without searching for other containers."}
+{"case_id": "85-rule_10", "followed": true, "usefulness": 2, "reason": "The agent used the move command directly after picking up each tissuebox, following the rule."}
+{"case_id": "85-rule_42", "followed": true, "usefulness": 2, "reason": "The agent moved to the desk before taking each tissuebox, adhering to the rule."}
+{"case_id": "85-rule_16", "followed": true, "usefulness": 0, "reason": "The agent moved the tissuebox directly to the shelf without explicitly opening the shelf first, but the move succeeded, so the rule was not strictly followed yet the task completed."}
+{"case_id": "86-rule_17", "followed": false, "usefulness": 0, "reason": "The agent searched diningtable instead of desk surfaces first and placed pens on sidetable instead of a drawer."}
+{"case_id": "86-rule_10", "followed": true, "usefulness": 2, "reason": "The agent used the move command directly after picking up each pen, following the rule."}
+{"case_id": "86-rule_27", "followed": true, "usefulness": 2, "reason": "The agent moved each pen directly to the sidetable after picking it up without searching for other containers."}
+{"case_id": "86-rule_42", "followed": true, "usefulness": 2, "reason": "The agent moved to the diningtable before taking pens from it, adhering to the rule."}
+{"case_id": "86-rule_16", "followed": true, "usefulness": 2, "reason": "The agent opened the target container (sidetable 1) before moving each pen into it."}
+{"case_id": "87-rule_17", "followed": false, "usefulness": 0, "reason": "The agent searched for laptops on the bed instead of searching desk surfaces first as the rule prescribes, and the rule mentions drawers while the goal involves a desk."}
+{"case_id": "87-rule_27", "followed": true, "usefulness": 2, "reason": "The agent moved the laptop directly to the desk after picking it up without searching for other containers."}
+{"case_id": "87-rule_10", "followed": false, "usefulness": 0, "reason": "The agent used the move command after picking up the laptop, which aligns with the rule, but the rule was about avoiding skill commands when moving to a shelf, and the agent moved to a desk instead of"}
+{"case_id": "87-rule_42", "followed": true, "usefulness": 2, "reason": "The agent moved to the bed (surface) before taking the laptops, adhering to the rule."}
+{"case_id": "87-rule_16", "followed": true, "usefulness": 2, "reason": "The agent opened drawer 1 before attempting to interact with it, following the rule."}
+{"case_id": "88-rule_6", "followed": true, "usefulness": 2, "reason": "The agent searched drawers/cabinets, took the peppershaker, and moved it to the sidetable as prescribed."}
+{"case_id": "88-rule_3", "followed": true, "usefulness": 2, "reason": "The agent went to the cabinet containing the peppershaker before moving it to the sidetable."}
+{"case_id": "89-rule_17", "followed": true, "usefulness": 2, "reason": "The agent searched surfaces, opened the cabinet, moved the first soapbar, then searched again to find and move the second soapbar."}
+{"case_id": "89-rule_10", "followed": true, "usefulness": 2, "reason": "The agent used the move command after picking up each soapbar, following the rule."}
+{"case_id": "89-rule_27", "followed": true, "usefulness": 2, "reason": "The agent moved each soapbar directly to the cabinet after picking it up without searching for other containers."}
+{"case_id": "89-rule_42", "followed": true, "usefulness": 2, "reason": "The agent moved to the toilet before taking soapbar 1 from it, following the rule."}
+{"case_id": "89-rule_16", "followed": true, "usefulness": 2, "reason": "The agent opened the cabinet before moving any soapbars into it, adhering to the rule."}
+{"case_id": "90-rule_1", "followed": true, "usefulness": 2, "reason": "The agent followed the prescribed sequence: took the bowl from the fridge, cleaned it at the sink, and moved it to the cabinet."}
+{"case_id": "90-rule_20", "followed": true, "usefulness": 2, "reason": "The agent cleaned the bowl and then moved it directly to the cabinet as prescribed."}
+{"case_id": "90-rule_36", "followed": true, "usefulness": 2, "reason": "The agent went to the sink before cleaning the bowl, following the rule."}
+{"case_id": "90-rule_28", "followed": false, "usefulness": 0, "reason": "The agent went to the sinkbasin to clean the bowl instead of searching the stoveburner first."}
+{"case_id": "90-rule_9", "followed": true, "usefulness": 2, "reason": "The agent opened the closed fridge before searching inside to find the bowl."}
+{"case_id": "90-rule_14", "followed": true, "usefulness": 2, "reason": "The agent went to the sink before cleaning the bowl as the rule required."}
+{"case_id": "91-rule_11", "followed": false, "usefulness": 0, "reason": "The agent searched multiple cabinets but never found or cooled lettuce, nor did it place anything in the dining table."}
+{"case_id": "91-rule_37", "followed": true, "usefulness": 2, "reason": "The agent opened closed cabinets and drawers before interacting with their contents, following the rule."}
+{"case_id": "91-rule_43", "followed": false, "usefulness": 0, "reason": "The agent never used a fridge to cool lettuce, so the rule was not followed."}
+{"case_id": "91-rule_18", "followed": true, "usefulness": 2, "reason": "The agent checked the countertop first before searching cabinets and drawers."}
+{"case_id": "92-rule_6", "followed": true, "usefulness": 2, "reason": "The agent followed the rule by searching the drawer, taking the keychain, and moving it to the desk."}
+{"case_id": "92-rule_3", "followed": false, "usefulness": 0, "reason": "The agent moved the keychain directly to the desk without first going to the desk, violating the rule."}
+{"case_id": "93-rule_11", "followed": true, "usefulness": 2, "reason": "The agent searched for the potato, took it, cooled it in the fridge, and moved it to the countertop as prescribed."}
+{"case_id": "93-rule_37", "followed": true, "usefulness": 2, "reason": "The agent opened the closed fridge before placing the potato inside to cool it."}
+{"case_id": "93-rule_43", "followed": true, "usefulness": 2, "reason": "The agent closed the fridge after cooling the potato, following the rule."}
+{"case_id": "93-rule_18", "followed": true, "usefulness": 2, "reason": "The agent examined countertop 2 first before checking the fridge, aligning with the rule to check countertops first."}
+{"case_id": "94-rule_6", "followed": false, "usefulness": 0, "reason": "The agent searched cabinets and drawers but never found or placed a peppershaker on the countertop."}
+{"case_id": "94-rule_3", "followed": false, "usefulness": 0, "reason": "The agent never attempted to move a peppershaker to the countertop, so the rule about moving objects to containers was not followed."}
+{"case_id": "95-rule_17", "followed": false, "usefulness": 0, "reason": "The agent never searched for saltshakers or placed any objects in a cabinet as required by the goal."}
+{"case_id": "95-rule_27", "followed": false, "usefulness": 0, "reason": "The agent never picked up any saltshaker or moved objects to the cabinet, instead repeatedly visiting locations without completing the task."}
+{"case_id": "95-rule_10", "followed": false, "usefulness": 0, "reason": "The agent never picked up any saltshaker or used the move command, instead repeatedly navigating to locations without interacting with objects."}
+{"case_id": "95-rule_16", "followed": true, "usefulness": 2, "reason": "The agent opened cabinet 1 before attempting to place objects inside, following the rule."}
+{"case_id": "95-rule_42", "followed": false, "usefulness": 0, "reason": "The agent never executed a take action on any object, so it could not follow the rule about taking objects from surfaces."}
+{"case_id": "96-rule_17", "followed": false, "usefulness": 0, "reason": "The rule specifies searching desk surfaces and using a drawer, but the agent searched a sofa and used an ottoman."}
+{"case_id": "96-rule_27", "followed": true, "usefulness": 2, "reason": "The agent moved each remotecontrol directly to the ottoman after picking it up without searching for other containers."}
+{"case_id": "96-rule_10", "followed": true, "usefulness": 2, "reason": "The agent used the move command directly after picking up each remotecontrol, following the rule."}
+{"case_id": "96-rule_42", "followed": true, "usefulness": 2, "reason": "The agent moved to the sofa before taking the remotes, following the rule."}
+{"case_id": "96-rule_16", "followed": true, "usefulness": 2, "reason": "The agent opened the ottoman implicitly by moving objects into it without needing to explicitly open it first, and the rule was not violated as the action succeeded."}
+{"case_id": "97-rule_6", "followed": false, "usefulness": 0, "reason": "The agent skipped searching drawers first and found the spraybottle on the countertop instead."}
+{"case_id": "97-rule_3", "followed": true, "usefulness": 2, "reason": "The agent went to the garbagecan before attempting the move command."}
+{"case_id": "98-rule_6", "followed": true, "usefulness": 2, "reason": "The agent searched multiple cabinets, found the candle on a countertop, picked it up, and moved it to the toilet as prescribed."}
+{"case_id": "98-rule_3", "followed": true, "usefulness": 2, "reason": "The agent went to the toilet before attempting to move the candle there."}
+{"case_id": "99-rule_17", "followed": false, "usefulness": 0, "reason": "The rule specifies putting objects in a drawer, but the agent put spraybottles in a garbagecan."}
+{"case_id": "99-rule_27", "followed": true, "usefulness": 2, "reason": "The agent moved each spraybottle directly to the garbagecan after picking it up without searching for other containers."}
+{"case_id": "99-rule_10", "followed": true, "usefulness": 2, "reason": "The agent used the move command directly after picking up each spraybottle, following the rule."}
+{"case_id": "99-rule_42", "followed": true, "usefulness": 2, "reason": "The agent moved to the countertop before taking each spraybottle, adhering to the rule."}
+{"case_id": "99-rule_16", "followed": true, "usefulness": 2, "reason": "The agent opened the garbagecan implicitly by moving objects into it without prior explicit opening, which aligns with the rule's intent to ensure the container is accessible."}
+{"case_id": "100-rule_11", "followed": false, "usefulness": 0, "reason": "The rule requires placing the cooled object in a cabinet, but the goal is to put the mug in a coffeemachine."}
+{"case_id": "100-rule_37", "followed": true, "usefulness": 2, "reason": "The agent opened the closed fridge before placing the mug inside to cool it."}
+{"case_id": "100-rule_43", "followed": true, "usefulness": 2, "reason": "The agent closed the fridge after cooling the mug, following the rule."}
+{"case_id": "100-rule_18", "followed": true, "usefulness": 2, "reason": "The agent checked countertop 2 before cabinets or drawers to find the mug."}
+{"case_id": "101-rule_1", "followed": true, "usefulness": 2, "reason": "The agent searched drawers, took the soapbar from the countertop, cleaned it at the sink, and placed it back on the countertop."}
+{"case_id": "101-rule_20", "followed": true, "usefulness": 2, "reason": "The agent cleaned the soapbar and moved it directly to the countertop as prescribed."}
+{"case_id": "101-rule_28", "followed": false, "usefulness": 0, "reason": "The agent searched drawers and the countertop instead of the stoveburner as instructed."}
+{"case_id": "101-rule_36", "followed": true, "usefulness": 2, "reason": "The agent examined the sink before cleaning the soapbar as prescribed."}
+{"case_id": "101-rule_9", "followed": true, "usefulness": 1, "reason": "The agent opened closed drawers before searching them, as prescribed by the rule."}
+{"case_id": "101-rule_14", "followed": true, "usefulness": 2, "reason": "The agent examined the sink before cleaning the soapbar as the rule required."}
+{"case_id": "102-rule_6", "followed": true, "usefulness": 2, "reason": "The agent searched drawers first, then retrieved the alarmclock from the sidetable and placed it on the diningtable."}
+{"case_id": "102-rule_3", "followed": true, "usefulness": 2, "reason": "The agent went to the diningtable before attempting the move command."}
+{"case_id": "103-rule_17", "followed": false, "usefulness": 0, "reason": "The agent never searched desk surfaces for alarmclocks or moved any object into a drawer as prescribed."}
+{"case_id": "103-rule_10", "followed": true, "usefulness": 2, "reason": "The agent used the move command directly after picking up the alarmclock, following the rule."}
+{"case_id": "103-rule_27", "followed": true, "usefulness": 2, "reason": "The agent moved the alarmclock directly to the desk after picking it up without searching for other containers."}
+{"case_id": "103-rule_42", "followed": true, "usefulness": 2, "reason": "The agent moved to the sidetable before taking the alarmclock, and moved to the desk before placing it, adhering to the rule."}
+{"case_id": "103-rule_16", "followed": false, "usefulness": 0, "reason": "The agent moved the alarmclock directly to the desk without opening the desk first, and the desk was already open."}

@@ -6,7 +6,7 @@ the same manual append-only, or keeping nothing? This repository holds the agent
 experiment runner and the pre-registered analysis.
 
 - `ARCHITECTURE.md`: the whole system, its decision history and the gaps that led to the 2026-11-20 redesign.
-- `LIBRARY-SPEC.md`: the rule manual (writing, the per-rule judge, management, retrieval) with the reasoning
+- `LIBRARY-SPEC.md`: the rule manual (writing, the evidence, management, retrieval) with the reasoning
   behind every threshold.
 - `living_library/protocol.py`: the pre-registration and its amendment history.
 - `results/`: logs (`LOG.md`), design decisions (`DECISIONS.md`) and library snapshots of earlier runs.
@@ -17,7 +17,7 @@ experiment runner and the pre-registered analysis.
 | --- | --- | --- |
 | C | planner + ReAct actor | none |
 | D | same | successful first-attempt practice trajectories; the top 3 by goal similarity shown as examples |
-| E | same | rule manual with evidence-based management (refine or retire rules the judge finds harmful or unfollowed) |
+| E | same | rule manual with evidence-based management (refine or retire rules that are harmful when used, or unused) |
 | E-minus | same | the same manual, append-only |
 | A | flat ReAct, no planner, no memory | kept in the code, not in the study |
 
@@ -25,7 +25,7 @@ One game (`agents.py`): the rules (E, E-minus) are chosen once at the start (`ma
 the planner splits the task into subgoals with predicate postconditions (`domain.py`); the actor is the
 published ALFWorld ReAct prompt (`react.py`, `prompts/`) and acts step by step until each subgoal's
 predicates hold. After a practice game of E or E-minus, `manual.build` retries a lost game with Reflexion
-reflections (up to 3, memory read-only), judges each shown rule, and lets the Builder write rules
+reflections (up to 3, memory read-only), scores each shown rule from plan citations and trace harm, and lets the Builder write rules
 (`manual.py`, `avoid.py`).
 
 ## Design

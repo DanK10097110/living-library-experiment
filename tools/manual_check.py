@@ -14,7 +14,7 @@ from living_library.experiment import Runner, load_json, paired_comparison, stre
 
 
 def load_rules(path):
-    """(rules, message): rules.json is stripped of per-rule 'contexts' (the games a rule was judged in, which
+    """(rules, message): rules.json is stripped of per-rule 'contexts' (the games a rule was used in, which
     task-keyed retrieval uses as evidence), so prefer the sibling rules-full.json when the given file has none."""
     path = Path(path)
     rules = json.loads(path.read_text())

@@ -3,7 +3,7 @@
 usage: python tools/show_library.py RUN_DIR_OR_RULES_FILE [--stream practice-E-0]
 A run dir: reads the last checkpoint of the stream (memory rules) and counts manual operations and builder
 errors/rejections over all checkpoint records. A rules file: prints the per-rule lines only.
-Per rule: the evidence of its current text (judged showings, followed, shrunk mean usefulness m) and its
+Per rule: the evidence of its current text (assessed showings, used, shrunk mean usefulness m) and its
 revisions (LIBRARY-SPEC.md section 2).
 """
 import argparse
@@ -59,7 +59,7 @@ def main():
             errors += len(m.get('errors', []))
         print('\n'.join(rule_lines(rules)))
         print(f'\nmanual operations over {len(files)} games: ' + ', '.join(f'{k}={v}' for k, v in sorted(ops.items())))
-        print(f'builder and judge log lines: {errors}')
+        print(f'builder and management log lines: {errors}')
     else:
         rules = json.loads(path.read_text())
         print(f'{path}: {len(rules)} rules')

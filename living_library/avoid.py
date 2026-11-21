@@ -32,8 +32,8 @@ Mechanism (deterministic parts first, the language model only words what the mea
      negation, no cause or advice words, every command word of the rule is one the pattern or the kind of
      task supplies, and every word the pattern consists of is named. One repair round with the reasons.
   5. Upkeep (redesign of 2026-11-20, LIBRARY-SPEC.md section 5): the rule is a normal rule for retrieval
-     and the per-rule judge ("followed" = complied with it). It is retired as useless (shown but rarely
-     complied with), as bad (judged harmful; an Anti-Pattern is never refined, and the Builder never
+     and the evidence (used = cited for the plan, harm from the trace). It is retired as useless (shown but
+     rarely used), as bad (harmful in most of its uses; an Anti-Pattern is never refined, and the Builder never
      rewrites it), or by this module's own contradiction check: a won attempt of the kind contains its
      pattern (recheck).
 """

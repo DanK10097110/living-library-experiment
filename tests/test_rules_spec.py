@@ -1,10 +1,12 @@
 """The rule library redesign of 2026-11-20 (LIBRARY-SPEC.md): write gate with the trace check, Builder
-operations per case, append-only E-minus, the per-rule judge's evidence, bad/refine/retire with the revision
-cap, useless retirement, update_note conversion, retrieval, build with a fake agent, and replay."""
+operations per case, append-only E-minus, the evidence (planner citations and trace harm), bad/refine/retire
+with the revision cap and trial games, useless retirement, update_note conversion, retrieval, build with a fake
+agent, and replay."""
 import copy
 import json
 import types
 import unittest
+from unittest import mock
 
 from living_library import avoid, manual
 
@@ -54,7 +56,41 @@ def verdicts(rules, followed=True, score=1):
             for r in rules}
 
 
-CTX = {'task': GOAL, 'task_type': HEAT, 'steps': ['go to fridge 1', 'open fridge 1', 'take egg 1 from fridge 1']}
+CTX = {'task': GOAL, 'task_type': HEAT, 'steps': ['go to fridge 1', 'open fridge 1', 'take egg 1 from fridge 1'],
+       'task_ref': {'id': 'task-t1', 'task_type': HEAT}}
+CLEAN = [step('go to fridge 1'), step('open fridge 1'), step('take egg 1 from fridge 1')]
+COSTS = {'model_calls': 0, 'input_tokens': 0, 'output_tokens': 0, 'model_wall_seconds': 0.0}
+
+
+def trial_runner(used=True, trace=None, won=True, seen=None):
+    """trial_agent(rules, pinned) for refinement trials: the game uses the candidate (or not) on `trace`."""
+    def trial_agent(rules, pinned):
+        def run(task, seed, context):
+            if seen is not None:
+                seen.append((task, context, next(r['rule'] for r in rules if r['id'] == pinned)))
+            return {**COSTS, 'model_calls': 1, 'success': won, 'trace': trace or CLEAN, 'goal': GOAL,
+                    'rules_used': [pinned] if used else [], 'gpu_seconds': 0.0}
+        return types.SimpleNamespace(run=run)
+    return trial_agent
+
+
+def host(ask, **trial):
+    """An agent for manage/refine (the refiner's answers from `ask`, trial games from trial_runner)."""
+    return types.SimpleNamespace(_ask=ask, trial_agent=trial_runner(**trial), seed=1, context={'position': 0},
+                                 result=dict(COSTS), gpu=0.0, gpu_known=True)
+
+
+def scripted_assess(scores):
+    """A stand-in for manual.assess: every shown visible rule used, with the scripted score (default 0; None:
+    no verdict)."""
+    def assess(agent, rules, trace=None):
+        out = {}
+        for r in rules:
+            if r['id'] in (agent.rules_shown or ()) and manual.shown_to_agent(r) and scores.get(r['rule'], 0) is not None:
+                out[r['id']] = {'followed': True, 'usefulness': scores.get(r['rule'], 0), 'reason': 'scripted',
+                                'rule': r['rule']}
+        return out
+    return assess
 
 
 class WriteGateTests(unittest.TestCase):
@@ -173,51 +209,65 @@ class UpdateNoteTests(unittest.TestCase):
             self.assertEqual(note['rule'], self.op['rule'])                    # reworded, still hidden
 
 
-class JudgeTests(unittest.TestCase):
-    def agent(self, answer):
-        calls = []
+class AssessTests(unittest.TestCase):
+    """Evidence without a model call: used = the planner cited it; harm read from the trace."""
+    HOT = 'heat some potato and put it in fridge.'
 
-        def ask(role, payload):
-            calls.append((role, payload))
-            if isinstance(answer, Exception):
-                raise answer
-            return answer
-        trace = [step('go to fridge 1', after='The fridge 1 is closed.'), step('dance', False),
-                 step('open fridge 1', after='You open the fridge 1. You win!')]
-        return types.SimpleNamespace(_ask=ask, result={'trace': trace, 'success': True}, public_task={'goal': GOAL},
-                                     rules_shown=['rule_1', 'rule_2', 'rule_9']), calls
+    def agent(self, trace, used, shown=('rule_1', 'rule_2', 'rule_3', 'rule_9'), success=True, goal=None):
+        return types.SimpleNamespace(result={'trace': trace, 'success': success}, public_task={'goal': goal or GOAL},
+                                     rules_shown=list(shown), rules_used=list(used))
 
-    def test_one_outcome_blind_call_per_shown_visible_rule(self):
-        agent, calls = self.agent({'followed': 'yes', 'usefulness': '2', 'reason': 'it helped'})
-        rules = [rule('rule_1'), rule('rule_2', 'Unresolved Error', 'When x, y failed.')]
-        found = manual.judge_shown(agent, rules, [])
-        self.assertEqual(list(found), ['rule_1'])                              # notes are never judged
-        self.assertEqual(found['rule_1']['usefulness'], 2)
-        role, payload = calls[0]
-        self.assertEqual(role, 'judge')
-        self.assertEqual(payload['rule'], {'type': 'Special Phenomenon', 'rule': rules[0]['rule']})
-        self.assertEqual([s['action'] for s in payload['steps']], ['go to fridge 1', 'dance', 'open fridge 1'])
-        self.assertEqual(payload['steps'][1], {'n': 2, 'action': 'dance', 'accepted': False})  # rejected steps shown
-        self.assertNotIn('observation', payload['steps'][-1])                  # the final observation reveals a win
-        self.assertNotIn('You win', json.dumps(payload))
-        self.assertNotIn('success', json.dumps(payload))
+    def test_used_rules_score_and_the_others_count_as_shown(self):
+        rules = [rule('rule_1'), rule('rule_2', 'Unresolved Error', 'When x, y failed.'), rule('rule_3')]
+        found = manual.assess(self.agent(CLEAN, ['rule_1']), rules)
+        self.assertEqual(sorted(found), ['rule_1', 'rule_3'])                   # notes and unknown ids never
+        self.assertEqual((found['rule_1']['followed'], found['rule_1']['usefulness']), (True, 1))   # won
+        self.assertEqual((found['rule_3']['followed'], found['rule_3']['usefulness']), (False, 0))
+        lost = manual.assess(self.agent(CLEAN, ['rule_1'], success=False), rules)
+        self.assertEqual(lost['rule_1']['usefulness'], 0)
+        self.assertEqual(found['rule_1']['rule'], rules[0]['rule'])
 
-    def test_bad_answers_and_failures_give_no_evidence(self):
-        for answer in ({'followed': 'maybe', 'usefulness': 1}, {'followed': 'yes', 'usefulness': 3},
-                       {'followed': 'yes', 'usefulness': 'high'}, {'followed': 'yes'}, 'text',
-                       RuntimeError('timeout')):
-            agent, _ = self.agent(answer)
-            errors = []
-            self.assertEqual(manual.judge_shown(agent, [rule('rule_1')], errors), {}, answer)
-            self.assertIn('no evidence', errors[0])
-        self.assertEqual(manual.parse_verdict({'followed': False, 'usefulness': -2})['usefulness'], 0)
+    def test_rejected_commands_it_prescribes_are_harm(self):
+        wrong = rule('rule_1', text='When heating, move the object into the microwave, then heat it with the microwave.')
+        right = rule('rule_2', text='When heating, heat the object with the microwave while holding it.')
+        trace = [step('take potato 1 from countertop 1'), step('go to microwave 1'),
+                 step('move potato 1 to microwave 1'), step('heat potato 1 with microwave 1', False),
+                 step('heat potato 1 with microwave 1', False)]
+        self.assertIn('2 rejected commands', manual.harms(wrong, trace, self.HOT)[0])
+        self.assertEqual(manual.harms(wrong, trace[:4], self.HOT), [])            # one rejection is noise
+        good = [step('take potato 1 from countertop 1'), step('go to microwave 1'), step('heat potato 1 with microwave 1')]
+        self.assertEqual(manual.harms(right, good, self.HOT), [])
+        found = manual.assess(self.agent(trace, ['rule_1'], goal=self.HOT), [wrong])
+        self.assertEqual(found['rule_1']['usefulness'], -1)                      # harm outweighs a win
+
+    def test_repeating_what_it_prescribes_is_harm(self):
+        r = rule('rule_1', text='When heating on a stoveburner, examine the stoveburner to check it is hot.')
+        trace = [step('examine stoveburner 1')] * 3
+        self.assertIn('repeated "examine stoveburner 1" 3 times', manual.harms(r, trace, self.HOT))
+        self.assertEqual(manual.harms(r, trace[:2], self.HOT), [])
+
+    def test_search_places_that_were_empty_are_harm_and_a_hit_scores(self):
+        r = rule('rule_1', 'Success Process', 'When heating: search the countertops and drawers first, heat it, put it.')
+        self.assertEqual(manual.search_places(r['rule']), {'countertop', 'drawer'})
+        elsewhere = [step('go to countertop 1'), step('go to drawer 1'), step('go to fridge 1'),
+                     step('take potato 1 from fridge 1')]
+        self.assertIn('the object was at the fridge', manual.harms(r, elsewhere, self.HOT)[0])
+        there = [step('go to countertop 1'), step('take potato 1 from countertop 1')]
+        self.assertEqual(manual.harms(r, there, self.HOT), [])
+        self.assertTrue(manual.search_hit(r, there, self.HOT))
+        lost = manual.assess(self.agent(there, ['rule_1'], success=False, goal=self.HOT), [r])
+        self.assertEqual(lost['rule_1']['usefulness'], 1)                        # found where it said
+        skipped = [step('go to fridge 1'), step('take potato 1 from fridge 1')]  # never searched there
+        self.assertEqual(manual.harms(r, skipped, self.HOT), [])
+        self.assertEqual(manual.search_places('Never search the drawers first; open the fridge.'), set())
+
 
     def test_observe_counts_followed_and_shown_and_keeps_six_contexts_of_each_sign(self):
         r = rule('rule_1')
         for n in range(10):
             manual.observe([r], verdicts([r], score=1 if n % 2 else -1), CTX, n, n % 3 == 0)
         manual.observe([r], verdicts([r], followed=False), CTX, 10, True)
-        manual.observe([r], {}, CTX, 11, True)                                  # judge failed: nothing
+        manual.observe([r], {}, CTX, 11, True)                                  # no verdict: nothing
         self.assertEqual({k: r['ev'][k] for k in ('shown', 'followed', 'sum', 'pos', 'neg')},
                          {'shown': 11, 'followed': 10, 'sum': 0, 'pos': 5, 'neg': 5})
         self.assertEqual(r['ev']['won'] + r['ev']['lost'], 10)
@@ -225,9 +275,11 @@ class JudgeTests(unittest.TestCase):
         self.assertEqual((sum(c['score'] > 0 for c in r['contexts']), sum(c['score'] < 0 for c in r['contexts'])),
                          (5, 5))
         for n in range(4):
-            manual.observe([r], verdicts([r], score=2), CTX, 20 + n, True)
-        self.assertEqual(sum(c['score'] > 0 for c in r['contexts']), manual.K_CONTEXTS)
-        self.assertEqual(manual.mean(r), 8 / (14 + manual.PRIOR))
+            manual.observe([r], verdicts([r], score=1), CTX, 20 + n, True)
+        self.assertEqual(sum(c['score'] >= 0 for c in r['contexts']), manual.K_CONTEXTS)
+        self.assertEqual(manual.mean(r), 4 / (14 + manual.PRIOR))
+        manual.observe([r], verdicts([r], score=0), CTX, 30, False)              # a used, lost game is kept too
+        self.assertEqual(r['contexts'][manual.K_CONTEXTS - 1]['score'], 0)
 
     def test_a_verdict_on_an_old_text_is_not_counted(self):
         r = rule('rule_1')
@@ -271,7 +323,8 @@ class ManagementTests(unittest.TestCase):
         pattern = self.bad_rule('rule_4', kind=avoid.TYPE)
         self.assertEqual(manual.decisions([a, b, capped, pattern]), (b, [capped, pattern]))
         rules, report = [a, b, capped], {'operations': [], 'errors': []}
-        agent = types.SimpleNamespace(_ask=Refiner())
+        seen = []
+        agent = host(Refiner(), seen=seen)
         manual.manage(agent, rules, report)
         self.assertEqual([r['id'] for r in rules], ['rule_1', 'rule_2'])
         self.assertEqual(b['rule'], 'When the object is cold, open the fridge first.')
@@ -279,23 +332,30 @@ class ManagementTests(unittest.TestCase):
         self.assertEqual(b['total']['followed'], 6)                             # lifetime kept
         self.assertEqual([o['op'] for o in report['operations']], ['retire', 'refine'])
         payload = agent._ask.calls[0][1]
-        self.assertEqual(len(payload['misled_games']), 6)
-        self.assertEqual(payload['misled_games'][0]['reason'], 'r')
+        self.assertEqual(len(payload['harmful_games']), 6)
+        self.assertEqual(payload['harmful_games'][0]['reason'], 'r')
+        self.assertNotIn('task_ref', payload['harmful_games'][0])
+        # one trial game per distinct stored task, with the candidate text shown; its cost is charged
+        self.assertEqual(seen, [(CTX['task_ref'], {'position': 0, 'trial': 'rule_2-1-0'}, b['rule'])])
+        self.assertEqual(report['operations'][1]['trials'][0]['used'], True)
+        self.assertEqual(agent.result['model_calls'], 1)
 
     def test_refinement_failure_retires(self):
-        for refiner in (Refiner(fail=True), Refiner(text='When the object is cold, open the safe first.'),
-                        Refiner(text='When on floor 3, open the fridge.')):
+        harmful = [step('go to fridge 1'), step('open fridge 1', False), step('open fridge 1', False)]
+        for refiner, trial in ((Refiner(fail=True), {}), (Refiner(text='When the object is cold, open the safe first.'), {}),
+                               (Refiner(text='When on floor 3, open the fridge.'), {}),
+                               (Refiner(), {'used': False}), (Refiner(), {'trace': harmful})):
             r = self.bad_rule()
             rules, report = [r], {'operations': [], 'errors': []}
-            manual.manage(types.SimpleNamespace(_ask=refiner), rules, report)
-            self.assertEqual(rules, [], refiner.text)
+            manual.manage(host(refiner, **trial), rules, report)
+            self.assertEqual(rules, [], (refiner.text, trial))
             self.assertEqual(report['operations'][0]['check'], 'bad')
             self.assertIn('refinement failed', report['operations'][0]['reason'])
 
     def test_useless_and_capacity_in_batch_upkeep(self):
         ignored = rule('rule_1', 'Success Process', 'When heating: go to the microwave, heat it, put it there.')
         ignored['ev'] = evidence(1, shown=manual.USELESS_MIN)
-        kept = rule('rule_2', ev=evidence(3, shown=manual.USELESS_MIN))
+        kept = rule('rule_2', ev=evidence(4, shown=manual.USELESS_MIN))   # 25% used
         rules = [ignored, kept]
         ops = manual.batch_upkeep(rules, set(), None)
         self.assertEqual([(o['op'], o['id']) for o in ops], [('retire', 'rule_1')])
@@ -346,17 +406,12 @@ class RetrievalTests(unittest.TestCase):
 # ----- build with a fake agent, and replay ------------------------------------------------------------------
 
 class ScriptedModel:
-    """Scripted answers per role; the judge's verdict is looked up by rule text (default followed, 0)."""
+    """Scripted answers per role; `scores`: the scripted assessment by rule text (scripted_assess)."""
     def __init__(self, builder_ops=(), scores=None, refined='When the object is cold, open the fridge first.'):
         self.builder_ops, self.scores, self.refined, self.calls = list(builder_ops), scores or {}, refined, []
 
     def __call__(self, role, payload):
         self.calls.append(role)
-        if role == 'judge':
-            score = self.scores.get(payload['rule']['rule'], 0)
-            if score is None:
-                raise RuntimeError('judge failed')
-            return {'followed': 'yes', 'usefulness': score, 'reason': 'scripted'}
         if role == 'builder':
             return {'diagnosis': 'imperfect rules', 'operations': copy.deepcopy(self.builder_ops)}
         if role == 'refiner':
@@ -370,8 +425,9 @@ class FakeAgent:
     def __init__(self, condition, rules, model, shown, success=True, position=0, batch=1):
         self.cfg = types.SimpleNamespace(practice_batch=batch)
         self.condition, self.rules, self._ask = condition, rules, model
-        self.rules_shown = shown
+        self.rules_shown, self.rules_used = shown, list(shown)
         self.embedder = Embedder()
+        self.trial_agent = trial_runner()
         trace = [step('go to fridge 1'), step('open fridge 1'), step('take egg 1 from fridge 1'),
                  step('go to microwave 1'), step('heat egg 1 with microwave 1'), step('go to countertop 1'),
                  step('move egg 1 to countertop 1')]
@@ -400,29 +456,30 @@ class BuildTests(unittest.TestCase):
     def library(self):
         recipe = rule('rule_1', 'Success Process', 'When heating: go to the microwave, heat it, put it there.')
         harmful = rule('rule_2', text='When the egg is hot, open the safe.')
-        for n in range(5):
-            manual.observe([harmful], verdicts([harmful], score=-1), CTX, n, False)
+        for n in range(5):                                                       # sum -3 over 5 used games
+            manual.observe([harmful], verdicts([harmful], score=-1 if n < 3 else 0), CTX, n, False)
         return [recipe, harmful]
 
     def run_build(self, condition, rules, model, shown, **kw):
         agent = FakeAgent(condition, rules, model, shown, **kw)
-        return manual.build(agent), agent
+        with mock.patch.object(manual, 'assess', scripted_assess(model.scores)):
+            return manual.build(agent), agent
 
-    def test_e_build_judges_writes_and_refines_and_replay_reproduces_it(self):
+    def test_e_build_assesses_writes_and_refines_and_replay_reproduces_it(self):
         start = self.library()
         rules = copy.deepcopy(start)
         model = ScriptedModel([{'op': 'write_rule', 'type': 'Special Phenomenon',
                                 'rule': 'When the object is not in sight, open the fridge.'},
                                {'op': 'note', 'id': 'rule_2', 'validation': 'It sent the agent to the safe.'}],
-                              scores={start[0]['rule']: 2, start[1]['rule']: -2})
+                              scores={start[0]['rule']: 1, start[1]['rule']: -1})
         report, _ = self.run_build('E', rules, model, ['rule_1', 'rule_2'])
-        self.assertEqual(report['judged'], {'rule_1': {'followed': True, 'usefulness': 2},
-                                            'rule_2': {'followed': True, 'usefulness': -2}})
-        self.assertEqual(model.calls.count('judge'), 2)
+        self.assertEqual(report['assessed'], {'rule_1': {'followed': True, 'usefulness': 1},
+                                              'rule_2': {'followed': True, 'usefulness': -1}})
+        self.assertNotIn('judge', model.calls)
         by_id = {r['id']: r for r in rules}
         self.assertEqual(by_id['rule_2']['rule'], 'When the object is cold, open the fridge first.')   # refined
         self.assertEqual(by_id['rule_2']['revisions'], 1)
-        self.assertEqual(by_id['rule_1']['ev']['sum'], 2)
+        self.assertEqual(by_id['rule_1']['ev']['sum'], 1)
         self.assertEqual(by_id['rule_3']['rule'], 'When the object is not in sight, open the fridge.')
         self.assertEqual(strip(manual.replay(copy.deepcopy(start), report['operations'], [], start)), strip(rules))
 
@@ -431,7 +488,7 @@ class BuildTests(unittest.TestCase):
         start[1]['ev']['shown'] = 30                                            # bad and useless in E
         rules = copy.deepcopy(start)
         model = ScriptedModel([{'op': 'note', 'id': 'rule_2', 'validation': 'v'}],
-                              scores={start[1]['rule']: -2})
+                              scores={start[1]['rule']: -1})
         report, _ = self.run_build('E-minus', rules, model, ['rule_2'])
         self.assertEqual([r['rule'] for r in rules if r['type'] != avoid.POOL], [r['rule'] for r in start])
         self.assertEqual(rules[1]['ev']['followed'], 6)
@@ -439,12 +496,18 @@ class BuildTests(unittest.TestCase):
         self.assertNotIn('refiner', model.calls)
         self.assertEqual(strip(manual.replay(copy.deepcopy(start), report['operations'], [])), strip(rules))
 
-    def test_judge_failure_gives_no_evidence_in_build(self):
+    def test_a_rule_without_a_verdict_gets_no_evidence_in_build(self):
         rules = self.library()
         model = ScriptedModel(scores={rules[0]['rule']: None})
-        report, _ = self.run_build('E', rules, model, ['rule_1'])
+        self.run_build('E', rules, model, ['rule_1'])
         self.assertEqual(rules[0]['ev'], manual.empty_evidence())
-        self.assertTrue(any(e.startswith('judge rule_1') for e in report['errors']))
+
+    def test_build_stores_the_task_and_rejected_steps_in_contexts(self):
+        rules = self.library()
+        self.run_build('E', rules, ScriptedModel(scores={rules[0]['rule']: 0}), ['rule_1'], success=False)
+        context = rules[0]['contexts'][-1]
+        self.assertEqual(context['task_ref'], {'task_type': HEAT, 'id': 'task0'})
+        self.assertIn('dance' + manual.REJECTED_MARK, context['steps'])
 
     def test_a_lost_game_writes_only_a_hidden_note_and_a_retry_win_converts_one(self):
         rules = self.library()
@@ -466,12 +529,12 @@ class BuildTests(unittest.TestCase):
 
     def test_batch_size_one_runs_the_upkeep_in_build(self):
         rules = self.library()
-        rules[0]['ev'] = evidence(1, shown=12)
+        rules[0]['ev'] = evidence(1, shown=manual.USELESS_MIN)
         report, _ = self.run_build('E', rules, ScriptedModel(), [])
         self.assertNotIn('rule_1', [r['id'] for r in rules])
         self.assertTrue(any(o['op'] == 'retire' and 'useless' in o['reason'] for o in report['operations']))
         rules = self.library()
-        rules[0]['ev'] = evidence(1, shown=12)
+        rules[0]['ev'] = evidence(1, shown=manual.USELESS_MIN)
         self.run_build('E', rules, ScriptedModel(), [], batch=8)                  # experiment.py runs it per batch
         self.assertIn('rule_1', [r['id'] for r in rules])
 
@@ -482,15 +545,16 @@ class ReplayTests(unittest.TestCase):
         mates = [copy.deepcopy(base), copy.deepcopy(base)]
         harmful = base[1]['rule']
         reports = []
-        # game 0 (position 0): the judge finds the rule helpful; game 1: harmful (m = -6/8), so it refines it in-game
-        for n, (rules, score) in enumerate(zip(mates, (2, -1))):
-            agent = FakeAgent('E', rules, ScriptedModel(scores={harmful: score}), ['rule_2'], position=n, batch=8)
-            reports.append(manual.build(agent))
+        # game 0 (position 0): the rule scores +1; game 1: harmful (m = -4/8), so it refines it in-game
+        for n, (rules, score) in enumerate(zip(mates, (1, -1))):
+            agent = FakeAgent('E', rules, ScriptedModel(), ['rule_2'], position=n, batch=8)
+            with mock.patch.object(manual, 'assess', scripted_assess({harmful: score})):
+                reports.append(manual.build(agent))
         self.assertEqual(mates[1][1]['revisions'], 1)                            # refined on its private copy
         live, log = copy.deepcopy(base), []
         for report in reports:
             live = manual.replay(live, report['operations'], log, base)
-        self.assertEqual(live[1]['rule'], harmful)                               # m = (-5+2-1)/(7+2) > -0.5
+        self.assertEqual(live[1]['rule'], harmful)                               # m = (-3+1-1)/(7+2) > -0.4
         self.assertEqual(live[1]['ev']['followed'], 7)
         self.assertTrue(any(entry[0].startswith('dropped (no longer bad') for entry in log))
 
@@ -498,11 +562,11 @@ class ReplayTests(unittest.TestCase):
         base = BuildTests().library()
         live, log = copy.deepcopy(base), []
         for _ in range(6):
-            manual.observe(live, verdicts([live[1]], score=-2), CTX, 0, False)
+            manual.observe(live, verdicts([live[1]], score=-1), CTX, 0, False)
         ops = [{'op': 'refine', 'id': 'rule_2', 'rule': 'When A, open the fridge.', 'revision': 1}]
         live = manual.replay(live, ops, log, base)
         for _ in range(6):
-            manual.observe(live, verdicts([live[1]], score=-2), CTX, 0, False)
+            manual.observe(live, verdicts([live[1]], score=-1), CTX, 0, False)
         self.assertTrue(manual.bad(live[1]))
         live = manual.replay(live, [{**ops[0], 'rule': 'When B, open the fridge.'}], log, base)
         self.assertEqual(live[1]['rule'], 'When A, open the fridge.')

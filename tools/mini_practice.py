@@ -4,7 +4,7 @@ Plays the first N practice games of a replicate (same order and settings as the 
 writes the final rules to <output>/rules.json ("contexts", the refiner's per-game evidence, are
 bookkeeping and are reduced to won/lost counts there; rules-full.json keeps them), and prints: what the Builder wrote,
 merged, refined, retired and pruned per game, each failed game's retries and reflections, the
-contrastive rules written from retry successes, the final manual with each rule's judged usefulness and whether
+contrastive rules written from retry successes, the final manual with each rule's usefulness evidence and whether
 the agent can see it (VISIBLE, or HIDDEN: Builder note), the ANTI-PATTERN
 rules (avoid rules written from pooled never-won attempts, avoid.py) with the evidence behind each and what
 happened to them (retired, contradicted, violated), the failure pool of each kind of task, and errors.
@@ -52,7 +52,7 @@ def visibility(rule):
 
 
 def mean_usefulness(rule):
-    """m = ev.sum / (ev.followed + 2): the shrunk mean judged usefulness of the current text (LIBRARY-SPEC.md)."""
+    """m = ev.sum / (ev.followed + 2): the shrunk mean usefulness of the current text (LIBRARY-SPEC.md)."""
     ev = rule.get('ev', {})
     return ev.get('sum', 0) / (ev.get('followed', 0) + 2)
 

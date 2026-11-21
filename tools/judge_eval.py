@@ -1,10 +1,13 @@
-"""Evaluate the per-rule usefulness judge on archived games (no game replay). Needs the model server for `run`.
+"""Measure rule-evidence methods on archived games (no game replay). Kept as the record of why the per-rule LLM
+judge was removed (DECISIONS 2026-11-20) and to check manual.harms (the trace harm signals) against gold labels.
+Needs the model server for `run`.
 
   extract RUN LIBRARY OUT      cases (goal, trace, one shown rule) from RUN/records.json; rule texts from an
                                append-only library json (E-minus: ids and texts never change)
   synth CASES OUT              synthetic cases with known answers built from real traces (see SYNTH below)
-  run CASES OUT [--guide F]    the judge (manual.judge_payload / parse_verdict) on every case
+  run CASES OUT [--guide F]    the (removed) per-rule LLM judge on every case; prompt: tools/judge_prompt.md
   score VERDICTS LABELS        agreement with gold labels {case_id, followed, usefulness}
+  harm CASES LABELS            manual.harms on the gold-used cases against the gold harmful ones (usefulness < 0)
 
 A case: {case_id, task_type, goal, won, rule_id, rule_type, rule, trace: [{action, after, valid}]}.
 """
@@ -14,7 +17,6 @@ import json
 import random
 import re
 import sys
-import types
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -91,16 +93,47 @@ def synth(a):
     print(len(out), collections.Counter(c['expect'] for c in out))
 
 
-def payload_agent(case):
-    trace = [{**t, 'before': ''} for t in case['trace']]
-    return types.SimpleNamespace(result={'trace': trace}, public_task={'goal': case['goal']})
+JUDGE_STEPS, JUDGE_OBSERVATION = 40, 160
+SCORES = (-2, -1, 0, 1, 2)
+
+
+def judge_payload(case, guide):
+    """The judge's outcome-blind input: goal, one rule, the numbered steps (rejected ones marked), no outcome."""
+    trace = case['trace']
+    start = max(len(trace) - JUDGE_STEPS, 0)
+    steps = [{'n': start + i + 1, 'action': t['action'],
+              **({'observation': t['after'][:JUDGE_OBSERVATION]} if t['valid'] else {'accepted': False})}
+             for i, t in enumerate(trace[start:])]
+    last = max((i for i, st in enumerate(steps) if 'observation' in st), default=None)
+    if last is not None:
+        steps[last].pop('observation')          # the final observation reveals a win
+    return {'instructions': guide, 'goal': case['goal'], 'rule': {'type': case['rule_type'], 'rule': case['rule']},
+            'steps': steps, 'response_schema': {'evidence': 'step numbers and what happened after each, or none',
+                                                'followed': 'yes|no', 'usefulness': '-2|-1|0|1|2'}}
+
+
+def parse_verdict(data):
+    said = data.get('followed')
+    if isinstance(said, str) and said.strip().lower() in ('yes', 'no'):
+        followed = said.strip().lower() == 'yes'
+    elif isinstance(said, bool):
+        followed = said
+    else:
+        raise ValueError(f'bad followed value {said!r}')
+    try:
+        score = int(str(data.get('usefulness')).strip().lstrip('+'))
+    except ValueError:
+        score = None
+    if score not in SCORES:
+        raise ValueError(f"bad usefulness value {data.get('usefulness')!r}")
+    return {'followed': followed, 'usefulness': score if followed else 0,
+            'reason': ' '.join(str(data.get('reason') or data.get('evidence') or '').split())[:200]}
 
 
 def run(a):
     from living_library.config import Settings
     from living_library.models import HTTPModel
-    if a.guide:
-        manual.JUDGE_GUIDE = Path(a.guide).read_text().strip()
+    guide = Path(a.guide or Path(__file__).with_name('judge_prompt.md')).read_text().strip()
     cfg = Settings.load(a.config)
     import threading
     local = threading.local()
@@ -109,8 +142,7 @@ def run(a):
         cases = cases[:a.limit]
 
     def one(case):
-        rule = {'type': case['rule_type'], 'rule': case['rule'], 'id': case['case_id']}
-        payload = manual.judge_payload(payload_agent(case), rule)
+        payload = judge_payload(case, guide)
         if a.binary:
             payload['response_schema'] = {'evidence': 'step numbers, or none', 'used': 'yes|no'}
         if not hasattr(local, 'model'):
@@ -123,7 +155,7 @@ def run(a):
                 if used not in ('yes', 'no'):
                     raise ValueError(f'bad used {used!r}')
                 data = {'followed': used, 'usefulness': 0, 'reason': data.get('evidence', '')}
-            verdict = manual.parse_verdict(data)
+            verdict = parse_verdict(data)
         except (ValueError, KeyError, TypeError) as exc:
             verdict = {'error': str(exc)[:200]}
         return {'case_id': case['case_id'], **verdict}
@@ -146,6 +178,21 @@ def score_synth(cases, verdicts):
         group = [by[c['case_id']] for c in cases if c.get('expect') == expect]
         good = sum('error' not in v and test(v) for v in group)
         print(f'synthetic {expect:13} {good}/{len(group)} correct')
+
+
+def harm(a):
+    import collections
+    cases = {c['case_id']: c for c in map(json.loads, Path(a.cases).read_text().splitlines()) if c}
+    labels = [json.loads(line) for line in Path(a.labels).read_text().splitlines() if line.strip()]
+    table = collections.Counter()
+    for lab in labels:
+        if lab['followed'] in ('no', False) or lab['case_id'] not in cases:
+            continue
+        c = cases[lab['case_id']]
+        table[(lab['usefulness'] < 0, bool(manual.harms({'rule': c['rule']}, c['trace'], c['goal'])))] += 1
+    print(f"gold-used cases {sum(table.values())}: harmful flagged {table[(True, True)]}/"
+          f"{table[(True, True)] + table[(True, False)]}, others flagged {table[(False, True)]}/"
+          f"{table[(False, True)] + table[(False, False)]}")
 
 
 def score(a):
@@ -190,11 +237,14 @@ def main():
     r.add_argument('--workers', type=int, default=16)
     r.add_argument('--limit', type=int)
     r.add_argument('--binary', action='store_true')
+    h = sub.add_parser('harm')
+    h.add_argument('cases')
+    h.add_argument('labels')
     c = sub.add_parser('score')
     c.add_argument('verdicts')
     c.add_argument('labels')
     a = p.parse_args()
-    {'extract': extract, 'synth': synth, 'run': run, 'score': score}[a.cmd](a)
+    {'extract': extract, 'synth': synth, 'run': run, 'score': score, 'harm': harm}[a.cmd](a)
 
 
 if __name__ == '__main__':

@@ -9,6 +9,18 @@ from living_library import manual
 HEAT = 'pick_heat_then_place_in_recep'
 
 
+
+def host(ask):
+    """An agent for manage/refine: `ask` answers the refiner; a trial game uses the candidate without harm."""
+    costs = {'model_calls': 0, 'input_tokens': 0, 'output_tokens': 0, 'model_wall_seconds': 0.0}
+
+    def trial_agent(rules, pinned):
+        return types.SimpleNamespace(run=lambda task, seed, context: {
+            **costs, 'success': True, 'goal': 'g', 'rules_used': [pinned], 'gpu_seconds': 0.0,
+            'trace': [{'action': 'look', 'valid': True, 'after': 'You see nothing.'}]})
+    return types.SimpleNamespace(_ask=ask, trial_agent=trial_agent, seed=1, context={'position': 0},
+                                 result=dict(costs), gpu=0.0, gpu_known=True)
+
 class Asker:
     """A model call that answers every rewrite with the next scripted text and records the requests."""
     def __init__(self, *answers):
@@ -96,38 +108,15 @@ class InstanceNumberTests(unittest.TestCase):
         self.assertEqual(note['rule'], 'When the fridge was closed, nothing was found.')
         tip = manual.new_rule('rule_3', 'Special Phenomenon', 'If a container is closed, open it first.', '', HEAT)
         tip['ev'] = {**manual.empty_evidence(), 'shown': 6, 'followed': 6, 'sum': -6, 'neg': 6}
-        tip['contexts'] = [{'task': 't', 'score': -1, 'steps': ['open fridge 1'], 'reason': 'r'}]
+        tip['contexts'] = [{'task': 't', 'score': -1, 'steps': ['open fridge 1'], 'reason': 'r',
+                            'task_ref': {'id': 't', 'task_type': HEAT}}]
         report = {'operations': [], 'errors': []}
-        manual.manage(types.SimpleNamespace(_ask=Asker('If fridge 1 is closed, open the fridge first.')), [tip], report)
+        manual.manage(host(Asker('If fridge 1 is closed, open the fridge first.')), [tip], report)
         self.assertEqual(tip['rule'], 'If the fridge is closed, open the fridge first.')
 
 
-class RetryJudgeTests(unittest.TestCase):
-    class Agent:
-        def __init__(self, answer):
-            self.answer, self.payloads = answer, []
-            self.public_task, self.rules_shown = {'goal': 'put an apple in the cabinet'}, ['rule_1']
-            self.result = {'trace': [{'action': 'look', 'valid': True, 'after': 'You see nothing.'}]}
-
-        def _ask(self, role, payload):
-            self.payloads.append((role, payload))
-            return self.answer
-
-    def test_the_retry_judge_sees_only_the_note_and_the_retry_trace(self):
-        retried = {'trace': [{'action': 'take apple 1', 'valid': True, 'after': 'You pick up the apple 1.'},
-                             {'action': 'move apple 1 to cabinet 1', 'valid': True, 'after': 'You won.'}]}
-        text = {'type': 'Corrected Error', 'rule': 'When the object is in view, take it at once.'}
-        agent = self.Agent({'followed': 'yes', 'usefulness': 1, 'reason': 'r'})
-        self.assertTrue(manual.retry_judge(agent, retried, [])(text))
-        role, payload = agent.payloads[0]
-        self.assertEqual(role, 'judge')
-        self.assertEqual(payload['rule'], text)
-        self.assertEqual([s['action'] for s in payload['steps']], ['take apple 1', 'move apple 1 to cabinet 1'])
-        self.assertNotIn('observation', payload['steps'][-1])
-        for answer in ({'followed': 'yes', 'usefulness': 0}, {'followed': 'no', 'usefulness': 2}, {'followed': 'x'}):
-            self.assertFalse(manual.retry_judge(self.Agent(answer), retried, [])(text), answer)
-
-    def test_a_note_stays_hidden_when_the_retry_did_not_follow_it(self):
+class RetryCheckTests(unittest.TestCase):
+    def test_a_note_stays_hidden_when_the_retry_shows_harm_from_it(self):
         note = manual.new_rule('rule_1', 'Unresolved Error', 'When looking around, nothing changes.', '', 'pick')
         op = {'op': 'update_note', 'id': 'rule_1', 'type': 'Corrected Error',
               'rule': 'When the object is in view, take it at once instead of looking around.'}
@@ -136,7 +125,7 @@ class RetryJudgeTests(unittest.TestCase):
                      retry_check=lambda r: False)
         self.assertEqual((note['type'], note['hidden']), ('Unresolved Error', True))
         self.assertEqual(note['rule'], op['rule'])                       # reworded, still a hidden note
-        self.assertIn('rule_1 stays a hidden note (the winning retry did not follow it with usefulness >= 1)', log)
+        self.assertIn('rule_1 stays a hidden note (the winning retry shows harm from it)', log)
         rules = [manual.new_rule('rule_1', 'Unresolved Error', 'When looking around, nothing changes.', '', 'pick')]
         applied = manual.apply(rules, [op], 'corrected failure', False, None, [], 'pick', trace=[],
                                retry_check=lambda r: True)

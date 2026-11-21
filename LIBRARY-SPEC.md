@@ -10,13 +10,13 @@ Change a number only together with its reasoning and the simulator check (sectio
    check that every command the rule instructs actually worked in the won game it came from.
 2. **The text of a rule the agent sees never changes because of one game.** No Builder rewrites of visible
    rules, no "young rule" exceptions, no edits on a single win.
-3. **Changes need evidence about the rule itself, not about the game outcome.** The evidence is a
-   per-rule usefulness score from a separate, outcome-blind judge call. Each shown rule is judged on its own,
-   one call per rule.
+3. **Changes need evidence about the rule itself.** A rule counts only in games where the planner says it
+   used it, and harm is read from the trace (rejected prescribed commands, loops, empty search places), so a
+   rule is not blamed for games it played no part in (section 4).
 4. **One way to change a text** (evidence-triggered refinement) and **two ways to remove a rule** (it is shown
    but not followed, or it stays harmful after its revisions are used up). Plus capacity pruning, which should
    never fire in 300 games.
-5. **E and E-minus share everything except management.** Both write, judge and rank the same way. E-minus never
+5. **E and E-minus share everything except management.** Both write, assess and rank the same way. E-minus never
    changes or removes anything.
 
 ## 2. Rule record
@@ -68,66 +68,79 @@ games rediscover anything true, and promotion was a fragile threshold of its own
 - `note {id, validation}`: append a validation note (the last 3 are kept) to any rule it sees. Notes never
   change the text, but the refiner reads them.
 - `update_note {id, rule, type?}`: rewrite a **hidden** Unresolved Error note. On a corrected failure,
-  `type: "Corrected Error"` turns the note into a visible rule only if (a) the per-rule judge, run on the
-  winning retry's trace, says the retry followed the new text with usefulness >= 1, and (b) the new text
+  `type: "Corrected Error"` turns the note into a visible rule only if (a) the winning retry's trace shows no
+  harm from the new text (`harms`; this replaced the per-rule judge's check), and (b) the new text
   passes the write gate (trace check against the winning retry). The converted rule starts with empty
   evidence.
 - E-minus (append-only): `write_rule` only.
 - Removed: `update_rule` of visible rules, `upvote_rule`, `downvote_rule`.
 
-## 4. Evidence (after every practice game, E and E-minus)
+## 4. Evidence (after every practice game, E and E-minus; no model call)
 
-For each rule shown in the game, one judge call (role `judge`), outcome-blind:
+Amended 2026-11-20 (evening). The per-rule LLM judge of the first version was measured on archived games and
+removed: on 90 cases gold-labelled by Claude it agreed on "followed" in 59-63% of cases, flagged 0-2 of 18 harmful
+uses, gave +2 to nearly every followed rule (41 times in lost games), and a yes/no "used" variant inferred use from
+the agent's progress (outcome leak). Data and tool: `results/judge-eval/`, `tools/judge_eval.py`; DECISIONS.
 
-```
-payload: {instructions: JUDGE_GUIDE, goal, rule: {type, rule},
-          steps: last 40 valid actions with <= 100-char observations (the last observation removed),
-          response_schema: {followed: "yes|no", usefulness: "-2|-1|0|1|2", reason: "one short sentence"}}
-JUDGE_GUIDE: Did the agent's actions follow this rule, and how useful was the rule in this game? You are not
-told how the game ended; do not guess it. usefulness: 2 = following it clearly moved the agent toward the
-goal (something it prescribes was needed and worked); 1 = it helped a little; 0 = not followed, or followed
-but made no difference; -1 = following it wasted steps; -2 = following it misled the agent (a prescribed
-command failed, or it pointed away from the goal). If not followed, usefulness is 0.
-```
+**Used.** After each plan, one short call (role `citer`, `Agent._cite`) gets the plan's subgoal descriptions and
+the shown rules numbered (no trace, no outcome) and lists the numbers the plan follows (`used_rules`; replans add
+to `rules_used`). A shown rule is used iff it was cited. Bad citations (out of range, not a number) are ignored; a
+failed call records nothing. Only practice games and trial games cite (evaluation and retries do not;
+`LL_CITE_FROZEN=1` turns it on for measurement). Asking the planner itself for the list broke its subgoals (a
+missing postconditions field in 5 of 30 games vs 1 in 280 before).
 
-- followed = yes → `ev.followed += 1, ev.sum += score, pos/neg += 1, won/lost += 1` (outcome kept for
-  reports only), context stored. followed = no → `ev.shown += 1` only (shown counts every judged showing).
-- **Judge failure for a rule** (error, no JSON, bad value) → no evidence at all for that rule from that game,
-  logged. Never "credit all" (that is what happened in 15% of games before).
-- Anti-Patterns are judged the same way ("followed" = complied with it).
-- Hidden notes are never shown, so never judged.
-- Cost: at most 8 short calls per practice game (about +12% calls). Evaluation, gate and retries are not judged
-  (except the one retry check in `update_note`).
+**Harm** (`manual.harms`, from the trace of the first attempt), for a used rule:
+- commands of a verb the rule prescribes (on the appliance or place it names, if any) rejected at least
+  REJECTED_REPEATS = 2 times (one rejection is ordinary noise). This catches "heat X with the microwave" after
+  X was put inside it;
+- one command it prescribes repeated STUCK_REPEATS = 3 times (stuck in what it says);
+- the agent went to / opened the places the rule says to search first, and the object was taken elsewhere or
+  never found (`search_places`; "table" and "surfaces" stand for their place kinds).
+On the 55 gold-used archived cases: 15 of 18 harmful uses flagged, 7 of 37 others (`judge_eval.py harm`).
 
-**Why a judge score and not ablation.** Withholding a rule at random gives a clean counterfactual, but not
-enough of it. A rule is eligible in about 50 of 300 practice games. Withheld in 20% of them, that is 10
-withheld vs 40 shown. The standard error of the win-rate difference is about 0.18, so only effects above
-about 35 pp could be detected, and withholding also costs practice wins. The per-rule judge gives a signal
-in every game the rule is followed. Its noise is averaged by the thresholds below and stress-tested in the
-simulator (section 7).
+**Score** of a used rule in a game: −1 on harm; else +1 if the game was won or the object was taken from a place
+the rule says to search first; else 0. `ev.followed += 1, ev.sum += score, pos/neg, won/lost`, context stored
+(won or lost). Not used → `ev.shown += 1` only.
+
+- Contexts: the last K_CONTEXTS used games with score ≥ 0 and the last K_CONTEXTS with score < 0, each with its
+  task (`task_ref`, for trial replays), the plan, the last 16 steps (rejected ones marked) and the harm reason.
+- Anti-Patterns are assessed the same way (used = cited).
+- Hidden notes are never shown, so never assessed.
+- Cost: one short call per plan in practice (about +6% calls).
+
+**Why not ablation.** Withholding a rule at random gives a clean counterfactual, but not enough of it. A rule is
+eligible in about 50 of 300 practice games. Withheld in 20% of them, that is 10 withheld vs 40 shown. The standard
+error of the win-rate difference is about 0.18, so only effects above about 35 pp could be detected, and
+withholding also costs practice wins.
 
 ## 5. Management (E only)
 
 Decisions use the evidence of the current text (`ev`).
 
-**Bad.** `ev.followed >= MIN_EVIDENCE (6)` and `m <= BAD_MEAN (-0.5)`.
-- With PRIOR 2, that needs a net score of about −4 over 6 followed games (e.g. four −1s and two 0s).
-  A harmful rule (mean about −1) is bad after about 6 followed games. A neutral rule (mostly 0, judge noise ±1)
-  almost never gets there (simulated, section 7).
+**Bad.** `ev.followed >= MIN_EVIDENCE (6)` and `m <= BAD_MEAN (-0.4)` (−0.5 until the simulator was re-run with
+the measured evidence noise; −0.5 caught harmful rules within 15 followed games in only 86% of runs).
+- With PRIOR 2, that needs a net score of −4 over 6 used games (e.g. four −1s and two 0s), −4 over 7, −4 over 8.
+  A harmful rule (harm flagged in about 77% of its uses) is bad after 6-10 used games. A rule that does no harm
+  but is used in lost games (false harm signals 19%, no +1s) rarely gets there (simulated, section 7).
 - 6 followed games is about 36 practice games for a recipe (one kind gets about 1/6 of the games).
 
 **On bad:** if `revisions < MAX_REVISIONS (2)` and the type is not Anti-Pattern → **refine** (at most one per
 game, the rule with the lowest m). Otherwise → **retire**.
-- The refiner gets the rule, its contexts with score > 0 (where it helped) and < 0 (where it misled, with the
-  judge's reasons) and its validation notes, and returns one rewritten rule (not longer than the original).
-- The new text must pass the write gate's text checks, and its instructed commands must appear in the
-  actions of a stored context. Failure (model error, checks) → the bad rule is **retired**, not kept for
-  another try every game.
+- The refiner gets the rule, its harmful games (with what went wrong) and its other used games, won and lost
+  (`harmful_games`, `used_games`: task, plan, last steps with rejected ones marked, reason), and its validation
+  notes, and returns one rewritten rule (not longer than the original).
+- The new text must pass the write gate's text checks, and its instructed commands must have been accepted in a
+  stored context.
+- **Trial games** (`manual.trial`): the candidate is played, frozen, on up to TRIAL_GAMES = 3 stored tasks of the
+  rule (the ones it harmed first, then other used ones), shown for certain (`Agent.pinned`). It passes if the
+  planner used it in at least one and no trial game shows harm. Cost: at most 3 games per refinement, charged to
+  the practice game; refinements are rare. Only then does the text change.
+- Any failure (model error, checks, trial) → the bad rule is **retired**, not kept for another try every game.
 - New text → `revisions += 1`, `ev` and `contexts` reset. `total` is kept.
 - MAX_REVISIONS 2 → at most 3 texts per rule in a run. That is the hard cap on drift. Refinement counts
   toward it (it did not before).
 
-**Useless.** `ev.shown >= USELESS_MIN (12)` and `ev.followed < 0.2 * ev.shown` → retire. All types, recipes
+**Useless.** `ev.shown >= USELESS_MIN (16)` and `ev.followed < 0.2 * ev.shown` → retire. All types, recipes
 included: a recipe followed in under 1 of 5 games is not working as a recipe, and the next won game of its
 kind writes a new one. For an Anti-Pattern this means the agent did the avoided thing anyway.
 
@@ -157,7 +170,7 @@ game).
   Other kinds' rules join only for an unseen kind with task evidence >= 0.85 (unchanged).
 - Relevance = w·evidence + (1−w)·text, w = h/(h+2), h = number of followed games with score > 0 (lifetime).
   Evidence = max similarity of the goal to the rule's source tasks and to the tasks of its contexts with score > 0.
-- Rank = relevance + 0.1·m. A rule judged clearly helpful (m ≈ +1.5) gains 0.15, a misleading one loses 0.05-0.1;
+- Rank = relevance + 0.1·m. A rule that is reliably +1 (m ≈ +0.8) gains about 0.08, a harmful one loses 0.04-0.08;
   relevance differences between kinds are larger, so usefulness reorders rules within a kind but does not pull
   in unrelated ones.
 - One of the 8 slots is kept for the most relevant rarely shown rule (< 3 showings) when none made the cut, so
@@ -166,13 +179,17 @@ game).
 
 ## 7. Mechanism simulator (`tools/sim_mechanisms.py`, CPU only, plus a unit test)
 
-Synthetic rules with known usefulness distributions, followed with probability f, through the real
-`observe`/bad/useless/refine-decision code with a noisy judge (each score swapped for a random one with
-probability 0.15, failures with probability 0.1), 300 practice games. Acceptance (the test asserts these):
-- helpful rule (scores +1/+2) revised or retired in ≤ 2% of runs;
-- neutral rule (mostly 0) revised or retired in ≤ 5% of runs;
-- harmful rule (mostly −1/−2) revised or retired within 15 followed games in ≥ 90% of runs;
-- rule followed with f = 0.1 retired as useless in ≥ 90% of runs; with f = 0.6 in ≤ 1%.
+Synthetic rules, followed with probability f, through the real `observe`/bad/useless/refine-decision code
+with evidence as noisy as the real one, 300 practice games: the citation names a followed rule w.p. 0.8 and an
+unfollowed one w.p. 0.1 (assumed, checked on real games: DECISIONS); harm is flagged in 15/18 of really harmful
+uses and 7/37 of the others (measured); otherwise +1 for a won game. Acceptance (the test asserts these, for
+a kind's share of games and for a rule shown in every game):
+- helpful rule (no harm, wins 70%) revised or retired in ≤ 2% of runs;
+- neutral rule (no harm, wins 50%) in ≤ 5%; neutral in a hard kind (wins 20%) in ≤ 10%;
+- harmful rule (harmful in 90% of its uses, wins 30%) revised or retired within 15 followed games in ≥ 90%;
+- rule followed with f = 0.1 retired as useless in ≥ 85% of runs; with f = 0.6 in ≤ 1%. (No USELESS_MIN meets
+  90% and 1% together under citation noise; wrongly retiring a working rule is the worse error.)
+Measured: 0.5%, 1.3%, 3.3%, 94%, 90%, 0.9% (one kind's share); 0.5%, 1.3%, 3.6%, 95%, 99%, 0.5% (every game).
 
 ## 8. Experimental design (outside manual.py)
 

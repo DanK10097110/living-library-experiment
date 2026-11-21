@@ -53,14 +53,26 @@ class RecipeStabilityTests(unittest.TestCase):
 
     def test_recipe_text_changes_only_through_refinement_of_a_bad_recipe(self):
         recipe = rule('rule_1', 'Success Process', RECIPE)
-        context = {'task': 'look', 'task_type': 'look_at_obj_in_light', 'steps': ['go to desk 1', 'use desklamp 1']}
+        context = {'task': 'look', 'task_type': 'look_at_obj_in_light', 'steps': ['go to desk 1', 'use desklamp 1'],
+                   'task_ref': {'id': 'look-1', 'task_type': 'look_at_obj_in_light'}}
         new = 'When an object must be examined under a light: search desks first, take it, use the desklamp 1 there.'
         for n in range(manual.MIN_EVIDENCE):
             manual.observe([recipe], {'rule_1': {'followed': True, 'usefulness': -1, 'rule': RECIPE}}, context, n, False)
 
         class Asker:
+            seed, context, gpu, gpu_known = 1, {'position': 6}, 0.0, True
+            result = {'model_calls': 0, 'input_tokens': 0, 'output_tokens': 0, 'model_wall_seconds': 0.0}
+
             def _ask(self, role, payload):
                 return {'rule': new}
+
+            def trial_agent(self, rules, pinned):       # the trial game uses the candidate without harm
+                class Game:
+                    def run(self, task, seed, context):
+                        return {'success': True, 'goal': 'look', 'rules_used': [pinned], 'gpu_seconds': 0.0,
+                                'trace': [{'action': 'use desklamp 1', 'valid': True, 'after': 'You turn on it.'}],
+                                'model_calls': 1, 'input_tokens': 0, 'output_tokens': 0, 'model_wall_seconds': 0.0}
+                return Game()
         report = {'operations': [], 'errors': []}
         manual.manage(Asker(), [recipe], report)
         self.assertEqual(recipe['rule'], new.replace('desklamp 1', 'desklamp'))
@@ -153,15 +165,14 @@ class RestartETests(unittest.TestCase):
     def test_e_minus_probe_is_deterministic_and_sees_append_only_prompts(self):
         from living_library.experiment import e_minus_probe
         cfg =Settings(seeds=[11], conditions=['E-minus'], practice_batch=2)
-        # The golden digest changed with the redesign of 2026-11-20 (E-minus runs the per-rule judge); the
-        # probe must be deterministic and must see every prompt E-minus uses.
+        # The probe must be deterministic and must see every prompt E-minus uses.
         golden = e_minus_probe(cfg)
         self.assertEqual(e_minus_probe(cfg), golden)
         with patch.object(manual, 'APPEND_ONLY_NOTE', manual.APPEND_ONLY_NOTE + ' Be brief.'):
             self.assertNotEqual(e_minus_probe(cfg), golden)
         with patch.object(manual, 'strip_instances', lambda text: text):
             self.assertNotEqual(e_minus_probe(cfg), golden)
-        with patch.object(manual, 'JUDGE_GUIDE', manual.JUDGE_GUIDE + ' Be brief.'):   # E-minus runs the judge
+        with patch.object(manual, 'REFLECT_GUIDE', manual.REFLECT_GUIDE + ' Be brief.'):   # E-minus retries too
             self.assertNotEqual(e_minus_probe(cfg), golden)
 
     def test_restart_e_keeps_c_d_and_e_minus(self):

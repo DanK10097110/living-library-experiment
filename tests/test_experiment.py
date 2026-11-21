@@ -185,7 +185,7 @@ class ExperimentTests(unittest.TestCase):
         # context). If this fails, C or D changed.
         cfg = Settings(seeds=[11], conditions=['C', 'D'])
         self.assertEqual(baseline_probe(cfg), baseline_probe(cfg))                    # deterministic
-        self.assertEqual(baseline_probe(cfg), '8c9d0e16b254e3ec7ba947abfb642d353bd49e880be909d85eea55bc70872320')
+        self.assertEqual(baseline_probe(cfg), 'c971eed1aae4fca226f922693df59f3142b3fd2065b78497675b9b2d85c6a70a')
 
     def test_order_is_seeded_without_mutating_manifest(self):
         tasks = demo_manifest()['splits']['evaluation']

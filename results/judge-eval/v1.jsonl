@@ -1,0 +1,262 @@
+{"case_id": "9-rule_6", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "10-rule_6", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "11-rule_6", "followed": true, "usefulness": 1, "reason": "steps 1-6: agent searched drawers and cabinets as prescribed but found no keychain; step 14: agent went to sidetable 1 where keychain 1 was found; step 15: agent took keychain 1 from sidetable 1; step"}
+{"case_id": "13-rule_6", "followed": true, "usefulness": 1, "reason": "steps 1-7: agent searched drawers as prescribed but found no spraybottle; step 11: agent went to countertop 1 and found spraybottle 1; step 12: agent took spraybottle 1 (action accepted); step 13: age"}
+{"case_id": "15-rule_1", "followed": true, "usefulness": 2, "reason": "steps 5-10: agent found butterknife 1 on countertop 1 (step 5), took it (step 6), went to sinkbasin 1 (step 7), cleaned it (step 8), went to countertop 1 (step 9), moved it there (step 10). All steps "}
+{"case_id": "15-rule_9", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "16-rule_11", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "17-rule_6", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "17-rule_3", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "18-rule_1", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "18-rule_9", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "19-rule_11", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "21-rule_6", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "21-rule_3", "followed": true, "usefulness": 2, "reason": "step 2: agent went to toilet 1 before taking the spraybottle from cabinet 1, which is the container; step 7: move command was accepted, indicating the object was successfully placed on the toilet."}
+{"case_id": "22-rule_11", "followed": true, "usefulness": 2, "reason": "Steps 1-8: Agent searched stoveburners 1, 3, 2, 4 (rejected at 2, 5) and found pan 1 at countertop 2 (step 8). Step 9-12: Agent opened fridge 1 (step 10) and cooled pan 1 (step 11). Step 13-15: Agent "}
+{"case_id": "23-rule_11", "followed": true, "usefulness": 2, "reason": "Steps 5-12: Agent took tomato 1 from countertop 2 (step 5), went to fridge 1 (step 6), opened it (step 7), cooled tomato 1 with fridge 1 (step 8), closed fridge 1 (step 9), went to microwave 1 (step 1"}
+{"case_id": "24-rule_10", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "25-rule_10", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "26-rule_6", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "26-rule_3", "followed": true, "usefulness": 1, "reason": "step 3: agent went to cabinet 1 before attempting the move command at step 5; accepted"}
+{"case_id": "27-rule_6", "followed": true, "usefulness": 1, "reason": "Steps 2, 4, 5, 6, 10, 11: agent searched drawers first (drawer 1, drawer 2) but found nothing; Step 8: agent went to dresser 1 (not a drawer) and found pen 3; Step 9: agent took pen 3; Step 10, 11: ag"}
+{"case_id": "27-rule_3", "followed": true, "usefulness": 2, "reason": "Steps 2, 4, 5, 10: agent went to drawers before attempting move. Step 12: move command was executed after going to drawer 1 (step 10)."}
+{"case_id": "28-rule_1", "followed": true, "usefulness": 2, "reason": "steps 12-17: agent found butterknife 1 on countertop 1, took it, went to sinkbasin 1, cleaned it, went to sidetable 1, and moved it there; all accepted."}
+{"case_id": "28-rule_9", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "29-rule_1", "followed": true, "usefulness": 2, "reason": "steps 3, 4, 5, 6, 7, 8: agent took fork 1 from countertop 2, went to sinkbasin 1, cleaned fork 1 with sinkbasin 1, went to drawer 1, opened drawer 1, moved fork 1 to drawer 1; all accepted."}
+{"case_id": "29-rule_9", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "30-rule_11", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "31-rule_10", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "32-rule_11", "followed": true, "usefulness": 2, "reason": "steps 3-4: agent found bread 1 on countertop 1 and took it; steps 5-8: agent opened fridge 1, cooled bread 1, closed fridge 1; steps 9-10: agent moved bread 1 to countertop 1"}
+{"case_id": "33-rule_1", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "33-rule_9", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "33-rule_14", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "34-rule_6", "followed": true, "usefulness": 1, "reason": "steps 2-11: agent searched drawers first as rule prescribed, found nothing (detour); step 27: agent found laptop on bed 1 (not in drawers), step 28: took laptop (did what rule says), step 29: went to "}
+{"case_id": "34-rule_3", "followed": true, "usefulness": 2, "reason": "step 27 (agent went to bed 1 to find laptop 1, then step 28 took it, then step 29 went to desk 1, then step 30 moved laptop 1 to desk 1 and it was accepted); step 30 followed the rule by going to the "}
+{"case_id": "35-rule_17", "followed": true, "usefulness": 2, "reason": "steps 13-14: agent searched coffeetable 1 (a surface) and took pen 1; step 15-16: agent moved pen 1 to dresser 1 (accepted); steps 17-18: agent searched coffeetable 1 again and took pen 2; steps 19-20"}
+{"case_id": "35-rule_10", "followed": true, "usefulness": 2, "reason": "steps 16 and 22: the agent used the move command after picking up the pen; both were accepted and the pen appeared on the dresser."}
+{"case_id": "35-rule_16", "followed": true, "usefulness": 2, "reason": "Steps 2-3: Agent opened drawer 1 before moving objects (rule followed). Steps 6-7: Agent opened drawer 2 before moving objects (rule followed). Steps 8-9: Agent opened drawer 3 before moving objects ("}
+{"case_id": "36-rule_1", "followed": true, "usefulness": 2, "reason": "steps 16-20: agent took plate 3 from fridge 1, went to sinkbasin 1, cleaned it, went to shelf 1, and moved it there. All steps were accepted."}
+{"case_id": "36-rule_9", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "36-rule_14", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "37-rule_11", "followed": false, "usefulness": 0, "reason": "steps 1-8: agent found pan 1 on stoveburner 1, took it, opened fridge 1, cooled pan 1, closed fridge 1, went to diningtable 1, and moved pan 1 to diningtable 1. All steps were accepted."}
+{"case_id": "39-rule_17", "followed": true, "usefulness": 2, "reason": "Steps 11-14: Agent followed the rule's search and move sequence for peppershaker 1 (searched cabinet, opened it, took object, moved to diningtable). Steps 18-23: Agent followed the rule's search and m"}
+{"case_id": "39-rule_16", "followed": true, "usefulness": 1, "reason": "Steps 11-14: Agent opened cabinet 1 before taking peppershaker 1 and moved it to diningtable 1 (accepted). Steps 18-23: Agent opened cabinet 2 before taking peppershaker 2, but move commands at steps "}
+{"case_id": "39-rule_10", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "40-rule_22", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "40-rule_21", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "41-rule_11", "followed": true, "usefulness": 2, "reason": "Steps 1-9: Agent searched countertop 1, took mug 1, opened fridge 1, cooled mug 1, closed fridge 1, went to microwave 1, opened microwave 1, moved mug 1 to microwave 1, closed microwave 1. All actions"}
+{"case_id": "41-rule_18", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "45-rule_17", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "45-rule_16", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "45-rule_10", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "46-rule_6", "followed": true, "usefulness": 2, "reason": "steps 2-6: agent searched drawer 1, opened it, took watch 1, went to coffeetable 1, and moved watch 1 there; all steps accepted."}
+{"case_id": "46-rule_3", "followed": true, "usefulness": 1, "reason": "step 1: agent went to coffeetable 1 first (accepted, object not found there yet), step 6: agent moved watch 1 to coffeetable 1 (accepted, task completed)"}
+{"case_id": "47-rule_1", "followed": true, "usefulness": 2, "reason": "steps 1-6: agent followed the rule's sequence (search table, take object, go to sink, clean, go to container, move); all steps were accepted and led to the goal."}
+{"case_id": "47-rule_9", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "47-rule_14", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "47-rule_20", "followed": true, "usefulness": 1, "reason": "steps 4 and 6: after cleaning the cloth (step 4), the agent moved directly to the toilet (step 5) and then moved the cloth to the toilet (step 6), which was accepted."}
+{"case_id": "48-rule_17", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "48-rule_16", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "48-rule_10", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "48-rule_27", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "49-rule_17", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "49-rule_16", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "49-rule_10", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "49-rule_27", "followed": false, "usefulness": 0, "reason": "steps 4, 5, 6: agent tried to move handtowel 2 directly to countertop 1 after picking it up (step 4), but it was rejected; steps 5-6 were also rejected. The rule prescribes moving the object directly "}
+{"case_id": "50-rule_1", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "50-rule_9", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "50-rule_14", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "50-rule_20", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "51-rule_26", "followed": false, "usefulness": 0, "reason": "Steps 13-14: agent moved egg to microwave and closed it (accepted). Steps 16-23: agent repeatedly opened and closed microwave without heating (accepted). Step 24: agent tried to heat egg with microwav"}
+{"case_id": "51-rule_25", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "52-rule_17", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "52-rule_16", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "52-rule_27", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "52-rule_10", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "53-rule_6", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "53-rule_3", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "54-rule_1", "followed": true, "usefulness": 2, "reason": "steps 13-14 (search cabinet, take bowl), 15-16 (go to sink, clean bowl), 17-19 (go to microwave, open, move bowl); all accepted with progress"}
+{"case_id": "54-rule_9", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "54-rule_14", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "54-rule_20", "followed": true, "usefulness": 2, "reason": "steps 16-19: agent cleaned bowl 1 at sinkbasin 1, then moved it directly to microwave 1; accepted."}
+{"case_id": "55-rule_17", "followed": true, "usefulness": 2, "reason": "steps 1-2: agent searched countertop 1 (a surface) and took saltshaker 1; step 3-4: agent went to drawer 1 and opened it (it was closed); steps 5-6: agent moved saltshaker 1 to drawer 1; steps 6-7: ag"}
+{"case_id": "55-rule_16", "followed": true, "usefulness": 2, "reason": "steps 3-4: agent opened drawer 1 before moving saltshaker 1 (accepted); steps 9-10: agent moved saltshaker 2 to already open drawer 1 (accepted)"}
+{"case_id": "55-rule_10", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "55-rule_27", "followed": true, "usefulness": 2, "reason": "steps 2-5: agent picked up saltshaker 1 and moved it directly to drawer 1 (accepted); steps 8-10: agent picked up saltshaker 2 and moved it directly to drawer 1 (accepted)"}
+{"case_id": "56-rule_22", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "56-rule_21", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "57-rule_30", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "57-rule_29", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "57-rule_25", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "57-rule_26", "followed": true, "usefulness": 2, "reason": "steps 6-7: agent heated plate 2 in microwave 1 (opened, heated, closed) as rule prescribes; step 10: agent moved plate 2 to fridge 1 as goal requires"}
+{"case_id": "58-rule_17", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "58-rule_16", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "58-rule_27", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "58-rule_10", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "59-rule_6", "followed": true, "usefulness": 1, "reason": "steps 1-16: agent searched drawers and cabinets as rule prescribed but found nothing; step 17: agent went to dresser 1 where creditcard 1 was found (rule says search drawers first, but dresser is not "}
+{"case_id": "59-rule_3", "followed": true, "usefulness": 2, "reason": "steps 19 and 20: the agent went to coffeetable 1 (the container) before attempting the move command, and the move was accepted."}
+{"case_id": "60-rule_22", "followed": true, "usefulness": 1, "reason": "steps 24 and 25: the agent took the pen from the dresser (surface) and used the desklamp (light source); the rule's condition held and the actions were accepted."}
+{"case_id": "60-rule_21", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "61-rule_30", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "61-rule_29", "followed": false, "usefulness": 0, "reason": "steps 13-19: agent went to microwave 1 (step 13, rejected), tried to heat potato 2 with microwave 1 (step 14, rejected), closed microwave 1 (step 15), tried to heat potato 2 with microwave 1 again (st"}
+{"case_id": "61-rule_25", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "61-rule_26", "followed": true, "usefulness": 2, "reason": "Steps 12, 15, 20, 24, 29, 30 show the agent placing the potato in the microwave (inside the heating appliance) after opening it, which matches the rule. Steps 13, 14, 16, 18, 19, 26 were rejected comm"}
+{"case_id": "62-rule_1", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "62-rule_20", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "62-rule_14", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "62-rule_9", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "62-rule_28", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "63-rule_11", "followed": true, "usefulness": 2, "reason": "steps 3, 4, 5, 6, 7, 8, 9, 10: agent searched countertop 2, took plate 1, opened fridge 1, cooled plate 1, closed fridge 1, went to cabinet 1, opened cabinet 1, moved plate 1 to cabinet 1; all steps a"}
+{"case_id": "63-rule_18", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "64-rule_17", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "64-rule_16", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "64-rule_27", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "64-rule_10", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "65-rule_6", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "65-rule_3", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "66-rule_22", "followed": true, "usefulness": 1, "reason": "Steps 20-23: Agent took book from dresser, moved to desk, turned on desklamp, examined desk. Steps 25-28: Agent turned on desklamp again and examined desk repeatedly. After step 23, the book was on th"}
+{"case_id": "66-rule_21", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "67-rule_6", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "67-rule_3", "followed": true, "usefulness": 1, "reason": "Step 14: move laptop 1 to armchair 1 (accepted). The agent went to armchair 1 (step 13) before attempting the move command."}
+{"case_id": "68-rule_11", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "68-rule_37", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "68-rule_18", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "69-rule_1", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "69-rule_20", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "69-rule_9", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "69-rule_28", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "69-rule_36", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "69-rule_14", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "70-rule_17", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "70-rule_16", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "70-rule_27", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "70-rule_10", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "71-rule_22", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "71-rule_21", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "72-rule_17", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "72-rule_16", "followed": true, "usefulness": 2, "reason": "Steps 3-5: Agent opened cabinet 1 before moving soapbottle 1 into it (accepted). Steps 24-25: Agent opened cabinet 2 before moving soapbottle 1 into it (accepted)."}
+{"case_id": "72-rule_27", "followed": true, "usefulness": 2, "reason": "steps 2-5: agent picked up soapbottle 1 and moved it directly to cabinet 1 (accepted); steps 23-25: agent picked up soapbottle 1 from cabinet 1 and moved it directly to cabinet 2 (accepted)"}
+{"case_id": "72-rule_10", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "73-rule_6", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "73-rule_3", "followed": true, "usefulness": 1, "reason": "step 2: agent went to sofa 1 (where the pillow was), step 3: agent took pillow 1, step 4: agent went to armchair 1 (container), step 5: agent moved pillow 1 to armchair 1 (accepted)."}
+{"case_id": "74-rule_6", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "74-rule_3", "followed": true, "usefulness": 1, "reason": "step 1: agent went to ottoman 1 before attempting the move command (step 5), and arrived successfully; step 4: agent went to ottoman 1 again before attempting the move command (step 5), and arrived su"}
+{"case_id": "75-rule_30", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "75-rule_29", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "75-rule_35", "followed": true, "usefulness": 0, "reason": "none"}
+{"case_id": "75-rule_25", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "75-rule_26", "followed": true, "usefulness": 2, "reason": "Steps 7-14: Agent moved cup 1 into microwave 1 (inside the heating appliance), closed it, then heated it. This matches the rule's prescription for heating a portable object inside a microwave."}
+{"case_id": "76-rule_30", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "76-rule_35", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "76-rule_29", "followed": true, "usefulness": -2, "reason": "Steps 9, 12, 14, 19, 23, 25, 26: the agent used 'heat plate 2 with microwave 1' immediately after placing the plate inside (step 8) and after reopening (steps 11, 16, 18, 27), but each was rejected. T"}
+{"case_id": "76-rule_25", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "76-rule_26", "followed": false, "usefulness": 0, "reason": "Steps 8-26: Agent moved plate 2 into microwave 1 (step 8) and repeatedly attempted to heat it (steps 9, 12, 14, 19, 23, 25, 26), all rejected. Step 29: Agent attempted to move plate 2 to countertop 1,"}
+{"case_id": "77-rule_17", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "77-rule_16", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "77-rule_27", "followed": false, "usefulness": 0, "reason": "Steps 4, 6, 10 were rejected (\"Nothing happens.\") when attempting to move peppershaker directly to sidetable 1. Step 7 succeeded after going to sidetable 1 first. Step 12 succeeded after going to side"}
+{"case_id": "77-rule_10", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "78-rule_17", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "78-rule_27", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "78-rule_16", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "78-rule_10", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "79-rule_17", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "79-rule_27", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "79-rule_16", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "79-rule_10", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "80-rule_11", "followed": true, "usefulness": 2, "reason": "Steps 4-5: Agent searched countertop 2 and took potato 1 (progress). Steps 6-9: Agent opened fridge 1, cooled potato 1, and closed fridge 1 (progress). Steps 10-12: Agent attempted to close fridge 1 a"}
+{"case_id": "80-rule_37", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "80-rule_18", "followed": true, "usefulness": 1, "reason": "step 1: agent went to countertop 1 first (rule condition met), found no potato there (detour); step 4: agent went to countertop 2, found potato (progress)"}
+{"case_id": "81-rule_30", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "81-rule_29", "followed": false, "usefulness": 0, "reason": "Steps 8-19 show the agent repeatedly attempting 'heat tomato 3 with microwave 1' while the microwave was closed or open, all rejected. Step 28 shows another rejected heat attempt after moving the toma"}
+{"case_id": "81-rule_35", "followed": true, "usefulness": 0, "reason": "none"}
+{"case_id": "81-rule_7", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "81-rule_25", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "81-rule_26", "followed": true, "usefulness": 2, "reason": "Steps 6-7: agent moved tomato 3 to microwave 1 and closed it (correct placement). Steps 8-19: agent repeatedly tried to heat with microwave 1 while it was closed (rejected). Steps 20-22: agent took to"}
+{"case_id": "82-rule_17", "followed": true, "usefulness": 2, "reason": "steps 2, 3, 4, 5, 6, 7, 8, 9, 10: agent searched sidetable 1 (step 2), took keychain 1 (step 3), opened drawer 1 (step 5), moved keychain 1 (step 6), returned to sidetable 1 (step 7), took keychain 2 "}
+{"case_id": "82-rule_27", "followed": true, "usefulness": 2, "reason": "steps 3-6: agent took keychain 1, went to drawer 1, opened it, and moved keychain 1 directly to drawer 1 (accepted, progress); steps 8-10: agent took keychain 2, went to drawer 1, and moved keychain 2"}
+{"case_id": "82-rule_10", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "82-rule_42", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "82-rule_16", "followed": true, "usefulness": 1, "reason": "steps 4-6: agent opened drawer 1 before moving keychain 1 into it (accepted); steps 9-10: agent moved keychain 2 into already-open drawer 1 (accepted)"}
+{"case_id": "83-rule_17", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "83-rule_10", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "83-rule_27", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "83-rule_42", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "83-rule_16", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "84-rule_22", "followed": false, "usefulness": 0, "reason": "Steps 15-19: Agent took tissuebox 2 from shelf 1, went to desklamp 1 (rejected), examined tissuebox 2. Rule requires taking object from surface, going to light source, turning it on. Agent turned on d"}
+{"case_id": "84-rule_21", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "85-rule_17", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "85-rule_27", "followed": true, "usefulness": 1, "reason": "steps 2-4: agent took tissuebox 1 from desk 1, went to shelf 1, and moved it directly to shelf 1 (accepted); steps 6-8: agent took tissuebox 2 from desk 1, went to shelf 1, and moved it directly to sh"}
+{"case_id": "85-rule_10", "followed": true, "usefulness": 2, "reason": "steps 4 and 8: move command was used directly after picking up each tissuebox; both were accepted and the objects were placed on the shelf."}
+{"case_id": "85-rule_42", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "85-rule_16", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "86-rule_17", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "86-rule_10", "followed": true, "usefulness": 2, "reason": "steps 13 and 17: the agent used the move command directly after picking up each pen; both were accepted and the pens were placed on the sidetable."}
+{"case_id": "86-rule_27", "followed": true, "usefulness": 2, "reason": "steps 11-13: agent took pen 1 from diningtable 1 and moved it directly to sidetable 1 (accepted); steps 15-17: agent took pen 2 from diningtable 1 and moved it directly to sidetable 1 (accepted)"}
+{"case_id": "86-rule_42", "followed": true, "usefulness": 1, "reason": "steps 11, 15: agent took pens from diningtable 1 after arriving there (step 10, 14), which was accepted; steps 13, 17: agent moved pens to sidetable 1 after arriving there (step 12, 16), which was acc"}
+{"case_id": "86-rule_16", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "87-rule_17", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "87-rule_27", "followed": false, "usefulness": 0, "reason": "steps 24-26: agent took laptop 1 from bed 1 and moved it directly to desk 1 (accepted); steps 28-29: agent took laptop 2 from bed 1 but moving it to desk 1 was rejected (nothing happens); step 30: exa"}
+{"case_id": "87-rule_10", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "87-rule_42", "followed": true, "usefulness": 1, "reason": "Steps 24-26: Agent took laptop 1 from bed 1 (where it was) and moved it to desk 1. Step 28-29: Agent took laptop 2 from bed 1 (where it was) but move action was rejected. Step 30: Examine action was r"}
+{"case_id": "87-rule_16", "followed": false, "usefulness": 0, "reason": "Steps 23-26: Agent took laptop 1 from bed 1 and moved it to desk 1 (accepted). Step 28-29: Agent took laptop 2 from bed 1 but move to desk 1 was rejected. Step 30: Examine desk 1 was rejected."}
+{"case_id": "88-rule_6", "followed": true, "usefulness": 2, "reason": "steps 24-27: agent searched drawers/cabinets (following 'search drawers first'), took peppershaker 1 from cabinet 4, went to sidetable 1, and moved it there; all actions were accepted."}
+{"case_id": "88-rule_3", "followed": true, "usefulness": 1, "reason": "step 24: agent went to cabinet 4 (container) before taking peppershaker 1; step 25: agent took peppershaker 1 from cabinet 4; step 26: agent went to sidetable 1 (target container) before attempting mo"}
+{"case_id": "89-rule_17", "followed": true, "usefulness": 2, "reason": "Steps 1-5: Agent searched countertop 1 (found soapbar 3), took it, opened cabinet 1, moved soapbar 3 to cabinet 1 (accepted). Steps 6-11: Agent searched countertop 1 and sinkbasin 1 repeatedly (no soa"}
+{"case_id": "89-rule_10", "followed": true, "usefulness": 2, "reason": "steps 5 and 16: the agent used move commands to place soapbars in the cabinet, and both were accepted."}
+{"case_id": "89-rule_27", "followed": true, "usefulness": 2, "reason": "steps 2-5: agent moved soapbar 3 directly to cabinet 1 after picking it up (accepted); steps 14-16: agent moved soapbar 1 directly to cabinet 1 after picking it up (accepted); no detours to search for"}
+{"case_id": "89-rule_42", "followed": true, "usefulness": 0, "reason": "steps 2 and 14: the agent took soapbar 3 from countertop 1 and soapbar 1 from toilet 1; both were accepted and the objects were successfully picked up."}
+{"case_id": "89-rule_16", "followed": true, "usefulness": 2, "reason": "steps 3-5: agent opened cabinet 1 before moving soapbar 3 into it (accepted); steps 15-16: agent moved soapbar 1 into already-open cabinet 1 (accepted)"}
+{"case_id": "90-rule_1", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "90-rule_20", "followed": true, "usefulness": 1, "reason": "steps 6 and 8: step 6 cleaned the bowl (rule condition met), step 8 moved the bowl directly to the cabinet (rule prescribed action), both actions were accepted."}
+{"case_id": "90-rule_36", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "90-rule_28", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "90-rule_9", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "90-rule_14", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "91-rule_11", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "91-rule_37", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "91-rule_43", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "91-rule_18", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "92-rule_6", "followed": true, "usefulness": 2, "reason": "Step 1: Agent went to drawer 1 (search drawers first) and found keychain 1. Step 2: Agent took keychain 1 (take the object). Step 3: Agent went to desk 1 (go to the target) but it was rejected (accept"}
+{"case_id": "92-rule_3", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "93-rule_11", "followed": true, "usefulness": 2, "reason": "steps 3, 4, 5, 6, 7, 8, 9: agent searched for potato (found on countertop 2), took it, opened fridge, cooled potato, closed fridge, moved to countertop 1, and moved potato there; all accepted."}
+{"case_id": "93-rule_37", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "93-rule_43", "followed": true, "usefulness": 1, "reason": "step 7: agent closed the fridge after cooling; accepted; progress"}
+{"case_id": "93-rule_18", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "94-rule_6", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "94-rule_3", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "95-rule_17", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "95-rule_27", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "95-rule_10", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "95-rule_16", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "95-rule_42", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "96-rule_17", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "96-rule_27", "followed": true, "usefulness": 1, "reason": "steps 3-5: agent picked up remotecontrol 1 and moved it directly to ottoman 1 (accepted); steps 7-11: agent picked up remotecontrol 2 and moved it directly to ottoman 1 (eventually accepted after fail"}
+{"case_id": "96-rule_10", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "96-rule_42", "followed": true, "usefulness": 1, "reason": "steps 3, 7: agent took remotecontrol 1 and remotecontrol 2 from sofa 1 while at sofa 1, both accepted; steps 8, 9: agent tried to move remotecontrol 2 to ottoman 1 while at sofa 1, both rejected; step"}
+{"case_id": "96-rule_16", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "97-rule_6", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "97-rule_3", "followed": true, "usefulness": 2, "reason": "Step 1: Agent went to garbagecan 1 first (accepted, found toiletpaper 1). Step 5: Agent went to garbagecan 1 again (accepted, found toiletpaper 1). Step 6: Agent attempted move command (accepted, obje"}
+{"case_id": "98-rule_6", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "98-rule_3", "followed": true, "usefulness": 2, "reason": "step 10: move candle 1 to toilet 1; accepted; object placed on toilet; progress"}
+{"case_id": "99-rule_17", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "99-rule_27", "followed": false, "usefulness": 0, "reason": "steps 3, 4, 9: the agent moved spraybottle 3 to garbagecan 1 (rejected), then returned to countertop 1 (rejected), then went to garbagecan 1 (accepted) to move it there; step 9: the agent moved sprayb"}
+{"case_id": "99-rule_10", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "99-rule_42", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "99-rule_16", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "100-rule_11", "followed": false, "usefulness": 0, "reason": "steps 2-9: agent searched/countertop locations (2), took mug (3), opened fridge (5), cooled mug (6), closed fridge (7), moved to coffeemachine (9); all accepted"}
+{"case_id": "100-rule_37", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "100-rule_43", "followed": true, "usefulness": 1, "reason": "steps 6 and 7: the agent cooled the mug with the fridge and then closed the fridge; accepted."}
+{"case_id": "100-rule_18", "followed": false, "usefulness": 0, "reason": "step 2: agent went to countertop 2 (not countertop 1 as rule suggested) and found mug 2; step 3: agent took mug 2; step 4-9: agent cooled mug and placed it in coffeemachine"}
+{"case_id": "101-rule_1", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "101-rule_20", "followed": true, "usefulness": 2, "reason": "steps 15 and 17: the agent cleaned the soapbar 1 with sinkbasin 1 (step 15) and then moved it directly to countertop 1 (step 17), which is exactly what the rule prescribes; both actions were accepted."}
+{"case_id": "101-rule_28", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "101-rule_36", "followed": true, "usefulness": 2, "reason": "step 2: agent went to sinkbasin 1 (the sink area) before cleaning; step 3: agent examined sinkbasin 1; step 15: agent cleaned soapbar 1 with sinkbasin 1; step 16: agent went to countertop 1; step 17: "}
+{"case_id": "101-rule_9", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "101-rule_14", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "102-rule_6", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "102-rule_3", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "103-rule_17", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "103-rule_10", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "103-rule_27", "followed": true, "usefulness": 1, "reason": "steps 13-15: agent took alarmclock 2 from sidetable 1 and moved it directly to desk 1 (accepted); steps 29-30: agent took alarmclock 2 from desk 1 and attempted to move it to desk 1 (rejected, nothing"}
+{"case_id": "103-rule_42", "followed": false, "usefulness": 0, "reason": "none"}
+{"case_id": "103-rule_16", "followed": false, "usefulness": 0, "reason": "none"}

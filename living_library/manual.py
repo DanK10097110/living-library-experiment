@@ -25,11 +25,14 @@ results/DECISIONS.md). Rules start decent: all quality control on text happens w
 checks, plus a trace check that every command a rule instructs worked in the won game it came from). The text
 the agent sees never changes because of one game: the Builder only writes rules, adds validation notes and
 rewrites hidden Unresolved Error notes. Changes need evidence about the rule itself: after every practice game
-(E and E-minus) a separate outcome-blind judge scores each shown rule on its own (followed yes/no, usefulness
--2..2; a judge failure gives no evidence). E only: a rule that is bad (>= MIN_EVIDENCE followed games and a
-shrunk mean usefulness <= BAD_MEAN) is refined (at most MAX_REVISIONS texts after the first; a failed
-refinement retires it) or else retired; a rule shown but rarely followed is retired as useless; capacity
-pruning above CAPACITY. Removed: Beta reliability, base rates and lift, expected-utility ranking, ExpeL votes,
+(E and E-minus) each shown rule is assessed (assess): used = a short call after each plan cited it; a used
+rule scores -1 if the trace shows harm from it (prescribed commands rejected, the agent stuck repeating one,
+its search places empty while the object was elsewhere), +1 if the game was won or the object was where it
+said, else 0. E only: a rule that is bad (>= MIN_EVIDENCE used games and a shrunk mean <= BAD_MEAN) is refined
+(at most MAX_REVISIONS texts after the first; the new text must pass TRIAL_GAMES replays of stored games, a
+failed refinement retires it) or else retired; a rule shown but rarely used is retired as useless; capacity
+pruning above CAPACITY. (A per-rule LLM judge was tried and measured unreliable with the 9B, DECISIONS
+2026-11-20.) Removed: Beta reliability, base rates and lift, expected-utility ranking, ExpeL votes,
 hidden guesses and their promotion, young/dead-recipe rewrites, command-rejection retirement, consolidation
 (folding) and retrieval modes.
 
@@ -37,10 +40,10 @@ Selection and upkeep keep these parts of MACLA (Forouzandeh et al., AAMAS 2026, 
   * Selection: the kind's Success Process is always shown first. Rel is task-keyed, as in ExpeL/Memp (a
     memory is retrieved by the similarity of the current task to the tasks it came from / worked on),
     because short general rule text vs task text similarity is mostly noise: evidence = max similarity of
-    the goal to the rule's source task(s) and to the tasks of games where it was judged helpful; text =
+    the goal to the rule's source task(s) and to the tasks of games where it scored +1; text =
     similarity of goal and rule text; Rel = w * evidence + (1 - w) * text with w = h / (h + EVIDENCE_PRIOR),
     h = followed games with a positive score, so a new rule is ranked by its text. Rank = Rel + RANK_WEIGHT *
-    mean usefulness (MACLA's expected utility, with the judge's usefulness in place of a win rate).
+    mean usefulness (MACLA's expected utility, with the per-game score in place of a win rate).
     Candidates: this kind's rules and the general ones; rules of other kinds
     only when the manual has no rule of this kind (an unseen kind of task) and their evidence >=
     CROSS_TYPE_EVIDENCE. (Goal similarity is dominated by the object: with bge-small, "heat some apple
@@ -48,17 +51,19 @@ Selection and upkeep keep these parts of MACLA (Forouzandeh et al., AAMAS 2026, 
     some egg and put it in countertop", so other kinds' rules are never mixed into a known kind.)
     Deterministic, no LLM selector call (ExpeL/AutoGuide-style LLM selection would add a model call per
     game and its own noise; worth considering only for manuals above ~50 rules per kind).
-  * Refinement (sec. 4.3, contrastive): a bad rule is rewritten from its stored contexts where it helped
-    and where it misled (with the judge's reasons). A rule's "contexts" are this refinement's evidence, not
-    rules: the last K_CONTEXTS judged games with a positive and with a negative score, current text only.
-    They are never shown to the agent or the Builder, only to the refiner.
+  * Refinement (sec. 4.3, contrastive): a bad rule is rewritten from its stored contexts: the games where it
+    did harm (with what went wrong) against the other games it was used in, won and lost. A rule's
+    "contexts" are this refinement's evidence, not rules: the last K_CONTEXTS used games with and without
+    harm, current text only, each with its task so it can be replayed. The candidate text replaces the old
+    one only after it passes TRIAL_GAMES frozen replays of those games (used, no harm). Contexts are never
+    shown to the agent or the Builder.
   * Merging (sec. 4.1/5.1): a new rule with similarity >= DUP_SIMILARITY to an existing rule of the
     same type and kind of task, or to a general ("all") one, is merged into it (its task kept as extra
     evidence, no text change) instead of added. Merging never widens a rule's scope.
   * Pruning (eq. 8, simplified): above CAPACITY rules, hidden notes oldest first, then the lowest mean
     usefulness, then the least recently used.
   * Not taken: meta-procedures (the paper's description is inconsistent and its code never uses them).
-E-minus is append-only: it writes and is judged and ranked like E, but never changes or removes anything.
+E-minus is append-only: it writes and is assessed and ranked like E, but never changes or removes anything.
 In batched practice E's refine and bad-retire ops are replayed only if the rule is still bad on the live
 rules, with at most one text change per rule per batch; useless retirement, the near-duplicate merge
 (batch_dedupe) and pruning run once per batch on the live rules (batch_upkeep).
@@ -70,14 +75,14 @@ in view, up to RETRIES times, stopping at the first win. The Builder then gets t
 successful attempt of the same task and writes a contrastive Corrected Error rule ("When <situation>, do
 Y instead of X"); only if every retry fails does it write an Unresolved Error. Retries read the memory
 (rules) but change nothing, and never run in evaluation or for C, D. The practice record keeps the FIRST
-attempt (success, trace, judged evidence); retry costs are added to the game's totals and also reported
+attempt (success, trace, assessed evidence); retry costs are added to the game's totals and also reported
 separately under "retries". E-minus retries too, so the ablation differs from E only in rule management.
 
 Unresolved Error rules (from a failure without a contrasting success) are Builder notes only: they are
-never shown to the agent and never judged (ExpeL extracts insights only from success/failure comparisons).
+never shown to the agent and never assessed (ExpeL extracts insights only from success/failure comparisons).
 A lost game writes nothing else: won games rediscover anything true. A retry win may turn a note into a
-Corrected Error (update_note) only if the per-rule judge says the winning retry followed the new text with
-usefulness >= CONVERT_USEFULNESS and the text passes the write gate against the winning retry's trace.
+Corrected Error (update_note) only if the text passes the write gate against the winning retry's trace and
+that trace shows no harm from it (harms).
 Rules other than a Success Process may not list steps.
 
 The Builder answers with JSON operations (write_rule / note / update_note), never code. If a game shows a
@@ -92,7 +97,6 @@ fails gets one model rewrite told its problems before it is rejected.
 """
 import copy
 import re
-from pathlib import Path
 
 from . import avoid
 
@@ -111,19 +115,20 @@ MAX_WORDS = {'Success Process': 45, avoid.TYPE: avoid.MAX_WORDS}   # rule-text l
 MAX_WORDS_DEFAULT = 35       # one sentence of at most 25 words is asked for; 10 words of slack
 MAX_EXAMPLE = 200            # characters: one short line of real steps
 MAX_NOTES = 3                # validation notes kept per rule, as in AutoManual's validation log
-# Evidence (per-rule judge) and management (E only)
+# Evidence (assess: planner citations, trace harm) and management (E only)
 PRIOR = 2                    # m = sum / (followed + 2): one or two harsh scores cannot make a rule look bad
 MIN_EVIDENCE = 6             # followed games before a rule can be bad (about 36 practice games for a recipe)
-BAD_MEAN = -0.5              # m at or below this is bad: a net score of about -4 over 6 followed games
+BAD_MEAN = -0.4              # m at or below this is bad: a net score of -4 over 6 used games (simulator, DECISIONS)
 MAX_REVISIONS = 2            # text changes after the first text: at most 3 texts per rule, the cap on drift
-USELESS_MIN = 12             # judged showings before a rule can be useless (simulator: 10 gave 0.9% false retirement at f 0.6)
+USELESS_MIN = 16             # assessed showings before a rule can be useless (simulator: 12-14 gave 1.2-1.5% false retirement at f 0.6)
 USELESS_FOLLOWED = 0.2       # ... when followed in fewer than this share of them (under 1 game in 5)
 K_CONTEXTS = 6               # refiner evidence: the last 6 helped and the last 6 misled games
-CONTEXT_STEPS = 12           # valid actions kept per context: the end of a game, where it is decided
-JUDGE_STEPS = 40             # steps shown to the judge (rejected commands included): a whole typical game
-JUDGE_OBSERVATION = 160      # characters of each observation shown to the judge: enough to see what a place holds
-CONVERT_USEFULNESS = 1       # a retry must follow a note's new text at least this usefully to make it visible
-SCORES = (-2, -1, 0, 1, 2)   # the judge's usefulness scale
+REJECTED_MARK = ' [rejected]'
+CONTEXT_STEPS = 16           # steps kept per context (rejected ones marked): the end of a game, where it is decided
+REJECTED_REPEATS = 2         # harm: rejected commands of a verb the rule prescribes (one rejection is ordinary noise)
+STUCK_REPEATS = 3            # harm: the same prescribed command this many times in one game
+TRIAL_GAMES = 3              # stored games a candidate refinement is replayed on before it replaces a bad text
+SCORES = (-1, 0, 1)          # per-game usefulness of a used rule: harm, nothing seen, won or found as it said
 RULE_FORM = (
     'A rule is ONE short, general sentence, "If/When <condition>, <action>.", at most 25 words, e.g. '
     '"If a container is closed, open it before putting things in it." It must help in other games too: '
@@ -137,18 +142,17 @@ RULE_FORM = (
     'placed: search <places> first, <exact command> with the <appliance>, open the target if closed, '
     'put it there."')
 REFINE_GUIDE = (
-    'A rule from an agent\'s manual was judged in several games of a household text game (ALFWorld): '
-    'in helped_games following it helped, in misled_games following it misled the agent (with the judge\'s '
-    'reason). Compare them and rewrite the rule so it helps in cases like the helped ones and does not '
-    'mislead in cases like the misled ones: make its condition more precise (if it should not be used in '
-    'some situation, say so inside the condition, e.g. "If ... and ..., ...") or correct its action. The '
-    'validation notes say what later games showed. Rewrite it, do not add to it: the result must not be '
-    'longer than the original. ' + RULE_FORM + ' Keep its type; use only commands the games show. '
+    'A rule from an agent\'s manual for a household text game (ALFWorld) was used in several games. '
+    'harmful_games are games where following it hurt, with what went wrong (a command it prescribes was '
+    'rejected, the agent got stuck repeating it, or the places it says to search were empty); used_games are '
+    'other games it was used in, won or lost. Steps marked [rejected] were refused by the game. Find what in '
+    'the rule caused the harm and rewrite it so it would not: correct a wrong command or order (e.g. a command '
+    'that only works while holding the object), drop a wrong place, or narrow the condition. The validation '
+    'notes say what later games showed. Rewrite it, do not add to it: the result must not be longer than the '
+    'original. ' + RULE_FORM + ' Keep its type; use only commands accepted in these games. '
     'Output {"rule": "..."}.')
-# The per-rule judge's instructions (tuned on archived games with tools/judge_eval.py).
-JUDGE_GUIDE = (Path(__file__).parent / 'prompts' / 'judge.md').read_text(encoding='utf-8').strip()
 
-SHOWN = 8           # rules shown to the planner and actor in a game (at most 8 judge calls per game)
+SHOWN = 8           # rules shown to the planner and actor in a game
 BUILDER_SEES = 24   # rules shown to the Builder for the game it reviews
 RARE_SHOWINGS = 3   # a rule shown in fewer games is "rarely shown": one shown slot is kept for the best of them
 NEWEST_SLOTS = 2    # Builder slots for the newest rules not otherwise included, so it sees what batch-mates wrote
@@ -409,12 +413,12 @@ def mean(rule):
 
 
 def bad(rule):
-    """Followed in >= MIN_EVIDENCE judged games of its current text with m <= BAD_MEAN (visible rules only)."""
+    """Used in >= MIN_EVIDENCE assessed games of its current text with m <= BAD_MEAN (visible rules only)."""
     return shown_to_agent(rule) and ev(rule)['followed'] >= MIN_EVIDENCE and mean(rule) <= BAD_MEAN
 
 
 def useless(rule):
-    """Shown (judged) in >= USELESS_MIN games of its current text but followed in under USELESS_FOLLOWED of
+    """Shown (assessed) in >= USELESS_MIN games of its current text but followed in under USELESS_FOLLOWED of
     them. All visible types, recipes and Anti-Patterns included: a recipe followed in under 1 game of 5 is not
     working as a recipe, and an Anti-Pattern the agent breaks anyway changes nothing."""
     e = ev(rule)
@@ -541,7 +545,7 @@ def trace_checked(kind, text, trace, ask=None, task_type=None):
 
 
 def won_plans(rule):
-    """The plans (subgoal descriptions, ' ; '-joined) of the games where this rule was judged helpful."""
+    """The plans (subgoal descriptions, ' ; '-joined) of the games where this rule scored +1."""
     return list(dict.fromkeys(c['plan'] for c in rule.get('contexts', []) if c.get('score', 0) > 0
                               and c.get('plan')))
 
@@ -567,7 +571,7 @@ def case_of(result):
 
 
 def evidence_tasks(rule):
-    """The goals a rule is keyed by: its source task(s) and the games where it was judged helpful."""
+    """The goals a rule is keyed by: its source task(s) and the games where it scored +1."""
     goals = [s.get('task') for s in rule.get('sources', [])] + [
         c.get('task') for c in rule.get('contexts', []) if c.get('score', 0) > 0]
     return list(dict.fromkeys(g for g in goals if g))
@@ -705,8 +709,8 @@ def apply(rules, operations, case, append_only, next_id, log, task_type=None, vi
     (for batching). `visible`: ids the Builder was shown (it may only annotate or update those); default all.
     `goal`: the game's task, stored on written (and merged) rules as task-keyed retrieval evidence. `trace`: the
     won trace the rules are written from (the first attempt if won, else the winning retry) for the write
-    gate's trace check. `retry_check`: (rule) -> whether the winning retry followed it with usefulness >=
-    CONVERT_USEFULNESS (per-rule judge); a corrected failure's update_note turns an Unresolved Error into a
+    gate's trace check. `retry_check`: (rule) -> whether the winning retry's trace shows no
+    harm from it (harms); a corrected failure's update_note turns an Unresolved Error into a
     Corrected Error only when it did. `position`: the practice position, stored as `created`.
     Operations: write_rule (all conditions); note and update_note (E only). The Builder never rewrites the
     text of a rule the agent sees."""
@@ -782,14 +786,13 @@ def apply(rules, operations, case, append_only, next_id, log, task_type=None, vi
                 change = None
                 if op.get('type') == 'Corrected Error' and case == 'corrected failure':
                     # A success/failure pair of the same task may turn the note into a rule the agent sees, if
-                    # the new text passes the write gate (against the winning retry) and the judge says the
-                    # winning retry followed it usefully.
+                    # the new text passes the write gate (against the winning retry) and the winning retry
+                    # shows no harm from it (harms).
                     try:
                         text = checked('Corrected Error', op['rule'], ask, rule.get('task_type'))
                         text = trace_checked('Corrected Error', text, trace, ask, rule.get('task_type'))
                         if retry_check is None or not retry_check({'type': 'Corrected Error', 'rule': text}):
-                            raise ValueError('the winning retry did not follow it with usefulness >= '
-                                             f'{CONVERT_USEFULNESS}')
+                            raise ValueError('the winning retry shows harm from it')
                         change = {'op': 'update_note', 'id': rule['id'], 'rule': text, 'type': 'Corrected Error',
                                   'old_rule': rule['rule']}
                         log.append(f"{rule['id']} turned into a Corrected Error (shown to the agent)")
@@ -875,9 +878,9 @@ def _dedupe(rules, op):
 
 
 def observe(rules, verdicts, context, position, won):
-    """Record one game's per-rule judge verdicts (E and E-minus); returns the op (replayed by _observe).
-    `verdicts`: {rule id: {'followed': bool, 'usefulness': -2..2, 'reason': str, 'rule': the judged text}}
-    for the shown rules judged without failure; a rule whose judge call failed has no entry and so gets no
+    """Record one game's assessed verdicts (E and E-minus); returns the op (replayed by _observe).
+    `verdicts`: {rule id: {'followed': bool, 'usefulness': -1..1, 'reason': str, 'rule': the assessed text}}
+    for the shown visible rules (assess); a rule without an entry gets no
     evidence from this game. `context`: {task, task_type, steps, plan}, stored with the score for followed
     rules (the refiner's evidence). `won`: the first attempt's outcome, kept for reports only."""
     op = {'op': 'outcome', 'verdicts': {k: dict(v) for k, v in verdicts.items()}, 'won': bool(won),
@@ -887,9 +890,9 @@ def observe(rules, verdicts, context, position, won):
 
 
 def _observe(rules, op):
-    """followed = yes: shown, followed, sum, pos/neg and won/lost += 1, context stored; followed = no: shown
-    += 1 only. A verdict on a text the rule no longer has (changed or converted since it was judged, e.g.
-    by a batch-mate's refinement) is not counted."""
+    """followed = yes: shown, followed, sum, pos/neg and won/lost += 1, context stored (won or lost); followed
+    = no: shown += 1 only. A verdict on a text the rule no longer has (changed or converted since it was
+    assessed, e.g. by a batch-mate's refinement) is not counted."""
     by_id = {r['id']: r for r in rules}
     for rule_id, verdict in op.get('verdicts', {}).items():
         rule = by_id.get(rule_id)
@@ -906,10 +909,10 @@ def _observe(rules, op):
                 e['neg'] += score < 0
                 e['won' if op['won'] else 'lost'] += 1
         rule['last_used'] = op['position']
-        if followed and score:
+        if followed:
             contexts = rule.get('contexts', []) + [{**op['context'], 'won': bool(op['won']), 'score': score,
                                                     'reason': verdict.get('reason', '')}]
-            rule['contexts'] = ([c for c in contexts if c['score'] > 0][-K_CONTEXTS:]
+            rule['contexts'] = ([c for c in contexts if c['score'] >= 0][-K_CONTEXTS:]
                                 + [c for c in contexts if c['score'] < 0][-K_CONTEXTS:])
 
 
@@ -953,17 +956,21 @@ def manage(agent, rules, report):
 
 
 def refine(agent, rules, rule, report):
-    """MACLA contrastive refinement of one bad rule: the refiner gets the rule, its contexts where it helped
-    and where it misled (with the judge's reasons) and its validation notes, and returns one rewritten rule.
-    The new text must pass the text checks, and the commands it instructs must appear in the actions of a
-    stored context. Any failure retires the rule (it is not kept for another try every game)."""
+    """MACLA contrastive refinement of one bad rule: the refiner gets the rule, the stored games where it did
+    harm (with what went wrong) and the other games it was used in (won and lost) and its validation notes,
+    and returns one rewritten rule. The new text must pass the text checks, the commands it instructs must
+    have been accepted in a stored game, and it must pass its trial games (trial). Any failure retires the
+    rule (the old text is bad; it is not kept for another try every game)."""
     contexts = rule.get('contexts', [])
+
+    def shown(c):
+        return {k: c[k] for k in ('task', 'won', 'plan', 'steps', 'reason') if k in c}
     try:
         data = agent._ask('refiner', {
             'instructions': REFINE_GUIDE, 'rule': {k: rule.get(k, '') for k in ('type', 'rule', 'example')},
             'validation': [n for n in str(rule.get('validation') or '').split(' | ') if n],
-            'helped_games': [c for c in contexts if c['score'] > 0],
-            'misled_games': [c for c in contexts if c['score'] < 0],
+            'harmful_games': [shown(c) for c in contexts if c['score'] < 0],
+            'used_games': [shown(c) for c in contexts if c['score'] >= 0],
             'response_schema': {'rule': 'string'}})
         text = data.get('rule') if isinstance(data, dict) else None
         if not isinstance(text, str) or not text.strip():
@@ -971,13 +978,18 @@ def refine(agent, rules, rule, report):
         text = checked(rule['type'], text, agent._ask, rule.get('task_type'))
         if text == rule['rule']:
             raise ValueError('refiner gave the same rule')
-        actions = [a for c in contexts for a in c.get('steps', [])]
+        actions = [a for c in contexts for a in c.get('steps', []) if not a.endswith(REJECTED_MARK)]
         missing = [f'{verb} {noun}' for verb, noun in instructed_commands(text)
                    if not any(_matches(a, verb, noun) for a in actions)]
         if missing:
             raise ValueError(f"the new text instructs commands no stored game shows ({', '.join(missing)})")
+        passed, games = trial(agent, rules, rule, text)
+        if not passed:
+            why = ('no stored game to try it on' if not games else 'the planner never used it' if not any(
+                g['used'] for g in games) else next('; '.join(g['harm']) for g in games if g['harm']))
+            raise ValueError(f'the new text failed its trial games ({why}): {text}')
         op = {'op': 'refine', 'id': rule['id'], 'rule': text, 'old_rule': rule['rule'],
-              'revision': rule.get('revisions', 0) + 1}
+              'revision': rule.get('revisions', 0) + 1, 'trials': games}
         _refine(rules, op)
         report['operations'].append(op)
         report['errors'].append(f"refined {rule['id']} (revision {op['revision']} of {MAX_REVISIONS}; fresh evidence)")
@@ -1023,7 +1035,7 @@ def batch_upkeep(rules, base_ids, similarity):
     ops = []
     for rule in [r for r in rules if useless(r)]:
         e = ev(rule)
-        op = retire_op(rule, f"useless: followed in {e['followed']} of {e['shown']} judged showings")
+        op = retire_op(rule, f"useless: followed in {e['followed']} of {e['shown']} showings")
         _retire(rules, op)
         ops.append(op)
     if similarity is not None:
@@ -1031,79 +1043,175 @@ def batch_upkeep(rules, base_ids, similarity):
     return ops + prune(rules)
 
 
-def judge_payload(agent, rule, trace=None):
-    """Outcome-blind input for the per-rule judge (LIBRARY-SPEC section 4): goal, one rule, the last
-    JUDGE_STEPS valid actions of `trace` (default: the first attempt) with short observations; no success
-    flag, no reward, and the final observation (which reveals a win) is left out."""
-    trace = agent.result['trace'] if trace is None else trace
-    start = max(len(trace) - JUDGE_STEPS, 0)
-    steps = [{'n': start + i + 1, 'action': t['action'],
-              **({'observation': t['after'][:JUDGE_OBSERVATION]} if t['valid'] else {'accepted': False})}
-             for i, t in enumerate(trace[start:])]
-    last = max((i for i, s in enumerate(steps) if 'observation' in s), default=None)
-    if last is not None:
-        steps[last].pop('observation')      # the final observation reveals a win
-    return {'instructions': JUDGE_GUIDE, 'goal': agent.public_task.get('goal', ''),
-            'rule': {'type': rule['type'], 'rule': rule['rule']}, 'steps': steps,
-            'response_schema': {'evidence': 'step numbers and what happened after each, or none',
-                                'followed': 'yes|no', 'usefulness': '-2|-1|0|1|2'}}
+# Evidence (LIBRARY-SPEC section 4). "Used" is a citation of the rules a plan follows (Agent._cite: a short call
+# with the plan and the numbered rules, no trace or outcome); harm is read from the trace. The 9B per-rule judge was measured on 90 gold-labelled
+# archived cases (tools/judge_eval.py, DECISIONS 2026-11-20): it agreed on "followed" in 59-63% of cases,
+# caught 0-2 of 18 harmful uses and inferred use from progress; it was removed.
+SEARCH_CLAUSE = re.compile(r"\b(?:search|check|examine|look (?:in|on|at|inside|for)|find)\b([^.;:]*?)(?:\bfirst\b|\bthen\b|[.;:]|$)")
+PLACE_FAMILIES = {'table': {'diningtable', 'sidetable', 'coffeetable'}, 'sink': {'sink', 'sinkbasin'},
+                  'surface': {'countertop', 'diningtable', 'sidetable', 'coffeetable', 'desk', 'dresser', 'shelf'}}
 
 
-def parse_verdict(data):
-    """{'followed', 'usefulness', 'reason'} from a judge answer, or ValueError (no JSON object, a bad value).
-    A rule that was not followed has usefulness 0."""
-    if not isinstance(data, dict):
-        raise ValueError('no JSON object')
-    said = data.get('followed')
-    if isinstance(said, bool):
-        followed = said
-    elif isinstance(said, str) and said.strip().lower() in ('yes', 'no'):
-        followed = said.strip().lower() == 'yes'
-    else:
-        raise ValueError(f'bad followed value {said!r}')
-    value = data.get('usefulness')
-    try:
-        score = None if isinstance(value, bool) else int(str(value).strip().lstrip('+'))
-    except ValueError:
-        score = None
-    if score not in SCORES:
-        raise ValueError(f'bad usefulness value {value!r}')
-    return {'followed': followed, 'usefulness': score if followed else 0,
-            'reason': ' '.join(str(data.get('reason') or data.get('evidence') or '').split())[:200]}
+def _verbs(text):
+    """Command verbs a rule prescribes (negated parts removed); "go to" is left out: every game goes places."""
+    words = ' '.join(re.findall(r"[a-z']+", NEGATED.sub(' , ', str(text).lower())))
+    return {verb for phrase, verb in COMMAND_VERBS.items() if re.search(rf'\b{phrase}\b', words)} - {'go to'}
 
 
-def judge_rule(agent, rule, errors, trace=None):
-    """The per-rule judge's verdict on `rule` in this game (`trace`: default the first attempt), from one
-    separate outcome-blind call (role 'judge'), or None on any failure (logged): no evidence, never "credit
-    all"."""
-    try:
-        return parse_verdict(agent._ask('judge', judge_payload(agent, rule, trace)))
-    except (ValueError, RuntimeError, KeyError, TypeError, AttributeError) as exc:
-        errors.append(f"judge {rule.get('id', 'note')}: {exc}; no evidence"[:200])
+def _nouns(text):
+    return {n for n in (_noun(w) for w in re.findall(r'[a-z]+', str(text).lower())) if n}
+
+
+def _verb_of(action):
+    words = str(action).lower().split()
+    return next((verb for phrase, verb in COMMAND_VERBS.items() if words[:len(phrase.split())] == phrase.split()),
+                None)
+
+
+def search_places(text):
+    """Place kinds a rule says to search (first): "search the fridge and countertops first" -> {fridge, countertop}."""
+    found = set()
+    for m in SEARCH_CLAUSE.finditer(NEGATED.sub(' , ', str(text).lower())):
+        found |= {n for n in _nouns(m.group(1)) if n in avoid.PLACES}
+        for word in re.findall(r'[a-z]+', m.group(1)):
+            found |= PLACE_FAMILIES.get(word[:-1] if word.endswith('s') else word, set())
+    return found
+
+
+def _wanted(goal):
+    return [n for n in _nouns(goal) if n in avoid.OBJECTS]
+
+
+def _taken(t, wanted):
+    """The accepted step `t` takes the goal's object: the place kind it was taken from, else None."""
+    words = t['action'].lower().split()
+    if words[:1] != ['take'] or 'from' not in words or _rejected(t):
         return None
+    obj, place = words[1], words[words.index('from') + 1:]
+    if wanted and not any(obj == w or obj.startswith(w) or obj.endswith(w) for w in wanted):
+        return None
+    return (_noun(place[0]) or place[0]) if place else None
 
 
-def judge_shown(agent, rules, errors):
-    """{rule id: verdict + the judged text} for every visible rule shown in the game (at most SHOWN calls)."""
+def found_at(trace, goal):
+    """The place kind the goal's object was first taken from (an accepted "take X N from P M"), or None."""
+    wanted = _wanted(goal)
+    return next((p for p in (_taken(t, wanted) for t in trace) if p), None)
+
+
+def visited_before_found(trace, goal):
+    """Place kinds the agent went to or opened before it first took the goal's object."""
+    kinds, wanted = set(), _wanted(goal)
+    for t in trace:
+        if _taken(t, wanted):
+            break
+        words = t['action'].lower().split()
+        if _rejected(t):
+            continue
+        if words[:2] == ['go', 'to'] and len(words) > 2:
+            kinds.add(_noun(words[2]))
+        elif words[:1] == ['open'] and len(words) > 1:
+            kinds.add(_noun(words[1]))
+    return kinds - {None}
+
+
+def harms(rule, trace, goal):
+    """How following the rule hurt in this game, from the trace alone ([] if no sign of harm):
+    - commands of a verb the rule prescribes (on the appliance or place it names, if any) rejected at least
+      REJECTED_REPEATS times (e.g. "heat X with microwave" after putting X inside: X is no longer held);
+    - one command it prescribes repeated STUCK_REPEATS times (the agent stuck in what it says);
+    - the agent searched the places it says to search first, and the object was taken from elsewhere."""
+    verbs, places_named = _verbs(rule['rule']), _nouns(rule['rule']) & avoid.PLACES
+
+    def about(action):
+        return _verb_of(action) in verbs and (not places_named or bool(_nouns(action) & places_named))
+    out = []
+    rejected = [t['action'] for t in trace if _rejected(t) and about(t['action'])]
+    if len(rejected) >= REJECTED_REPEATS:
+        out.append(f'{len(rejected)} rejected commands it prescribes ({rejected[0]})')
+    counts = {}
+    for t in trace:
+        if about(t['action']):
+            counts[t['action']] = counts.get(t['action'], 0) + 1
+    action, n = max(counts.items(), key=lambda kv: kv[1], default=(None, 0))
+    if n >= STUCK_REPEATS:
+        out.append(f'repeated "{action}" {n} times')
+    places, found = search_places(rule['rule']), found_at(trace, goal)
+    searched = sorted(visited_before_found(trace, goal) & places)
+    if searched and found not in places:
+        out.append(f"searched {', '.join(searched)} first; the object was "
+                   + (f'at the {found}' if found else 'not found'))
+    return out
+
+
+def search_hit(rule, trace, goal):
+    """The rule names places to search first and the object was taken from one of them."""
+    places = search_places(rule['rule'])
+    return bool(places) and found_at(trace, goal) in places
+
+
+def assess(agent, rules, trace=None):
+    """{rule id: verdict + the assessed text} for every visible rule shown in the game (E and E-minus):
+    followed = cited for this game's plan (Agent._cite); for a followed rule, usefulness -1 if the trace shows harm (harms), else
+    +1 if the game was won or the object was where it said to search, else 0."""
+    trace = agent.result['trace'] if trace is None else trace
+    goal, won = agent.public_task.get('goal', ''), bool(agent.result['success'])
+    used = set(getattr(agent, 'rules_used', None) or ())
     by_id = {r['id']: r for r in rules}
     verdicts = {}
     for rule_id in dict.fromkeys(agent.rules_shown or ()):
         rule = by_id.get(rule_id)
         if rule is None or not shown_to_agent(rule):
             continue
-        verdict = judge_rule(agent, rule, errors)
-        if verdict is not None:
-            verdicts[rule_id] = {**verdict, 'rule': rule['rule']}
+        if rule_id not in used:
+            verdicts[rule_id] = {'followed': False, 'usefulness': 0, 'reason': 'not cited by the planner',
+                                 'rule': rule['rule']}
+            continue
+        harm = harms(rule, trace, goal)
+        hit = search_hit(rule, trace, goal)
+        score = -1 if harm else (1 if won or hit else 0)
+        reason = '; '.join(harm) or ('won' if won else 'object found where it said' if hit else 'used; lost')
+        verdicts[rule_id] = {'followed': True, 'usefulness': score, 'reason': reason, 'rule': rule['rule']}
     return verdicts
 
 
-def retry_judge(agent, retried, errors):
-    """(rule) -> whether the winning retry followed it with usefulness >= CONVERT_USEFULNESS (the per-rule
-    judge on the retry trace; False on failure, logged). Used before update_note makes a note visible."""
-    def followed(rule):
-        verdict = judge_rule(agent, rule, errors, retried['trace'])
-        return verdict is not None and verdict['followed'] and verdict['usefulness'] >= CONVERT_USEFULNESS
-    return followed
+def _charge(agent, result):
+    """Add a nested game's cost (a retry or a trial game) to this game's totals."""
+    for key in COSTS:
+        agent.result[key] += result[key]
+    if result.get('gpu_seconds') is None:
+        agent.gpu_known = False
+    else:
+        agent.gpu += result['gpu_seconds']
+
+
+def trial(agent, rules, rule, text):
+    """Try a candidate text before it replaces a bad rule: replay up to TRIAL_GAMES stored games of the rule
+    (the ones it harmed first, then other games it was used in), frozen, with the candidate shown. Passes
+    if the planner used it in at least one and none shows harm. Returns (passed, the games)."""
+    contexts = [c for c in rule.get('contexts', []) if c.get('task_ref')]
+    picked, seen = [], set()
+    for c in [c for c in reversed(contexts) if c['score'] < 0] + [c for c in reversed(contexts) if c['score'] >= 0]:
+        key = c['task_ref'].get('id') or c.get('task')
+        if key not in seen:
+            seen.add(key)
+            picked.append(c)
+    picked = picked[:TRIAL_GAMES]
+    if not picked:
+        return False, []
+    trial_rules = copy.deepcopy(rules)
+    candidate = next(r for r in trial_rules if r['id'] == rule['id'])
+    candidate['rule'] = text
+    games = []
+    for i, c in enumerate(picked):
+        context = {**agent.context, 'trial': f"{rule['id']}-{rule.get('revisions', 0) + 1}-{i}"}
+        result = agent.trial_agent(trial_rules, rule['id']).run(c['task_ref'], agent.seed, context)
+        _charge(agent, result)
+        used = rule['id'] in (result.get('rules_used') or ())
+        harm = harms(candidate, result['trace'], result.get('goal', '')) if used else []
+        games.append({'task': result.get('goal', ''), 'won': bool(result['success']), 'used': used, 'harm': harm,
+                      'model_calls': result['model_calls']})
+    return any(g['used'] for g in games) and not any(g['harm'] for g in games), games
 
 
 COSTS = ('model_calls', 'input_tokens', 'output_tokens', 'model_wall_seconds')
@@ -1133,12 +1241,7 @@ def retry(agent, errors):
             break
         reflections.append(text)
         last = agent.retry_agent(list(reflections)).run(agent.task, agent.seed, {**agent.context, 'attempt': attempt})
-        for key in COSTS:
-            agent.result[key] += last[key]
-        if last.get('gpu_seconds') is None:
-            agent.gpu_known = False
-        else:
-            agent.gpu += last['gpu_seconds']
+        _charge(agent, last)
         attempts.append({'attempt': attempt, 'reflection': text, 'success': last['success'],
                          'steps': len(last['trace']), 'model_calls': last['model_calls'],
                          'actions': [t['action'] for t in last['trace'] if t['valid']][-20:],
@@ -1168,7 +1271,7 @@ def avoid_update(agent, rules, report, summary, append_only, next_id):
 
 def build(agent):
     """One Builder pass after a practice game (LIBRARY-SPEC sections 3-5). Mutates agent.rules; returns a
-    report. Order: Reflexion retries, the per-rule judge (on the rules as the agent saw them), the Builder,
+    report. Order: Reflexion retries, the assessment (on the rules as the agent saw them), the Builder,
     the evidence, management (E), Anti-Patterns, and with practice_batch == 1 the batch upkeep (E)."""
     rules, report = agent.rules, {'case': case_of(agent.result), 'operations': [], 'errors': []}
     append_only = agent.condition == 'E-minus'
@@ -1196,14 +1299,15 @@ def build(agent):
     guide = builder_guide(report['case'], append_only, task_type, shown)
     if 'failed_retries' in extra:
         guide += RETRY_NOTE
-    # The outcome-blind per-rule judge, E and E-minus alike, on the rules as the agent saw them.
-    verdicts = judge_shown(agent, rules, report['errors'])
-    report['judged'] = {i: {k: v[k] for k in ('followed', 'usefulness')} for i, v in verdicts.items()}
+    # Evidence, E and E-minus alike, on the rules as the agent saw them: planner citations and trace harm.
+    verdicts = assess(agent, rules)
+    report['assessed'] = {i: {k: v[k] for k in ('followed', 'usefulness')} for i, v in verdicts.items()}
     won_trace = agent.result['trace'] if agent.result['success'] else (
         retried['trace'] if report['case'] == 'corrected failure' else None)
     retry_check = None
     if report['case'] == 'corrected failure' and not append_only:
-        retry_check = retry_judge(agent, retried, report['errors'])
+        def retry_check(rule):      # the winning retry shows no harm from the new text
+            return not harms(rule, retried['trace'], goal)
     ops = ['write_rule'] if append_only else ['write_rule', 'note', 'update_note']
     try:
         data = agent._ask('builder', {
@@ -1224,7 +1328,8 @@ def build(agent):
         report['errors'].append(f'builder: {exc}'[:200])
     report['operations'].append(observe(rules, verdicts, {
         'task': goal, 'task_type': task_type,
-        'steps': [t['action'] for t in agent.result['trace'] if t['valid']][-CONTEXT_STEPS:],
+        'steps': [t['action'] + ('' if t['valid'] else REJECTED_MARK) for t in agent.result['trace']][-CONTEXT_STEPS:],
+        'task_ref': copy.deepcopy(agent.task),
         **({'plan': agent.plan_text} if getattr(agent, 'plan_text', None) else {})},
         position, agent.result['success']))
     if not append_only:

@@ -43,7 +43,7 @@ def main():
         r = json.loads(f.read_text())['record']
         agent = Agent(cfg, a.condition, model, LexicalEmbedding(), ALFWorld, rules=rules)
         agent.result = {**r, 'model_calls': 0, 'input_tokens': 0, 'output_tokens': 0, 'model_wall_seconds': 0.0}
-        agent.rules_shown = r.get('rules_shown', [])           # judged by the per-rule judge
+        agent.rules_shown = r.get('rules_shown', [])           # assessed (no planner citations in old records: none used)
         agent.public_task, agent.seed = {'goal': r.get('goal', '')}, r['seed']
         agent.task = {'task_type': kinds.get(r['task_id'])}
         agent.context = {k: r[k] for k in ('condition', 'phase', 'seed', 'task_id', 'position', 'toy')}
