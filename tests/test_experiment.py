@@ -20,6 +20,16 @@ class ExperimentTests(unittest.TestCase):
         return Settings(**{'practice_episodes': 2, 'evaluation_games': 2, 'step_budget': 15,
                            'bootstrap_samples': 20, **kwargs})
 
+    def test_d_runs_one_practice_replicate(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            cfg = Settings(practice_episodes=2, evaluation_games=2, practice_seeds=[0, 1], snapshot_milestones=[])
+            keys = {s['key'] for s in Runner(cfg, demo_manifest(), tmp, model=FixtureModel(), probe=False).study_specs(
+                ('C', 'D', 'E'), 2)}
+            self.assertIn('practice-D-0', keys)
+            self.assertFalse({'practice-D-1', 'evaluation-D-r1-11'} & keys)
+            self.assertTrue({'practice-E-0', 'practice-E-1', 'evaluation-E-r1-11'} <= keys)
+
+    @patch('living_library.experiment.SINGLE_REPLICATE', ())     # replicate mechanics, shown with D
     def test_practice_replicates_frozen_evaluation_and_resume(self):
         cfg = self.cfg(practice_seeds=[0, 1], seeds=[11])
         with tempfile.TemporaryDirectory() as tmp:

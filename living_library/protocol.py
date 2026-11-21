@@ -68,6 +68,11 @@ PREREGISTRATION = {
                                "loops, empty search places); a refinement must pass up to 3 frozen trial replays "
                                "before it replaces a text. Thresholds re-checked in the simulator (BAD_MEAN -0.4, "
                                "USELESS_MIN 16).",
+        "d_one_replicate_2026_11_21": "Owner: use less compute. D (memory baseline) runs practice replicate 0 only; "
+                                      "E and E-minus keep two. D's replicate-1 streams (practice 18 games, no "
+                                      "evaluations yet) were dropped from study2 (tools/drop_streams.py); C's "
+                                      "remaining evaluation games replay the earlier run's cached responses "
+                                      "(memoryless, identical requests).",
         "builder_2026_11_21": "Builder input gains computed game facts, numbered steps and latest notes only; "
                               "refused rule operations go back once with the reasons; a lost game with a won "
                               "attempt of its kind may write one Corrected Error, kept only if one frozen trial "

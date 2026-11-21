@@ -65,6 +65,7 @@ class ParallelChunkTests(unittest.TestCase):
             self.assertFalse(runner.complete)
             self.assertEqual(records, [])
 
+    @patch('living_library.experiment.SINGLE_REPLICATE', ())     # replicate mechanics, shown with D
     def test_evaluation_reads_frozen_practice_memory_in_parallel(self):
         with tempfile.TemporaryDirectory() as tmp:
             runner = Runner(self.cfg(), demo_manifest(), tmp)
@@ -132,6 +133,7 @@ class LeanDesignTests(unittest.TestCase):
             for spec in specs:          # the hash chain of in-order commits is intact
                 self.assertEqual(len(runner.verify(spec, {s['key']: s for s in specs})), 6)
 
+    @patch('living_library.experiment.SINGLE_REPLICATE', ())     # replicate mechanics, shown with D
     def test_config_conditions_select_study_streams(self):
         cfg = Settings(practice_episodes=2, evaluation_games=2, seeds=[11, 22], practice_seeds=[0, 1],
                        conditions=['A', 'C', 'D', 'E', 'E-minus'])
@@ -157,6 +159,7 @@ class LeanDesignTests(unittest.TestCase):
 
 
 class SnapshotCurveTests(unittest.TestCase):
+    @patch('living_library.experiment.SINGLE_REPLICATE', ())     # replicate mechanics, shown with D
     def test_frozen_milestone_streams_read_practice_memory_without_changing_it(self):
         cfg = Settings(practice_episodes=4, evaluation_games=3, step_budget=15, bootstrap_samples=20,
                        seeds=[11], conditions=['C', 'D'], snapshot_milestones=[2, 4],

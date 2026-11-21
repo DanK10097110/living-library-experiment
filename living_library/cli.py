@@ -61,8 +61,9 @@ def practice_costs(records, cfg):
     """{condition: {replicate: total weighted tokens of that replicate's practice}} (None if any is unknown)."""
     from .analysis import weighted_tokens
     costs = {}
+    from .experiment import replicates
     for condition in MEMORY & set(cfg.conditions):
-        for pseed in cfg.practice_seeds:
+        for pseed in replicates(cfg, condition):
             rows = [r for r in records if r['phase'] == 'practice' and r['condition'] == condition
                     and r.get('replicate') == pseed]
             values = [weighted_tokens(r) for r in rows]

@@ -79,3 +79,4 @@
 - 2026-11-21 11:32 refiner check (tools/refiner_check.py, results/refiner-check): harm reasons gain held state; 48-game E practice check running in /root/ll-runs/mini-evidence
 - 2026-11-21 12:12 fresh study started: tools\run.ps1 study -Workers 24 -> /root/ll-runs/study2 (stops at the 75-game gate if E trails C)
 - 2026-11-21 13:29 study2 stopped (STOP) to improve the Builder; builder checks in results/builder-check; 24-game live check /root/ll-runs/mini-builder ran clean (7/24 vs 12/24 before on the same games: 5 games differ, 2 of them with no rules shown = run noise). Restarting E/E-minus practice (--restart-library).
+- 2026-11-21 18:01 study2: D replicate 1 dropped, C caches merged (tools/drop_streams.py); resumed

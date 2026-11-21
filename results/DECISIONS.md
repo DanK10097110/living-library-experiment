@@ -494,3 +494,14 @@ library as before each game, shipped checks applied) and blind A/B grading by a 
   sent back (that produced filler "confirms" notes). An update_note on a visible rule (the Builder kept trying to
   rewrite rules it sees) is kept as a "Suggested text: ..." note for the refiner instead of being refused.
 Cost: one extra Builder call in games with a refused rule operation; one trial game per rule from a lost game.
+
+## 2026-11-21 (evening) — D runs one practice replicate; C evaluation replays the earlier run's cache
+
+Owner: "cut replicate D ... just use less compute". `experiment.SINGLE_REPLICATE = ('D',)`: D practices and is
+evaluated with replicate 0 only (about 500 episodes, ~5 GPU hours saved); E and E-minus keep both replicates (they
+disagree so far: E vs E-minus +8 on replicate 0, -2 on replicate 1 over 75 games). The analysis already handles
+conditions with different replicate counts (C has one). Applied to the stopped study2 with `tools/drop_streams.py`
+(drops the streams the design no longer plans, re-signs the kept ones, retakes the C/D probe since D's design
+changed on purpose). The same tool merged the old study's model caches into C's evaluation streams: C's games are
+memoryless and its requests unchanged, so its remaining evaluation games replay (I had not carried the caches over
+when study2 started; that cost about 1.5 GPU hours of C games).

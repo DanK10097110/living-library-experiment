@@ -70,6 +70,16 @@ RESTARTABLE = ('E',)
 # Conditions whose batched practice runs the deterministic manual upkeep (useless retirement, near-duplicate
 # merge, capacity pruning) at the end of each batch (LIBRARY-SPEC.md section 5). Not E-minus: it never manages.
 UPKEEP_CONDITIONS = ('E',)
+# Conditions that run only the first practice replicate (amended 2026-11-21, owner: less compute; D is the
+# memory baseline, E and E-minus keep both replicates).
+SINGLE_REPLICATE = ('D',)
+
+
+def replicates(cfg, condition):
+    """The practice replicates (practice seeds) a memory condition runs."""
+    return list(cfg.practice_seeds[:1] if condition in SINGLE_REPLICATE else cfg.practice_seeds)
+
+
 # Early gate (a bug detector, not evidence): stop if E wins - C wins < GATE_MARGIN on the gate games.
 GATE_MARGIN = -3
 
@@ -701,7 +711,8 @@ class Runner:
         for pseed in self.cfg.practice_seeds:
             practice = ordered(self.manifest['splits']['practice'], pseed,
                                demo_count or self.cfg.practice_episodes, repeat=True)
-            specs += [stream_spec(c, 'practice', pseed, practice, replicate=pseed) for c in memory]
+            specs += [stream_spec(c, 'practice', pseed, practice, replicate=pseed) for c in memory
+                      if pseed in replicates(self.cfg, c)]
         id_pool = self.id_evaluation_pool()
         for phase, full in (('evaluation', self.manifest['splits']['evaluation']), ('id-evaluation', id_pool)):
             if not full:
@@ -717,7 +728,8 @@ class Runner:
                     # test episode is independent, so they all run in parallel.
                     if condition in MEMORY:
                         specs += [stream_spec(condition, phase, seed, tasks, init=practice_key(condition, pseed),
-                                              frozen=True, replicate=pseed) for pseed in self.cfg.practice_seeds]
+                                              frozen=True, replicate=pseed)
+                                  for pseed in replicates(self.cfg, condition)]
                     else:
                         specs.append(stream_spec(condition, phase, seed, tasks))
         # Practice-length curve: frozen libraries at milestones on fixed ID/OOD subsets.
@@ -727,7 +739,7 @@ class Runner:
             for condition in self.cfg.snapshot_conditions:
                 if condition not in conditions:
                     continue
-                for pseed in self.cfg.practice_seeds:
+                for pseed in replicates(self.cfg, condition):
                     for name, pool in subsets:
                         if pool:
                             tasks = ordered(pool, seed, min(self.cfg.snapshot_games, len(pool)))
