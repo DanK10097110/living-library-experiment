@@ -1,0 +1,2050 @@
+{
+  "renderer": "ALFWorld 0.4.2 / AI2-THOR 2.1.0",
+  "mode": "Replay of recorded actions; no new language-model inference.",
+  "resolution": [
+    800,
+    600
+  ],
+  "alignment": "TextWorld aliases mapped to physical IDs; oracle viewpoints and official forceAction object interaction. Not a vision-policy evaluation.",
+  "episodes": [
+    {
+      "id": "pair-heat-mug-cabinet-C",
+      "title": "Heat a mug: C stuck at the stoveburner, E uses the microwave (C)",
+      "goal": "put a hot mug in cabinet.",
+      "condition": "C",
+      "task_kind": "heat then place",
+      "game_id": "valid_seen/pick_heat_then_place_in_recep-Mug-None-Cabinet-3/trial_T20190909_014639_335717",
+      "source": {
+        "run": "old-pilot-9b-v1",
+        "stream": "development-C-11",
+        "position": 54
+      },
+      "source_file": "examples/episodes/paired/pair-heat-mug-cabinet.json",
+      "source_sha256": "b755568f7287c1ac0e46d633d954bd64bad653f8ae9eb180a9efa007f65c335a",
+      "game_sha256": "700b5716ab65490fcfac436b3a8f4c924e48c00318a85a10ff554c3be7b0f7c5",
+      "recorded_won": false,
+      "textworld_won": false,
+      "alias_adjustments": [],
+      "thor_won": false,
+      "initial_frame": "pair-heat-mug-cabinet-C/initial.jpg",
+      "plan": [],
+      "rules": [],
+      "recorded_model_calls": 33,
+      "recorded_invalid_actions": 3,
+      "steps": [
+        {
+          "step": 1,
+          "action": "go to coffeemachine 1",
+          "controller_action": "go to coffeemachine 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You arrive at coffeemachine 1. On the coffeemachine 1, you see a mug 1.",
+          "textworld_observation": "You arrive at coffeemachine 1. On the coffeemachine 1, you see a mug 1.",
+          "thor_observation": "You arrive at loc 2. On the coffeemachine 1, you see mug 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-01.jpg",
+          "low_level": [
+            {
+              "frame": "pair-heat-mug-cabinet-C/0000.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 2,
+          "action": "take mug 1 from coffeemachine 1",
+          "controller_action": "take mug 1 from coffeemachine 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You pick up the mug 1 from the coffeemachine 1.",
+          "textworld_observation": "You pick up the mug 1 from the coffeemachine 1.",
+          "thor_observation": "You pick up the mug 1 from the coffeemachine 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-02.jpg",
+          "low_level": [
+            {
+              "frame": "pair-heat-mug-cabinet-C/0001.jpg",
+              "action": "PickupObject",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 3,
+          "action": "go to stoveburner 1",
+          "controller_action": "go to stoveburner 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You arrive at stoveburner 1. On the stoveburner 1, you see nothing.",
+          "textworld_observation": "You arrive at stoveburner 1. On the stoveburner 1, you see nothing.",
+          "thor_observation": "You arrive at loc 24. On the stoveburner 1, you see nothing.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-03.jpg",
+          "low_level": [
+            {
+              "frame": "pair-heat-mug-cabinet-C/0002.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 214.612656,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 4,
+          "action": "examine stoveburner 1",
+          "controller_action": "examine stoveburner 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the stoveburner 1, you see nothing.",
+          "textworld_observation": "On the stoveburner 1, you see nothing.",
+          "thor_observation": "On the stoveburner 1, you see nothing.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-04.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 214.612656,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 5,
+          "action": "examine stoveburner 1",
+          "controller_action": "examine stoveburner 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the stoveburner 1, you see nothing.",
+          "textworld_observation": "On the stoveburner 1, you see nothing.",
+          "thor_observation": "On the stoveburner 1, you see nothing.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-05.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 214.612656,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 6,
+          "action": "examine stoveburner 2",
+          "controller_action": "examine stoveburner 2",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the stoveburner 2, you see a kettle 1.",
+          "textworld_observation": "On the stoveburner 2, you see a kettle 1.",
+          "thor_observation": "On the stoveburner 2, you see kettle 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-06.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 214.612656,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 7,
+          "action": "examine stoveburner 1",
+          "controller_action": "examine stoveburner 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the stoveburner 1, you see nothing.",
+          "textworld_observation": "On the stoveburner 1, you see nothing.",
+          "thor_observation": "On the stoveburner 1, you see nothing.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-07.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 214.612656,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 8,
+          "action": "place mug 1 on stoveburner 1",
+          "controller_action": "place mug 1 on stoveburner 1",
+          "recorded_valid": false,
+          "textworld_valid": false,
+          "recorded_observation": "On the stoveburner 1, you see nothing.",
+          "textworld_observation": "Nothing happens.",
+          "thor_observation": "Nothing happens.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-08.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 214.612656,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 9,
+          "action": "examine stoveburner 1",
+          "controller_action": "examine stoveburner 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the stoveburner 1, you see nothing.",
+          "textworld_observation": "On the stoveburner 1, you see nothing.",
+          "thor_observation": "On the stoveburner 1, you see nothing.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-09.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 214.612656,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 10,
+          "action": "examine stoveburner 1",
+          "controller_action": "examine stoveburner 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the stoveburner 1, you see nothing.",
+          "textworld_observation": "On the stoveburner 1, you see nothing.",
+          "thor_observation": "On the stoveburner 1, you see nothing.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-10.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 214.612656,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 11,
+          "action": "examine stoveburner 1",
+          "controller_action": "examine stoveburner 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the stoveburner 1, you see nothing.",
+          "textworld_observation": "On the stoveburner 1, you see nothing.",
+          "thor_observation": "On the stoveburner 1, you see nothing.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-11.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 214.612656,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 12,
+          "action": "examine stoveburner 1",
+          "controller_action": "examine stoveburner 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the stoveburner 1, you see nothing.",
+          "textworld_observation": "On the stoveburner 1, you see nothing.",
+          "thor_observation": "On the stoveburner 1, you see nothing.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-12.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 214.612656,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 13,
+          "action": "place mug 1 on stoveburner 1",
+          "controller_action": "place mug 1 on stoveburner 1",
+          "recorded_valid": false,
+          "textworld_valid": false,
+          "recorded_observation": "On the stoveburner 1, you see nothing.",
+          "textworld_observation": "Nothing happens.",
+          "thor_observation": "Nothing happens.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-13.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 214.612656,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 14,
+          "action": "examine stoveburner 1",
+          "controller_action": "examine stoveburner 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the stoveburner 1, you see nothing.",
+          "textworld_observation": "On the stoveburner 1, you see nothing.",
+          "thor_observation": "On the stoveburner 1, you see nothing.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-14.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 214.612656,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 15,
+          "action": "inventory",
+          "controller_action": "inventory",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You are carrying: a mug 1.",
+          "textworld_observation": "You are carrying: a mug 1.",
+          "thor_observation": "You are carrying: a mug 1",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-15.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 214.612656,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 16,
+          "action": "place mug 1 on stoveburner 2",
+          "controller_action": "place mug 1 on stoveburner 2",
+          "recorded_valid": false,
+          "textworld_valid": false,
+          "recorded_observation": "You are carrying: a mug 1.",
+          "textworld_observation": "Nothing happens.",
+          "thor_observation": "Nothing happens.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-16.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 214.612656,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 17,
+          "action": "examine stoveburner 2",
+          "controller_action": "examine stoveburner 2",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the stoveburner 2, you see a kettle 1.",
+          "textworld_observation": "On the stoveburner 2, you see a kettle 1.",
+          "thor_observation": "On the stoveburner 2, you see kettle 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-17.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 214.612656,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 18,
+          "action": "examine stoveburner 2",
+          "controller_action": "examine stoveburner 2",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the stoveburner 2, you see a kettle 1.",
+          "textworld_observation": "On the stoveburner 2, you see a kettle 1.",
+          "thor_observation": "On the stoveburner 2, you see kettle 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-18.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 214.612656,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 19,
+          "action": "examine stoveburner 2",
+          "controller_action": "examine stoveburner 2",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the stoveburner 2, you see a kettle 1.",
+          "textworld_observation": "On the stoveburner 2, you see a kettle 1.",
+          "thor_observation": "On the stoveburner 2, you see kettle 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-19.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 214.612656,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 20,
+          "action": "examine stoveburner 2",
+          "controller_action": "examine stoveburner 2",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the stoveburner 2, you see a kettle 1.",
+          "textworld_observation": "On the stoveburner 2, you see a kettle 1.",
+          "thor_observation": "On the stoveburner 2, you see kettle 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-20.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 214.612656,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 21,
+          "action": "examine stoveburner 2",
+          "controller_action": "examine stoveburner 2",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the stoveburner 2, you see a kettle 1.",
+          "textworld_observation": "On the stoveburner 2, you see a kettle 1.",
+          "thor_observation": "On the stoveburner 2, you see kettle 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-21.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 214.612656,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 22,
+          "action": "examine stoveburner 2",
+          "controller_action": "examine stoveburner 2",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the stoveburner 2, you see a kettle 1.",
+          "textworld_observation": "On the stoveburner 2, you see a kettle 1.",
+          "thor_observation": "On the stoveburner 2, you see kettle 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-22.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 214.612656,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 23,
+          "action": "examine stoveburner 2",
+          "controller_action": "examine stoveburner 2",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the stoveburner 2, you see a kettle 1.",
+          "textworld_observation": "On the stoveburner 2, you see a kettle 1.",
+          "thor_observation": "On the stoveburner 2, you see kettle 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-23.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 214.612656,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 24,
+          "action": "examine stoveburner 2",
+          "controller_action": "examine stoveburner 2",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the stoveburner 2, you see a kettle 1.",
+          "textworld_observation": "On the stoveburner 2, you see a kettle 1.",
+          "thor_observation": "On the stoveburner 2, you see kettle 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-24.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 214.612656,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 25,
+          "action": "examine stoveburner 2",
+          "controller_action": "examine stoveburner 2",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the stoveburner 2, you see a kettle 1.",
+          "textworld_observation": "On the stoveburner 2, you see a kettle 1.",
+          "thor_observation": "On the stoveburner 2, you see kettle 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-25.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 214.612656,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 26,
+          "action": "examine stoveburner 2",
+          "controller_action": "examine stoveburner 2",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the stoveburner 2, you see a kettle 1.",
+          "textworld_observation": "On the stoveburner 2, you see a kettle 1.",
+          "thor_observation": "On the stoveburner 2, you see kettle 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-26.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 214.612656,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 27,
+          "action": "go to cabinet 1",
+          "controller_action": "go to cabinet 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You arrive at cabinet 1. The cabinet 1 is closed.",
+          "textworld_observation": "You arrive at cabinet 1. The cabinet 1 is closed.",
+          "thor_observation": "You arrive at loc 1. The cabinet 1 is closed. ",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-27.jpg",
+          "low_level": [
+            {
+              "frame": "pair-heat-mug-cabinet-C/0003.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 28,
+          "action": "go to stoveburner 2",
+          "controller_action": "go to stoveburner 2",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You arrive at stoveburner 2. On the stoveburner 2, you see a kettle 1.",
+          "textworld_observation": "You arrive at stoveburner 2. On the stoveburner 2, you see a kettle 1.",
+          "thor_observation": "You arrive at loc 23. On the stoveburner 2, you see kettle 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-28.jpg",
+          "low_level": [
+            {
+              "frame": "pair-heat-mug-cabinet-C/0004.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 199.905655,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 29,
+          "action": "examine stoveburner 2",
+          "controller_action": "examine stoveburner 2",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the stoveburner 2, you see a kettle 1.",
+          "textworld_observation": "On the stoveburner 2, you see a kettle 1.",
+          "thor_observation": "On the stoveburner 2, you see kettle 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-29.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 199.905655,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 30,
+          "action": "examine stoveburner 2",
+          "controller_action": "examine stoveburner 2",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the stoveburner 2, you see a kettle 1.",
+          "textworld_observation": "On the stoveburner 2, you see a kettle 1.",
+          "thor_observation": "On the stoveburner 2, you see kettle 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-C/step-30.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 199.905655,
+              "z": 0.0
+            }
+          }
+        }
+      ],
+      "focus_objects": [
+        "mug 1"
+      ]
+    },
+    {
+      "id": "pair-heat-mug-cabinet-E",
+      "title": "Heat a mug: C stuck at the stoveburner, E uses the microwave (E)",
+      "goal": "put a hot mug in cabinet.",
+      "condition": "E",
+      "task_kind": "heat then place",
+      "game_id": "valid_seen/pick_heat_then_place_in_recep-Mug-None-Cabinet-3/trial_T20190909_014639_335717",
+      "source": {
+        "run": "check-e",
+        "stream": "development-E-11",
+        "position": 54,
+        "library": "check-e practice library, frozen (22 entries)"
+      },
+      "source_file": "examples/episodes/paired/pair-heat-mug-cabinet.json",
+      "source_sha256": "b755568f7287c1ac0e46d633d954bd64bad653f8ae9eb180a9efa007f65c335a",
+      "game_sha256": "700b5716ab65490fcfac436b3a8f4c924e48c00318a85a10ff554c3be7b0f7c5",
+      "recorded_won": true,
+      "textworld_won": true,
+      "thor_won": true,
+      "initial_frame": "pair-heat-mug-cabinet-E/initial.jpg",
+      "plan": [
+        "find a mug",
+        "heat the mug in the microwave",
+        "put the hot mug in a cabinet"
+      ],
+      "rules": [
+        {
+          "id": "rule_16",
+          "type": "Corrected Error",
+          "task_type": "pick_heat_then_place_in_recep",
+          "alpha": 3,
+          "beta": 2,
+          "mean": 0.6,
+          "visible_to_agent": true,
+          "rule": "When the object must be heated and placed in a receptacle, go to the target receptacle after heating instead of trying to place it on a stoveburner.",
+          "example": "The agent failed by placing the potato on stoveburner 1 and stoveburner 2, then succeeded by moving it to diningtable 1 after heating it with the microwave.",
+          "rendered_for_agent": "[Corrected Error] When the object must be heated and placed in a receptacle, go to the target receptacle after heating instead of trying to place it on a stoveburner. Example: The agent failed by placing the potato on stoveburner 1 and stoveburner 2, then succeeded by moving it to diningtable 1 after heating it with the microwave.",
+          "evidence": {
+            "won": 2,
+            "lost": 1
+          }
+        }
+      ],
+      "recorded_model_calls": 9,
+      "recorded_invalid_actions": 0,
+      "steps": [
+        {
+          "step": 1,
+          "action": "go to countertop 1",
+          "controller_action": "go to countertop 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You arrive at countertop 1. On the countertop 1, you see a bowl 2, a bread 2, a bread 1, a cup 3, a dishsponge 3, a dishsponge 2, a dishsponge 1, a houseplant 1, a knife 1, a lettuce 2, a mug 2, a mug 1, a peppershaker 3, a peppershaker 2, a potato 1, a saltshaker 1, a spatula 1, a spoon 3, a spoon 2, and a winebottle 1.",
+          "textworld_observation": "You arrive at countertop 1. On the countertop 1, you see a bowl 2, a bread 2, a bread 1, a cup 3, a dishsponge 3, a dishsponge 2, a dishsponge 1, a houseplant 1, a knife 1, a lettuce 2, a mug 2, a mug 1, a peppershaker 3, a peppershaker 2, a potato 1, a saltshaker 1, a spatula 1, a spoon 3, a spoon 2, and a winebottle 1.",
+          "thor_observation": "You arrive at loc 0. On the countertop 1, you see mug 1, spoon 2.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-E/step-01.jpg",
+          "low_level": [
+            {
+              "frame": "pair-heat-mug-cabinet-E/0000.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 2,
+          "action": "take mug 1 from countertop 1",
+          "controller_action": "take mug 1 from countertop 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You pick up the mug 1 from the countertop 1.",
+          "textworld_observation": "You pick up the mug 1 from the countertop 1.",
+          "thor_observation": "You pick up the mug 1 from the countertop 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-E/step-02.jpg",
+          "low_level": [
+            {
+              "frame": "pair-heat-mug-cabinet-E/0001.jpg",
+              "action": "PickupObject",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 3,
+          "action": "go to microwave 1",
+          "controller_action": "go to microwave 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You arrive at microwave 1. The microwave 1 is closed.",
+          "textworld_observation": "You arrive at microwave 1. The microwave 1 is closed.",
+          "thor_observation": "You arrive at loc 13. The microwave 1 is closed. ",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-E/step-03.jpg",
+          "low_level": [
+            {
+              "frame": "pair-heat-mug-cabinet-E/0002.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": 0.25,
+              "y": 1.12315261,
+              "z": 0.75
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 4,
+          "action": "open microwave 1",
+          "controller_action": "open microwave 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You open the microwave 1. The microwave 1 is open. In it, you see nothing.",
+          "textworld_observation": "You open the microwave 1. The microwave 1 is open. In it, you see nothing.",
+          "thor_observation": "You open the microwave 1. The microwave 1 is open. In it, you see nothing.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-E/step-04.jpg",
+          "low_level": [
+            {
+              "frame": "pair-heat-mug-cabinet-E/0003.jpg",
+              "action": "OpenObject",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": 0.25,
+              "y": 1.12315261,
+              "z": 0.75
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 5,
+          "action": "heat mug 1 with microwave 1",
+          "controller_action": "heat mug 1 with microwave 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You heat the mug 1 using the microwave 1.",
+          "textworld_observation": "You heat the mug 1 using the microwave 1.",
+          "thor_observation": "Nothing happens.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-E/step-05.jpg",
+          "low_level": [
+            {
+              "frame": "pair-heat-mug-cabinet-E/0004.jpg",
+              "action": "OpenObject",
+              "success": false,
+              "error": ""
+            },
+            {
+              "frame": "pair-heat-mug-cabinet-E/0005.jpg",
+              "action": "PutObject",
+              "success": true,
+              "error": ""
+            },
+            {
+              "frame": "pair-heat-mug-cabinet-E/0006.jpg",
+              "action": "CloseObject",
+              "success": true,
+              "error": ""
+            },
+            {
+              "frame": "pair-heat-mug-cabinet-E/0007.jpg",
+              "action": "ToggleObjectOn",
+              "success": true,
+              "error": ""
+            },
+            {
+              "frame": "pair-heat-mug-cabinet-E/0008.jpg",
+              "action": "Pass",
+              "success": true,
+              "error": ""
+            },
+            {
+              "frame": "pair-heat-mug-cabinet-E/0009.jpg",
+              "action": "ToggleObjectOff",
+              "success": true,
+              "error": ""
+            },
+            {
+              "frame": "pair-heat-mug-cabinet-E/0010.jpg",
+              "action": "OpenObject",
+              "success": true,
+              "error": ""
+            },
+            {
+              "frame": "pair-heat-mug-cabinet-E/0011.jpg",
+              "action": "PickupObject",
+              "success": true,
+              "error": ""
+            },
+            {
+              "frame": "pair-heat-mug-cabinet-E/0012.jpg",
+              "action": "CloseObject",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [
+              "mug 1"
+            ],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": 0.25,
+              "y": 1.12315261,
+              "z": 0.75
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 6,
+          "action": "go to cabinet 1",
+          "controller_action": "go to cabinet 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You arrive at cabinet 1. The cabinet 1 is closed.",
+          "textworld_observation": "You arrive at cabinet 1. The cabinet 1 is closed.",
+          "thor_observation": "You arrive at loc 1. The cabinet 1 is closed. ",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-E/step-06.jpg",
+          "low_level": [
+            {
+              "frame": "pair-heat-mug-cabinet-E/0013.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [
+              "mug 1"
+            ],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 7,
+          "action": "open cabinet 1",
+          "controller_action": "open cabinet 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You open the cabinet 1. The cabinet 1 is open. In it, you see a plate 2, and a plate 1.",
+          "textworld_observation": "You open the cabinet 1. The cabinet 1 is open. In it, you see a plate 2, and a plate 1.",
+          "thor_observation": "You open the cabinet 1. The cabinet 1 is open. In it, you see plate 2.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "pair-heat-mug-cabinet-E/step-07.jpg",
+          "low_level": [
+            {
+              "frame": "pair-heat-mug-cabinet-E/0014.jpg",
+              "action": "OpenObject",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [
+              "mug 1"
+            ],
+            "heated": [
+              "mug 1"
+            ],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 8,
+          "action": "move mug 1 to cabinet 1",
+          "controller_action": "put mug 1 in cabinet 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You move the mug 1 to the cabinet 1.",
+          "textworld_observation": "You move the mug 1 to the cabinet 1.",
+          "thor_observation": "You put the mug 1 in the cabinet 1.",
+          "textworld_won": true,
+          "thor_won": true,
+          "frame": "pair-heat-mug-cabinet-E/step-08.jpg",
+          "low_level": [
+            {
+              "frame": "pair-heat-mug-cabinet-E/0015.jpg",
+              "action": "PutObject",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [
+              "mug 1"
+            ],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 1.12367094,
+              "z": -2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        }
+      ],
+      "focus_objects": [
+        "mug 1"
+      ]
+    },
+    {
+      "id": "e-win-clean-fast",
+      "title": "E: clean task won in 6 steps (C needed 18)",
+      "goal": "put a clean butterknife in diningtable.",
+      "condition": "E",
+      "task_kind": "clean then place",
+      "game_id": "valid_seen/pick_clean_then_place_in_recep-ButterKnife-None-DiningTable-16/trial_T20190909_114508_617301",
+      "source": {
+        "run": "check-e",
+        "stream": "development-E-11",
+        "position": 68,
+        "library": "check-e practice library, frozen (22 entries)"
+      },
+      "source_file": "examples/episodes/e/e-win-clean-fast.json",
+      "source_sha256": "f9ed51b6a64b15cd026df9ab1f901eb2bd4973a936a61dacf3de2dab472aa399",
+      "game_sha256": "c6f45775d4b4671e477f893e2a6008b6be7d2a37d749203a82eb90b80dbf3f6c",
+      "recorded_won": true,
+      "textworld_won": true,
+      "thor_won": true,
+      "initial_frame": "e-win-clean-fast/initial.jpg",
+      "plan": [
+        "clean the butterknife 2 with sinkbasin 1",
+        "move the clean butterknife 2 to diningtable 1"
+      ],
+      "rules": [
+        {
+          "id": "rule_1",
+          "type": "Success Process",
+          "task_type": "pick_clean_then_place_in_recep",
+          "alpha": 6,
+          "beta": 3,
+          "mean": 0.67,
+          "visible_to_agent": true,
+          "rule": "When an object must be cleaned and placed: search the object's current location first, clean it with the sinkbasin, then move it to the target location.",
+          "example": "go to bathtubbasin 1, take cloth 1 from bathtubbasin 1, go to sinkbasin 1, clean cloth 1 with sinkbasin 1, go to toilet 1, move cloth 1 to toilet 1",
+          "validation": "This game confirmed the object was found on the countertop, cleaned at the sinkbasin, and moved to the drawer. | This game confirmed the object was found in the fridge, cleaned at the sinkbasin, and moved to the shelf. | This game confirmed the cloth was found in the bathtubbasin, cleaned at the sinkbasin, and moved to the toilet.",
+          "rendered_for_agent": "[Success Process] When an object must be cleaned and placed: search the object's current location first, clean it with the sinkbasin, then move it to the target location. Example: go to bathtubbasin 1, take cloth 1 from bathtubbasin 1, go to sinkbasin 1, clean cloth 1 with sinkbasin 1, go to toilet 1, move cloth 1 to toilet 1",
+          "evidence": {
+            "won": 5,
+            "lost": 2
+          }
+        },
+        {
+          "id": "rule_2",
+          "type": "Special Phenomenon",
+          "task_type": "pick_clean_then_place_in_recep",
+          "alpha": 6,
+          "beta": 3,
+          "mean": 0.67,
+          "visible_to_agent": true,
+          "rule": "When placing an object in a container, the container must be opened before moving the object inside.",
+          "example": "go to cabinet 1, open cabinet 1, move winebottle 2 to cabinet 1",
+          "validation": "This game confirmed the cabinet must be opened before moving items into it.",
+          "rendered_for_agent": "[Special Phenomenon] When placing an object in a container, the container must be opened before moving the object inside. Example: go to cabinet 1, open cabinet 1, move winebottle 2 to cabinet 1",
+          "evidence": {
+            "won": 5,
+            "lost": 2
+          }
+        },
+        {
+          "id": "rule_9",
+          "type": "Corrected Error",
+          "task_type": "pick_clean_then_place_in_recep",
+          "alpha": 1,
+          "beta": 1,
+          "mean": 0.5,
+          "visible_to_agent": true,
+          "rule": "When the target object must be found, never open cabinets or drawers first; scan the bathtubbasin and countertops first.",
+          "example": "Agent wasted time opening multiple cabinets without finding the cloth, which was in the bathtubbasin.",
+          "rendered_for_agent": "[Corrected Error] When the target object must be found, never open cabinets or drawers first; scan the bathtubbasin and countertops first. Example: Agent wasted time opening multiple cabinets without finding the cloth, which was in the bathtubbasin.",
+          "evidence": {
+            "won": 0,
+            "lost": 0
+          }
+        }
+      ],
+      "recorded_model_calls": 8,
+      "recorded_invalid_actions": 0,
+      "steps": [
+        {
+          "step": 1,
+          "action": "go to countertop 1",
+          "controller_action": "go to countertop 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You arrive at countertop 1. On the countertop 1, you see a butterknife 2, a houseplant 2, a houseplant 1, a ladle 2, a pan 2, a pan 1, a peppershaker 2, a pot 2, a pot 1, a potato 2, a potato 1, a saltshaker 1, and a soapbottle 1.",
+          "textworld_observation": "You arrive at countertop 1. On the countertop 1, you see a butterknife 2, a houseplant 2, a houseplant 1, a ladle 2, a pan 2, a pan 1, a peppershaker 2, a pot 2, a pot 1, a potato 2, a potato 1, a saltshaker 1, and a soapbottle 1.",
+          "thor_observation": "You arrive at loc 3. On the countertop 1, you see pan 2, potato 2, butterknife 2.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "e-win-clean-fast/step-01.jpg",
+          "low_level": [
+            {
+              "frame": "e-win-clean-fast/0000.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": 1.0,
+              "y": 0.9000491,
+              "z": 1.0
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 2,
+          "action": "take butterknife 2 from countertop 1",
+          "controller_action": "take butterknife 2 from countertop 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You pick up the butterknife 2 from the countertop 1.",
+          "textworld_observation": "You pick up the butterknife 2 from the countertop 1.",
+          "thor_observation": "You pick up the butterknife 2 from the countertop 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "e-win-clean-fast/step-02.jpg",
+          "low_level": [
+            {
+              "frame": "e-win-clean-fast/0001.jpg",
+              "action": "PickupObject",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [
+              "butterknife 2"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": 1.0,
+              "y": 0.9000491,
+              "z": 1.0
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 3,
+          "action": "go to sinkbasin 1",
+          "controller_action": "go to sinkbasin 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You arrive at sinkbasin 1. On the sinkbasin 1, you see a apple 3, a apple 2, a cup 3, a knife 2, and a spoon 1.",
+          "textworld_observation": "You arrive at sinkbasin 1. On the sinkbasin 1, you see a apple 3, a apple 2, a cup 3, a knife 2, and a spoon 1.",
+          "thor_observation": "You arrive at loc 35. On the sinkbasin 1, you see cup 3, apple 3, knife 2.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "e-win-clean-fast/step-03.jpg",
+          "low_level": [
+            {
+              "frame": "e-win-clean-fast/0002.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [
+              "butterknife 2"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": 0.0,
+              "y": 0.9000491,
+              "z": 1.5
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 270.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 4,
+          "action": "clean butterknife 2 with sinkbasin 1",
+          "controller_action": "clean butterknife 2 with sinkbasin 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You clean the butterknife 2 using the sinkbasin 1.",
+          "textworld_observation": "You clean the butterknife 2 using the sinkbasin 1.",
+          "thor_observation": "You clean the butterknife 2 using the sinkbasin 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "e-win-clean-fast/step-04.jpg",
+          "low_level": [
+            {
+              "frame": "e-win-clean-fast/0003.jpg",
+              "action": "PutObject",
+              "success": true,
+              "error": ""
+            },
+            {
+              "frame": "e-win-clean-fast/0004.jpg",
+              "action": "Pass",
+              "success": true,
+              "error": ""
+            },
+            {
+              "frame": "e-win-clean-fast/0005.jpg",
+              "action": "ToggleObjectOn",
+              "success": true,
+              "error": ""
+            },
+            {
+              "frame": "e-win-clean-fast/0006.jpg",
+              "action": "Pass",
+              "success": true,
+              "error": ""
+            },
+            {
+              "frame": "e-win-clean-fast/0007.jpg",
+              "action": "ToggleObjectOff",
+              "success": true,
+              "error": ""
+            },
+            {
+              "frame": "e-win-clean-fast/0008.jpg",
+              "action": "PickupObject",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [
+              "butterknife 2"
+            ],
+            "heated": [],
+            "cleaned": [
+              "apple 3",
+              "apple 2",
+              "butterknife 2",
+              "cup 3",
+              "knife 2",
+              "spoon 1"
+            ],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": 0.0,
+              "y": 0.9000491,
+              "z": 1.5
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 270.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 5,
+          "action": "go to diningtable 1",
+          "controller_action": "go to diningtable 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You arrive at diningtable 1. On the diningtable 1, you see a bowl 2, a bowl 1, a bread 1, a butterknife 1, a dishsponge 1, a glassbottle 1, a ladle 1, a lettuce 2, a lettuce 1, a mug 1, a papertowelroll 1, a peppershaker 1, a plate 2, a tomato 1, a winebottle 2, and a winebottle 1.",
+          "textworld_observation": "You arrive at diningtable 1. On the diningtable 1, you see a bowl 2, a bowl 1, a bread 1, a butterknife 1, a dishsponge 1, a glassbottle 1, a ladle 1, a lettuce 2, a lettuce 1, a mug 1, a papertowelroll 1, a peppershaker 1, a plate 2, a tomato 1, a winebottle 2, and a winebottle 1.",
+          "thor_observation": "You arrive at loc 48. On the diningtable 1, you see glassbottle 1, bowl 1, lettuce 2, bread 1, winebottle 1, lettuce 1, mug 1, winebottle 2, tomato 1, papertowelroll 1, bowl 2, plate 2, ladle 1, peppershaker 1, dishsponge 1, butterknife 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "e-win-clean-fast/step-05.jpg",
+          "low_level": [
+            {
+              "frame": "e-win-clean-fast/0009.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [
+              "butterknife 2"
+            ],
+            "heated": [],
+            "cleaned": [
+              "apple 3",
+              "apple 2",
+              "butterknife 2",
+              "cup 3",
+              "knife 2",
+              "spoon 1"
+            ],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": 2.5,
+              "y": 0.8999626,
+              "z": 3.0
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 6,
+          "action": "move butterknife 2 to diningtable 1",
+          "controller_action": "put butterknife 2 in diningtable 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You move the butterknife 2 to the diningtable 1.",
+          "textworld_observation": "You move the butterknife 2 to the diningtable 1.",
+          "thor_observation": "You put the butterknife 2 in the diningtable 1.",
+          "textworld_won": true,
+          "thor_won": true,
+          "frame": "e-win-clean-fast/step-06.jpg",
+          "low_level": [
+            {
+              "frame": "e-win-clean-fast/0010.jpg",
+              "action": "PutObject",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [
+              "apple 3",
+              "apple 2",
+              "butterknife 2",
+              "cup 3",
+              "knife 2",
+              "spoon 1"
+            ],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": 2.5,
+              "y": 0.8999626,
+              "z": 3.0
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          }
+        }
+      ],
+      "focus_objects": [
+        "butterknife 2"
+      ]
+    },
+    {
+      "id": "e-win-look-3-steps",
+      "title": "E: look-at-object solved in 3 steps (C needed 14)",
+      "goal": "examine the bowl with the desklamp.",
+      "condition": "E",
+      "task_kind": "look at object under a lamp",
+      "game_id": "valid_seen/look_at_obj_in_light-Bowl-None-DeskLamp-316/trial_T20190908_230702_962704",
+      "source": {
+        "run": "check-e",
+        "stream": "development-E-11",
+        "position": 66,
+        "library": "check-e practice library, frozen (22 entries)"
+      },
+      "source_file": "examples/episodes/e/e-win-look-3-steps.json",
+      "source_sha256": "e01d1b49b2ba8fd216ecabe4c15ed84c3f58205ea490f443b99d69a909b03c83",
+      "game_sha256": "72176a87fab004089b00c81006bde25dd02767e0bf24ac46e77889d88526d892",
+      "recorded_won": true,
+      "textworld_won": true,
+      "alias_adjustments": [],
+      "thor_won": true,
+      "initial_frame": "e-win-look-3-steps/initial.jpg",
+      "plan": [
+        "search all shelves and desks for the desklamp",
+        "go to the location where the desklamp is found",
+        "take the bowl from its current location",
+        "move the bowl to the desklamp location",
+        "turn on the desklamp",
+        "examine the bowl with the desklamp"
+      ],
+      "rules": [
+        {
+          "id": "rule_21",
+          "type": "Success Process",
+          "task_type": "look_at_obj_in_light",
+          "alpha": 1,
+          "beta": 1,
+          "mean": 0.5,
+          "visible_to_agent": true,
+          "rule": "When an object must be looked at under a light: search all shelves and desks for the light source, take the object from its location, move it to the light source's location, use the light source, then look.",
+          "example": "Search shelves/desks for desklamp. Take pencil. Move pencil to desklamp location. Use desklamp. Look.",
+          "rendered_for_agent": "[Success Process] When an object must be looked at under a light: search all shelves and desks for the light source, take the object from its location, move it to the light source's location, use the light source, then look. Example: Search shelves/desks for desklamp. Take pencil. Move pencil to desklamp location. Use desklamp. Look.",
+          "evidence": {
+            "won": 0,
+            "lost": 0
+          }
+        },
+        {
+          "id": "rule_20",
+          "type": "Corrected Error",
+          "task_type": "look_at_obj_in_light",
+          "alpha": 1,
+          "beta": 1,
+          "mean": 0.5,
+          "visible_to_agent": true,
+          "rule": "When an object must be looked at under a light, first locate the light source, then move the object directly under it before attempting to look.",
+          "example": "In this game, the agent failed by moving the pencil to desk 2 without finding the desklamp. The successful retry found the desklamp on shelf 2, moved the pencil there, turned on the desklamp, and then",
+          "rendered_for_agent": "[Corrected Error] When an object must be looked at under a light, first locate the light source, then move the object directly under it before attempting to look. Example: In this game, the agent failed by moving the pencil to desk 2 without finding the desklamp. The successful retry found the desklamp on shelf 2, moved the pencil there, turned on the desklamp, and then",
+          "evidence": {
+            "won": 0,
+            "lost": 0
+          }
+        }
+      ],
+      "recorded_model_calls": 4,
+      "recorded_invalid_actions": 0,
+      "steps": [
+        {
+          "step": 1,
+          "action": "go to desk 1",
+          "controller_action": "go to desk 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You arrive at desk 1. On the desk 1, you see a alarmclock 1, a bowl 1, a cd 2, a cd 1, a cellphone 1, a desklamp 1, a houseplant 1, a keychain 2, a keychain 1, and a pen 1.",
+          "textworld_observation": "You arrive at desk 1. On the desk 1, you see a alarmclock 1, a bowl 1, a cd 2, a cd 1, a cellphone 1, a desklamp 1, a houseplant 1, a keychain 2, a keychain 1, and a pen 1.",
+          "thor_observation": "You arrive at loc 2. On the desk 1, you see desklamp 1, houseplant 1, keychain 1, keychain 2.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "e-win-look-3-steps/step-01.jpg",
+          "low_level": [
+            {
+              "frame": "e-win-look-3-steps/0000.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": 0.0,
+              "y": 0.901932836,
+              "z": -1.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 180.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 2,
+          "action": "take bowl 1 from desk 1",
+          "controller_action": "take bowl 1 from desk 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You pick up the bowl 1 from the desk 1.",
+          "textworld_observation": "You pick up the bowl 1 from the desk 1.",
+          "thor_observation": "You pick up the bowl 1 from the desk 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "e-win-look-3-steps/step-02.jpg",
+          "low_level": [
+            {
+              "frame": "e-win-look-3-steps/0001.jpg",
+              "action": "PickupObject",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [
+              "bowl 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": 0.0,
+              "y": 0.901932836,
+              "z": -1.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 180.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 3,
+          "action": "use desklamp 1",
+          "controller_action": "use desklamp 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You turn on the desklamp 1.",
+          "textworld_observation": "You turn on the desklamp 1.",
+          "thor_observation": "You turn on the desklamp 1.",
+          "textworld_won": true,
+          "thor_won": true,
+          "frame": "e-win-look-3-steps/step-03.jpg",
+          "low_level": [
+            {
+              "frame": "e-win-look-3-steps/0002.jpg",
+              "action": "ToggleObjectOn",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [
+              "bowl 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [
+              "desklamp 1"
+            ],
+            "agent_position": {
+              "x": 0.0,
+              "y": 0.901932836,
+              "z": -1.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 180.0,
+              "z": 0.0
+            }
+          }
+        }
+      ],
+      "focus_objects": [
+        "bowl 1"
+      ]
+    }
+  ],
+  "frame_storage": "RGB frames are embedded in alfworld-episodes.html, keyed by the frame IDs in this data."
+}
