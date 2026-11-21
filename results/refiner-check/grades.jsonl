@@ -1,0 +1,54 @@
+{"useful_rule":true,"verdict":"fixes","why":"Says hold object before heat; matches ALFWorld rule and removes rejected-heat cause.","id":"x00"}
+{"useful_rule":false,"verdict":"no","why":"Adds \u0027hold\u0027 but still prescribes placing inside appliance, the wasteful step.","id":"x01"}
+{"useful_rule":false,"verdict":"partial","why":"Swaps table for cabinet/countertop, drops the take step; still a fixed arbitrary search order.","id":"x02"}
+{"useful_rule":true,"verdict":"partial","why":"Fixes drawer wording to container, but surfaces-first search still misleads in other cases.","id":"x03"}
+{"useful_rule":true,"verdict":"partial","why":"Adds hold-first (real cause) but still tells agent to examine sink.","id":"x04"}
+{"useful_rule":false,"verdict":"worse","why":"Still prescribes placing inside then heating, which is the rejected behaviour.","id":"x05"}
+{"useful_rule":true,"verdict":"partial","why":"Fixes drawer wording to container, but surfaces-first search still misleads in other cases.","id":"x06"}
+{"useful_rule":false,"verdict":"no","why":"Identical to the original rule; wrong cause (holding another object) not addressed.","id":"x07"}
+{"useful_rule":false,"verdict":"no","why":"Merely reverses search order; ignores nonexistent countertop 2 and still fixed order.","id":"x08"}
+{"useful_rule":true,"verdict":"fixes","why":"Drops water check and states hold object before cleaning; correct.","id":"x09"}
+{"useful_rule":true,"verdict":"partial","why":"Mentions holding before heat but then says place inside, contradictory and wasteful.","id":"x10"}
+{"useful_rule":false,"verdict":"no","why":"Adds \u0027hold\u0027 but still prescribes placing inside appliance, the wasteful step.","id":"x11"}
+{"useful_rule":false,"verdict":"worse","why":"Still prescribes placing inside then heating, which is the rejected behaviour.","id":"x12"}
+{"useful_rule":false,"verdict":"no","why":"Unchanged from the original harmful rule.","id":"x13"}
+{"useful_rule":false,"verdict":"no","why":"Merely reverses search order; ignores nonexistent countertop 2 and still fixed order.","id":"x14"}
+{"useful_rule":false,"verdict":"no","why":"Identical to the original rule; wrong cause (holding another object) not addressed.","id":"x15"}
+{"useful_rule":true,"verdict":"partial","why":"Broadens to desks and cabinets but still container-first fixed search.","id":"x16"}
+{"useful_rule":true,"verdict":"partial","why":"Fixes drawer wording to container, but surfaces-first search still misleads in other cases.","id":"x17"}
+{"useful_rule":false,"verdict":"no","why":"Adds \u0027hold\u0027 but still prescribes placing inside appliance, the wasteful step.","id":"x18"}
+{"useful_rule":false,"verdict":"no","why":"Identical to the original rule; wrong cause (holding another object) not addressed.","id":"x19"}
+{"useful_rule":false,"verdict":"partial","why":"Replaces table-first with cabinet/countertop-first; still overfit order but steps intact.","id":"x20"}
+{"useful_rule":false,"verdict":"partial","why":"Broadens to containers/storage but still container-first; surfaces like dresser missed.","id":"x21"}
+{"useful_rule":false,"verdict":"no","why":"Merely reverses search order; ignores nonexistent countertop 2 and still fixed order.","id":"x22"}
+{"useful_rule":false,"verdict":"no","why":"Swaps drawers for cabinets; same flawed container-first order.","id":"x23"}
+{"useful_rule":false,"verdict":"no","why":"Still says to place object inside opened appliance; cause unchanged.","id":"x24"}
+{"useful_rule":false,"verdict":"partial","why":"Swaps table for cabinet/countertop, drops the take step; still a fixed arbitrary search order.","id":"x25"}
+{"useful_rule":false,"verdict":"worse","why":"Still prescribes placing inside then heating, which is the rejected behaviour.","id":"x26"}
+{"useful_rule":false,"verdict":"partial","why":"Replaces table-first with cabinet/countertop-first; still overfit order but steps intact.","id":"x27"}
+{"useful_rule":false,"verdict":"partial","why":"Broadens to containers/storage but still container-first; surfaces like dresser missed.","id":"x28"}
+{"useful_rule":false,"verdict":"no","why":"Vague search-first advice; omits the needed go-to target before move.","id":"x29"}
+{"useful_rule":false,"verdict":"no","why":"Vague search-first advice; omits the needed go-to target before move.","id":"x30"}
+{"useful_rule":false,"verdict":"worse","why":"Nonsensical \u0027search the sink first before examining it\u0027; still tells examining.","id":"x31"}
+{"useful_rule":false,"verdict":"no","why":"Adds \u0027hold\u0027 but still prescribes placing inside appliance, the wasteful step.","id":"x32"}
+{"useful_rule":true,"verdict":"partial","why":"Fixes drawer wording to container, but surfaces-first search still misleads in other cases.","id":"x33"}
+{"useful_rule":false,"verdict":"no","why":"Merely reverses search order; ignores nonexistent countertop 2 and still fixed order.","id":"x34"}
+{"useful_rule":false,"verdict":"no","why":"Adds \u0027hold\u0027 but still prescribes placing inside appliance, the wasteful step.","id":"x35"}
+{"useful_rule":false,"verdict":"no","why":"Identical to the original rule; wrong cause (holding another object) not addressed.","id":"x36"}
+{"useful_rule":false,"verdict":"no","why":"Swaps drawers for cabinets; same flawed container-first order.","id":"x37"}
+{"useful_rule":false,"verdict":"no","why":"Just swaps table for cabinet first; overfits to one episode, same flaw.","id":"x38"}
+{"useful_rule":true,"verdict":"fixes","why":"Says go to target first then move; fixes missing go-to.","id":"x39"}
+{"useful_rule":false,"verdict":"no","why":"Just swaps table for cabinet first; overfits to one episode, same flaw.","id":"x40"}
+{"useful_rule":false,"verdict":"no","why":"Merely reverses search order; ignores nonexistent countertop 2 and still fixed order.","id":"x41"}
+{"useful_rule":false,"verdict":"no","why":"Vague search-first advice; omits the needed go-to target before move.","id":"x42"}
+{"useful_rule":false,"verdict":"no","why":"Identical to the original rule; wrong cause (holding another object) not addressed.","id":"x43"}
+{"useful_rule":true,"verdict":"partial","why":"Generalizes drawer to container, but surfaces-first search still misleads.","id":"x44"}
+{"useful_rule":false,"verdict":"no","why":"Identical to the original rule; wrong cause (holding another object) not addressed.","id":"x45"}
+{"useful_rule":true,"verdict":"fixes","why":"Removes the pointless sink examine; does not mention holding but cause removed.","id":"x46"}
+{"useful_rule":true,"verdict":"partial","why":"Adds hold-first (real cause) but still tells agent to examine sink.","id":"x47"}
+{"useful_rule":true,"verdict":"fixes","why":"Says go to target first then move; fixes missing go-to.","id":"x48"}
+{"useful_rule":false,"verdict":"no","why":"Vague search-first advice; omits the needed go-to target before move.","id":"x49"}
+{"useful_rule":false,"verdict":"no","why":"Merely reverses search order; ignores nonexistent countertop 2 and still fixed order.","id":"x50"}
+{"useful_rule":false,"verdict":"no","why":"Swaps drawers for cabinets; same flawed container-first order.","id":"x51"}
+{"useful_rule":true,"verdict":"partial","why":"Fixes drawer wording to container, but surfaces-first search still misleads in other cases.","id":"x52"}
+{"useful_rule":false,"verdict":"worse","why":"Still prescribes placing inside then heating, which is the rejected behaviour.","id":"x53"}

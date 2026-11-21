@@ -433,3 +433,22 @@ Follows the judge measurement above. LIBRARY-SPEC sections 4, 5 and 7 amended.
 - Planner fallbacks in the frozen checks were 4-9 of 30 games with the planner prompt unchanged (unknown predicates,
   JSON cut at 512 tokens): ordinary planner noise with this library, not caused by the citation.
 - Not done: a synthetic Claude-graded check of the Builder and refiner (offered as optional).
+
+## 2026-11-21 — Refiner check on real harmful rules; harm reasons say whether the object was held
+
+`tools/refiner_check.py`: the 9 rules with a gold-harmful use in results/judge-eval become refiner scenarios built as
+`manual.refine` sees them (harmful games with the harm reason, other used games, rejected steps marked); 3 seeds each;
+the shipped text and command checks applied; a Sonnet reader graded all 54 rewrites blind to version
+(results/refiner-check: v1-before, v2-held, grades.jsonl, blind-key.json).
+- Before: the heat rule ("heat right after placing it inside") was rewritten into the same wrong order in 3/3 seeds:
+  the refiner saw "heat ... [rejected]" but nothing said why.
+- Change: a rejected-command harm reason now says whether the object was held then (last take / move of it) and where
+  the same command was accepted in the game and whether it was held ("while the potato 2 was not held: last 'move
+  potato 2 to microwave 1'"); REFINE_GUIDE tells the refiner to read it. Pure trace bookkeeping, no model call.
+- Grades (27 rewrites each): before fixes 3, partial 5, no 15, worse 4 (useful rule 6); after fixes 2, partial 11,
+  no 13, worse 1 (useful 9). Heat rule: worse 3/3 -> fixes 1, partial 1, worse 1. 24/27 pass the shipped checks (20).
+- Remaining weakness, accepted: rules with a wrong "search X first" are rewritten by swapping in the place where the
+  object was found in the shown games (graded "no": overfit). Such a rewrite can pass its trial games, which replay
+  the same tasks; it then collects fresh evidence and is retired after MAX_REVISIONS if it keeps doing harm. A wrong
+  command order (heat case) cannot pass trials (the rejections recur). The 9B refiner rarely produces a real fix
+  (about 1 in 10); the protection is the trial gate plus retirement, not the rewrite quality.

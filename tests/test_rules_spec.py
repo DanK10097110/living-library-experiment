@@ -239,6 +239,11 @@ class AssessTests(unittest.TestCase):
         self.assertEqual(manual.harms(right, good, self.HOT), [])
         found = manual.assess(self.agent(trace, ['rule_1'], goal=self.HOT), [wrong])
         self.assertEqual(found['rule_1']['usefulness'], -1)                      # harm outweighs a win
+        # The reason tells the refiner the object was not held then, and where the command worked.
+        later = trace + [step('take potato 1 from microwave 1'), step('heat potato 1 with microwave 1')]
+        reason = manual.harms(wrong, later, self.HOT)[0]
+        self.assertIn('while the potato 1 was not held: last "move potato 1 to microwave 1"', reason)
+        self.assertIn('accepted at step 7: "heat potato 1 with microwave 1" while the potato 1 was held', reason)
 
     def test_repeating_what_it_prescribes_is_harm(self):
         r = rule('rule_1', text='When heating on a stoveburner, examine the stoveburner to check it is hot.')

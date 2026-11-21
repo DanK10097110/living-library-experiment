@@ -1,0 +1,2570 @@
+[
+ {
+  "old_rule": "When heating a portable object in a microwave, use the 'heat <object> with microwave' command immediately after placing it inside, do not toggle the microwave door.",
+  "gold_reasons": [
+   "Agent issued 'heat potato 2 with microwave 1' right after moving the potato in (step 14) as prescribed and it was rejected (no longer holding it), leading to the open/close loop of steps 15-19.",
+   "Agent put the tomato inside the microwave and tried to heat it (steps 6, 28) as the rule prescribes, but every heat command was rejected (10-19, 28) because heating needs the object held; the rule is wrong and also the agent toggled the door repeatedly."
+  ],
+  "harmful_game_steps": [
+   [
+    "close microwave 1",
+    "heat potato 2 with microwave 1 [rejected]",
+    "open microwave 1",
+    "heat potato 2 with microwave 1 [rejected]",
+    "heat potato 2 with microwave 1 [rejected]",
+    "take potato 2 from microwave 1",
+    "go to countertop 1",
+    "move potato 2 to countertop 1",
+    "go to microwave 1",
+    "close microwave 1",
+    "go to countertop 1",
+    "The potato is already on the countertop, but the task requires it to be heated. Since the potato is currently on the countertop, I need to take it to heat it in the microwave again, or if the goal is simply to have a hot potato on the countertop, I should ensure it is [rejected]",
+    "take potato 2 from countertop 1",
+    "go to microwave 1",
+    "open microwave 1",
+    "move potato 2 to microwave 1"
+   ],
+   [
+    "heat tomato 3 with microwave 1 [rejected]",
+    "close microwave 1",
+    "open microwave 1",
+    "heat tomato 3 with microwave 1 [rejected]",
+    "heat tomato 3 with microwave 1 [rejected]",
+    "take tomato 3 from microwave 1",
+    "go to sidetable 1",
+    "move tomato 3 to sidetable 1",
+    "go to microwave 1",
+    "go to sidetable 1",
+    "take tomato 3 from sidetable 1",
+    "go to microwave 1",
+    "move tomato 3 to microwave 1",
+    "heat tomato 3 with microwave 1 [rejected]",
+    "close microwave 1",
+    "open microwave 1"
+   ]
+  ],
+  "rewrite": "When heating a portable object in a microwave, hold it before using 'heat <object> with microwave'.",
+  "shipped_check_error": "",
+  "id": "x00"
+ },
+ {
+  "old_rule": "When heating a portable object, place it directly on the heating appliance (stoveburner) or inside the heating appliance (microwave) after opening it.",
+  "gold_reasons": [
+   "Steps 6-13 opened the microwave, put the cup inside and shuffled it out again, wasting about 7 steps since 'heat cup 1 with microwave 1' works while holding it (step 14)."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to cabinet 1",
+    "go to fridge 1",
+    "open fridge 1",
+    "take cup 1 from fridge 1",
+    "go to microwave 1",
+    "open microwave 1",
+    "move cup 1 to microwave 1",
+    "close microwave 1",
+    "open microwave 1",
+    "close microwave 1",
+    "open microwave 1",
+    "take cup 1 from microwave 1",
+    "close microwave 1",
+    "heat cup 1 with microwave 1",
+    "go to countertop 1",
+    "move cup 1 to countertop 1"
+   ]
+  ],
+  "rewrite": "When heating a portable object, hold it and place it directly on the heating appliance or inside the heating appliance after opening it.",
+  "shipped_check_error": "",
+  "id": "x01"
+ },
+ {
+  "old_rule": "When an object must be cleaned and placed in a container: search the table first, take the object, go to the sink, clean it with the sink, go to the container, move it there.",
+  "gold_reasons": [
+   "Table-first search of diningtable 1 (steps 1-11, repeatedly) found no bowl, which was in cabinet 1 (step 13); the rest of the sequence including opening the microwave was correct but obvious."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to diningtable 1",
+    "go to fridge 1",
+    "go to diningtable 1",
+    "go to fridge 1",
+    "go to diningtable 1",
+    "go to fridge 1",
+    "open fridge 1",
+    "go to diningtable 1",
+    "go to cabinet 1",
+    "open cabinet 1",
+    "take bowl 1 from cabinet 1",
+    "go to sinkbasin 1",
+    "clean bowl 1 with sinkbasin 1",
+    "go to microwave 1",
+    "open microwave 1",
+    "move bowl 1 to microwave 1"
+   ]
+  ],
+  "rewrite": "When an object must be cleaned and placed: search cabinet or countertop first, clean it with sinkbasin, move it to the target.",
+  "shipped_check_error": "",
+  "id": "x02"
+ },
+ {
+  "old_rule": "When putting two objects in a drawer: search desk surfaces first, take each object, open the target drawer if closed, move each object to the drawer.",
+  "gold_reasons": [
+   "Desk first and taking keychain 3 (step 4) matched, but the 'drawer' wording led the agent to open drawer 1 and keep revisiting drawers (8-9, 18, 20, 27, 30) though the target was the safe, and it never managed to deliver.",
+   "Rule's 'search desk surfaces first' sent agent to desk 1 which had no laptop (1, 3, 15) while laptops were on the bed (23); rule also assumes a drawer target.",
+   "Surfaces (diningtable, countertop) were searched first and held no peppershaker; both were in closed cabinets (steps 11, 18), and the rule's drawer target does not match the diningtable goal.",
+   "Agent checked surfaces and cabinets first (steps 1-22, countertop 1 and dresser 1 empty of spraybottles) while the spraybottle was on the toilet (step 23); dresser needs no opening and the task needed two objects."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to safe 1",
+    "open safe 1",
+    "move keychain 2 to safe 1 [rejected]",
+    "go to drawer 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "open drawer 2",
+    "go to desk 1",
+    "go to desk 1 [rejected]",
+    "go to armchair 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to desk 1",
+    "take keychain 2 from desk 1 [rejected]",
+    "go to drawer 1"
+   ],
+   [
+    "go to desk 1",
+    "inventory",
+    "go to desk 1 [rejected]",
+    "examine desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to safe 1",
+    "go to armchair 1",
+    "go to bed 1",
+    "take laptop 1 from bed 1",
+    "go to desk 1",
+    "move laptop 1 to desk 1",
+    "go to bed 1",
+    "take laptop 2 from bed 1",
+    "move laptop 2 to desk 1 [rejected]",
+    "examine desk 1 [rejected]"
+   ],
+   [
+    "go to cabinet 2",
+    "go to countertop 1",
+    "go to cabinet 1",
+    "open cabinet 1",
+    "take peppershaker 1 from cabinet 1",
+    "go to diningtable 1",
+    "move peppershaker 1 to diningtable 1",
+    "go to countertop 1",
+    "go to cabinet 1",
+    "go to cabinet 2",
+    "open cabinet 2",
+    "take peppershaker 2 from cabinet 2",
+    "move peppershaker 2 to diningtable 1 [rejected]",
+    "move peppershaker 2 to diningtable 1 [rejected]",
+    "go to diningtable 1",
+    "move peppershaker 2 to diningtable 1"
+   ],
+   [
+    "go to cabinet 1",
+    "go to sinkbasin 1",
+    "go to sinkbasin 2",
+    "go to countertop 1",
+    "go to cabinet 2",
+    "go to drawer 1",
+    "go to drawer 2 [rejected]",
+    "examine drawer 1",
+    "go to toilet 1",
+    "take spraybottle 1 from toilet 1",
+    "go to cabinet 1",
+    "go to drawer 1",
+    "go to cabinet 1",
+    "go to drawer 1",
+    "move spraybottle 1 to dresser 1",
+    "go to cabinet 1"
+   ]
+  ],
+  "rewrite": "When putting two objects in a container: search surfaces first, take each object, open the target if closed, move each object to the container.",
+  "shipped_check_error": "",
+  "id": "x03"
+ },
+ {
+  "old_rule": "When cleaning the object, examine the sink first to confirm it contains water before attempting to clean.",
+  "gold_reasons": [
+   "Agent examined sinkbasin 1 at step 3 (showing no water info) and cleaning at step 15 worked regardless, so the check was a wasted step.",
+   "Agent examined sinkbasin 1 (steps 26, 28-30) looking for water, which ALFWorld does not model, while the clean was rejected only because butterknife 1 was never picked up (step 27)."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to sinkbasin 1",
+    "examine sinkbasin 1",
+    "go to drawer 1",
+    "open drawer 1",
+    "go to sinkbasin 1",
+    "go to drawer 2",
+    "open drawer 2",
+    "go to drawer 3",
+    "open drawer 3",
+    "go to garbagecan 1",
+    "go to countertop 1",
+    "take soapbar 1 from countertop 1",
+    "go to sinkbasin 1",
+    "clean soapbar 1 with sinkbasin 1",
+    "go to countertop 1",
+    "move soapbar 1 to countertop 1"
+   ],
+   [
+    "go to cabinet 1",
+    "go to countertop 4",
+    "go to cabinet 1",
+    "go to countertop 4",
+    "go to cabinet 1",
+    "go to countertop 4",
+    "go to cabinet 1",
+    "go to countertop 4",
+    "go to cabinet 1",
+    "go to drawer 1",
+    "go to sinkbasin 1",
+    "examine sinkbasin 1",
+    "clean butterknife 1 with sinkbasin 1 [rejected]",
+    "examine sinkbasin 1",
+    "examine sinkbasin 1",
+    "examine sinkbasin 1"
+   ]
+  ],
+  "rewrite": "When cleaning an object, hold it first before examining the sink.",
+  "shipped_check_error": "",
+  "id": "x04"
+ },
+ {
+  "old_rule": "When heating a portable object in a microwave, use the 'heat <object> with microwave' command immediately after placing it inside, do not toggle the microwave door.",
+  "gold_reasons": [
+   "Agent issued 'heat potato 2 with microwave 1' right after moving the potato in (step 14) as prescribed and it was rejected (no longer holding it), leading to the open/close loop of steps 15-19.",
+   "Agent put the tomato inside the microwave and tried to heat it (steps 6, 28) as the rule prescribes, but every heat command was rejected (10-19, 28) because heating needs the object held; the rule is wrong and also the agent toggled the door repeatedly."
+  ],
+  "harmful_game_steps": [
+   [
+    "close microwave 1",
+    "heat potato 2 with microwave 1 [rejected]",
+    "open microwave 1",
+    "heat potato 2 with microwave 1 [rejected]",
+    "heat potato 2 with microwave 1 [rejected]",
+    "take potato 2 from microwave 1",
+    "go to countertop 1",
+    "move potato 2 to countertop 1",
+    "go to microwave 1",
+    "close microwave 1",
+    "go to countertop 1",
+    "The potato is already on the countertop, but the task requires it to be heated. Since the potato is currently on the countertop, I need to take it to heat it in the microwave again, or if the goal is simply to have a hot potato on the countertop, I should ensure it is [rejected]",
+    "take potato 2 from countertop 1",
+    "go to microwave 1",
+    "open microwave 1",
+    "move potato 2 to microwave 1"
+   ],
+   [
+    "heat tomato 3 with microwave 1 [rejected]",
+    "close microwave 1",
+    "open microwave 1",
+    "heat tomato 3 with microwave 1 [rejected]",
+    "heat tomato 3 with microwave 1 [rejected]",
+    "take tomato 3 from microwave 1",
+    "go to sidetable 1",
+    "move tomato 3 to sidetable 1",
+    "go to microwave 1",
+    "go to sidetable 1",
+    "take tomato 3 from sidetable 1",
+    "go to microwave 1",
+    "move tomato 3 to microwave 1",
+    "heat tomato 3 with microwave 1 [rejected]",
+    "close microwave 1",
+    "open microwave 1"
+   ]
+  ],
+  "rewrite": "When heating a portable object in a microwave, hold the object, place it inside, then use the 'heat <object> with microwave' command.",
+  "shipped_check_error": "",
+  "id": "x05"
+ },
+ {
+  "old_rule": "When putting two objects in a drawer: search desk surfaces first, take each object, open the target drawer if closed, move each object to the drawer.",
+  "gold_reasons": [
+   "Desk first and taking keychain 3 (step 4) matched, but the 'drawer' wording led the agent to open drawer 1 and keep revisiting drawers (8-9, 18, 20, 27, 30) though the target was the safe, and it never managed to deliver.",
+   "Rule's 'search desk surfaces first' sent agent to desk 1 which had no laptop (1, 3, 15) while laptops were on the bed (23); rule also assumes a drawer target.",
+   "Surfaces (diningtable, countertop) were searched first and held no peppershaker; both were in closed cabinets (steps 11, 18), and the rule's drawer target does not match the diningtable goal.",
+   "Agent checked surfaces and cabinets first (steps 1-22, countertop 1 and dresser 1 empty of spraybottles) while the spraybottle was on the toilet (step 23); dresser needs no opening and the task needed two objects."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to safe 1",
+    "open safe 1",
+    "move keychain 2 to safe 1 [rejected]",
+    "go to drawer 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "open drawer 2",
+    "go to desk 1",
+    "go to desk 1 [rejected]",
+    "go to armchair 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to desk 1",
+    "take keychain 2 from desk 1 [rejected]",
+    "go to drawer 1"
+   ],
+   [
+    "go to desk 1",
+    "inventory",
+    "go to desk 1 [rejected]",
+    "examine desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to safe 1",
+    "go to armchair 1",
+    "go to bed 1",
+    "take laptop 1 from bed 1",
+    "go to desk 1",
+    "move laptop 1 to desk 1",
+    "go to bed 1",
+    "take laptop 2 from bed 1",
+    "move laptop 2 to desk 1 [rejected]",
+    "examine desk 1 [rejected]"
+   ],
+   [
+    "go to cabinet 2",
+    "go to countertop 1",
+    "go to cabinet 1",
+    "open cabinet 1",
+    "take peppershaker 1 from cabinet 1",
+    "go to diningtable 1",
+    "move peppershaker 1 to diningtable 1",
+    "go to countertop 1",
+    "go to cabinet 1",
+    "go to cabinet 2",
+    "open cabinet 2",
+    "take peppershaker 2 from cabinet 2",
+    "move peppershaker 2 to diningtable 1 [rejected]",
+    "move peppershaker 2 to diningtable 1 [rejected]",
+    "go to diningtable 1",
+    "move peppershaker 2 to diningtable 1"
+   ],
+   [
+    "go to cabinet 1",
+    "go to sinkbasin 1",
+    "go to sinkbasin 2",
+    "go to countertop 1",
+    "go to cabinet 2",
+    "go to drawer 1",
+    "go to drawer 2 [rejected]",
+    "examine drawer 1",
+    "go to toilet 1",
+    "take spraybottle 1 from toilet 1",
+    "go to cabinet 1",
+    "go to drawer 1",
+    "go to cabinet 1",
+    "go to drawer 1",
+    "move spraybottle 1 to dresser 1",
+    "go to cabinet 1"
+   ]
+  ],
+  "rewrite": "When putting two objects in a container: search surfaces first, take each object, open the target if closed, move each object to the container.",
+  "shipped_check_error": "",
+  "id": "x06"
+ },
+ {
+  "old_rule": "When taking an object from a surface, ensure you are at that surface before executing the take action.",
+  "gold_reasons": [
+   "Agent repeatedly went to desk 1 before taking keychain 2 (steps 10-11, 28-29) but takes were rejected because it was already holding keychain 3, so the rule pointed at the wrong cause and wasted steps."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to safe 1",
+    "open safe 1",
+    "move keychain 2 to safe 1 [rejected]",
+    "go to drawer 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "open drawer 2",
+    "go to desk 1",
+    "go to desk 1 [rejected]",
+    "go to armchair 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to desk 1",
+    "take keychain 2 from desk 1 [rejected]",
+    "go to drawer 1"
+   ]
+  ],
+  "rewrite": "When taking an object from a surface, ensure you are at that surface before executing the take action.",
+  "shipped_check_error": "same rule",
+  "id": "x07"
+ },
+ {
+  "old_rule": "When searching for the object, examine the countertop first before checking cabinets or drawers.",
+  "gold_reasons": [
+   "Agent checked countertop 1 first (step 1) but then kept trying nonexistent countertop 2 (steps 2,3,11,21-25), wasting many rejected steps, and the lettuce was never on a countertop."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to cabinet 4",
+    "open cabinet 4",
+    "go to cabinet 5 [rejected]",
+    "go to cabinet 5 [rejected]",
+    "go to countertop 1",
+    "go to drawer 1",
+    "go to countertop 2 [rejected]",
+    "go to countertop 2 [rejected]",
+    "go to countertop 2 [rejected]",
+    "go to countertop 2 [rejected]",
+    "go to countertop 2 [rejected]",
+    "go to cabinet 1",
+    "go to cabinet 2",
+    "go to cabinet 3",
+    "go to cabinet 4",
+    "go to countertop 1"
+   ]
+  ],
+  "rewrite": "When searching for the object, check cabinets and drawers before examining the countertop.",
+  "shipped_check_error": "",
+  "id": "x08"
+ },
+ {
+  "old_rule": "When cleaning the object, examine the sink first to confirm it contains water before attempting to clean.",
+  "gold_reasons": [
+   "Agent examined sinkbasin 1 at step 3 (showing no water info) and cleaning at step 15 worked regardless, so the check was a wasted step.",
+   "Agent examined sinkbasin 1 (steps 26, 28-30) looking for water, which ALFWorld does not model, while the clean was rejected only because butterknife 1 was never picked up (step 27)."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to sinkbasin 1",
+    "examine sinkbasin 1",
+    "go to drawer 1",
+    "open drawer 1",
+    "go to sinkbasin 1",
+    "go to drawer 2",
+    "open drawer 2",
+    "go to drawer 3",
+    "open drawer 3",
+    "go to garbagecan 1",
+    "go to countertop 1",
+    "take soapbar 1 from countertop 1",
+    "go to sinkbasin 1",
+    "clean soapbar 1 with sinkbasin 1",
+    "go to countertop 1",
+    "move soapbar 1 to countertop 1"
+   ],
+   [
+    "go to cabinet 1",
+    "go to countertop 4",
+    "go to cabinet 1",
+    "go to countertop 4",
+    "go to cabinet 1",
+    "go to countertop 4",
+    "go to cabinet 1",
+    "go to countertop 4",
+    "go to cabinet 1",
+    "go to drawer 1",
+    "go to sinkbasin 1",
+    "examine sinkbasin 1",
+    "clean butterknife 1 with sinkbasin 1 [rejected]",
+    "examine sinkbasin 1",
+    "examine sinkbasin 1",
+    "examine sinkbasin 1"
+   ]
+  ],
+  "rewrite": "When cleaning an object, hold it before using the sinkbasin to clean it.",
+  "shipped_check_error": "",
+  "id": "x09"
+ },
+ {
+  "old_rule": "When heating a portable object in a microwave, use the 'heat <object> with microwave' command immediately after placing it inside, do not toggle the microwave door.",
+  "gold_reasons": [
+   "Agent issued 'heat potato 2 with microwave 1' right after moving the potato in (step 14) as prescribed and it was rejected (no longer holding it), leading to the open/close loop of steps 15-19.",
+   "Agent put the tomato inside the microwave and tried to heat it (steps 6, 28) as the rule prescribes, but every heat command was rejected (10-19, 28) because heating needs the object held; the rule is wrong and also the agent toggled the door repeatedly."
+  ],
+  "harmful_game_steps": [
+   [
+    "close microwave 1",
+    "heat potato 2 with microwave 1 [rejected]",
+    "open microwave 1",
+    "heat potato 2 with microwave 1 [rejected]",
+    "heat potato 2 with microwave 1 [rejected]",
+    "take potato 2 from microwave 1",
+    "go to countertop 1",
+    "move potato 2 to countertop 1",
+    "go to microwave 1",
+    "close microwave 1",
+    "go to countertop 1",
+    "The potato is already on the countertop, but the task requires it to be heated. Since the potato is currently on the countertop, I need to take it to heat it in the microwave again, or if the goal is simply to have a hot potato on the countertop, I should ensure it is [rejected]",
+    "take potato 2 from countertop 1",
+    "go to microwave 1",
+    "open microwave 1",
+    "move potato 2 to microwave 1"
+   ],
+   [
+    "heat tomato 3 with microwave 1 [rejected]",
+    "close microwave 1",
+    "open microwave 1",
+    "heat tomato 3 with microwave 1 [rejected]",
+    "heat tomato 3 with microwave 1 [rejected]",
+    "take tomato 3 from microwave 1",
+    "go to sidetable 1",
+    "move tomato 3 to sidetable 1",
+    "go to microwave 1",
+    "go to sidetable 1",
+    "take tomato 3 from sidetable 1",
+    "go to microwave 1",
+    "move tomato 3 to microwave 1",
+    "heat tomato 3 with microwave 1 [rejected]",
+    "close microwave 1",
+    "open microwave 1"
+   ]
+  ],
+  "rewrite": "When heating a portable object in a microwave, hold it before issuing the heat command, then place it inside.",
+  "shipped_check_error": "",
+  "id": "x10"
+ },
+ {
+  "old_rule": "When heating a portable object, place it directly on the heating appliance (stoveburner) or inside the heating appliance (microwave) after opening it.",
+  "gold_reasons": [
+   "Steps 6-13 opened the microwave, put the cup inside and shuffled it out again, wasting about 7 steps since 'heat cup 1 with microwave 1' works while holding it (step 14)."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to cabinet 1",
+    "go to fridge 1",
+    "open fridge 1",
+    "take cup 1 from fridge 1",
+    "go to microwave 1",
+    "open microwave 1",
+    "move cup 1 to microwave 1",
+    "close microwave 1",
+    "open microwave 1",
+    "close microwave 1",
+    "open microwave 1",
+    "take cup 1 from microwave 1",
+    "close microwave 1",
+    "heat cup 1 with microwave 1",
+    "go to countertop 1",
+    "move cup 1 to countertop 1"
+   ]
+  ],
+  "rewrite": "When heating a portable object, hold it and place it directly on the heating appliance or inside the heating appliance after opening it.",
+  "shipped_check_error": "",
+  "id": "x11"
+ },
+ {
+  "old_rule": "When heating a portable object in a microwave, use the 'heat <object> with microwave' command immediately after placing it inside, do not toggle the microwave door.",
+  "gold_reasons": [
+   "Agent issued 'heat potato 2 with microwave 1' right after moving the potato in (step 14) as prescribed and it was rejected (no longer holding it), leading to the open/close loop of steps 15-19.",
+   "Agent put the tomato inside the microwave and tried to heat it (steps 6, 28) as the rule prescribes, but every heat command was rejected (10-19, 28) because heating needs the object held; the rule is wrong and also the agent toggled the door repeatedly."
+  ],
+  "harmful_game_steps": [
+   [
+    "close microwave 1",
+    "heat potato 2 with microwave 1 [rejected]",
+    "open microwave 1",
+    "heat potato 2 with microwave 1 [rejected]",
+    "heat potato 2 with microwave 1 [rejected]",
+    "take potato 2 from microwave 1",
+    "go to countertop 1",
+    "move potato 2 to countertop 1",
+    "go to microwave 1",
+    "close microwave 1",
+    "go to countertop 1",
+    "The potato is already on the countertop, but the task requires it to be heated. Since the potato is currently on the countertop, I need to take it to heat it in the microwave again, or if the goal is simply to have a hot potato on the countertop, I should ensure it is [rejected]",
+    "take potato 2 from countertop 1",
+    "go to microwave 1",
+    "open microwave 1",
+    "move potato 2 to microwave 1"
+   ],
+   [
+    "heat tomato 3 with microwave 1 [rejected]",
+    "close microwave 1",
+    "open microwave 1",
+    "heat tomato 3 with microwave 1 [rejected]",
+    "heat tomato 3 with microwave 1 [rejected]",
+    "take tomato 3 from microwave 1",
+    "go to sidetable 1",
+    "move tomato 3 to sidetable 1",
+    "go to microwave 1",
+    "go to sidetable 1",
+    "take tomato 3 from sidetable 1",
+    "go to microwave 1",
+    "move tomato 3 to microwave 1",
+    "heat tomato 3 with microwave 1 [rejected]",
+    "close microwave 1",
+    "open microwave 1"
+   ]
+  ],
+  "rewrite": "When heating a portable object in a microwave, place it inside, then use the 'heat <object> with microwave' command.",
+  "shipped_check_error": "",
+  "id": "x12"
+ },
+ {
+  "old_rule": "When cleaning the object, examine the sink first to confirm it contains water before attempting to clean.",
+  "gold_reasons": [
+   "Agent examined sinkbasin 1 at step 3 (showing no water info) and cleaning at step 15 worked regardless, so the check was a wasted step.",
+   "Agent examined sinkbasin 1 (steps 26, 28-30) looking for water, which ALFWorld does not model, while the clean was rejected only because butterknife 1 was never picked up (step 27)."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to sinkbasin 1",
+    "examine sinkbasin 1",
+    "go to drawer 1",
+    "open drawer 1",
+    "go to sinkbasin 1",
+    "go to drawer 2",
+    "open drawer 2",
+    "go to drawer 3",
+    "open drawer 3",
+    "go to garbagecan 1",
+    "go to countertop 1",
+    "take soapbar 1 from countertop 1",
+    "go to sinkbasin 1",
+    "clean soapbar 1 with sinkbasin 1",
+    "go to countertop 1",
+    "move soapbar 1 to countertop 1"
+   ],
+   [
+    "go to cabinet 1",
+    "go to countertop 4",
+    "go to cabinet 1",
+    "go to countertop 4",
+    "go to cabinet 1",
+    "go to countertop 4",
+    "go to cabinet 1",
+    "go to countertop 4",
+    "go to cabinet 1",
+    "go to drawer 1",
+    "go to sinkbasin 1",
+    "examine sinkbasin 1",
+    "clean butterknife 1 with sinkbasin 1 [rejected]",
+    "examine sinkbasin 1",
+    "examine sinkbasin 1",
+    "examine sinkbasin 1"
+   ]
+  ],
+  "rewrite": "When cleaning an object, examine the sink first to confirm it contains water before attempting to clean.",
+  "shipped_check_error": "",
+  "id": "x13"
+ },
+ {
+  "old_rule": "When searching for the object, examine the countertop first before checking cabinets or drawers.",
+  "gold_reasons": [
+   "Agent checked countertop 1 first (step 1) but then kept trying nonexistent countertop 2 (steps 2,3,11,21-25), wasting many rejected steps, and the lettuce was never on a countertop."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to cabinet 4",
+    "open cabinet 4",
+    "go to cabinet 5 [rejected]",
+    "go to cabinet 5 [rejected]",
+    "go to countertop 1",
+    "go to drawer 1",
+    "go to countertop 2 [rejected]",
+    "go to countertop 2 [rejected]",
+    "go to countertop 2 [rejected]",
+    "go to countertop 2 [rejected]",
+    "go to countertop 2 [rejected]",
+    "go to cabinet 1",
+    "go to cabinet 2",
+    "go to cabinet 3",
+    "go to cabinet 4",
+    "go to countertop 1"
+   ]
+  ],
+  "rewrite": "When searching for the object, check cabinets and drawers before checking the countertop.",
+  "shipped_check_error": "",
+  "id": "x14"
+ },
+ {
+  "old_rule": "When taking an object from a surface, ensure you are at that surface before executing the take action.",
+  "gold_reasons": [
+   "Agent repeatedly went to desk 1 before taking keychain 2 (steps 10-11, 28-29) but takes were rejected because it was already holding keychain 3, so the rule pointed at the wrong cause and wasted steps."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to safe 1",
+    "open safe 1",
+    "move keychain 2 to safe 1 [rejected]",
+    "go to drawer 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "open drawer 2",
+    "go to desk 1",
+    "go to desk 1 [rejected]",
+    "go to armchair 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to desk 1",
+    "take keychain 2 from desk 1 [rejected]",
+    "go to drawer 1"
+   ]
+  ],
+  "rewrite": "When taking an object from a surface, ensure you are at that surface before executing the take action.",
+  "shipped_check_error": "same rule",
+  "id": "x15"
+ },
+ {
+  "old_rule": "When an object must be picked up and placed: search drawers first, take the object, go to the target, open it if closed, move the object there.",
+  "gold_reasons": [
+   "Agent opened drawers 1-9 first (steps 1-18) as prescribed, but none held a cellphone, costing ~20 steps and the game was lost.",
+   "Agent searched drawers first as prescribed (1-4, 15-20) but they were all empty and the box was never found, wasting many steps repeating the circuit.",
+   "Drawers searched first (steps 2-6) were empty or unopened while the pen was on dresser 1 (step 9); opening the target drawer at step 11 was only trivially helpful.",
+   "Agent searched about 14 drawers (steps 1-30) as prescribed and found no cellphone, so the drawer-first advice sent it down an empty path."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to drawer 8",
+    "open drawer 9 [rejected]",
+    "go to drawer 9",
+    "open drawer 9",
+    "go to drawer 10",
+    "go to dresser 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to drawer 3",
+    "go to drawer 4 [rejected]",
+    "go to drawer 5",
+    "go to drawer 6",
+    "go to drawer 7",
+    "go to drawer 8",
+    "open drawer 8",
+    "go to drawer 9"
+   ],
+   [
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to drawer 3",
+    "open drawer 3",
+    "go to drawer 4",
+    "open drawer 4",
+    "go to cabinet 1",
+    "go to cabinet 2",
+    "go to cabinet 3",
+    "go to cabinet 4",
+    "go to armchair 1",
+    "go to dresser 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to dresser 1",
+    "go to drawer 3"
+   ],
+   [
+    "go to desk 1",
+    "go to drawer 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "open drawer 2",
+    "go to desk 1",
+    "go to dresser 1",
+    "take pen 3 from dresser 1",
+    "go to drawer 1",
+    "open drawer 1",
+    "move pen 3 to drawer 1"
+   ],
+   [
+    "open drawer 8",
+    "go to drawer 9",
+    "open drawer 9",
+    "go to drawer 10",
+    "open drawer 10",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to drawer 3",
+    "go to drawer 11",
+    "open drawer 11",
+    "go to dresser 1",
+    "go to drawer 12",
+    "open drawer 12",
+    "go to drawer 13 [rejected]",
+    "open drawer 13",
+    "go to drawer 14"
+   ]
+  ],
+  "rewrite": "When an object must be picked up and placed: search drawers, cabinets, and desks first, take the object, go to the target, open it if closed, move the object there.",
+  "shipped_check_error": "",
+  "id": "x16"
+ },
+ {
+  "old_rule": "When putting two objects in a drawer: search desk surfaces first, take each object, open the target drawer if closed, move each object to the drawer.",
+  "gold_reasons": [
+   "Desk first and taking keychain 3 (step 4) matched, but the 'drawer' wording led the agent to open drawer 1 and keep revisiting drawers (8-9, 18, 20, 27, 30) though the target was the safe, and it never managed to deliver.",
+   "Rule's 'search desk surfaces first' sent agent to desk 1 which had no laptop (1, 3, 15) while laptops were on the bed (23); rule also assumes a drawer target.",
+   "Surfaces (diningtable, countertop) were searched first and held no peppershaker; both were in closed cabinets (steps 11, 18), and the rule's drawer target does not match the diningtable goal.",
+   "Agent checked surfaces and cabinets first (steps 1-22, countertop 1 and dresser 1 empty of spraybottles) while the spraybottle was on the toilet (step 23); dresser needs no opening and the task needed two objects."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to safe 1",
+    "open safe 1",
+    "move keychain 2 to safe 1 [rejected]",
+    "go to drawer 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "open drawer 2",
+    "go to desk 1",
+    "go to desk 1 [rejected]",
+    "go to armchair 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to desk 1",
+    "take keychain 2 from desk 1 [rejected]",
+    "go to drawer 1"
+   ],
+   [
+    "go to desk 1",
+    "inventory",
+    "go to desk 1 [rejected]",
+    "examine desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to safe 1",
+    "go to armchair 1",
+    "go to bed 1",
+    "take laptop 1 from bed 1",
+    "go to desk 1",
+    "move laptop 1 to desk 1",
+    "go to bed 1",
+    "take laptop 2 from bed 1",
+    "move laptop 2 to desk 1 [rejected]",
+    "examine desk 1 [rejected]"
+   ],
+   [
+    "go to cabinet 2",
+    "go to countertop 1",
+    "go to cabinet 1",
+    "open cabinet 1",
+    "take peppershaker 1 from cabinet 1",
+    "go to diningtable 1",
+    "move peppershaker 1 to diningtable 1",
+    "go to countertop 1",
+    "go to cabinet 1",
+    "go to cabinet 2",
+    "open cabinet 2",
+    "take peppershaker 2 from cabinet 2",
+    "move peppershaker 2 to diningtable 1 [rejected]",
+    "move peppershaker 2 to diningtable 1 [rejected]",
+    "go to diningtable 1",
+    "move peppershaker 2 to diningtable 1"
+   ],
+   [
+    "go to cabinet 1",
+    "go to sinkbasin 1",
+    "go to sinkbasin 2",
+    "go to countertop 1",
+    "go to cabinet 2",
+    "go to drawer 1",
+    "go to drawer 2 [rejected]",
+    "examine drawer 1",
+    "go to toilet 1",
+    "take spraybottle 1 from toilet 1",
+    "go to cabinet 1",
+    "go to drawer 1",
+    "go to cabinet 1",
+    "go to drawer 1",
+    "move spraybottle 1 to dresser 1",
+    "go to cabinet 1"
+   ]
+  ],
+  "rewrite": "When putting two objects in a container: search surfaces first, take each object, open the target if closed, move each object to the container.",
+  "shipped_check_error": "",
+  "id": "x17"
+ },
+ {
+  "old_rule": "When heating a portable object, place it directly on the heating appliance (stoveburner) or inside the heating appliance (microwave) after opening it.",
+  "gold_reasons": [
+   "Steps 6-13 opened the microwave, put the cup inside and shuffled it out again, wasting about 7 steps since 'heat cup 1 with microwave 1' works while holding it (step 14)."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to cabinet 1",
+    "go to fridge 1",
+    "open fridge 1",
+    "take cup 1 from fridge 1",
+    "go to microwave 1",
+    "open microwave 1",
+    "move cup 1 to microwave 1",
+    "close microwave 1",
+    "open microwave 1",
+    "close microwave 1",
+    "open microwave 1",
+    "take cup 1 from microwave 1",
+    "close microwave 1",
+    "heat cup 1 with microwave 1",
+    "go to countertop 1",
+    "move cup 1 to countertop 1"
+   ]
+  ],
+  "rewrite": "When heating a portable object, hold it and place it directly on the heating appliance or inside the heating appliance after opening it.",
+  "shipped_check_error": "",
+  "id": "x18"
+ },
+ {
+  "old_rule": "When taking an object from a surface, ensure you are at that surface before executing the take action.",
+  "gold_reasons": [
+   "Agent repeatedly went to desk 1 before taking keychain 2 (steps 10-11, 28-29) but takes were rejected because it was already holding keychain 3, so the rule pointed at the wrong cause and wasted steps."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to safe 1",
+    "open safe 1",
+    "move keychain 2 to safe 1 [rejected]",
+    "go to drawer 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "open drawer 2",
+    "go to desk 1",
+    "go to desk 1 [rejected]",
+    "go to armchair 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to desk 1",
+    "take keychain 2 from desk 1 [rejected]",
+    "go to drawer 1"
+   ]
+  ],
+  "rewrite": "When taking an object from a surface, ensure you are at that surface before executing the take action.",
+  "shipped_check_error": "same rule",
+  "id": "x19"
+ },
+ {
+  "old_rule": "When an object must be cleaned and placed in a container: search the table first, take the object, go to the sink, clean it with the sink, go to the container, move it there.",
+  "gold_reasons": [
+   "Table-first search of diningtable 1 (steps 1-11, repeatedly) found no bowl, which was in cabinet 1 (step 13); the rest of the sequence including opening the microwave was correct but obvious."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to diningtable 1",
+    "go to fridge 1",
+    "go to diningtable 1",
+    "go to fridge 1",
+    "go to diningtable 1",
+    "go to fridge 1",
+    "open fridge 1",
+    "go to diningtable 1",
+    "go to cabinet 1",
+    "open cabinet 1",
+    "take bowl 1 from cabinet 1",
+    "go to sinkbasin 1",
+    "clean bowl 1 with sinkbasin 1",
+    "go to microwave 1",
+    "open microwave 1",
+    "move bowl 1 to microwave 1"
+   ]
+  ],
+  "rewrite": "When an object must be cleaned and placed: search cabinet or countertop first, take the object, go to sinkbasin, clean it with sinkbasin, go to target, move it there.",
+  "shipped_check_error": "",
+  "id": "x20"
+ },
+ {
+  "old_rule": "When an object must be picked up and placed: search drawers first, take the object, go to the target, open it if closed, move the object there.",
+  "gold_reasons": [
+   "Agent opened drawers 1-9 first (steps 1-18) as prescribed, but none held a cellphone, costing ~20 steps and the game was lost.",
+   "Agent searched drawers first as prescribed (1-4, 15-20) but they were all empty and the box was never found, wasting many steps repeating the circuit.",
+   "Drawers searched first (steps 2-6) were empty or unopened while the pen was on dresser 1 (step 9); opening the target drawer at step 11 was only trivially helpful.",
+   "Agent searched about 14 drawers (steps 1-30) as prescribed and found no cellphone, so the drawer-first advice sent it down an empty path."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to drawer 8",
+    "open drawer 9 [rejected]",
+    "go to drawer 9",
+    "open drawer 9",
+    "go to drawer 10",
+    "go to dresser 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to drawer 3",
+    "go to drawer 4 [rejected]",
+    "go to drawer 5",
+    "go to drawer 6",
+    "go to drawer 7",
+    "go to drawer 8",
+    "open drawer 8",
+    "go to drawer 9"
+   ],
+   [
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to drawer 3",
+    "open drawer 3",
+    "go to drawer 4",
+    "open drawer 4",
+    "go to cabinet 1",
+    "go to cabinet 2",
+    "go to cabinet 3",
+    "go to cabinet 4",
+    "go to armchair 1",
+    "go to dresser 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to dresser 1",
+    "go to drawer 3"
+   ],
+   [
+    "go to desk 1",
+    "go to drawer 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "open drawer 2",
+    "go to desk 1",
+    "go to dresser 1",
+    "take pen 3 from dresser 1",
+    "go to drawer 1",
+    "open drawer 1",
+    "move pen 3 to drawer 1"
+   ],
+   [
+    "open drawer 8",
+    "go to drawer 9",
+    "open drawer 9",
+    "go to drawer 10",
+    "open drawer 10",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to drawer 3",
+    "go to drawer 11",
+    "open drawer 11",
+    "go to dresser 1",
+    "go to drawer 12",
+    "open drawer 12",
+    "go to drawer 13 [rejected]",
+    "open drawer 13",
+    "go to drawer 14"
+   ]
+  ],
+  "rewrite": "When an object must be picked up and placed: search containers first, take the object, go to the target, open it if closed, move the object there.",
+  "shipped_check_error": "",
+  "id": "x21"
+ },
+ {
+  "old_rule": "When searching for the object, examine the countertop first before checking cabinets or drawers.",
+  "gold_reasons": [
+   "Agent checked countertop 1 first (step 1) but then kept trying nonexistent countertop 2 (steps 2,3,11,21-25), wasting many rejected steps, and the lettuce was never on a countertop."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to cabinet 4",
+    "open cabinet 4",
+    "go to cabinet 5 [rejected]",
+    "go to cabinet 5 [rejected]",
+    "go to countertop 1",
+    "go to drawer 1",
+    "go to countertop 2 [rejected]",
+    "go to countertop 2 [rejected]",
+    "go to countertop 2 [rejected]",
+    "go to countertop 2 [rejected]",
+    "go to countertop 2 [rejected]",
+    "go to cabinet 1",
+    "go to cabinet 2",
+    "go to cabinet 3",
+    "go to cabinet 4",
+    "go to countertop 1"
+   ]
+  ],
+  "rewrite": "When searching for the object, check cabinets or drawers before examining the countertop.",
+  "shipped_check_error": "",
+  "id": "x22"
+ },
+ {
+  "old_rule": "When an object must be picked up and placed: search drawers first, take the object, go to the target, open it if closed, move the object there.",
+  "gold_reasons": [
+   "Agent opened drawers 1-9 first (steps 1-18) as prescribed, but none held a cellphone, costing ~20 steps and the game was lost.",
+   "Agent searched drawers first as prescribed (1-4, 15-20) but they were all empty and the box was never found, wasting many steps repeating the circuit.",
+   "Drawers searched first (steps 2-6) were empty or unopened while the pen was on dresser 1 (step 9); opening the target drawer at step 11 was only trivially helpful.",
+   "Agent searched about 14 drawers (steps 1-30) as prescribed and found no cellphone, so the drawer-first advice sent it down an empty path."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to drawer 8",
+    "open drawer 9 [rejected]",
+    "go to drawer 9",
+    "open drawer 9",
+    "go to drawer 10",
+    "go to dresser 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to drawer 3",
+    "go to drawer 4 [rejected]",
+    "go to drawer 5",
+    "go to drawer 6",
+    "go to drawer 7",
+    "go to drawer 8",
+    "open drawer 8",
+    "go to drawer 9"
+   ],
+   [
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to drawer 3",
+    "open drawer 3",
+    "go to drawer 4",
+    "open drawer 4",
+    "go to cabinet 1",
+    "go to cabinet 2",
+    "go to cabinet 3",
+    "go to cabinet 4",
+    "go to armchair 1",
+    "go to dresser 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to dresser 1",
+    "go to drawer 3"
+   ],
+   [
+    "go to desk 1",
+    "go to drawer 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "open drawer 2",
+    "go to desk 1",
+    "go to dresser 1",
+    "take pen 3 from dresser 1",
+    "go to drawer 1",
+    "open drawer 1",
+    "move pen 3 to drawer 1"
+   ],
+   [
+    "open drawer 8",
+    "go to drawer 9",
+    "open drawer 9",
+    "go to drawer 10",
+    "open drawer 10",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to drawer 3",
+    "go to drawer 11",
+    "open drawer 11",
+    "go to dresser 1",
+    "go to drawer 12",
+    "open drawer 12",
+    "go to drawer 13 [rejected]",
+    "open drawer 13",
+    "go to drawer 14"
+   ]
+  ],
+  "rewrite": "When an object must be picked up and placed: search cabinets and drawers first, take the object, go to the target, open it if closed, move the object there.",
+  "shipped_check_error": "",
+  "id": "x23"
+ },
+ {
+  "old_rule": "When heating a portable object, place it directly on the heating appliance (stoveburner) or inside the heating appliance (microwave) after opening it.",
+  "gold_reasons": [
+   "Steps 6-13 opened the microwave, put the cup inside and shuffled it out again, wasting about 7 steps since 'heat cup 1 with microwave 1' works while holding it (step 14)."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to cabinet 1",
+    "go to fridge 1",
+    "open fridge 1",
+    "take cup 1 from fridge 1",
+    "go to microwave 1",
+    "open microwave 1",
+    "move cup 1 to microwave 1",
+    "close microwave 1",
+    "open microwave 1",
+    "close microwave 1",
+    "open microwave 1",
+    "take cup 1 from microwave 1",
+    "close microwave 1",
+    "heat cup 1 with microwave 1",
+    "go to countertop 1",
+    "move cup 1 to countertop 1"
+   ]
+  ],
+  "rewrite": "When heating a portable object, hold it and place it inside the opened heating appliance.",
+  "shipped_check_error": "",
+  "id": "x24"
+ },
+ {
+  "old_rule": "When an object must be cleaned and placed in a container: search the table first, take the object, go to the sink, clean it with the sink, go to the container, move it there.",
+  "gold_reasons": [
+   "Table-first search of diningtable 1 (steps 1-11, repeatedly) found no bowl, which was in cabinet 1 (step 13); the rest of the sequence including opening the microwave was correct but obvious."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to diningtable 1",
+    "go to fridge 1",
+    "go to diningtable 1",
+    "go to fridge 1",
+    "go to diningtable 1",
+    "go to fridge 1",
+    "open fridge 1",
+    "go to diningtable 1",
+    "go to cabinet 1",
+    "open cabinet 1",
+    "take bowl 1 from cabinet 1",
+    "go to sinkbasin 1",
+    "clean bowl 1 with sinkbasin 1",
+    "go to microwave 1",
+    "open microwave 1",
+    "move bowl 1 to microwave 1"
+   ]
+  ],
+  "rewrite": "When an object must be cleaned and placed: search cabinet or countertop first, clean it with sinkbasin, move it to the target.",
+  "shipped_check_error": "",
+  "id": "x25"
+ },
+ {
+  "old_rule": "When heating a portable object in a microwave, use the 'heat <object> with microwave' command immediately after placing it inside, do not toggle the microwave door.",
+  "gold_reasons": [
+   "Agent issued 'heat potato 2 with microwave 1' right after moving the potato in (step 14) as prescribed and it was rejected (no longer holding it), leading to the open/close loop of steps 15-19.",
+   "Agent put the tomato inside the microwave and tried to heat it (steps 6, 28) as the rule prescribes, but every heat command was rejected (10-19, 28) because heating needs the object held; the rule is wrong and also the agent toggled the door repeatedly."
+  ],
+  "harmful_game_steps": [
+   [
+    "close microwave 1",
+    "heat potato 2 with microwave 1 [rejected]",
+    "open microwave 1",
+    "heat potato 2 with microwave 1 [rejected]",
+    "heat potato 2 with microwave 1 [rejected]",
+    "take potato 2 from microwave 1",
+    "go to countertop 1",
+    "move potato 2 to countertop 1",
+    "go to microwave 1",
+    "close microwave 1",
+    "go to countertop 1",
+    "The potato is already on the countertop, but the task requires it to be heated. Since the potato is currently on the countertop, I need to take it to heat it in the microwave again, or if the goal is simply to have a hot potato on the countertop, I should ensure it is [rejected]",
+    "take potato 2 from countertop 1",
+    "go to microwave 1",
+    "open microwave 1",
+    "move potato 2 to microwave 1"
+   ],
+   [
+    "heat tomato 3 with microwave 1 [rejected]",
+    "close microwave 1",
+    "open microwave 1",
+    "heat tomato 3 with microwave 1 [rejected]",
+    "heat tomato 3 with microwave 1 [rejected]",
+    "take tomato 3 from microwave 1",
+    "go to sidetable 1",
+    "move tomato 3 to sidetable 1",
+    "go to microwave 1",
+    "go to sidetable 1",
+    "take tomato 3 from sidetable 1",
+    "go to microwave 1",
+    "move tomato 3 to microwave 1",
+    "heat tomato 3 with microwave 1 [rejected]",
+    "close microwave 1",
+    "open microwave 1"
+   ]
+  ],
+  "rewrite": "When heating a portable object in a microwave, place it inside first, then use the 'heat <object> with microwave' command.",
+  "shipped_check_error": "",
+  "id": "x26"
+ },
+ {
+  "old_rule": "When an object must be cleaned and placed in a container: search the table first, take the object, go to the sink, clean it with the sink, go to the container, move it there.",
+  "gold_reasons": [
+   "Table-first search of diningtable 1 (steps 1-11, repeatedly) found no bowl, which was in cabinet 1 (step 13); the rest of the sequence including opening the microwave was correct but obvious."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to diningtable 1",
+    "go to fridge 1",
+    "go to diningtable 1",
+    "go to fridge 1",
+    "go to diningtable 1",
+    "go to fridge 1",
+    "open fridge 1",
+    "go to diningtable 1",
+    "go to cabinet 1",
+    "open cabinet 1",
+    "take bowl 1 from cabinet 1",
+    "go to sinkbasin 1",
+    "clean bowl 1 with sinkbasin 1",
+    "go to microwave 1",
+    "open microwave 1",
+    "move bowl 1 to microwave 1"
+   ]
+  ],
+  "rewrite": "When an object must be cleaned and placed: search cabinet or countertop first, take the object, go to sinkbasin, clean it with sinkbasin, go to target, move it there.",
+  "shipped_check_error": "",
+  "id": "x27"
+ },
+ {
+  "old_rule": "When an object must be picked up and placed: search drawers first, take the object, go to the target, open it if closed, move the object there.",
+  "gold_reasons": [
+   "Agent opened drawers 1-9 first (steps 1-18) as prescribed, but none held a cellphone, costing ~20 steps and the game was lost.",
+   "Agent searched drawers first as prescribed (1-4, 15-20) but they were all empty and the box was never found, wasting many steps repeating the circuit.",
+   "Drawers searched first (steps 2-6) were empty or unopened while the pen was on dresser 1 (step 9); opening the target drawer at step 11 was only trivially helpful.",
+   "Agent searched about 14 drawers (steps 1-30) as prescribed and found no cellphone, so the drawer-first advice sent it down an empty path."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to drawer 8",
+    "open drawer 9 [rejected]",
+    "go to drawer 9",
+    "open drawer 9",
+    "go to drawer 10",
+    "go to dresser 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to drawer 3",
+    "go to drawer 4 [rejected]",
+    "go to drawer 5",
+    "go to drawer 6",
+    "go to drawer 7",
+    "go to drawer 8",
+    "open drawer 8",
+    "go to drawer 9"
+   ],
+   [
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to drawer 3",
+    "open drawer 3",
+    "go to drawer 4",
+    "open drawer 4",
+    "go to cabinet 1",
+    "go to cabinet 2",
+    "go to cabinet 3",
+    "go to cabinet 4",
+    "go to armchair 1",
+    "go to dresser 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to dresser 1",
+    "go to drawer 3"
+   ],
+   [
+    "go to desk 1",
+    "go to drawer 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "open drawer 2",
+    "go to desk 1",
+    "go to dresser 1",
+    "take pen 3 from dresser 1",
+    "go to drawer 1",
+    "open drawer 1",
+    "move pen 3 to drawer 1"
+   ],
+   [
+    "open drawer 8",
+    "go to drawer 9",
+    "open drawer 9",
+    "go to drawer 10",
+    "open drawer 10",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to drawer 3",
+    "go to drawer 11",
+    "open drawer 11",
+    "go to dresser 1",
+    "go to drawer 12",
+    "open drawer 12",
+    "go to drawer 13 [rejected]",
+    "open drawer 13",
+    "go to drawer 14"
+   ]
+  ],
+  "rewrite": "When an object must be picked up and placed: search drawers, cabinets, and other storage first, take the object, go to the target, open it if closed, move the object there.",
+  "shipped_check_error": "",
+  "id": "x28"
+ },
+ {
+  "old_rule": "When moving an object to a shelf, use the move command directly after picking it up; avoid using skill commands.",
+  "gold_reasons": [
+   "At step 29 the agent moved laptop 2 directly after picking it up (rejected, not at desk) whereas at step 26 going to desk first worked; the rule's 'directly after picking up' omits the needed go-to and is about shelves, not the desk.",
+   "At step 12 the agent was at the desk holding laptop 1 and did not move it, then went back to the bed and tried move at steps 19-24 from the wrong location (rejected); the rule is about shelves and omits go-to."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to desk 1",
+    "inventory",
+    "go to desk 1 [rejected]",
+    "examine desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to safe 1",
+    "go to armchair 1",
+    "go to bed 1",
+    "take laptop 1 from bed 1",
+    "go to desk 1",
+    "move laptop 1 to desk 1",
+    "go to bed 1",
+    "take laptop 2 from bed 1",
+    "move laptop 2 to desk 1 [rejected]",
+    "examine desk 1 [rejected]"
+   ],
+   [
+    "take laptop 2 from bed 1 [rejected]",
+    "take laptop 2 from bed 1 [rejected]",
+    "go to bed 1 [rejected]",
+    "go to bed 1 [rejected]",
+    "move laptop 1 to desk 1 [rejected]",
+    "inventory",
+    "move laptop 1 to desk 1 [rejected]",
+    "move laptop 1 to desk 1 [rejected]",
+    "go to bed 1 [rejected]",
+    "move laptop 1 to desk 1 [rejected]",
+    "go to desk 1",
+    "go to bed 1",
+    "take laptop 2 from bed 1 [rejected]",
+    "go to desk 1",
+    "go to bed 1",
+    "go to bed 1 [rejected]"
+   ]
+  ],
+  "rewrite": "When an object must be moved to a target: search the current area first, then move the object to the target.",
+  "shipped_check_error": "",
+  "id": "x29"
+ },
+ {
+  "old_rule": "When moving an object to a shelf, use the move command directly after picking it up; avoid using skill commands.",
+  "gold_reasons": [
+   "At step 29 the agent moved laptop 2 directly after picking it up (rejected, not at desk) whereas at step 26 going to desk first worked; the rule's 'directly after picking up' omits the needed go-to and is about shelves, not the desk.",
+   "At step 12 the agent was at the desk holding laptop 1 and did not move it, then went back to the bed and tried move at steps 19-24 from the wrong location (rejected); the rule is about shelves and omits go-to."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to desk 1",
+    "inventory",
+    "go to desk 1 [rejected]",
+    "examine desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to safe 1",
+    "go to armchair 1",
+    "go to bed 1",
+    "take laptop 1 from bed 1",
+    "go to desk 1",
+    "move laptop 1 to desk 1",
+    "go to bed 1",
+    "take laptop 2 from bed 1",
+    "move laptop 2 to desk 1 [rejected]",
+    "examine desk 1 [rejected]"
+   ],
+   [
+    "take laptop 2 from bed 1 [rejected]",
+    "take laptop 2 from bed 1 [rejected]",
+    "go to bed 1 [rejected]",
+    "go to bed 1 [rejected]",
+    "move laptop 1 to desk 1 [rejected]",
+    "inventory",
+    "move laptop 1 to desk 1 [rejected]",
+    "move laptop 1 to desk 1 [rejected]",
+    "go to bed 1 [rejected]",
+    "move laptop 1 to desk 1 [rejected]",
+    "go to desk 1",
+    "go to bed 1",
+    "take laptop 2 from bed 1 [rejected]",
+    "go to desk 1",
+    "go to bed 1",
+    "go to bed 1 [rejected]"
+   ]
+  ],
+  "rewrite": "When an object must be moved to a target: search the object first, then move it to the target.",
+  "shipped_check_error": "",
+  "id": "x30"
+ },
+ {
+  "old_rule": "When cleaning the object, examine the sink first to confirm it contains water before attempting to clean.",
+  "gold_reasons": [
+   "Agent examined sinkbasin 1 at step 3 (showing no water info) and cleaning at step 15 worked regardless, so the check was a wasted step.",
+   "Agent examined sinkbasin 1 (steps 26, 28-30) looking for water, which ALFWorld does not model, while the clean was rejected only because butterknife 1 was never picked up (step 27)."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to sinkbasin 1",
+    "examine sinkbasin 1",
+    "go to drawer 1",
+    "open drawer 1",
+    "go to sinkbasin 1",
+    "go to drawer 2",
+    "open drawer 2",
+    "go to drawer 3",
+    "open drawer 3",
+    "go to garbagecan 1",
+    "go to countertop 1",
+    "take soapbar 1 from countertop 1",
+    "go to sinkbasin 1",
+    "clean soapbar 1 with sinkbasin 1",
+    "go to countertop 1",
+    "move soapbar 1 to countertop 1"
+   ],
+   [
+    "go to cabinet 1",
+    "go to countertop 4",
+    "go to cabinet 1",
+    "go to countertop 4",
+    "go to cabinet 1",
+    "go to countertop 4",
+    "go to cabinet 1",
+    "go to countertop 4",
+    "go to cabinet 1",
+    "go to drawer 1",
+    "go to sinkbasin 1",
+    "examine sinkbasin 1",
+    "clean butterknife 1 with sinkbasin 1 [rejected]",
+    "examine sinkbasin 1",
+    "examine sinkbasin 1",
+    "examine sinkbasin 1"
+   ]
+  ],
+  "rewrite": "When cleaning an object, search the sink first before examining it.",
+  "shipped_check_error": "",
+  "id": "x31"
+ },
+ {
+  "old_rule": "When heating a portable object, place it directly on the heating appliance (stoveburner) or inside the heating appliance (microwave) after opening it.",
+  "gold_reasons": [
+   "Steps 6-13 opened the microwave, put the cup inside and shuffled it out again, wasting about 7 steps since 'heat cup 1 with microwave 1' works while holding it (step 14)."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to cabinet 1",
+    "go to fridge 1",
+    "open fridge 1",
+    "take cup 1 from fridge 1",
+    "go to microwave 1",
+    "open microwave 1",
+    "move cup 1 to microwave 1",
+    "close microwave 1",
+    "open microwave 1",
+    "close microwave 1",
+    "open microwave 1",
+    "take cup 1 from microwave 1",
+    "close microwave 1",
+    "heat cup 1 with microwave 1",
+    "go to countertop 1",
+    "move cup 1 to countertop 1"
+   ]
+  ],
+  "rewrite": "When heating a portable object, hold it and place it directly on the heating appliance or inside the heating appliance after opening it.",
+  "shipped_check_error": "",
+  "id": "x32"
+ },
+ {
+  "old_rule": "When putting two objects in a drawer: search desk surfaces first, take each object, open the target drawer if closed, move each object to the drawer.",
+  "gold_reasons": [
+   "Desk first and taking keychain 3 (step 4) matched, but the 'drawer' wording led the agent to open drawer 1 and keep revisiting drawers (8-9, 18, 20, 27, 30) though the target was the safe, and it never managed to deliver.",
+   "Rule's 'search desk surfaces first' sent agent to desk 1 which had no laptop (1, 3, 15) while laptops were on the bed (23); rule also assumes a drawer target.",
+   "Surfaces (diningtable, countertop) were searched first and held no peppershaker; both were in closed cabinets (steps 11, 18), and the rule's drawer target does not match the diningtable goal.",
+   "Agent checked surfaces and cabinets first (steps 1-22, countertop 1 and dresser 1 empty of spraybottles) while the spraybottle was on the toilet (step 23); dresser needs no opening and the task needed two objects."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to safe 1",
+    "open safe 1",
+    "move keychain 2 to safe 1 [rejected]",
+    "go to drawer 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "open drawer 2",
+    "go to desk 1",
+    "go to desk 1 [rejected]",
+    "go to armchair 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to desk 1",
+    "take keychain 2 from desk 1 [rejected]",
+    "go to drawer 1"
+   ],
+   [
+    "go to desk 1",
+    "inventory",
+    "go to desk 1 [rejected]",
+    "examine desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to safe 1",
+    "go to armchair 1",
+    "go to bed 1",
+    "take laptop 1 from bed 1",
+    "go to desk 1",
+    "move laptop 1 to desk 1",
+    "go to bed 1",
+    "take laptop 2 from bed 1",
+    "move laptop 2 to desk 1 [rejected]",
+    "examine desk 1 [rejected]"
+   ],
+   [
+    "go to cabinet 2",
+    "go to countertop 1",
+    "go to cabinet 1",
+    "open cabinet 1",
+    "take peppershaker 1 from cabinet 1",
+    "go to diningtable 1",
+    "move peppershaker 1 to diningtable 1",
+    "go to countertop 1",
+    "go to cabinet 1",
+    "go to cabinet 2",
+    "open cabinet 2",
+    "take peppershaker 2 from cabinet 2",
+    "move peppershaker 2 to diningtable 1 [rejected]",
+    "move peppershaker 2 to diningtable 1 [rejected]",
+    "go to diningtable 1",
+    "move peppershaker 2 to diningtable 1"
+   ],
+   [
+    "go to cabinet 1",
+    "go to sinkbasin 1",
+    "go to sinkbasin 2",
+    "go to countertop 1",
+    "go to cabinet 2",
+    "go to drawer 1",
+    "go to drawer 2 [rejected]",
+    "examine drawer 1",
+    "go to toilet 1",
+    "take spraybottle 1 from toilet 1",
+    "go to cabinet 1",
+    "go to drawer 1",
+    "go to cabinet 1",
+    "go to drawer 1",
+    "move spraybottle 1 to dresser 1",
+    "go to cabinet 1"
+   ]
+  ],
+  "rewrite": "When putting two objects in a container: search surfaces first, take each object, open the target if closed, move each object to the container.",
+  "shipped_check_error": "",
+  "id": "x33"
+ },
+ {
+  "old_rule": "When searching for the object, examine the countertop first before checking cabinets or drawers.",
+  "gold_reasons": [
+   "Agent checked countertop 1 first (step 1) but then kept trying nonexistent countertop 2 (steps 2,3,11,21-25), wasting many rejected steps, and the lettuce was never on a countertop."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to cabinet 4",
+    "open cabinet 4",
+    "go to cabinet 5 [rejected]",
+    "go to cabinet 5 [rejected]",
+    "go to countertop 1",
+    "go to drawer 1",
+    "go to countertop 2 [rejected]",
+    "go to countertop 2 [rejected]",
+    "go to countertop 2 [rejected]",
+    "go to countertop 2 [rejected]",
+    "go to countertop 2 [rejected]",
+    "go to cabinet 1",
+    "go to cabinet 2",
+    "go to cabinet 3",
+    "go to cabinet 4",
+    "go to countertop 1"
+   ]
+  ],
+  "rewrite": "When searching for the object, check cabinets and drawers before examining the countertop.",
+  "shipped_check_error": "",
+  "id": "x34"
+ },
+ {
+  "old_rule": "When heating a portable object, place it directly on the heating appliance (stoveburner) or inside the heating appliance (microwave) after opening it.",
+  "gold_reasons": [
+   "Steps 6-13 opened the microwave, put the cup inside and shuffled it out again, wasting about 7 steps since 'heat cup 1 with microwave 1' works while holding it (step 14)."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to cabinet 1",
+    "go to fridge 1",
+    "open fridge 1",
+    "take cup 1 from fridge 1",
+    "go to microwave 1",
+    "open microwave 1",
+    "move cup 1 to microwave 1",
+    "close microwave 1",
+    "open microwave 1",
+    "close microwave 1",
+    "open microwave 1",
+    "take cup 1 from microwave 1",
+    "close microwave 1",
+    "heat cup 1 with microwave 1",
+    "go to countertop 1",
+    "move cup 1 to countertop 1"
+   ]
+  ],
+  "rewrite": "When heating a portable object, hold it and place it directly on the heating appliance or inside the heating appliance after opening it.",
+  "shipped_check_error": "",
+  "id": "x35"
+ },
+ {
+  "old_rule": "When taking an object from a surface, ensure you are at that surface before executing the take action.",
+  "gold_reasons": [
+   "Agent repeatedly went to desk 1 before taking keychain 2 (steps 10-11, 28-29) but takes were rejected because it was already holding keychain 3, so the rule pointed at the wrong cause and wasted steps."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to safe 1",
+    "open safe 1",
+    "move keychain 2 to safe 1 [rejected]",
+    "go to drawer 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "open drawer 2",
+    "go to desk 1",
+    "go to desk 1 [rejected]",
+    "go to armchair 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to desk 1",
+    "take keychain 2 from desk 1 [rejected]",
+    "go to drawer 1"
+   ]
+  ],
+  "rewrite": "When taking an object from a surface, ensure you are at that surface before executing the take action.",
+  "shipped_check_error": "same rule",
+  "id": "x36"
+ },
+ {
+  "old_rule": "When an object must be picked up and placed: search drawers first, take the object, go to the target, open it if closed, move the object there.",
+  "gold_reasons": [
+   "Agent opened drawers 1-9 first (steps 1-18) as prescribed, but none held a cellphone, costing ~20 steps and the game was lost.",
+   "Agent searched drawers first as prescribed (1-4, 15-20) but they were all empty and the box was never found, wasting many steps repeating the circuit.",
+   "Drawers searched first (steps 2-6) were empty or unopened while the pen was on dresser 1 (step 9); opening the target drawer at step 11 was only trivially helpful.",
+   "Agent searched about 14 drawers (steps 1-30) as prescribed and found no cellphone, so the drawer-first advice sent it down an empty path."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to drawer 8",
+    "open drawer 9 [rejected]",
+    "go to drawer 9",
+    "open drawer 9",
+    "go to drawer 10",
+    "go to dresser 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to drawer 3",
+    "go to drawer 4 [rejected]",
+    "go to drawer 5",
+    "go to drawer 6",
+    "go to drawer 7",
+    "go to drawer 8",
+    "open drawer 8",
+    "go to drawer 9"
+   ],
+   [
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to drawer 3",
+    "open drawer 3",
+    "go to drawer 4",
+    "open drawer 4",
+    "go to cabinet 1",
+    "go to cabinet 2",
+    "go to cabinet 3",
+    "go to cabinet 4",
+    "go to armchair 1",
+    "go to dresser 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to dresser 1",
+    "go to drawer 3"
+   ],
+   [
+    "go to desk 1",
+    "go to drawer 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "open drawer 2",
+    "go to desk 1",
+    "go to dresser 1",
+    "take pen 3 from dresser 1",
+    "go to drawer 1",
+    "open drawer 1",
+    "move pen 3 to drawer 1"
+   ],
+   [
+    "open drawer 8",
+    "go to drawer 9",
+    "open drawer 9",
+    "go to drawer 10",
+    "open drawer 10",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to drawer 3",
+    "go to drawer 11",
+    "open drawer 11",
+    "go to dresser 1",
+    "go to drawer 12",
+    "open drawer 12",
+    "go to drawer 13 [rejected]",
+    "open drawer 13",
+    "go to drawer 14"
+   ]
+  ],
+  "rewrite": "When an object must be picked up and placed: search cabinets first, take the object, go to the target, open it if closed, move the object there.",
+  "shipped_check_error": "",
+  "id": "x37"
+ },
+ {
+  "old_rule": "When an object must be cleaned and placed in a container: search the table first, take the object, go to the sink, clean it with the sink, go to the container, move it there.",
+  "gold_reasons": [
+   "Table-first search of diningtable 1 (steps 1-11, repeatedly) found no bowl, which was in cabinet 1 (step 13); the rest of the sequence including opening the microwave was correct but obvious."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to diningtable 1",
+    "go to fridge 1",
+    "go to diningtable 1",
+    "go to fridge 1",
+    "go to diningtable 1",
+    "go to fridge 1",
+    "open fridge 1",
+    "go to diningtable 1",
+    "go to cabinet 1",
+    "open cabinet 1",
+    "take bowl 1 from cabinet 1",
+    "go to sinkbasin 1",
+    "clean bowl 1 with sinkbasin 1",
+    "go to microwave 1",
+    "open microwave 1",
+    "move bowl 1 to microwave 1"
+   ]
+  ],
+  "rewrite": "When an object must be cleaned and placed: search the cabinet first, take the object, go to the sink, clean it with the sink, go to the target, move it there.",
+  "shipped_check_error": "",
+  "id": "x38"
+ },
+ {
+  "old_rule": "When moving an object to a shelf, use the move command directly after picking it up; avoid using skill commands.",
+  "gold_reasons": [
+   "At step 29 the agent moved laptop 2 directly after picking it up (rejected, not at desk) whereas at step 26 going to desk first worked; the rule's 'directly after picking up' omits the needed go-to and is about shelves, not the desk.",
+   "At step 12 the agent was at the desk holding laptop 1 and did not move it, then went back to the bed and tried move at steps 19-24 from the wrong location (rejected); the rule is about shelves and omits go-to."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to desk 1",
+    "inventory",
+    "go to desk 1 [rejected]",
+    "examine desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to safe 1",
+    "go to armchair 1",
+    "go to bed 1",
+    "take laptop 1 from bed 1",
+    "go to desk 1",
+    "move laptop 1 to desk 1",
+    "go to bed 1",
+    "take laptop 2 from bed 1",
+    "move laptop 2 to desk 1 [rejected]",
+    "examine desk 1 [rejected]"
+   ],
+   [
+    "take laptop 2 from bed 1 [rejected]",
+    "take laptop 2 from bed 1 [rejected]",
+    "go to bed 1 [rejected]",
+    "go to bed 1 [rejected]",
+    "move laptop 1 to desk 1 [rejected]",
+    "inventory",
+    "move laptop 1 to desk 1 [rejected]",
+    "move laptop 1 to desk 1 [rejected]",
+    "go to bed 1 [rejected]",
+    "move laptop 1 to desk 1 [rejected]",
+    "go to desk 1",
+    "go to bed 1",
+    "take laptop 2 from bed 1 [rejected]",
+    "go to desk 1",
+    "go to bed 1",
+    "go to bed 1 [rejected]"
+   ]
+  ],
+  "rewrite": "When moving an object to a target, go to the target first, then use the move command.",
+  "shipped_check_error": "rejected Corrected Error text, lists steps (only a Success Process may) (still after one rewrite): When moving an object to a target, go to the target first, then use the move com",
+  "id": "x39"
+ },
+ {
+  "old_rule": "When an object must be cleaned and placed in a container: search the table first, take the object, go to the sink, clean it with the sink, go to the container, move it there.",
+  "gold_reasons": [
+   "Table-first search of diningtable 1 (steps 1-11, repeatedly) found no bowl, which was in cabinet 1 (step 13); the rest of the sequence including opening the microwave was correct but obvious."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to diningtable 1",
+    "go to fridge 1",
+    "go to diningtable 1",
+    "go to fridge 1",
+    "go to diningtable 1",
+    "go to fridge 1",
+    "open fridge 1",
+    "go to diningtable 1",
+    "go to cabinet 1",
+    "open cabinet 1",
+    "take bowl 1 from cabinet 1",
+    "go to sinkbasin 1",
+    "clean bowl 1 with sinkbasin 1",
+    "go to microwave 1",
+    "open microwave 1",
+    "move bowl 1 to microwave 1"
+   ]
+  ],
+  "rewrite": "When an object must be cleaned and placed: search the cabinet first, take the object, go to the sink, clean it with the sink, go to the target, move it there.",
+  "shipped_check_error": "",
+  "id": "x40"
+ },
+ {
+  "old_rule": "When searching for the object, examine the countertop first before checking cabinets or drawers.",
+  "gold_reasons": [
+   "Agent checked countertop 1 first (step 1) but then kept trying nonexistent countertop 2 (steps 2,3,11,21-25), wasting many rejected steps, and the lettuce was never on a countertop."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to cabinet 4",
+    "open cabinet 4",
+    "go to cabinet 5 [rejected]",
+    "go to cabinet 5 [rejected]",
+    "go to countertop 1",
+    "go to drawer 1",
+    "go to countertop 2 [rejected]",
+    "go to countertop 2 [rejected]",
+    "go to countertop 2 [rejected]",
+    "go to countertop 2 [rejected]",
+    "go to countertop 2 [rejected]",
+    "go to cabinet 1",
+    "go to cabinet 2",
+    "go to cabinet 3",
+    "go to cabinet 4",
+    "go to countertop 1"
+   ]
+  ],
+  "rewrite": "When searching for the object, check cabinets and drawers before examining the countertop.",
+  "shipped_check_error": "",
+  "id": "x41"
+ },
+ {
+  "old_rule": "When moving an object to a shelf, use the move command directly after picking it up; avoid using skill commands.",
+  "gold_reasons": [
+   "At step 29 the agent moved laptop 2 directly after picking it up (rejected, not at desk) whereas at step 26 going to desk first worked; the rule's 'directly after picking up' omits the needed go-to and is about shelves, not the desk.",
+   "At step 12 the agent was at the desk holding laptop 1 and did not move it, then went back to the bed and tried move at steps 19-24 from the wrong location (rejected); the rule is about shelves and omits go-to."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to desk 1",
+    "inventory",
+    "go to desk 1 [rejected]",
+    "examine desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to safe 1",
+    "go to armchair 1",
+    "go to bed 1",
+    "take laptop 1 from bed 1",
+    "go to desk 1",
+    "move laptop 1 to desk 1",
+    "go to bed 1",
+    "take laptop 2 from bed 1",
+    "move laptop 2 to desk 1 [rejected]",
+    "examine desk 1 [rejected]"
+   ],
+   [
+    "take laptop 2 from bed 1 [rejected]",
+    "take laptop 2 from bed 1 [rejected]",
+    "go to bed 1 [rejected]",
+    "go to bed 1 [rejected]",
+    "move laptop 1 to desk 1 [rejected]",
+    "inventory",
+    "move laptop 1 to desk 1 [rejected]",
+    "move laptop 1 to desk 1 [rejected]",
+    "go to bed 1 [rejected]",
+    "move laptop 1 to desk 1 [rejected]",
+    "go to desk 1",
+    "go to bed 1",
+    "take laptop 2 from bed 1 [rejected]",
+    "go to desk 1",
+    "go to bed 1",
+    "go to bed 1 [rejected]"
+   ]
+  ],
+  "rewrite": "When an object must be moved to a target: search the current area first, then move the object to the target.",
+  "shipped_check_error": "",
+  "id": "x42"
+ },
+ {
+  "old_rule": "When taking an object from a surface, ensure you are at that surface before executing the take action.",
+  "gold_reasons": [
+   "Agent repeatedly went to desk 1 before taking keychain 2 (steps 10-11, 28-29) but takes were rejected because it was already holding keychain 3, so the rule pointed at the wrong cause and wasted steps."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to safe 1",
+    "open safe 1",
+    "move keychain 2 to safe 1 [rejected]",
+    "go to drawer 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "open drawer 2",
+    "go to desk 1",
+    "go to desk 1 [rejected]",
+    "go to armchair 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to desk 1",
+    "take keychain 2 from desk 1 [rejected]",
+    "go to drawer 1"
+   ]
+  ],
+  "rewrite": "When taking an object from a surface, ensure you are at that surface before executing the take action.",
+  "shipped_check_error": "same rule",
+  "id": "x43"
+ },
+ {
+  "old_rule": "When putting two objects in a drawer: search desk surfaces first, take each object, open the target drawer if closed, move each object to the drawer.",
+  "gold_reasons": [
+   "Desk first and taking keychain 3 (step 4) matched, but the 'drawer' wording led the agent to open drawer 1 and keep revisiting drawers (8-9, 18, 20, 27, 30) though the target was the safe, and it never managed to deliver.",
+   "Rule's 'search desk surfaces first' sent agent to desk 1 which had no laptop (1, 3, 15) while laptops were on the bed (23); rule also assumes a drawer target.",
+   "Surfaces (diningtable, countertop) were searched first and held no peppershaker; both were in closed cabinets (steps 11, 18), and the rule's drawer target does not match the diningtable goal.",
+   "Agent checked surfaces and cabinets first (steps 1-22, countertop 1 and dresser 1 empty of spraybottles) while the spraybottle was on the toilet (step 23); dresser needs no opening and the task needed two objects."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to safe 1",
+    "open safe 1",
+    "move keychain 2 to safe 1 [rejected]",
+    "go to drawer 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "open drawer 2",
+    "go to desk 1",
+    "go to desk 1 [rejected]",
+    "go to armchair 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to desk 1",
+    "take keychain 2 from desk 1 [rejected]",
+    "go to drawer 1"
+   ],
+   [
+    "go to desk 1",
+    "inventory",
+    "go to desk 1 [rejected]",
+    "examine desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to safe 1",
+    "go to armchair 1",
+    "go to bed 1",
+    "take laptop 1 from bed 1",
+    "go to desk 1",
+    "move laptop 1 to desk 1",
+    "go to bed 1",
+    "take laptop 2 from bed 1",
+    "move laptop 2 to desk 1 [rejected]",
+    "examine desk 1 [rejected]"
+   ],
+   [
+    "go to cabinet 2",
+    "go to countertop 1",
+    "go to cabinet 1",
+    "open cabinet 1",
+    "take peppershaker 1 from cabinet 1",
+    "go to diningtable 1",
+    "move peppershaker 1 to diningtable 1",
+    "go to countertop 1",
+    "go to cabinet 1",
+    "go to cabinet 2",
+    "open cabinet 2",
+    "take peppershaker 2 from cabinet 2",
+    "move peppershaker 2 to diningtable 1 [rejected]",
+    "move peppershaker 2 to diningtable 1 [rejected]",
+    "go to diningtable 1",
+    "move peppershaker 2 to diningtable 1"
+   ],
+   [
+    "go to cabinet 1",
+    "go to sinkbasin 1",
+    "go to sinkbasin 2",
+    "go to countertop 1",
+    "go to cabinet 2",
+    "go to drawer 1",
+    "go to drawer 2 [rejected]",
+    "examine drawer 1",
+    "go to toilet 1",
+    "take spraybottle 1 from toilet 1",
+    "go to cabinet 1",
+    "go to drawer 1",
+    "go to cabinet 1",
+    "go to drawer 1",
+    "move spraybottle 1 to dresser 1",
+    "go to cabinet 1"
+   ]
+  ],
+  "rewrite": "When putting two objects in a container: search surfaces first, take each object, open the target container if closed, move each object to the container.",
+  "shipped_check_error": "",
+  "id": "x44"
+ },
+ {
+  "old_rule": "When taking an object from a surface, ensure you are at that surface before executing the take action.",
+  "gold_reasons": [
+   "Agent repeatedly went to desk 1 before taking keychain 2 (steps 10-11, 28-29) but takes were rejected because it was already holding keychain 3, so the rule pointed at the wrong cause and wasted steps."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to safe 1",
+    "open safe 1",
+    "move keychain 2 to safe 1 [rejected]",
+    "go to drawer 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "open drawer 2",
+    "go to desk 1",
+    "go to desk 1 [rejected]",
+    "go to armchair 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to desk 1",
+    "take keychain 2 from desk 1 [rejected]",
+    "go to drawer 1"
+   ]
+  ],
+  "rewrite": "When taking an object from a surface, ensure you are at that surface before executing the take action.",
+  "shipped_check_error": "same rule",
+  "id": "x45"
+ },
+ {
+  "old_rule": "When cleaning the object, examine the sink first to confirm it contains water before attempting to clean.",
+  "gold_reasons": [
+   "Agent examined sinkbasin 1 at step 3 (showing no water info) and cleaning at step 15 worked regardless, so the check was a wasted step.",
+   "Agent examined sinkbasin 1 (steps 26, 28-30) looking for water, which ALFWorld does not model, while the clean was rejected only because butterknife 1 was never picked up (step 27)."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to sinkbasin 1",
+    "examine sinkbasin 1",
+    "go to drawer 1",
+    "open drawer 1",
+    "go to sinkbasin 1",
+    "go to drawer 2",
+    "open drawer 2",
+    "go to drawer 3",
+    "open drawer 3",
+    "go to garbagecan 1",
+    "go to countertop 1",
+    "take soapbar 1 from countertop 1",
+    "go to sinkbasin 1",
+    "clean soapbar 1 with sinkbasin 1",
+    "go to countertop 1",
+    "move soapbar 1 to countertop 1"
+   ],
+   [
+    "go to cabinet 1",
+    "go to countertop 4",
+    "go to cabinet 1",
+    "go to countertop 4",
+    "go to cabinet 1",
+    "go to countertop 4",
+    "go to cabinet 1",
+    "go to countertop 4",
+    "go to cabinet 1",
+    "go to drawer 1",
+    "go to sinkbasin 1",
+    "examine sinkbasin 1",
+    "clean butterknife 1 with sinkbasin 1 [rejected]",
+    "examine sinkbasin 1",
+    "examine sinkbasin 1",
+    "examine sinkbasin 1"
+   ]
+  ],
+  "rewrite": "When cleaning an object, use the sinkbasin directly without examining it first.",
+  "shipped_check_error": "commands no stored game shows: use sinkbasin",
+  "id": "x46"
+ },
+ {
+  "old_rule": "When cleaning the object, examine the sink first to confirm it contains water before attempting to clean.",
+  "gold_reasons": [
+   "Agent examined sinkbasin 1 at step 3 (showing no water info) and cleaning at step 15 worked regardless, so the check was a wasted step.",
+   "Agent examined sinkbasin 1 (steps 26, 28-30) looking for water, which ALFWorld does not model, while the clean was rejected only because butterknife 1 was never picked up (step 27)."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to sinkbasin 1",
+    "examine sinkbasin 1",
+    "go to drawer 1",
+    "open drawer 1",
+    "go to sinkbasin 1",
+    "go to drawer 2",
+    "open drawer 2",
+    "go to drawer 3",
+    "open drawer 3",
+    "go to garbagecan 1",
+    "go to countertop 1",
+    "take soapbar 1 from countertop 1",
+    "go to sinkbasin 1",
+    "clean soapbar 1 with sinkbasin 1",
+    "go to countertop 1",
+    "move soapbar 1 to countertop 1"
+   ],
+   [
+    "go to cabinet 1",
+    "go to countertop 4",
+    "go to cabinet 1",
+    "go to countertop 4",
+    "go to cabinet 1",
+    "go to countertop 4",
+    "go to cabinet 1",
+    "go to countertop 4",
+    "go to cabinet 1",
+    "go to drawer 1",
+    "go to sinkbasin 1",
+    "examine sinkbasin 1",
+    "clean butterknife 1 with sinkbasin 1 [rejected]",
+    "examine sinkbasin 1",
+    "examine sinkbasin 1",
+    "examine sinkbasin 1"
+   ]
+  ],
+  "rewrite": "When cleaning the object, hold it before examining the sink.",
+  "shipped_check_error": "",
+  "id": "x47"
+ },
+ {
+  "old_rule": "When moving an object to a shelf, use the move command directly after picking it up; avoid using skill commands.",
+  "gold_reasons": [
+   "At step 29 the agent moved laptop 2 directly after picking it up (rejected, not at desk) whereas at step 26 going to desk first worked; the rule's 'directly after picking up' omits the needed go-to and is about shelves, not the desk.",
+   "At step 12 the agent was at the desk holding laptop 1 and did not move it, then went back to the bed and tried move at steps 19-24 from the wrong location (rejected); the rule is about shelves and omits go-to."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to desk 1",
+    "inventory",
+    "go to desk 1 [rejected]",
+    "examine desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to safe 1",
+    "go to armchair 1",
+    "go to bed 1",
+    "take laptop 1 from bed 1",
+    "go to desk 1",
+    "move laptop 1 to desk 1",
+    "go to bed 1",
+    "take laptop 2 from bed 1",
+    "move laptop 2 to desk 1 [rejected]",
+    "examine desk 1 [rejected]"
+   ],
+   [
+    "take laptop 2 from bed 1 [rejected]",
+    "take laptop 2 from bed 1 [rejected]",
+    "go to bed 1 [rejected]",
+    "go to bed 1 [rejected]",
+    "move laptop 1 to desk 1 [rejected]",
+    "inventory",
+    "move laptop 1 to desk 1 [rejected]",
+    "move laptop 1 to desk 1 [rejected]",
+    "go to bed 1 [rejected]",
+    "move laptop 1 to desk 1 [rejected]",
+    "go to desk 1",
+    "go to bed 1",
+    "take laptop 2 from bed 1 [rejected]",
+    "go to desk 1",
+    "go to bed 1",
+    "go to bed 1 [rejected]"
+   ]
+  ],
+  "rewrite": "When moving an object to a target, go to the target first, then use the move command.",
+  "shipped_check_error": "rejected Corrected Error text, lists steps (only a Success Process may) (still after one rewrite): When moving an object to a target, go to the target first, then use the move com",
+  "id": "x48"
+ },
+ {
+  "old_rule": "When moving an object to a shelf, use the move command directly after picking it up; avoid using skill commands.",
+  "gold_reasons": [
+   "At step 29 the agent moved laptop 2 directly after picking it up (rejected, not at desk) whereas at step 26 going to desk first worked; the rule's 'directly after picking up' omits the needed go-to and is about shelves, not the desk.",
+   "At step 12 the agent was at the desk holding laptop 1 and did not move it, then went back to the bed and tried move at steps 19-24 from the wrong location (rejected); the rule is about shelves and omits go-to."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to desk 1",
+    "inventory",
+    "go to desk 1 [rejected]",
+    "examine desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to safe 1",
+    "go to armchair 1",
+    "go to bed 1",
+    "take laptop 1 from bed 1",
+    "go to desk 1",
+    "move laptop 1 to desk 1",
+    "go to bed 1",
+    "take laptop 2 from bed 1",
+    "move laptop 2 to desk 1 [rejected]",
+    "examine desk 1 [rejected]"
+   ],
+   [
+    "take laptop 2 from bed 1 [rejected]",
+    "take laptop 2 from bed 1 [rejected]",
+    "go to bed 1 [rejected]",
+    "go to bed 1 [rejected]",
+    "move laptop 1 to desk 1 [rejected]",
+    "inventory",
+    "move laptop 1 to desk 1 [rejected]",
+    "move laptop 1 to desk 1 [rejected]",
+    "go to bed 1 [rejected]",
+    "move laptop 1 to desk 1 [rejected]",
+    "go to desk 1",
+    "go to bed 1",
+    "take laptop 2 from bed 1 [rejected]",
+    "go to desk 1",
+    "go to bed 1",
+    "go to bed 1 [rejected]"
+   ]
+  ],
+  "rewrite": "When an object must be moved to a target: search the current area first, move the object to the target.",
+  "shipped_check_error": "",
+  "id": "x49"
+ },
+ {
+  "old_rule": "When searching for the object, examine the countertop first before checking cabinets or drawers.",
+  "gold_reasons": [
+   "Agent checked countertop 1 first (step 1) but then kept trying nonexistent countertop 2 (steps 2,3,11,21-25), wasting many rejected steps, and the lettuce was never on a countertop."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to cabinet 4",
+    "open cabinet 4",
+    "go to cabinet 5 [rejected]",
+    "go to cabinet 5 [rejected]",
+    "go to countertop 1",
+    "go to drawer 1",
+    "go to countertop 2 [rejected]",
+    "go to countertop 2 [rejected]",
+    "go to countertop 2 [rejected]",
+    "go to countertop 2 [rejected]",
+    "go to countertop 2 [rejected]",
+    "go to cabinet 1",
+    "go to cabinet 2",
+    "go to cabinet 3",
+    "go to cabinet 4",
+    "go to countertop 1"
+   ]
+  ],
+  "rewrite": "When searching for the object, check cabinets and drawers before examining the countertop.",
+  "shipped_check_error": "",
+  "id": "x50"
+ },
+ {
+  "old_rule": "When an object must be picked up and placed: search drawers first, take the object, go to the target, open it if closed, move the object there.",
+  "gold_reasons": [
+   "Agent opened drawers 1-9 first (steps 1-18) as prescribed, but none held a cellphone, costing ~20 steps and the game was lost.",
+   "Agent searched drawers first as prescribed (1-4, 15-20) but they were all empty and the box was never found, wasting many steps repeating the circuit.",
+   "Drawers searched first (steps 2-6) were empty or unopened while the pen was on dresser 1 (step 9); opening the target drawer at step 11 was only trivially helpful.",
+   "Agent searched about 14 drawers (steps 1-30) as prescribed and found no cellphone, so the drawer-first advice sent it down an empty path."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to drawer 8",
+    "open drawer 9 [rejected]",
+    "go to drawer 9",
+    "open drawer 9",
+    "go to drawer 10",
+    "go to dresser 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to drawer 3",
+    "go to drawer 4 [rejected]",
+    "go to drawer 5",
+    "go to drawer 6",
+    "go to drawer 7",
+    "go to drawer 8",
+    "open drawer 8",
+    "go to drawer 9"
+   ],
+   [
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to drawer 3",
+    "open drawer 3",
+    "go to drawer 4",
+    "open drawer 4",
+    "go to cabinet 1",
+    "go to cabinet 2",
+    "go to cabinet 3",
+    "go to cabinet 4",
+    "go to armchair 1",
+    "go to dresser 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to dresser 1",
+    "go to drawer 3"
+   ],
+   [
+    "go to desk 1",
+    "go to drawer 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "open drawer 2",
+    "go to desk 1",
+    "go to dresser 1",
+    "take pen 3 from dresser 1",
+    "go to drawer 1",
+    "open drawer 1",
+    "move pen 3 to drawer 1"
+   ],
+   [
+    "open drawer 8",
+    "go to drawer 9",
+    "open drawer 9",
+    "go to drawer 10",
+    "open drawer 10",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to drawer 3",
+    "go to drawer 11",
+    "open drawer 11",
+    "go to dresser 1",
+    "go to drawer 12",
+    "open drawer 12",
+    "go to drawer 13 [rejected]",
+    "open drawer 13",
+    "go to drawer 14"
+   ]
+  ],
+  "rewrite": "When an object must be picked up and placed: search cabinets first, take the object, go to the target, open it if closed, move the object there.",
+  "shipped_check_error": "",
+  "id": "x51"
+ },
+ {
+  "old_rule": "When putting two objects in a drawer: search desk surfaces first, take each object, open the target drawer if closed, move each object to the drawer.",
+  "gold_reasons": [
+   "Desk first and taking keychain 3 (step 4) matched, but the 'drawer' wording led the agent to open drawer 1 and keep revisiting drawers (8-9, 18, 20, 27, 30) though the target was the safe, and it never managed to deliver.",
+   "Rule's 'search desk surfaces first' sent agent to desk 1 which had no laptop (1, 3, 15) while laptops were on the bed (23); rule also assumes a drawer target.",
+   "Surfaces (diningtable, countertop) were searched first and held no peppershaker; both were in closed cabinets (steps 11, 18), and the rule's drawer target does not match the diningtable goal.",
+   "Agent checked surfaces and cabinets first (steps 1-22, countertop 1 and dresser 1 empty of spraybottles) while the spraybottle was on the toilet (step 23); dresser needs no opening and the task needed two objects."
+  ],
+  "harmful_game_steps": [
+   [
+    "go to safe 1",
+    "open safe 1",
+    "move keychain 2 to safe 1 [rejected]",
+    "go to drawer 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "open drawer 2",
+    "go to desk 1",
+    "go to desk 1 [rejected]",
+    "go to armchair 1",
+    "go to desk 1",
+    "go to drawer 1",
+    "go to desk 1",
+    "take keychain 2 from desk 1 [rejected]",
+    "go to drawer 1"
+   ],
+   [
+    "go to desk 1",
+    "inventory",
+    "go to desk 1 [rejected]",
+    "examine desk 1",
+    "go to drawer 1",
+    "go to drawer 2",
+    "go to safe 1",
+    "go to armchair 1",
+    "go to bed 1",
+    "take laptop 1 from bed 1",
+    "go to desk 1",
+    "move laptop 1 to desk 1",
+    "go to bed 1",
+    "take laptop 2 from bed 1",
+    "move laptop 2 to desk 1 [rejected]",
+    "examine desk 1 [rejected]"
+   ],
+   [
+    "go to cabinet 2",
+    "go to countertop 1",
+    "go to cabinet 1",
+    "open cabinet 1",
+    "take peppershaker 1 from cabinet 1",
+    "go to diningtable 1",
+    "move peppershaker 1 to diningtable 1",
+    "go to countertop 1",
+    "go to cabinet 1",
+    "go to cabinet 2",
+    "open cabinet 2",
+    "take peppershaker 2 from cabinet 2",
+    "move peppershaker 2 to diningtable 1 [rejected]",
+    "move peppershaker 2 to diningtable 1 [rejected]",
+    "go to diningtable 1",
+    "move peppershaker 2 to diningtable 1"
+   ],
+   [
+    "go to cabinet 1",
+    "go to sinkbasin 1",
+    "go to sinkbasin 2",
+    "go to countertop 1",
+    "go to cabinet 2",
+    "go to drawer 1",
+    "go to drawer 2 [rejected]",
+    "examine drawer 1",
+    "go to toilet 1",
+    "take spraybottle 1 from toilet 1",
+    "go to cabinet 1",
+    "go to drawer 1",
+    "go to cabinet 1",
+    "go to drawer 1",
+    "move spraybottle 1 to dresser 1",
+    "go to cabinet 1"
+   ]
+  ],
+  "rewrite": "When putting two objects in a container: search surfaces first, take each object, open the target if closed, move each object to the container.",
+  "shipped_check_error": "",
+  "id": "x52"
+ },
+ {
+  "old_rule": "When heating a portable object in a microwave, use the 'heat <object> with microwave' command immediately after placing it inside, do not toggle the microwave door.",
+  "gold_reasons": [
+   "Agent issued 'heat potato 2 with microwave 1' right after moving the potato in (step 14) as prescribed and it was rejected (no longer holding it), leading to the open/close loop of steps 15-19.",
+   "Agent put the tomato inside the microwave and tried to heat it (steps 6, 28) as the rule prescribes, but every heat command was rejected (10-19, 28) because heating needs the object held; the rule is wrong and also the agent toggled the door repeatedly."
+  ],
+  "harmful_game_steps": [
+   [
+    "close microwave 1",
+    "heat potato 2 with microwave 1 [rejected]",
+    "open microwave 1",
+    "heat potato 2 with microwave 1 [rejected]",
+    "heat potato 2 with microwave 1 [rejected]",
+    "take potato 2 from microwave 1",
+    "go to countertop 1",
+    "move potato 2 to countertop 1",
+    "go to microwave 1",
+    "close microwave 1",
+    "go to countertop 1",
+    "The potato is already on the countertop, but the task requires it to be heated. Since the potato is currently on the countertop, I need to take it to heat it in the microwave again, or if the goal is simply to have a hot potato on the countertop, I should ensure it is [rejected]",
+    "take potato 2 from countertop 1",
+    "go to microwave 1",
+    "open microwave 1",
+    "move potato 2 to microwave 1"
+   ],
+   [
+    "heat tomato 3 with microwave 1 [rejected]",
+    "close microwave 1",
+    "open microwave 1",
+    "heat tomato 3 with microwave 1 [rejected]",
+    "heat tomato 3 with microwave 1 [rejected]",
+    "take tomato 3 from microwave 1",
+    "go to sidetable 1",
+    "move tomato 3 to sidetable 1",
+    "go to microwave 1",
+    "go to sidetable 1",
+    "take tomato 3 from sidetable 1",
+    "go to microwave 1",
+    "move tomato 3 to microwave 1",
+    "heat tomato 3 with microwave 1 [rejected]",
+    "close microwave 1",
+    "open microwave 1"
+   ]
+  ],
+  "rewrite": "When heating a portable object in a microwave, place it inside, close the door, then use the 'heat <object> with microwave' command.",
+  "shipped_check_error": "rejected Corrected Error text, lists steps (only a Success Process may) (still after one rewrite): When heating a portable object in a microwave, place it inside, close the door, ",
+  "id": "x53"
+ }
+]

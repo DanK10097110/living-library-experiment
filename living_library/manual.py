@@ -145,9 +145,11 @@ REFINE_GUIDE = (
     'A rule from an agent\'s manual for a household text game (ALFWorld) was used in several games. '
     'harmful_games are games where following it hurt, with what went wrong (a command it prescribes was '
     'rejected, the agent got stuck repeating it, or the places it says to search were empty); used_games are '
-    'other games it was used in, won or lost. Steps marked [rejected] were refused by the game. Find what in '
-    'the rule caused the harm and rewrite it so it would not: correct a wrong command or order (e.g. a command '
-    'that only works while holding the object), drop a wrong place, or narrow the condition. The validation '
+    'other games it was used in, won or lost. Steps marked [rejected] were refused by the game; the reason '
+    'says whether the object was held when a command was refused and when the same command was accepted. '
+    'Find what in the rule caused the harm and rewrite it so it would not: correct a wrong command or order '
+    '(a command refused while the object was not held but accepted while held must be done while holding '
+    'it, before putting it anywhere), drop a wrong place, or narrow the condition. The validation '
     'notes say what later games showed. Rewrite it, do not add to it: the result must not be longer than the '
     'original. ' + RULE_FORM + ' Keep its type; use only commands accepted in these games. '
     'Output {"rule": "..."}.')
@@ -1126,9 +1128,11 @@ def harms(rule, trace, goal):
     def about(action):
         return _verb_of(action) in verbs and (not places_named or bool(_nouns(action) & places_named))
     out = []
-    rejected = [t['action'] for t in trace if _rejected(t) and about(t['action'])]
+    rejected = [i for i, t in enumerate(trace) if _rejected(t) and about(t['action'])]
     if len(rejected) >= REJECTED_REPEATS:
-        out.append(f'{len(rejected)} rejected commands it prescribes ({rejected[0]})')
+        first = trace[rejected[0]]['action']
+        out.append(f'{len(rejected)} rejected commands it prescribes ({first}{_held_note(trace, rejected[0])})'
+                   + _accepted_note(trace, _verb_of(first)))
     counts = {}
     for t in trace:
         if about(t['action']):
@@ -1142,6 +1146,51 @@ def harms(rule, trace, goal):
         out.append(f"searched {', '.join(searched)} first; the object was "
                    + (f'at the {found}' if found else 'not found'))
     return out
+
+
+def _object_of(action):
+    """The object a command acts on: "heat potato 2 with microwave 1" -> "potato 2" (None for go/open/...)."""
+    words = str(action).lower().split()
+    verb = _verb_of(action)
+    if verb is None or verb in ('go to', 'open', 'close', 'examine', 'look', 'inventory'):
+        return None
+    rest = words[len(verb.split()):]
+    cut = next((i for i, w in enumerate(rest) if w in ('with', 'from', 'to', 'in', 'on', 'into')), len(rest))
+    return ' '.join(rest[:cut]) or None
+
+
+def _holding(trace, upto, obj):
+    """Whether `obj` was held before step `upto` (its last accepted take / move or put), and that step."""
+    state, last = None, None
+    for t in trace[:upto]:
+        words = t['action'].lower()
+        if _rejected(t):
+            continue
+        if words.startswith(f'take {obj} '):
+            state, last = True, t['action']
+        elif words.startswith((f'move {obj} ', f'put {obj} ')):
+            state, last = False, t['action']
+    return state, last
+
+
+def _held_note(trace, i):
+    """For the refiner: was the object held when the command was rejected (heat/cool/clean need it held)."""
+    obj = _object_of(trace[i]['action'])
+    state, last = _holding(trace, i, obj) if obj else (None, None)
+    if state is None:
+        return ''
+    return f', while the {obj} was {"held" if state else "not held"}: last "{last}"'
+
+
+def _accepted_note(trace, verb):
+    """The same kind of command accepted in this game, and whether the object was held then."""
+    for i, t in enumerate(trace):
+        if not _rejected(t) and _verb_of(t['action']) == verb:
+            obj = _object_of(t['action'])
+            state = _holding(trace, i, obj)[0] if obj else None
+            return f'; accepted at step {i + 1}: "{t["action"]}"' + (
+                '' if state is None else f' while the {obj} was {"held" if state else "not held"}')
+    return ''
 
 
 def search_hit(rule, trace, goal):
