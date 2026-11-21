@@ -57,9 +57,10 @@ class LostGameTests(unittest.TestCase):
             applied = manual.apply(rules, [{'op': 'update_note', 'id': 'rule_1', 'rule': 'When x, do z.'},
                                            {'op': 'note', 'id': 'rule_1', 'validation': 'lost once'}],
                                    case, False, None, log, 'heat')
-            self.assertEqual((rules[0]['rule'], rules[0]['validation']), ('When x, do y.', 'lost once'))
-            self.assertIn('is not a hidden note', log[0])
-            self.assertEqual([o['op'] for o in applied], ['note'])
+            self.assertEqual((rules[0]['rule'], rules[0]['validation']),
+                             ('When x, do y.', 'Suggested text: When x, do z. | lost once'))   # kept as a suggestion
+            self.assertEqual(log, [])
+            self.assertEqual([o['op'] for o in applied], ['note', 'note'])
 
 
 class MergeScopeTests(unittest.TestCase):

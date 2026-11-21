@@ -122,6 +122,33 @@ class WriteGateTests(unittest.TestCase):
         self.assertEqual(rules, [])
         self.assertIn('did not work in the won game', log[-1])
 
+    def test_vague_rules_and_search_places_the_game_contradicts_are_rejected(self):
+        found = [step('go to drawer 1'), step('open drawer 1'), step('go to countertop 1'),
+                 step('take potato 1 from countertop 1')]
+        goal = 'heat some potato and put it in fridge.'
+        with self.assertRaisesRegex(ValueError, 'too vague'):
+            manual.grounded('Special Phenomenon', 'When it is dark, it is often too late already.', found, goal)
+        with self.assertRaisesRegex(ValueError, 'found at the countertop'):
+            manual.grounded('Success Process', 'When an object must be heated: search drawers first, take it.', found, goal)
+        manual.grounded('Success Process', 'When an object must be heated: search countertops first, take it.', found, goal)
+        manual.grounded('Unresolved Error', 'When searching, check multiple locations.', found, goal)   # notes free
+
+    def test_a_rule_written_from_a_lost_game_must_pass_one_trial_replay(self):
+        rules = [rule('rule_1', 'Corrected Error', 'When heating, heat the object with the microwave while holding it.')]
+        op = {'op': 'write_rule', 'type': 'Corrected Error', 'rule': rules[0]['rule']}
+        seen = []
+        agent = host(None, used=True, seen=seen)
+        agent.task, agent.public_task = {'id': 'task-7'}, {'goal': GOAL}
+        report = {'errors': []}
+        self.assertTrue(manual.new_rule_trial(agent, rules, op, report))
+        self.assertEqual(seen[0][0], {'id': 'task-7'})                         # its own task, rule shown
+        self.assertEqual(len(rules), 1)
+        agent = host(None, used=False)
+        agent.task, agent.public_task = {'id': 'task-7'}, {'goal': GOAL}
+        self.assertFalse(manual.new_rule_trial(agent, rules, op, report))
+        self.assertEqual(rules, [])
+        self.assertIn('dropped after its trial game (the planner did not use it)', report['errors'][-1])
+
     def test_notes_are_not_trace_checked_and_near_duplicates_merge_without_a_text_change(self):
         rules, log = [], []
         manual.apply(rules, [{'op': 'write_rule', 'type': 'Unresolved Error', 'rule': 'When dark, take the lamp.'}],
@@ -163,8 +190,9 @@ class BuilderOpTests(unittest.TestCase):
                                 {'op': 'note', 'id': 'rule_1', 'validation': 'This game showed it is incomplete.'}],
                      'direct success', False, ids(1), log, HEAT)
         self.assertEqual(recipe['rule'], 'When heating: go to the microwave, heat it, put it there.')
-        self.assertEqual(recipe['validation'], 'This game showed it is incomplete.')
-        self.assertEqual(len(log), 3)
+        # The attempted rewrite is kept only as a suggestion note for the refiner.
+        self.assertEqual(recipe['validation'], 'Suggested text: new | This game showed it is incomplete.')
+        self.assertEqual(len(log), 2)
 
     def test_append_only_writes_only(self):
         note = rule('rule_1', 'Unresolved Error', 'When the egg was not found, the fridge was closed.')
@@ -244,6 +272,21 @@ class AssessTests(unittest.TestCase):
         reason = manual.harms(wrong, later, self.HOT)[0]
         self.assertIn('while the potato 1 was not held: last "move potato 1 to microwave 1"', reason)
         self.assertIn('accepted at step 7: "heat potato 1 with microwave 1" while the potato 1 was held', reason)
+
+    def test_game_facts_for_the_builder(self):
+        trace = [step('go to cabinet 1'), step('take mug 1 from cabinet 1'), step('go to countertop 1'),
+                 step('take cup 1 from countertop 1'), step('move cup 1 to microwave 1'),
+                 step('heat cup 1 with microwave 1', False), step('heat cup 1 with microwave 1', False),
+                 step('take cup 1 from microwave 1'), step('heat cup 1 with microwave 1'),
+                 step('move cup 1 to cabinet 1'), step('take cup 1 from cabinet 1')]
+        facts = manual.game_facts(trace, 'heat some cup and put it in cabinet.')
+        self.assertIn('The cup was first taken from the countertop (step 4), after searching: cabinet.', facts)
+        self.assertIn('Step 2 took mug 1, which the task does not name (it names cup).', facts)
+        self.assertIn('Step 10 put cup 1 at the target, step 11 took it back out.', facts)
+        self.assertTrue(any(f.startswith('"heat cup 1 with microwave 1" was refused 2 times (first at step 6, '
+                                         'while the cup 1 was not held') for f in facts))
+        self.assertTrue(any(f.startswith('"heat cup 1 with microwave 1" worked (step 9, while the cup 1 was held')
+                            for f in facts))
 
     def test_repeating_what_it_prescribes_is_harm(self):
         r = rule('rule_1', text='When heating on a stoveburner, examine the stoveburner to check it is hot.')

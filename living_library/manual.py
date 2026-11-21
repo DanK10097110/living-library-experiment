@@ -95,6 +95,7 @@ too long or names numbered objects ("drawer 3"); rejections are reported as erro
 ALFWorld objects and receptacles are stripped first ("microwave 1" -> "the microwave"), and text that still
 fails gets one model rewrite told its problems before it is rejected.
 """
+import collections
 import copy
 import re
 
@@ -163,10 +164,14 @@ CASE_TYPES = {      # which rule types each case may WRITE (LIBRARY-SPEC section
     'direct success': ('Success Process', 'Special Phenomenon'),
     'indirect success': ('Success Process', 'Special Phenomenon', 'Corrected Error'),
     'failure': ('Unresolved Error',),       # a lost game writes no visible rule
+    # Lost, with a won game of the same kind from the failure pool shown as contrast (DECISIONS 2026-11-21):
+    # one Corrected Error whose commands the won game shows accepted, or a note.
+    'contrasted failure': ('Corrected Error', 'Unresolved Error'),
     # Lost, then won on a Reflexion retry of the same game (ExpeL's success/failure pair).
     'corrected failure': ('Corrected Error', 'Success Process', 'Special Phenomenon'),
 }
-MAX_WRITES = {'direct success': 2, 'indirect success': 2, 'failure': 1, 'corrected failure': 2}
+MAX_WRITES = {'direct success': 2, 'indirect success': 2, 'failure': 1, 'contrasted failure': 1,
+              'corrected failure': 2}
 REFLECT_GUIDE = (   # Reflexion's ALFWorld reflection prompt (Shinn et al. 2023), as used by ExpeL
     'You will be given the history of a past experience in which you were placed in an environment and '
     'given a task to complete. You were unsuccessful in completing the task. Do not summarize your '
@@ -210,6 +215,13 @@ CASE_NOTES = {
     'failure': ' This game was lost: if the rules fell short, write at most ONE Unresolved Error note (or '
                'update_note an existing note about the same situation); if the agent ignored existing '
                'rules or a rule misled it, add a validation note to them. A lost game writes no other type.',
+    'contrasted failure': ' This game was lost. won_game_of_this_kind is a won game of the same kind of task '
+                          '(another instance, its steps). If game_facts show a mistake that the won game did not '
+                          'make (a refused command, the wrong object, the wrong appliance or command form, an '
+                          'object taken back out), write ONE Corrected Error: "When <situation>, do <what the won '
+                          'game did> instead of <the mistake>", using only commands the won game shows. Otherwise '
+                          'write at most ONE Unresolved Error note, or add validation notes to rules that misled '
+                          'the agent.',
     'corrected failure': ' This game was lost (game), then the agent replayed the same game after '
                          'reflecting on its failure (reflections) and won (successful_retry). Compare the '
                          'two attempts and write ONE Corrected Error rule about the decisive difference: '
@@ -220,6 +232,11 @@ CASE_NOTES = {
 }
 RETRY_NOTE = (' The agent replayed this lost game after reflecting and lost again each time '
               '(failed_retries): an Unresolved Error note may say what kept failing.')
+REVISE_NOTE = (
+    ' REVISION: some of your operations were refused by the manual checks. refused_operations lists each one '
+    'with the exact reason. Output only corrected operations: fix each so it passes (e.g. use a type this game may '
+    'write, or a note instead; drop a command the game did not accept; name where the object was really found; '
+    'say something concrete), or leave it out if it cannot be fixed. Operations not listed were already applied.')
 APPEND_ONLY_NOTE = (' Append-only manual: you may only use write_rule; existing rules and notes cannot be '
                     'changed or annotated.')
 
@@ -387,6 +404,69 @@ def builder_guide(case, append_only, task_type, shown):
         note += (f" This kind of task already has a Success Process ({recipe['id']}): never write another "
                  'one; if this game shows it is wrong, add a validation note to it.')
     return BUILDER_GUIDE + CASE_NOTES[case] + note + (APPEND_ONLY_NOTE if append_only else '')
+
+
+BUILDER_REVISE = True   # refused Builder operations go back to it once with the reasons
+BUILDER_FACTS = True    # game_facts in the Builder's input, numbered steps, latest note only (DECISIONS 2026-11-21)
+FACTS_NOTE = (
+    ' game_facts are checked facts computed from the steps (reliable; a small model misreads long games): where '
+    'the object was found and what was searched first, objects taken that the task does not name, objects taken '
+    'back out of the target, refused commands and whether the object was held then, appliance commands that '
+    'worked, places visited again and again. Base every rule and note on these facts and the steps. If the facts '
+    'show a mistake (the wrong object taken, a refused command, an object taken back out, going back to the same '
+    'places), the rule or note should be about that mistake and what worked instead. A place to search first '
+    'must be where the object was found in this game; never write "never search <place>". A validation note '
+    'says in one sentence what THIS game showed about the rule (its own steps or facts); rules show only their '
+    'latest note: never copy it. A new rule must say something concrete a future agent can act on (a command '
+    'form, an appliance, where to look, which object to use); never vague advice such as "check multiple '
+    'locations". Each shown rule says what you may do with it ("can"): note (a rule the agent sees; its text is '
+    'never rewritten here) or update_note (a hidden note).')
+
+
+def contrast_trace(rules, task_type):
+    """The shortest of the last won attempts of this kind of task (failure pool), as a trace, or None."""
+    entry = avoid.pool_entry(rules, task_type)
+    won = (entry or {}).get('pool', {}).get('won', [])
+    if not won:
+        return None
+    best = min(won[-6:], key=len)
+    return [{'action': a, 'valid': bool(v), 'after': ''} for a, v in best]
+
+
+def builder_payload(guide, result, goal, extra, task_type, shown, case, append_only, retry_trace=None,
+                    contrast=None):
+    """The Builder's input for one game (build): the game, the retry pair if any, the shown rules, and with
+    BUILDER_FACTS the game facts (game_facts) of the game and of a winning retry, numbered steps and only the
+    latest validation note of each rule (whole note histories were copied into new notes)."""
+    ops = ['write_rule'] if append_only else ['write_rule', 'note', 'update_note']
+    game = _game(result, goal)
+    extra = dict(extra)
+    if BUILDER_FACTS:
+        offset = len(result['trace']) - len(game['steps'])
+        game['steps'] = [{'step': offset + i + 1, **s} for i, s in enumerate(game['steps'])]
+        guide += FACTS_NOTE
+        facts = {'game_facts': game_facts(result['trace'], goal)}
+        if 'successful_retry' in extra and retry_trace is not None:
+            facts['successful_retry_facts'] = game_facts(retry_trace, goal)
+        if case == 'contrasted failure' and contrast:
+            facts['won_game_of_this_kind'] = [t['action'] + ('' if t['valid'] else REJECTED_MARK)
+                                              for t in contrast][-30:]
+    else:
+        facts = {}
+
+    def note(r):
+        notes = [n for n in str(r.get('validation') or '').split(' | ') if n]
+        return (notes[-1] if notes else '') if BUILDER_FACTS else r.get('validation', '')
+    return {'instructions': guide, 'game': game, **facts, **extra, 'task_type': task_type,
+            'rules': [{**{k: r.get(k, '') for k in ('id', 'type', 'rule', 'example')}, 'validation': note(r),
+                       **({'can': 'note' if shown_to_agent(r) else 'update_note'}
+                          if BUILDER_FACTS and not append_only else {})}
+                      for r in shown],
+            'response_schema': {'diagnosis': 'imperfect rules | imperfect agent',
+                                'operations': [{'op': ' | '.join(ops), 'id': 'rule_N',
+                                                'type': '|'.join(CASE_TYPES[case]), 'rule': 'string',
+                                                'example': 'string', 'scope': 'task | all',
+                                                'validation': 'string'}]}}
 
 
 def shown_to_agent(rule):
@@ -705,8 +785,30 @@ def _game(result, task_goal, max_steps=40):
     return {'task': task_goal, 'won': result['success'], 'steps': steps[-max_steps:]}
 
 
+CONCRETE_WORDS = {'go', 'container', 'containers', 'surface', 'surfaces', 'appliance', 'target',
+                  'held', 'holding', 'hold', 'command', 'refused', 'pick', 'search', 'check', 'look', 'find',
+                  'return', 'leave', 'keep', 'wait', 'repeat', 'stop'}   # loose on purpose: weak rules pass and
+                                                                         # are filtered by evidence later
+
+
+def grounded(kind, text, trace, goal):
+    """Free write-time filter for a visible rule (DECISIONS 2026-11-21): it must name something an agent can act
+    on (a command, or a place or appliance), and places it says to search first must include where the object
+    was found in the game it is written from. Raises ValueError."""
+    if kind in HIDDEN or kind == avoid.TYPE:
+        return
+    words = set(re.findall(r'[a-z]+', text.lower()))
+    if not _verbs(text) and not (_nouns(text) & avoid.PLACES) and not words & CONCRETE_WORDS:
+        raise ValueError(f'rejected {kind} text, too vague (no command, place or appliance): {text[:80]}')
+    places = search_places(text)
+    found = (found_at(trace, goal) or found_at(trace, '')) if trace and places else None
+    if found and found not in places:
+        raise ValueError(f"rejected {kind} text, says to search {', '.join(sorted(places))} first but the object "
+                         f'was found at the {found}: {text[:80]}')
+
+
 def apply(rules, operations, case, append_only, next_id, log, task_type=None, visible=None, similarity=None,
-          goal=None, ask=None, trace=None, retry_check=None, position=None):
+          goal=None, ask=None, trace=None, retry_check=None, position=None, refused=None, writes=0):
     """Apply Builder operations under the case limits (LIBRARY-SPEC section 3); returns the applied operations
     (for batching). `visible`: ids the Builder was shown (it may only annotate or update those); default all.
     `goal`: the game's task, stored on written (and merged) rules as task-keyed retrieval evidence. `trace`: the
@@ -715,8 +817,9 @@ def apply(rules, operations, case, append_only, next_id, log, task_type=None, vi
     harm from it (harms); a corrected failure's update_note turns an Unresolved Error into a
     Corrected Error only when it did. `position`: the practice position, stored as `created`.
     Operations: write_rule (all conditions); note and update_note (E only). The Builder never rewrites the
-    text of a rule the agent sees."""
-    applied, writes = [], 0
+    text of a rule the agent sees. `refused`: a list that gets (operation, reason) for each refused operation
+    (fed back to the Builder once, build); `writes`: rules this game already wrote (the revision round)."""
+    applied = []
     visible = {r['id'] for r in rules} if visible is None else set(visible)
     by_id = {r['id']: r for r in rules}
     allowed = CASE_TYPES[case]
@@ -736,6 +839,8 @@ def apply(rules, operations, case, append_only, next_id, log, task_type=None, vi
                 kind_scope = task_type if op['type'] == 'Success Process' or op.get('scope') != 'all' else None
                 text = checked(op['type'], op['rule'], ask, kind_scope)
                 text = trace_checked(op['type'], text, trace, ask, kind_scope)
+                # The search-place part only against the game the rule is written from (not a contrast game).
+                grounded(op['type'], text, None if case == 'contrasted failure' else trace, goal)
                 if any(tidy(r['rule']).lower() == text.lower() for r in rules):
                     raise ValueError('duplicate rule')
                 if op['type'] == 'Success Process':
@@ -773,10 +878,16 @@ def apply(rules, operations, case, append_only, next_id, log, task_type=None, vi
                 rule = by_id.get(op.get('id'))
                 if rule is None or rule.get('id') not in visible or rule['type'] == avoid.POOL:
                     raise ValueError(f"unknown rule id {op.get('id')}")
+                if kind == 'update_note' and shown_to_agent(rule) and isinstance(op.get('rule'), str)                         and op['rule'].strip() and rule['type'] != avoid.TYPE:
+                    # A rewrite of a rule the agent sees is never applied here; it is kept as a suggestion in the
+                    # rule's notes, which the refiner reads if the rule turns out bad.
+                    kind, op = 'note', {**op, 'validation': 'Suggested text: ' + ' '.join(op['rule'].split())}
                 if kind == 'note':
                     if not isinstance(op.get('validation'), str) or not op['validation'].strip():
                         raise ValueError('note needs a validation sentence')
                     change = {'op': 'note', 'id': rule['id'], 'validation': ' '.join(op['validation'].split())[:300]}
+                    if ' | ' in change['validation'] or change['validation'] in str(rule.get('validation') or ''):
+                        raise ValueError(f"note on {rule['id']} copies its earlier notes")
                     _note(rule, change)
                     applied.append(change)
                     continue
@@ -814,6 +925,8 @@ def apply(rules, operations, case, append_only, next_id, log, task_type=None, vi
                 raise ValueError(f'unknown operation {kind!r}')
         except ValueError as exc:
             log.append(str(exc))
+            if refused is not None:
+                refused.append((op, str(exc)))
     return applied
 
 
@@ -1193,6 +1306,66 @@ def _accepted_note(trace, verb):
     return ''
 
 
+APPLIANCE_VERBS = ('heat', 'cool', 'clean', 'use', 'toggle')
+FACTS_MAX = 12      # game facts given to the Builder per game
+
+
+def _kind(name):
+    """'mug 1' -> 'mug'; 'cellphone 2' -> 'cellphone' (the kind of a numbered thing)."""
+    words = str(name).split()
+    return (_noun(words[0]) or words[0]) if words else ''
+
+
+def game_facts(trace, goal):
+    """Checked facts about a finished game, from its trace alone, for the Builder (a small model misreads long
+    traces): where the task's object was found and what was searched first, objects taken that the task does not
+    name, objects put at the target and taken back out, refused commands (whether the object was held then),
+    appliance commands that worked, places visited again and again, and free text sent as a command. Steps are
+    numbered from 1 as in the game's steps."""
+    facts, wanted = [], _wanted(goal)
+    found = next(((i, p) for i, p in ((i, _taken(t, wanted)) for i, t in enumerate(trace)) if p), None)
+    names = ', '.join(wanted) or 'the object'
+    if found:
+        before = sorted(visited_before_found(trace, goal) - {found[1]})
+        facts.append(f'The {names} was first taken from the {found[1]} (step {found[0] + 1})'
+                     + (f", after searching: {', '.join(before)}." if before else ', the first place searched.'))
+    elif wanted:
+        facts.append(f'The {names} was never taken.')
+    targets = [n for n in _nouns(goal) if n in avoid.PLACES]
+    placed = {}
+    for i, t in enumerate(trace):
+        if _rejected(t):
+            continue
+        words = t['action'].lower().split()
+        obj = _object_of(t['action'])
+        if words[:1] == ['take'] and obj:
+            kind = _kind(obj)
+            if wanted and kind in avoid.OBJECTS and not any(kind == w or kind.startswith(w) or kind.endswith(w)
+                                                            for w in wanted):
+                facts.append(f'Step {i + 1} took {obj}, which the task does not name (it names {names}).')
+            if obj in placed:
+                facts.append(f'Step {placed.pop(obj) + 1} put {obj} at the target, step {i + 1} took it back out.')
+        elif _verb_of(t['action']) == 'move' and obj and targets and set(_nouns(t['action'])) & set(targets):
+            placed[obj] = i
+    refused = collections.Counter(t['action'] for t in trace if _rejected(t) and len(t['action'].split()) <= 8)
+    for action, n in refused.most_common(4):
+        i = next(i for i, t in enumerate(trace) if t['action'] == action and _rejected(t))
+        facts.append(f'"{action}" was refused' + (f' {n} times' if n > 1 else '') + f' (first at step {i + 1}'
+                     + _held_note(trace, i) + ').')
+    free = sum(1 for t in trace if _rejected(t) and len(t['action'].split()) > 8)
+    if free:
+        facts.append(f'{free} steps were free text, not commands (refused).')
+    for i, t in enumerate(trace):
+        if not _rejected(t) and _verb_of(t['action']) in APPLIANCE_VERBS:
+            facts.append(f'"{t["action"]}" worked (step {i + 1}{_held_note(trace, i)}).')
+    visits = collections.Counter(t['action'][6:] for t in trace
+                                 if t['action'].lower().startswith('go to ') and not _rejected(t))
+    again = [f'{p} ({n} times)' for p, n in visits.most_common() if n >= 3]
+    if again:
+        facts.append('Went back to the same place: ' + ', '.join(again[:4]) + '.')
+    return facts[:FACTS_MAX]
+
+
 def search_hit(rule, trace, goal):
     """The rule names places to search first and the object was taken from one of them."""
     places = search_places(rule['rule'])
@@ -1261,6 +1434,25 @@ def trial(agent, rules, rule, text):
         games.append({'task': result.get('goal', ''), 'won': bool(result['success']), 'used': used, 'harm': harm,
                       'model_calls': result['model_calls']})
     return any(g['used'] for g in games) and not any(g['harm'] for g in games), games
+
+
+def new_rule_trial(agent, rules, op, report):
+    """A visible rule written from a lost game (contrasted failure) is replayed once, frozen, on that game's task
+    with the rule shown (trial). Kept if the planner used it and the replay shows no harm from it; otherwise it
+    is removed again. Returns whether it was kept. Costs one game, charged to the practice game."""
+    rule = next((r for r in reversed(rules) if r['rule'] == op['rule'] and r['type'] == op['type']), None)
+    if rule is None or not shown_to_agent(rule):
+        return True
+    probe = {**rule, 'contexts': [{'task_ref': copy.deepcopy(agent.task), 'task': agent.public_task.get('goal', ''),
+                                   'score': -1}]}
+    passed, games = trial(agent, rules, probe, rule['rule'])
+    op['trials'] = games
+    if not passed:
+        rules.remove(rule)
+        why = 'the planner did not use it' if not any(g['used'] for g in games) else '; '.join(
+            h for g in games for h in g['harm'])
+        report['errors'].append(f"new {rule['type']} dropped after its trial game ({why}): {rule['rule'][:80]}")
+    return passed
 
 
 COSTS = ('model_calls', 'input_tokens', 'output_tokens', 'model_wall_seconds')
@@ -1345,6 +1537,9 @@ def build(agent):
     task_type = agent.task.get('task_type')
     # The same view for E and E-minus: relevance to this game plus the newest rules.
     shown = for_builder(rules, task_type, BUILDER_SEES, goal, agent.embedder.similarity)
+    contrast = contrast_trace(rules, task_type) if BUILDER_FACTS and report['case'] == 'failure' else None
+    if contrast:
+        report['case'] = 'contrasted failure'
     guide = builder_guide(report['case'], append_only, task_type, shown)
     if 'failed_retries' in extra:
         guide += RETRY_NOTE
@@ -1352,27 +1547,35 @@ def build(agent):
     verdicts = assess(agent, rules)
     report['assessed'] = {i: {k: v[k] for k in ('followed', 'usefulness')} for i, v in verdicts.items()}
     won_trace = agent.result['trace'] if agent.result['success'] else (
-        retried['trace'] if report['case'] == 'corrected failure' else None)
+        retried['trace'] if report['case'] == 'corrected failure' else contrast)
     retry_check = None
     if report['case'] == 'corrected failure' and not append_only:
         def retry_check(rule):      # the winning retry shows no harm from the new text
             return not harms(rule, retried['trace'], goal)
-    ops = ['write_rule'] if append_only else ['write_rule', 'note', 'update_note']
     try:
-        data = agent._ask('builder', {
-            'instructions': guide,
-            'game': _game(agent.result, goal), **extra,
-            'task_type': task_type,
-            'rules': [{k: r.get(k, '') for k in ('id', 'type', 'rule', 'example', 'validation')} for r in shown],
-            'response_schema': {'diagnosis': 'imperfect rules | imperfect agent',
-                                'operations': [{'op': ' | '.join(ops), 'id': 'rule_N',
-                                                'type': '|'.join(CASE_TYPES[report['case']]), 'rule': 'string',
-                                                'example': 'string', 'scope': 'task | all',
-                                                'validation': 'string'}]}})
+        payload = builder_payload(guide, agent.result, goal, extra, task_type, shown, report['case'], append_only,
+                                  retried['trace'] if retried is not None else None, contrast)
+        data = agent._ask('builder', payload)
         report['diagnosis'] = data.get('diagnosis')
-        report['operations'] += apply(rules, data.get('operations'), report['case'], append_only, next_id,
+        refused = []
+        written = apply(rules, data.get('operations'), report['case'], append_only, next_id,
                                       report['errors'], task_type, [r['id'] for r in shown],
-                                      agent.embedder.similarity, goal, agent._ask, won_trace, retry_check, position)
+                                      agent.embedder.similarity, goal, agent._ask, won_trace, retry_check, position,
+                                      refused)
+        fixable = [(op, why) for op, why in refused if op.get('op') != 'note' and why != 'duplicate rule']
+        if fixable and BUILDER_REVISE:
+            # One revision round: the refused operations go back with the exact reasons (DECISIONS 2026-11-21).
+            payload['instructions'] += REVISE_NOTE
+            payload['refused_operations'] = [{'operation': op, 'reason': why} for op, why in fixable]
+            report['revision'] = len(fixable)
+            data = agent._ask('builder', payload)
+            written += apply(rules, data.get('operations') if isinstance(data, dict) else None, report['case'],
+                             append_only, next_id, report['errors'], task_type, [r['id'] for r in shown],
+                             agent.embedder.similarity, goal, agent._ask, won_trace, retry_check, position, None,
+                             sum(op['op'] == 'write_rule' for op in written))
+        if report['case'] == 'contrasted failure':
+            written = [op for op in written if op['op'] != 'write_rule' or new_rule_trial(agent, rules, op, report)]
+        report['operations'] += written
     except (ValueError, RuntimeError, KeyError, TypeError, AttributeError) as exc:
         report['errors'].append(f'builder: {exc}'[:200])
     report['operations'].append(observe(rules, verdicts, {

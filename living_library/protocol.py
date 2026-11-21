@@ -68,5 +68,10 @@ PREREGISTRATION = {
                                "loops, empty search places); a refinement must pass up to 3 frozen trial replays "
                                "before it replaces a text. Thresholds re-checked in the simulator (BAD_MEAN -0.4, "
                                "USELESS_MIN 16).",
+        "builder_2026_11_21": "Builder input gains computed game facts, numbered steps and latest notes only; "
+                              "refused rule operations go back once with the reasons; a lost game with a won "
+                              "attempt of its kind may write one Corrected Error, kept only if one frozen trial "
+                              "replay of the task uses it without harm; a loose grounding check. Measured with "
+                              "Claude-graded A/B checks (results/builder-check). E and E-minus practice restarted.",
     },
 }

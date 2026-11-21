@@ -469,3 +469,28 @@ command "done") get no protection at write time; the evidence handles them (harm
 Most common missed lessons: take exactly the named object (cup vs mug, pen vs pencil), do not take a placed object
 back out in two-object tasks, heat with the microwave rather than the stoveburner, do not revisit searched places.
 This matches the 9B ceiling noted before (library-ceiling): no Builder prompt change before the study.
+
+## 2026-11-21 (afternoon) — Builder: game facts, contrast for lost games, feedback on refusals, loose grounding
+
+The owner: the Builder is pivotal; improve its prompt and context instead of accepting weak output; weak rules may
+pass if something filters them later; refused rules should go back to the Builder with the exact reason; keep the
+static gate loose. Study2's E and E-minus practice (about 10 games each) was stopped to apply this; C's gate games
+are kept (`--restart-library`).
+Measured with `tools/builder_check.py` (the Builder call replayed on the 48 games of /root/ll-runs/mini-evidence,
+library as before each game, shipped checks applied) and blind A/B grading by a Sonnet reader
+(results/builder-check: base, facts, facts2, facts3 outputs; grades.jsonl, grades2.jsonl and keys).
+- **game_facts** (computed from the trace, `manual.game_facts`), numbered steps, latest note only, note copies
+  refused. Blind vs the old input: notes good 20 -> 27, wrong 7 -> 4; rules about the same (mostly weak); per game
+  13 better, 11 worse, 24 ties.
+- **Contrasted failure**: most missed lessons were in lost games, which could only write hidden notes. A lost
+  game now sees a won attempt of its kind (failure pool) and may write one Corrected Error, trace-checked against
+  that attempt and kept only after one frozen trial replay of its task (used, no harm). It produced e.g. "When
+  heating the object, use 'heat <object>' instead of 'place <object> on <appliance>'", the heat lesson the Builder
+  had never written. Plus "can" per shown rule and a concreteness instruction. Blind vs the old input (facts2):
+  notes good 21 -> 35, rules good 1 -> 3, wrong 5 -> 3; per game 12 better, 9 worse, 27 ties.
+- **Grounding** (`manual.grounded`), loose: a visible rule needs some action or place word; "search X first" must
+  include where the object was found in its own game (dropped 5 overfit search-order rules in the check).
+- **Revision round**: refused write/update operations go back once with the exact reasons; refused notes are not
+  sent back (that produced filler "confirms" notes). An update_note on a visible rule (the Builder kept trying to
+  rewrite rules it sees) is kept as a "Suggested text: ..." note for the refiner instead of being refused.
+Cost: one extra Builder call in games with a refused rule operation; one trial game per rule from a lost game.

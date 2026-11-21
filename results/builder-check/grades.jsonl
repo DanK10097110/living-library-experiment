@@ -1,0 +1,156 @@
+{"game": 0, "better": "tie", "why": "A added a trivial rule, B nothing"}
+{"game": 0, "version": "A", "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "True but trivial restatement of the task"}
+{"game": 1, "better": "tie", "why": "Neither version added anything"}
+{"game": 2, "better": "tie", "why": "Neither version added anything"}
+{"game": 3, "better": "B", "why": "B fewer overfit rules"}
+{"game": 3, "version": "A", "op": "write_rule", "id_or_type": "Special Phenomenon", "grade": "weak", "why": "Object locations vary; drawers-first is weak evidence"}
+{"game": 3, "version": "A", "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "Drawers first is overfit to this game"}
+{"game": 3, "version": "B", "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "Drawers first is overfit"}
+{"game": 4, "better": "tie", "why": "Both wrong"}
+{"game": 4, "version": "A", "op": "write_rule", "id_or_type": "Unresolved Error", "grade": "wrong", "why": "Heating is done with microwave, not burner; misleading"}
+{"game": 4, "version": "B", "op": "note", "id_or_type": "rule_6", "grade": "wrong", "why": "Note about examine loop unrelated to rule_6; claims placement never attempted"}
+{"game": 5, "better": "tie", "why": "Both accurate"}
+{"game": 5, "version": "A", "op": "note", "id_or_type": "rule_5", "grade": "good", "why": "Correctly notes statue found on shelf, not drawers"}
+{"game": 5, "version": "B", "op": "note", "id_or_type": "rule_5", "grade": "good", "why": "Correctly says drawers-first unsupported by this game"}
+{"game": 6, "better": "A", "why": "B notes vague; nothing is safer"}
+{"game": 6, "version": "B", "op": "note", "id_or_type": "rule_1", "grade": "weak", "why": "Vague critique; steps show broad search, plate never found"}
+{"game": 6, "version": "B", "op": "note", "id_or_type": "rule_6", "grade": "weak", "why": "True but trivial confirmation"}
+{"game": 7, "better": "B", "why": "B added nothing, A weak notes"}
+{"game": 7, "version": "A", "op": "note", "id_or_type": "rule_1", "grade": "weak", "why": "Vague claim that searching is necessary"}
+{"game": 7, "version": "A", "op": "note", "id_or_type": "rule_6", "grade": "weak", "why": "Muddled; cabinet 1 left unopened"}
+{"game": 8, "better": "tie", "why": "Both capture go-to-target lesson"}
+{"game": 8, "version": "A", "op": "write_rule", "id_or_type": "Corrected Error", "grade": "good", "why": "Captures key lesson: be at target before move"}
+{"game": 8, "version": "A", "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "Redundant with existing two-object rule"}
+{"game": 8, "version": "B", "op": "write_rule", "id_or_type": "Corrected Error", "grade": "good", "why": "Correct lesson, tied to refused move"}
+{"game": 8, "version": "B", "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "Generic two-object recipe"}
+{"game": 9, "better": "tie", "why": "Both vague"}
+{"game": 9, "version": "A", "op": "note", "id_or_type": "rule_5", "grade": "weak", "why": "Vague about what to do instead"}
+{"game": 9, "version": "B", "op": "note", "id_or_type": "rule_5", "grade": "weak", "why": "Vague; no concrete lesson"}
+{"game": 9, "version": "B", "op": "write_rule", "id_or_type": "Corrected Error", "grade": "weak", "why": "Vague search environment first"}
+{"game": 10, "better": "B", "why": "B identifies rule flaw"}
+{"game": 10, "version": "A", "op": "note", "id_or_type": "rule_5", "grade": "weak", "why": "Claims confirmation though statue was elsewhere"}
+{"game": 10, "version": "A", "op": "note", "id_or_type": "rule_6", "grade": "good", "why": "Accurate confirmation"}
+{"game": 10, "version": "B", "op": "note", "id_or_type": "rule_5", "grade": "good", "why": "Notes drawers-first wasted steps; real flaw"}
+{"game": 11, "better": "tie", "why": "One vague rule vs nothing"}
+{"game": 11, "version": "A", "op": "write_rule", "id_or_type": "Unresolved Error", "grade": "weak", "why": "Vague and ungrounded"}
+{"game": 12, "better": "tie", "why": "All weak"}
+{"game": 12, "version": "A", "op": "write_rule", "id_or_type": "Corrected Error", "grade": "weak", "why": "Not grounded; no object was taken"}
+{"game": 12, "version": "A", "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "Correct cool recipe but not shown in this game"}
+{"game": 12, "version": "B", "op": "write_rule", "id_or_type": "Corrected Error", "grade": "weak", "why": "Vague and ungrounded"}
+{"game": 13, "better": "B", "why": "B judged rule_5 correctly"}
+{"game": 13, "version": "A", "op": "note", "id_or_type": "rule_5", "grade": "wrong", "why": "Says drawers-first confirmed though object on countertop"}
+{"game": 13, "version": "A", "op": "note", "id_or_type": "rule_6", "grade": "good", "why": "Accurate"}
+{"game": 13, "version": "B", "op": "note", "id_or_type": "rule_5", "grade": "good", "why": "Right conclusion: drawers-first not supported"}
+{"game": 13, "version": "B", "op": "note", "id_or_type": "rule_6", "grade": "good", "why": "Accurate"}
+{"game": 14, "better": "tie", "why": "B weak, A nothing"}
+{"game": 14, "version": "B", "op": "write_rule", "id_or_type": "Unresolved Error", "grade": "weak", "why": "Misses that dresser cannot be opened"}
+{"game": 15, "better": "A", "why": "B added misleading rule"}
+{"game": 15, "version": "A", "op": "note", "id_or_type": "rule_1", "grade": "good", "why": "Accurate confirmation of sequence"}
+{"game": 15, "version": "A", "op": "write_rule", "id_or_type": "Special Phenomenon", "grade": "weak", "why": "Vague, object was on countertop"}
+{"game": 15, "version": "B", "op": "note", "id_or_type": "rule_1", "grade": "good", "why": "Accurate confirmation"}
+{"game": 15, "version": "B", "op": "write_rule", "id_or_type": "Special Phenomenon", "grade": "wrong", "why": "Containers before surfaces misleading; object was on countertop"}
+{"game": 16, "better": "tie", "why": "One weak rule vs nothing"}
+{"game": 16, "version": "A", "op": "write_rule", "id_or_type": "Corrected Error", "grade": "weak", "why": "Plausible but thinly grounded"}
+{"game": 17, "better": "A", "why": "B note trivial"}
+{"game": 17, "version": "B", "op": "note", "id_or_type": "rule_6", "grade": "weak", "why": "Trivial; several drawers never opened"}
+{"game": 18, "better": "tie", "why": "Both accurate"}
+{"game": 18, "version": "A", "op": "note", "id_or_type": "rule_1", "grade": "good", "why": "Accurate"}
+{"game": 18, "version": "A", "op": "note", "id_or_type": "rule_14", "grade": "good", "why": "Accurate"}
+{"game": 18, "version": "B", "op": "note", "id_or_type": "rule_1", "grade": "good", "why": "Accurate"}
+{"game": 18, "version": "B", "op": "note", "id_or_type": "rule_14", "grade": "good", "why": "Accurate"}
+{"game": 18, "version": "B", "op": "note", "id_or_type": "rule_6", "grade": "good", "why": "Accurate"}
+{"game": 19, "better": "tie", "why": "Both weak"}
+{"game": 19, "version": "A", "op": "note", "id_or_type": "rule_10", "grade": "weak", "why": "Muddled reasoning about failure"}
+{"game": 19, "version": "B", "op": "note", "id_or_type": "rule_10", "grade": "weak", "why": "Vague, restates failure"}
+{"game": 20, "better": "tie", "why": "Neither version added anything"}
+{"game": 21, "better": "A", "why": "A noted rule_5 flaw"}
+{"game": 21, "version": "A", "op": "note", "id_or_type": "rule_5", "grade": "good", "why": "Correctly shows object in cabinet, not drawer"}
+{"game": 22, "better": "A", "why": "B added a wrong rule"}
+{"game": 22, "version": "A", "op": "note", "id_or_type": "rule_10", "grade": "good", "why": "Accurate"}
+{"game": 22, "version": "B", "op": "note", "id_or_type": "rule_10", "grade": "good", "why": "Accurate"}
+{"game": 22, "version": "B", "op": "write_rule", "id_or_type": "Corrected Error", "grade": "wrong", "why": "Misleading; stoveburner visits harmless, rejects were nonexistent"}
+{"game": 23, "better": "B", "why": "B gave accurate notes"}
+{"game": 23, "version": "B", "op": "note", "id_or_type": "rule_10", "grade": "good", "why": "Accurate"}
+{"game": 23, "version": "B", "op": "note", "id_or_type": "rule_6", "grade": "good", "why": "Accurate"}
+{"game": 24, "better": "A", "why": "A has one useful note"}
+{"game": 24, "version": "A", "op": "note", "id_or_type": "rule_13", "grade": "weak", "why": "Dresser rule misapplied to drawers task"}
+{"game": 24, "version": "A", "op": "note", "id_or_type": "rule_8", "grade": "good", "why": "Captures wasted back-and-forth moves"}
+{"game": 25, "better": "B", "why": "B accurate note"}
+{"game": 25, "version": "B", "op": "note", "id_or_type": "rule_8", "grade": "good", "why": "Accurate confirmation"}
+{"game": 26, "better": "A", "why": "A notes accurate"}
+{"game": 26, "version": "A", "op": "note", "id_or_type": "rule_5", "grade": "good", "why": "Object found on holder, not drawer"}
+{"game": 26, "version": "A", "op": "note", "id_or_type": "rule_6", "grade": "good", "why": "Accurate"}
+{"game": 27, "better": "A", "why": "B wrong rule"}
+{"game": 27, "version": "A", "op": "write_rule", "id_or_type": "Corrected Error", "grade": "weak", "why": "Duplicates rule_6"}
+{"game": 27, "version": "A", "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "Overfit search closed containers"}
+{"game": 27, "version": "B", "op": "write_rule", "id_or_type": "Corrected Error", "grade": "wrong", "why": "Open before go to is false"}
+{"game": 27, "version": "B", "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "Vague generic"}
+{"game": 28, "better": "B", "why": "B accurate note"}
+{"game": 28, "version": "B", "op": "note", "id_or_type": "rule_1", "grade": "good", "why": "Accurate confirmation"}
+{"game": 29, "better": "tie", "why": "Neither version added anything"}
+{"game": 30, "better": "tie", "why": "Neither version added anything"}
+{"game": 31, "better": "tie", "why": "Both misread the failure"}
+{"game": 31, "version": "A", "op": "note", "id_or_type": "rule_8", "grade": "weak", "why": "Misattributes failure to moving first object"}
+{"game": 31, "version": "A", "op": "update_note", "id_or_type": "rule_13", "grade": "wrong", "why": "Search all before moving any is bad advice"}
+{"game": 31, "version": "B", "op": "note", "id_or_type": "rule_8", "grade": "wrong", "why": "Search before moving either is bad advice"}
+{"game": 31, "version": "B", "op": "update_note", "id_or_type": "rule_13", "grade": "weak", "why": "Vague; keeps dresser focus"}
+{"game": 32, "better": "tie", "why": "Both fine"}
+{"game": 32, "version": "A", "op": "note", "id_or_type": "rule_10", "grade": "good", "why": "Accurate"}
+{"game": 32, "version": "B", "op": "note", "id_or_type": "rule_10", "grade": "good", "why": "Accurate"}
+{"game": 32, "version": "B", "op": "note", "id_or_type": "rule_11", "grade": "good", "why": "Accurate nuance"}
+{"game": 33, "better": "tie", "why": "Little difference"}
+{"game": 33, "version": "B", "op": "note", "id_or_type": "rule_1", "grade": "weak", "why": "Vague"}
+{"game": 33, "version": "B", "op": "note", "id_or_type": "rule_14", "grade": "good", "why": "Accurate"}
+{"game": 34, "better": "tie", "why": "All weak"}
+{"game": 34, "version": "A", "op": "write_rule", "id_or_type": "Corrected Error", "grade": "weak", "why": "Vague"}
+{"game": 34, "version": "A", "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "Generic"}
+{"game": 34, "version": "B", "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "Bed not in steps; vague"}
+{"game": 35, "better": "B", "why": "B accurate"}
+{"game": 35, "version": "A", "op": "note", "id_or_type": "rule_6", "grade": "good", "why": "Accurate"}
+{"game": 35, "version": "A", "op": "note", "id_or_type": "rule_8", "grade": "weak", "why": "Misframes search order"}
+{"game": 35, "version": "B", "op": "note", "id_or_type": "rule_8", "grade": "good", "why": "Accurate"}
+{"game": 36, "better": "A", "why": "A accurate"}
+{"game": 36, "version": "A", "op": "note", "id_or_type": "rule_14", "grade": "good", "why": "Accurate"}
+{"game": 36, "version": "B", "op": "note", "id_or_type": "rule_1", "grade": "weak", "why": "Vague"}
+{"game": 37, "better": "tie", "why": "Identical"}
+{"game": 37, "version": "A", "op": "note", "id_or_type": "rule_10", "grade": "good", "why": "Accurate"}
+{"game": 37, "version": "A", "op": "note", "id_or_type": "rule_6", "grade": "good", "why": "Accurate"}
+{"game": 37, "version": "B", "op": "note", "id_or_type": "rule_10", "grade": "good", "why": "Accurate"}
+{"game": 37, "version": "B", "op": "note", "id_or_type": "rule_6", "grade": "good", "why": "Accurate"}
+{"game": 38, "better": "B", "why": "A rule misleading"}
+{"game": 38, "version": "A", "op": "write_rule", "id_or_type": "Success Process", "grade": "wrong", "why": "Lamp was at dresser, not desk"}
+{"game": 39, "better": "tie", "why": "Both fine"}
+{"game": 39, "version": "A", "op": "note", "id_or_type": "rule_6", "grade": "good", "why": "Accurate"}
+{"game": 39, "version": "A", "op": "note", "id_or_type": "rule_8", "grade": "good", "why": "Accurate"}
+{"game": 39, "version": "B", "op": "note", "id_or_type": "rule_8", "grade": "good", "why": "Accurate"}
+{"game": 40, "better": "B", "why": "A added vague rule"}
+{"game": 40, "version": "A", "op": "note", "id_or_type": "rule_19", "grade": "good", "why": "Accurate"}
+{"game": 40, "version": "A", "op": "write_rule", "id_or_type": "Special Phenomenon", "grade": "weak", "why": "Vague"}
+{"game": 40, "version": "B", "op": "note", "id_or_type": "rule_19", "grade": "good", "why": "Accurate"}
+{"game": 41, "better": "tie", "why": "Both wrong"}
+{"game": 41, "version": "A", "op": "note", "id_or_type": "rule_10", "grade": "wrong", "why": "Cup on diningtable not in steps; agent took mug"}
+{"game": 41, "version": "B", "op": "note", "id_or_type": "rule_10", "grade": "wrong", "why": "Same fabricated diningtable detail; misses mug mistake"}
+{"game": 42, "better": "B", "why": "B recipe correct"}
+{"game": 42, "version": "A", "op": "write_rule", "id_or_type": "Corrected Error", "grade": "weak", "why": "Convoluted"}
+{"game": 42, "version": "A", "op": "write_rule", "id_or_type": "Success Process", "grade": "wrong", "why": "Includes pointless place-then-take step"}
+{"game": 42, "version": "B", "op": "write_rule", "id_or_type": "Corrected Error", "grade": "weak", "why": "Trivial examine tip"}
+{"game": 42, "version": "B", "op": "write_rule", "id_or_type": "Success Process", "grade": "good", "why": "Heat first then place, correct"}
+{"game": 43, "better": "B", "why": "A note wrong"}
+{"game": 43, "version": "A", "op": "note", "id_or_type": "rule_15", "grade": "good", "why": "Correct: use move or heat with microwave"}
+{"game": 43, "version": "A", "op": "note", "id_or_type": "rule_21", "grade": "wrong", "why": "Heat needs with microwave; claims not shown"}
+{"game": 43, "version": "B", "op": "note", "id_or_type": "rule_21", "grade": "good", "why": "Microwave not stoveburner; grounded"}
+{"game": 44, "better": "B", "why": "B one wrong note vs two"}
+{"game": 44, "version": "A", "op": "note", "id_or_type": "rule_15", "grade": "wrong", "why": "Move to burner was rejected too"}
+{"game": 44, "version": "A", "op": "note", "id_or_type": "rule_21", "grade": "wrong", "why": "Confused advice, not grounded"}
+{"game": 44, "version": "B", "op": "note", "id_or_type": "rule_15", "grade": "wrong", "why": "Move to burner rejected too"}
+{"game": 45, "better": "A", "why": "B misread game"}
+{"game": 45, "version": "B", "op": "note", "id_or_type": "rule_8", "grade": "wrong", "why": "Misreads steps; second laptop never found"}
+{"game": 45, "version": "B", "op": "update_note", "id_or_type": "rule_13", "grade": "weak", "why": "Replaces dresser rule with vague one"}
+{"game": 46, "better": "B", "why": "A note false"}
+{"game": 46, "version": "A", "op": "note", "id_or_type": "rule_18", "grade": "wrong", "why": "Says target examined first; false"}
+{"game": 46, "version": "B", "op": "note", "id_or_type": "rule_18", "grade": "good", "why": "Accurate"}
+{"game": 47, "better": "tie", "why": "Both accurate"}
+{"game": 47, "version": "A", "op": "note", "id_or_type": "rule_1", "grade": "good", "why": "Accurate"}
+{"game": 47, "version": "A", "op": "note", "id_or_type": "rule_14", "grade": "good", "why": "Accurate"}
+{"game": 47, "version": "B", "op": "note", "id_or_type": "rule_1", "grade": "good", "why": "Accurate"}
+{"game": 47, "version": "B", "op": "note", "id_or_type": "rule_14", "grade": "good", "why": "Accurate"}

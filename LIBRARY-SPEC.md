@@ -49,8 +49,23 @@ Cases, as now: direct success, indirect success, failure, corrected failure (los
 | indirect success | Success Process, Special Phenomenon, Corrected Error | 2 |
 | corrected failure | Corrected Error, Success Process, Special Phenomenon | 2 |
 | failure | Unresolved Error (hidden note) only | 1 |
+| contrasted failure | Corrected Error, Unresolved Error | 1 |
 
-A lost game writes no visible rule. The old "hidden guess, promoted after 2 followed wins" path is removed: won
+**Contrasted failure** (2026-11-21): a lost game whose kind of task has a won attempt in the failure pool gets
+the shortest of the last 6 won attempts as `won_game_of_this_kind` and may write ONE Corrected Error ("When
+<situation>, do <what the won game did> instead of <the mistake>"). Its commands must have been accepted in that
+won game (trace check), and it must pass **one trial replay** of the lost task, frozen, with the rule shown
+(`new_rule_trial`, the refinement trial code): used by the planner and no harm, else it is removed again. Cost:
+one game per such rule. Without a won attempt of the kind, a lost game writes no visible rule (as before).
+
+**Builder input** (2026-11-21, measured in results/builder-check): `game_facts`, facts computed from the trace
+(`game_facts`: where the object was found and what was searched first, objects taken that the task does not name,
+objects taken back out of the target, refused commands and whether the object was held, appliance commands that
+worked, repeated visits, free text sent as commands), numbered steps, only each rule's latest note, and per rule
+what the Builder may do with it (`can`). **Revision round**: refused rule operations go back to the Builder once
+with the exact reasons (`refused_operations`); refused notes are not sent back.
+
+Previously: a lost game wrote no visible rule. The old "hidden guess, promoted after 2 followed wins" path is removed: won
 games rediscover anything true, and promotion was a fragile threshold of its own.
 
 **Write gate**, in order. Any failure gets one model repair told the problem, then rejection:
@@ -58,7 +73,10 @@ games rediscover anything true, and promotion was a fragile threshold of its own
    object/room names, another kind's actions.
 2. **Trace check** (new; visible types only): every instructed command (`instructed_commands`, e.g.
    `take lamp`) must have been accepted at least once in the won trace it was written from (the first attempt
-   if it was won, else the winning retry). "take the lamp" can no longer enter the manual.
+   if it was won, else the winning retry, or the contrast game). "take the lamp" can no longer enter the manual.
+2b. **Grounding** (`grounded`, loose on purpose: weak rules pass and the evidence filters them later): a visible
+   rule must contain some action or place word; places it says to search first must include where the object was
+   found in the game it is written from (not checked against a contrast game).
 3. One Success Process per kind: if one exists, the write is refused.
 4. Near-duplicate (similarity >= 0.85, same type, same kind or a general rule) → merged: the existing rule
    gains the source; no text change.
@@ -66,7 +84,8 @@ games rediscover anything true, and promotion was a fragile threshold of its own
 **Builder operations** (`write_rule`, `note`, `update_note`):
 - `write_rule {type, rule, example, scope}` as above.
 - `note {id, validation}`: append a validation note (the last 3 are kept) to any rule it sees. Notes never
-  change the text, but the refiner reads them.
+  change the text, but the refiner reads them. A note that copies the rule's earlier notes is refused.
+  An `update_note` on a rule the agent sees is kept as a note "Suggested text: ..." (for the refiner).
 - `update_note {id, rule, type?}`: rewrite a **hidden** Unresolved Error note. On a corrected failure,
   `type: "Corrected Error"` turns the note into a visible rule only if (a) the winning retry's trace shows no
   harm from the new text (`harms`; this replaced the per-rule judge's check), and (b) the new text

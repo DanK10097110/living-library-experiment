@@ -1,0 +1,2546 @@
+[
+ {
+  "game": 0,
+  "task": "clean some fork and put it in drawer.",
+  "won_first_attempt": true,
+  "case": "direct success",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to diningtable 1",
+   "take fork 1 from diningtable 1",
+   "go to sinkbasin 1",
+   "clean fork 1 with sinkbasin 1",
+   "go to drawer 1",
+   "move fork 1 to drawer 1"
+  ],
+  "rules_shown": {},
+  "A": {
+   "operations": [
+    {
+     "op": "write_rule",
+     "type": "Success Process",
+     "rule": "When an object must be cleaned and placed: search the area, take the object, clean it, then move it to the target container."
+    }
+   ]
+  },
+  "B": {
+   "operations": []
+  }
+ },
+ {
+  "game": 1,
+  "task": "put a cloth in drawer.",
+  "won_first_attempt": false,
+  "case": "failure",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "inventory",
+   "inventory",
+   "inventory",
+   "go to countertop 1",
+   "go to drawer 1",
+   "open drawer 1",
+   "go to towelholder 1",
+   "go to countertop 1",
+   "go to towelholder 2",
+   "go to handtowelholder 1",
+   "go to sinkbasin 1",
+   "go to countertop 1",
+   "go to drawer 1",
+   "go to cabinet 1 [rejected]",
+   "go to towelholder 1",
+   "go to cabinet 1 [rejected]",
+   "go to cabinet 1 [rejected]",
+   "examine towelholder 1",
+   "examine towelholder 1",
+   "inventory",
+   "take towel 1 from towelholder 1",
+   "go to drawer 1",
+   "move towel 1 to drawer 1 [rejected]",
+   "examine drawer 1",
+   "move towel 1 to drawer 1 [rejected]",
+   "move towel 1 to drawer 1 [rejected]",
+   "close drawer 1",
+   "open drawer 1",
+   "move towel 1 to drawer 1 [rejected]",
+   "move towel 1 to drawer 1 [rejected]"
+  ],
+  "rules_shown": {},
+  "A": {
+   "operations": []
+  },
+  "B": {
+   "operations": []
+  }
+ },
+ {
+  "game": 2,
+  "task": "put two spatula in drawer.",
+  "won_first_attempt": false,
+  "case": "failure",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to drawer 1",
+   "open drawer 1",
+   "go to drawer 2",
+   "open drawer 2",
+   "open drawer 3",
+   "go to drawer 4",
+   "open drawer 4",
+   "go to cabinet 1",
+   "open cabinet 1",
+   "go to cabinet 2",
+   "open cabinet 2",
+   "go to cabinet 3",
+   "open cabinet 3",
+   "go to countertop 1",
+   "take spatula 2 from countertop 1",
+   "inventory",
+   "go to drawer 1",
+   "move spatula 2 to drawer 1",
+   "inventory",
+   "take spatula 2 from drawer 1",
+   "go to countertop 1",
+   "go to cabinet 1",
+   "go to countertop 1",
+   "go to cabinet 1",
+   "go to cabinet 2",
+   "go to cabinet 1",
+   "go to drawer 1",
+   "move spatula 2 to drawer 1",
+   "inventory",
+   "look"
+  ],
+  "rules_shown": {},
+  "A": {
+   "operations": []
+  },
+  "B": {
+   "operations": []
+  }
+ },
+ {
+  "game": 3,
+  "task": "put a cd in safe.",
+  "won_first_attempt": true,
+  "case": "direct success",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to safe 1",
+   "open safe 1",
+   "go to drawer 1",
+   "open drawer 1",
+   "go to drawer 2",
+   "open drawer 2",
+   "go to drawer 3",
+   "open drawer 3",
+   "open drawer 4",
+   "take cd 2 from drawer 4",
+   "go to safe 1",
+   "move cd 2 to safe 1"
+  ],
+  "rules_shown": {},
+  "A": {
+   "operations": [
+    {
+     "op": "write_rule",
+     "type": "Success Process",
+     "rule": "When an object must be placed in a target container: search drawers first, open the target if closed, take the object from its drawer, move it to the target."
+    },
+    {
+     "op": "write_rule",
+     "type": "Special Phenomenon",
+     "rule": "When searching for a portable object, check drawers before the target container."
+    }
+   ]
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "write_rule",
+     "type": "Success Process",
+     "rule": "When an object must be picked up and placed in a container: search drawers first, open the container if closed, take the object, go to the container, move the object there."
+    }
+   ]
+  }
+ },
+ {
+  "game": 4,
+  "task": "put a hot mug in coffeemachine.",
+  "won_first_attempt": false,
+  "case": "failure",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to countertop 1",
+   "take mug 1 from countertop 1",
+   "go to stoveburner 1",
+   "examine stoveburner 2 [rejected]",
+   "examine stoveburner 3",
+   "go to stoveburner 1 [rejected]",
+   "examine stoveburner 1",
+   "place mug 1 on stoveburner 1 [rejected]",
+   "examine stoveburner 1",
+   "examine stoveburner 1",
+   "examine stoveburner 1",
+   "examine mug 1",
+   "examine stoveburner 1",
+   "examine stoveburner 1",
+   "examine stoveburner 1",
+   "examine stoveburner 1",
+   "examine stoveburner 1",
+   "examine stoveburner 1",
+   "examine stoveburner 1",
+   "examine stoveburner 1",
+   "examine stoveburner 1",
+   "examine stoveburner 1",
+   "examine stoveburner 1",
+   "examine kettle 1 [rejected]",
+   "examine stoveburner 1",
+   "examine stoveburner 1",
+   "examine kettle 1 [rejected]",
+   "examine stoveburner 1",
+   "examine kettle 1 [rejected]",
+   "examine kettle 1 [rejected]"
+  ],
+  "rules_shown": {
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "write_rule",
+     "type": "Unresolved Error",
+     "rule": "When heating a container, place it on the burner, then check the burner to confirm it is hot."
+    }
+   ]
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_6",
+     "validation": "The agent repeatedly examined stoveburner 1 without attempting to place the mug on it after picking it up, getting stuck in a loop of examining objects instead of executing the placement action."
+    }
+   ]
+  }
+ },
+ {
+  "game": 5,
+  "task": "put a statue in sidetable.",
+  "won_first_attempt": true,
+  "case": "direct success",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to shelf 1",
+   "go to shelf 2",
+   "take statue 3 from shelf 2",
+   "go to sidetable 1",
+   "move statue 3 to sidetable 1"
+  ],
+  "rules_shown": {
+   "rule_5": "When an object must be picked up and placed: search drawers first, open any closed container, take the object, go to the target, move the object to the target.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_5",
+     "validation": "In this game, the agent searched shelves (shelf 1, shelf 2) instead of drawers first, and successfully took the statue from shelf 2 before moving it to the sidetable."
+    }
+   ]
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_5",
+     "validation": "This game showed the statue was first taken from the shelf, not drawers; the rule's instruction to search drawers first is not supported by this game's facts."
+    }
+   ]
+  }
+ },
+ {
+  "game": 6,
+  "task": "clean some plate and put it in microwave.",
+  "won_first_attempt": false,
+  "case": "failure",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to diningtable 1",
+   "go to countertop 1",
+   "go to cabinet 1",
+   "open cabinet 1",
+   "go to fridge 1",
+   "open fridge 1",
+   "go to garbagecan 1",
+   "go to drawer 1",
+   "open drawer 1",
+   "go to drawer 2",
+   "open drawer 2",
+   "go to countertop 2",
+   "go to sinkbasin 1",
+   "go to countertop 2",
+   "go to cabinet 1",
+   "go to cabinet 2",
+   "open cabinet 2",
+   "go to cabinet 3",
+   "open cabinet 3",
+   "go to cabinet 4",
+   "open cabinet 4",
+   "go to cabinet 5",
+   "open cabinet 5",
+   "go to cabinet 6",
+   "open cabinet 6",
+   "go to cabinet 7",
+   "open cabinet 7",
+   "go to cabinet 8",
+   "go to cabinet 1",
+   "close cabinet 1"
+  ],
+  "rules_shown": {
+   "rule_1": "When an object must be cleaned and placed: search the area, take the object, clean it, then move it to the target.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it."
+  },
+  "A": {
+   "operations": []
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_1",
+     "validation": "The agent failed to search systematically (diningtable 1 and countertop 2 first) before opening storage units, and never cleaned the plate with sinkbasin 1 or moved it to the microwave."
+    },
+    {
+     "op": "note",
+     "id": "rule_6",
+     "validation": "The agent correctly opened closed containers (cabinet 1, fridge 1, drawer 1, etc.) before searching inside them."
+    }
+   ]
+  }
+ },
+ {
+  "game": 7,
+  "task": "put a clean soapbar in toilet.",
+  "won_first_attempt": true,
+  "case": "direct success",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to cabinet 1",
+   "go to cabinet 2",
+   "open cabinet 2",
+   "go to cabinet 3",
+   "open cabinet 3",
+   "go to drawer 1",
+   "go to drawer 2",
+   "go to countertop 1",
+   "go to countertop 2",
+   "take soapbar 3 from countertop 2",
+   "go to sinkbasin 1",
+   "clean soapbar 3 with sinkbasin 1",
+   "go to toilet 1",
+   "move soapbar 3 to toilet 1"
+  ],
+  "rules_shown": {
+   "rule_1": "When an object must be cleaned and placed: search the area, take the object, clean it, then move it to the target.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_1",
+     "validation": "This game showed the agent searched cabinets and drawers first before finding the soapbar on the countertop, confirming the 'search the area' step is necessary."
+    },
+    {
+     "op": "note",
+     "id": "rule_6",
+     "validation": "This game confirmed the rule: the agent opened cabinet 2 and cabinet 3 to see their contents, and cabinet 1 was closed but the agent moved on."
+    }
+   ]
+  },
+  "B": {
+   "operations": []
+  }
+ },
+ {
+  "game": 8,
+  "task": "put two alarmclock in shelf.",
+  "won_first_attempt": true,
+  "case": "indirect success",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to desk 1",
+   "take alarmclock 1 from desk 1",
+   "move alarmclock 1 to shelf 1 [rejected]",
+   "go to shelf 1",
+   "go to desk 1",
+   "go to shelf 1",
+   "go to desk 1",
+   "take alarmclock 2 from desk 1 [rejected]",
+   "move alarmclock 1 to shelf 1 [rejected]",
+   "go to drawer 1",
+   "open drawer 1 [rejected]",
+   "inventory",
+   "open drawer 1 [rejected]",
+   "go to shelf 1",
+   "move alarmclock 1 to shelf 1",
+   "go to desk 1",
+   "take alarmclock 2 from desk 1",
+   "move alarmclock 2 to shelf 1 [rejected]",
+   "move alarmclock 2 to shelf 1 [rejected]",
+   "go to shelf 1",
+   "move alarmclock 2 to shelf 1"
+  ],
+  "rules_shown": {
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "write_rule",
+     "type": "Corrected Error",
+     "rule": "When moving an object to a target, go to the target first before attempting the move command."
+    },
+    {
+     "op": "write_rule",
+     "type": "Success Process",
+     "rule": "When putting two objects on a shelf: search the starting location for both objects, take the first one, go to the shelf, move it there, go back to the starting location, take the second one, go to the shelf, move it there."
+    }
+   ]
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "write_rule",
+     "type": "Success Process",
+     "rule": "When two objects must be taken and placed in a target: search the first place for both, take each one, go to the target, move each one there."
+    },
+    {
+     "op": "write_rule",
+     "type": "Corrected Error",
+     "rule": "When an object is held and the move command is refused, go to the target first, then move the object there."
+    }
+   ]
+  }
+ },
+ {
+  "game": 9,
+  "task": "put a cellphone in dresser.",
+  "won_first_attempt": false,
+  "case": "corrected failure",
+  "retry_won": true,
+  "steps_from": 1,
+  "steps": [
+   "go to drawer 1",
+   "open drawer 1",
+   "go to drawer 2",
+   "open drawer 2",
+   "go to drawer 3",
+   "open drawer 3",
+   "go to drawer 4 [rejected]",
+   "open drawer 4",
+   "go to drawer 5",
+   "open drawer 5",
+   "go to drawer 6",
+   "open drawer 6",
+   "go to drawer 7",
+   "open drawer 7",
+   "go to drawer 8",
+   "open drawer 8",
+   "go to drawer 1",
+   "go to drawer 2",
+   "go to drawer 9",
+   "open drawer 9",
+   "go to drawer 10",
+   "go to drawer 11",
+   "go to drawer 8",
+   "go to dresser 1",
+   "go to drawer 3",
+   "go to drawer 4 [rejected]",
+   "go to drawer 5",
+   "go to drawer 6",
+   "go to drawer 7",
+   "go to drawer 2"
+  ],
+  "rules_shown": {
+   "rule_5": "When an object must be picked up and placed: search drawers first, open any closed container, take the object, go to the target, move the object to the target.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_5",
+     "validation": "The agent failed because it searched drawers first instead of locating the object in the environment before attempting to open containers."
+    }
+   ]
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "write_rule",
+     "type": "Corrected Error",
+     "rule": "When an object must be picked up and placed, search the environment for the object first before opening containers."
+    },
+    {
+     "op": "note",
+     "id": "rule_5",
+     "validation": "The existing Success Process is incomplete; it does not specify searching the environment for the object before opening containers, which caused the agent to waste time on empty drawers."
+    }
+   ]
+  }
+ },
+ {
+  "game": 10,
+  "task": "put a statue in coffeetable.",
+  "won_first_attempt": true,
+  "case": "direct success",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to drawer 1",
+   "open drawer 1",
+   "go to drawer 2",
+   "open drawer 2",
+   "go to garbagecan 1",
+   "go to tvstand 1",
+   "take statue 1 from tvstand 1",
+   "go to coffeetable 1",
+   "move statue 1 to coffeetable 1"
+  ],
+  "rules_shown": {
+   "rule_5": "When an object must be picked up and placed: search drawers first, open any closed container, take the object, go to the target, move the object to the target.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_5",
+     "validation": "This game showed the agent searched drawers first (drawer 1, drawer 2) before finding the statue on the tvstand, confirming the rule's search order."
+    },
+    {
+     "op": "note",
+     "id": "rule_6",
+     "validation": "This game confirmed the rule by showing the agent opened drawer 1 and drawer 2 to check their contents."
+    }
+   ]
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_5",
+     "validation": "The agent wasted time opening empty drawers instead of searching the environment for the statue first."
+    }
+   ]
+  }
+ },
+ {
+  "game": 11,
+  "task": "put a keychain in desk.",
+  "won_first_attempt": false,
+  "case": "failure",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to drawer 1",
+   "open drawer 1",
+   "go to drawer 2",
+   "open drawer 2",
+   "go to cabinet 1",
+   "open cabinet 1",
+   "go to cabinet 2 [rejected]",
+   "go to cabinet 3",
+   "open cabinet 3",
+   "go to cabinet 4",
+   "open cabinet 4",
+   "go to desk 1",
+   "go to shelf 1",
+   "go to drawer 1",
+   "go to drawer 2",
+   "go to desk 1",
+   "go to garbagecan 1",
+   "go to cabinet 1",
+   "go to desk 1",
+   "go to bed 1",
+   "take laptop 1 from bed 1",
+   "go to drawer 1",
+   "go to cabinet 1",
+   "go to cabinet 3",
+   "go to cabinet 2",
+   "open cabinet 2",
+   "go to cabinet 4",
+   "go to desk 1",
+   "go to bed 1",
+   "examine bed 1"
+  ],
+  "rules_shown": {
+   "rule_5": "When an object must be picked up and placed: search drawers first, open any closed container, take the object, go to the target, move the object to the target.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "write_rule",
+     "type": "Unresolved Error",
+     "rule": "When searching for an object, examine the target surface first before opening containers."
+    }
+   ]
+  },
+  "B": {
+   "operations": []
+  }
+ },
+ {
+  "game": 12,
+  "task": "put a cool bowl in cabinet.",
+  "won_first_attempt": false,
+  "case": "corrected failure",
+  "retry_won": true,
+  "steps_from": 1,
+  "steps": [
+   "go to countertop 1",
+   "go to cabinet 1",
+   "examine cabinet 2",
+   "go to cabinet 3",
+   "open cabinet 3",
+   "go to cabinet 4",
+   "open cabinet 4",
+   "go to cabinet 5",
+   "go to drawer 1",
+   "go to drawer 2",
+   "go to drawer 3",
+   "go to countertop 1",
+   "go to drawer 4",
+   "go to cabinet 1",
+   "go to cabinet 2 [rejected]",
+   "go to cabinet 2 [rejected]",
+   "go to cabinet 6",
+   "open cabinet 6",
+   "go to drawer 5",
+   "go to cabinet 7",
+   "open cabinet 7",
+   "go to cabinet 8",
+   "open cabinet 8",
+   "go to cabinet 9",
+   "open cabinet 9",
+   "go to cabinet 1",
+   "go to drawer 1",
+   "go to drawer 2",
+   "go to drawer 3",
+   "go to cabinet 10"
+  ],
+  "rules_shown": {
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "write_rule",
+     "type": "Corrected Error",
+     "rule": "When the target object is on a surface, pick it up before searching for storage locations."
+    },
+    {
+     "op": "write_rule",
+     "type": "Success Process",
+     "rule": "When an object must be cooled and placed: search surfaces first, take the object, open a fridge if closed, cool the object with the fridge while holding it, close the fridge, then move the object to the target."
+    }
+   ]
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "write_rule",
+     "type": "Corrected Error",
+     "rule": "When an object must be cooled and placed, pick it up first before searching for storage locations."
+    }
+   ]
+  }
+ },
+ {
+  "game": 13,
+  "task": "put a spraybottle in garbagecan.",
+  "won_first_attempt": true,
+  "case": "direct success",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to drawer 1",
+   "open drawer 1",
+   "go to drawer 2",
+   "open drawer 2",
+   "go to drawer 3",
+   "open drawer 3",
+   "go to drawer 4",
+   "open drawer 4",
+   "go to dresser 1",
+   "go to countertop 1",
+   "take spraybottle 1 from countertop 1",
+   "go to garbagecan 1",
+   "move spraybottle 1 to garbagecan 1"
+  ],
+  "rules_shown": {
+   "rule_5": "When an object must be picked up and placed: search drawers first, open any closed container, take the object, go to the target, move the object to the target.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_5",
+     "validation": "The agent correctly searched drawers first and found the spraybottle on countertop 1 after checking all drawers, confirming the rule's drawer priority."
+    },
+    {
+     "op": "note",
+     "id": "rule_6",
+     "validation": "The agent opened all closed drawers before searching them, confirming the rule's requirement to open containers first."
+    }
+   ]
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_5",
+     "validation": "This game showed the spraybottle was found on the countertop after searching drawers, confirming the rule's drawer-first priority is incorrect."
+    },
+    {
+     "op": "note",
+     "id": "rule_6",
+     "validation": "This game confirmed the rule: all closed drawers were opened before searching their contents."
+    }
+   ]
+  }
+ },
+ {
+  "game": 14,
+  "task": "put two cellphone in dresser.",
+  "won_first_attempt": false,
+  "case": "failure",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to drawer 1",
+   "open drawer 1",
+   "go to drawer 2",
+   "open drawer 2",
+   "go to drawer 3",
+   "open drawer 3",
+   "go to drawer 4",
+   "open drawer 4",
+   "go to drawer 5",
+   "open drawer 5",
+   "go to drawer 6",
+   "open drawer 6",
+   "go to desk 1",
+   "go to drawer 1",
+   "go to drawer 7",
+   "examine dresser 1",
+   "go to drawer 8",
+   "open drawer 8",
+   "go to dresser 1",
+   "open dresser 1 [rejected]",
+   "open dresser 1 [rejected]",
+   "open dresser 1 [rejected]",
+   "go to drawer 1",
+   "go to dresser 1",
+   "The user wants me to solve the task \"put two cellphone in dresser\" but the current subgoal is \"open dresser 1\". The observation shows that I am at dresser 1 and can see items on it, but the action history indicates that previous attempts to open it (Observations 20, [rejected]",
+   "examine dresser 1",
+   "open dresser 1 [rejected]",
+   "go to drawer 1",
+   "go to dresser 1",
+   "go to drawer 1"
+  ],
+  "rules_shown": {
+   "rule_8": "When two objects must be placed in a target: search the starting location first, take each object, go to the target, and move each object there.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it.",
+   "rule_9": "When moving an object to a target, ensure the agent is at the target location before issuing the move command."
+  },
+  "A": {
+   "operations": []
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "write_rule",
+     "type": "Unresolved Error",
+     "rule": "When placing objects in a target, search the entire environment first to locate all required objects before attempting to open or move to the target."
+    }
+   ]
+  }
+ },
+ {
+  "game": 15,
+  "task": "put a clean butterknife in countertop.",
+  "won_first_attempt": true,
+  "case": "direct success",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to drawer 1",
+   "open drawer 1",
+   "close drawer 1",
+   "go to cabinet 1",
+   "open cabinet 1",
+   "close cabinet 1",
+   "go to cabinet 2",
+   "open cabinet 2",
+   "go to cabinet 3",
+   "open cabinet 3",
+   "go to drawer 1",
+   "open drawer 1",
+   "go to countertop 1",
+   "take butterknife 1 from countertop 1",
+   "go to sinkbasin 1",
+   "clean butterknife 1 with sinkbasin 1",
+   "go to countertop 1",
+   "move butterknife 1 to countertop 1"
+  ],
+  "rules_shown": {
+   "rule_1": "When an object must be cleaned and placed: search the area, take the object, clean it, then move it to the target.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_1",
+     "validation": "The game confirms the object was taken from the countertop after searching cabinets and drawers, then cleaned with the sinkbasin before moving to the target."
+    },
+    {
+     "op": "write_rule",
+     "type": "Special Phenomenon",
+     "rule": "When searching for an object, check open containers first before returning to the target area."
+    }
+   ]
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_1",
+     "validation": "The game confirms the agent searched multiple containers before finding the object on the countertop, then cleaned it with the sinkbasin and moved it to the target."
+    },
+    {
+     "op": "write_rule",
+     "type": "Special Phenomenon",
+     "rule": "When searching for an object, check all containers in the area before checking surfaces."
+    }
+   ]
+  }
+ },
+ {
+  "game": 16,
+  "task": "put a cool pan in diningtable.",
+  "won_first_attempt": false,
+  "case": "corrected failure",
+  "retry_won": true,
+  "steps_from": 1,
+  "steps": [
+   "go to countertop 1",
+   "go to stoveburner 1",
+   "examine stoveburner 2",
+   "examine stoveburner 3 [rejected]",
+   "examine stoveburner 4 [rejected]",
+   "go to countertop 2",
+   "go to countertop 3",
+   "go to cabinet 1",
+   "open cabinet 1",
+   "go to countertop 1",
+   "go to countertop 2",
+   "go to countertop 3",
+   "examine countertop 3",
+   "go to cabinet 1",
+   "go to drawer 1",
+   "go to cabinet 1",
+   "go to drawer 1",
+   "go to cabinet 2",
+   "open cabinet 2",
+   "go to diningtable 1",
+   "go to stoveburner 1",
+   "go to cabinet 3",
+   "open cabinet 3",
+   "go to countertop 1",
+   "go to cabinet 4",
+   "open cabinet 4",
+   "go to countertop 2",
+   "go to cabinet 5",
+   "open cabinet 5",
+   "close cabinet 5"
+  ],
+  "rules_shown": {
+   "rule_10": "When an object must be cooled and placed: search all surfaces first, take the object from a surface, open a fridge if closed, cool the object with the fridge, close the fridge, move the object to the target container.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it.",
+   "rule_11": "When an object must be cooled and placed, never search containers before taking the object from a surface."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "write_rule",
+     "type": "Corrected Error",
+     "rule": "When an object must be cooled and placed, check all stoveburners before searching containers."
+    }
+   ]
+  },
+  "B": {
+   "operations": []
+  }
+ },
+ {
+  "game": 17,
+  "task": "put some cellphone on dresser.",
+  "won_first_attempt": false,
+  "case": "failure",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to drawer 1",
+   "open drawer 1",
+   "go to drawer 2",
+   "open drawer 2",
+   "go to drawer 3",
+   "open drawer 3",
+   "go to drawer 4",
+   "open drawer 4",
+   "go to drawer 5",
+   "go to drawer 6",
+   "go to drawer 7",
+   "open drawer 7",
+   "go to drawer 8",
+   "open drawer 8",
+   "go to drawer 9",
+   "open drawer 9",
+   "go to drawer 10",
+   "open drawer 10",
+   "go to drawer 11",
+   "open drawer 11",
+   "go to drawer 12",
+   "go to drawer 1",
+   "go to drawer 2",
+   "go to drawer 3",
+   "go to drawer 4",
+   "go to drawer 5",
+   "go to drawer 6",
+   "go to drawer 7",
+   "go to drawer 9",
+   "go to drawer 10"
+  ],
+  "rules_shown": {
+   "rule_5": "When an object must be picked up and placed: search drawers first, open any closed container, take the object, go to the target, move the object to the target.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it."
+  },
+  "A": {
+   "operations": []
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_6",
+     "validation": "The rule correctly states containers must be opened before accessing contents."
+    }
+   ]
+  }
+ },
+ {
+  "game": 18,
+  "task": "clean some cloth and put it in countertop.",
+  "won_first_attempt": true,
+  "case": "direct success",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to cabinet 1",
+   "open cabinet 1",
+   "take cloth 3 from cabinet 1",
+   "go to sinkbasin 1",
+   "clean cloth 3 with sinkbasin 1",
+   "go to countertop 1",
+   "move cloth 3 to countertop 1"
+  ],
+  "rules_shown": {
+   "rule_1": "When an object must be cleaned and placed: search the area, take the object, clean it, then move it to the target.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it.",
+   "rule_14": "When searching for an object, check drawers and cabinets first before checking the target area."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_1",
+     "validation": "This game confirms the agent searched the cabinet first, took the cloth, cleaned it with the sinkbasin, then moved it to the countertop."
+    },
+    {
+     "op": "note",
+     "id": "rule_14",
+     "validation": "This game confirms the agent checked the cabinet first before going to the countertop."
+    }
+   ]
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_1",
+     "validation": "The game confirms the agent searched cabinet 1, took cloth 3, cleaned it with sinkbasin 1, then moved it to countertop 1."
+    },
+    {
+     "op": "note",
+     "id": "rule_6",
+     "validation": "The game confirms the agent opened cabinet 1 before taking cloth 3."
+    },
+    {
+     "op": "note",
+     "id": "rule_14",
+     "validation": "The game confirms the agent checked cabinet 1 before going to the target countertop 1."
+    }
+   ]
+  }
+ },
+ {
+  "game": 19,
+  "task": "cool some plate and put it in cabinet.",
+  "won_first_attempt": false,
+  "case": "failure",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to countertop 1",
+   "go to countertop 2",
+   "go to countertop 3",
+   "go to countertop 3 [rejected]",
+   "go to cabinet 1",
+   "open cabinet 1",
+   "go to cabinet 2",
+   "go to countertop 1",
+   "go to countertop 2",
+   "go to countertop 3",
+   "go to cabinet 1",
+   "go to countertop 1",
+   "go to drawer 1",
+   "open drawer 1",
+   "go to countertop 1",
+   "go to countertop 2",
+   "go to countertop 3",
+   "go to drawer 2",
+   "open drawer 2",
+   "close drawer 2",
+   "go to countertop 1",
+   "go to drawer 3",
+   "go to countertop 1",
+   "go to countertop 2",
+   "go to cabinet 1",
+   "go to countertop 1",
+   "go to countertop 3",
+   "go to cabinet 2",
+   "open cabinet 2",
+   "close cabinet 2"
+  ],
+  "rules_shown": {
+   "rule_10": "When an object must be cooled and placed: search all surfaces first, take the object from a surface, open a fridge if closed, cool the object with the fridge, close the fridge, move the object to the target container.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it.",
+   "rule_11": "When an object must be cooled and placed, never search containers before taking the object from a surface."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_10",
+     "validation": "The game shows no plate was found on any surface and no cooling mechanism was used, confirming the rule's requirement to search surfaces first is critical."
+    }
+   ]
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_10",
+     "validation": "The game shows no plate on any surface and no cooling mechanism was used; the agent failed because it never identified a plate object to cool."
+    }
+   ]
+  }
+ },
+ {
+  "game": 20,
+  "task": "put a hot potato in diningtable.",
+  "won_first_attempt": false,
+  "case": "failure",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to fridge 1",
+   "open fridge 1",
+   "go to countertop 1",
+   "go to countertop 2",
+   "take potato 3 from countertop 2",
+   "go to stoveburner 1",
+   "place potato 3 on stoveburner 1 [rejected]",
+   "examine stoveburner 1",
+   "examine stoveburner 1",
+   "turn on stoveburner 1 [rejected]",
+   "turn on stoveburner 1 [rejected]",
+   "go to stoveburner 2",
+   "examine stoveburner 2",
+   "go to stoveburner 3 [rejected]",
+   "examine stoveburner 3",
+   "examine potato 3",
+   "go to stoveburner 1",
+   "place potato 3 on stoveburner 1 [rejected]",
+   "examine stoveburner 1",
+   "place potato 3 on stoveburner 1 [rejected]",
+   "turn on stoveburner 1 [rejected]",
+   "wait [rejected]",
+   "wait [rejected]",
+   "examine stoveburner 1",
+   "turn on stoveburner 1 [rejected]",
+   "turn on stoveburner 1 [rejected]",
+   "go to microwave 1",
+   "examine potato 3",
+   "open microwave 1",
+   "move potato 3 to microwave 1"
+  ],
+  "rules_shown": {
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it."
+  },
+  "A": {
+   "operations": []
+  },
+  "B": {
+   "operations": []
+  }
+ },
+ {
+  "game": 21,
+  "task": "put some spraybottle on toilet.",
+  "won_first_attempt": true,
+  "case": "direct success",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to cabinet 1",
+   "take spraybottle 1 from cabinet 1",
+   "go to toilet 1",
+   "move spraybottle 1 to toilet 1"
+  ],
+  "rules_shown": {
+   "rule_5": "When an object must be picked up and placed: search drawers first, open any closed container, take the object, go to the target, move the object to the target.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_5",
+     "validation": "The game confirms the spraybottle was found in cabinet 1 (a container), not in a drawer, contradicting the instruction to search drawers first."
+    }
+   ]
+  },
+  "B": {
+   "operations": []
+  }
+ },
+ {
+  "game": 22,
+  "task": "cool some pan and put it in cabinet.",
+  "won_first_attempt": true,
+  "case": "indirect success",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to stoveburner 1",
+   "go to stoveburner 3 [rejected]",
+   "go to stoveburner 3 [rejected]",
+   "go to countertop 1",
+   "go to countertop 2",
+   "take pan 1 from countertop 2",
+   "go to fridge 1",
+   "open fridge 1",
+   "cool pan 1 with fridge 1",
+   "close fridge 1",
+   "go to cabinet 1",
+   "open cabinet 1",
+   "move pan 1 to cabinet 1"
+  ],
+  "rules_shown": {
+   "rule_10": "When an object must be cooled and placed: search all surfaces first, take the object from a surface, open a fridge if closed, cool the object with the fridge, close the fridge, move the object to the target container.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it.",
+   "rule_11": "When an object must be cooled and placed, never search containers before taking the object from a surface."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_10",
+     "validation": "The game shows the pan was found on countertop 2 after searching stoveburner 1 and countertop 1, confirming the rule's instruction to search surfaces first."
+    }
+   ]
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_10",
+     "validation": "The game shows the agent searched countertops (surfaces) and found the pan, confirming the rule's instruction to search surfaces first is correct."
+    },
+    {
+     "op": "write_rule",
+     "type": "Corrected Error",
+     "rule": "When an object must be cooled and placed, never attempt to go to a stoveburner that does not contain the target object."
+    }
+   ]
+  }
+ },
+ {
+  "game": 23,
+  "task": "cool some tomato and put it in microwave.",
+  "won_first_attempt": true,
+  "case": "direct success",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to countertop 1",
+   "go to countertop 2",
+   "take tomato 1 from countertop 2",
+   "go to fridge 1",
+   "open fridge 1",
+   "cool tomato 1 with fridge 1",
+   "close fridge 1",
+   "go to microwave 1",
+   "open microwave 1",
+   "move tomato 1 to microwave 1"
+  ],
+  "rules_shown": {
+   "rule_10": "When an object must be cooled and placed: search all surfaces first, take the object from a surface, open a fridge if closed, cool the object with the fridge, close the fridge, move the object to the target container.",
+   "rule_11": "When an object must be cooled and placed, never search containers before taking the object from a surface.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it."
+  },
+  "A": {
+   "operations": []
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_10",
+     "validation": "The game confirms searching surfaces first works; the tomato was found on countertop 2 before cooling."
+    },
+    {
+     "op": "note",
+     "id": "rule_6",
+     "validation": "The agent correctly opened the closed fridge 1 and microwave 1 before interacting with their contents."
+    }
+   ]
+  }
+ },
+ {
+  "game": 24,
+  "task": "put two keychain in drawer.",
+  "won_first_attempt": false,
+  "case": "failure",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to desk 1",
+   "take keychain 3 from desk 1",
+   "go to drawer 1",
+   "open drawer 1",
+   "move keychain 3 to drawer 1",
+   "go to desk 1",
+   "take keychain 3 from desk 1 [rejected]",
+   "go to desk 1 [rejected]",
+   "go to desk 1 [rejected]",
+   "examine desk 1",
+   "go to drawer 1",
+   "go to desk 1",
+   "go to drawer 2",
+   "open drawer 2",
+   "go to desk 1",
+   "go to drawer 1",
+   "take keychain 3 from drawer 1",
+   "move keychain 3 to drawer 2 [rejected]",
+   "go to drawer 1 [rejected]",
+   "go to desk 1",
+   "go to drawer 2",
+   "move keychain 3 to drawer 2",
+   "go to desk 1",
+   "go to drawer 1",
+   "go to desk 1",
+   "go to drawer 1",
+   "go to drawer 2",
+   "The current subgoal is to take keychain 3 from drawer 1, but the observation shows keychain 3 is actually in drawer 2. Since I am currently at drawer 2 and need to retrieve the keychain to proceed with the task of putting two keychains in a drawer, I should [rejected]",
+   "take keychain 3 from drawer 2",
+   "open drawer 3"
+  ],
+  "rules_shown": {
+   "rule_8": "When two objects must be placed in a target: search the starting location first, take each object, go to the target, and move each object there.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it.",
+   "rule_13": "When placing objects in a dresser, first search the environment to locate the objects before attempting to open or interact with the dresser.",
+   "rule_9": "When moving an object to a target, ensure the agent is at the target location before issuing the move command."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_8",
+     "validation": "The agent failed to search thoroughly for a second keychain before moving the first one, wasting steps by repeatedly moving the same object between drawers."
+    },
+    {
+     "op": "note",
+     "id": "rule_13",
+     "validation": "The agent searched desk 1 but did not systematically check all objects there for additional keychains before attempting to move the first one."
+    }
+   ]
+  },
+  "B": {
+   "operations": []
+  }
+ },
+ {
+  "game": 25,
+  "task": "put two pencil in drawer.",
+  "won_first_attempt": true,
+  "case": "direct success",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to desk 1",
+   "take pencil 1 from desk 1",
+   "go to drawer 1",
+   "move pencil 1 to drawer 1",
+   "go to desk 1",
+   "take pencil 2 from desk 1",
+   "go to drawer 1",
+   "move pencil 2 to drawer 1"
+  ],
+  "rules_shown": {
+   "rule_8": "When two objects must be placed in a target: search the starting location first, take each object, go to the target, and move each object there.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it.",
+   "rule_13": "When placing objects in a dresser, first search the environment to locate the objects before attempting to open or interact with the dresser.",
+   "rule_9": "When moving an object to a target, ensure the agent is at the target location before issuing the move command."
+  },
+  "A": {
+   "operations": []
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_8",
+     "validation": "This game confirmed the rule: the agent searched the desk first, took both pencils, and moved them to the drawer."
+    }
+   ]
+  }
+ },
+ {
+  "game": 26,
+  "task": "put a handtowel in cabinet.",
+  "won_first_attempt": true,
+  "case": "direct success",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to handtowelholder 1",
+   "take handtowel 1 from handtowelholder 1",
+   "go to cabinet 1",
+   "open cabinet 1",
+   "move handtowel 1 to cabinet 1"
+  ],
+  "rules_shown": {
+   "rule_5": "When an object must be picked up and placed: search drawers first, open any closed container, take the object, go to the target, move the object to the target.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_5",
+     "validation": "This game shows the object was found on a handtowelholder, not in a drawer, so searching drawers first is not required for this task type."
+    },
+    {
+     "op": "note",
+     "id": "rule_6",
+     "validation": "This game confirms the agent correctly opened cabinet 1 before moving the handtowel into it."
+    }
+   ]
+  },
+  "B": {
+   "operations": []
+  }
+ },
+ {
+  "game": 27,
+  "task": "put some pen on drawer.",
+  "won_first_attempt": true,
+  "case": "indirect success",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to drawer 1",
+   "open drawer 1",
+   "go to drawer 2",
+   "open drawer 2",
+   "go to drawer 3",
+   "open drawer 3",
+   "go to drawer 4",
+   "go to drawer 5 [rejected]",
+   "go to drawer 5 [rejected]",
+   "take pencil 3 from drawer 4",
+   "go to drawer 5 [rejected]",
+   "move pencil 3 to drawer 5",
+   "go to drawer 1",
+   "go to desk 1",
+   "go to dresser 1",
+   "take pen 3 from dresser 1",
+   "go to drawer 1",
+   "move pen 3 to drawer 1"
+  ],
+  "rules_shown": {
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "write_rule",
+     "type": "Corrected Error",
+     "rule": "When a container is closed, open it before searching inside it."
+    },
+    {
+     "op": "write_rule",
+     "type": "Success Process",
+     "rule": "When an object must be placed in a container: search closed containers first, open them if closed, take the object from its location, move it to the target container."
+    }
+   ]
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "write_rule",
+     "type": "Corrected Error",
+     "rule": "When a container is closed, open it before attempting to go to it."
+    },
+    {
+     "op": "write_rule",
+     "type": "Success Process",
+     "rule": "When an object must be picked up and placed: search all containers first, open closed containers, take the object from its location, move it to the target."
+    }
+   ]
+  }
+ },
+ {
+  "game": 28,
+  "task": "put a clean butterknife in sidetable.",
+  "won_first_attempt": true,
+  "case": "direct success",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to cabinet 1",
+   "open cabinet 1",
+   "go to drawer 1",
+   "open drawer 1",
+   "go to diningtable 1",
+   "go to countertop 1",
+   "take butterknife 1 from countertop 1",
+   "go to sinkbasin 1",
+   "clean butterknife 1 with sinkbasin 1",
+   "go to sidetable 1",
+   "move butterknife 1 to sidetable 1"
+  ],
+  "rules_shown": {
+   "rule_1": "When an object must be cleaned and placed: search the area, take the object, clean it, then move it to the target.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it.",
+   "rule_14": "When searching for an object, check drawers and cabinets first before checking the target area.",
+   "rule_16": "When moving to a target fails, the agent is still at the previous location and must retry the move command."
+  },
+  "A": {
+   "operations": []
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_1",
+     "validation": "This game confirms the agent searched cabinet, diningtable, and drawer before taking the butterknife from countertop."
+    }
+   ]
+  }
+ },
+ {
+  "game": 29,
+  "task": "clean some fork and put it in drawer.",
+  "won_first_attempt": false,
+  "case": "failure",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to drawer 1",
+   "open drawer 1",
+   "go to cabinet 1",
+   "open cabinet 1",
+   "go to cabinet 2",
+   "open cabinet 2",
+   "go to cabinet 3",
+   "go to cabinet 4",
+   "go to cabinet 5",
+   "go to cabinet 6",
+   "go to cabinet 7",
+   "open cabinet 7",
+   "go to cabinet 8 [rejected]",
+   "go to drawer 1",
+   "go to fridge 1",
+   "open fridge 1",
+   "go to drawer 2",
+   "go to drawer 3",
+   "open drawer 3",
+   "go to drawer 4",
+   "open drawer 4",
+   "go to fridge 1",
+   "go to cabinet 8",
+   "open cabinet 8",
+   "go to countertop 1",
+   "go to cabinet 1",
+   "go to countertop 1",
+   "go to fridge 1",
+   "go to countertop 1",
+   "go to stoveburner 1"
+  ],
+  "rules_shown": {
+   "rule_1": "When an object must be cleaned and placed: search the area, take the object, clean it, then move it to the target.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it.",
+   "rule_14": "When searching for an object, check drawers and cabinets first before checking the target area.",
+   "rule_16": "When moving to a target fails, the agent is still at the previous location and must retry the move command."
+  },
+  "A": {
+   "operations": []
+  },
+  "B": {
+   "operations": []
+  }
+ },
+ {
+  "game": 30,
+  "task": "cool some bowl and put it in microwave.",
+  "won_first_attempt": false,
+  "case": "corrected failure",
+  "retry_won": true,
+  "steps_from": 1,
+  "steps": [
+   "go to countertop 1",
+   "go to cabinet 1",
+   "open cabinet 1",
+   "go to countertop 1",
+   "go to cabinet 2",
+   "open cabinet 2",
+   "go to cabinet 3",
+   "open cabinet 3",
+   "go to countertop 1",
+   "go to cabinet 4",
+   "go to drawer 1",
+   "open drawer 1",
+   "close drawer 1",
+   "go to drawer 2",
+   "go to drawer 3",
+   "open drawer 3",
+   "go to countertop 1",
+   "go to cabinet 1",
+   "close cabinet 1",
+   "go to cabinet 2",
+   "close cabinet 2",
+   "go to countertop 1",
+   "go to countertop 2 [rejected]",
+   "go to countertop 2 [rejected]",
+   "go to countertop 2 [rejected]",
+   "go to countertop 2 [rejected]",
+   "go to cabinet 1",
+   "open cabinet 1",
+   "close cabinet 1",
+   "go to countertop 2 [rejected]"
+  ],
+  "rules_shown": {
+   "rule_10": "When an object must be cooled and placed: search all surfaces first, take the object from a surface, open a fridge if closed, cool the object with the fridge, close the fridge, move the object to the target container.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it.",
+   "rule_11": "When an object must be cooled and placed, never search containers before taking the object from a surface.",
+   "rule_16": "When moving to a target fails, the agent is still at the previous location and must retry the move command."
+  },
+  "A": {
+   "operations": []
+  },
+  "B": {
+   "operations": []
+  }
+ },
+ {
+  "game": 31,
+  "task": "find two cellphone and put them in bed.",
+  "won_first_attempt": false,
+  "case": "failure",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to bed 1",
+   "go to drawer 1",
+   "open drawer 1",
+   "go to drawer 2",
+   "open drawer 2",
+   "go to drawer 3",
+   "open drawer 3",
+   "go to cabinet 1",
+   "open cabinet 1",
+   "go to cabinet 2",
+   "open cabinet 2",
+   "go to armchair 1",
+   "take cellphone 2 from armchair 1",
+   "go to bed 1",
+   "move cellphone 2 to bed 1",
+   "go to drawer 1",
+   "go to drawer 2",
+   "go to drawer 3",
+   "go to drawer 4",
+   "open drawer 4",
+   "go to drawer 5",
+   "go to armchair 1",
+   "go to drawer 6",
+   "go to armchair 1",
+   "go to drawer 1",
+   "go to cabinet 1",
+   "go to armchair 1",
+   "go to bed 1",
+   "take cellphone 2 from bed 1",
+   "move cellphone 2 to bed 1"
+  ],
+  "rules_shown": {
+   "rule_8": "When two objects must be placed in a target: search the starting location first, take each object, go to the target, and move each object there.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it.",
+   "rule_16": "When moving to a target fails, the agent is still at the previous location and must retry the move command.",
+   "rule_13": "When placing objects in a dresser, first search the environment to locate the objects before attempting to open or interact with the dresser.",
+   "rule_9": "When moving an object to a target, ensure the agent is at the target location before issuing the move command."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_8",
+     "validation": "The game shows the agent moved the first cellphone to the bed before finding the second one, then had to retrieve it, proving the rule's instruction to search for all objects before moving them is necessary."
+    },
+    {
+     "op": "update_note",
+     "id": "rule_13",
+     "rule": "When placing objects in a target, first search the environment to locate all objects before moving any to the target."
+    }
+   ]
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_8",
+     "validation": "The agent failed because it moved the first cellphone to the bed before finding the second one; it should have searched all remaining locations (drawers, cabinets, furniture) for the second object before moving either to the target."
+    },
+    {
+     "op": "update_note",
+     "id": "rule_13",
+     "rule": "When placing objects in a dresser, first search the environment to locate all required objects before attempting to open or interact with the dresser."
+    }
+   ]
+  }
+ },
+ {
+  "game": 32,
+  "task": "cool some bread and put it in countertop.",
+  "won_first_attempt": true,
+  "case": "direct success",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to diningtable 1",
+   "go to countertop 1",
+   "take bread 1 from countertop 1",
+   "go to fridge 1",
+   "open fridge 1",
+   "cool bread 1 with fridge 1",
+   "close fridge 1",
+   "go to countertop 1",
+   "move bread 1 to countertop 1"
+  ],
+  "rules_shown": {
+   "rule_10": "When an object must be cooled and placed: search all surfaces first, take the object from a surface, open a fridge if closed, cool the object with the fridge, close the fridge, move the object to the target container.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it.",
+   "rule_11": "When an object must be cooled and placed, never search containers before taking the object from a surface.",
+   "rule_16": "When moving to a target fails, the agent is still at the previous location and must retry the move command."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_10",
+     "validation": "The game confirms the bread was found on a surface (countertop), not in a container, validating the rule's instruction to search surfaces first."
+    }
+   ]
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_10",
+     "validation": "The game shows the bread was found on a surface (countertop), confirming the rule's instruction to search surfaces first is correct for this task."
+    },
+    {
+     "op": "note",
+     "id": "rule_11",
+     "validation": "The game shows the bread was found on a surface, not in a container, so the rule's warning about containers does not apply to this specific instance."
+    }
+   ]
+  }
+ },
+ {
+  "game": 33,
+  "task": "put a clean pan in stoveburner.",
+  "won_first_attempt": true,
+  "case": "direct success",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to cabinet 1",
+   "open cabinet 1",
+   "go to drawer 1",
+   "open drawer 1",
+   "go to drawer 2",
+   "go to drawer 3",
+   "go to drawer 4",
+   "open drawer 4",
+   "go to drawer 5",
+   "go to drawer 6",
+   "open drawer 6",
+   "go to stoveburner 1",
+   "go to cabinet 1",
+   "go to countertop 1",
+   "take pan 1 from countertop 1",
+   "go to sinkbasin 1",
+   "clean pan 1 with sinkbasin 1"
+  ],
+  "rules_shown": {
+   "rule_1": "When an object must be cleaned and placed: search the area, take the object, clean it, then move it to the target.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it.",
+   "rule_14": "When searching for an object, check drawers and cabinets first before checking the target area.",
+   "rule_16": "When moving to a target fails, the agent is still at the previous location and must retry the move command."
+  },
+  "A": {
+   "operations": []
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_1",
+     "validation": "This game shows the pan was found on the countertop after searching cabinets, drawers, and the stoveburner, confirming the rule needs to specify searching multiple locations first."
+    },
+    {
+     "op": "note",
+     "id": "rule_14",
+     "validation": "This game shows the agent checked multiple drawers and cabinets before finding the pan on the countertop, confirming the rule is correct for this task type."
+    }
+   ]
+  }
+ },
+ {
+  "game": 34,
+  "task": "put a laptop in desk.",
+  "won_first_attempt": false,
+  "case": "corrected failure",
+  "retry_won": true,
+  "steps_from": 1,
+  "steps": [
+   "go to desk 1",
+   "go to drawer 1",
+   "open drawer 1",
+   "go to drawer 2",
+   "go to shelf 1",
+   "go to drawer 3",
+   "open drawer 3",
+   "go to drawer 4",
+   "open drawer 4",
+   "go to drawer 5",
+   "open drawer 5",
+   "close drawer 5",
+   "go to desk 1",
+   "go to drawer 1",
+   "go to desk 1",
+   "go to drawer 1",
+   "close drawer 1",
+   "go to cabinet 1 [rejected]",
+   "go to desk 1",
+   "go to cabinet 1 [rejected]",
+   "examine desk 1",
+   "go to drawer 1",
+   "open drawer 1",
+   "close drawer 1",
+   "go to drawer 2",
+   "open drawer 2",
+   "close drawer 2",
+   "go to drawer 3",
+   "close drawer 3",
+   "go to drawer 4"
+  ],
+  "rules_shown": {
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it.",
+   "rule_16": "When moving to a target fails, the agent is still at the previous location and must retry the move command."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "write_rule",
+     "type": "Success Process",
+     "rule": "When an object must be picked up and placed: search for the object, take it from its location, go to the target, and move the object there."
+    },
+    {
+     "op": "write_rule",
+     "type": "Corrected Error",
+     "rule": "When a task requires placing an object, examine the current location first to find the object instead of opening empty containers."
+    }
+   ]
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "write_rule",
+     "type": "Success Process",
+     "rule": "When placing an object on a surface: examine the target surface first, then search other locations (bed, drawer, shelf) for the object, take it, return to the target, and move it there."
+    }
+   ]
+  }
+ },
+ {
+  "game": 35,
+  "task": "put two pen in dresser.",
+  "won_first_attempt": true,
+  "case": "direct success",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to dresser 1",
+   "examine dresser 1",
+   "examine dresser 1",
+   "go to drawer 1",
+   "open drawer 1",
+   "go to dresser 1",
+   "go to drawer 1",
+   "go to drawer 2",
+   "go to dresser 1",
+   "go to drawer 3",
+   "open drawer 3",
+   "go to drawer 4",
+   "open drawer 4",
+   "go to coffeetable 1",
+   "take pen 1 from coffeetable 1",
+   "go to dresser 1",
+   "move pen 1 to dresser 1",
+   "go to drawer 1",
+   "go to coffeetable 1",
+   "take pen 2 from coffeetable 1",
+   "go to dresser 1",
+   "move pen 2 to dresser 1"
+  ],
+  "rules_shown": {
+   "rule_8": "When two objects must be placed in a target: search the starting location first, take each object, go to the target, and move each object there.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it.",
+   "rule_13": "When placing objects in a dresser, first search the environment to locate the objects before attempting to open or interact with the dresser.",
+   "rule_16": "When moving to a target fails, the agent is still at the previous location and must retry the move command.",
+   "rule_9": "When moving an object to a target, ensure the agent is at the target location before issuing the move command."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_8",
+     "validation": "The agent searched drawers and dresser before finding the pens on the coffeetable, confirming the need to search the starting location first."
+    },
+    {
+     "op": "note",
+     "id": "rule_6",
+     "validation": "The agent opened closed drawers (drawer 1, 3, 4) before checking their contents, confirming this rule."
+    }
+   ]
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_8",
+     "validation": "The game confirms the agent searched the coffeetable, took both pens, went to the dresser, and moved them one by one."
+    }
+   ]
+  }
+ },
+ {
+  "game": 36,
+  "task": "clean some plate and put it in shelf.",
+  "won_first_attempt": true,
+  "case": "direct success",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to cabinet 1",
+   "open cabinet 1",
+   "go to cabinet 2",
+   "open cabinet 2",
+   "go to cabinet 3",
+   "open cabinet 3",
+   "go to cabinet 4",
+   "go to cabinet 5",
+   "open cabinet 5",
+   "go to cabinet 6",
+   "open cabinet 6",
+   "go to cabinet 7",
+   "open cabinet 7",
+   "take plate 4 from cabinet 7",
+   "go to sinkbasin 1",
+   "clean plate 4 with sinkbasin 1",
+   "go to shelf 1",
+   "move plate 4 to shelf 1"
+  ],
+  "rules_shown": {
+   "rule_1": "When an object must be cleaned and placed: search the area, take the object, clean it, then move it to the target.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it.",
+   "rule_14": "When searching for an object, check drawers and cabinets first before checking the target area.",
+   "rule_16": "When moving to a target fails, the agent is still at the previous location and must retry the move command."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_14",
+     "validation": "The game confirms the agent checked multiple cabinets before going to the target shelf, confirming the rule is correct for this task type."
+    }
+   ]
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_1",
+     "validation": "This game confirms the rule is incomplete without specifying where to search first, as the agent searched multiple cabinets before finding the plate."
+    }
+   ]
+  }
+ },
+ {
+  "game": 37,
+  "task": "put a cool pan in diningtable.",
+  "won_first_attempt": true,
+  "case": "direct success",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to stoveburner 1",
+   "take pan 1 from stoveburner 1",
+   "go to fridge 1",
+   "open fridge 1",
+   "cool pan 1 with fridge 1",
+   "close fridge 1",
+   "go to diningtable 1",
+   "move pan 1 to diningtable 1"
+  ],
+  "rules_shown": {
+   "rule_10": "When an object must be cooled and placed: search all surfaces first, take the object from a surface, open a fridge if closed, cool the object with the fridge, close the fridge, move the object to the target container.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it.",
+   "rule_11": "When an object must be cooled and placed, never search containers before taking the object from a surface.",
+   "rule_16": "When moving to a target fails, the agent is still at the previous location and must retry the move command."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_10",
+     "validation": "The game shows the pan was found on a stoveburner (a surface), confirming the rule's instruction to search surfaces first is correct."
+    },
+    {
+     "op": "note",
+     "id": "rule_6",
+     "validation": "The game confirms the agent opened fridge 1 before cooling the pan inside it."
+    }
+   ]
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_10",
+     "validation": "The game shows the pan was found on a stoveburner (a surface), confirming the rule's instruction to search surfaces first is correct."
+    },
+    {
+     "op": "note",
+     "id": "rule_6",
+     "validation": "The game shows the fridge was closed and opened before cooling, confirming the rule's instruction to open closed containers is correct."
+    }
+   ]
+  }
+ },
+ {
+  "game": 38,
+  "task": "examine the pen with the desklamp.",
+  "won_first_attempt": true,
+  "case": "direct success",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to desk 1",
+   "take pen 2 from desk 1",
+   "go to dresser 1",
+   "use desklamp 1"
+  ],
+  "rules_shown": {
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it.",
+   "rule_16": "When moving to a target fails, the agent is still at the previous location and must retry the move command."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "write_rule",
+     "type": "Success Process",
+     "rule": "When an object must be examined with a light: search the current location first, take the object, go to the desk, use the desklamp."
+    }
+   ]
+  },
+  "B": {
+   "operations": []
+  }
+ },
+ {
+  "game": 39,
+  "task": "put two peppershaker in diningtable.",
+  "won_first_attempt": true,
+  "case": "direct success",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to countertop 1",
+   "go to cabinet 1",
+   "open cabinet 1",
+   "take peppershaker 1 from cabinet 1",
+   "go to diningtable 1",
+   "move peppershaker 1 to diningtable 1",
+   "go to cabinet 2",
+   "open cabinet 2",
+   "take peppershaker 2 from cabinet 2",
+   "go to diningtable 1",
+   "move peppershaker 2 to diningtable 1"
+  ],
+  "rules_shown": {
+   "rule_8": "When two objects must be placed in a target: search the starting location first, take each object, go to the target, and move each object there.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it.",
+   "rule_9": "When moving an object to a target, ensure the agent is at the target location before issuing the move command.",
+   "rule_13": "When placing objects in a dresser, first search the environment to locate the objects before attempting to open or interact with the dresser.",
+   "rule_16": "When moving to a target fails, the agent is still at the previous location and must retry the move command."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_8",
+     "validation": "The game confirms the agent searched cabinet 1 and cabinet 2, took both peppershakers, went to diningtable 1, and moved them one by one."
+    },
+    {
+     "op": "note",
+     "id": "rule_6",
+     "validation": "The game confirms the agent opened cabinet 1 and cabinet 2 before taking the peppershakers from inside."
+    }
+   ]
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_8",
+     "validation": "The game confirms the agent searched countertop 1 first, took peppershaker 1 from cabinet 1, then took peppershaker 2 from cabinet 2, and moved both to diningtable 1."
+    }
+   ]
+  }
+ },
+ {
+  "game": 40,
+  "task": "look at pencil under the desklamp.",
+  "won_first_attempt": true,
+  "case": "direct success",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to desk 2",
+   "go to shelf 1",
+   "take pencil 1 from shelf 1",
+   "go to desk 1",
+   "go to shelf 1",
+   "go to desk 1",
+   "go to shelf 1",
+   "go to desk 1",
+   "go to shelf 1",
+   "go to desk 1",
+   "go to shelf 2",
+   "use desklamp 1"
+  ],
+  "rules_shown": {
+   "rule_19": "When an object must be examined with a light: search for the object and the light, take the object, go to the light, turn it on, and examine.",
+   "rule_16": "When moving to a target fails, the agent is still at the previous location and must retry the move command.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_19",
+     "validation": "The agent searched desk 2 and shelf 1 for the pencil, took it from shelf 1, then went to shelf 2 to use desklamp 1."
+    },
+    {
+     "op": "write_rule",
+     "type": "Special Phenomenon",
+     "rule": "When searching for an object, check multiple locations before giving up; the object may be in a different place than expected."
+    }
+   ]
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_19",
+     "validation": "The game shows the agent took the object first, then went to the light and turned it on, confirming the order in the rule is correct."
+    }
+   ]
+  }
+ },
+ {
+  "game": 41,
+  "task": "cool some cup and put it in microwave.",
+  "won_first_attempt": false,
+  "case": "corrected failure",
+  "retry_won": true,
+  "steps_from": 1,
+  "steps": [
+   "go to countertop 1",
+   "take mug 1 from countertop 1",
+   "go to fridge 1",
+   "open fridge 1",
+   "cool mug 1 with fridge 1",
+   "close fridge 1",
+   "go to microwave 1",
+   "open microwave 1",
+   "move mug 1 to microwave 1",
+   "close microwave 1",
+   "examine microwave 1",
+   "look",
+   "inventory",
+   "inventory",
+   "go to countertop 1",
+   "take bowl 1 from countertop 1",
+   "go to countertop 2",
+   "go to cabinet 1",
+   "go to cabinet 2",
+   "go to countertop 1",
+   "go to fridge 1",
+   "open fridge 1",
+   "cool bowl 1 with fridge 1",
+   "close fridge 1",
+   "go to microwave 1",
+   "open microwave 1",
+   "close microwave 1",
+   "go to cabinet 1",
+   "go to countertop 1",
+   "go to cabinet 1"
+  ],
+  "rules_shown": {
+   "rule_10": "When an object must be cooled and placed: search all surfaces first, take the object from a surface, open a fridge if closed, cool the object with the fridge, close the fridge, move the object to the target container.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it.",
+   "rule_11": "When an object must be cooled and placed, never search containers before taking the object from a surface.",
+   "rule_16": "When moving to a target fails, the agent is still at the previous location and must retry the move command."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_10",
+     "validation": "The game shows the cup was found on a surface (diningtable), confirming the rule's instruction to search surfaces first is correct."
+    }
+   ]
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_10",
+     "validation": "The game shows the cup was found on diningtable 1 (a surface), confirming the rule's instruction to search surfaces first is correct."
+    }
+   ]
+  }
+ },
+ {
+  "game": 42,
+  "task": "put a hot mug in cabinet.",
+  "won_first_attempt": true,
+  "case": "indirect success",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to coffeemachine 1",
+   "go to countertop 1",
+   "take mug 1 from countertop 1",
+   "go to cabinet 1",
+   "open cabinet 1",
+   "move mug 1 to cabinet 1",
+   "examine cabinet 1",
+   "examine cabinet 1",
+   "examine cabinet 1",
+   "examine mug 1 [rejected]",
+   "The agent previously moved the mug to the cabinet and attempted to examine it, but the action failed. Since the mug is inside the cabinet and the agent is currently at the cabinet, the most logical step to verify the mug's state (or check if it's hot) is to examine the cabinet itself to see [rejected]",
+   "take mug 1 from cabinet 1",
+   "examine mug 1",
+   "examine mug 1",
+   "go to microwave 1",
+   "open microwave 1",
+   "heat mug 1 with microwave 1",
+   "go to cabinet 1",
+   "move mug 1 to cabinet 1"
+  ],
+  "rules_shown": {
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it.",
+   "rule_16": "When moving to a target fails, the agent is still at the previous location and must retry the move command.",
+   "rule_15": "When placing an object on an appliance, do not use the command \"place\"."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "write_rule",
+     "type": "Corrected Error",
+     "rule": "When an object is placed in a container and must be heated, take it out before heating if the container is not the heating appliance."
+    },
+    {
+     "op": "write_rule",
+     "type": "Success Process",
+     "rule": "When heating an object then placing it in a container: search countertop first, take the object, open the target container if closed, move the object to the container, take it out if needed, heat with the appliance, move it to the container."
+    }
+   ]
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "write_rule",
+     "type": "Success Process",
+     "rule": "When an object must be heated and placed: search countertop first, heat the object with the microwave, open the target if closed, move the object to the target."
+    },
+    {
+     "op": "write_rule",
+     "type": "Corrected Error",
+     "rule": "When verifying an object inside a container, examine the container instead of the object."
+    }
+   ]
+  }
+ },
+ {
+  "game": 43,
+  "task": "heat some cup and put it in diningtable.",
+  "won_first_attempt": false,
+  "case": "failure",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to fridge 1",
+   "go to microwave 1",
+   "open microwave 1",
+   "go to diningtable 1",
+   "go to countertop 1",
+   "go to diningtable 1",
+   "go to countertop 1",
+   "take mug 1 from countertop 1",
+   "move mug 1 to countertop 1",
+   "go to microwave 1",
+   "go to countertop 1",
+   "go to fridge 1",
+   "go to microwave 1",
+   "go to diningtable 1",
+   "go to fridge 1",
+   "open fridge 1",
+   "take cup 1 from fridge 1",
+   "go to stoveburner 1",
+   "place cup 1 on stoveburner 1 [rejected]",
+   "open stoveburner 1 [rejected]",
+   "examine stoveburner 1",
+   "open stoveburner 1 [rejected]",
+   "move cup 1 to stoveburner 1 [rejected]",
+   "open stoveburner 1 [rejected]",
+   "open stoveburner 1 [rejected]",
+   "move cup 1 to stoveburner 1 [rejected]",
+   "open stoveburner 1 [rejected]",
+   "put cup 1 on stoveburner 1 [rejected]",
+   "open stoveburner 1 [rejected]",
+   "place cup 1 on stoveburner 1 [rejected]"
+  ],
+  "rules_shown": {
+   "rule_21": "When the target must be heated and placed in a container: search the area first, take the target, go to the heater, open it if closed, heat the target, go to the container, open it if closed, move the target to the container.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it.",
+   "rule_16": "When moving to a target fails, the agent is still at the previous location and must retry the move command.",
+   "rule_22": "When an object is inside a container, examine the container instead of the object to verify its state.",
+   "rule_15": "When placing an object on an appliance, do not use the command \"place\"."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_21",
+     "validation": "The game shows the correct heating command is 'heat <object>' without 'with <appliance>', and the microwave must be opened before moving the cup inside."
+    },
+    {
+     "op": "note",
+     "id": "rule_15",
+     "validation": "The game confirms 'place <object> on <appliance>' fails; the agent should use 'move <object> to <appliance>' or 'heat <object>' with the microwave."
+    }
+   ]
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_21",
+     "validation": "This game shows heating requires the microwave, not the stoveburner, and the stoveburner cannot heat cups."
+    }
+   ]
+  }
+ },
+ {
+  "game": 44,
+  "task": "put a hot cup in countertop.",
+  "won_first_attempt": false,
+  "case": "failure",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to countertop 1",
+   "go to fridge 1",
+   "open fridge 1",
+   "take cup 2 from fridge 1",
+   "go to stoveburner 1",
+   "move cup 2 to stoveburner 1 [rejected]",
+   "place cup 2 on stoveburner 1 [rejected]",
+   "put cup 2 on stoveburner 1 [rejected]",
+   "move cup 2 to stoveburner 1 [rejected]",
+   "examine stoveburner 1",
+   "put cup 2 on stoveburner 1 [rejected]",
+   "The agent has failed to place the cup on the stoveburner 1 using \"move\", \"place\", and \"put\" commands, and the stoveburner 1 is already occupied by a kettle 2. I need to find an empty stoveburner to place the cup on. I will examine [rejected]",
+   "examine stoveburner 2 [rejected]",
+   "examine stoveburner 2 [rejected]",
+   "examine stoveburner 3",
+   "move cup 2 to stoveburner 3 [rejected]",
+   "open stoveburner 3 [rejected]",
+   "examine stoveburner 3",
+   "open stoveburner 3 [rejected]",
+   "open stoveburner 3 [rejected]",
+   "go to countertop 1",
+   "examine cup 2",
+   "move cup 2 to stoveburner 1 [rejected]",
+   "go to stoveburner 1",
+   "examine cup 2",
+   "move cup 2 to stoveburner 1 [rejected]",
+   "examine stoveburner 1",
+   "move cup 2 to stoveburner 1 [rejected]",
+   "examine stoveburner 1",
+   "go to stoveburner 3 [rejected]"
+  ],
+  "rules_shown": {
+   "rule_21": "When the target must be heated and placed in a container: search the area first, take the target, go to the heater, open it if closed, heat the target, go to the container, open it if closed, move the target to the container.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it.",
+   "rule_22": "When an object is inside a container, examine the container instead of the object to verify its state.",
+   "rule_16": "When moving to a target fails, the agent is still at the previous location and must retry the move command.",
+   "rule_23": "When heating an object, do not use the command \"done\".",
+   "rule_15": "When placing an object on an appliance, do not use the command \"place\"."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_21",
+     "validation": "The existing Success Process for heating tasks does not cover the placement step correctly; it should specify examining the target appliance first and using 'move' without opening."
+    },
+    {
+     "op": "note",
+     "id": "rule_15",
+     "validation": "The rule incorrectly suggests using 'heat' with microwave 1 for stoveburners; the game shows 'move' is the correct command for placing objects on stoveburners."
+    }
+   ]
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_15",
+     "validation": "The game confirms that 'place cup 2 on stoveburner 1' is invalid; the agent should use 'move cup 2 to stoveburner 3' instead."
+    }
+   ]
+  }
+ },
+ {
+  "game": 45,
+  "task": "find two laptop and put them in ottoman.",
+  "won_first_attempt": false,
+  "case": "failure",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to coffeetable 1",
+   "take laptop 1 from coffeetable 1",
+   "go to ottoman 1",
+   "move laptop 1 to ottoman 1",
+   "go to drawer 1",
+   "open drawer 1",
+   "go to drawer 2",
+   "open drawer 2",
+   "go to drawer 3",
+   "go to armchair 1",
+   "go to diningtable 1",
+   "go to coffeetable 1",
+   "go to drawer 4",
+   "open drawer 4",
+   "go to ottoman 1",
+   "take laptop 1 from ottoman 1",
+   "move laptop 1 to ottoman 1",
+   "go to drawer 1",
+   "go to armchair 1",
+   "go to coffeetable 1",
+   "go to drawer 1",
+   "go to drawer 2",
+   "go to drawer 3",
+   "go to coffeetable 1",
+   "go to drawer 4",
+   "go to coffeetable 1",
+   "go to drawer 1",
+   "go to armchair 1",
+   "go to coffeetable 1",
+   "go to drawer 1"
+  ],
+  "rules_shown": {
+   "rule_8": "When two objects must be placed in a target: search the starting location first, take each object, go to the target, and move each object there.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it.",
+   "rule_9": "When moving an object to a target, ensure the agent is at the target location before issuing the move command.",
+   "rule_16": "When moving to a target fails, the agent is still at the previous location and must retry the move command.",
+   "rule_13": "When placing objects in a dresser, first search the environment to locate the objects before attempting to open or interact with the dresser."
+  },
+  "A": {
+   "operations": []
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_8",
+     "validation": "The game shows the agent took the first laptop from coffeetable 1, moved it to ottoman 1, then searched empty drawers and returned to coffeetable 1 instead of immediately checking ottoman 1 for the second laptop which was already there."
+    },
+    {
+     "op": "update_note",
+     "id": "rule_13",
+     "rule": "When placing objects in a target, first search all remaining surfaces for the second object before repeatedly searching empty containers."
+    }
+   ]
+  }
+ },
+ {
+  "game": 46,
+  "task": "put a watch in coffeetable.",
+  "won_first_attempt": true,
+  "case": "direct success",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to drawer 1",
+   "open drawer 1",
+   "take watch 1 from drawer 1",
+   "go to coffeetable 1",
+   "move watch 1 to coffeetable 1"
+  ],
+  "rules_shown": {
+   "rule_18": "When an object must be picked up and placed: search known locations first, examine the target location to confirm the object is not there, find the object in another location, take it, go to the target, move it there.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it.",
+   "rule_16": "When moving to a target fails, the agent is still at the previous location and must retry the move command.",
+   "rule_17": "When the target location is known but the object is not visible there, examine the target first before searching other containers."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_18",
+     "validation": "The game confirms the agent examined the target location (coffeetable 1) before searching other containers (drawer 1), and successfully moved the watch there."
+    }
+   ]
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_18",
+     "validation": "The game confirms the watch was found in the drawer (first place searched) and moved to the coffeetable without needing to examine the target first."
+    }
+   ]
+  }
+ },
+ {
+  "game": 47,
+  "task": "clean some cloth and put it in toilet.",
+  "won_first_attempt": true,
+  "case": "direct success",
+  "retry_won": false,
+  "steps_from": 1,
+  "steps": [
+   "go to drawer 1",
+   "go to sinkbasin 1",
+   "go to drawer 1",
+   "open drawer 1",
+   "go to drawer 2",
+   "open drawer 2",
+   "take cloth 3 from drawer 2",
+   "go to sinkbasin 1",
+   "clean cloth 3 with sinkbasin 1",
+   "go to toilet 1",
+   "move cloth 3 to toilet 1"
+  ],
+  "rules_shown": {
+   "rule_1": "When an object must be cleaned and placed: search the area, take the object, clean it, then move it to the target.",
+   "rule_6": "When a container is closed, it must be opened before the agent can see or take objects from it.",
+   "rule_14": "When searching for an object, check drawers and cabinets first before checking the target area.",
+   "rule_16": "When moving to a target fails, the agent is still at the previous location and must retry the move command."
+  },
+  "A": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_1",
+     "validation": "The game confirms the agent searched sinkbasin first, took the cloth from drawer 2, cleaned it with sinkbasin 1, then moved it to toilet 1."
+    },
+    {
+     "op": "note",
+     "id": "rule_14",
+     "validation": "The game confirms the agent checked sinkbasin first, then drawer 1, then drawer 2 before finding the cloth."
+    }
+   ]
+  },
+  "B": {
+   "operations": [
+    {
+     "op": "note",
+     "id": "rule_1",
+     "validation": "The game confirms the agent searched drawers first, took the cloth, cleaned it with sinkbasin 1, then moved it to the toilet."
+    },
+    {
+     "op": "note",
+     "id": "rule_14",
+     "validation": "The game confirms the agent checked drawers first before going to the target toilet."
+    }
+   ]
+  }
+ }
+]

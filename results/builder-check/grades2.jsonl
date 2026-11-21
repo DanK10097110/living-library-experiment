@@ -1,0 +1,167 @@
+{"game": 0, "version": "A", "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "Generic and true but trivial; won game needed no rule."}
+{"game": 0, "better": "tie", "why": "Nothing important to learn."}
+{"game": 1, "better": "tie", "why": "Both missed taking a towel instead of the named cloth."}
+{"game": 2, "version": "A", "op": "write_rule", "id_or_type": "Unresolved Error", "grade": "good", "why": "Correctly captures taking the placed spatula back out; leave it in the target."}
+{"game": 2, "better": "A", "why": "Only A captured the game mistake."}
+{"game": 3, "version": "A", "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "Search drawers first is overfit; rest is generic."}
+{"game": 3, "version": "B", "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "Search drawers first is overfit; generic."}
+{"game": 3, "version": "B", "op": "write_rule", "id_or_type": "Special Phenomenon", "grade": "weak", "why": "True but trivial; duplicates the open-container rule."}
+{"game": 3, "better": "tie", "why": "Both vague and equivalent."}
+{"game": 4, "version": "A", "op": "note", "id_or_type": "rule_6", "grade": "wrong", "why": "Note describes an examine loop, not the closed-container rule."}
+{"game": 4, "version": "B", "op": "write_rule", "id_or_type": "Unresolved Error", "grade": "wrong", "why": "Heating uses the microwave, not placing on a stoveburner."}
+{"game": 4, "better": "tie", "why": "Both wrong."}
+{"game": 5, "version": "A", "op": "note", "id_or_type": "rule_5", "grade": "good", "why": "Accurately says object was on a shelf, not a drawer."}
+{"game": 5, "version": "B", "op": "note", "id_or_type": "rule_5", "grade": "good", "why": "Accurately says drawers-first was not needed."}
+{"game": 5, "version": "B", "op": "note", "id_or_type": "rule_6", "grade": "weak", "why": "True but only says not tested."}
+{"game": 5, "better": "tie", "why": "Both accurate on rule_5."}
+{"game": 6, "version": "A", "op": "note", "id_or_type": "rule_1", "grade": "weak", "why": "Vague blame; game showed long search never finding a plate."}
+{"game": 6, "version": "A", "op": "note", "id_or_type": "rule_6", "grade": "good", "why": "Correctly opened containers while searching."}
+{"game": 6, "better": "B", "why": "Vague rule_1 note is mildly misleading; B did nothing."}
+{"game": 7, "version": "A", "op": "note", "id_or_type": "rule_1", "grade": "good", "why": "Accurate summary of searching then taking soapbar."}
+{"game": 7, "version": "A", "op": "note", "id_or_type": "rule_6", "grade": "good", "why": "Cabinets 2 and 3 were opened."}
+{"game": 7, "better": "tie", "why": "Harmless confirmations versus nothing."}
+{"game": 8, "version": "A", "op": "write_rule", "id_or_type": "Corrected Error", "grade": "good", "why": "Correct: go to target before move; grounded in refusals."}
+{"game": 8, "version": "A", "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "Overfit to desk and shelf."}
+{"game": 8, "version": "B", "op": "write_rule", "id_or_type": "Corrected Error", "grade": "good", "why": "Correct and general: go to target before moving."}
+{"game": 8, "version": "B", "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "Overfit to start location; generic."}
+{"game": 8, "better": "tie", "why": "Near identical."}
+{"game": 9, "version": "A", "op": "note", "id_or_type": "rule_5", "grade": "wrong", "why": "Claim unsupported; drawer search was reasonable, object never found."}
+{"game": 9, "version": "B", "op": "note", "id_or_type": "rule_6", "grade": "weak", "why": "True but trivial."}
+{"game": 9, "better": "B", "why": "A note misdiagnoses the failure."}
+{"game": 10, "version": "A", "op": "note", "id_or_type": "rule_5", "grade": "good", "why": "Accurately notes empty drawers wasted steps; statue was on tvstand."}
+{"game": 10, "version": "B", "op": "note", "id_or_type": "rule_5", "grade": "weak", "why": "Describes events without judging the rule."}
+{"game": 10, "version": "B", "op": "note", "id_or_type": "rule_6", "grade": "weak", "why": "True but trivial."}
+{"game": 10, "better": "A", "why": "A judged the rule using this game."}
+{"game": 11, "version": "A", "op": "write_rule", "id_or_type": "Corrected Error", "grade": "weak", "why": "Taking unrelated laptop is real, but surfaces-before-containers is dubious."}
+{"game": 11, "better": "tie", "why": "A partly useful, partly dubious; B nothing."}
+{"game": 12, "version": "A", "op": "write_rule", "id_or_type": "Corrected Error", "grade": "wrong", "why": "Containers must be opened to find objects; misleading."}
+{"game": 12, "version": "B", "op": "write_rule", "id_or_type": "Corrected Error", "grade": "wrong", "why": "Cannot pick up object before finding it; nonsensical."}
+{"game": 12, "better": "tie", "why": "Both wrong."}
+{"game": 13, "version": "A", "op": "note", "id_or_type": "rule_5", "grade": "weak", "why": "Drawers were empty; object on countertop, so not confirming."}
+{"game": 13, "version": "A", "op": "note", "id_or_type": "rule_6", "grade": "good", "why": "Drawers were opened."}
+{"game": 13, "version": "B", "op": "note", "id_or_type": "rule_5", "grade": "weak", "why": "Drawers were empty; not really confirming."}
+{"game": 13, "version": "B", "op": "note", "id_or_type": "rule_6", "grade": "good", "why": "Accurate."}
+{"game": 13, "better": "tie", "why": "Equivalent."}
+{"game": 14, "version": "A", "op": "note", "id_or_type": "rule_8", "grade": "wrong", "why": "Agent did search drawers; claim never searched is false."}
+{"game": 14, "version": "A", "op": "note", "id_or_type": "rule_9", "grade": "wrong", "why": "Copied text; unrelated to the rule."}
+{"game": 14, "better": "B", "why": "A wrote two wrong notes."}
+{"game": 15, "version": "A", "op": "note", "id_or_type": "rule_1", "grade": "good", "why": "Accurate confirmation."}
+{"game": 15, "version": "A", "op": "note", "id_or_type": "rule_6", "grade": "good", "why": "Accurate."}
+{"game": 15, "version": "B", "op": "note", "id_or_type": "rule_1", "grade": "good", "why": "Accurate confirmation."}
+{"game": 15, "version": "B", "op": "write_rule", "id_or_type": "Special Phenomenon", "grade": "wrong", "why": "Containers before surfaces misleads; object was on countertop."}
+{"game": 15, "better": "A", "why": "B added a misleading rule."}
+{"game": 16, "version": "A", "op": "note", "id_or_type": "rule_10", "grade": "wrong", "why": "Describes a successful retry not shown; misreports the game."}
+{"game": 16, "better": "B", "why": "A note describes another attempt."}
+{"game": 17, "version": "A", "op": "note", "id_or_type": "rule_6", "grade": "weak", "why": "Generic, not tied to this game."}
+{"game": 17, "version": "B", "op": "note", "id_or_type": "rule_5", "grade": "good", "why": "Notes dresser surface never checked while drawer-searching."}
+{"game": 17, "better": "B", "why": "B gave a game-specific lesson."}
+{"game": 18, "version": "A", "op": "note", "id_or_type": "rule_1", "grade": "good", "why": "Accurate."}
+{"game": 18, "version": "A", "op": "note", "id_or_type": "rule_6", "grade": "good", "why": "Accurate."}
+{"game": 18, "version": "A", "op": "note", "id_or_type": "rule_14", "grade": "good", "why": "Accurate."}
+{"game": 18, "version": "B", "op": "note", "id_or_type": "rule_1", "grade": "good", "why": "Accurate."}
+{"game": 18, "version": "B", "op": "note", "id_or_type": "rule_6", "grade": "good", "why": "Accurate."}
+{"game": 18, "version": "B", "op": "note", "id_or_type": "rule_14", "grade": "good", "why": "Accurate."}
+{"game": 18, "better": "tie", "why": "Equivalent."}
+{"game": 19, "version": "B", "op": "note", "id_or_type": "rule_10", "grade": "weak", "why": "Plausible but vague; failure was a long fruitless search."}
+{"game": 19, "better": "tie", "why": "Neither captured much."}
+{"game": 20, "better": "tie", "why": "Both missed microwave heating lesson."}
+{"game": 21, "version": "B", "op": "note", "id_or_type": "rule_5", "grade": "good", "why": "Object was in a cabinet, not a drawer."}
+{"game": 21, "version": "B", "op": "note", "id_or_type": "rule_6", "grade": "weak", "why": "Only says no container opened."}
+{"game": 21, "better": "tie", "why": "Minor value either way."}
+{"game": 22, "version": "A", "op": "note", "id_or_type": "rule_10", "grade": "good", "why": "Accurate."}
+{"game": 22, "version": "A", "op": "note", "id_or_type": "rule_11", "grade": "good", "why": "Accurate."}
+{"game": 22, "version": "B", "op": "note", "id_or_type": "rule_10", "grade": "good", "why": "Accurate."}
+{"game": 22, "version": "B", "op": "write_rule", "id_or_type": "Corrected Error", "grade": "wrong", "why": "Overfit and misleading; stoveburner 3 simply did not exist."}
+{"game": 22, "better": "A", "why": "B added a misleading rule."}
+{"game": 23, "version": "A", "op": "note", "id_or_type": "rule_10", "grade": "good", "why": "Accurate."}
+{"game": 23, "version": "A", "op": "note", "id_or_type": "rule_6", "grade": "good", "why": "Fridge and microwave opened."}
+{"game": 23, "better": "tie", "why": "Harmless confirmations."}
+{"game": 24, "version": "A", "op": "note", "id_or_type": "rule_8", "grade": "good", "why": "Notes repeated moving of the same keychain."}
+{"game": 24, "version": "B", "op": "note", "id_or_type": "rule_8", "grade": "good", "why": "Notes repeated moving of the same keychain."}
+{"game": 24, "version": "B", "op": "note", "id_or_type": "rule_13", "grade": "weak", "why": "Dresser rule not relevant to this drawer game."}
+{"game": 24, "better": "A", "why": "B added an irrelevant note."}
+{"game": 25, "version": "B", "op": "note", "id_or_type": "rule_8", "grade": "good", "why": "Accurate."}
+{"game": 25, "version": "B", "op": "note", "id_or_type": "rule_6", "grade": "weak", "why": "Only says no closed container."}
+{"game": 25, "better": "tie", "why": "Little at stake."}
+{"game": 26, "version": "A", "op": "note", "id_or_type": "rule_5", "grade": "good", "why": "Object was on handtowelholder, not a drawer."}
+{"game": 26, "version": "A", "op": "note", "id_or_type": "rule_6", "grade": "good", "why": "Cabinet was opened."}
+{"game": 26, "better": "tie", "why": "Harmless accurate notes."}
+{"game": 27, "version": "A", "op": "write_rule", "id_or_type": "Corrected Error", "grade": "weak", "why": "Trivial duplicate of the open-container rule."}
+{"game": 27, "version": "A", "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "Generic."}
+{"game": 27, "version": "B", "op": "write_rule", "id_or_type": "Corrected Error", "grade": "wrong", "why": "Going to a container does not require opening it."}
+{"game": 27, "version": "B", "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "Generic."}
+{"game": 27, "better": "A", "why": "B rule is wrong."}
+{"game": 28, "version": "B", "op": "note", "id_or_type": "rule_1", "grade": "good", "why": "Accurate."}
+{"game": 28, "version": "B", "op": "note", "id_or_type": "rule_6", "grade": "good", "why": "Accurate."}
+{"game": 28, "version": "B", "op": "note", "id_or_type": "rule_14", "grade": "wrong", "why": "Target was sidetable, not countertop 1."}
+{"game": 28, "better": "tie", "why": "B has one wrong note, mostly good."}
+{"game": 29, "better": "tie", "why": "Both nothing."}
+{"game": 30, "better": "tie", "why": "Both missed the rejected-navigation loop."}
+{"game": 31, "version": "A", "op": "note", "id_or_type": "rule_8", "grade": "wrong", "why": "Moving first item early is fine; real error was re-taking the placed phone."}
+{"game": 31, "version": "A", "op": "update_note", "id_or_type": "rule_13", "grade": "weak", "why": "Minor rewording of an unrelated dresser rule."}
+{"game": 31, "version": "B", "op": "note", "id_or_type": "rule_8", "grade": "wrong", "why": "Same misdiagnosis."}
+{"game": 31, "version": "B", "op": "note", "id_or_type": "rule_13", "grade": "wrong", "why": "Dresser rule unrelated; misdiagnoses."}
+{"game": 31, "better": "A", "why": "Both misdiagnose; B had two wrong."}
+{"game": 32, "version": "A", "op": "note", "id_or_type": "rule_10", "grade": "good", "why": "Accurate."}
+{"game": 32, "version": "A", "op": "note", "id_or_type": "rule_11", "grade": "good", "why": "Accurate."}
+{"game": 32, "version": "B", "op": "note", "id_or_type": "rule_10", "grade": "good", "why": "Accurate."}
+{"game": 32, "better": "tie", "why": "Equivalent."}
+{"game": 33, "version": "B", "op": "note", "id_or_type": "rule_1", "grade": "weak", "why": "Vague claim rule is incomplete."}
+{"game": 33, "version": "B", "op": "note", "id_or_type": "rule_14", "grade": "weak", "why": "Cabinets were empty; confirmation dubious."}
+{"game": 33, "better": "A", "why": "B notes are vague."}
+{"game": 34, "version": "A", "op": "write_rule", "id_or_type": "Corrected Error", "grade": "weak", "why": "Vague."}
+{"game": 34, "version": "B", "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "Generic."}
+{"game": 34, "version": "B", "op": "write_rule", "id_or_type": "Corrected Error", "grade": "wrong", "why": "Opening containers is needed to find objects; misleading."}
+{"game": 34, "better": "A", "why": "B added a misleading rule."}
+{"game": 35, "version": "A", "op": "note", "id_or_type": "rule_8", "grade": "good", "why": "Accurate."}
+{"game": 35, "version": "B", "op": "note", "id_or_type": "rule_8", "grade": "good", "why": "Accurate."}
+{"game": 35, "version": "B", "op": "note", "id_or_type": "rule_13", "grade": "good", "why": "Accurate."}
+{"game": 35, "better": "tie", "why": "Equivalent."}
+{"game": 36, "version": "A", "op": "note", "id_or_type": "rule_14", "grade": "good", "why": "Accurate."}
+{"game": 36, "version": "B", "op": "note", "id_or_type": "rule_1", "grade": "good", "why": "Accurate."}
+{"game": 36, "version": "B", "op": "note", "id_or_type": "rule_14", "grade": "good", "why": "Accurate."}
+{"game": 36, "better": "tie", "why": "Equivalent."}
+{"game": 37, "version": "A", "op": "note", "id_or_type": "rule_10", "grade": "good", "why": "Accurate."}
+{"game": 37, "version": "A", "op": "note", "id_or_type": "rule_11", "grade": "good", "why": "Accurate."}
+{"game": 37, "version": "B", "op": "note", "id_or_type": "rule_10", "grade": "good", "why": "Accurate."}
+{"game": 37, "version": "B", "op": "note", "id_or_type": "rule_6", "grade": "good", "why": "Fridge opened before cooling."}
+{"game": 37, "better": "tie", "why": "Equivalent."}
+{"game": 38, "version": "A", "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "Says go to the desk; lamp was at dresser."}
+{"game": 38, "better": "B", "why": "Nothing beats a slightly wrong rule."}
+{"game": 39, "version": "A", "op": "note", "id_or_type": "rule_8", "grade": "good", "why": "Accurate."}
+{"game": 39, "version": "A", "op": "note", "id_or_type": "rule_6", "grade": "good", "why": "Accurate."}
+{"game": 39, "version": "B", "op": "note", "id_or_type": "rule_8", "grade": "good", "why": "Accurate."}
+{"game": 39, "version": "B", "op": "note", "id_or_type": "rule_6", "grade": "good", "why": "Accurate."}
+{"game": 39, "better": "tie", "why": "Equivalent."}
+{"game": 40, "version": "A", "op": "note", "id_or_type": "rule_19", "grade": "good", "why": "Accurate order."}
+{"game": 40, "version": "B", "op": "note", "id_or_type": "rule_19", "grade": "good", "why": "Accurate."}
+{"game": 40, "version": "B", "op": "note", "id_or_type": "rule_6", "grade": "weak", "why": "Only says not tested."}
+{"game": 40, "better": "tie", "why": "Equivalent."}
+{"game": 41, "version": "A", "op": "note", "id_or_type": "rule_10", "grade": "wrong", "why": "Claims cup found on diningtable; steps show a mug on countertop."}
+{"game": 41, "version": "A", "op": "note", "id_or_type": "rule_16", "grade": "wrong", "why": "Misjudges rule; unrelated to the game."}
+{"game": 41, "version": "B", "op": "note", "id_or_type": "rule_10", "grade": "wrong", "why": "Claims cup found on diningtable; not in steps."}
+{"game": 41, "better": "B", "why": "A has two wrong notes versus one."}
+{"game": 42, "version": "A", "op": "write_rule", "id_or_type": "Corrected Error", "grade": "good", "why": "Grounded: heat before placing in the cabinet."}
+{"game": 42, "version": "A", "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "Correct heat order but overfit."}
+{"game": 42, "version": "B", "op": "write_rule", "id_or_type": "Success Process", "grade": "weak", "why": "Correct heat order but overfit."}
+{"game": 42, "version": "B", "op": "write_rule", "id_or_type": "Corrected Error", "grade": "weak", "why": "Plausible from rejected examine, but off the key lesson."}
+{"game": 42, "better": "A", "why": "A captured the heat-before-placing lesson."}
+{"game": 43, "version": "A", "op": "write_rule", "id_or_type": "Corrected Error", "grade": "weak", "why": "Right idea but omits microwave; stoveburner is not a heater."}
+{"game": 43, "version": "B", "op": "note", "id_or_type": "rule_21", "grade": "wrong", "why": "Heat command needs with microwave 1; claim is false."}
+{"game": 43, "version": "B", "op": "note", "id_or_type": "rule_15", "grade": "good", "why": "Place fails; heating uses microwave."}
+{"game": 43, "better": "A", "why": "B contains a wrong note."}
+{"game": 44, "version": "A", "op": "write_rule", "id_or_type": "Corrected Error", "grade": "wrong", "why": "Move was rejected; heating needs microwave, not stoveburner."}
+{"game": 44, "version": "B", "op": "note", "id_or_type": "rule_15", "grade": "wrong", "why": "Move to stoveburner was also rejected; misleading."}
+{"game": 44, "better": "tie", "why": "Both missed microwave heating."}
+{"game": 45, "version": "B", "op": "note", "id_or_type": "rule_8", "grade": "weak", "why": "Speculative about second laptop location."}
+{"game": 45, "version": "B", "op": "note", "id_or_type": "rule_13", "grade": "wrong", "why": "Dresser rule irrelevant; claim speculative."}
+{"game": 45, "better": "A", "why": "Nothing beats speculative notes."}
+{"game": 46, "version": "A", "op": "note", "id_or_type": "rule_18", "grade": "good", "why": "Watch found in first drawer without examining target."}
+{"game": 46, "version": "A", "op": "note", "id_or_type": "rule_6", "grade": "good", "why": "Accurate."}
+{"game": 46, "version": "B", "op": "note", "id_or_type": "rule_18", "grade": "wrong", "why": "No examine step occurred; claim false."}
+{"game": 46, "better": "A", "why": "B misdescribes the game."}
+{"game": 47, "version": "A", "op": "note", "id_or_type": "rule_1", "grade": "good", "why": "Accurate."}
+{"game": 47, "version": "A", "op": "note", "id_or_type": "rule_14", "grade": "good", "why": "Drawers searched before toilet."}
+{"game": 47, "version": "B", "op": "note", "id_or_type": "rule_1", "grade": "good", "why": "Accurate."}
+{"game": 47, "version": "B", "op": "note", "id_or_type": "rule_14", "grade": "weak", "why": "Agent visited sinkbasin first; imprecise."}
+{"game": 47, "better": "A", "why": "Slightly more accurate notes."}
