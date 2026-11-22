@@ -1,0 +1,224 @@
+{
+  "version": 2,
+  "comparisons": [
+    {
+      "id": "heat-mug",
+      "tab": "Heat a mug",
+      "title": "Same goal. Different heating strategies.",
+      "goal": "Heat a mug and put it in a cabinet.",
+      "kind": "Condition comparison",
+      "left": {
+        "id": "pair-heat-mug-cabinet-C",
+        "source_file": "examples/episodes/paired/pair-heat-mug-cabinet.json",
+        "condition": "C",
+        "label": "C \u00b7 No memory",
+        "phase": "Evaluation \u00b7 old-pilot-9b-v1"
+      },
+      "right": {
+        "id": "pair-heat-mug-cabinet-E",
+        "source_file": "examples/episodes/paired/pair-heat-mug-cabinet.json",
+        "condition": "E",
+        "label": "E \u00b7 Rule library",
+        "phase": "Evaluation \u00b7 check-e"
+      },
+      "changes": [
+        {
+          "label": "Memory available",
+          "left": "No rule manual",
+          "right": "One learned navigation correction"
+        },
+        {
+          "label": "Heating strategy",
+          "left": "Checks stoveburners; no heating action",
+          "right": "Uses the microwave, then the cabinet"
+        },
+        {
+          "label": "Recorded outcome",
+          "left": "Goal not met in 30 actions",
+          "right": "Goal met in 8 actions"
+        }
+      ],
+      "interpretation": "These are separate C and E evaluations of the same task instance. The microwave route appears in E's plan; the shown rule concerns navigation after heating. This pair illustrates behavior, not the isolated effect of that rule.",
+      "beats": [
+        {
+          "label": "Start",
+          "left": 0,
+          "right": 0,
+          "title": "One goal, the same restored scene",
+          "text": "Both recorded policies must heat a mug and store it in a cabinet."
+        },
+        {
+          "label": "Pick up",
+          "left": 2,
+          "right": 2,
+          "title": "Both agents obtain the mug",
+          "text": "The difference emerges after pickup, rather than from whether the mug can be found."
+        },
+        {
+          "label": "Decision",
+          "left": 3,
+          "right": 3,
+          "title": "The routes diverge",
+          "text": "C goes to a stoveburner. E goes to the microwave."
+        },
+        {
+          "label": "Heat",
+          "left": 8,
+          "right": 5,
+          "title": "A failed placement versus a valid heating command",
+          "text": "C attempts an invalid placement on a stoveburner. E executes heat mug 1 with microwave 1."
+        },
+        {
+          "label": "Outcome",
+          "left": 30,
+          "right": 8,
+          "title": "The outcomes separate",
+          "text": "C uses the full 30-action budget without heating the mug. E satisfies the goal in eight actions."
+        }
+      ]
+    },
+    {
+      "id": "lamp-bowl",
+      "tab": "Bowl & lamp",
+      "title": "Same goal. Fourteen actions versus three.",
+      "goal": "Hold the bowl with the desk lamp turned on.",
+      "kind": "Condition comparison",
+      "left": {
+        "id": "c-typical-win-look",
+        "source_file": "examples/episodes/c/c-typical-win-look.json",
+        "label": "C \u00b7 No memory",
+        "phase": "Evaluation \u00b7 old-pilot-9b-v1"
+      },
+      "right": {
+        "id": "e-win-look-3-steps",
+        "source_file": "examples/episodes/e/e-win-look-3-steps.json",
+        "label": "E \u00b7 Rule library",
+        "phase": "Evaluation \u00b7 check-e"
+      },
+      "changes": [
+        {
+          "label": "Memory available",
+          "left": "No rule manual",
+          "right": "Two retrieved rules"
+        },
+        {
+          "label": "Handling the bowl",
+          "left": "Puts it down, then repeatedly examines the desk",
+          "right": "Keeps holding it and switches on the lamp"
+        },
+        {
+          "label": "Recorded outcome",
+          "left": "Goal met in 14 actions",
+          "right": "Goal met in 3 actions"
+        }
+      ],
+      "interpretation": "Both evaluations succeed on the exact same task instance. The visible difference is efficiency: C takes 11 additional actions. The simulator's goal requires holding the bowl with the lamp on; repeated examine commands are unnecessary.",
+      "beats": [
+        {
+          "label": "Start",
+          "left": 0,
+          "right": 0,
+          "title": "The same bowl and lamp task",
+          "text": "The objective is satisfied when the agent is holding the bowl and the desk lamp is on."
+        },
+        {
+          "label": "Pick up",
+          "left": 2,
+          "right": 2,
+          "title": "Both pick up the bowl",
+          "text": "At this point both policies have the object needed for the goal."
+        },
+        {
+          "label": "Decision",
+          "left": 3,
+          "right": 3,
+          "title": "C puts it down; E turns on the lamp",
+          "text": "E completes the task. C has put the bowl back on the desk, so turning the lamp on next is insufficient."
+        },
+        {
+          "label": "Extra work",
+          "left": 10,
+          "right": 3,
+          "title": "E is finished while C keeps examining",
+          "text": "C repeatedly examines the desk with empty hands. E's completed replay holds its final frame."
+        },
+        {
+          "label": "Outcome",
+          "left": 14,
+          "right": 3,
+          "title": "Both win, with an 11-action difference",
+          "text": "C eventually picks the bowl up again with the lamp already on. E reaches that state directly in three actions."
+        }
+      ]
+    },
+    {
+      "id": "cloth-retry",
+      "tab": "Reflect & retry",
+      "title": "Same task. A failed attempt, then a successful retry.",
+      "goal": "Find the cloth and put it in a drawer.",
+      "kind": "Practice progression",
+      "left": {
+        "id": "cloth-initial-attempt",
+        "source_file": "examples/library/builder/bx-02-retry-win-writes-recipe.json",
+        "attempt": 0,
+        "label": "Initial attempt",
+        "phase": "Practice \u00b7 initial attempt \u00b7 practice-b"
+      },
+      "right": {
+        "id": "cloth-retry-1",
+        "source_file": "examples/library/builder/bx-02-retry-win-writes-recipe.json",
+        "attempt": 1,
+        "label": "Retry after reflection",
+        "phase": "Practice \u00b7 retry 1 \u00b7 practice-b"
+      },
+      "changes": [
+        {
+          "label": "Prompt context",
+          "left": "No reflection from this attempt yet",
+          "right": "Reflection on the failed search is supplied"
+        },
+        {
+          "label": "Rule manual during the attempt",
+          "left": "No relevant rules shown",
+          "right": "The manual stays fixed during the retry"
+        },
+        {
+          "label": "Recorded outcome",
+          "left": "Goal not met in 30 actions",
+          "right": "Goal met in 10 actions"
+        }
+      ],
+      "interpretation": "This is a genuine chronological first-attempt/retry sequence for one practice game. Reflection is added before the retry. The Builder writes a new Success Process after the retry succeeds; that new rule did not cause this retry's win.",
+      "beats": [
+        {
+          "label": "Start",
+          "left": 0,
+          "right": 0,
+          "title": "The same practice game is reset",
+          "text": "Both attempts begin from the same task scene and need to find a cloth for the drawer."
+        },
+        {
+          "label": "Reflect",
+          "left": 30,
+          "right": 0,
+          "title": "Failure produces a reflection",
+          "text": "The first attempt ends without finding the cloth. Its reflection is supplied when the retry starts."
+        },
+        {
+          "label": "Find cloth",
+          "left": 30,
+          "right": 7,
+          "title": "The retry finds and picks up the cloth",
+          "text": "The retry searches several receptacles, finds the cloth at the toilet, and takes it."
+        },
+        {
+          "label": "Outcome",
+          "left": 30,
+          "right": 10,
+          "title": "The retry succeeds and the Builder records a procedure",
+          "text": "After placing the cloth in the drawer, the Builder adds a new Success Process to the rule manual."
+        }
+      ]
+    }
+  ]
+}

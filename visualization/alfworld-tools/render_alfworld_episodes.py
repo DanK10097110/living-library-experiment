@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 from types import SimpleNamespace
 from collections import Counter
+from replay_cases import load_cases
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--repo', type=Path, required=True)
@@ -13,6 +14,8 @@ parser.add_argument('--data-root', type=Path, required=True)
 parser.add_argument('--cache-root', type=Path, required=True)
 parser.add_argument('--output', type=Path, required=True)
 parser.add_argument('--only', help='Regenerate one saved episode ID, retaining other captures.')
+parser.add_argument('--selection', type=Path, default=Path(__file__).with_name('alfworld-comparisons.json'))
+parser.add_argument('--reuse', action='store_true', help='Reuse captures whose source record hash matches.')
 args = parser.parse_args()
 args.data_root = args.data_root.resolve()
 args.output = args.output.resolve()
@@ -213,23 +216,46 @@ def state_summary(env, aliases):
     }
 
 
-selected = []
-for rel in ['paired/pair-heat-mug-cabinet.json',
-            'e/e-win-clean-fast.json', 'e/e-win-look-3-steps.json']:
-    path = args.repo / 'examples/episodes' / rel
-    record = json.loads(path.read_text())
-    for ep in ([record['C'], record['E']] if 'C' in record else [record]):
-        selected.append((ep, str(path.relative_to(args.repo))))
-
+manifest, selected = load_cases(args.repo, args.selection)
+selected_ids = {ep['id'] for ep, _ in selected}
 results = []
-if args.only and (args.output/'replay.json').exists():
+if (args.only or args.reuse) and (args.output/'replay.json').exists():
     results = [r for r in json.loads((args.output/'replay.json').read_text())['episodes']
-               if r['id'] != args.only]
+               if r['id'] in selected_ids and r['id'] != args.only]
+
+
+def enrich(result, episode):
+    for key in ['comparison_id', 'comparison_side', 'display_label', 'phase_label',
+                'reflection', 'rule_changes_after']:
+        result[key] = episode.get(key)
+    return result
+
+
+def save_results():
+    results.sort(key=lambda item: next(i for i, (r, _) in enumerate(selected)
+                                      if r['id'] == item['id']))
+    (args.output/'replay.json').write_text(json.dumps({
+        'renderer': 'ALFWorld 0.4.2 / AI2-THOR 2.1.0',
+        'mode': 'Replay of recorded actions; no new language-model inference.',
+        'resolution': [800, 600],
+        'alignment': 'TextWorld aliases mapped to physical IDs; oracle viewpoints and official forceAction object interaction. Not a vision-policy evaluation.',
+        'comparisons': manifest['comparisons'],
+        'episodes': results,
+    }, indent=2))
+
+
 env = CaptureThorEnv(player_screen_width=800, player_screen_height=600)
 try:
     for ep, source_file in selected:
         if args.only and ep['id'] != args.only:
             continue
+        cached = next((r for r in results if r['id'] == ep['id']), None)
+        source_hash = hashlib.sha256((args.repo/source_file).read_bytes()).hexdigest()
+        if args.reuse and cached and cached['source_sha256'] == source_hash:
+            enrich(cached, ep)
+            print('REUSED', ep['id'], flush=True)
+            continue
+        results[:] = [r for r in results if r['id'] != ep['id']]
         print('\nEPISODE', ep['id'], flush=True)
         scene_root = args.data_root / ep['game_id']
         gamefile = scene_root / 'game.tw-pddl'
@@ -286,6 +312,7 @@ try:
             episode_dir.mkdir(parents=True, exist_ok=True)
             initial_frame = episode_dir / 'initial.jpg'
             Image.fromarray(env.last_event.frame).save(initial_frame, quality=90)
+            initial_state = state_summary(env, aliases)
             env.capture_dir = episode_dir
             env.captured = []
             steps = []
@@ -308,7 +335,7 @@ try:
                     'step': rec['step'], 'action': original,
                     'controller_action': command,
                     'recorded_valid': rec['valid'], 'textworld_valid': admissible,
-                    'recorded_observation': rec['observation'],
+                    'recorded_observation': rec.get('observation'),
                     'textworld_observation': tw_state['feedback'],
                     'thor_observation': feedback,
                     'textworld_won': bool(tw_state['won']),
@@ -331,26 +358,21 @@ try:
                 'alias_adjustments': alias_adjustments,
                 'thor_won': bool(env.get_goal_satisfied()),
                 'initial_frame': str(initial_frame.relative_to(args.output)),
+                'initial_state': initial_state,
                 'plan': ep.get('plan', []), 'rules': ep.get('rules_shown', []),
-                'recorded_model_calls': ep['model_calls'],
+                'recorded_model_calls': ep.get('model_calls'),
                 'recorded_invalid_actions': ep['invalid_actions'],
                 'steps': steps,
             }
+            enrich(result, ep)
             (episode_dir/'replay.json').write_text(json.dumps(result, indent=2))
             results.append(result)
-            results.sort(key=lambda item: next(i for i, (r, _) in enumerate(selected)
-                                               if r['id'] == item['id']))
-            (args.output/'replay.json').write_text(json.dumps({
-                'renderer': 'ALFWorld 0.4.2 / AI2-THOR 2.1.0',
-                'mode': 'Replay of recorded actions; no new language-model inference.',
-                'resolution': [800, 600],
-                'alignment': 'TextWorld aliases mapped to physical IDs; oracle viewpoints and official forceAction object interaction. Not a vision-policy evaluation.',
-                'episodes': results,
-            }, indent=2))
+            save_results()
             print('DONE:', ep['id'], 'recorded=', ep['success'],
                   'TextWorld=', tw_state['won'], 'THOR=', result['thor_won'], flush=True)
         finally:
             tw.close()
+    save_results()
 finally:
     env.capture_dir = None
     env.stop()

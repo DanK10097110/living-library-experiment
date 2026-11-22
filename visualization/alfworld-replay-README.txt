@@ -1,84 +1,93 @@
-ALFWORLD 3D EPISODE REPLAYS
-==========================
+MATCHED ALFWORLD TASK COMPARISONS
+================================
 
 Open alfworld-episodes.html in a browser. It is self-contained and works offline.
-Use Full screen when presenting the interactive demo.
-The demo, controls, and captions are all in English.
+The demo and every control, caption, and explanation are in English.
 
-Four recorded episodes are replayed:
-  C / heating a mug: 30 actions, goal not met.
-  E / heating a mug: 8 actions, goal met.
-  E / cleaning a butter knife: 6 actions, goal met.
-  E / holding a bowl with a desk lamp on: 3 actions, goal met.
+The three tabs each compare two recordings of the exact same task instance:
 
-Controls
---------
-Play / Pause or Space: automatic playback.
-Left / Right: previous or next high-level action.
-Timeline: jump directly to an action.
-Compare C / E or C: view the heating policies side by side.
-Action detail: inspect the physical subactions inside commands such as heat.
-Full screen or F: presentation mode.
-Replay notes: source, engine, and interpretation details.
+1. Heat a mug: C (no memory) versus E (rule library).
+   C: goal not met in 30 actions. E: goal met in 8 actions.
+   The guided checkpoints show pickup, the stove/microwave decision, heating,
+   and the two final outcomes. The one rule shown to E concerns navigation;
+   the microwave route appears in the planner's output.
 
-What is recorded and what is regenerated
----------------------------------------
-The policy actions, original outcomes, and available rules come from examples/.
-These were separate saved experiment runs; this is not the practice-g report.
-RGB images were newly rendered with ALFWorld 0.4.2 / AI2-THOR 2.1.0.
-The official ALFRED scenes and object placements are restored for each replay.
-The same commands are replayed separately in TextWorld. All 47 recorded action
-validity flags and all four final outcomes match that replay. All four final
-3D task outcomes also agree with the saved recordings.
+2. Bowl and lamp: C versus E.
+   Both succeed: C takes 14 actions, E takes 3.
+   The comparison shows C putting the bowl down and repeatedly examining the
+   desk, while E keeps holding the bowl and turns the lamp on directly.
 
-This is an oracle visualization of abstract policy actions. Navigation grounds
-commands using ALFRED teleport viewpoints, including object-focused viewpoints
-for a following pickup. The oracle uses ground-truth entity IDs and the official
-forceAction interaction API; the occluded bowl is grounded this way. This does
-not measure the performance of a new visual perception or navigation policy.
-No new Qwen inference is performed, and no model weights are trained.
+3. Reflect and retry: a chronological first attempt and retry of one practice game.
+   Initial attempt: goal not met in 30 actions. Retry: goal met in 10 actions.
+   The reflection is supplied before the retry. The rule manual is fixed during
+   retries. A new Success Process is written after the retry succeeds, so the
+   new rule is not presented as the cause of that retry's success.
 
-TextWorld and THOR number objects differently. The replay maps canonical
-TextWorld names to physical IDs. TextWorld's "move ... to" is translated to
-the official THOR oracle's equivalent "put ... in". Source command strings
-and translated strings are both preserved. The simulator computes the physical
-goal result. No success flag or physical scene state is fabricated.
+How to present
+--------------
+Side by side is the default. Press Play guided tour to move through meaningful
+decision checkpoints. Checkpoints can align different action numbers, which
+remain visible on each side. The What changed cards identify the input context,
+observed strategy, and recorded result.
 
-Heating expands into several simulator subactions. In this recorded trace the
-microwave is already open, so the oracle's redundant OpenObject subaction can
-fail while subsequent heating and placement still satisfy the physical goal.
+Choose Every action for the complete replays at a shared action index. A replay
+that has finished keeps its final frame visible while the other continues.
 
-alfworld-replay.json records source file hashes, source run IDs, per-action
-observations, validity, engine subactions, physical state summaries, and both
-engines' final goal results. Its frame IDs address images embedded in the HTML.
+Choose One after another to play every action of the first recording, reset the
+scene, then play the second recording. Chapter buttons jump between recordings.
+
+Space: play or pause. Left / Right: step through checkpoints or actions.
+The timeline jumps directly to a position. F: full screen. Speed changes pacing.
+Inspect rules & source records shows the actual rules, reflection, subsequent
+rule update, and exact source paths. How to read this explains the comparisons.
+
+Recording and validation
+------------------------
+Six replays contain 95 recorded actions. Every TextWorld action-validity flag
+and all six final outcomes match the saved source records. The six final 3D
+outcomes also match. Each pair shares the same game ID and game-file SHA-256.
+The two C/E cases are separate evaluation runs, not successive training stages.
+The practice case is a genuine initial-attempt/retry progression.
+
+RGB images are real renders from ALFWorld 0.4.2 / AI2-THOR 2.1.0. Official ALFRED
+object placements are restored for each replay. The oracle grounds abstract
+commands using physical entity IDs, teleport viewpoints, and the official
+forceAction API, including occluded objects. This visualizes recorded abstract
+policies; it does not evaluate a new perception or navigation policy.
+
+TextWorld names are mapped to physical IDs; its move ... to command is expressed
+as the THOR controller's equivalent put ... in command. Both strings are kept.
+Simulator task checks determine the physical goal result. No new model
+inference, weight training, or video recording is performed.
+
+These selected cases illustrate behavior rather than establish an overall
+benchmark result or a causal effect of an individual rule.
+
+Files
+-----
+alfworld-episodes.html: complete interactive demo with embedded images.
+alfworld-replay.json: matched cases, source hashes, action records, and outcomes.
+alfworld-tools/alfworld-comparisons.json: source selection and guided checkpoints.
+alfworld-tools/replay_cases.py: adapters for episode and practice/retry records.
+alfworld-tools/render_alfworld_episodes.py: engine replay and capture.
+alfworld-tools/build_alfworld_demo.py: self-contained demo packaging.
+alfworld-tools/alfworld-demo.template.html: comparison interface.
+alfworld-tools/requirements.txt: simulator dependencies.
 
 Reproduce from the repository root
 ----------------------------------
-1. Create a Python 3.11 environment and install:
-   python3 -m venv .venv-alfworld
-   .venv-alfworld/bin/python -m pip install -r visualization/alfworld-tools/requirements.txt
+python3 -m venv .venv-alfworld
+.venv-alfworld/bin/python -m pip install -r visualization/alfworld-tools/requirements.txt
+.venv-alfworld/bin/alfworld-download --data-dir work/alfworld-data
+.venv-alfworld/bin/python visualization/alfworld-tools/render_alfworld_episodes.py --repo . --data-root work/alfworld-data/json_2.1.1 --cache-root work/ai2thor-cache --output work/alfworld-captures
+.venv-alfworld/bin/python visualization/alfworld-tools/build_alfworld_demo.py --captures work/alfworld-captures --output visualization
 
-2. Obtain the official ALFWorld data:
-   .venv-alfworld/bin/alfworld-download --data-dir work/alfworld-data
-   The standard downloader also downloads detector weights. This oracle replay
-   does not use those weights. Only the three scenes referenced by the selected
-   examples are needed by the renderer.
-
-3. Capture the episodes:
-   .venv-alfworld/bin/python visualization/alfworld-tools/render_alfworld_episodes.py --repo . --data-root work/alfworld-data/json_2.1.1 --cache-root work/ai2thor-cache --output work/alfworld-captures
-
-4. Build the interactive demo:
-   .venv-alfworld/bin/python visualization/alfworld-tools/build_alfworld_demo.py --captures work/alfworld-captures --output visualization
+Add --reuse to the renderer to reuse captures with unchanged source hashes.
+Use --only EPISODE_ID to regenerate a specific selected replay. --selection
+accepts another compatible comparison manifest.
 
 The first render downloads the official AI2-THOR build into --cache-root and
-checks its upstream SHA-256. On Apple Silicon, the legacy macOS Unity build
-runs through Rosetta. Rendering needs a compatible graphics session; viewing
-the finished HTML demo does not need ALFWorld installed.
+checks its upstream SHA-256. The legacy macOS build runs through Rosetta on
+Apple Silicon. Viewing the finished demo does not need the simulator installed.
 
-Upstream engine and data:
-https://github.com/alfworld/alfworld
-
-Recorded examples:
-examples/episodes/paired/pair-heat-mug-cabinet.json
-examples/episodes/e/e-win-clean-fast.json
-examples/episodes/e/e-win-look-3-steps.json
+Engine and data: https://github.com/alfworld/alfworld
