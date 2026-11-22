@@ -13,7 +13,18 @@ parser.add_argument('--template', type=Path, default=Path(__file__).with_name('a
 args = parser.parse_args()
 args.output.mkdir(parents=True, exist_ok=True)
 data = json.loads((args.captures/'replay.json').read_text())
-assert len(data['episodes']) == 4, 'Expected four complete episode replays.'
+assert data.get('comparisons'), 'Expected matched comparison definitions.'
+by_id = {ep['id']: ep for ep in data['episodes']}
+for comparison in data['comparisons']:
+    left, right = [by_id[comparison[side]['id']] for side in ('left', 'right')]
+    assert left['game_id'] == right['game_id'], comparison['id']
+    assert left['game_sha256'] == right['game_sha256'], comparison['id']
+    for beat in comparison['beats']:
+        assert 0 <= beat['left'] <= len(left['steps']), comparison['id']
+        assert 0 <= beat['right'] <= len(right['steps']), comparison['id']
+for episode in data['episodes']:
+    assert episode['recorded_won'] == episode['textworld_won'] == episode['thor_won'], episode['id']
+    assert all(step['recorded_valid'] == step['textworld_valid'] for step in episode['steps']), episode['id']
 for ep in data['episodes']:
     ep['focus_objects'] = sorted({s['action'][5:].split(' from ', 1)[0]
                                  for s in ep['steps'] if s['action'].startswith('take ')})
@@ -31,7 +42,7 @@ for ep in data['episodes']:
             deduplicated[digest] = len(frames)
             frames.append('data:image/jpeg;base64,'+base64.b64encode(raw).decode())
         images[name] = deduplicated[digest]
-payload = json.dumps({'episodes': data['episodes'], 'images': images, 'frames': frames}, separators=(',', ':')).replace('</', '<\\/')
+payload = json.dumps({'episodes': data['episodes'], 'comparisons': data['comparisons'], 'images': images, 'frames': frames}, separators=(',', ':')).replace('</', '<\\/')
 template = args.template.read_text()
 assert template.count('__REPLAY_DATA__') == 1
 html = template.replace('__REPLAY_DATA__', payload)

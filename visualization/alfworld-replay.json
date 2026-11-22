@@ -6,6 +6,227 @@
     600
   ],
   "alignment": "TextWorld aliases mapped to physical IDs; oracle viewpoints and official forceAction object interaction. Not a vision-policy evaluation.",
+  "comparisons": [
+    {
+      "id": "heat-mug",
+      "tab": "Heat a mug",
+      "title": "Same goal. Different heating strategies.",
+      "goal": "Heat a mug and put it in a cabinet.",
+      "kind": "Condition comparison",
+      "left": {
+        "id": "pair-heat-mug-cabinet-C",
+        "source_file": "examples/episodes/paired/pair-heat-mug-cabinet.json",
+        "condition": "C",
+        "label": "C \u00b7 No memory",
+        "phase": "Evaluation \u00b7 old-pilot-9b-v1"
+      },
+      "right": {
+        "id": "pair-heat-mug-cabinet-E",
+        "source_file": "examples/episodes/paired/pair-heat-mug-cabinet.json",
+        "condition": "E",
+        "label": "E \u00b7 Rule library",
+        "phase": "Evaluation \u00b7 check-e"
+      },
+      "changes": [
+        {
+          "label": "Memory available",
+          "left": "No rule manual",
+          "right": "One learned navigation correction"
+        },
+        {
+          "label": "Heating strategy",
+          "left": "Checks stoveburners; no heating action",
+          "right": "Uses the microwave, then the cabinet"
+        },
+        {
+          "label": "Recorded outcome",
+          "left": "Goal not met in 30 actions",
+          "right": "Goal met in 8 actions"
+        }
+      ],
+      "interpretation": "These are separate C and E evaluations of the same task instance. The microwave route appears in E's plan; the shown rule concerns navigation after heating. This pair illustrates behavior, not the isolated effect of that rule.",
+      "beats": [
+        {
+          "label": "Start",
+          "left": 0,
+          "right": 0,
+          "title": "One goal, the same restored scene",
+          "text": "Both recorded policies must heat a mug and store it in a cabinet."
+        },
+        {
+          "label": "Pick up",
+          "left": 2,
+          "right": 2,
+          "title": "Both agents obtain the mug",
+          "text": "The difference emerges after pickup, rather than from whether the mug can be found."
+        },
+        {
+          "label": "Decision",
+          "left": 3,
+          "right": 3,
+          "title": "The routes diverge",
+          "text": "C goes to a stoveburner. E goes to the microwave."
+        },
+        {
+          "label": "Heat",
+          "left": 8,
+          "right": 5,
+          "title": "A failed placement versus a valid heating command",
+          "text": "C attempts an invalid placement on a stoveburner. E executes heat mug 1 with microwave 1."
+        },
+        {
+          "label": "Outcome",
+          "left": 30,
+          "right": 8,
+          "title": "The outcomes separate",
+          "text": "C uses the full 30-action budget without heating the mug. E satisfies the goal in eight actions."
+        }
+      ]
+    },
+    {
+      "id": "lamp-bowl",
+      "tab": "Bowl & lamp",
+      "title": "Same goal. Fourteen actions versus three.",
+      "goal": "Hold the bowl with the desk lamp turned on.",
+      "kind": "Condition comparison",
+      "left": {
+        "id": "c-typical-win-look",
+        "source_file": "examples/episodes/c/c-typical-win-look.json",
+        "label": "C \u00b7 No memory",
+        "phase": "Evaluation \u00b7 old-pilot-9b-v1"
+      },
+      "right": {
+        "id": "e-win-look-3-steps",
+        "source_file": "examples/episodes/e/e-win-look-3-steps.json",
+        "label": "E \u00b7 Rule library",
+        "phase": "Evaluation \u00b7 check-e"
+      },
+      "changes": [
+        {
+          "label": "Memory available",
+          "left": "No rule manual",
+          "right": "Two retrieved rules"
+        },
+        {
+          "label": "Handling the bowl",
+          "left": "Puts it down, then repeatedly examines the desk",
+          "right": "Keeps holding it and switches on the lamp"
+        },
+        {
+          "label": "Recorded outcome",
+          "left": "Goal met in 14 actions",
+          "right": "Goal met in 3 actions"
+        }
+      ],
+      "interpretation": "Both evaluations succeed on the exact same task instance. The visible difference is efficiency: C takes 11 additional actions. The simulator's goal requires holding the bowl with the lamp on; repeated examine commands are unnecessary.",
+      "beats": [
+        {
+          "label": "Start",
+          "left": 0,
+          "right": 0,
+          "title": "The same bowl and lamp task",
+          "text": "The objective is satisfied when the agent is holding the bowl and the desk lamp is on."
+        },
+        {
+          "label": "Pick up",
+          "left": 2,
+          "right": 2,
+          "title": "Both pick up the bowl",
+          "text": "At this point both policies have the object needed for the goal."
+        },
+        {
+          "label": "Decision",
+          "left": 3,
+          "right": 3,
+          "title": "C puts it down; E turns on the lamp",
+          "text": "E completes the task. C has put the bowl back on the desk, so turning the lamp on next is insufficient."
+        },
+        {
+          "label": "Extra work",
+          "left": 10,
+          "right": 3,
+          "title": "E is finished while C keeps examining",
+          "text": "C repeatedly examines the desk with empty hands. E's completed replay holds its final frame."
+        },
+        {
+          "label": "Outcome",
+          "left": 14,
+          "right": 3,
+          "title": "Both win, with an 11-action difference",
+          "text": "C eventually picks the bowl up again with the lamp already on. E reaches that state directly in three actions."
+        }
+      ]
+    },
+    {
+      "id": "cloth-retry",
+      "tab": "Reflect & retry",
+      "title": "Same task. A failed attempt, then a successful retry.",
+      "goal": "Find the cloth and put it in a drawer.",
+      "kind": "Practice progression",
+      "left": {
+        "id": "cloth-initial-attempt",
+        "source_file": "examples/library/builder/bx-02-retry-win-writes-recipe.json",
+        "attempt": 0,
+        "label": "Initial attempt",
+        "phase": "Practice \u00b7 initial attempt \u00b7 practice-b"
+      },
+      "right": {
+        "id": "cloth-retry-1",
+        "source_file": "examples/library/builder/bx-02-retry-win-writes-recipe.json",
+        "attempt": 1,
+        "label": "Retry after reflection",
+        "phase": "Practice \u00b7 retry 1 \u00b7 practice-b"
+      },
+      "changes": [
+        {
+          "label": "Prompt context",
+          "left": "No reflection from this attempt yet",
+          "right": "Reflection on the failed search is supplied"
+        },
+        {
+          "label": "Rule manual during the attempt",
+          "left": "No relevant rules shown",
+          "right": "The manual stays fixed during the retry"
+        },
+        {
+          "label": "Recorded outcome",
+          "left": "Goal not met in 30 actions",
+          "right": "Goal met in 10 actions"
+        }
+      ],
+      "interpretation": "This is a genuine chronological first-attempt/retry sequence for one practice game. Reflection is added before the retry. The Builder writes a new Success Process after the retry succeeds; that new rule did not cause this retry's win.",
+      "beats": [
+        {
+          "label": "Start",
+          "left": 0,
+          "right": 0,
+          "title": "The same practice game is reset",
+          "text": "Both attempts begin from the same task scene and need to find a cloth for the drawer."
+        },
+        {
+          "label": "Reflect",
+          "left": 30,
+          "right": 0,
+          "title": "Failure produces a reflection",
+          "text": "The first attempt ends without finding the cloth. Its reflection is supplied when the retry starts."
+        },
+        {
+          "label": "Find cloth",
+          "left": 30,
+          "right": 7,
+          "title": "The retry finds and picks up the cloth",
+          "text": "The retry searches several receptacles, finds the cloth at the toilet, and takes it."
+        },
+        {
+          "label": "Outcome",
+          "left": 30,
+          "right": 10,
+          "title": "The retry succeeds and the Builder records a procedure",
+          "text": "After placing the cloth in the drawer, the Builder adds a new Success Process to the rule manual."
+        }
+      ]
+    }
+  ],
   "episodes": [
     {
       "id": "pair-heat-mug-cabinet-C",
@@ -1056,6 +1277,12 @@
           }
         }
       ],
+      "comparison_id": "heat-mug",
+      "comparison_side": "left",
+      "display_label": "C \u00b7 No memory",
+      "phase_label": "Evaluation \u00b7 old-pilot-9b-v1",
+      "reflection": null,
+      "rule_changes_after": null,
       "focus_objects": [
         "mug 1"
       ]
@@ -1479,104 +1706,73 @@
           }
         }
       ],
+      "comparison_id": "heat-mug",
+      "comparison_side": "right",
+      "display_label": "E \u00b7 Rule library",
+      "phase_label": "Evaluation \u00b7 check-e",
+      "reflection": null,
+      "rule_changes_after": null,
       "focus_objects": [
         "mug 1"
       ]
     },
     {
-      "id": "e-win-clean-fast",
-      "title": "E: clean task won in 6 steps (C needed 18)",
-      "goal": "put a clean butterknife in diningtable.",
-      "condition": "E",
-      "task_kind": "clean then place",
-      "game_id": "valid_seen/pick_clean_then_place_in_recep-ButterKnife-None-DiningTable-16/trial_T20190909_114508_617301",
+      "id": "c-typical-win-look",
+      "title": "C: a look-at-object win that looks accidental",
+      "goal": "examine the bowl with the desklamp.",
+      "condition": "C",
+      "task_kind": "look at object under a lamp",
+      "game_id": "valid_seen/look_at_obj_in_light-Bowl-None-DeskLamp-316/trial_T20190908_230702_962704",
       "source": {
-        "run": "check-e",
-        "stream": "development-E-11",
-        "position": 68,
-        "library": "check-e practice library, frozen (22 entries)"
+        "run": "old-pilot-9b-v1",
+        "stream": "development-C-11",
+        "position": 66
       },
-      "source_file": "examples/episodes/e/e-win-clean-fast.json",
-      "source_sha256": "f9ed51b6a64b15cd026df9ab1f901eb2bd4973a936a61dacf3de2dab472aa399",
-      "game_sha256": "c6f45775d4b4671e477f893e2a6008b6be7d2a37d749203a82eb90b80dbf3f6c",
+      "source_file": "examples/episodes/c/c-typical-win-look.json",
+      "source_sha256": "56f9309fea40d12549307f741a0eebda4620b68977f761b866d5892763b35b8d",
+      "game_sha256": "72176a87fab004089b00c81006bde25dd02767e0bf24ac46e77889d88526d892",
       "recorded_won": true,
       "textworld_won": true,
+      "alias_adjustments": [],
       "thor_won": true,
-      "initial_frame": "e-win-clean-fast/initial.jpg",
-      "plan": [
-        "clean the butterknife 2 with sinkbasin 1",
-        "move the clean butterknife 2 to diningtable 1"
-      ],
-      "rules": [
-        {
-          "id": "rule_1",
-          "type": "Success Process",
-          "task_type": "pick_clean_then_place_in_recep",
-          "alpha": 6,
-          "beta": 3,
-          "mean": 0.67,
-          "visible_to_agent": true,
-          "rule": "When an object must be cleaned and placed: search the object's current location first, clean it with the sinkbasin, then move it to the target location.",
-          "example": "go to bathtubbasin 1, take cloth 1 from bathtubbasin 1, go to sinkbasin 1, clean cloth 1 with sinkbasin 1, go to toilet 1, move cloth 1 to toilet 1",
-          "validation": "This game confirmed the object was found on the countertop, cleaned at the sinkbasin, and moved to the drawer. | This game confirmed the object was found in the fridge, cleaned at the sinkbasin, and moved to the shelf. | This game confirmed the cloth was found in the bathtubbasin, cleaned at the sinkbasin, and moved to the toilet.",
-          "rendered_for_agent": "[Success Process] When an object must be cleaned and placed: search the object's current location first, clean it with the sinkbasin, then move it to the target location. Example: go to bathtubbasin 1, take cloth 1 from bathtubbasin 1, go to sinkbasin 1, clean cloth 1 with sinkbasin 1, go to toilet 1, move cloth 1 to toilet 1",
-          "evidence": {
-            "won": 5,
-            "lost": 2
-          }
+      "initial_frame": "c-typical-win-look/initial.jpg",
+      "initial_state": {
+        "inventory": [],
+        "heated": [],
+        "cleaned": [],
+        "cooled": [],
+        "lights_on": [],
+        "agent_position": {
+          "x": 1.25,
+          "y": 0.901932836,
+          "z": 0.5
         },
-        {
-          "id": "rule_2",
-          "type": "Special Phenomenon",
-          "task_type": "pick_clean_then_place_in_recep",
-          "alpha": 6,
-          "beta": 3,
-          "mean": 0.67,
-          "visible_to_agent": true,
-          "rule": "When placing an object in a container, the container must be opened before moving the object inside.",
-          "example": "go to cabinet 1, open cabinet 1, move winebottle 2 to cabinet 1",
-          "validation": "This game confirmed the cabinet must be opened before moving items into it.",
-          "rendered_for_agent": "[Special Phenomenon] When placing an object in a container, the container must be opened before moving the object inside. Example: go to cabinet 1, open cabinet 1, move winebottle 2 to cabinet 1",
-          "evidence": {
-            "won": 5,
-            "lost": 2
-          }
-        },
-        {
-          "id": "rule_9",
-          "type": "Corrected Error",
-          "task_type": "pick_clean_then_place_in_recep",
-          "alpha": 1,
-          "beta": 1,
-          "mean": 0.5,
-          "visible_to_agent": true,
-          "rule": "When the target object must be found, never open cabinets or drawers first; scan the bathtubbasin and countertops first.",
-          "example": "Agent wasted time opening multiple cabinets without finding the cloth, which was in the bathtubbasin.",
-          "rendered_for_agent": "[Corrected Error] When the target object must be found, never open cabinets or drawers first; scan the bathtubbasin and countertops first. Example: Agent wasted time opening multiple cabinets without finding the cloth, which was in the bathtubbasin.",
-          "evidence": {
-            "won": 0,
-            "lost": 0
-          }
+        "agent_rotation": {
+          "x": 0.0,
+          "y": 270.0,
+          "z": 0.0
         }
-      ],
-      "recorded_model_calls": 8,
+      },
+      "plan": [],
+      "rules": [],
+      "recorded_model_calls": 15,
       "recorded_invalid_actions": 0,
       "steps": [
         {
           "step": 1,
-          "action": "go to countertop 1",
-          "controller_action": "go to countertop 1",
+          "action": "go to desk 1",
+          "controller_action": "go to desk 1",
           "recorded_valid": true,
           "textworld_valid": true,
-          "recorded_observation": "You arrive at countertop 1. On the countertop 1, you see a butterknife 2, a houseplant 2, a houseplant 1, a ladle 2, a pan 2, a pan 1, a peppershaker 2, a pot 2, a pot 1, a potato 2, a potato 1, a saltshaker 1, and a soapbottle 1.",
-          "textworld_observation": "You arrive at countertop 1. On the countertop 1, you see a butterknife 2, a houseplant 2, a houseplant 1, a ladle 2, a pan 2, a pan 1, a peppershaker 2, a pot 2, a pot 1, a potato 2, a potato 1, a saltshaker 1, and a soapbottle 1.",
-          "thor_observation": "You arrive at loc 3. On the countertop 1, you see pan 2, potato 2, butterknife 2.",
+          "recorded_observation": "You arrive at desk 1. On the desk 1, you see a alarmclock 1, a bowl 1, a cd 2, a cd 1, a cellphone 1, a desklamp 1, a houseplant 1, a keychain 2, a keychain 1, and a pen 1.",
+          "textworld_observation": "You arrive at desk 1. On the desk 1, you see a alarmclock 1, a bowl 1, a cd 2, a cd 1, a cellphone 1, a desklamp 1, a houseplant 1, a keychain 2, a keychain 1, and a pen 1.",
+          "thor_observation": "You arrive at loc 2. On the desk 1, you see desklamp 1, houseplant 1, keychain 1, keychain 2.",
           "textworld_won": false,
           "thor_won": false,
-          "frame": "e-win-clean-fast/step-01.jpg",
+          "frame": "c-typical-win-look/step-01.jpg",
           "low_level": [
             {
-              "frame": "e-win-clean-fast/0000.jpg",
+              "frame": "c-typical-win-look/0000.jpg",
               "action": "TeleportFull",
               "success": true,
               "error": ""
@@ -1589,32 +1785,32 @@
             "cooled": [],
             "lights_on": [],
             "agent_position": {
-              "x": 1.0,
-              "y": 0.9000491,
-              "z": 1.0
+              "x": 0.0,
+              "y": 0.901932836,
+              "z": -1.25
             },
             "agent_rotation": {
               "x": 0.0,
-              "y": 90.0,
+              "y": 180.0,
               "z": 0.0
             }
           }
         },
         {
           "step": 2,
-          "action": "take butterknife 2 from countertop 1",
-          "controller_action": "take butterknife 2 from countertop 1",
+          "action": "take bowl 1 from desk 1",
+          "controller_action": "take bowl 1 from desk 1",
           "recorded_valid": true,
           "textworld_valid": true,
-          "recorded_observation": "You pick up the butterknife 2 from the countertop 1.",
-          "textworld_observation": "You pick up the butterknife 2 from the countertop 1.",
-          "thor_observation": "You pick up the butterknife 2 from the countertop 1.",
+          "recorded_observation": "You pick up the bowl 1 from the desk 1.",
+          "textworld_observation": "You pick up the bowl 1 from the desk 1.",
+          "thor_observation": "You pick up the bowl 1 from the desk 1.",
           "textworld_won": false,
           "thor_won": false,
-          "frame": "e-win-clean-fast/step-02.jpg",
+          "frame": "c-typical-win-look/step-02.jpg",
           "low_level": [
             {
-              "frame": "e-win-clean-fast/0001.jpg",
+              "frame": "c-typical-win-look/0001.jpg",
               "action": "PickupObject",
               "success": true,
               "error": ""
@@ -1622,203 +1818,39 @@
           ],
           "state": {
             "inventory": [
-              "butterknife 2"
+              "bowl 1"
             ],
             "heated": [],
             "cleaned": [],
             "cooled": [],
             "lights_on": [],
             "agent_position": {
-              "x": 1.0,
-              "y": 0.9000491,
-              "z": 1.0
+              "x": 0.0,
+              "y": 0.901932836,
+              "z": -1.25
             },
             "agent_rotation": {
               "x": 0.0,
-              "y": 90.0,
+              "y": 180.0,
               "z": 0.0
             }
           }
         },
         {
           "step": 3,
-          "action": "go to sinkbasin 1",
-          "controller_action": "go to sinkbasin 1",
+          "action": "move bowl 1 to desk 1",
+          "controller_action": "put bowl 1 in desk 1",
           "recorded_valid": true,
           "textworld_valid": true,
-          "recorded_observation": "You arrive at sinkbasin 1. On the sinkbasin 1, you see a apple 3, a apple 2, a cup 3, a knife 2, and a spoon 1.",
-          "textworld_observation": "You arrive at sinkbasin 1. On the sinkbasin 1, you see a apple 3, a apple 2, a cup 3, a knife 2, and a spoon 1.",
-          "thor_observation": "You arrive at loc 35. On the sinkbasin 1, you see cup 3, apple 3, knife 2.",
+          "recorded_observation": "You move the bowl 1 to the desk 1.",
+          "textworld_observation": "You move the bowl 1 to the desk 1.",
+          "thor_observation": "You put the bowl 1 in the desk 1.",
           "textworld_won": false,
           "thor_won": false,
-          "frame": "e-win-clean-fast/step-03.jpg",
+          "frame": "c-typical-win-look/step-03.jpg",
           "low_level": [
             {
-              "frame": "e-win-clean-fast/0002.jpg",
-              "action": "TeleportFull",
-              "success": true,
-              "error": ""
-            }
-          ],
-          "state": {
-            "inventory": [
-              "butterknife 2"
-            ],
-            "heated": [],
-            "cleaned": [],
-            "cooled": [],
-            "lights_on": [],
-            "agent_position": {
-              "x": 0.0,
-              "y": 0.9000491,
-              "z": 1.5
-            },
-            "agent_rotation": {
-              "x": 0.0,
-              "y": 270.0,
-              "z": 0.0
-            }
-          }
-        },
-        {
-          "step": 4,
-          "action": "clean butterknife 2 with sinkbasin 1",
-          "controller_action": "clean butterknife 2 with sinkbasin 1",
-          "recorded_valid": true,
-          "textworld_valid": true,
-          "recorded_observation": "You clean the butterknife 2 using the sinkbasin 1.",
-          "textworld_observation": "You clean the butterknife 2 using the sinkbasin 1.",
-          "thor_observation": "You clean the butterknife 2 using the sinkbasin 1.",
-          "textworld_won": false,
-          "thor_won": false,
-          "frame": "e-win-clean-fast/step-04.jpg",
-          "low_level": [
-            {
-              "frame": "e-win-clean-fast/0003.jpg",
-              "action": "PutObject",
-              "success": true,
-              "error": ""
-            },
-            {
-              "frame": "e-win-clean-fast/0004.jpg",
-              "action": "Pass",
-              "success": true,
-              "error": ""
-            },
-            {
-              "frame": "e-win-clean-fast/0005.jpg",
-              "action": "ToggleObjectOn",
-              "success": true,
-              "error": ""
-            },
-            {
-              "frame": "e-win-clean-fast/0006.jpg",
-              "action": "Pass",
-              "success": true,
-              "error": ""
-            },
-            {
-              "frame": "e-win-clean-fast/0007.jpg",
-              "action": "ToggleObjectOff",
-              "success": true,
-              "error": ""
-            },
-            {
-              "frame": "e-win-clean-fast/0008.jpg",
-              "action": "PickupObject",
-              "success": true,
-              "error": ""
-            }
-          ],
-          "state": {
-            "inventory": [
-              "butterknife 2"
-            ],
-            "heated": [],
-            "cleaned": [
-              "apple 3",
-              "apple 2",
-              "butterknife 2",
-              "cup 3",
-              "knife 2",
-              "spoon 1"
-            ],
-            "cooled": [],
-            "lights_on": [],
-            "agent_position": {
-              "x": 0.0,
-              "y": 0.9000491,
-              "z": 1.5
-            },
-            "agent_rotation": {
-              "x": 0.0,
-              "y": 270.0,
-              "z": 0.0
-            }
-          }
-        },
-        {
-          "step": 5,
-          "action": "go to diningtable 1",
-          "controller_action": "go to diningtable 1",
-          "recorded_valid": true,
-          "textworld_valid": true,
-          "recorded_observation": "You arrive at diningtable 1. On the diningtable 1, you see a bowl 2, a bowl 1, a bread 1, a butterknife 1, a dishsponge 1, a glassbottle 1, a ladle 1, a lettuce 2, a lettuce 1, a mug 1, a papertowelroll 1, a peppershaker 1, a plate 2, a tomato 1, a winebottle 2, and a winebottle 1.",
-          "textworld_observation": "You arrive at diningtable 1. On the diningtable 1, you see a bowl 2, a bowl 1, a bread 1, a butterknife 1, a dishsponge 1, a glassbottle 1, a ladle 1, a lettuce 2, a lettuce 1, a mug 1, a papertowelroll 1, a peppershaker 1, a plate 2, a tomato 1, a winebottle 2, and a winebottle 1.",
-          "thor_observation": "You arrive at loc 48. On the diningtable 1, you see glassbottle 1, bowl 1, lettuce 2, bread 1, winebottle 1, lettuce 1, mug 1, winebottle 2, tomato 1, papertowelroll 1, bowl 2, plate 2, ladle 1, peppershaker 1, dishsponge 1, butterknife 1.",
-          "textworld_won": false,
-          "thor_won": false,
-          "frame": "e-win-clean-fast/step-05.jpg",
-          "low_level": [
-            {
-              "frame": "e-win-clean-fast/0009.jpg",
-              "action": "TeleportFull",
-              "success": true,
-              "error": ""
-            }
-          ],
-          "state": {
-            "inventory": [
-              "butterknife 2"
-            ],
-            "heated": [],
-            "cleaned": [
-              "apple 3",
-              "apple 2",
-              "butterknife 2",
-              "cup 3",
-              "knife 2",
-              "spoon 1"
-            ],
-            "cooled": [],
-            "lights_on": [],
-            "agent_position": {
-              "x": 2.5,
-              "y": 0.8999626,
-              "z": 3.0
-            },
-            "agent_rotation": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 0.0
-            }
-          }
-        },
-        {
-          "step": 6,
-          "action": "move butterknife 2 to diningtable 1",
-          "controller_action": "put butterknife 2 in diningtable 1",
-          "recorded_valid": true,
-          "textworld_valid": true,
-          "recorded_observation": "You move the butterknife 2 to the diningtable 1.",
-          "textworld_observation": "You move the butterknife 2 to the diningtable 1.",
-          "thor_observation": "You put the butterknife 2 in the diningtable 1.",
-          "textworld_won": true,
-          "thor_won": true,
-          "frame": "e-win-clean-fast/step-06.jpg",
-          "low_level": [
-            {
-              "frame": "e-win-clean-fast/0010.jpg",
+              "frame": "c-typical-win-look/0002.jpg",
               "action": "PutObject",
               "success": true,
               "error": ""
@@ -1827,31 +1859,416 @@
           "state": {
             "inventory": [],
             "heated": [],
-            "cleaned": [
-              "apple 3",
-              "apple 2",
-              "butterknife 2",
-              "cup 3",
-              "knife 2",
-              "spoon 1"
-            ],
+            "cleaned": [],
             "cooled": [],
             "lights_on": [],
             "agent_position": {
-              "x": 2.5,
-              "y": 0.8999626,
-              "z": 3.0
+              "x": 0.0,
+              "y": 0.901932836,
+              "z": -1.25
             },
             "agent_rotation": {
               "x": 0.0,
-              "y": 0.0,
+              "y": 180.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 4,
+          "action": "use desklamp 1",
+          "controller_action": "use desklamp 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You turn on the desklamp 1.",
+          "textworld_observation": "You turn on the desklamp 1.",
+          "thor_observation": "You turn on the desklamp 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "c-typical-win-look/step-04.jpg",
+          "low_level": [
+            {
+              "frame": "c-typical-win-look/0003.jpg",
+              "action": "ToggleObjectOn",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [
+              "desklamp 1"
+            ],
+            "agent_position": {
+              "x": 0.0,
+              "y": 0.901932836,
+              "z": -1.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 180.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 5,
+          "action": "examine desk 1",
+          "controller_action": "examine desk 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the desk 1, you see a alarmclock 1, a bowl 1, a cd 2, a cd 1, a cellphone 1, a desklamp 1, a houseplant 1, a keychain 2, a keychain 1, and a pen 1.",
+          "textworld_observation": "On the desk 1, you see a alarmclock 1, a bowl 1, a cd 2, a cd 1, a cellphone 1, a desklamp 1, a houseplant 1, a keychain 2, a keychain 1, and a pen 1.",
+          "thor_observation": "On the desk 1, you see desklamp 1, houseplant 1, keychain 1, keychain 2, bowl 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "c-typical-win-look/step-05.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [
+              "desklamp 1"
+            ],
+            "agent_position": {
+              "x": 0.0,
+              "y": 0.901932836,
+              "z": -1.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 180.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 6,
+          "action": "examine desk 1",
+          "controller_action": "examine desk 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the desk 1, you see a alarmclock 1, a bowl 1, a cd 2, a cd 1, a cellphone 1, a desklamp 1, a houseplant 1, a keychain 2, a keychain 1, and a pen 1.",
+          "textworld_observation": "On the desk 1, you see a alarmclock 1, a bowl 1, a cd 2, a cd 1, a cellphone 1, a desklamp 1, a houseplant 1, a keychain 2, a keychain 1, and a pen 1.",
+          "thor_observation": "On the desk 1, you see desklamp 1, houseplant 1, keychain 1, keychain 2, bowl 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "c-typical-win-look/step-06.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [
+              "desklamp 1"
+            ],
+            "agent_position": {
+              "x": 0.0,
+              "y": 0.901932836,
+              "z": -1.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 180.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 7,
+          "action": "examine desk 1",
+          "controller_action": "examine desk 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the desk 1, you see a alarmclock 1, a bowl 1, a cd 2, a cd 1, a cellphone 1, a desklamp 1, a houseplant 1, a keychain 2, a keychain 1, and a pen 1.",
+          "textworld_observation": "On the desk 1, you see a alarmclock 1, a bowl 1, a cd 2, a cd 1, a cellphone 1, a desklamp 1, a houseplant 1, a keychain 2, a keychain 1, and a pen 1.",
+          "thor_observation": "On the desk 1, you see desklamp 1, houseplant 1, keychain 1, keychain 2, bowl 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "c-typical-win-look/step-07.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [
+              "desklamp 1"
+            ],
+            "agent_position": {
+              "x": 0.0,
+              "y": 0.901932836,
+              "z": -1.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 180.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 8,
+          "action": "examine desk 1",
+          "controller_action": "examine desk 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the desk 1, you see a alarmclock 1, a bowl 1, a cd 2, a cd 1, a cellphone 1, a desklamp 1, a houseplant 1, a keychain 2, a keychain 1, and a pen 1.",
+          "textworld_observation": "On the desk 1, you see a alarmclock 1, a bowl 1, a cd 2, a cd 1, a cellphone 1, a desklamp 1, a houseplant 1, a keychain 2, a keychain 1, and a pen 1.",
+          "thor_observation": "On the desk 1, you see desklamp 1, houseplant 1, keychain 1, keychain 2, bowl 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "c-typical-win-look/step-08.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [
+              "desklamp 1"
+            ],
+            "agent_position": {
+              "x": 0.0,
+              "y": 0.901932836,
+              "z": -1.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 180.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 9,
+          "action": "examine desk 1",
+          "controller_action": "examine desk 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the desk 1, you see a alarmclock 1, a bowl 1, a cd 2, a cd 1, a cellphone 1, a desklamp 1, a houseplant 1, a keychain 2, a keychain 1, and a pen 1.",
+          "textworld_observation": "On the desk 1, you see a alarmclock 1, a bowl 1, a cd 2, a cd 1, a cellphone 1, a desklamp 1, a houseplant 1, a keychain 2, a keychain 1, and a pen 1.",
+          "thor_observation": "On the desk 1, you see desklamp 1, houseplant 1, keychain 1, keychain 2, bowl 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "c-typical-win-look/step-09.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [
+              "desklamp 1"
+            ],
+            "agent_position": {
+              "x": 0.0,
+              "y": 0.901932836,
+              "z": -1.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 180.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 10,
+          "action": "examine desk 1",
+          "controller_action": "examine desk 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the desk 1, you see a alarmclock 1, a bowl 1, a cd 2, a cd 1, a cellphone 1, a desklamp 1, a houseplant 1, a keychain 2, a keychain 1, and a pen 1.",
+          "textworld_observation": "On the desk 1, you see a alarmclock 1, a bowl 1, a cd 2, a cd 1, a cellphone 1, a desklamp 1, a houseplant 1, a keychain 2, a keychain 1, and a pen 1.",
+          "thor_observation": "On the desk 1, you see desklamp 1, houseplant 1, keychain 1, keychain 2, bowl 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "c-typical-win-look/step-10.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [
+              "desklamp 1"
+            ],
+            "agent_position": {
+              "x": 0.0,
+              "y": 0.901932836,
+              "z": -1.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 180.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 11,
+          "action": "examine desk 1",
+          "controller_action": "examine desk 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the desk 1, you see a alarmclock 1, a bowl 1, a cd 2, a cd 1, a cellphone 1, a desklamp 1, a houseplant 1, a keychain 2, a keychain 1, and a pen 1.",
+          "textworld_observation": "On the desk 1, you see a alarmclock 1, a bowl 1, a cd 2, a cd 1, a cellphone 1, a desklamp 1, a houseplant 1, a keychain 2, a keychain 1, and a pen 1.",
+          "thor_observation": "On the desk 1, you see desklamp 1, houseplant 1, keychain 1, keychain 2, bowl 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "c-typical-win-look/step-11.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [
+              "desklamp 1"
+            ],
+            "agent_position": {
+              "x": 0.0,
+              "y": 0.901932836,
+              "z": -1.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 180.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 12,
+          "action": "use desklamp 1",
+          "controller_action": "use desklamp 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You turn on the desklamp 1.",
+          "textworld_observation": "You turn on the desklamp 1.",
+          "thor_observation": "Nothing happens.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "c-typical-win-look/step-12.jpg",
+          "low_level": [
+            {
+              "frame": "c-typical-win-look/0004.jpg",
+              "action": "ToggleObjectOn",
+              "success": false,
+              "error": "can't toggle object on if it's already on!"
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [
+              "desklamp 1"
+            ],
+            "agent_position": {
+              "x": 0.0,
+              "y": 0.901932836,
+              "z": -1.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 180.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 13,
+          "action": "examine desk 1",
+          "controller_action": "examine desk 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the desk 1, you see a alarmclock 1, a bowl 1, a cd 2, a cd 1, a cellphone 1, a desklamp 1, a houseplant 1, a keychain 2, a keychain 1, and a pen 1.",
+          "textworld_observation": "On the desk 1, you see a alarmclock 1, a bowl 1, a cd 2, a cd 1, a cellphone 1, a desklamp 1, a houseplant 1, a keychain 2, a keychain 1, and a pen 1.",
+          "thor_observation": "On the desk 1, you see desklamp 1, houseplant 1, keychain 1, keychain 2, bowl 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "c-typical-win-look/step-13.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [
+              "desklamp 1"
+            ],
+            "agent_position": {
+              "x": 0.0,
+              "y": 0.901932836,
+              "z": -1.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 180.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 14,
+          "action": "take bowl 1 from desk 1",
+          "controller_action": "take bowl 1 from desk 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You pick up the bowl 1 from the desk 1.",
+          "textworld_observation": "You pick up the bowl 1 from the desk 1.",
+          "thor_observation": "You pick up the bowl 1 from the desk 1.",
+          "textworld_won": true,
+          "thor_won": true,
+          "frame": "c-typical-win-look/step-14.jpg",
+          "low_level": [
+            {
+              "frame": "c-typical-win-look/0005.jpg",
+              "action": "PickupObject",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [
+              "bowl 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [
+              "desklamp 1"
+            ],
+            "agent_position": {
+              "x": 0.0,
+              "y": 0.901932836,
+              "z": -1.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 180.0,
               "z": 0.0
             }
           }
         }
       ],
+      "comparison_id": "lamp-bowl",
+      "comparison_side": "left",
+      "display_label": "C \u00b7 No memory",
+      "phase_label": "Evaluation \u00b7 old-pilot-9b-v1",
+      "reflection": null,
+      "rule_changes_after": null,
       "focus_objects": [
-        "butterknife 2"
+        "bowl 1"
       ]
     },
     {
@@ -2041,8 +2458,1568 @@
           }
         }
       ],
+      "comparison_id": "lamp-bowl",
+      "comparison_side": "right",
+      "display_label": "E \u00b7 Rule library",
+      "phase_label": "Evaluation \u00b7 check-e",
+      "reflection": null,
+      "rule_changes_after": null,
       "focus_objects": [
         "bowl 1"
+      ]
+    },
+    {
+      "id": "cloth-initial-attempt",
+      "title": "Initial attempt",
+      "goal": "put a cloth in drawer.",
+      "condition": "E",
+      "task_kind": "pick and place",
+      "game_id": "train/pick_and_place_simple-Cloth-None-Drawer-409/trial_T20190912_061626_184198",
+      "source": {
+        "run": "practice-b",
+        "stream": "practice-E-0",
+        "position": 1
+      },
+      "source_file": "examples/library/builder/bx-02-retry-win-writes-recipe.json",
+      "source_sha256": "fb390c144246221006f7f6795cbccda3ed40a27453c7b50a1f97b8db7dbe8b87",
+      "game_sha256": "daa6da295d95b8715e0b3ef1f69d4ad37c8531958170f2e95ea6f6e0ffde075c",
+      "recorded_won": false,
+      "textworld_won": false,
+      "alias_adjustments": [],
+      "thor_won": false,
+      "initial_frame": "cloth-initial-attempt/initial.jpg",
+      "initial_state": {
+        "inventory": [],
+        "heated": [],
+        "cleaned": [],
+        "cooled": [],
+        "lights_on": [],
+        "agent_position": {
+          "x": -0.25,
+          "y": 0.9011651,
+          "z": 3.0
+        },
+        "agent_rotation": {
+          "x": 0.0,
+          "y": 90.0,
+          "z": 0.0
+        }
+      },
+      "plan": [],
+      "rules": [],
+      "recorded_model_calls": 54,
+      "recorded_invalid_actions": 1,
+      "steps": [
+        {
+          "step": 1,
+          "action": "inventory",
+          "controller_action": "inventory",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You are not carrying anything.",
+          "textworld_observation": "You are not carrying anything.",
+          "thor_observation": "You are not carrying anything.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-01.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 0.9011651,
+              "z": 3.0
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 2,
+          "action": "look",
+          "controller_action": "look",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You are in the middle of a room. Looking quickly around you, you see nothing.",
+          "textworld_observation": "You are in the middle of a room. Looking quickly around you, you see nothing.",
+          "thor_observation": "You are in the middle of a room. Looking quickly around you, you see nothing.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-02.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 0.9011651,
+              "z": 3.0
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 3,
+          "action": "look",
+          "controller_action": "look",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You are in the middle of a room. Looking quickly around you, you see nothing.",
+          "textworld_observation": "You are in the middle of a room. Looking quickly around you, you see nothing.",
+          "thor_observation": "You are in the middle of a room. Looking quickly around you, you see nothing.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-03.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 0.9011651,
+              "z": 3.0
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 4,
+          "action": "inventory",
+          "controller_action": "inventory",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You are not carrying anything.",
+          "textworld_observation": "You are not carrying anything.",
+          "thor_observation": "You are not carrying anything.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-04.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 0.9011651,
+              "z": 3.0
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 5,
+          "action": "go to countertop 1",
+          "controller_action": "go to countertop 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You arrive at countertop 1. On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+          "textworld_observation": "You arrive at countertop 1. On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+          "thor_observation": "You arrive at loc 0. On the countertop 1, you see soapbottle 1, soapbottle 2, spraybottle 2, faucet 1, spraybottle 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-05.jpg",
+          "low_level": [
+            {
+              "frame": "cloth-initial-attempt/0000.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 0.9011651,
+              "z": 2.75
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 6,
+          "action": "look",
+          "controller_action": "look",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You are facing the countertop 1. Next to it, you see nothing.",
+          "textworld_observation": "You are facing the countertop 1. Next to it, you see nothing.",
+          "thor_observation": "You are facing the countertop 1. Next to it, you see nothing.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-06.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 0.9011651,
+              "z": 2.75
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 7,
+          "action": "go to drawer 1",
+          "controller_action": "go to drawer 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You arrive at drawer 1. The drawer 1 is closed.",
+          "textworld_observation": "You arrive at drawer 1. The drawer 1 is closed.",
+          "thor_observation": "You arrive at loc 5. The drawer 1 is closed. ",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-07.jpg",
+          "low_level": [
+            {
+              "frame": "cloth-initial-attempt/0001.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.5,
+              "y": 0.9011651,
+              "z": 3.0
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 8,
+          "action": "inventory",
+          "controller_action": "inventory",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You are not carrying anything.",
+          "textworld_observation": "You are not carrying anything.",
+          "thor_observation": "You are not carrying anything.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-08.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.5,
+              "y": 0.9011651,
+              "z": 3.0
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 9,
+          "action": "go to countertop 1",
+          "controller_action": "go to countertop 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You arrive at countertop 1. On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+          "textworld_observation": "You arrive at countertop 1. On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+          "thor_observation": "You arrive at loc 0. On the countertop 1, you see soapbottle 1, soapbottle 2, spraybottle 2, faucet 1, spraybottle 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-09.jpg",
+          "low_level": [
+            {
+              "frame": "cloth-initial-attempt/0002.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 0.9011651,
+              "z": 2.75
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 10,
+          "action": "go to drawer 1",
+          "controller_action": "go to drawer 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You arrive at drawer 1. The drawer 1 is closed.",
+          "textworld_observation": "You arrive at drawer 1. The drawer 1 is closed.",
+          "thor_observation": "You arrive at loc 5. The drawer 1 is closed. ",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-10.jpg",
+          "low_level": [
+            {
+              "frame": "cloth-initial-attempt/0003.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.5,
+              "y": 0.9011651,
+              "z": 3.0
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 11,
+          "action": "open drawer 1",
+          "controller_action": "open drawer 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You open the drawer 1. The drawer 1 is open. In it, you see nothing.",
+          "textworld_observation": "You open the drawer 1. The drawer 1 is open. In it, you see nothing.",
+          "thor_observation": "You open the drawer 1. The drawer 1 is open. In it, you see nothing.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-11.jpg",
+          "low_level": [
+            {
+              "frame": "cloth-initial-attempt/0004.jpg",
+              "action": "OpenObject",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.5,
+              "y": 0.9011651,
+              "z": 3.0
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 12,
+          "action": "go to countertop 1",
+          "controller_action": "go to countertop 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You arrive at countertop 1. On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+          "textworld_observation": "You arrive at countertop 1. On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+          "thor_observation": "You arrive at loc 0. On the countertop 1, you see soapbottle 1, soapbottle 2, spraybottle 2, faucet 1, spraybottle 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-12.jpg",
+          "low_level": [
+            {
+              "frame": "cloth-initial-attempt/0005.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 0.9011651,
+              "z": 2.75
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 13,
+          "action": "examine countertop 1",
+          "controller_action": "examine countertop 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+          "textworld_observation": "On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+          "thor_observation": "On the countertop 1, you see soapbottle 1, soapbottle 2, spraybottle 2, faucet 1, spraybottle 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-13.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 0.9011651,
+              "z": 2.75
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 14,
+          "action": "inventory",
+          "controller_action": "inventory",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You are not carrying anything.",
+          "textworld_observation": "You are not carrying anything.",
+          "thor_observation": "You are not carrying anything.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-14.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 0.9011651,
+              "z": 2.75
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 15,
+          "action": "go to sinkbasin 1",
+          "controller_action": "go to sinkbasin 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You arrive at sinkbasin 1. On the sinkbasin 1, you see a sink 1, and a soapbar 2.",
+          "textworld_observation": "You arrive at sinkbasin 1. On the sinkbasin 1, you see a sink 1, and a soapbar 2.",
+          "thor_observation": "You arrive at loc 2. On the sinkbasin 1, you see soapbar 2.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-15.jpg",
+          "low_level": [
+            {
+              "frame": "cloth-initial-attempt/0006.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 0.9011651,
+              "z": 2.75
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 16,
+          "action": "go to drawer 3",
+          "controller_action": "go to drawer 3",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You arrive at drawer 3. The drawer 3 is closed.",
+          "textworld_observation": "You arrive at drawer 3. The drawer 3 is closed.",
+          "thor_observation": "You arrive at loc 7. The drawer 3 is closed. ",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-16.jpg",
+          "low_level": [
+            {
+              "frame": "cloth-initial-attempt/0007.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.75,
+              "y": 0.9011651,
+              "z": 2.75
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 17,
+          "action": "inventory",
+          "controller_action": "inventory",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You are not carrying anything.",
+          "textworld_observation": "You are not carrying anything.",
+          "thor_observation": "You are not carrying anything.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-17.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.75,
+              "y": 0.9011651,
+              "z": 2.75
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 18,
+          "action": "inventory",
+          "controller_action": "inventory",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You are not carrying anything.",
+          "textworld_observation": "You are not carrying anything.",
+          "thor_observation": "You are not carrying anything.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-18.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.75,
+              "y": 0.9011651,
+              "z": 2.75
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 19,
+          "action": "examine drawer 3",
+          "controller_action": "examine drawer 3",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "The drawer 3 is closed.",
+          "textworld_observation": "The drawer 3 is closed.",
+          "thor_observation": "On the drawer 3, you see nothing.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-19.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.75,
+              "y": 0.9011651,
+              "z": 2.75
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 20,
+          "action": "open drawer 3",
+          "controller_action": "open drawer 3",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You open the drawer 3. The drawer 3 is open. In it, you see a soapbar 1.",
+          "textworld_observation": "You open the drawer 3. The drawer 3 is open. In it, you see a soapbar 1.",
+          "thor_observation": "You open the drawer 3. The drawer 3 is open. In it, you see nothing.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-20.jpg",
+          "low_level": [
+            {
+              "frame": "cloth-initial-attempt/0008.jpg",
+              "action": "OpenObject",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.75,
+              "y": 0.9011651,
+              "z": 2.75
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 21,
+          "action": "inventory",
+          "controller_action": "inventory",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You are not carrying anything.",
+          "textworld_observation": "You are not carrying anything.",
+          "thor_observation": "You are not carrying anything.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-21.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.75,
+              "y": 0.9011651,
+              "z": 2.75
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 22,
+          "action": "go to countertop 1",
+          "controller_action": "go to countertop 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You arrive at countertop 1. On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+          "textworld_observation": "You arrive at countertop 1. On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+          "thor_observation": "You arrive at loc 0. On the countertop 1, you see soapbottle 1, soapbottle 2, spraybottle 2, faucet 1, spraybottle 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-22.jpg",
+          "low_level": [
+            {
+              "frame": "cloth-initial-attempt/0009.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 0.9011651,
+              "z": 2.75
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 23,
+          "action": "go to drawer 1",
+          "controller_action": "go to drawer 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see nothing.",
+          "textworld_observation": "You arrive at drawer 1. The drawer 1 is open. In it, you see nothing.",
+          "thor_observation": "You arrive at loc 5. The drawer 1 is open. On the drawer 1, you see nothing.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-23.jpg",
+          "low_level": [
+            {
+              "frame": "cloth-initial-attempt/0010.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.5,
+              "y": 0.9011651,
+              "z": 3.0
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 24,
+          "action": "go to drawer 2",
+          "controller_action": "go to drawer 2",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You arrive at drawer 2. The drawer 2 is closed.",
+          "textworld_observation": "You arrive at drawer 2. The drawer 2 is closed.",
+          "thor_observation": "You arrive at loc 4. The drawer 2 is closed. ",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-24.jpg",
+          "low_level": [
+            {
+              "frame": "cloth-initial-attempt/0011.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.5,
+              "y": 0.9011651,
+              "z": 2.5
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 25,
+          "action": "open drawer 2",
+          "controller_action": "open drawer 2",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You open the drawer 2. The drawer 2 is open. In it, you see nothing.",
+          "textworld_observation": "You open the drawer 2. The drawer 2 is open. In it, you see nothing.",
+          "thor_observation": "You open the drawer 2. The drawer 2 is open. In it, you see nothing.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-25.jpg",
+          "low_level": [
+            {
+              "frame": "cloth-initial-attempt/0012.jpg",
+              "action": "OpenObject",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.5,
+              "y": 0.9011651,
+              "z": 2.5
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 26,
+          "action": "go to drawer 4",
+          "controller_action": "go to drawer 4",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You arrive at drawer 4. The drawer 4 is closed.",
+          "textworld_observation": "You arrive at drawer 4. The drawer 4 is closed.",
+          "thor_observation": "You arrive at loc 8. The drawer 4 is closed. ",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-26.jpg",
+          "low_level": [
+            {
+              "frame": "cloth-initial-attempt/0013.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.75,
+              "y": 0.9011651,
+              "z": 2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 27,
+          "action": "open drawer 4",
+          "controller_action": "open drawer 4",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You open the drawer 4. The drawer 4 is open. In it, you see nothing.",
+          "textworld_observation": "You open the drawer 4. The drawer 4 is open. In it, you see nothing.",
+          "thor_observation": "You open the drawer 4. The drawer 4 is open. In it, you see nothing.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-27.jpg",
+          "low_level": [
+            {
+              "frame": "cloth-initial-attempt/0014.jpg",
+              "action": "OpenObject",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.75,
+              "y": 0.9011651,
+              "z": 2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 28,
+          "action": "go to countertop 1",
+          "controller_action": "go to countertop 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "You arrive at countertop 1. On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+          "textworld_observation": "You arrive at countertop 1. On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+          "thor_observation": "You arrive at loc 0. On the countertop 1, you see soapbottle 1, soapbottle 2, spraybottle 2, faucet 1, spraybottle 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-28.jpg",
+          "low_level": [
+            {
+              "frame": "cloth-initial-attempt/0015.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.5,
+              "y": 0.9011656,
+              "z": 2.75
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 29,
+          "action": "examine countertop 1",
+          "controller_action": "examine countertop 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": "On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+          "textworld_observation": "On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+          "thor_observation": "On the countertop 1, you see soapbottle 1, soapbottle 2, spraybottle 2, faucet 1, spraybottle 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-29.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.5,
+              "y": 0.9011656,
+              "z": 2.75
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 30,
+          "action": "<action> go to sinkbas",
+          "controller_action": "<action> go to sinkbas",
+          "recorded_valid": false,
+          "textworld_valid": false,
+          "recorded_observation": "On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+          "textworld_observation": "Nothing happens.",
+          "thor_observation": "Nothing happens.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-initial-attempt/step-30.jpg",
+          "low_level": [],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.5,
+              "y": 0.9011656,
+              "z": 2.75
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        }
+      ],
+      "comparison_id": "cloth-retry",
+      "comparison_side": "left",
+      "display_label": "Initial attempt",
+      "phase_label": "Practice \u00b7 initial attempt \u00b7 practice-b",
+      "reflection": null,
+      "rule_changes_after": [],
+      "focus_objects": []
+    },
+    {
+      "id": "cloth-retry-1",
+      "title": "Retry after reflection",
+      "goal": "put a cloth in drawer.",
+      "condition": "E",
+      "task_kind": "pick and place",
+      "game_id": "train/pick_and_place_simple-Cloth-None-Drawer-409/trial_T20190912_061626_184198",
+      "source": {
+        "run": "practice-b",
+        "stream": "practice-E-0",
+        "position": 1
+      },
+      "source_file": "examples/library/builder/bx-02-retry-win-writes-recipe.json",
+      "source_sha256": "fb390c144246221006f7f6795cbccda3ed40a27453c7b50a1f97b8db7dbe8b87",
+      "game_sha256": "daa6da295d95b8715e0b3ef1f69d4ad37c8531958170f2e95ea6f6e0ffde075c",
+      "recorded_won": true,
+      "textworld_won": true,
+      "alias_adjustments": [],
+      "thor_won": true,
+      "initial_frame": "cloth-retry-1/initial.jpg",
+      "initial_state": {
+        "inventory": [],
+        "heated": [],
+        "cleaned": [],
+        "cooled": [],
+        "lights_on": [],
+        "agent_position": {
+          "x": -0.25,
+          "y": 0.9011651,
+          "z": 3.0
+        },
+        "agent_rotation": {
+          "x": 0.0,
+          "y": 90.0,
+          "z": 0.0
+        }
+      },
+      "plan": [],
+      "rules": [],
+      "recorded_model_calls": null,
+      "recorded_invalid_actions": 0,
+      "steps": [
+        {
+          "step": 1,
+          "action": "go to countertop 1",
+          "controller_action": "go to countertop 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": null,
+          "textworld_observation": "You arrive at countertop 1. On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+          "thor_observation": "You arrive at loc 0. On the countertop 1, you see soapbottle 1, soapbottle 2, spraybottle 2, faucet 1, spraybottle 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-retry-1/step-01.jpg",
+          "low_level": [
+            {
+              "frame": "cloth-retry-1/0000.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 0.9011651,
+              "z": 2.75
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 2,
+          "action": "go to drawer 1",
+          "controller_action": "go to drawer 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": null,
+          "textworld_observation": "You arrive at drawer 1. The drawer 1 is closed.",
+          "thor_observation": "You arrive at loc 5. The drawer 1 is closed. ",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-retry-1/step-02.jpg",
+          "low_level": [
+            {
+              "frame": "cloth-retry-1/0001.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.5,
+              "y": 0.9011651,
+              "z": 3.0
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 3,
+          "action": "go to countertop 1",
+          "controller_action": "go to countertop 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": null,
+          "textworld_observation": "You arrive at countertop 1. On the countertop 1, you see a sink 1, a soapbottle 2, a soapbottle 1, a spraybottle 2, and a spraybottle 1.",
+          "thor_observation": "You arrive at loc 0. On the countertop 1, you see soapbottle 1, soapbottle 2, spraybottle 2, faucet 1, spraybottle 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-retry-1/step-03.jpg",
+          "low_level": [
+            {
+              "frame": "cloth-retry-1/0002.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 0.9011651,
+              "z": 2.75
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 4,
+          "action": "go to garbagecan 1",
+          "controller_action": "go to garbagecan 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": null,
+          "textworld_observation": "You arrive at garbagecan 1. On the garbagecan 1, you see nothing.",
+          "thor_observation": "You arrive at loc 10. On the garbagecan 1, you see nothing.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-retry-1/step-04.jpg",
+          "low_level": [
+            {
+              "frame": "cloth-retry-1/0003.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.5,
+              "y": 0.9011651,
+              "z": 3.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 5,
+          "action": "go to sinkbasin 1",
+          "controller_action": "go to sinkbasin 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": null,
+          "textworld_observation": "You arrive at sinkbasin 1. On the sinkbasin 1, you see a sink 1, and a soapbar 2.",
+          "thor_observation": "You arrive at loc 2. On the sinkbasin 1, you see soapbar 2.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-retry-1/step-05.jpg",
+          "low_level": [
+            {
+              "frame": "cloth-retry-1/0004.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.25,
+              "y": 0.9011651,
+              "z": 2.75
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 6,
+          "action": "go to toilet 1",
+          "controller_action": "go to toilet 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": null,
+          "textworld_observation": "You arrive at toilet 1. On the toilet 1, you see a candle 1, a cloth 1, and a toiletpaper 1.",
+          "thor_observation": "You arrive at loc 3. On the toilet 1, you see cloth 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-retry-1/step-06.jpg",
+          "low_level": [
+            {
+              "frame": "cloth-retry-1/0005.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.75,
+              "y": 0.9011651,
+              "z": 2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 7,
+          "action": "take cloth 1 from toilet 1",
+          "controller_action": "take cloth 1 from toilet 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": null,
+          "textworld_observation": "You pick up the cloth 1 from the toilet 1.",
+          "thor_observation": "You pick up the cloth 1 from the toilet 1.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-retry-1/step-07.jpg",
+          "low_level": [
+            {
+              "frame": "cloth-retry-1/0006.jpg",
+              "action": "PickupObject",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [
+              "cloth 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.75,
+              "y": 0.9011651,
+              "z": 2.25
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 8,
+          "action": "go to drawer 1",
+          "controller_action": "go to drawer 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": null,
+          "textworld_observation": "You arrive at drawer 1. The drawer 1 is closed.",
+          "thor_observation": "You arrive at loc 5. The drawer 1 is closed. ",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-retry-1/step-08.jpg",
+          "low_level": [
+            {
+              "frame": "cloth-retry-1/0007.jpg",
+              "action": "TeleportFull",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [
+              "cloth 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.5,
+              "y": 0.9011651,
+              "z": 3.0
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 9,
+          "action": "open drawer 1",
+          "controller_action": "open drawer 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": null,
+          "textworld_observation": "You open the drawer 1. The drawer 1 is open. In it, you see nothing.",
+          "thor_observation": "You open the drawer 1. The drawer 1 is open. In it, you see nothing.",
+          "textworld_won": false,
+          "thor_won": false,
+          "frame": "cloth-retry-1/step-09.jpg",
+          "low_level": [
+            {
+              "frame": "cloth-retry-1/0008.jpg",
+              "action": "OpenObject",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [
+              "cloth 1"
+            ],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.5,
+              "y": 0.9011651,
+              "z": 3.0
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "step": 10,
+          "action": "move cloth 1 to drawer 1",
+          "controller_action": "put cloth 1 in drawer 1",
+          "recorded_valid": true,
+          "textworld_valid": true,
+          "recorded_observation": null,
+          "textworld_observation": "You move the cloth 1 to the drawer 1.",
+          "thor_observation": "You put the cloth 1 in the drawer 1.",
+          "textworld_won": true,
+          "thor_won": true,
+          "frame": "cloth-retry-1/step-10.jpg",
+          "low_level": [
+            {
+              "frame": "cloth-retry-1/0009.jpg",
+              "action": "PutObject",
+              "success": true,
+              "error": ""
+            }
+          ],
+          "state": {
+            "inventory": [],
+            "heated": [],
+            "cleaned": [],
+            "cooled": [],
+            "lights_on": [],
+            "agent_position": {
+              "x": -0.5,
+              "y": 0.9011651,
+              "z": 3.0
+            },
+            "agent_rotation": {
+              "x": 0.0,
+              "y": 90.0,
+              "z": 0.0
+            }
+          }
+        }
+      ],
+      "comparison_id": "cloth-retry",
+      "comparison_side": "right",
+      "display_label": "Retry after reflection",
+      "phase_label": "Practice \u00b7 retry 1 \u00b7 practice-b",
+      "reflection": "I failed because I never found the cloth to put in the drawer; I only examined countertops and drawers without searching for the cloth object. Instead, I should have systematically searched all visible areas like countertops and drawers for the cloth before attempting to place it. I need to look more carefully at each location to find the cloth item.",
+      "rule_changes_after": [
+        {
+          "id": "rule_3",
+          "before": null,
+          "after": {
+            "id": "rule_3",
+            "type": "Success Process",
+            "task_type": "pick_and_place_simple",
+            "alpha": 1,
+            "beta": 1,
+            "mean": 0.5,
+            "visible_to_agent": true,
+            "rule": "When an object must be picked up and placed: search all visible areas first, take the object from its location, open the target container if closed, move the object there.",
+            "example": "search toilet 1, sinkbasin 1, countertop 1, garbagecan 1, drawers; take cloth 1 from toilet 1; open drawer 1; move cloth 1 to drawer 1.",
+            "rendered_for_agent": "[Success Process] When an object must be picked up and placed: search all visible areas first, take the object from its location, open the target container if closed, move the object there. Example: search toilet 1, sinkbasin 1, countertop 1, garbagecan 1, drawers; take cloth 1 from toilet 1; open drawer 1; move cloth 1 to drawer 1.",
+            "evidence": {
+              "won": 0,
+              "lost": 0
+            }
+          },
+          "change": "NEW"
+        }
+      ],
+      "focus_objects": [
+        "cloth 1"
       ]
     }
   ],
