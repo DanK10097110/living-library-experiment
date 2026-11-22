@@ -219,6 +219,239 @@
           "text": "After placing the cloth in the drawer, the Builder adds a new Success Process to the rule manual."
         }
       ]
+    },
+    {
+      "id": "two-tissueboxes",
+      "tab": "Two objects",
+      "title": "One delivery is not enough. Complete both.",
+      "goal": "Find two tissue boxes and put both on the toilet.",
+      "kind": "Condition comparison",
+      "require_right_success": true,
+      "left": {
+        "id": "pair-two-tissuebox-toilet-C",
+        "source_file": "examples/episodes/paired/pair-two-tissuebox-toilet.json",
+        "condition": "C",
+        "label": "C \u00b7 No memory",
+        "phase": "Evaluation \u00b7 old-pilot-9b-v1"
+      },
+      "right": {
+        "id": "pair-two-tissuebox-toilet-E",
+        "source_file": "examples/episodes/paired/pair-two-tissuebox-toilet.json",
+        "condition": "E",
+        "label": "E \u00b7 Rule library",
+        "phase": "Evaluation \u00b7 check-e"
+      },
+      "changes": [
+        {
+          "label": "Memory available",
+          "left": "No rule manual",
+          "right": "Three retrieved rules"
+        },
+        {
+          "label": "Search and delivery",
+          "left": "Searches drawers; completes one valid delivery",
+          "right": "Finds both boxes on a surface and delivers each"
+        },
+        {
+          "label": "Recorded outcome",
+          "left": "Goal not met in 30 actions",
+          "right": "Both boxes placed in 8 actions"
+        }
+      ],
+      "interpretation": "E was shown a multiple-object procedure and surface-search guidance. C delivers one box but its later invalid placement commands do not count as deliveries. The paired E record succeeds by placing two boxes on the target.",
+      "beats": [
+        {
+          "label": "Start",
+          "left": 0,
+          "right": 0,
+          "title": "Two objects must reach the target",
+          "text": "Both replays need two tissue boxes on the toilet, rather than a single successful delivery."
+        },
+        {
+          "label": "Search",
+          "left": 8,
+          "right": 1,
+          "title": "Drawer search versus a surface containing both boxes",
+          "text": "C is still searching drawers. E goes to the countertop where the recorded observations show the tissue boxes."
+        },
+        {
+          "label": "First box",
+          "left": 12,
+          "right": 4,
+          "title": "Each replay completes its first delivery",
+          "text": "C delivers its first box on action 12. E delivers its first on action 4."
+        },
+        {
+          "label": "Second box",
+          "left": 23,
+          "right": 6,
+          "title": "Finding another box is only part of the task",
+          "text": "Both now hold another box. E follows through by returning to the target before placing it."
+        },
+        {
+          "label": "Outcome",
+          "left": 30,
+          "right": 8,
+          "title": "E completes both deliveries",
+          "text": "E places the second tissue box on the toilet and satisfies the goal. C ends without a second valid delivery."
+        }
+      ]
+    },
+    {
+      "id": "place-watch",
+      "tab": "Place a watch",
+      "title": "Find the watch, then complete the delivery.",
+      "goal": "Find a watch and put it on the side table.",
+      "kind": "Condition comparison",
+      "require_right_success": true,
+      "left": {
+        "id": "pair-pick-place-watch-sidetable-C",
+        "source_file": "examples/episodes/paired/pair-pick-place-watch-sidetable.json",
+        "condition": "C",
+        "label": "C \u00b7 No memory",
+        "phase": "Evaluation \u00b7 old-pilot-9b-v1"
+      },
+      "right": {
+        "id": "pair-pick-place-watch-sidetable-E",
+        "source_file": "examples/episodes/paired/pair-pick-place-watch-sidetable.json",
+        "condition": "E",
+        "label": "E \u00b7 Rule library",
+        "phase": "Evaluation \u00b7 check-d"
+      },
+      "changes": [
+        {
+          "label": "Memory available",
+          "left": "No rule manual",
+          "right": "Three rules from the check-d library"
+        },
+        {
+          "label": "Search behavior",
+          "left": "Revisits drawers and receptacles without finding the watch",
+          "right": "Checks furniture surfaces and finds the watch"
+        },
+        {
+          "label": "Recorded outcome",
+          "left": "Goal not met in 30 actions",
+          "right": "Goal met in 8 actions"
+        }
+      ],
+      "interpretation": "The C and E records share a task instance. E uses the check-d library, which differs from the check-e library in other demo tabs. Its eight-action run finds the watch on the coffee table and places it on the side table. The source labels preserve this distinction.",
+      "beats": [
+        {
+          "label": "Start",
+          "left": 0,
+          "right": 0,
+          "title": "The same watch and side-table goal",
+          "text": "Both recordings start from the same restored task scene."
+        },
+        {
+          "label": "Search",
+          "left": 9,
+          "right": 5,
+          "title": "E reaches the surface holding the watch",
+          "text": "C is opening drawers. E has checked the armchair and sofa, then reaches the coffee table."
+        },
+        {
+          "label": "Pick up",
+          "left": 15,
+          "right": 6,
+          "title": "E picks up the watch",
+          "text": "E takes watch 1 from the coffee table. At the aligned checkpoint, C still has an empty inventory."
+        },
+        {
+          "label": "Target",
+          "left": 28,
+          "right": 7,
+          "title": "Reaching the target is useful only with the object",
+          "text": "Both recordings reach the side table. E is carrying the watch and can complete the delivery."
+        },
+        {
+          "label": "Outcome",
+          "left": 30,
+          "right": 8,
+          "title": "E completes the recorded task",
+          "text": "E places the watch on the side table and wins in eight actions. C does not find and deliver it within 30 actions."
+        }
+      ]
+    },
+    {
+      "id": "heat-tomato",
+      "tab": "Heat tomato",
+      "title": "A success can still contain unnecessary work.",
+      "goal": "Heat a tomato and put it on the dining table.",
+      "kind": "Condition comparison",
+      "require_right_success": true,
+      "left": {
+        "id": "pair-heat-tomato-diningtable-C",
+        "source_file": "examples/episodes/paired/pair-heat-tomato-diningtable.json",
+        "condition": "C",
+        "label": "C \u00b7 No memory",
+        "phase": "Evaluation \u00b7 old-pilot-9b-v1"
+      },
+      "right": {
+        "id": "pair-heat-tomato-diningtable-E",
+        "source_file": "examples/episodes/paired/pair-heat-tomato-diningtable.json",
+        "condition": "E",
+        "label": "E \u00b7 Rule library",
+        "phase": "Evaluation \u00b7 check-avoid70"
+      },
+      "changes": [
+        {
+          "label": "Memory available",
+          "left": "No rule manual",
+          "right": "Two rules from the check-avoid70 library"
+        },
+        {
+          "label": "Heating behavior",
+          "left": "Attempts stove commands and an invalid heating command",
+          "right": "Eventually holds the tomato and uses the microwave correctly"
+        },
+        {
+          "label": "Recorded outcome",
+          "left": "Goal not met in 30 actions",
+          "right": "Goal met in 23 actions, including repeated door actions"
+        }
+      ],
+      "interpretation": "E's saved run succeeds but is not an optimal demonstration: it repeatedly opens and closes the microwave before taking the tomato back into its hand and issuing the valid heating command. C and E are separate runs, and this E record uses the check-avoid70 library.",
+      "beats": [
+        {
+          "label": "Start",
+          "left": 0,
+          "right": 0,
+          "title": "The same heating requirement",
+          "text": "A tomato must be heated before it is placed on the dining table."
+        },
+        {
+          "label": "Find tomato",
+          "left": 4,
+          "right": 5,
+          "title": "Both find the tomato in the fridge",
+          "text": "Both recordings pick up tomato 3. Success depends on what happens after pickup."
+        },
+        {
+          "label": "Extra work",
+          "left": 12,
+          "right": 17,
+          "title": "Neither route is a direct solution",
+          "text": "C attempts an invalid stove command. E is still repeating microwave door actions."
+        },
+        {
+          "label": "Heat",
+          "left": 17,
+          "right": 20,
+          "title": "The heating command requires holding the object",
+          "text": "C's heating command is invalid after it has put the tomato down. E takes the tomato back and then heats it with the microwave."
+        },
+        {
+          "label": "Outcome",
+          "left": 30,
+          "right": 23,
+          "title": "E eventually completes the task",
+          "text": "E places the heated tomato on the dining table. C ends its 30-action recording without satisfying the heating goal."
+        }
+      ]
     }
-  ]
+  ],
+  "initial_comparison": "two-tissueboxes",
+  "selection_policy": "New E episodes must succeed; recorded C baselines may fail."
 }

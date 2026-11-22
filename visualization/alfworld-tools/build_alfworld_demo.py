@@ -15,10 +15,16 @@ args.output.mkdir(parents=True, exist_ok=True)
 data = json.loads((args.captures/'replay.json').read_text())
 assert data.get('comparisons'), 'Expected matched comparison definitions.'
 by_id = {ep['id']: ep for ep in data['episodes']}
+expected_ids = {comparison[side]['id'] for comparison in data['comparisons']
+                for side in ('left', 'right')}
+assert len(by_id) == len(data['episodes']), 'Duplicate replay IDs.'
+assert set(by_id) == expected_ids, 'Selected replays are missing or unexpected.'
 for comparison in data['comparisons']:
     left, right = [by_id[comparison[side]['id']] for side in ('left', 'right')]
     assert left['game_id'] == right['game_id'], comparison['id']
     assert left['game_sha256'] == right['game_sha256'], comparison['id']
+    if comparison.get('require_right_success'):
+        assert right['condition'] == 'E' and right['recorded_won'] and right['thor_won'], comparison['id']
     for beat in comparison['beats']:
         assert 0 <= beat['left'] <= len(left['steps']), comparison['id']
         assert 0 <= beat['right'] <= len(right['steps']), comparison['id']
@@ -42,7 +48,7 @@ for ep in data['episodes']:
             deduplicated[digest] = len(frames)
             frames.append('data:image/jpeg;base64,'+base64.b64encode(raw).decode())
         images[name] = deduplicated[digest]
-payload = json.dumps({'episodes': data['episodes'], 'comparisons': data['comparisons'], 'images': images, 'frames': frames}, separators=(',', ':')).replace('</', '<\\/')
+payload = json.dumps({'episodes': data['episodes'], 'comparisons': data['comparisons'], 'initial_comparison': data.get('initial_comparison'), 'images': images, 'frames': frames}, separators=(',', ':')).replace('</', '<\\/')
 template = args.template.read_text()
 assert template.count('__REPLAY_DATA__') == 1
 html = template.replace('__REPLAY_DATA__', payload)

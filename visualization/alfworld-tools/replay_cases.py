@@ -45,4 +45,8 @@ def load_cases(repo, selection):
         pair = [e for e, _ in episodes if e['comparison_id'] == case['id']]
         if len({e['game_id'] for e in pair}) != 1:
             raise ValueError(f'Comparison {case["id"]} is not the same task instance')
+        if case.get('require_right_success'):
+            right = next(e for e in pair if e['comparison_side'] == 'right')
+            if right['condition'] != 'E' or not right['success']:
+                raise ValueError(f'Comparison {case["id"]} requires a successful E recording')
     return manifest, episodes
