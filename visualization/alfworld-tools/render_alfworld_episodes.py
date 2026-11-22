@@ -13,7 +13,7 @@ parser.add_argument('--repo', type=Path, required=True)
 parser.add_argument('--data-root', type=Path, required=True)
 parser.add_argument('--cache-root', type=Path, required=True)
 parser.add_argument('--output', type=Path, required=True)
-parser.add_argument('--only', help='Regenerate one saved episode ID, retaining other captures.')
+parser.add_argument('--only', help='Regenerate one episode ID or comma-separated IDs, retaining other captures.')
 parser.add_argument('--selection', type=Path, default=Path(__file__).with_name('alfworld-comparisons.json'))
 parser.add_argument('--reuse', action='store_true', help='Reuse captures whose source record hash matches.')
 args = parser.parse_args()
@@ -51,8 +51,7 @@ class CaptureThorEnv(ThorEnv):
         url, checksum = super().build_url()
         return url.replace('http://', 'https://', 1), checksum
 
-    def step(self, action, *pos, **kw):
-        event = super().step(action, *pos, **kw)
+    def record_event(self, event, action):
         if self.capture_dir is not None:
             name = f'{len(self.captured):04d}.jpg'
             Image.fromarray(event.frame).save(self.capture_dir / name, quality=90)
@@ -62,19 +61,26 @@ class CaptureThorEnv(ThorEnv):
                 'success': bool(event.metadata['lastActionSuccess']),
                 'error': event.metadata.get('errorMessage', ''),
             })
+
+    def step(self, action, *pos, **kw):
+        event = super().step(action, *pos, **kw)
+        self.record_event(event, action)
         return event
 
 
 class AlignedOracle(OracleAgent):
     """Use TextWorld's canonical instance IDs in the existing oracle controller.
 
-    ALFWorld's two backends otherwise number entities in different orders. This
-    changes names only: scene physics, task checks, and commands stay official.
+    ALFWorld's two backends otherwise number entities in different orders.
+    Align aliases and viewpoints for replay; scene physics and task checks stay
+    official. This controller is an oracle, not a new visual navigation policy.
     """
     def __init__(self, *pos, aliases, **kw):
         self.aliases = aliases
         self.viewpoints = {}
         self.next_action = ''
+        self.initial_parents = {m['objectId']: m['parentReceptacles'] or []
+                                for m in pos[0].last_event.metadata['objects']}
         super().__init__(*pos, **kw)
 
     def init_scene(self, load_receps):
@@ -147,6 +153,33 @@ class AlignedOracle(OracleAgent):
                          for c, n in zip(colors, counts)}),
                 self.env.last_event.color_to_object_id)
 
+    def navigate(self, teleport_loc):
+        event = super().navigate(teleport_loc)
+        if event.metadata['lastActionSuccess']:
+            return event
+        # A restored object can obstruct a precomputed oracle viewpoint. Try
+        # nearby official viewpoints and keep the first collision-free view.
+        recep = next((r for r in self.receptacles.values()
+                      if r['locs'] is teleport_loc or r['locs'] == teleport_loc), None)
+        target = (self.get_obj_id_from_metadata(recep['object_id']) if recep else None)
+        if not target:
+            return event
+        candidates = sorted(self.openable_points.values(),
+                            key=lambda p:(p[0]-teleport_loc['x'])**2+(p[1]-teleport_loc['z'])**2)
+        height = event.metadata['agent']['position']['y']
+        center = target['position']
+        for point in candidates[:10]:
+            retry = {'action':'TeleportFull','x':point[0],'y':height,'z':point[1],
+                     'rotateOnTeleport':False,
+                     'rotation':float(np.degrees(np.arctan2(center['x']-point[0],center['z']-point[1]))%360),
+                     'horizon':30}
+            event = self.env.step(retry)
+            if event.metadata['lastActionSuccess']:
+                teleport_loc.update(retry)
+                print('Oracle navigation used a nearby collision-free viewpoint.',flush=True)
+                break
+        return event
+
     def step(self, command):
         # A countertop can span several metres. For a recorded go-to + pickup,
         # select the existing oracle viewpoint showing that pickup's object.
@@ -169,8 +202,14 @@ class AlignedOracle(OracleAgent):
                 # pickup still runs through the official forceAction THOR API.
                 meta = next((m for m in self.env.last_event.metadata['objects']
                              if self.aliases.get(m['objectId'].lower()) == obj_name
-                             and recep['object_id'] in (m['parentReceptacles'] or [])), None)
+                             and (recep['object_id'] in (m['parentReceptacles'] or [])
+                                  or (not m['parentReceptacles'] and recep['object_id']
+                                      in self.initial_parents.get(m['objectId'], [])))), None)
                 if meta:
+                    # Opening a drawer can let an item slip out in THOR. If the
+                    # source-valid command still identifies that same item,
+                    # retain its restored relation for oracle entity grounding.
+                    # The real forceAction pickup still determines success.
                     oid = meta['objectId']
                     self.objects[oid] = {'object_id': oid, 'object_type': meta['objectType'],
                                          'parent': recep['object_id'], 'loc': self.curr_loc,
@@ -202,7 +241,7 @@ class AlignedOracle(OracleAgent):
 
 def state_summary(env, aliases):
     meta = env.last_event.metadata
-    return {
+    summary = {
         'inventory': [aliases.get(o['objectId'].lower(), o['objectType'].lower())
                       for o in meta['inventoryObjects']],
         'heated': [aliases.get(x.lower(), x) for x in sorted(env.heated_objects)],
@@ -214,14 +253,27 @@ def state_summary(env, aliases):
         'agent_position': meta['agent']['position'],
         'agent_rotation': meta['agent']['rotation'],
     }
+    trajectory = getattr(env.task, 'traj', {})
+    if trajectory.get('task_type') == 'pick_two_obj_and_place':
+        params = trajectory['pddl_params']
+        target_ids = {o['objectId'] for o in meta['objects']
+                      if o['objectType'] == params['parent_target']}
+        placed = [aliases.get(o['objectId'].lower(), o['objectId'])
+                  for o in meta['objects']
+                  if o['objectType'] == params['object_target']
+                  and target_ids.intersection(o.get('parentReceptacles') or [])]
+        summary['placed_goal_objects'] = sorted(placed)
+        summary['required_goal_objects'] = 2
+    return summary
 
 
 manifest, selected = load_cases(args.repo, args.selection)
 selected_ids = {ep['id'] for ep, _ in selected}
 results = []
+only_ids = set(args.only.split(',')) if args.only else set()
 if (args.only or args.reuse) and (args.output/'replay.json').exists():
     results = [r for r in json.loads((args.output/'replay.json').read_text())['episodes']
-               if r['id'] in selected_ids and r['id'] != args.only]
+               if r['id'] in selected_ids and r['id'] not in only_ids]
 
 
 def enrich(result, episode):
@@ -240,6 +292,8 @@ def save_results():
         'resolution': [800, 600],
         'alignment': 'TextWorld aliases mapped to physical IDs; oracle viewpoints and official forceAction object interaction. Not a vision-policy evaluation.',
         'comparisons': manifest['comparisons'],
+        'initial_comparison': manifest.get('initial_comparison'),
+        'selection_policy': manifest.get('selection_policy'),
         'episodes': results,
     }, indent=2))
 
@@ -247,7 +301,7 @@ def save_results():
 env = CaptureThorEnv(player_screen_width=800, player_screen_height=600)
 try:
     for ep, source_file in selected:
-        if args.only and ep['id'] != args.only:
+        if only_ids and ep['id'] not in only_ids:
             continue
         cached = next((r for r in results if r['id'] == ep['id']), None)
         source_hash = hashlib.sha256((args.repo/source_file).read_bytes()).hexdigest()
@@ -328,13 +382,18 @@ try:
                 tw_state, _, _ = tw.step(original)
                 oracle.next_action = (ep['trace'][record_index + 1]['action']
                                       if record_index + 1 < len(ep['trace']) else '')
-                feedback = oracle.step(command)
+                # The physical oracle uses forceAction. Preserve the source
+                # task's validity gate so a rejected abstract command cannot
+                # accidentally become a remote physical placement.
+                feedback = (oracle.step(command) if admissible else
+                            'No physical state change: invalid in the TextWorld task state.')
                 filename = episode_dir / f"step-{rec['step']:02d}.jpg"
                 Image.fromarray(env.last_event.frame).save(filename, quality=90)
                 item = {
                     'step': rec['step'], 'action': original,
                     'controller_action': command,
                     'recorded_valid': rec['valid'], 'textworld_valid': admissible,
+                    'thor_command_dispatched': admissible,
                     'recorded_observation': rec.get('observation'),
                     'textworld_observation': tw_state['feedback'],
                     'thor_observation': feedback,

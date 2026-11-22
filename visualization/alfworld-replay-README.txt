@@ -4,7 +4,7 @@ MATCHED ALFWORLD TASK COMPARISONS
 Open alfworld-episodes.html in a browser. It is self-contained and works offline.
 The demo and every control, caption, and explanation are in English.
 
-The three tabs each compare two recordings of the exact same task instance:
+The six tabs each compare two recordings of the exact same task instance:
 
 1. Heat a mug: C (no memory) versus E (rule library).
    C: goal not met in 30 actions. E: goal met in 8 actions.
@@ -22,6 +22,27 @@ The three tabs each compare two recordings of the exact same task instance:
    The reflection is supplied before the retry. The rule manual is fixed during
    retries. A new Success Process is written after the retry succeeds, so the
    new rule is not presented as the cause of that retry's success.
+
+4. Two objects: C versus successful E (check-e).
+   C: goal not met in 30 actions. E: goal met in 8 actions.
+   The task requires two tissue boxes on the toilet. C completes one valid
+   delivery; E completes both. The Placed counter reflects physical object
+   locations in the simulator, not the number of attempted placement commands.
+
+5. Place a watch: C versus successful E (check-d).
+   C: goal not met in 30 actions. E: goal met in 8 actions.
+   E searches furniture surfaces, finds the watch on the coffee table, and
+   delivers it to the side table. This E run uses the check-d library; it is
+   not a condition D run.
+
+6. Heat tomato: C versus successful E (check-avoid70).
+   C: goal not met in 30 actions. E: goal met in 23 actions.
+   E eventually heats and delivers the tomato, but repeatedly opens and closes
+   the microwave first. This is a verified success, not an optimal solution.
+
+The three added cases were selected for successful E outcomes. Their matching
+C baselines may fail. Each added E win was also reproduced in the 3D engine.
+The demo opens on the new Two objects comparison; the original tabs remain.
 
 How to present
 --------------
@@ -43,10 +64,10 @@ rule update, and exact source paths. How to read this explains the comparisons.
 
 Recording and validation
 ------------------------
-Six replays contain 95 recorded actions. Every TextWorld action-validity flag
-and all six final outcomes match the saved source records. The six final 3D
+Twelve replays contain 224 recorded actions. Every TextWorld action-validity flag
+and all twelve final outcomes match the saved source records. The twelve final 3D
 outcomes also match. Each pair shares the same game ID and game-file SHA-256.
-The two C/E cases are separate evaluation runs, not successive training stages.
+The five C/E cases are separate evaluation runs, not successive training stages.
 The practice case is a genuine initial-attempt/retry progression.
 
 RGB images are real renders from ALFWorld 0.4.2 / AI2-THOR 2.1.0. Official ALFRED
@@ -54,6 +75,16 @@ object placements are restored for each replay. The oracle grounds abstract
 commands using physical entity IDs, teleport viewpoints, and the official
 forceAction API, including occluded objects. This visualizes recorded abstract
 policies; it does not evaluate a new perception or navigation policy.
+
+Commands rejected by TextWorld remain visible in the replay but are not sent
+to the physical controller. This prevents forceAction from accepting a remote
+placement that the source environment rejected. The per-step
+thor_command_dispatched field records this choice in new captures. If a saved
+oracle viewpoint is blocked by a restored object, navigation tries nearby
+official viewpoints with normal collision checks. No object placement or goal
+flag is changed to manufacture a success. If opening a drawer lets an item
+slip out, the oracle can use that item's original restored parent relation to
+ground a source-valid pickup. The pickup itself still uses the physical API.
 
 TextWorld names are mapped to physical IDs; its move ... to command is expressed
 as the THOR controller's equivalent put ... in command. Both strings are kept.
@@ -83,7 +114,7 @@ python3 -m venv .venv-alfworld
 .venv-alfworld/bin/python visualization/alfworld-tools/build_alfworld_demo.py --captures work/alfworld-captures --output visualization
 
 Add --reuse to the renderer to reuse captures with unchanged source hashes.
-Use --only EPISODE_ID to regenerate a specific selected replay. --selection
+Use --only EPISODE_ID (or comma-separated IDs) to regenerate selected replays. --selection
 accepts another compatible comparison manifest.
 
 The first render downloads the official AI2-THOR build into --cache-root and
