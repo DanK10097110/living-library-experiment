@@ -2,56 +2,30 @@ MATCHED ALFWORLD TASK COMPARISONS
 ================================
 
 Open alfworld-episodes.html in a browser. It is self-contained and works offline.
-The demo and every control, caption, and explanation are in English.
 
-The six tabs each compare two recordings of the exact same task instance:
+Three tabs, each the same game played without the library (C) and with it (E).
+C and E use the same model, planner, actor and 30-action budget; E additionally
+gets a few rules retrieved from its learned library. Every tab lists all rules
+E received, verbatim. Caveat: the C replays come from an earlier evaluation run
+(old-pilot-9b-v1) than the E replays (check-d / check-e libraries).
 
-1. Heat a mug: C (no memory) versus E (rule library).
-   C: goal not met in 30 actions. E: goal met in 8 actions.
-   The guided checkpoints show pickup, the stove/microwave decision, heating,
-   and the two final outcomes. The one rule shown to E concerns navigation;
-   the microwave route appears in the planner's output.
+1. Place a watch. C: not met in 30 actions (opens drawers, never checks the
+   coffee table). E: met in 8. Rule: "search surfaces first, then containers".
 
-2. Bowl and lamp: C versus E.
-   Both succeed: C takes 14 actions, E takes 3.
-   The comparison shows C putting the bowl down and repeatedly examining the
-   desk, while E keeps holding the bowl and turns the lamp on directly.
+2. Two objects (tissue boxes on the toilet). C: one box placed, not met in 30
+   (searches drawers first; tries a placement without walking to the toilet,
+   refused). E: both placed in 8. Rules: "search surfaces before drawers",
+   "navigate to the target before each move command".
 
-3. Reflect and retry: a chronological first attempt and retry of one practice game.
-   Initial attempt: goal not met in 30 actions. Retry: goal met in 10 actions.
-   The reflection is supplied before the retry. The rule manual is fixed during
-   retries. A new Success Process is written after the retry succeeds, so the
-   new rule is not presented as the cause of that retry's success.
-
-4. Two objects: C versus successful E (check-e).
-   C: goal not met in 30 actions. E: goal met in 8 actions.
-   The task requires two tissue boxes on the toilet. C completes one valid
-   delivery; E completes both. The Placed counter reflects physical object
-   locations in the simulator, not the number of attempted placement commands.
-
-5. Place a watch: C versus successful E (check-d).
-   C: goal not met in 30 actions. E: goal met in 8 actions.
-   E searches furniture surfaces, finds the watch on the coffee table, and
-   delivers it to the side table. This E run uses the check-d library; it is
-   not a condition D run.
-
-6. Heat tomato: C versus successful E (check-avoid70).
-   C: goal not met in 30 actions. E: goal met in 23 actions.
-   E eventually heats and delivers the tomato, but repeatedly opens and closes
-   the microwave first. This is a verified success, not an optimal solution.
-
-The three added cases were selected for successful E outcomes. Their matching
-C baselines may fail. Each added E win was also reproduced in the 3D engine.
-The demo opens on the new Two objects comparison; the original tabs remain.
+3. Bowl & lamp. Both succeed: C in 14 actions (puts the bowl down, loops on
+   examine), E in 3. Rule: take the object, use the light source at its location.
 
 How to present
 --------------
-Side by side is the default. Press Play guided tour to move through meaningful
-decision checkpoints. Checkpoints can align different action numbers, which
-remain visible on each side. The What changed cards identify the input context,
-observed strategy, and recorded result.
+Defaults: side by side, every action, 2x speed. Guided checkpoints jumps between
+the key decisions.
 
-Choose Every action for the complete replays at a shared action index. A replay
+Every action shows the complete replays at a shared action index. A replay
 that has finished keeps its final frame visible while the other continues.
 
 Choose One after another to play every action of the first recording, reset the
@@ -64,11 +38,10 @@ rule update, and exact source paths. How to read this explains the comparisons.
 
 Recording and validation
 ------------------------
-Twelve replays contain 224 recorded actions. Every TextWorld action-validity flag
-and all twelve final outcomes match the saved source records. The twelve final 3D
+Every TextWorld action-validity flag
+and all final outcomes match the saved source records. The final 3D
 outcomes also match. Each pair shares the same game ID and game-file SHA-256.
-The five C/E cases are separate evaluation runs, not successive training stages.
-The practice case is a genuine initial-attempt/retry progression.
+The C and E replays are separate evaluation runs.
 
 RGB images are real renders from ALFWorld 0.4.2 / AI2-THOR 2.1.0. Official ALFRED
 object placements are restored for each replay. The oracle grounds abstract

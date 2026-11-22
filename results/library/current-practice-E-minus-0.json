@@ -1,24 +1,24 @@
 {
  "stream": "practice-E-minus-0",
- "games": 91,
+ "games": 104,
  "rules": [
   {
-   "alpha": 9,
+   "alpha": 10,
    "base": [
-    10,
-    15
+    11,
+    16
    ],
    "base_types": {
     "pick_clean_then_place_in_recep": [
-     10,
-     15
+     11,
+     16
     ]
    },
    "beta": 1,
    "commands": {
     "go to sink": [
      0,
-     8
+     9
     ]
    },
    "contexts": [
@@ -159,18 +159,38 @@
      "task": "put a clean bowl in cabinet.",
      "task_type": "pick_clean_then_place_in_recep",
      "won": true
+    },
+    {
+     "plan": "go to countertop 1 to search for soapbar ; take soapbar from countertop 1 ; go to sinkbasin 1 to clean soapbar ; clean soapbar with sinkbasin 1 ; go to countertop 1 to place clean soapbar ; put clean soapbar on countertop 1",
+     "steps": [
+      "go to sinkbasin 1",
+      "go to drawer 2",
+      "open drawer 2",
+      "go to drawer 3",
+      "open drawer 3",
+      "go to garbagecan 1",
+      "go to countertop 1",
+      "take soapbar 1 from countertop 1",
+      "go to sinkbasin 1",
+      "clean soapbar 1 with sinkbasin 1",
+      "go to countertop 1",
+      "move soapbar 1 to countertop 1"
+     ],
+     "task": "put a clean soapbar in countertop.",
+     "task_type": "pick_clean_then_place_in_recep",
+     "won": true
     }
    ],
    "credits": {
     "pick_clean_then_place_in_recep": [
-     8,
+     9,
      0
     ]
    },
    "example": "go to diningtable 1, take fork 1 from diningtable 1, go to sinkbasin 1, clean fork 1 with sinkbasin 1, go to drawer 1, move fork 1 to drawer 1",
    "id": "rule_1",
    "importance": 2,
-   "last_used": 90,
+   "last_used": 101,
    "refined_at": [
     0,
     0
@@ -191,13 +211,13 @@
   {
    "alpha": 1,
    "base": [
-    9,
-    14
+    10,
+    15
    ],
    "base_types": {
     "pick_clean_then_place_in_recep": [
-     9,
-     14
+     10,
+     15
     ]
    },
    "beta": 1,
@@ -1707,32 +1727,6 @@
     "won": [
      [
       [
-       "go to diningtable 1",
-       1
-      ],
-      [
-       "take fork 1 from diningtable 1",
-       1
-      ],
-      [
-       "go to sinkbasin 1",
-       1
-      ],
-      [
-       "clean fork 1 with sinkbasin 1",
-       1
-      ],
-      [
-       "go to drawer 1",
-       1
-      ],
-      [
-       "move fork 1 to drawer 1",
-       1
-      ]
-     ],
-     [
-      [
        "go to sinkbasin 1",
        1
       ],
@@ -2316,6 +2310,76 @@
        "move bowl 3 to cabinet 1",
        1
       ]
+     ],
+     [
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "go to sinkbasin 1",
+       1
+      ],
+      [
+       "examine sinkbasin 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "open drawer 1",
+       1
+      ],
+      [
+       "go to sinkbasin 1",
+       1
+      ],
+      [
+       "go to drawer 2",
+       1
+      ],
+      [
+       "open drawer 2",
+       1
+      ],
+      [
+       "go to drawer 3",
+       1
+      ],
+      [
+       "open drawer 3",
+       1
+      ],
+      [
+       "go to garbagecan 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "take soapbar 1 from countertop 1",
+       1
+      ],
+      [
+       "go to sinkbasin 1",
+       1
+      ],
+      [
+       "clean soapbar 1 with sinkbasin 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "move soapbar 1 to countertop 1",
+       1
+      ]
      ]
     ]
    },
@@ -2331,15 +2395,15 @@
    "verified": true
   },
   {
-   "alpha": 8,
+   "alpha": 10,
    "base": [
-    16,
-    20
+    20,
+    25
    ],
    "base_types": {
     "pick_and_place_simple": [
-     16,
-     20
+     20,
+     25
     ]
    },
    "beta": 1,
@@ -2457,11 +2521,43 @@
      "task": "put some pillow on ottoman.",
      "task_type": "pick_and_place_simple",
      "won": true
+    },
+    {
+     "plan": "find a spraybottle in the environment ; go to the garbagecan ; put the spraybottle on the garbagecan",
+     "steps": [
+      "go to garbagecan 1",
+      "go to drawer 1",
+      "go to countertop 1",
+      "take spraybottle 3 from countertop 1",
+      "go to garbagecan 1",
+      "move spraybottle 3 to garbagecan 1"
+     ],
+     "task": "put some spraybottle on garbagecan.",
+     "task_type": "pick_and_place_simple",
+     "won": true
+    },
+    {
+     "plan": "go to diningtable 1 ; search drawers for alarmclock ; take alarmclock from drawer ; go to diningtable 1 ; put alarmclock on diningtable",
+     "steps": [
+      "go to diningtable 1",
+      "go to drawer 1",
+      "open drawer 1",
+      "go to drawer 2",
+      "open drawer 2",
+      "go to drawer 3",
+      "go to drawer 4",
+      "take alarmclock 1 from sidetable 2",
+      "go to diningtable 1",
+      "move alarmclock 1 to diningtable 1"
+     ],
+     "task": "put a alarmclock in diningtable.",
+     "task_type": "pick_and_place_simple",
+     "won": true
     }
    ],
    "credits": {
     "pick_and_place_simple": [
-     7,
+     9,
      0
     ]
    },
@@ -2474,7 +2570,7 @@
    },
    "id": "rule_3",
    "importance": 2,
-   "last_used": 88,
+   "last_used": 102,
    "refined_at": [
     0,
     0
@@ -2488,20 +2584,20 @@
    ],
    "task_type": "pick_and_place_simple",
    "type": "Special Phenomenon",
-   "unused": 6,
+   "unused": 9,
    "validation": "",
    "verified": true
   },
   {
    "alpha": 1,
    "base": [
-    16,
-    19
+    20,
+    24
    ],
    "base_types": {
     "pick_and_place_simple": [
-     16,
-     19
+     20,
+     24
     ]
    },
    "beta": 1,
@@ -4003,171 +4099,505 @@
       ],
       "task": "put a box in armchair.",
       "task_id": "train/pick_and_place_simple-Box-None-ArmChair-217/trial_T20190907_170757_425284/game.tw-pddl"
+     },
+     {
+      "attempts": [
+       [
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "open cabinet 3",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "open cabinet 4",
+         1
+        ],
+        [
+         "go to cabinet 5",
+         1
+        ],
+        [
+         "open cabinet 5",
+         1
+        ],
+        [
+         "go to cabinet 6",
+         1
+        ],
+        [
+         "open cabinet 6",
+         1
+        ],
+        [
+         "go to cabinet 7",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "close drawer 2",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "open drawer 3",
+         1
+        ],
+        [
+         "go to drawer 4",
+         0
+        ],
+        [
+         "go to drawer 4",
+         0
+        ],
+        [
+         "go to drawer 4",
+         0
+        ],
+        [
+         "go to drawer 4",
+         0
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ]
+       ],
+       [
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "open drawer 3",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "examine cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "open cabinet 3",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "open cabinet 4",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "close fridge 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to sinkbasin 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "open drawer 3",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "open cabinet 3",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "open cabinet 4",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         0
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to sinkbasin 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "go to garbagecan 1",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ]
+       ],
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         0
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to garbagecan 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to sinkbasin 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "take peppershaker 1 from countertop 1",
+         0
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ]
+       ]
+      ],
+      "task": "put some peppershaker on countertop.",
+      "task_id": "train/pick_and_place_simple-PepperShaker-None-CounterTop-27/trial_T20190909_010815_295286/game.tw-pddl"
      }
     ],
     "retired": [],
     "task_type": "pick_and_place_simple",
     "won": [
-     [
-      [
-       "go to drawer 1",
-       1
-      ],
-      [
-       "open drawer 1",
-       1
-      ],
-      [
-       "go to drawer 2",
-       1
-      ],
-      [
-       "open drawer 2",
-       1
-      ],
-      [
-       "go to drawer 3",
-       1
-      ],
-      [
-       "open drawer 4",
-       0
-      ],
-      [
-       "open drawer 3",
-       1
-      ],
-      [
-       "go to dresser 1",
-       1
-      ],
-      [
-       "go to drawer 4",
-       1
-      ],
-      [
-       "open drawer 4",
-       1
-      ],
-      [
-       "go to countertop 1",
-       1
-      ],
-      [
-       "take spraybottle 1 from countertop 1",
-       1
-      ],
-      [
-       "go to garbagecan 1",
-       1
-      ],
-      [
-       "move spraybottle 1 to garbagecan 1",
-       1
-      ]
-     ],
-     [
-      [
-       "go to cabinet 1",
-       1
-      ],
-      [
-       "go to toilet 1",
-       1
-      ],
-      [
-       "go to toilet 1",
-       0
-      ],
-      [
-       "go to cabinet 1",
-       1
-      ],
-      [
-       "take spraybottle 1 from cabinet 1",
-       1
-      ],
-      [
-       "go to toilet 1",
-       1
-      ],
-      [
-       "move spraybottle 1 to toilet 1",
-       1
-      ]
-     ],
-     [
-      [
-       "go to handtowelholder 1",
-       1
-      ],
-      [
-       "take handtowel 1 from handtowelholder 1",
-       1
-      ],
-      [
-       "go to cabinet 1",
-       1
-      ],
-      [
-       "open cabinet 1",
-       1
-      ],
-      [
-       "move handtowel 1 to cabinet 1",
-       1
-      ]
-     ],
-     [
-      [
-       "go to desk 1",
-       1
-      ],
-      [
-       "go to drawer 1",
-       1
-      ],
-      [
-       "go to desk 1",
-       1
-      ],
-      [
-       "go to drawer 1",
-       1
-      ],
-      [
-       "go to drawer 2",
-       1
-      ],
-      [
-       "open drawer 2",
-       1
-      ],
-      [
-       "go to desk 1",
-       1
-      ],
-      [
-       "go to dresser 1",
-       1
-      ],
-      [
-       "take pen 3 from dresser 1",
-       1
-      ],
-      [
-       "go to drawer 1",
-       1
-      ],
-      [
-       "open drawer 1",
-       1
-      ],
-      [
-       "move pen 3 to drawer 1",
-       1
-      ]
-     ],
      [
       [
        "go to desk 1",
@@ -4655,6 +5085,146 @@
        "move peppershaker 1 to sidetable 1",
        1
       ]
+     ],
+     [
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "take keychain 1 from drawer 1",
+       1
+      ],
+      [
+       "go to desk 1",
+       0
+      ],
+      [
+       "move keychain 1 to desk 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to garbagecan 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "take spraybottle 3 from countertop 1",
+       1
+      ],
+      [
+       "go to garbagecan 1",
+       1
+      ],
+      [
+       "move spraybottle 3 to garbagecan 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to cabinet 1",
+       1
+      ],
+      [
+       "go to cabinet 2",
+       1
+      ],
+      [
+       "open cabinet 2",
+       1
+      ],
+      [
+       "go to garbagecan 1",
+       1
+      ],
+      [
+       "go to cabinet 3",
+       1
+      ],
+      [
+       "open cabinet 4",
+       0
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "take candle 1 from countertop 1",
+       1
+      ],
+      [
+       "go to toilet 1",
+       1
+      ],
+      [
+       "move candle 1 to toilet 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "go to drawer 1",
+       1
+      ],
+      [
+       "open drawer 1",
+       1
+      ],
+      [
+       "go to drawer 2",
+       1
+      ],
+      [
+       "open drawer 2",
+       1
+      ],
+      [
+       "go to drawer 3",
+       1
+      ],
+      [
+       "go to drawer 4",
+       1
+      ],
+      [
+       "go to sidetable 2",
+       0
+      ],
+      [
+       "go to sidetable 2",
+       0
+      ],
+      [
+       "go to sidetable 2",
+       0
+      ],
+      [
+       "take alarmclock 1 from sidetable 2",
+       1
+      ],
+      [
+       "go to diningtable 1",
+       1
+      ],
+      [
+       "move alarmclock 1 to diningtable 1",
+       1
+      ]
      ]
     ]
    },
@@ -4672,13 +5242,13 @@
   {
    "alpha": 1,
    "base": [
-    11,
-    25
+    13,
+    29
    ],
    "base_types": {
     "pick_two_obj_and_place": [
-     11,
-     25
+     13,
+     29
     ]
    },
    "beta": 1,
@@ -8651,103 +9221,963 @@
       ],
       "task": "find two alarmclock and put them in desk.",
       "task_id": "train/pick_two_obj_and_place-AlarmClock-None-Desk-313/trial_T20190909_054639_360008/game.tw-pddl"
+     },
+     {
+      "attempts": [
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         0
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         0
+        ],
+        [
+         "go to fridge 1",
+         0
+        ],
+        [
+         "go to fridge 1",
+         0
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 3",
+         1
+        ],
+        [
+         "open drawer 3",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 4",
+         1
+        ],
+        [
+         "open drawer 4",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "open cabinet 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "open cabinet 3",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "open cabinet 4",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "open fridge 1",
+         1
+        ],
+        [
+         "close fridge 1",
+         1
+        ],
+        [
+         "go to sinkbasin 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         0
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to fridge 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         0
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "The saltshaker is not visible in the current observation of countertop 1, and previous attempts to find it by checking cabinets and drawers failed. Since the subgoal is to take the saltshaker from countertop 1, and it is not listed in the visible objects, I should use the skill",
+         0
+        ],
+        [
+         "go to countertop 1",
+         0
+        ],
+        [
+         "close fridge 1",
+         0
+        ],
+        [
+         "go to countertop 1",
+         0
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ]
+       ]
+      ],
+      "task": "put two saltshaker in cabinet.",
+      "task_id": "train/pick_two_obj_and_place-SaltShaker-None-Cabinet-3/trial_T20190908_102252_413545/game.tw-pddl"
+     },
+     {
+      "attempts": [
+       [
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "go to bed 1",
+         1
+        ],
+        [
+         "go to sidetable 1",
+         1
+        ],
+        [
+         "take alarmclock 2 from sidetable 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "move alarmclock 2 to desk 1",
+         1
+        ],
+        [
+         "go to bed 1",
+         1
+        ],
+        [
+         "go to sidetable 1",
+         1
+        ],
+        [
+         "go to bed 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to bed 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "go to bed 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "take alarmclock 2 from desk 1",
+         1
+        ],
+        [
+         "move alarmclock 2 to desk 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to sidetable 1",
+         1
+        ],
+        [
+         "take alarmclock 2 from sidetable 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "move alarmclock 2 to desk 1",
+         1
+        ],
+        [
+         "go to sidetable 1",
+         1
+        ],
+        [
+         "examine desk 1",
+         0
+        ],
+        [
+         "go to sidetable 1",
+         0
+        ],
+        [
+         "go to sidetable 1",
+         0
+        ],
+        [
+         "examine sidetable 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to sidetable 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "take alarmclock 2 from desk 1",
+         1
+        ],
+        [
+         "move alarmclock 2 to desk 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "take alarmclock 2 from desk 1",
+         1
+        ],
+        [
+         "move alarmclock 2 to desk 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to sidetable 1",
+         1
+        ],
+        [
+         "take alarmclock 2 from sidetable 1",
+         1
+        ],
+        [
+         "move alarmclock 2 to desk 1",
+         0
+        ],
+        [
+         "go to sidetable 1",
+         0
+        ],
+        [
+         "go to sidetable 1",
+         0
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to sidetable 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to sidetable 1",
+         1
+        ],
+        [
+         "inventory",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "move alarmclock 2 to desk 1",
+         1
+        ],
+        [
+         "go to sidetable 1",
+         1
+        ],
+        [
+         "inventory",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "go to sidetable 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to bed 1",
+         1
+        ],
+        [
+         "go to sidetable 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to sidetable 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "take alarmclock 2 from desk 1",
+         1
+        ],
+        [
+         "move alarmclock 2 to desk 1",
+         1
+        ],
+        [
+         "examine desk 1",
+         1
+        ],
+        [
+         "go to sidetable 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to sidetable 1",
+         1
+        ],
+        [
+         "take alarmclock 2 from sidetable 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "move alarmclock 2 to desk 1",
+         1
+        ],
+        [
+         "go to sidetable 1",
+         1
+        ],
+        [
+         "examine sidetable 1",
+         1
+        ],
+        [
+         "examine desk 1",
+         0
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         1
+        ],
+        [
+         "open drawer 2",
+         1
+        ],
+        [
+         "go to bed 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to sidetable 1",
+         1
+        ],
+        [
+         "examine sidetable 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "take alarmclock 2 from desk 1",
+         1
+        ],
+        [
+         "move alarmclock 2 to desk 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "go to sidetable 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to bed 1",
+         1
+        ],
+        [
+         "go to desk 1",
+         1
+        ],
+        [
+         "take alarmclock 2 from desk 1",
+         1
+        ],
+        [
+         "move alarmclock 2 to desk 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to garbagecan 1",
+         1
+        ],
+        [
+         "go to sidetable 1",
+         1
+        ]
+       ]
+      ],
+      "task": "find two alarmclock and put them in desk.",
+      "task_id": "train/pick_two_obj_and_place-AlarmClock-None-Desk-316/trial_T20190911_000805_459094/game.tw-pddl"
      }
     ],
     "retired": [],
     "task_type": "pick_two_obj_and_place",
     "won": [
-     [
-      [
-       "go to handtowelholder 1",
-       1
-      ],
-      [
-       "take handtowel 1 from handtowelholder 1",
-       1
-      ],
-      [
-       "go to handtowelholder 2",
-       1
-      ],
-      [
-       "take handtowel 2 from handtowelholder 2",
-       0
-      ],
-      [
-       "move handtowel 1 to countertop 1",
-       0
-      ],
-      [
-       "move handtowel 2 to countertop 1",
-       0
-      ],
-      [
-       "go to countertop 1",
-       1
-      ],
-      [
-       "move handtowel 1 to countertop 1",
-       1
-      ],
-      [
-       "go to handtowelholder 2",
-       1
-      ],
-      [
-       "take handtowel 2 from handtowelholder 2",
-       1
-      ],
-      [
-       "go to countertop 1",
-       1
-      ],
-      [
-       "move handtowel 2 to countertop 1",
-       1
-      ]
-     ],
-     [
-      [
-       "go to countertop 1",
-       1
-      ],
-      [
-       "take saltshaker 1 from countertop 1",
-       1
-      ],
-      [
-       "go to drawer 1",
-       1
-      ],
-      [
-       "open drawer 1",
-       1
-      ],
-      [
-       "move saltshaker 1 to drawer 1",
-       1
-      ],
-      [
-       "go to countertop 2",
-       1
-      ],
-      [
-       "go to countertop 3",
-       1
-      ],
-      [
-       "take saltshaker 2 from countertop 3",
-       1
-      ],
-      [
-       "go to drawer 1",
-       1
-      ],
-      [
-       "move saltshaker 2 to drawer 1",
-       1
-      ]
-     ],
      [
       [
        "go to toiletpaperhanger 1",
@@ -9351,6 +10781,98 @@
        "move soapbar 1 to cabinet 1",
        1
       ]
+     ],
+     [
+      [
+       "go to coffeetable 1",
+       1
+      ],
+      [
+       "go to sofa 1",
+       1
+      ],
+      [
+       "take remotecontrol 1 from sofa 1",
+       1
+      ],
+      [
+       "go to ottoman 1",
+       1
+      ],
+      [
+       "move remotecontrol 1 to ottoman 1",
+       1
+      ],
+      [
+       "go to sofa 1",
+       1
+      ],
+      [
+       "take remotecontrol 2 from sofa 1",
+       1
+      ],
+      [
+       "move remotecontrol 2 to ottoman 1",
+       0
+      ],
+      [
+       "move remotecontrol 2 to ottoman 1",
+       0
+      ],
+      [
+       "go to ottoman 1",
+       1
+      ],
+      [
+       "move remotecontrol 2 to ottoman 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "take spraybottle 3 from countertop 1",
+       1
+      ],
+      [
+       "move spraybottle 3 to garbagecan 1",
+       0
+      ],
+      [
+       "go to countertop 1",
+       0
+      ],
+      [
+       "go to garbagecan 1",
+       1
+      ],
+      [
+       "move spraybottle 3 to garbagecan 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "take spraybottle 4 from countertop 1",
+       1
+      ],
+      [
+       "move spraybottle 4 to garbagecan 1",
+       0
+      ],
+      [
+       "go to garbagecan 1",
+       1
+      ],
+      [
+       "move spraybottle 4 to garbagecan 1",
+       1
+      ]
      ]
     ]
    },
@@ -9366,79 +10888,19 @@
    "verified": true
   },
   {
-   "alpha": 15,
+   "alpha": 19,
    "base": [
-    16,
-    19
+    20,
+    24
    ],
    "base_types": {
     "pick_and_place_simple": [
-     16,
-     19
+     20,
+     24
     ]
    },
-   "beta": 4,
+   "beta": 5,
    "contexts": [
-    {
-     "plan": "go to coffeetable 1 ; put the statue in coffeetable 1",
-     "steps": [
-      "go to drawer 2",
-      "open drawer 2",
-      "go to garbagecan 1",
-      "go to armchair 1",
-      "go to sofa 1",
-      "go to diningtable 1",
-      "go to sidetable 1",
-      "go to sidetable 2",
-      "go to tvstand 1",
-      "take statue 1 from tvstand 1",
-      "go to coffeetable 1",
-      "move statue 1 to coffeetable 1"
-     ],
-     "task": "put a statue in coffeetable.",
-     "task_type": "pick_and_place_simple",
-     "won": true
-    },
-    {
-     "plan": "search drawers for keychain ; take the keychain ; go to desk 1 ; put keychain in desk 1",
-     "steps": [
-      "go to cabinet 1",
-      "open cabinet 1",
-      "go to cabinet 3",
-      "open cabinet 3",
-      "go to cabinet 4",
-      "open cabinet 4",
-      "go to desk 1",
-      "go to garbagecan 1",
-      "go to sidetable 1",
-      "take keychain 1 from sidetable 1",
-      "go to desk 1",
-      "move keychain 1 to desk 1"
-     ],
-     "task": "put a keychain in desk.",
-     "task_type": "pick_and_place_simple",
-     "won": true
-    },
-    {
-     "plan": "search drawers for spraybottle ; take the spraybottle ; go to garbagecan ; put the spraybottle in the garbagecan",
-     "steps": [
-      "open drawer 1",
-      "go to drawer 2",
-      "open drawer 2",
-      "go to drawer 3",
-      "open drawer 3",
-      "go to dresser 1",
-      "go to drawer 4",
-      "open drawer 4",
-      "go to countertop 1",
-      "take spraybottle 1 from countertop 1",
-      "go to garbagecan 1",
-      "move spraybottle 1 to garbagecan 1"
-     ],
-     "task": "put a spraybottle in garbagecan.",
-     "task_type": "pick_and_place_simple",
-     "won": true
-    },
     {
      "plan": "find a spraybottle in the environment ; go to the toilet ; put the spraybottle on the toilet",
      "steps": [
@@ -9625,6 +11087,66 @@
      "won": true
     },
     {
+     "plan": "search for keychain in drawers ; take keychain from drawer ; go to desk 1 ; put keychain on desk 1",
+     "steps": [
+      "go to drawer 1",
+      "take keychain 1 from drawer 1",
+      "move keychain 1 to desk 1"
+     ],
+     "task": "put some keychain on desk.",
+     "task_type": "pick_and_place_simple",
+     "won": true
+    },
+    {
+     "plan": "find a spraybottle in the environment ; go to the garbagecan ; put the spraybottle on the garbagecan",
+     "steps": [
+      "go to garbagecan 1",
+      "go to drawer 1",
+      "go to countertop 1",
+      "take spraybottle 3 from countertop 1",
+      "go to garbagecan 1",
+      "move spraybottle 3 to garbagecan 1"
+     ],
+     "task": "put some spraybottle on garbagecan.",
+     "task_type": "pick_and_place_simple",
+     "won": true
+    },
+    {
+     "plan": "find a candle in the environment ; go to the toilet ; put the candle on the toilet",
+     "steps": [
+      "go to cabinet 1",
+      "go to cabinet 2",
+      "open cabinet 2",
+      "go to garbagecan 1",
+      "go to cabinet 3",
+      "go to countertop 1",
+      "take candle 1 from countertop 1",
+      "go to toilet 1",
+      "move candle 1 to toilet 1"
+     ],
+     "task": "put some candle on toilet.",
+     "task_type": "pick_and_place_simple",
+     "won": true
+    },
+    {
+     "plan": "go to diningtable 1 ; search drawers for alarmclock ; take alarmclock from drawer ; go to diningtable 1 ; put alarmclock on diningtable",
+     "steps": [
+      "go to diningtable 1",
+      "go to drawer 1",
+      "open drawer 1",
+      "go to drawer 2",
+      "open drawer 2",
+      "go to drawer 3",
+      "go to drawer 4",
+      "take alarmclock 1 from sidetable 2",
+      "go to diningtable 1",
+      "move alarmclock 1 to diningtable 1"
+     ],
+     "task": "put a alarmclock in diningtable.",
+     "task_type": "pick_and_place_simple",
+     "won": true
+    },
+    {
      "plan": "go to dresser 1 ; open dresser 1 ; search drawers in dresser 1 for cellphone ; take cellphone from drawer ; put cellphone in dresser 1",
      "steps": [
       "open drawer 9",
@@ -9683,18 +11205,38 @@
      "task": "put a box in armchair.",
      "task_type": "pick_and_place_simple",
      "won": false
+    },
+    {
+     "plan": "search drawers for peppershaker ; take peppershaker from drawer ; go to countertop ; put peppershaker on countertop",
+     "steps": [
+      "open drawer 2",
+      "close drawer 2",
+      "go to drawer 3",
+      "open drawer 3",
+      "go to cabinet 1",
+      "go to cabinet 2",
+      "go to drawer 1",
+      "go to cabinet 3",
+      "go to cabinet 4",
+      "go to drawer 2",
+      "open drawer 2",
+      "go to drawer 3"
+     ],
+     "task": "put some peppershaker on countertop.",
+     "task_type": "pick_and_place_simple",
+     "won": false
     }
    ],
    "credits": {
     "pick_and_place_simple": [
-     14,
-     3
+     18,
+     4
     ]
    },
    "example": "search drawers 1-4, take cd 2 from drawer 4, go to safe 1, open safe 1, move cd 2 to safe 1",
    "id": "rule_6",
    "importance": 2,
-   "last_used": 88,
+   "last_used": 102,
    "refined_at": [
     0,
     0
@@ -13520,13 +15062,13 @@
   {
    "alpha": 6,
    "base": [
-    9,
-    13
+    10,
+    14
    ],
    "base_types": {
     "pick_clean_then_place_in_recep": [
-     9,
-     13
+     10,
+     14
     ]
    },
    "beta": 3,
@@ -13673,7 +15215,7 @@
    "example": "open cabinet 1 before searching inside.",
    "id": "rule_9",
    "importance": 2,
-   "last_used": 90,
+   "last_used": 101,
    "refined_at": [
     0,
     0
@@ -13687,20 +15229,20 @@
    ],
    "task_type": "pick_clean_then_place_in_recep",
    "type": "Special Phenomenon",
-   "unused": 5,
+   "unused": 6,
    "validation": "",
    "verified": true
   },
   {
    "alpha": 2,
    "base": [
-    11,
-    25
+    13,
+    29
    ],
    "base_types": {
     "pick_two_obj_and_place": [
-     11,
-     25
+     13,
+     29
     ]
    },
    "beta": 1,
@@ -13732,7 +15274,7 @@
    "example": "move alarmclock 1 to shelf 1",
    "id": "rule_10",
    "importance": 2,
-   "last_used": 89,
+   "last_used": 103,
    "refined_at": [
     0,
     0
@@ -13746,20 +15288,20 @@
    ],
    "task_type": "pick_two_obj_and_place",
    "type": "Corrected Error",
-   "unused": 22,
+   "unused": 26,
    "validation": "",
    "verified": true
   },
   {
    "alpha": 6,
    "base": [
-    6,
-    12
+    8,
+    15
    ],
    "base_types": {
     "pick_cool_then_place_in_recep": [
-     6,
-     12
+     8,
+     15
     ]
    },
    "beta": 2,
@@ -13898,7 +15440,7 @@
    "example": "Search locations, take bowl, open fridge, cool bowl with fridge, close fridge, move bowl to cabinet.",
    "id": "rule_11",
    "importance": 2,
-   "last_used": 80,
+   "last_used": 100,
    "refined_at": [
     0,
     0
@@ -13912,20 +15454,20 @@
    ],
    "task_type": "pick_cool_then_place_in_recep",
    "type": "Success Process",
-   "unused": 5,
+   "unused": 8,
    "validation": "",
    "verified": true
   },
   {
    "alpha": 1,
    "base": [
-    6,
-    11
+    8,
+    14
    ],
    "base_types": {
     "pick_cool_then_place_in_recep": [
-     6,
-     11
+     8,
+     14
     ]
    },
    "beta": 1,
@@ -14912,6 +16454,500 @@
       ],
       "task": "cool some cup and put it in microwave.",
       "task_id": "train/pick_cool_then_place_in_recep-Cup-None-Microwave-17/trial_T20190906_192746_084663/game.tw-pddl"
+     },
+     {
+      "attempts": [
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         0
+        ],
+        [
+         "examine countertop 2",
+         0
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "open cabinet 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         0
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "open cabinet 3",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "open cabinet 4",
+         1
+        ],
+        [
+         "go to cabinet 5",
+         0
+        ],
+        [
+         "go to cabinet 5",
+         0
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         0
+        ],
+        [
+         "go to countertop 2",
+         0
+        ],
+        [
+         "go to countertop 2",
+         0
+        ],
+        [
+         "go to countertop 2",
+         0
+        ],
+        [
+         "go to countertop 2",
+         0
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         0
+        ],
+        [
+         "go to countertop 3",
+         0
+        ],
+        [
+         "examine countertop 3",
+         0
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "open cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "open cabinet 3",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "open cabinet 4",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         0
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         0
+        ],
+        [
+         "examine countertop 2",
+         0
+        ],
+        [
+         "go to countertop 3",
+         0
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 5",
+         0
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "go to drawer 3",
+         0
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to drawer 2",
+         0
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 3",
+         0
+        ]
+       ],
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "open cabinet 2",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "open cabinet 3",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "open cabinet 4",
+         1
+        ],
+        [
+         "close cabinet 4",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "close drawer 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "examine countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "close drawer 1",
+         1
+        ]
+       ],
+       [
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "open cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 2",
+         1
+        ],
+        [
+         "open cabinet 2",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "close drawer 1",
+         1
+        ],
+        [
+         "go to cabinet 3",
+         1
+        ],
+        [
+         "open cabinet 3",
+         1
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to cabinet 4",
+         1
+        ],
+        [
+         "open cabinet 4",
+         1
+        ],
+        [
+         "close cabinet 4",
+         1
+        ],
+        [
+         "go to diningtable 1",
+         1
+        ],
+        [
+         "I have searched the kitchen and found a pan in cabinet 4, but the task requires cooling lettuce. I have not yet found the lettuce, so I need to continue searching. The most logical place to find lettuce is on the countertops or in the cabinets. I will go to countertop 1 to check",
+         0
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to drawer 1",
+         1
+        ],
+        [
+         "open drawer 1",
+         1
+        ],
+        [
+         "close drawer 1",
+         1
+        ],
+        [
+         "go to cabinet 1",
+         1
+        ],
+        [
+         "close cabinet 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         0
+        ],
+        [
+         "go to countertop 2",
+         0
+        ],
+        [
+         "go to countertop 2",
+         0
+        ],
+        [
+         "go to countertop 2",
+         0
+        ],
+        [
+         "go to countertop 2",
+         0
+        ],
+        [
+         "go to countertop 1",
+         1
+        ],
+        [
+         "go to countertop 2",
+         0
+        ]
+       ]
+      ],
+      "task": "cool some lettuce and put it in diningtable.",
+      "task_id": "train/pick_cool_then_place_in_recep-Lettuce-None-DiningTable-21/trial_T20190909_045111_863875/game.tw-pddl"
      }
     ],
     "retired": [],
@@ -15556,6 +17592,82 @@
        "move potato 1 to countertop 1",
        1
       ]
+     ],
+     [
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to countertop 2",
+       1
+      ],
+      [
+       "take potato 1 from countertop 2",
+       1
+      ],
+      [
+       "go to fridge 1",
+       1
+      ],
+      [
+       "open fridge 1",
+       1
+      ],
+      [
+       "cool potato 1 with fridge 1",
+       1
+      ],
+      [
+       "close fridge 1",
+       1
+      ],
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "move potato 1 to countertop 1",
+       1
+      ]
+     ],
+     [
+      [
+       "go to countertop 1",
+       1
+      ],
+      [
+       "go to countertop 2",
+       1
+      ],
+      [
+       "take mug 2 from countertop 2",
+       1
+      ],
+      [
+       "go to fridge 1",
+       1
+      ],
+      [
+       "open fridge 1",
+       1
+      ],
+      [
+       "cool mug 2 with fridge 1",
+       1
+      ],
+      [
+       "close fridge 1",
+       1
+      ],
+      [
+       "go to coffeemachine 1",
+       1
+      ],
+      [
+       "move mug 2 to coffeemachine 1",
+       1
+      ]
      ]
     ]
    },
@@ -15573,13 +17685,13 @@
   {
    "alpha": 1,
    "base": [
-    10,
-    24
+    12,
+    28
    ],
    "base_types": {
     "pick_two_obj_and_place": [
-     10,
-     24
+     12,
+     28
     ]
    },
    "beta": 1,
@@ -15607,13 +17719,13 @@
   {
    "alpha": 2,
    "base": [
-    7,
-    11
+    8,
+    12
    ],
    "base_types": {
     "pick_clean_then_place_in_recep": [
-     7,
-     11
+     8,
+     12
     ]
    },
    "beta": 2,
@@ -15681,7 +17793,7 @@
    },
    "id": "rule_14",
    "importance": 2,
-   "last_used": 90,
+   "last_used": 101,
    "refined_at": [
     0,
     0
@@ -15695,7 +17807,7 @@
    ],
    "task_type": "pick_clean_then_place_in_recep",
    "type": "Special Phenomenon",
-   "unused": 6,
+   "unused": 7,
    "validation": "",
    "verified": true
   },
@@ -15734,18 +17846,18 @@
    "verified": false
   },
   {
-   "alpha": 8,
+   "alpha": 9,
    "base": [
-    10,
-    22
+    12,
+    26
    ],
    "base_types": {
     "pick_two_obj_and_place": [
-     10,
-     22
+     12,
+     26
     ]
    },
-   "beta": 7,
+   "beta": 8,
    "contexts": [
     {
      "plan": "go to dresser 1 ; take first pen from dresser 1 ; put first pen in dresser 1 ; take second pen from dresser 1 ; put second pen in dresser 1",
@@ -15881,6 +17993,22 @@
      "won": true
     },
     {
+     "plan": "go to countertop 1 to search for spraybottles ; take the first spraybottle from countertop 1 ; go to garbagecan 1 ; put the first spraybottle in garbagecan 1 ; go back to countertop 1 to find the second spraybottle ; take the second spraybottle from countertop 1",
+     "steps": [
+      "go to countertop 1",
+      "take spraybottle 3 from countertop 1",
+      "go to garbagecan 1",
+      "move spraybottle 3 to garbagecan 1",
+      "go to countertop 1",
+      "take spraybottle 4 from countertop 1",
+      "go to garbagecan 1",
+      "move spraybottle 4 to garbagecan 1"
+     ],
+     "task": "put two spraybottle in garbagecan.",
+     "task_type": "pick_two_obj_and_place",
+     "won": true
+    },
+    {
      "plan": "find the first laptop ; find the second laptop ; go to ottoman 1 ; put laptop 2 in ottoman 1 ; put laptop 1 in ottoman 1 ; verify task completion",
      "steps": [
       "go to drawer 3",
@@ -15999,18 +18127,38 @@
      "task": "find two keychain and put them in safe.",
      "task_type": "pick_two_obj_and_place",
      "won": false
+    },
+    {
+     "plan": "go to countertop 1 to find saltshakers ; take first saltshaker from countertop 1 ; go to cabinet 1 to store saltshaker ; put first saltshaker in cabinet 1 ; take second saltshaker from countertop 1 ; put second saltshaker in cabinet 1",
+     "steps": [
+      "go to drawer 1",
+      "open drawer 1",
+      "go to countertop 1",
+      "go to drawer 2",
+      "open drawer 2",
+      "go to countertop 1",
+      "go to drawer 3",
+      "open drawer 3",
+      "go to countertop 1",
+      "go to drawer 4",
+      "open drawer 4",
+      "go to countertop 1"
+     ],
+     "task": "put two saltshaker in cabinet.",
+     "task_type": "pick_two_obj_and_place",
+     "won": false
     }
    ],
    "credits": {
     "pick_two_obj_and_place": [
-     7,
-     6
+     8,
+     7
     ]
    },
    "example": "open drawer 2, then move pencil 1 to drawer 2",
    "id": "rule_16",
    "importance": 2,
-   "last_used": 89,
+   "last_used": 103,
    "refined_at": [
     0,
     0
@@ -16024,20 +18172,20 @@
    ],
    "task_type": "pick_two_obj_and_place",
    "type": "Corrected Error",
-   "unused": 7,
+   "unused": 9,
    "validation": "",
    "verified": true
   },
   {
    "alpha": 4,
    "base": [
-    10,
-    22
+    12,
+    26
    ],
    "base_types": {
     "pick_two_obj_and_place": [
-     10,
-     22
+     12,
+     26
     ]
    },
    "beta": 2,
@@ -16127,7 +18275,7 @@
    "example": "take pencil 1 from desk 1, open drawer 2, move pencil 1 to drawer 2, take pencil 2 from desk 1, move pencil 2 to drawer 2",
    "id": "rule_17",
    "importance": 2,
-   "last_used": 89,
+   "last_used": 103,
    "refined_at": [
     0,
     0
@@ -16141,26 +18289,26 @@
    ],
    "task_type": "pick_two_obj_and_place",
    "type": "Success Process",
-   "unused": 16,
+   "unused": 20,
    "validation": "",
    "verified": true
   },
   {
-   "alpha": 3,
+   "alpha": 4,
    "base": [
-    4,
-    7
+    6,
+    10
    ],
    "base_types": {
     "pick_cool_then_place_in_recep": [
-     4,
-     7
+     6,
+     10
     ]
    },
-   "beta": 3,
+   "beta": 4,
    "commands": {
     "examine countertop": [
-     0,
+     1,
      0
     ]
    },
@@ -16205,6 +18353,22 @@
      "won": true
     },
     {
+     "steps": [
+      "go to countertop 1",
+      "go to countertop 2",
+      "take potato 1 from countertop 2",
+      "go to fridge 1",
+      "open fridge 1",
+      "cool potato 1 with fridge 1",
+      "close fridge 1",
+      "go to countertop 1",
+      "move potato 1 to countertop 1"
+     ],
+     "task": "put a cool potato in countertop.",
+     "task_type": "pick_cool_then_place_in_recep",
+     "won": true
+    },
+    {
      "plan": "go to countertop 1 to search for a cup ; find and take a cup from countertop 1 ; go to fridge 1 to cool the cup ; open fridge 1 if closed ; cool the cup in fridge 1 ; put the cooled cup in microwave 1",
      "steps": [
       "go to drawer 2",
@@ -16243,12 +18407,32 @@
      "task": "cool some winebottle and put it in diningtable.",
      "task_type": "pick_cool_then_place_in_recep",
      "won": false
+    },
+    {
+     "plan": "go to countertop 1 to search for lettuce ; examine countertop 1 to find lettuce ; take lettuce from countertop 1 ; go to fridge 1 ; open fridge 1 ; cool lettuce in fridge 1 ; close fridge 1 ; go to diningtable 1 ; put lettuce on diningtable 1",
+     "steps": [
+      "go to cabinet 3",
+      "open cabinet 3",
+      "go to countertop 1",
+      "go to cabinet 4",
+      "open cabinet 4",
+      "go to countertop 1",
+      "go to drawer 1",
+      "go to cabinet 1",
+      "go to cabinet 2",
+      "go to cabinet 3",
+      "go to cabinet 4",
+      "go to countertop 1"
+     ],
+     "task": "cool some lettuce and put it in diningtable.",
+     "task_type": "pick_cool_then_place_in_recep",
+     "won": false
     }
    ],
    "credits": {
     "pick_cool_then_place_in_recep": [
-     2,
-     2
+     3,
+     3
     ]
    },
    "example": "Examine countertop 1 first, then search storage locations.",
@@ -16260,7 +18444,7 @@
    },
    "id": "rule_18",
    "importance": 2,
-   "last_used": 80,
+   "last_used": 100,
    "refined_at": [
     0,
     0
@@ -16274,19 +18458,20 @@
    ],
    "task_type": "pick_cool_then_place_in_recep",
    "type": "Special Phenomenon",
+   "unused": 1,
    "validation": "",
    "verified": true
   },
   {
    "alpha": 1,
    "base": [
-    10,
-    21
+    12,
+    25
    ],
    "base_types": {
     "pick_two_obj_and_place": [
-     10,
-     21
+     12,
+     25
     ]
    },
    "beta": 1,
@@ -16312,15 +18497,15 @@
    "verified": false
   },
   {
-   "alpha": 4,
+   "alpha": 5,
    "base": [
-    5,
-    8
+    6,
+    9
    ],
    "base_types": {
     "pick_clean_then_place_in_recep": [
-     5,
-     8
+     6,
+     9
     ]
    },
    "beta": 1,
@@ -16374,18 +18559,38 @@
      "task": "put a clean bowl in cabinet.",
      "task_type": "pick_clean_then_place_in_recep",
      "won": true
+    },
+    {
+     "plan": "go to countertop 1 to search for soapbar ; take soapbar from countertop 1 ; go to sinkbasin 1 to clean soapbar ; clean soapbar with sinkbasin 1 ; go to countertop 1 to place clean soapbar ; put clean soapbar on countertop 1",
+     "steps": [
+      "go to sinkbasin 1",
+      "go to drawer 2",
+      "open drawer 2",
+      "go to drawer 3",
+      "open drawer 3",
+      "go to garbagecan 1",
+      "go to countertop 1",
+      "take soapbar 1 from countertop 1",
+      "go to sinkbasin 1",
+      "clean soapbar 1 with sinkbasin 1",
+      "go to countertop 1",
+      "move soapbar 1 to countertop 1"
+     ],
+     "task": "put a clean soapbar in countertop.",
+     "task_type": "pick_clean_then_place_in_recep",
+     "won": true
     }
    ],
    "credits": {
     "pick_clean_then_place_in_recep": [
-     3,
+     4,
      0
     ]
    },
    "example": "move pan 1 to stoveburner",
    "id": "rule_20",
    "importance": 2,
-   "last_used": 90,
+   "last_used": 101,
    "refined_at": [
     0,
     0
@@ -17049,13 +19254,13 @@
   {
    "alpha": 1,
    "base": [
-    2,
-    4
+    4,
+    7
    ],
    "base_types": {
     "pick_cool_then_place_in_recep": [
-     2,
-     4
+     4,
+     7
     ]
    },
    "beta": 1,
@@ -17288,15 +19493,15 @@
    "verified": true
   },
   {
-   "alpha": 2,
+   "alpha": 4,
    "base": [
-    8,
-    18
+    10,
+    22
    ],
    "base_types": {
     "pick_two_obj_and_place": [
-     8,
-     18
+     10,
+     22
     ]
    },
    "beta": 1,
@@ -17320,18 +19525,50 @@
      "task": "put two winebottle in cabinet.",
      "task_type": "pick_two_obj_and_place",
      "won": true
+    },
+    {
+     "steps": [
+      "go to coffeetable 1",
+      "go to sofa 1",
+      "take remotecontrol 1 from sofa 1",
+      "go to ottoman 1",
+      "move remotecontrol 1 to ottoman 1",
+      "go to sofa 1",
+      "take remotecontrol 2 from sofa 1",
+      "go to ottoman 1",
+      "move remotecontrol 2 to ottoman 1"
+     ],
+     "task": "find two remotecontrol and put them in ottoman.",
+     "task_type": "pick_two_obj_and_place",
+     "won": true
+    },
+    {
+     "plan": "go to countertop 1 to search for spraybottles ; take the first spraybottle from countertop 1 ; go to garbagecan 1 ; put the first spraybottle in garbagecan 1 ; go back to countertop 1 to find the second spraybottle ; take the second spraybottle from countertop 1",
+     "steps": [
+      "go to countertop 1",
+      "take spraybottle 3 from countertop 1",
+      "go to garbagecan 1",
+      "move spraybottle 3 to garbagecan 1",
+      "go to countertop 1",
+      "take spraybottle 4 from countertop 1",
+      "go to garbagecan 1",
+      "move spraybottle 4 to garbagecan 1"
+     ],
+     "task": "put two spraybottle in garbagecan.",
+     "task_type": "pick_two_obj_and_place",
+     "won": true
     }
    ],
    "credits": {
     "pick_two_obj_and_place": [
-     1,
+     3,
      0
     ]
    },
    "example": "take laptop 1 from coffeetable 1, move laptop 1 to ottoman 1",
    "id": "rule_27",
    "importance": 2,
-   "last_used": 89,
+   "last_used": 103,
    "refined_at": [
     0,
     0
@@ -17345,20 +19582,20 @@
    ],
    "task_type": "pick_two_obj_and_place",
    "type": "Corrected Error",
-   "unused": 16,
+   "unused": 18,
    "validation": "",
    "verified": true
   },
   {
    "alpha": 1,
    "base": [
-    2,
-    5
+    3,
+    6
    ],
    "base_types": {
     "pick_clean_then_place_in_recep": [
-     2,
-     5
+     3,
+     6
     ]
    },
    "beta": 1,
@@ -17366,7 +19603,7 @@
    "example": "go to stoveburner 4 to find kettle 2",
    "id": "rule_28",
    "importance": 2,
-   "last_used": 90,
+   "last_used": 101,
    "refined_at": [
     0,
     0
@@ -17380,7 +19617,7 @@
    ],
    "task_type": "pick_clean_then_place_in_recep",
    "type": "Corrected Error",
-   "unused": 3,
+   "unused": 4,
    "validation": "",
    "verified": true
   },
@@ -17523,13 +19760,13 @@
   {
    "alpha": 1,
    "base": [
-    6,
-    15
+    8,
+    19
    ],
    "base_types": {
     "pick_two_obj_and_place": [
-     6,
-     15
+     8,
+     19
     ]
    },
    "beta": 1,
@@ -17557,13 +19794,13 @@
   {
    "alpha": 1,
    "base": [
-    6,
-    7
+    10,
+    12
    ],
    "base_types": {
     "pick_and_place_simple": [
-     6,
-     7
+     10,
+     12
     ]
    },
    "beta": 1,
@@ -17591,13 +19828,13 @@
   {
    "alpha": 1,
    "base": [
-    5,
-    13
+    7,
+    17
    ],
    "base_types": {
     "pick_two_obj_and_place": [
-     5,
-     13
+     7,
+     17
     ]
    },
    "beta": 1,
@@ -17734,13 +19971,13 @@
   {
    "alpha": 1,
    "base": [
-    1,
-    3
+    2,
+    4
    ],
    "base_types": {
     "pick_clean_then_place_in_recep": [
-     1,
-     3
+     2,
+     4
     ]
    },
    "beta": 1,
@@ -17748,7 +19985,7 @@
    "example": "examine sinkbasin 1 before clean cloth 1 with sinkbasin 1",
    "id": "rule_36",
    "importance": 2,
-   "last_used": 90,
+   "last_used": 101,
    "refined_at": [
     0,
     0
@@ -17762,20 +19999,20 @@
    ],
    "task_type": "pick_clean_then_place_in_recep",
    "type": "Corrected Error",
-   "unused": 2,
+   "unused": 3,
    "validation": "",
    "verified": true
   },
   {
-   "alpha": 2,
+   "alpha": 4,
    "base": [
-    2,
-    3
+    4,
+    6
    ],
    "base_types": {
     "pick_cool_then_place_in_recep": [
-     2,
-     3
+     4,
+     6
     ]
    },
    "beta": 1,
@@ -17799,18 +20036,51 @@
      "task": "cool some potato and put it in countertop.",
      "task_type": "pick_cool_then_place_in_recep",
      "won": true
+    },
+    {
+     "steps": [
+      "go to countertop 1",
+      "go to countertop 2",
+      "take potato 1 from countertop 2",
+      "go to fridge 1",
+      "open fridge 1",
+      "cool potato 1 with fridge 1",
+      "close fridge 1",
+      "go to countertop 1",
+      "move potato 1 to countertop 1"
+     ],
+     "task": "put a cool potato in countertop.",
+     "task_type": "pick_cool_then_place_in_recep",
+     "won": true
+    },
+    {
+     "plan": "find a mug by searching locations ; take the mug from its location ; cool the mug using the fridge ; put the cool mug in the coffeemachine",
+     "steps": [
+      "go to countertop 1",
+      "go to countertop 2",
+      "take mug 2 from countertop 2",
+      "go to fridge 1",
+      "open fridge 1",
+      "cool mug 2 with fridge 1",
+      "close fridge 1",
+      "go to coffeemachine 1",
+      "move mug 2 to coffeemachine 1"
+     ],
+     "task": "put a cool mug in coffeemachine.",
+     "task_type": "pick_cool_then_place_in_recep",
+     "won": true
     }
    ],
    "credits": {
     "pick_cool_then_place_in_recep": [
-     1,
+     3,
      0
     ]
    },
    "example": "The fridge was closed, so it was opened before cooling the plate.",
    "id": "rule_37",
    "importance": 2,
-   "last_used": 80,
+   "last_used": 100,
    "refined_at": [
     0,
     0
@@ -17824,20 +20094,20 @@
    ],
    "task_type": "pick_cool_then_place_in_recep",
    "type": "Special Phenomenon",
-   "unused": 1,
+   "unused": 2,
    "validation": "",
    "verified": true
   },
   {
    "alpha": 1,
    "base": [
-    1,
-    2
+    2,
+    3
    ],
    "base_types": {
     "pick_clean_then_place_in_recep": [
-     1,
-     2
+     2,
+     3
     ]
    },
    "beta": 1,
@@ -17865,13 +20135,13 @@
   {
    "alpha": 1,
    "base": [
-    5,
-    10
+    7,
+    14
    ],
    "base_types": {
     "pick_two_obj_and_place": [
-     5,
-     10
+     7,
+     14
     ]
    },
    "beta": 1,
@@ -17933,13 +20203,13 @@
   {
    "alpha": 1,
    "base": [
-    4,
-    8
+    6,
+    12
    ],
    "base_types": {
     "pick_two_obj_and_place": [
-     4,
-     8
+     6,
+     12
     ]
    },
    "beta": 1,
@@ -17965,18 +20235,18 @@
    "verified": false
   },
   {
-   "alpha": 5,
+   "alpha": 7,
    "base": [
-    4,
-    7
+    6,
+    11
    ],
    "base_types": {
     "pick_two_obj_and_place": [
-     4,
-     7
+     6,
+     11
     ]
    },
-   "beta": 3,
+   "beta": 4,
    "contexts": [
     {
      "steps": [
@@ -18049,6 +20319,38 @@
      "won": true
     },
     {
+     "steps": [
+      "go to coffeetable 1",
+      "go to sofa 1",
+      "take remotecontrol 1 from sofa 1",
+      "go to ottoman 1",
+      "move remotecontrol 1 to ottoman 1",
+      "go to sofa 1",
+      "take remotecontrol 2 from sofa 1",
+      "go to ottoman 1",
+      "move remotecontrol 2 to ottoman 1"
+     ],
+     "task": "find two remotecontrol and put them in ottoman.",
+     "task_type": "pick_two_obj_and_place",
+     "won": true
+    },
+    {
+     "plan": "go to countertop 1 to search for spraybottles ; take the first spraybottle from countertop 1 ; go to garbagecan 1 ; put the first spraybottle in garbagecan 1 ; go back to countertop 1 to find the second spraybottle ; take the second spraybottle from countertop 1",
+     "steps": [
+      "go to countertop 1",
+      "take spraybottle 3 from countertop 1",
+      "go to garbagecan 1",
+      "move spraybottle 3 to garbagecan 1",
+      "go to countertop 1",
+      "take spraybottle 4 from countertop 1",
+      "go to garbagecan 1",
+      "move spraybottle 4 to garbagecan 1"
+     ],
+     "task": "put two spraybottle in garbagecan.",
+     "task_type": "pick_two_obj_and_place",
+     "won": true
+    },
+    {
      "plan": "search for keychains in the environment ; take first keychain from its location ; take second keychain from its location ; put first keychain in safe 1 ; put second keychain in safe 1",
      "steps": [
       "open safe 1",
@@ -18087,18 +20389,38 @@
      "task": "put two laptop in desk.",
      "task_type": "pick_two_obj_and_place",
      "won": false
+    },
+    {
+     "plan": "go to desk 1 to search for alarmclocks ; search desk 1 for alarmclock 1 ; take alarmclock 1 from desk 1 ; search desk 1 for alarmclock 2 ; take alarmclock 2 from desk 1 ; put alarmclock 1 on desk 1 ; put alarmclock 2 on desk 1",
+     "steps": [
+      "go to drawer 1",
+      "go to drawer 2",
+      "go to drawer 1",
+      "go to bed 1",
+      "go to drawer 1",
+      "go to drawer 2",
+      "go to bed 1",
+      "go to desk 1",
+      "go to drawer 1",
+      "go to desk 1",
+      "take alarmclock 2 from desk 1",
+      "move alarmclock 2 to desk 1"
+     ],
+     "task": "find two alarmclock and put them in desk.",
+     "task_type": "pick_two_obj_and_place",
+     "won": false
     }
    ],
    "credits": {
     "pick_two_obj_and_place": [
-     4,
-     2
+     6,
+     3
     ]
    },
    "example": "go to bed 1, then take laptop 2 from bed 1",
    "id": "rule_42",
    "importance": 2,
-   "last_used": 89,
+   "last_used": 103,
    "refined_at": [
     0,
     0
@@ -18112,27 +20434,74 @@
    ],
    "task_type": "pick_two_obj_and_place",
    "type": "Corrected Error",
+   "unused": 1,
    "validation": "",
    "verified": true
   },
   {
-   "alpha": 1,
+   "alpha": 3,
    "base": [
-    1,
-    1
+    3,
+    4
    ],
    "base_types": {
     "pick_cool_then_place_in_recep": [
-     1,
-     1
+     3,
+     4
     ]
    },
    "beta": 1,
-   "contexts": [],
+   "commands": {
+    "close fridge": [
+     0,
+     2
+    ]
+   },
+   "contexts": [
+    {
+     "steps": [
+      "go to countertop 1",
+      "go to countertop 2",
+      "take potato 1 from countertop 2",
+      "go to fridge 1",
+      "open fridge 1",
+      "cool potato 1 with fridge 1",
+      "close fridge 1",
+      "go to countertop 1",
+      "move potato 1 to countertop 1"
+     ],
+     "task": "put a cool potato in countertop.",
+     "task_type": "pick_cool_then_place_in_recep",
+     "won": true
+    },
+    {
+     "plan": "find a mug by searching locations ; take the mug from its location ; cool the mug using the fridge ; put the cool mug in the coffeemachine",
+     "steps": [
+      "go to countertop 1",
+      "go to countertop 2",
+      "take mug 2 from countertop 2",
+      "go to fridge 1",
+      "open fridge 1",
+      "cool mug 2 with fridge 1",
+      "close fridge 1",
+      "go to coffeemachine 1",
+      "move mug 2 to coffeemachine 1"
+     ],
+     "task": "put a cool mug in coffeemachine.",
+     "task_type": "pick_cool_then_place_in_recep",
+     "won": true
+    }
+   ],
+   "credits": {
+    "pick_cool_then_place_in_recep": [
+     2,
+     0
+    ]
+   },
    "example": "Cool potato with fridge, then close fridge.",
    "id": "rule_43",
    "importance": 2,
-   "last_used": null,
+   "last_used": 100,
    "refined_at": [
     0,
     0
@@ -18146,8 +20515,84 @@
    ],
    "task_type": "pick_cool_then_place_in_recep",
    "type": "Corrected Error",
+   "unused": 1,
    "validation": "",
    "verified": true
+  },
+  {
+   "alpha": 1,
+   "base": [
+    2,
+    3
+   ],
+   "base_types": {
+    "pick_cool_then_place_in_recep": [
+     2,
+     3
+    ]
+   },
+   "beta": 1,
+   "contexts": [],
+   "example": "Agent failed to locate lettuce before attempting to cool it.",
+   "id": "rule_44",
+   "importance": 2,
+   "last_used": null,
+   "refined_at": [
+    0,
+    0
+   ],
+   "rule": "When cooling an object and placing it in a dining table, search all containers and countertops for the object before attempting to cool it.",
+   "sources": [
+    {
+     "task": "cool some lettuce and put it in diningtable.",
+     "task_type": "pick_cool_then_place_in_recep"
+    }
+   ],
+   "task_type": "pick_cool_then_place_in_recep",
+   "type": "Unresolved Error",
+   "validation": "",
+   "verified": false
+  },
+  {
+   "alpha": 1,
+   "base": [
+    2,
+    4
+   ],
+   "base_types": {
+    "pick_two_obj_and_place": [
+     2,
+     4
+    ]
+   },
+   "beta": 1,
+   "confirmations": 1,
+   "contexts": [],
+   "example": "go to countertop 1, examine countertop 1 for saltshaker before opening cabinet 1",
+   "guess_credits": {
+    "pick_two_obj_and_place": [
+     1,
+     0
+    ]
+   },
+   "id": "rule_45",
+   "importance": 2,
+   "last_used": null,
+   "refined_at": [
+    0,
+    0
+   ],
+   "rule": "When searching for objects to place in a container, examine the visible countertop surface first before opening any cabinets or drawers.",
+   "sources": [
+    {
+     "task": "put two saltshaker in cabinet.",
+     "task_type": "pick_two_obj_and_place"
+    }
+   ],
+   "task_type": "pick_two_obj_and_place",
+   "type": "Special Phenomenon",
+   "validation": "",
+   "verified": false
   }
  ]
 }

@@ -1,43 +1,43 @@
-/root/ll-runs/study/checkpoints/practice-E-minus-0/00090.json: 43 rules
-rule_1 [Success Process] task_type=pick_clean_then_place_in_recep a/b=9/1 unused=4 visible won contexts: 8 ctx, 8 with plan
+/root/ll-runs/study/checkpoints/practice-E-minus-0/00103.json: 45 rules
+rule_1 [Success Process] task_type=pick_clean_then_place_in_recep a/b=10/1 unused=4 visible won contexts: 9 ctx, 9 with plan
     When an object must be cleaned and placed in a container: search the table first, take the object, go to the sink, clean it with the sink, go to the container, move it there.
 rule_2 [Failure Pool] task_type=pick_clean_then_place_in_recep a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
     failure pool
-rule_3 [Special Phenomenon] task_type=pick_and_place_simple a/b=8/1 unused=6 visible won contexts: 7 ctx, 7 with plan
+rule_3 [Special Phenomenon] task_type=pick_and_place_simple a/b=10/1 unused=9 visible won contexts: 9 ctx, 9 with plan
     When moving an object to a container, go to the container first before attempting the move command.
 rule_4 [Failure Pool] task_type=pick_and_place_simple a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
     failure pool
 rule_5 [Failure Pool] task_type=pick_two_obj_and_place a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
     failure pool
-rule_6 [Success Process] task_type=pick_and_place_simple a/b=15/4 unused=0 visible won contexts: 17 ctx, 17 with plan
+rule_6 [Success Process] task_type=pick_and_place_simple a/b=19/5 unused=0 visible won contexts: 19 ctx, 19 with plan
     When an object must be picked up and placed: search drawers first, take the object, go to the target, open it if closed, move the object there.
 rule_7 [Special Phenomenon] task_type=pick_heat_then_place_in_recep a/b=1/1 unused=1 visible won contexts: 0 ctx, 0 with plan
     When heating a portable object to place in a target, activate the heating appliance first before placing the object on it.
 rule_8 [Failure Pool] task_type=pick_heat_then_place_in_recep a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
     failure pool
-rule_9 [Special Phenomenon] task_type=pick_clean_then_place_in_recep a/b=6/3 unused=5 visible won contexts: 7 ctx, 7 with plan
+rule_9 [Special Phenomenon] task_type=pick_clean_then_place_in_recep a/b=6/3 unused=6 visible won contexts: 7 ctx, 7 with plan
     When a container is closed, open it before searching inside.
-rule_10 [Corrected Error] task_type=pick_two_obj_and_place a/b=2/1 unused=22 visible won contexts: 1 ctx, 1 with plan
+rule_10 [Corrected Error] task_type=pick_two_obj_and_place a/b=2/1 unused=26 visible won contexts: 1 ctx, 1 with plan
     When moving an object to a shelf, use the move command directly after picking it up; avoid using skill commands.
-rule_11 [Success Process] task_type=pick_cool_then_place_in_recep a/b=6/2 unused=5 visible won contexts: 6 ctx, 6 with plan
+rule_11 [Success Process] task_type=pick_cool_then_place_in_recep a/b=6/2 unused=8 visible won contexts: 6 ctx, 6 with plan
     When an object must be cooled and placed in a cabinet: search all locations for the object, take it from its location, open a fridge if closed, cool the object with the fridge, close the fridge, then move the object to a cabinet.
 rule_12 [Failure Pool] task_type=pick_cool_then_place_in_recep a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
     failure pool
 rule_13 [Unresolved Error] task_type=pick_two_obj_and_place a/b=1/1 unused=0 hidden won contexts: 0 ctx, 0 with plan
     When placing objects in a container, search all surfaces and containers first to locate the objects before opening any containers.
-rule_14 [Special Phenomenon] task_type=pick_clean_then_place_in_recep a/b=2/2 unused=6 visible won contexts: 2 ctx, 2 with plan
+rule_14 [Special Phenomenon] task_type=pick_clean_then_place_in_recep a/b=2/2 unused=7 visible won contexts: 2 ctx, 2 with plan
     When cleaning the object, examine the sink first to confirm it contains water before attempting to clean.
 rule_15 [Unresolved Error] task_type=pick_heat_then_place_in_recep a/b=1/1 unused=0 hidden won contexts: 0 ctx, 0 with plan
     When the goal is to put the object in the target, search the target location first before searching other containers.
-rule_16 [Corrected Error] task_type=pick_two_obj_and_place a/b=8/7 unused=7 visible won contexts: 13 ctx, 10 with plan
+rule_16 [Corrected Error] task_type=pick_two_obj_and_place a/b=9/8 unused=9 visible won contexts: 15 ctx, 12 with plan
     When placing objects in a container, open the target container first before attempting to move objects into it.
-rule_17 [Success Process] task_type=pick_two_obj_and_place a/b=4/2 unused=16 visible won contexts: 4 ctx, 3 with plan
+rule_17 [Success Process] task_type=pick_two_obj_and_place a/b=4/2 unused=20 visible won contexts: 4 ctx, 3 with plan
     When putting two objects in a drawer: search desk surfaces first, take each object, open the target drawer if closed, move each object to the drawer.
-rule_18 [Special Phenomenon] task_type=pick_cool_then_place_in_recep a/b=3/3 unused=0 visible won contexts: 4 ctx, 4 with plan
+rule_18 [Special Phenomenon] task_type=pick_cool_then_place_in_recep a/b=4/4 unused=1 visible won contexts: 6 ctx, 5 with plan
     When searching for the object, examine the countertop first before checking cabinets or drawers.
 rule_19 [Unresolved Error] task_type=pick_two_obj_and_place a/b=1/1 unused=0 hidden won contexts: 0 ctx, 0 with plan
     When moving an object to a target, verify the move action is valid before attempting it.
-rule_20 [Special Phenomenon] task_type=pick_clean_then_place_in_recep a/b=4/1 unused=3 visible won contexts: 3 ctx, 3 with plan
+rule_20 [Special Phenomenon] task_type=pick_clean_then_place_in_recep a/b=5/1 unused=3 visible won contexts: 4 ctx, 4 with plan
     When placing the object in the target, move it directly to the target after cleaning.
 rule_21 [Corrected Error] task_type=look_at_obj_in_light a/b=2/1 unused=5 visible won contexts: 1 ctx, 1 with plan
     When an object is visible on a surface, examine it immediately instead of searching drawers.
@@ -51,9 +51,9 @@ rule_25 [Anti-Pattern] task_type=pick_heat_then_place_in_recep a/b=1/1 unused=6 
     When placing a hot object, do not use the command "place".
 rule_26 [Corrected Error] task_type=pick_heat_then_place_in_recep a/b=3/5 unused=0 visible won contexts: 6 ctx, 6 with plan
     When heating a portable object, place it directly on the heating appliance (stoveburner) or inside the heating appliance (microwave) after opening it.
-rule_27 [Corrected Error] task_type=pick_two_obj_and_place a/b=2/1 unused=16 visible won contexts: 1 ctx, 1 with plan
+rule_27 [Corrected Error] task_type=pick_two_obj_and_place a/b=4/1 unused=18 visible won contexts: 3 ctx, 2 with plan
     When placing objects in a container, move the object directly to the container after picking it up; avoid returning to search for empty containers.
-rule_28 [Corrected Error] task_type=pick_clean_then_place_in_recep a/b=1/1 unused=3 visible won contexts: 0 ctx, 0 with plan
+rule_28 [Corrected Error] task_type=pick_clean_then_place_in_recep a/b=1/1 unused=4 visible won contexts: 0 ctx, 0 with plan
     When cleaning the object, search the stoveburner first instead of cabinets or countertops.
 rule_29 [Corrected Error] task_type=pick_heat_then_place_in_recep a/b=2/1 unused=4 visible won contexts: 1 ctx, 1 with plan
     When heating a portable object in a microwave, use the 'heat <object> with microwave' command immediately after placing it inside, do not toggle the microwave door.
@@ -69,9 +69,9 @@ rule_34 [Unresolved Error] task_type=pick_heat_then_place_in_recep a/b=1/1 unuse
     When heating a portable object in a microwave, execute 'heat <object> with microwave' immediately after closing the microwave door, not before.
 rule_35 [Anti-Pattern] task_type=pick_heat_then_place_in_recep a/b=2/1 unused=2 visible won contexts: 1 ctx, 1 with plan
     When heating an object, do not use the command "done".
-rule_36 [Corrected Error] task_type=pick_clean_then_place_in_recep a/b=1/1 unused=2 visible won contexts: 0 ctx, 0 with plan
+rule_36 [Corrected Error] task_type=pick_clean_then_place_in_recep a/b=1/1 unused=3 visible won contexts: 0 ctx, 0 with plan
     When cleaning the object, examine the sink first to confirm it is usable before attempting to clean.
-rule_37 [Special Phenomenon] task_type=pick_cool_then_place_in_recep a/b=2/1 unused=1 visible won contexts: 1 ctx, 1 with plan
+rule_37 [Special Phenomenon] task_type=pick_cool_then_place_in_recep a/b=4/1 unused=2 visible won contexts: 3 ctx, 2 with plan
     When a container is closed, open it before putting things in it.
 rule_38 [Unresolved Error] task_type=pick_clean_then_place_in_recep a/b=1/1 unused=0 hidden won contexts: 0 ctx, 0 with plan
     When cleaning an object, ensure it is picked up from its source location before attempting to clean it at the sink.
@@ -81,10 +81,14 @@ rule_40 [Unresolved Error] task_type=pick_heat_then_place_in_recep a/b=1/1 unuse
     When heating a portable object in a microwave, execute the heat command immediately after placing the object inside and closing the door, not before closing.
 rule_41 [Unresolved Error] task_type=pick_two_obj_and_place a/b=1/1 unused=0 hidden won contexts: 0 ctx, 0 with plan
     When finding multiple objects to place in a target, systematically search all accessible surfaces and containers before concluding the search.
-rule_42 [Corrected Error] task_type=pick_two_obj_and_place a/b=5/3 unused=0 visible won contexts: 6 ctx, 2 with plan
+rule_42 [Corrected Error] task_type=pick_two_obj_and_place a/b=7/4 unused=1 visible won contexts: 9 ctx, 4 with plan
     When taking an object from a surface, ensure you are at that surface before executing the take action.
-rule_43 [Corrected Error] task_type=pick_cool_then_place_in_recep a/b=1/1 unused=0 visible won contexts: 0 ctx, 0 with plan
+rule_43 [Corrected Error] task_type=pick_cool_then_place_in_recep a/b=3/1 unused=1 visible won contexts: 2 ctx, 1 with plan
     When cooling an object with a fridge, close the fridge after each cooling action.
+rule_44 [Unresolved Error] task_type=pick_cool_then_place_in_recep a/b=1/1 unused=0 hidden won contexts: 0 ctx, 0 with plan
+    When cooling an object and placing it in a dining table, search all containers and countertops for the object before attempting to cool it.
+rule_45 [Special Phenomenon] task_type=pick_two_obj_and_place a/b=1/1 unused=0 hidden won contexts: 0 ctx, 0 with plan
+    When searching for objects to place in a container, examine the visible countertop surface first before opening any cabinets or drawers.
 
-manual operations over 91 games: outcome=91, pool_game=23, pool_won=68, write_rule=40
-builder errors: 107; candidate_attempts=147, candidate_duplicates=199, candidate_refinements=9, candidate_rejections=120
+manual operations over 104 games: outcome=104, pool_game=27, pool_won=77, write_rule=42
+builder errors: 127; candidate_attempts=155, candidate_duplicates=219, candidate_refinements=9, candidate_rejections=126
