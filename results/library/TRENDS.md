@@ -1,17 +1,37 @@
 # Library trends
 
-Window = games since the previous snapshot. Folds = consolidate + merge ops.
+Window = games since the previous snapshot. Retired includes pruned; merges = near-duplicate merges (write-time and end of batch).
 
 ## practice-E-0
 
-| games | rules | visible | win rate (window) | added | removed | retired | folds |
-|---|---|---|---|---|---|---|---|
+| games | rules | visible | win rate (window) | added | removed | retired | merges | refined |
+|---|---|---|---|---|---|---|---|---|
+| 25 | 12 | 9 | 0.48 | 12 | 0 | 0 | 0 | 0 |
+| 50 | 17 | 16 | 0.72 | 5 | 0 | 0 | 0 | 0 |
+| 75 | 19 | 18 | 0.72 | 3 | 1 | 1 | 2 | 0 |
+| 100 | 26 | 25 | 0.72 | 8 | 1 | 1 | 4 | 0 |
+| 125 | 23 | 23 | 0.64 | 1 | 4 | 4 | 3 | 0 |
+| 150 | 21 | 21 | 0.60 | 0 | 2 | 2 | 3 | 0 |
+| 175 | 20 | 20 | 0.72 | 0 | 1 | 1 | 1 | 0 |
+| 200 | 21 | 21 | 0.52 | 4 | 3 | 11 | 0 | 0 |
+| 225 | 24 | 23 | 0.72 | 3 | 0 | 0 | 1 | 0 |
+| 250 | 24 | 24 | 0.84 | 2 | 2 | 2 | 3 | 0 |
+| 275 | 26 | 26 | 0.76 | 3 | 1 | 2 | 2 | 0 |
+| 300 | 26 | 26 | 0.52 | 2 | 2 | 3 | 6 | 0 |
 
 ## practice-E-minus-0
 
-| games | rules | visible | win rate (window) | added | removed | retired | folds |
-|---|---|---|---|---|---|---|---|
-| 25 | 15 | 11 | 0.48 | 15 | 0 | 0 | 0 |
-| 50 | 27 | 22 | 0.64 | 12 | 0 | 0 | 0 |
-| 75 | 39 | 28 | 0.44 | 12 | 0 | 0 | 0 |
-| 100 | 45 | 31 | 0.64 | 6 | 0 | 0 | 0 |
+| games | rules | visible | win rate (window) | added | removed | retired | merges | refined |
+|---|---|---|---|---|---|---|---|---|
+| 25 | 24 | 19 | 0.36 | 24 | 0 | 0 | 0 | 0 |
+| 50 | 45 | 40 | 0.64 | 21 | 0 | 0 | 0 | 0 |
+| 75 | 59 | 54 | 0.60 | 14 | 0 | 0 | 0 | 0 |
+| 100 | 67 | 62 | 0.76 | 8 | 0 | 0 | 0 | 0 |
+| 125 | 81 | 76 | 0.72 | 14 | 0 | 0 | 0 | 0 |
+| 150 | 94 | 89 | 0.72 | 13 | 0 | 0 | 0 | 0 |
+| 175 | 108 | 101 | 0.84 | 14 | 0 | 0 | 0 | 0 |
+| 200 | 119 | 111 | 0.80 | 11 | 0 | 0 | 0 | 0 |
+| 225 | 128 | 120 | 0.64 | 9 | 0 | 0 | 0 | 0 |
+| 250 | 144 | 136 | 0.84 | 16 | 0 | 0 | 0 | 0 |
+| 275 | 155 | 147 | 0.76 | 11 | 0 | 0 | 0 | 0 |
+| 300 | 167 | 159 | 0.64 | 12 | 0 | 0 | 0 | 0 |
