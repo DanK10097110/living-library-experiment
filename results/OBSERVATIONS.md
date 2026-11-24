@@ -51,4 +51,13 @@ So with only 10-18 games of each type in evaluation, one good or bad recipe swin
 - E-minus (same Builder, no management): 173 (r0) and 190 (r1) rules, 159-170 visible. 6 Success Process, 96-107 Corrected Error, 52-55 Special Phenomenon, 8-14 Unresolved Error. About one new rule every 1.7 games, many near-duplicates. Retrieval still shows only a handful per game, so the size does not hurt it.
 - Which looks better: E reaches the same accuracy with about 5x fewer rules and is readable and auditable. E-minus is a large pile of specific notes. Its success depends on its 6 recipes, which it can never fix. E's management could fix a bad recipe in principle, but in practice it did not repair the mixed-evidence ones (r1 heat, r1 look). Possible improvement (not done): let the refiner act on a recipe once its evidence is mixed (e.g. neg/shown > 0.4), not only when it is clearly bad.
 
-Learning curve check (snapshot at practice game 150, 40 OOD + 40 ID games): E 24-25/40 OOD, 24-25 ID; E-minus 20-23 OOD, 26 ID. Neither condition keeps improving strongly from game 150 to game 300, since the recipes were mostly fixed early.
+Learning curve (libraries frozen after 100, 150, 200 and 300 practice games, on the same 80 games: 40 OOD + 40 ID; runs at 100 and 200 added 2026-11-24 with tools/snapshot_curve.py; report results/final-report/STUDY-REPORT.html):
+
+| after | 100 | 150 | 200 | 300 |
+|---|---|---|---|---|
+| E r0 | 57.5 | 61.2 | 60.0 | 75.0 |
+| E r1 | 57.5 | 61.2 | 68.8 | 65.0 |
+| E-minus r0 | 68.8 | 61.2 | 70.0 | 71.2 |
+| E-minus r1 | 48.8 | 57.5 | 58.8 | 62.5 |
+
+On the same games C is at 53.8 and D (after its 300 practice games) at 61.2. Correction to my earlier note: the libraries **do keep improving through all 300 games**. Both average about 58% at 100 games, at or below D, then about 64% at 200 and 67-70% at 300. The learning has not plateaued at 300 games. Individual replicates are noisy (one point = 80 games, CI about ±11 points).
